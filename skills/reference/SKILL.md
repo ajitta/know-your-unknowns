@@ -4,7 +4,9 @@ description: >
   Point at a reference — treat a provided example as a map, not an answer. Analyze
   reference code, mockups, or docs and prove comprehension before implementing. This
   skill should be used when the user provides reference material and says "use this
-  as a reference", "레퍼런스로 써", "이 코드처럼 만들어줘", "이거 참고해서", or passes
+  as a reference", "use it as a reference", "use this code as reference", "make it
+  like this", "레퍼런스로 써", "이 코드처럼 만들어줘", "이거 참고해서", "이 코드
+  참고해서", "이거랑 비슷하게", or passes
   example code in another language/system, an HTML mockup, a screenshot, or a
   competitor's UX as the basis for new work.
 argument-hint: "<reference file/path/description>"

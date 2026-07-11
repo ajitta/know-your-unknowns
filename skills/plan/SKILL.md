@@ -4,7 +4,8 @@ description: >
   The tweakable plan — write implementation plans sorted by likelihood-of-tweaking,
   not by execution order, so the user reviews the decisions most likely to change
   first. This skill should be used when the user says "plan this", "tweakable plan",
-  "sort plan by tweak likelihood", "계획 세워줘", "구현 계획", "수정확률순 계획",
+  "sort plan by tweak likelihood", "make a plan", "plan ordered by likelihood of
+  change", "계획 세워줘", "구현 계획", "수정확률순 계획", "수정확률순으로 계획",
   or when a plan is needed after blindspot/interview and before implementation.
   Distinguish from other planners: this produces a reviewable pre-implementation plan
   document sorted by probability-of-revision — it is not native plan mode, a scheduler,

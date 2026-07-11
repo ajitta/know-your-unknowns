@@ -4,10 +4,19 @@ This plugin is based on two sources by Thariq Shihipar (Anthropic, Claude Code t
 
 1. **Talk** — AI Engineer World's Fair 2026 keynote "Field Guide to Fable"
    (2026-06-29 to 07-02, San Francisco). Video: https://www.youtube.com/watch?v=9fubhllmsBU
+   (archived: https://web.archive.org/web/20260707181143/https://www.youtube.com/watch?v=9fubhllmsBU)
 2. **Example collection** — "Know your unknowns" (companion page to the blog post
    "The unreasonable effectiveness of HTML", 11 interactive examples):
    https://thariqs.github.io/html-effectiveness/unknowns/
+   (archived: https://web.archive.org/web/20260708043037/https://thariqs.github.io/html-effectiveness/unknowns/)
    Parent page: https://thariqs.github.io/html-effectiveness/
+   (archived: https://web.archive.org/web/20260708043027/https://thariqs.github.io/html-effectiveness/)
+
+Re-verified 2026-07-11 against the live page source: the research doc's
+single-fetch (【단일】) items — the four design-direction style names ("ops
+console, editorial, kanban, terminal") and the closing sentence ("Every
+explainer, brainstorm, interview, and prototype is a cheap way to find out
+what you didn't know.") — appear verbatim in the static HTML.
 
 The plugin/repo name (unknowns / know-your-unknowns) comes from the title of
 source 2 — the methodology's core frame is "The map is not the territory — the
@@ -95,6 +104,14 @@ back in a form the agent can read, keeping the loop short.
 - The `independent-reviewer` agent (an extension of the talk's "stay in the
   loop" spirit)
 - The edit-count-based reminder hook
+
+Numeric defaults in these extensions are deliberate initial guesses, not
+source-derived: the hook threshold of 10 edits; the interview cap of 5
+questions per round (the talk's demo asks one at a time — 5 per round trades
+that fidelity for fewer round-trips); and the medium-tier step subset
+(2→3→6→7→9: the steps that convert unknowns into decisions, dropping the
+exploration and value-review overhead). All are tunable defaults to adjust
+with use, not conclusions.
 
 Note: "there are no trade-offs" is not applied literally — it means **don't
 compromise too early based on yesterday's cost structure**. Model usage fees,

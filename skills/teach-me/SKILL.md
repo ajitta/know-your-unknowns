@@ -4,9 +4,12 @@ description: >
   Teach me my unknowns — build an interactive explainer that teaches the user the
   vocabulary and mental model of an unfamiliar domain, so vague requests become
   precise ones. This skill should be used when the user says "teach me", "가르쳐줘",
-  "설명서 만들어줘", "이 분야 용어를 모르겠어", "teach me my unknowns", or asks for
+  "설명서 만들어줘", "make me an explainer", "I don't know the vocabulary of this
+  field", "이 분야 용어를 모르겠어", "teach me my unknowns", or asks for
   work in a domain where they cannot yet name what they want (e.g. "영상 더 좋게
   해줘", "make it pop") and better vocabulary would make the request precise.
+  Distinguish from blindspot: blindspot investigates a specific codebase/plan for
+  risks; teach-me teaches the vocabulary of an unfamiliar domain.
 argument-hint: "<domain/task to learn> [current level]"
 ---
 

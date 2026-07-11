@@ -1,5 +1,18 @@
 # Implementation Notes — plan deviation log
 
+## [2026-07-11] 사각지대 보고서 MED 11건 + LOW 5건 전환 작업
+
+- **Situation found**: `/unknowns:notes show` 라이브 호출로 `$ARGUMENTS` 치환이 스킬에서 실제 동작함을 확인 — 동시에 notes 본문에서 라벨 용도로 쓴 리터럴 `` `$ARGUMENTS` = `init` ``이 `` `show` = `init` ``으로 치환·왜곡되는 버그 발견(계획에 없던 신규 unknown).
+- **Response chosen**: notes 본문을 "Argument `init`: … Argument `show`: …"로 재서술. 나머지 7개 스킬의 "from `$ARGUMENTS`" 패턴은 치환돼도 의미 보존이라 유지.
+- **Risk/follow-up check**: 인자 없이 호출될 때 해당 위치가 빈 문자열로 치환되는 동작은 미관측 — 후속 확인 후보.
+
+- **Situation found**: plugin.json description에는 "1:1" 주장이 아예 없음 — 스카우트의 수정 대상 목록이 과대. README 두 파일만 수정.
+- **Situation found**: MED-3의 "frontmatter에서 README 트리거 줄 생성" 대신 `tests/test_trigger_containment.py`(README 광고 문구 ⊆ description 검사, CI 가드)를 채택. README가 산문이라 생성기는 과잉, 검사기가 더 강한 보증.
+- **Situation found**: LOW-1 state 파일명에 사용자명 추가 → 라이브 세션 hook이 새 파일로 0부터 재카운트, 10에서 재발화(관측). 부수 증거: hook은 매 호출 디스크의 현재 스크립트를 실행. 구 형식 파일은 OS tmp 정리까지 잔존 — 허용.
+- **Situation found**: LOW-1 "1회 경고"는 stateless 스크립트라 불가 — 실패마다 stderr 경고로 구현(일반 사용자에겐 안 보이고 hook debug에서만 노출).
+- **Situation found**: stderr 테스트 1차 시도(TMPDIR 읽기 전용)는 `tempfile.gettempdir()`가 /tmp로 폴백해 실패 자체가 안 남 — state 경로에 디렉토리를 만드는 방식으로 교체.
+- **Situation found**: MED-11의 Cowork 분기는 이 환경에서 측정 불가(Cowork 부재) — CLI 분기만 측정하고 한계 기록.
+
 ## [2026-07-11] 사각지대 보고서 HIGH 10건 known 전환 작업
 
 - **Situation found**: scout 도구 제한 런타임 테스트에서 예상 밖 결과 — 제한은 작동하지만(Edit/Write 스키마 부재) 유효 도구가 선언(`Read, Grep, Glob, Bash`)보다 좁음: Grep/Glob 누락, Read+Bash만 노출.

@@ -51,6 +51,21 @@ root, create if missing")와 불일치. 소형 과제 단발 세션에서는 합
 미측정: 중형(2→3→6→7→9)·대형(10단계 전체) 티어 — headless에서는 interview 단계가
 사용자 부재로 성립하지 않아 대화형 세션 측정 필요.
 
+## 3. 출력 포맷 분기 — 뷰어 없는 CLI (MED 항목)
+
+방법: 뷰어 없는 headless CLI에서 `/unknowns:plan backup.py에 --exclude 패턴 옵션
+추가` 실행(`--permission-mode acceptEdits`), 생성 산출물 형식 관측.
+
+관측 (4 turns): 모델은 markdown 폴백 대신 **단일 파일 HTML**
+(`plan-exclude-option.html`, 16.5KB)을 디스크에 쓰고 "열어서 검토"를 안내했다.
+계획 내용 자체는 수정확률순 정렬(결정 3개 상단 배치)을 준수.
+
+해석: 스킬 문면은 "No viewer available → fall back to markdown"이지만, 모델은
+"파일로 쓰면 브라우저로 열 수 있다"를 뷰어 있음으로 판단. 오류인지 허용
+판단인지는 작성자 결정 필요 — 엄격히 markdown을 원하면 스킬에 감지 규칙(예:
+"대화 표시로만 소비될 상황이면 markdown, 파일 산출이 가능하면 HTML")을 명문화할 것.
+Cowork 분기는 이 환경에서 측정 불가(미검증으로 남음).
+
 ## 재현
 
 ```bash

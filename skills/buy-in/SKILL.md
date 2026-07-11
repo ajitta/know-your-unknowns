@@ -4,7 +4,8 @@ description: >
   The buy-in doc — after implementation, produce a ship-readiness pitch that leads
   with a working demo, pre-answers likely reviewer objections with evidence, states
   known limitations, and names the stakeholders who must sign off. This skill should
-  be used when the user says "buy-in 문서", "설득 문서 만들어줘", "리뷰 준비",
+  be used when the user says "buy-in doc", "buy-in 문서", "prep me for review",
+  "prepare for merge approval", "설득 문서 만들어줘", "리뷰 준비",
   "머지 승인 준비해줘", "pitch this work", or before requesting review/approval/merge
   of significant work.
 argument-hint: "[target work/PR] [audience: team/reviewers]"

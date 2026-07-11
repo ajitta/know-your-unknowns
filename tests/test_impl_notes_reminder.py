@@ -8,8 +8,10 @@ subprocess, exactly as Claude Code's hook pipeline does, and isolates state
 by pointing TMPDIR at a per-test directory (the script stores state via
 tempfile.gettempdir()).
 """
+import getpass
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -54,7 +56,10 @@ class HookTestCase(unittest.TestCase):
         return json.dumps(data).encode("utf-8")
 
     def state_path(self, session_id="test-session"):
-        return os.path.join(self.tmp, "unknowns-notes-%s.json" % session_id)
+        user = re.sub(r"[^A-Za-z0-9._-]", "_", getpass.getuser())[:32] or "user"
+        return os.path.join(
+            self.tmp, "unknowns-notes-%s-%s.json" % (user, session_id)
+        )
 
     # --- malformed input -------------------------------------------------
 
@@ -150,6 +155,18 @@ class HookTestCase(unittest.TestCase):
         with open(self.state_path(), encoding="utf-8") as fh:
             state = json.load(fh)
         self.assertEqual(state["count"], 1)
+
+    def test_persist_failure_warns_on_stderr(self):
+        # a directory at the state path makes open(..., "w") fail while the
+        # tempdir itself stays writable (a read-only TMPDIR would just make
+        # tempfile.gettempdir() fall back to /tmp)
+        os.mkdir(self.state_path())
+        result = self.run_hook(
+            self.payload(), env_extra={"UNKNOWNS_NOTES_THRESHOLD": "100"}
+        )
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, b"")
+        self.assertIn(b"state persist failed", result.stderr)
 
     # --- message content ----------------------------------------------------
 

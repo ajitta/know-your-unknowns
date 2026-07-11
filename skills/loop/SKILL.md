@@ -4,7 +4,8 @@ description: >
   Know-your-unknowns operating loop — orchestrate the full explore → question →
   prototype → plan → implement-with-notes → verify → quiz → value-check workflow for
   significant or ambiguous work. This skill should be used when the user says "unknowns
-  loop", "know your unknowns", "운영 루프로 진행", "풀 루프로 해줘", "field guide"/"필드
+  loop", "know your unknowns", "run the operating loop", "do the full loop", "운영
+  루프로 진행", "풀 루프로 해줘", "field guide"/"필드
   가이드"(legacy name), or starts a substantial/ambiguous feature and wants the whole
   methodology applied end to end. NOT for running a prompt repeatedly on an
   interval/schedule or polling — a bare "loop"/"루프 돌려줘" without the unknowns

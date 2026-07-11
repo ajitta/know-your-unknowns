@@ -4,6 +4,7 @@ description: >
   Pre-implementation interview — the model interviews the user to convert known
   unknowns into decisions. This skill should be used when the user says "interview me",
   "인터뷰해줘", "질문해줘" (before implementation), "ask me questions about the spec",
+  "ask me questions before implementing",
   "스펙 질문", or when requirements are visibly incomplete and implementation has not
   started yet. Prioritize architecture-changing questions first.
 argument-hint: "[task/spec description] [priority hint]"

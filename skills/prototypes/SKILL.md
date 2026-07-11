@@ -3,7 +3,8 @@ name: prototypes
 description: >
   Divergent prototype fan-out — generate N (default 4) prototypes with clearly
   different design philosophies so the user can react to them. This skill should be
-  used when the user says "divergent prototypes", "design options", "design
+  used when the user says "divergent prototypes", "design options", "give me
+  different designs", "design
   directions", "프로토타입 여러 개", "시안 4개", "다양한 디자인으로 보여줘", or cannot
   articulate what they want ("know it when I see it", "보면 안다") for a UI,
   dashboard, document, or API design.

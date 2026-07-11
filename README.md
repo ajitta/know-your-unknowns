@@ -14,7 +14,8 @@ into something you can use directly in Claude. Two sources are the origin:
 The core idea: **the bottleneck of a strong model is not the model — it is the user's
 ability to keep the map (the plan) aligned with the territory (reality).** This plugin
 provides an operating loop for finding and managing that gap (your unknowns) before,
-during, and after implementation — 11 skills mapping 1:1 to the original 11 examples,
+during, and after implementation — 11 skills covering all 11 original examples
+(prototypes covers two of them; loop is the orchestrator with no original counterpart),
 plus 2 agents and 1 hook. For fact-checking details, see
 `skills/loop/references/talk-source.md`.
 
@@ -92,7 +93,7 @@ investigation procedure, everything is working.
 - Works without slashes too: phrases like "do a blind spot pass", "interview me",
   "show me 4 design options", "quiz me" are themselves triggers.
 
-**Skills at a glance** (1:1 with the original 11 examples):
+**Skills at a glance** (covering the original 11 examples — prototypes covers two, loop orchestrates):
 
 | Phase | Skill | What it does | Original example |
 |-------|-------|--------------|------------------|
@@ -414,13 +415,14 @@ one message line is all it is.
 | Legacy variable | `FIELD_GUIDE_NOTES_THRESHOLD` is still recognized (the new variable wins) |
 | Requirements | `python3` (standard library only, no external dependencies) |
 | Tested with | Claude Code 2.1.207, macOS (2026-07-11): `claude plugin validate` passes; hook verified through the live PostToolUse pipeline; script covered by `tests/` |
+| Platforms | Verified on macOS/Linux (CI). Windows untested: the hook invokes `python3`, which is usually absent from a default Windows PATH — create a `python3` alias or adjust the command |
 
 **Manual install without the plugin** (Method C users): copy
 `hooks/scripts/impl_notes_reminder.py` into your project and add to
 `.claude/settings.json` (or your vault's hooks.json):
 ```json
 "PostToolUse": [{
-  "matcher": "Edit|Write",
+  "matcher": "Edit|Write|NotebookEdit|MultiEdit",
   "hooks": [{ "type": "command",
     "command": "python3 <script path>/impl_notes_reminder.py", "timeout": 5 }]
 }]

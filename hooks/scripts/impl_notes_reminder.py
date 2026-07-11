@@ -6,12 +6,13 @@ plan deviations in IMPLEMENTATION_NOTES.md, to both the user (systemMessage)
 and Claude's context (hookSpecificOutput.additionalContext).
 
 - Standard library only (no external deps such as jq)
-- State stored in /tmp as a per-session file
+- State stored in the temp dir as a per-user, per-session file
 - UNKNOWNS_NOTES_THRESHOLD adjusts the threshold; 0 disables
   (legacy FIELD_GUIDE_NOTES_THRESHOLD also recognized)
 - Default: once per session. UNKNOWNS_NOTES_REPEAT=1 repeats at every
   threshold multiple (10, 20, 30...)
 """
+import getpass
 import json
 import os
 import re
@@ -50,8 +51,13 @@ def main() -> int:
 
     raw_sid = str(data.get("session_id", "default"))
     session_id = re.sub(r"[^A-Za-z0-9._-]", "_", raw_sid)[:64] or "default"
+    try:
+        user = getpass.getuser()
+    except Exception:
+        user = "user"
+    user = re.sub(r"[^A-Za-z0-9._-]", "_", user)[:32] or "user"
     state_path = os.path.join(
-        tempfile.gettempdir(), "unknowns-notes-%s.json" % session_id
+        tempfile.gettempdir(), "unknowns-notes-%s-%s.json" % (user, session_id)
     )
 
     state = {"count": 0, "reminded": False}
@@ -74,8 +80,10 @@ def main() -> int:
     try:
         with open(state_path, "w", encoding="utf-8") as fh:
             json.dump(state, fh)
-    except Exception:
-        pass
+    except Exception as exc:
+        # without persistence the counter restarts at 1 every call and the
+        # reminder can never fire; stderr shows up in hook debug output
+        sys.stderr.write("[unknowns] state persist failed: %s\n" % exc)
 
     if fire:
         cwd = data.get("cwd") or ""
@@ -83,7 +91,10 @@ def main() -> int:
         exists = os.path.exists(notes_path)
         tail = (
             "." if exists
-            else " (file does not exist yet — start with /unknowns:notes init)."
+            else (
+                " (file does not exist yet — run the notes skill with init:"
+                " /unknowns:notes init, or /notes init for copied installs)."
+            )
         )
         msg = (
             "[unknowns] File edits reached %d this session. "

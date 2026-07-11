@@ -5,10 +5,12 @@ description: >
   approach. Generates ~10 candidate interventions spread across a time/effort horizon,
   with impact, risk, and a selection UI that assembles picks into a structured next
   step. This skill should be used when the user says "brainstorm interventions",
-  "spread out solution candidates", "not sure what to do", "show me options",
+  "spread out solution candidates", "lay out candidate solutions", "not sure what
+  to do", "show me options",
   "브레인스토밍", "해법 후보 펼쳐줘", "뭘 해야 할지 모르겠어", "옵션 보여줘", or names
   a problem (churn, slow builds, flaky tests, low conversion) without having chosen
-  an approach.
+  an approach. NOT for choosing between UI/design variants — "design options"
+  belongs to the prototypes skill.
 argument-hint: "<problem to solve> [constraints: timeline/people/budget]"
 ---
 

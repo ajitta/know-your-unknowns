@@ -5,7 +5,9 @@ description: >
   This skill should be used automatically whenever implementation encounters a
   situation not covered by the plan or spec (an "unknown") and a non-trivial decision
   is made, and when the user says "implementation notes", "impl notes", "이탈 기록",
-  "임플 노트", "log deviations", or asks where/why the work diverged from the plan.
+  "임플 노트", "log deviations", "record a deviation", "where did we diverge from
+  the plan?", "어디서 계획이랑 달라졌어?", or asks where/why the work diverged from
+  the plan.
 argument-hint: "[init | show | <content to log>]"
 ---
 
@@ -16,7 +18,7 @@ When work hits a situation not in plan/spec (unknown), **do not decide arbitrari
 ## File Rules
 
 - Location: `IMPLEMENTATION_NOTES.md` at project root (create if missing).
-- `$ARGUMENTS` = `init`: create file with empty template. `show`: summarize current notes.
+- Argument `init`: create file with empty template. Argument `show`: summarize current notes.
 
 ## Entry Format (per entry)
 
