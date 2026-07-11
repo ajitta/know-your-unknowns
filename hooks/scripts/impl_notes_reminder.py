@@ -2,7 +2,8 @@
 """[unknowns] PostToolUse(Edit|Write) hook.
 
 파일 수정이 임계값(기본 10회)에 도달하면 IMPLEMENTATION_NOTES.md에 계획 이탈을
-기록하라는 리마인더를 systemMessage로 띄운다.
+기록하라는 리마인더를 사용자(systemMessage)와 Claude 컨텍스트
+(hookSpecificOutput.additionalContext) 양쪽에 전달한다.
 
 - 표준 라이브러리만 사용 (jq 등 외부 의존성 없음)
 - 상태는 /tmp 에 세션별 파일로 저장
@@ -42,6 +43,8 @@ def main() -> int:
     try:
         data = json.load(sys.stdin)
     except Exception:
+        return 0
+    if not isinstance(data, dict):
         return 0
 
     raw_sid = str(data.get("session_id", "default"))
@@ -86,8 +89,17 @@ def main() -> int:
             "계획·명세에 없던 결정(unknown)이 있었다면 IMPLEMENTATION_NOTES.md에 "
             "기록하세요%s" % (state["count"], tail)
         )
-        print(json.dumps({"systemMessage": msg, "suppressOutput": True},
-                         ensure_ascii=False))
+        # systemMessage는 사용자에게만 보이고, additionalContext는 Claude
+        # 컨텍스트에 주입된다(둘은 공존 가능). suppressOutput은 원시 stdout
+        # JSON만 트랜스크립트에서 숨기므로 그대로 유지한다.
+        print(json.dumps({
+            "systemMessage": msg,
+            "suppressOutput": True,
+            "hookSpecificOutput": {
+                "hookEventName": "PostToolUse",
+                "additionalContext": msg,
+            },
+        }, ensure_ascii=False))
     return 0
 
 

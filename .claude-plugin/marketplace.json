@@ -1,5 +1,6 @@
 {
   "name": "ajitta",
+  "description": "ajitta의 Claude Code 플러그인 마켓플레이스 — 지도(계획)와 영토(실제)의 간극을 찾아 관리하는 unknowns 플러그인 제공.",
   "owner": {
     "name": "ajitta",
     "email": "ajitta@gmail.com"
