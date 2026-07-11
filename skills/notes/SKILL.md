@@ -6,49 +6,43 @@ description: >
   situation not covered by the plan or spec (an "unknown") and a non-trivial decision
   is made, and when the user says "implementation notes", "impl notes", "이탈 기록",
   "임플 노트", "log deviations", or asks where/why the work diverged from the plan.
-argument-hint: "[init | show | <기록할 내용>]"
+argument-hint: "[init | show | <content to log>]"
 ---
 
-# Notes — 계획 이탈 기록 (Implementation Notes)
+# Notes — Plan Deviation Log (Implementation Notes)
 
-작업 중 계획·명세에 없는 상황(unknown)을 만나면 **임의로 결정하고 조용히 지나가지 말고
-기록한다**. 원 출처: Thariq Shihipar — "If it runs into an unknown, ask it to log it,
-so you can see where the deviations happened and figure out why."
-에이전트가 계획과 다른 방향으로 조용히 이동하는 것을 막는 핵심 장치다.
+When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Origin: Thariq Shihipar — "If it runs into an unknown, ask it to log it, so you can see where the deviations happened and figure out why." Core device stopping agent from silently drifting off-plan.
 
-## 파일 규칙
+## File Rules
 
-- 위치: 프로젝트 루트의 `IMPLEMENTATION_NOTES.md` (없으면 생성).
-- `$ARGUMENTS`가 `init`이면 빈 템플릿으로 파일을 만들고, `show`면 현재 노트를 요약한다.
+- Location: `IMPLEMENTATION_NOTES.md` at project root (create if missing).
+- `$ARGUMENTS` = `init`: create file with empty template. `show`: summarize current notes.
 
-## 기록 형식 (항목당)
+## Entry Format (per entry)
 
 ```markdown
-## [YYYY-MM-DD] <작업/기능 이름>
-- **발견한 상황**: 계획에 없던 무엇을 만났는가
-- **계획과 다른 점**: 원래 계획은 무엇이었는가
-- **선택한 대응**: 무엇을 했는가 (보수적 선택이었다면 그 이유)
-- **선택 이유**: 왜 그 방법인가
-- **고려한 대안**: 버린 선택지와 버린 이유
-- **위험/후속 확인**: 이 결정이 틀렸다면 어디서 드러나는가
-- **다음 시도 개선점**: 다음에 같은 작업을 하면 무엇을 다르게 할 것인가 (1–3개)
+## [YYYY-MM-DD] <task/feature name>
+- **Situation found**: what unplanned thing was hit
+- **Deviation from plan**: what the original plan was
+- **Response chosen**: what was done (if conservative choice, why)
+- **Reason for choice**: why that approach
+- **Alternatives considered**: discarded options and why discarded
+- **Risk/follow-up check**: if this decision is wrong, where it shows up
+- **Improvements for next attempt**: what to do differently on same task next time (1–3)
 ```
 
-## 기록 기준
+## Logging Criteria
 
-- **기록한다**: 설계·동작·호환성에 영향을 주는 결정, 스펙 해석이 갈리는 지점,
-  예상과 다른 기존 코드 구조, 우회(workaround), 새 의존성.
-- **기록하지 않는다**: 사소한 문법 수정, 포맷팅, 변수명, 자명한 구현 세부.
+- **Log**: decisions affecting design/behavior/compatibility, points where spec interpretation diverges, existing code structure differing from expectation, workarounds, new dependencies.
+- **Don't log**: trivial syntax fixes, formatting, variable names, self-evident implementation details.
 
-## 에스컬레이션
+## Escalation
 
-기록으로 끝내지 않고 **작업을 멈추고 사용자에게 질문**해야 하는 경우:
-- 아키텍처를 바꾸는 결정
-- 사용자에게 보이는 동작(UX·API 계약)을 바꾸는 결정
-- 데이터 손실·보안에 닿는 결정
+Not just log — **stop work and ask user** when:
+- Decision changes architecture
+- Decision changes user-visible behavior (UX/API contract)
+- Decision touches data loss/security
 
-## 마무리
+## Wrap-up
 
-세션을 마치거나 PR을 만들기 전, 노트에 쌓인 항목을 요약해 사용자에게 보고하고
-`/unknowns:quiz`로 이어가기를 제안한다. 승인이 필요한 작업이면 `/unknowns:buy-in`
-문서에 이 노트의 미해결 항목을 "알려진 한계"로 반영한다.
+Before ending session or creating PR, summarize accumulated note entries to user and suggest continuing with `/unknowns:quiz`. If work needs approval, reflect this note's unresolved items into the `/unknowns:buy-in` doc as "known limitations".

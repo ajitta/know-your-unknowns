@@ -1,6 +1,6 @@
 {
   "name": "ajitta",
-  "description": "ajitta의 Claude Code 플러그인 마켓플레이스 — 지도(계획)와 영토(실제)의 간극을 찾아 관리하는 unknowns 플러그인 제공.",
+  "description": "ajitta's Claude Code plugin marketplace — home of the unknowns plugin, an operational loop for finding and managing the gaps between the map (plan) and the territory (reality).",
   "owner": {
     "name": "ajitta",
     "email": "ajitta@gmail.com"
@@ -9,7 +9,7 @@
     {
       "name": "unknowns",
       "source": "./",
-      "description": "Know your unknowns — 지도(계획)와 영토(실제)의 간극(unknowns)을 찾아 관리하는 운영 루프. 구현 전 8종 + 구현 중 1종 + 구현 후 2종 (skill 11 + agent 2 + hook 1)."
+      "description": "Know your unknowns — an operational loop for finding and managing the gaps (unknowns) between the map (plan) and the territory (reality). 8 pre-implementation + 1 during-implementation + 2 post-implementation techniques (11 skills + 2 agents + 1 hook)."
     }
   ]
 }

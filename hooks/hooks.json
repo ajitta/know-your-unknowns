@@ -1,5 +1,5 @@
 {
-  "description": "unknowns — 구현 중 계획 이탈 기록(IMPLEMENTATION_NOTES.md) 리마인더. 파일 수정 N회(기본 10) 도달 시 발동, 기본 세션당 1회. UNKNOWNS_NOTES_THRESHOLD로 임계값 조정(0=끄기), UNKNOWNS_NOTES_REPEAT=1이면 임계값 배수마다 반복. 구버전 FIELD_GUIDE_NOTES_THRESHOLD도 인식.",
+  "description": "unknowns — reminder to record plan deviations during implementation (IMPLEMENTATION_NOTES.md). Fires when file edits reach N (default 10), once per session by default. UNKNOWNS_NOTES_THRESHOLD adjusts threshold (0=off); UNKNOWNS_NOTES_REPEAT=1 repeats at every threshold multiple. Legacy FIELD_GUIDE_NOTES_THRESHOLD also recognized.",
   "hooks": {
     "PostToolUse": [
       {

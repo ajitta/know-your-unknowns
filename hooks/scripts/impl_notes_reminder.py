@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """[unknowns] PostToolUse(Edit|Write) hook.
 
-파일 수정이 임계값(기본 10회)에 도달하면 IMPLEMENTATION_NOTES.md에 계획 이탈을
-기록하라는 리마인더를 사용자(systemMessage)와 Claude 컨텍스트
-(hookSpecificOutput.additionalContext) 양쪽에 전달한다.
+When file edits reach a threshold (default 10), deliver a reminder to record
+plan deviations in IMPLEMENTATION_NOTES.md, to both the user (systemMessage)
+and Claude's context (hookSpecificOutput.additionalContext).
 
-- 표준 라이브러리만 사용 (jq 등 외부 의존성 없음)
-- 상태는 /tmp 에 세션별 파일로 저장
-- UNKNOWNS_NOTES_THRESHOLD 로 임계값 조정, 0이면 비활성화
-  (구버전 FIELD_GUIDE_NOTES_THRESHOLD 도 인식)
-- 기본은 세션당 1회. UNKNOWNS_NOTES_REPEAT=1 이면 임계값 배수(10, 20, 30…)마다 반복
+- Standard library only (no external deps such as jq)
+- State stored in /tmp as a per-session file
+- UNKNOWNS_NOTES_THRESHOLD adjusts the threshold; 0 disables
+  (legacy FIELD_GUIDE_NOTES_THRESHOLD also recognized)
+- Default: once per session. UNKNOWNS_NOTES_REPEAT=1 repeats at every
+  threshold multiple (10, 20, 30...)
 """
 import json
 import os
@@ -82,16 +83,16 @@ def main() -> int:
         exists = os.path.exists(notes_path)
         tail = (
             "." if exists
-            else " (파일이 아직 없습니다 — /unknowns:notes init 으로 시작)."
+            else " (file does not exist yet — start with /unknowns:notes init)."
         )
         msg = (
-            "[unknowns] 이번 세션에서 파일 수정이 %d회에 도달했습니다. "
-            "계획·명세에 없던 결정(unknown)이 있었다면 IMPLEMENTATION_NOTES.md에 "
-            "기록하세요%s" % (state["count"], tail)
+            "[unknowns] File edits reached %d this session. "
+            "If any decision was not in the plan/spec (an unknown), record it "
+            "in IMPLEMENTATION_NOTES.md%s" % (state["count"], tail)
         )
-        # systemMessage는 사용자에게만 보이고, additionalContext는 Claude
-        # 컨텍스트에 주입된다(둘은 공존 가능). suppressOutput은 원시 stdout
-        # JSON만 트랜스크립트에서 숨기므로 그대로 유지한다.
+        # systemMessage is shown only to the user; additionalContext is
+        # injected into Claude's context (both can coexist). suppressOutput
+        # only hides the raw stdout JSON from the transcript, so keep it.
         print(json.dumps({
             "systemMessage": msg,
             "suppressOutput": True,

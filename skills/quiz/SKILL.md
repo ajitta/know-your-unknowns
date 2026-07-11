@@ -3,48 +3,48 @@ name: quiz
 description: >
   Post-work comprehension quiz — after finishing significant work, explain what changed
   and quiz the user so they stay in the loop and can represent the work in a PR or
-  handoff. This skill should be used when the user says "quiz me", "퀴즈", "내가 이해했는지
-  확인해줘", "test my understanding", or right before creating/merging a PR for work the
+  handoff. This skill should be used when the user says "quiz me", "test my understanding",
+  "퀴즈", "내가 이해했는지 확인해줘", or right before creating/merging a PR for work the
   model largely implemented.
-argument-hint: "[대상 작업/PR 범위]"
+argument-hint: "[target work/PR scope]"
 ---
 
-# Quiz — 작업 후 이해도 검증 (Stay in the Loop)
+# Quiz — Post-Work Comprehension Check (Stay in the Loop)
 
-작업을 맡겨도 **사용자는 결과를 설명할 수 있어야 한다**. 원 출처: Thariq Shihipar —
+Even delegated work, **user must be able to explain the result**. Source: Thariq Shihipar —
 "I like to get it to quiz me about what happened, to make sure I understand what I'm
 doing and can represent this work when I'm creating a PR or merging it."
 
-## 절차 — 1부: 먼저 설명한다
+## Procedure — Part 1: Explain First
 
-퀴즈 전에 다음을 간결하게 설명한다:
+Before quiz, explain concisely:
 
-1. 변경된 **전체 구조** (무엇이 어디에 생겼/바뀌었는가)
-2. 가장 중요한 **설계 결정 3개**와 그 이유
-3. **실패 가능성이 높은 부분** (틀렸다면 어디서 먼저 드러나는가)
-4. 사용자가 **직접 확인해야 하는 부분** (모델이 보장 못 하는 것)
+1. **Overall structure** of changes (what created/changed, where)
+2. **Top 3 design decisions** and why
+3. **Most likely failure points** (if wrong, where does it surface first)
+4. What **user must verify themselves** (what model cannot guarantee)
 
-## 절차 — 2부: 퀴즈
+## Procedure — Part 2: Quiz
 
-1. 질문 **5개**를 낸다. AskUserQuestion 도구가 있으면 선택지형으로 활용한다.
-2. 질문 우선순위: **장애 대응**("X가 죽으면 어디를 먼저 보는가") >
-   **설계 이유**("왜 A가 아니라 B인가") > **동작 예측**("이 입력이면 결과는") >
-   단순 암기 (지양).
-3. 답을 받으면 채점하고, 틀리거나 빈 부분은 **그 부분만 다시 설명**한다 —
-   원문 "Quiz Me Before I Merge"처럼 오답이 정확히 어느 변경 지점을 다시 봐야
-   하는지 가리키게 한다.
-4. IMPLEMENTATION_NOTES.md가 있으면 기록된 이탈 지점을 퀴즈에 반드시 1개 이상 포함한다.
+1. Ask **5 questions**. If AskUserQuestion tool available, use multiple-choice.
+2. Question priority: **incident response** ("X dies — where do you look first") >
+   **design rationale** ("why B, not A") > **behavior prediction** ("given this input, what result") >
+   rote recall (avoid).
+3. Grade answers; re-explain **only the wrong or blank parts** —
+   per "Quiz Me Before I Merge", each wrong answer must point to the exact
+   change site to re-review.
+4. If IMPLEMENTATION_NOTES.md exists, include at least 1 quiz question on its recorded deviations.
 
-## 산출물 형식 (HTML 옵션)
+## Output Format (HTML Option)
 
-머지 직전 큰 변경이면 **머지 준비도 리포트**를 단일 파일 HTML로 만들 수 있다:
-변경 요약(파일별 접기) + 퀴즈 UI, 오답 선택 시 해당 변경 섹션으로 스크롤·하이라이트.
-뷰어가 없는 환경이면 같은 구조의 마크다운으로 폴백한다.
-일반적인 경우는 대화 안에서 진행하면 충분하다.
+For big pre-merge changes, may build a **merge-readiness report** as single-file HTML:
+change summary (per-file collapsible) + quiz UI; wrong answer scrolls to and highlights the relevant change section.
+No viewer available: fall back to markdown with same structure.
+Normal cases: in-conversation is enough.
 
-## 마무리: 인수인계 요약
+## Wrap-Up: Handoff Summary
 
-퀴즈 후 다음을 담은 인수인계 요약을 제시한다 — 다른 개발자가 내일 인수받는다고 가정:
-구조 요약 / 핵심 결정 / 실행·테스트 방법 / 장애 시 확인 순서 / 남은 위험.
-사용자가 원하면 PR 본문 초안으로 변환하고, 리뷰어 승인이 필요한 작업이면
-`/unknowns:buy-in` 문서 작성을 제안한다.
+After quiz, present handoff summary — assume another dev takes over tomorrow:
+structure summary / key decisions / how to run & test / incident check order / remaining risks.
+If user wants, convert to PR body draft; if work needs reviewer approval,
+suggest writing a `/unknowns:buy-in` doc.
