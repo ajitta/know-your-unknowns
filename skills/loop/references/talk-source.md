@@ -1,18 +1,51 @@
-# 출처와 검증 — Field Guide to Fable
+# 출처와 검증 — Know your unknowns
 
-이 플러그인은 Thariq Shihipar(Anthropic, Claude Code 팀)의 AI Engineer World's Fair 2026
-키노트 **"Field Guide to Fable"** (2026-06-29~07-02, 샌프란시스코)를 기반으로 한다.
-영상: https://www.youtube.com/watch?v=9fubhllmsBU
+이 플러그인은 Thariq Shihipar(Anthropic, Claude Code 팀)의 두 자료를 기반으로 한다:
 
-## 강연에서 직접 검증된 기법 (플러그인 매핑)
+1. **강연** — AI Engineer World's Fair 2026 키노트 "Field Guide to Fable"
+   (2026-06-29~07-02, 샌프란시스코). 영상: https://www.youtube.com/watch?v=9fubhllmsBU
+2. **예시 모음** — "Know your unknowns" (블로그 "The unreasonable effectiveness of
+   HTML"의 컴패니언 페이지, 11개 인터랙티브 예시):
+   https://thariqs.github.io/html-effectiveness/unknowns/
+   부모 페이지: https://thariqs.github.io/html-effectiveness/
+
+플러그인·레포 이름(unknowns / know-your-unknowns)은 2번 자료의 제목에서 왔다 —
+방법론의 핵심 프레임이 "지도는 영토가 아니다; 그 간극이 unknowns"이기 때문이다.
+
+## "Know your unknowns" 11개 예시 ↔ 플러그인 매핑
+
+| # | 원문 예시 | 시점 | 플러그인 구성요소 |
+|---|-----------|------|------------------|
+| 1 | Blindspot Pass | 구현 전 | `blindspot` skill + `unknowns-scout` agent |
+| 2 | Teach Me My Unknowns | 구현 전 | `teach-me` skill |
+| 3 | Four Design Directions | 구현 전 | `prototypes` skill |
+| 4 | Mock Before You Wireframe | 구현 전 | `prototypes` skill (인터랙션 목업 변형) |
+| 5 | Brainstorm the Intervention | 구현 전 | `brainstorm` skill |
+| 6 | The Interview | 구현 전 | `interview` skill |
+| 7 | Point at a Reference | 구현 전 | `reference` skill |
+| 8 | The Tweakable Plan | 구현 전 | `plan` skill |
+| 9 | Implementation Notes | 구현 중 | `notes` skill + reminder hook |
+| 10 | The Buy-In Doc | 구현 후 | `buy-in` skill |
+| 11 | Quiz Me Before I Merge | 구현 후 | `quiz` skill |
+
+`loop` 스킬은 위 기법들을 순서대로 꿰는 오케스트레이터, `independent-reviewer`
+에이전트는 8번과 11번 사이의 독립 검증(플러그인 확장분)이다.
+
+원문 예시들의 공통 형식 — **반응-조립 UI가 달린 단일 파일 인터랙티브 HTML**
+(채택/제외 칩, 공감 체크박스, 복사 가능한 프롬프트 픽스, 선택 → 회신 템플릿 자동
+조립) — 은 0.2.0부터 각 스킬의 "산출물 형식 (HTML 우선)" 절에 반영되어 있다.
+근거: 부모 글의 주장 "읽지 않고 넘기는(skim) 문서를 실제로 읽는 문서로 바꾸고,
+반응을 다시 에이전트가 읽을 수 있는 형태로 내보내 루프를 짧게 유지한다."
+
+## 강연에서 직접 검증된 기법 (강연 시점)
 
 | 기법 | 강연 시점 | 플러그인 구성요소 |
 |------|-----------|------------------|
 | Blind-spot pass ("unknown unknowns를 찾아 프롬프트를 개선") | 10:48–11:39 | `blindspot` skill + `unknowns-scout` agent |
 | 발산형 프로토타입 4개 ("I have no visual taste… four widely different design decisions") | 11:39–12:28 | `prototypes` skill |
 | 구현 전 인터뷰 ("prioritize questions that would change the architecture") | 12:28–12:58 | `interview` skill |
-| 레퍼런스 = 다른 지도 ("give it another map") | 12:58–13:35 | `reference-map` skill |
-| Implementation notes ("runs into an unknown, ask it to log it") | 13:35–13:57 | `impl-notes` skill + reminder hook |
+| 레퍼런스 = 다른 지도 ("give it another map") | 12:58–13:35 | `reference` skill |
+| Implementation notes ("runs into an unknown, ask it to log it") | 13:35–13:57 | `notes` skill + reminder hook |
 | 작업 후 퀴즈 ("quiz me… so I can represent this work") | 13:57–14:23 | `quiz` skill |
 
 ## 강연의 핵심 개념 (외부 사실검증 완료)
@@ -36,11 +69,11 @@
 - **관련 후속 자료** — Thariq, "HTML is the new markdown" (Lenny's Newsletter, 2026-05-18);
   Anthropic, "Claude Code: Best practices for agentic coding".
 
-## 플러그인 제작 시 확장한 부분 (강연에 없음 — 설계 판단)
+## 플러그인 제작 시 확장한 부분 (원문에 없음 — 설계 판단)
 
-- 각 스킬의 구체적 프롬프트 템플릿·절차·우선순위 목록 (강연은 구두 설명)
+- 각 스킬의 구체적 프롬프트 템플릿·절차·우선순위 목록 (원문은 예시 시연)
 - `IMPLEMENTATION_NOTES.md` 파일명·항목 형식 (강연은 "log it"만 언급)
-- `loop` 스킬의 9단계 워크플로와 규모별 축소 기준
+- `loop` 스킬의 10단계 워크플로와 규모별 축소 기준
 - `independent-reviewer` 에이전트 (강연의 "stay in the loop" 정신의 확장)
 - 파일 수정 횟수 기반 리마인더 훅
 

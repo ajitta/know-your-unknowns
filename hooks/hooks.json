@@ -1,5 +1,5 @@
 {
-  "description": "field-guide — 구현 중 계획 이탈 기록(IMPLEMENTATION_NOTES.md) 리마인더. 세션당 1회, 파일 수정 N회(기본 10) 도달 시 발동. FIELD_GUIDE_NOTES_THRESHOLD 환경변수로 조정, 0이면 비활성화.",
+  "description": "unknowns — 구현 중 계획 이탈 기록(IMPLEMENTATION_NOTES.md) 리마인더. 파일 수정 N회(기본 10) 도달 시 발동, 기본 세션당 1회. UNKNOWNS_NOTES_THRESHOLD로 임계값 조정(0=끄기), UNKNOWNS_NOTES_REPEAT=1이면 임계값 배수마다 반복. 구버전 FIELD_GUIDE_NOTES_THRESHOLD도 인식.",
   "hooks": {
     "PostToolUse": [
       {

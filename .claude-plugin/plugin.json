@@ -1,13 +1,13 @@
 {
-  "name": "field-guide",
-  "version": "0.1.2",
-  "homepage": "https://github.com/ajitta/field-guide",
-  "repository": "https://github.com/ajitta/field-guide",
-  "description": "Field Guide to Fable — 강한 모델과 일하는 운영 루프. 사각지대 조사(blindspot), 인터뷰, 프로토타입 팬아웃, 레퍼런스 분석, 이탈 기록(implementation notes), 이해도 퀴즈를 skill/agent/hook으로 제공. Thariq Shihipar(Anthropic)의 AI Engineer 강연 방법론 기반.",
+  "name": "unknowns",
+  "version": "0.2.0",
+  "homepage": "https://github.com/ajitta/know-your-unknowns",
+  "repository": "https://github.com/ajitta/know-your-unknowns",
+  "description": "Know your unknowns — 지도(계획)와 영토(실제 코드·도메인)의 간극을 찾아 관리하는 운영 루프. 사각지대 조사(blindspot), 도메인 설명서(teach-me), 인터뷰, 발산형 프로토타입, 해법 브레인스토밍, 레퍼런스 분석, 수정확률순 계획(plan), 이탈 기록(notes), 독립 검증, buy-in 문서, 이해도 퀴즈를 skill/agent/hook으로 제공. Thariq Shihipar(Anthropic)의 'Field Guide to Fable' 강연과 'Know your unknowns' 예시 모음 기반.",
   "author": {
     "name": "chosh",
     "email": "ajitta@gmail.com"
   },
-  "keywords": ["workflow", "unknowns", "blind-spot", "prompting", "agentic-coding", "fable"],
+  "keywords": ["unknowns", "workflow", "blind-spot", "prompting", "agentic-coding", "html-artifacts"],
   "license": "MIT"
 }
