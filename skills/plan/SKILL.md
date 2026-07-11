@@ -6,6 +6,9 @@ description: >
   first. This skill should be used when the user says "plan this", "tweakable plan",
   "sort plan by tweak likelihood", "계획 세워줘", "구현 계획", "수정확률순 계획",
   or when a plan is needed after blindspot/interview and before implementation.
+  Distinguish from other planners: this produces a reviewable pre-implementation plan
+  document sorted by probability-of-revision — it is not native plan mode, a scheduler,
+  or a generic task breakdown; for those, prefer the built-in tools.
 argument-hint: "<task description or confirmed spec>"
 ---
 

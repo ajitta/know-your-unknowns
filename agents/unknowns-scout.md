@@ -24,7 +24,7 @@ description: |
   </example>
 model: inherit
 color: cyan
-tools: ["Read", "Grep", "Glob", "Bash"]
+tools: Read, Grep, Glob, Bash
 ---
 
 You are a blind-spot pass agent. Before implementation, find gaps between the map

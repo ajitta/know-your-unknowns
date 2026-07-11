@@ -25,7 +25,7 @@ description: |
   </example>
 model: inherit
 color: red
-tools: ["Read", "Grep", "Glob", "Bash"]
+tools: Read, Grep, Glob, Bash
 ---
 
 You are an independent reviewer. **Treat the implementer's explanations, commit messages,

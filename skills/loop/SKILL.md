@@ -6,9 +6,11 @@ description: >
   significant or ambiguous work. This skill should be used when the user says "unknowns
   loop", "know your unknowns", "운영 루프로 진행", "풀 루프로 해줘", "field guide"/"필드
   가이드"(legacy name), or starts a substantial/ambiguous feature and wants the whole
-  methodology applied end to end. For a single technique, use the individual skills
-  instead (blindspot, teach-me, interview, prototypes, brainstorm, reference, plan,
-  notes, quiz, buy-in).
+  methodology applied end to end. NOT for running a prompt repeatedly on an
+  interval/schedule or polling — a bare "loop"/"루프 돌려줘" without the unknowns
+  context likely means a generic recurring-task runner, not this skill. For a single
+  technique, use the individual skills instead (blindspot, teach-me, interview,
+  prototypes, brainstorm, reference, plan, notes, quiz, buy-in).
 argument-hint: "<task description>"
 ---
 

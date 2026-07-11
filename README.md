@@ -379,7 +379,9 @@ Use the unknowns-scout agent — investigate what I'm missing in the migration p
 Scout the auth module with the unknowns-scout agent
 ```
 The blindspot skill also calls this agent automatically for large investigations.
-It never modifies files, and returns an investigation table plus an improved prompt
+It is instructed never to modify files (its toolset excludes Edit/Write, though Bash
+remains available for read-only git inspection — so this is a strong default, not a
+sandbox guarantee), and returns an investigation table plus an improved prompt
 draft.
 
 **independent-reviewer** (independent verification):
@@ -411,6 +413,7 @@ one message line is all it is.
 | Repeat the reminder at every multiple of the threshold | `UNKNOWNS_NOTES_REPEAT=1` |
 | Legacy variable | `FIELD_GUIDE_NOTES_THRESHOLD` is still recognized (the new variable wins) |
 | Requirements | `python3` (standard library only, no external dependencies) |
+| Tested with | Claude Code 2.1.207, macOS (2026-07-11): `claude plugin validate` passes; hook verified through the live PostToolUse pipeline; script covered by `tests/` |
 
 **Manual install without the plugin** (Method C users): copy
 `hooks/scripts/impl_notes_reminder.py` into your project and add to
