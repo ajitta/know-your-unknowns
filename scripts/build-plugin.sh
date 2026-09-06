@@ -1,12 +1,14 @@
 #!/bin/sh
 # Build the distributable unknowns plugin zip from a tagged, clean commit.
 # Usage: scripts/build-plugin.sh [tag]  ->  unknowns-v<version>.plugin (git-ignored)
-# Default tag is v<version> from plugin.json. Attach the result to the
-# GitHub Release for that tag — never hand out a locally built zip.
+# Default tag is {name}--v{version}, the form `claude plugin tag` creates.
+# Attach the result to the GitHub Release for that tag — never hand out a
+# locally built zip.
 set -eu
 cd "$(dirname "$0")/.."
+NAME=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['name'])")
 VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['version'])")
-REF=${1:-v$VERSION}
+REF=${1:-$NAME--v$VERSION}
 OUT="unknowns-v${VERSION}.plugin"
 
 if [ -n "$(git status --porcelain)" ]; then
