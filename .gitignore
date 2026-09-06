@@ -6,6 +6,7 @@ __pycache__/
 
 # Local-only, machine-specific — never part of the plugin
 CLAUDE.local.md
+.claude/CLAUDE.md
 .claude/settings.local.json
 .claude/superclaude/
 
