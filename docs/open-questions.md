@@ -63,7 +63,6 @@
 
 | # | 항목 | 방법 | 트리거 조건 |
 |---|------|------|------------|
-| B2 | Windows에서 훅 스크립트 동작 | CI에 `windows-latest` 잡이 추가됐다(스크립트 단위 테스트만 — 훅 실행 경로는 아님). **아직 푸시 전이라 실행된 적 없다**; 첫 실행 결과로 판정 | 0.4.0 푸시 직후 |
 | B3 | Cowork 출력 분기 | Cowork에서 prototypes/plan 호출, A1 사다리의 어느 칸이 잡히는지 관측 | Cowork 접근 가능할 때 |
 | B4 | 중·대형 루프 티어 준수 | 대화형 세션에서 medium(1→2→3→6→7→9)·large(전 단계) 실측 — 헤드리스는 interview가 성립 안 함 | 다음 실전 중형 과제 |
 | B5 | 트리밍 이후 트리거 발화율 재측정 | trigger-eval 방법 재사용. 이번에 11개 description이 전부 짧아졌으므로 v0.3.0 eval의 6/6 결과는 더 이상 현재 상태의 측정치가 아니다. 충돌 쌍 유사 문구 negative 케이스와, `plan this`가 일반 계획 요청까지 잡는지(과발화) 포함 | 0.4.0 푸시 후 / description 변경 시 |
@@ -77,8 +76,14 @@
   빈 문자열 치환이 무엇을 만들든 문면이 그 경우를 덮는다.
 - **CI 최초 실행 확인** — `origin/main`에 성공한 CI 실행이 3건 있다(2026-07-11).
   `IMPLEMENTATION_NOTES.md`의 "push 후 첫 실행 확인 필요"는 이것으로 닫힌다.
-  단 이 3건은 개정 전 워크플로의 실행이다 — 이번에 추가된 `windows-latest` 잡과 plugin-form
-  검증 스텝은 아직 실행된 적이 없다(B2).
+  단 이 3건은 개정 전 워크플로의 실행이다. 이번에 추가된 `windows-latest` 잡과 plugin-form
+  검증 스텝의 첫 실행은 아래 B2 항목에 기록했다.
+- **B2 Windows 훅 스크립트** — 해소. 0.4.0 푸시(`3e6a1aa`)의 CI 실행 `34008269747`에서
+  `hook-tests (windows-latest)` 27초 성공. POSIX 전용 검사(퍼미션 비트 `0o700`/`0o600`,
+  symlink 소유권 확인) 2건은 `skipUnless(hasattr(os, "getuid"))`로 건너뛰고 나머지는 전부 실행됐다.
+  같은 실행에서 plugin-form 검증 스텝(`claude plugin validate .claude-plugin/plugin.json --strict`)도
+  처음으로 돌아 통과했다. **남은 미검증**: 훅이 Windows에서 실제로 *발화*하는 경로(`python3`가
+  기본 PATH에 없는 문제)는 여전히 실사용자 제보가 필요하다 — 이번에 증명된 것은 스크립트 단위 동작뿐이다.
 - **마켓플레이스 설치 경로(Method B) 실측** — 격리된 `HOME`에서
   `claude plugin marketplace add ajitta/know-your-unknowns`(HTTPS 클론) +
   `claude plugin install unknowns@ajitta` 성공, `claude plugin list --json`이 0.3.0 / user 스코프 /
