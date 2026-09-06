@@ -10,7 +10,9 @@ their *mechanisms* already carry decades of evidence — and two of them diverge
 technique in ways that cost information.
 
 Release steps per `docs/open-questions.md` A4 (annotated tag → `scripts/build-plugin.sh` →
-GitHub Release with the payload attached) are **not** done here and remain outstanding.
+GitHub Release with the payload attached) are done for this version at tag
+`unknowns--v0.6.0` — the first release since 0.4.0 where they happen at release time rather
+than retroactively.
 
 ### Changed
 
