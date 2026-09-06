@@ -29,17 +29,26 @@ Origin: Four Design Directions / Mock before you wire — see skills/loop/refere
    - Interaction mode (click/drag/keyboard/automatic)
    - Implementation complexity (simple-robust vs rich-complex)
 3. Attach to each option: **name + one-line design philosophy + pros/cons + when it fits**.
-4. After user reacts: convert chosen elements into an **explicit requirements list** —
-   taste they couldn't verbalize (unknown knowns) becomes spec.
-5. Proceed to real implementation only after the combined option is confirmed.
+4. Collect reactions on **both poles**. A skip is not the inverse of a steal — on every skip
+   ask what *would* have made it a steal. Kelly's repertory grid (1955) elicits a construct as
+   a **bipolar pair**; the contrast pole carries as much information as the pole users
+   volunteer, and it is the one they volunteer least.
+5. **Saturation check** before converting to spec: if the last option shown still drew new
+   reactions, the set was too small — offer 2 more along the axis still splitting opinion.
+   Kelly's stopping rule is "until no new constructs appear"; a fixed N says nothing about
+   whether the option space is covered.
+6. Convert reactions into an **explicit requirements list** — taste they couldn't verbalize
+   (unknown knowns) becomes spec.
+7. Proceed to real implementation only after the combined option is confirmed.
 
 ## Output
 
 Artifact tool if available → else `.unknowns/<YYYY-MM-DD>-prototypes-<slug>.html` → else
 markdown (also when HTML is unnatural: static document, API design); always echo the
 assembled reply in chat.
-Each option — and each element inside it — carries **steal / skip chips**; selections
-assemble into a **requirements list** ("option 2's layout + option 4's colors…").
+Each option — and each element inside it — carries **steal / skip chips**, with a one-tap
+**"would steal if…"** field revealed on skip (step 4); selections assemble into a
+**requirements list** ("option 2's layout + option 4's colors…").
 Details: skills/loop/references/output-routing.md
 
 ## Variants

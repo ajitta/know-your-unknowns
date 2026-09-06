@@ -22,17 +22,29 @@ When work hits a situation not in plan/spec (unknown), **do not decide arbitrari
 
 ## Entry Format
 
-Deviation entry:
+Deviation entry — two blocks that do **not** carry equal weight. Fill Observed from the
+artifacts first, and never revise it to fit Attributed:
 
 ```markdown
 ## [YYYY-MM-DD] <task/feature name>
+
+**Observed** — the record, auditable against the diff
 - **Situation found**: what unplanned thing was hit
-- **Deviation from plan**: what the original plan was
-- **Response chosen**: what was done (if conservative choice, why)
+- **Deviation from plan**: what the plan said (quote it, or "not covered")
+- **Response chosen**: what the code now does
+
+**Attributed** — hypothesis, not evidence
 - **Reason for choice**: why that approach
 - **Alternatives considered**: discarded options and why discarded
 - **Risk/follow-up check**: if this decision is wrong, where it shows up
 ```
+
+**Why the split.** Self-reports of one's own reasoning fail in a measured way. Reporting
+*what happened* is non-reactive (Fox, Ericsson & Best 2011 — 94 studies, r = −.03), but being
+asked to *explain* changes the behaviour being reported. And models omit the factor that
+actually drove a choice while producing a fluent rationale instead (Turpin et al. 2023 —
+accuracy fell up to 36 points under a bias never once mentioned in the explanation). Observed
+is checkable against the diff; Attributed is a claim to test later. On conflict, the diff wins.
 
 Two lighter kinds, same file, one line each:
 - **Discovery** — code or environment differs from what the plan assumed, no decision needed yet: what was assumed / what is true.

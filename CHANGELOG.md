@@ -1,8 +1,55 @@
 # Changelog
 
-## Unreleased
+## 0.6.0 — 2026-09-06
 
-Maintenance records only. No skill, agent, hook or test behaviour changed.
+Skill behaviour changes from a cross-check against the knowledge-elicitation literature
+(cognitive task analysis, repertory grid, verbal-protocol research), plus the maintenance
+records that had accumulated since 0.5.1. The finding behind the behaviour changes: several
+instruments here are artifact-form rediscoveries of established elicitation techniques, so
+their *mechanisms* already carry decades of evidence — and two of them diverged from the
+technique in ways that cost information.
+
+Release steps per `docs/open-questions.md` A4 (annotated tag → `scripts/build-plugin.sh` →
+GitHub Release with the payload attached) are **not** done here and remain outstanding.
+
+### Changed
+
+- **`notes` — the deviation entry now splits into Observed and Attributed.** Self-reports of
+  one's own reasoning fail in a specific, measured way: reporting *what happened* is
+  non-reactive (Fox, Ericsson & Best 2011, 94 studies, r = −.03) but being asked to *explain*
+  changes the behaviour being reported, and models omit the factor that actually drove a choice
+  while producing a fluent rationale (Turpin et al. 2023, up to −36 points under a bias never
+  mentioned). Observed (situation / what the plan said / what the code now does) is checkable
+  against the diff; Attributed (reason, discarded alternatives, risk) is a claim to test later.
+  On conflict the diff wins. Field names are unchanged, so
+  `evals/behavior-notes-appends-to-file` still grades the same content.
+- **`prototypes` — skips now elicit the contrast pole, and the option set gets a saturation
+  check.** Kelly's repertory grid (1955) elicits a construct as a *bipolar pair*; steal/skip
+  chips captured only one pole, and the contrast pole is the one users volunteer least. Every
+  skip now asks what *would* have made it a steal. Kelly's stopping rule — "until no new
+  constructs appear" — is added as step 5: a fixed N says nothing about whether the option
+  space is covered.
+- **`teach-me` — added Limits, and corrected what counts as success.** A vocabulary list hands
+  over a request, not fluency; domain fluency is collective tacit knowledge and does not
+  transfer as a term list (Collins 2010). The predicted failure point is revision rounds 2–4,
+  where terms must be used rather than pasted. Success is convergence across rounds 2–4, not
+  the quality of the first rewritten request. Notes that step 6 ("what good looks like") is what
+  buys those later rounds — judging criteria transfer better than production vocabulary — and
+  should survive size trims.
+- **`docs/value-contract.md` — documented a known bias in the value metric.** "Decision-change
+  rate" systematically under-credits front-stage skills (`blindspot`, `teach-me`), whose effect
+  lands one step later, so the demotion condition would fire on the earliest tools first. Two
+  corrections offered. Also narrows B7: `prototypes`/`interview`/`quiz` need only their artifact
+  implementation validated, not their mechanism — the untested ground is `plan`, `brainstorm`
+  and `buy-in`, which have no counterpart in the elicitation canon.
+
+### Added
+
+- `evals/behavior-prototypes-asks-contrast-on-skip` — grades the two new `prototypes`
+  behaviours: a skip must route to "what would have made it a steal", and the fixed option
+  count must not be presented as self-evidently sufficient.
+
+### Maintenance records (carried over from Unreleased)
 
 **Release hygiene, applied retroactively.** 0.5.0 and 0.5.1 both shipped without the
 release the project's own policy requires (`docs/open-questions.md` A4: annotated tag →

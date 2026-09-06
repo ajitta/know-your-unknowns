@@ -50,6 +50,23 @@ Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-teach-me-<slug>
 Reaction control: an "include in my request" checkbox per concept (plus live before/after sliders and presets); checked items assemble into the precise-request draft.
 Details: skills/loop/references/output-routing.md
 
+## Limits — what this can and cannot deliver
+
+Vocabulary hands over a **request**, not fluency. Domain fluency is collective tacit knowledge,
+acquired by immersion in a discourse community, and does not transfer as a term list (Collins,
+*Tacit and Explicit Knowledge*, 2010). So:
+
+- **Expect**: the user's *next* request to be markedly more precise.
+- **Do not expect**: the vocabulary to be wielded unaided across revision rounds 2–4 — the
+  predicted failure point, where terms must be *used* rather than pasted.
+- When revisions stop converging, that is this skill's ceiling, not the user's mistake. Hand off
+  to `/unknowns:interview` (or `/interview`) to lock decisions rather than teaching more vocabulary.
+
+**Success signal is convergence across revision rounds 2–4, not the quality of the first
+rewritten request.** Step 6 is what buys those later rounds: judging criteria transfer far better
+than production vocabulary, because recognising a bad result is a cheaper skill than knowing which
+axis to move. Keep step 6 even when trimming for size.
+
 ## Related
 
 - Codebase blind spots: run `/unknowns:blindspot` (or `/blindspot` for copied installs)
