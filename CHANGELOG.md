@@ -21,7 +21,30 @@ the default branch, not a tag — the tag is the audit pointer, not the delivery
   deleted it. Neither is reachable by the existing parity tests, which compare README to
   frontmatter and English README to Korean, but never read `docs/**` prose.
 
+**Two open re-verifications closed.**
+
+*B1 — the scout's tools.* Since 2026-07-11 the `unknowns-scout` agent appeared to be
+missing Grep and Glob despite declaring them. It was never a defect: both earlier probes
+ran from sessions whose own main loop lacked those tools, so "narrowed by the host pool"
+and "broken frontmatter" produced the same observation. A probe that separates them now
+exists — the parent session first *calls* Grep and Glob successfully, then spawns the
+scout with Bash, WebFetch and WebSearch denied so it cannot fall back to a shell `grep` or
+answer from memory. The scout called both and returned results matching repository ground
+truth exactly. The rule is confirmed in the other direction too: denying three tools at the
+parent removed exactly those three from the subagent. `agents/*.md` is unchanged, and the
+`grep`/`rg`/`find` entries in the read-only Bash guard stay — nothing became unsafe.
+
+*B5 — trigger firing after the description trims.* All 30 cases now have a measurement
+against the shipped 0.5.1 descriptions: 11 Korean, 11 English, 5 negative, 3 behaviour.
+No timeouts, and 23 of 23 mechanical graders pass. The conflict pairs separate in
+practice — a bare "loop" fires no skill, a UI-options request routes to prototypes rather
+than brainstorm, and "I don't know these words" routes to teach-me rather than blindspot.
+
 ### Added
+- `evals/neg-generic-howto-does-not-fire-teach-me` — `docs/trigger-matrix.md` had listed
+  "`teach me` is a two-word generic English phrase" as an overfire risk for two months with
+  no case measuring it. There is one now, and the risk does not reproduce: "teach me how to
+  center a div" fires no skill and gets answered directly. The risk entry is retired.
 - `docs/trigger-eval-v0.5.1.md` — the measurement record behind 0.5.1's English-only
   descriptions: the stripped-description arm fired the right skill 11/11 with no timeouts.
   It also records, rather than papers over, a provenance gap: `evals/results/` is
@@ -29,6 +52,11 @@ the default branch, not a tag — the tag is the audit pointer, not the delivery
   shipped control arm only 3 of 11. The decision rests on the stripped arm, which is
   complete; the "11/11 in both arms" phrasing in 0.5.1 is more than the repository can
   currently show.
+- The same document records one unresolved lead rather than grading it away: on a one-file
+  change the `plan` skill's size gate correctly declines to write a document, but the reply
+  still reproduces the decision cards, rejected alternatives, verification, rollback and
+  weakest-part sections inline. The rubric forbids those components while its wording
+  forbids a *document*, so the two readings diverge. It waits for path A's judge model.
 - `docs/value-contract.md` now names the dates its own conditions fire on — 2026-09-09 for
   the 60-day "unmeasured" marking, 2026-11-08 for maintenance mode — instead of "at the
   next check", which never arrives if no one checks.

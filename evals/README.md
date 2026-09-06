@@ -2,10 +2,13 @@
 
 Reproducible trigger and behaviour cases for the `unknowns` plugin.
 
-Until now the only evidence that the skills fire was a hand-run n=1 sample covering
-3 of the 11 skills ([docs/trigger-eval-v0.3.0.md](../docs/trigger-eval-v0.3.0.md)).
-Every description edit since has been unverifiable. This directory replaces that with
-case files that two different runners can execute.
+The evidence that the skills fire used to be a hand-run n=1 sample covering 3 of the 11
+skills ([docs/trigger-eval-v0.3.0.md](../docs/trigger-eval-v0.3.0.md)), which left every
+description edit after it unverifiable. This directory replaced that with case files two
+different runners can execute. The current measurement is
+[docs/trigger-eval-v0.5.1.md](../docs/trigger-eval-v0.5.1.md): 30 cases, 23 of 23
+mechanical graders passing, no timeouts. What it still cannot say is whether a skill did
+its job *well* — that needs the `llm` rubrics, and those need path A's judge model.
 
 Two run paths, because `claude plugin eval` is gated:
 
