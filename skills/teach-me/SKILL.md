@@ -3,7 +3,7 @@ name: teach-me
 description: >
   Teach me my unknowns — an interactive explainer for a domain's vocabulary and mental
   model, so vague requests become precise. Use on "teach me", "make me an explainer",
-  "가르쳐줘", "설명서 만들어줘", "이 분야 용어를 모르겠어", or when the user cannot name
+  or when the user cannot name
   what they want. Blindspot investigates a codebase; teach-me teaches vocabulary.
 argument-hint: "<domain/task to learn> [current level]"
 ---

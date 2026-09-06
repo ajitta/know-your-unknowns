@@ -3,8 +3,8 @@ name: buy-in
 description: >
   The buy-in doc — a ship-readiness pitch that leads with a working demo, pre-answers
   reviewer objections with evidence, states limitations, and names who must sign off.
-  Use when the user says "buy-in doc", "prep me for review", "설득 문서 만들어줘",
-  "리뷰 준비", or before requesting review/approval/merge.
+  Use when the user says "buy-in doc", "prep me for review",
+  or before requesting review/approval/merge.
 argument-hint: "[target work/PR] [audience: team/reviewers]"
 ---
 

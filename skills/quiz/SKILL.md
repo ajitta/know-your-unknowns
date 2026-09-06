@@ -3,7 +3,7 @@ name: quiz
 description: >
   Post-work comprehension quiz — explain what changed, then quiz the user so they can
   represent the work in a PR or handoff. Use when the user says "quiz me",
-  "test my understanding", "퀴즈", "내가 이해했는지 확인해줘", or right before
+  "test my understanding", or right before
   creating or merging a PR for work the model largely implemented.
 argument-hint: "[target work/PR scope]"
 ---

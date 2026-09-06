@@ -3,8 +3,8 @@ name: prototypes
 description: >
   Divergent prototype fan-out — N (default 4) prototypes with clearly different
   design philosophies to react to. Use when the user says "divergent prototypes",
-  "design options", "시안 4개", "프로토타입 여러 개", or cannot say what they want
-  ("know it when I see it", "보면 안다") for a UI, dashboard, or API design.
+  "design options", or cannot say what they want
+  ("know it when I see it") for a UI, dashboard, or API design.
 argument-hint: "<thing to build> [count, default 4]"
 ---
 

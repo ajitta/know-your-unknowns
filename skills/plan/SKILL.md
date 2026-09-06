@@ -3,7 +3,7 @@ name: plan
 description: >
   The tweakable plan — a plan sorted by likelihood-of-tweaking, not execution order,
   so the most changeable decisions get reviewed first. Use on "plan this", "make a plan",
-  "tweakable plan", "계획 세워줘", "구현 계획", "수정확률순으로 계획".
+  "tweakable plan".
   Not native plan mode: writes a reviewable pre-implementation document.
 argument-hint: "<task description or confirmed spec>"
 ---

@@ -3,7 +3,7 @@ name: reference
 description: >
   Point at a reference — treat a provided example as a map, not an answer, and prove
   comprehension before implementing. Use when the user says "use this as a reference",
-  "make it like this", "레퍼런스로 써", "이 코드처럼 만들어줘", "이거 참고해서", or
+  "make it like this", or
   supplies example code, a mockup, or a competitor's UX to build from.
 argument-hint: "<reference file/path/description>"
 ---

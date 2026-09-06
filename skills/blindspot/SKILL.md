@@ -3,7 +3,7 @@ name: blindspot
 description: >
   Blind-spot pass — investigate unknown unknowns before implementation and turn them
   into a better prompt. Use when the user says "blind spot pass", "what am I missing",
-  "unknown unknowns", "사각지대 조사해줘", "내가 놓친 게 뭐지", or before work in an
+  "unknown unknowns", or before work in an
   unfamiliar codebase area. Not for routine, well-understood tasks.
 argument-hint: "<task description or target area> [context sources: git/docs/slack etc.]"
 ---

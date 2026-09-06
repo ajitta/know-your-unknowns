@@ -1,7 +1,24 @@
-# 트리거 × 스킬 매트릭스 (v0.4.0, 2026-09-06)
+# 트리거 × 스킬 매트릭스 (v0.5.1, 2026-09-06)
 
 각 `skills/<name>/SKILL.md`의 frontmatter `description` 안에 큰따옴표로 들어 있는 문구
 **전부**와, 스킬 간 충돌 지점 및 해소 상태.
+
+## 0.5.1 — 한국어 문구는 이 표에서 빠졌다
+
+`description`은 이제 **영어 전용**이다. 한국어 트리거가 사라진 것이 아니라, 보증 방식이
+바뀌었다.
+
+- **영어 문구**: `description`에 적혀 있어야 한다. 매칭 근거가 그 텍스트다.
+- **한국어 문구**: `description`에 없다. 대신 `evals/trigger-ko-*` 케이스가 실제로 발화하는지
+  측정한다. `tests/test_trigger_containment.py`가 "한국어 문구를 광고하는 스킬은 그 문구를
+  쓰는 eval 케이스를 가져야 한다"를 강제한다.
+
+근거: 같은 한국어 프롬프트를 한국어 있는 설명문과 영어 전용 설명문에 각각 돌린 A/B에서
+발화율 차이가 없었다. 한국어 문구는 글자로는 5%(4,001자 중 221자)인데 항상 로딩 토큰의
+22%(1,698 중 381)를 차지했다. 측정 모델은 기본 모델이며 **sonnet 이상 기준**이다.
+한계: 스킬당 대표 문구 1개만 실측했다(광고 문구는 28개).
+
+한국어 문구 목록 자체는 `README.ko.md`의 각 스킬 절이 계속 유지한다.
 
 구버전 문서는 `description`·`argument-hint`·역트리거를 한 목록에 섞어 놓고 "전수"라고
 불렀는데 실제로는 일부 문구가 빠져 있었다. 이 판은 셋을 분리한다:
@@ -46,19 +63,19 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 
 ## 스킬별 트리거 문구
 
-| 스킬 | 영어 | 한국어 | 역트리거·경계 | 길이 |
+| 스킬 | 영어 (description 내) | 한국어 (eval로 보증, README.ko.md 참조) | 역트리거·경계 | 길이 |
 |------|------|--------|--------------|------|
-| blindspot | blind spot pass · what am I missing · unknown unknowns | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | 일상적·이미 잘 아는 작업에는 쓰지 않음(따옴표 없는 문장) | 301자 |
-| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | UI/디자인 변형은 prototypes로 | 291자 |
-| buy-in | buy-in doc · prep me for review | 설득 문서 만들어줘 · 리뷰 준비 | — | 293자 |
-| interview | interview me · ask me questions before implementing | 인터뷰해줘 · 스펙 질문 | — | 301자 |
-| loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 292자 |
-| notes | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 284자 |
-| plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | native plan mode가 아니라 검토용 사전 문서를 쓰는 스킬 | 292자 |
-| prototypes | divergent prototypes · design options · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 298자 |
-| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 285자 |
-| reference | use this as a reference · make it like this | 레퍼런스로 써 · 이 코드처럼 만들어줘 · 이거 참고해서 | — | 297자 |
-| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | blindspot=코드베이스 조사, teach-me=도메인 어휘 | 314자 |
+| blindspot | blind spot pass · what am I missing · unknown unknowns | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | 일상적·이미 잘 아는 작업에는 쓰지 않음(따옴표 없는 문장) | 274자 |
+| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | UI/디자인 변형은 prototypes로 | 258자 |
+| buy-in | buy-in doc · prep me for review | 설득 문서 만들어줘 · 리뷰 준비 | — | 270자 |
+| interview | interview me · ask me questions before implementing | 인터뷰해줘 · 스펙 질문 | — | 283자 |
+| loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 258자 |
+| notes | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 248자 |
+| plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | native plan mode가 아니라 검토용 사전 문서를 쓰는 스킬 | 259자 |
+| prototypes | divergent prototypes · design options · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 266자 |
+| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 262자 |
+| reference | use this as a reference · make it like this | 레퍼런스로 써 · 이 코드처럼 만들어줘 · 이거 참고해서 | — | 260자 |
+| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | blindspot=코드베이스 조사, teach-me=도메인 어휘 | 277자 |
 
 합계 3,248자. teach-me만 300자를 넘는데(314자), 넘긴 몫이 teach-me↔blindspot 경계 문장과
 세 번째 한국어 문구다 — 더 줄이면 둘 중 하나를 잃는다.

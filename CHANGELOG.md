@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.5.1 — 2026-09-06
+
+Descriptions are English-only. The Korean trigger phrases moved out of the skill
+and agent `description` fields; they still work, and are now guaranteed by
+measurement instead of by being written there.
+
+**Why.** The 13 always-on descriptions cost 1,698 tokens in every session. The
+Korean phrases were 221 of 4,001 characters — 5% — but 381 of those tokens, 22%,
+because Hangul costs several times more per character than Latin text. Every
+installer paid it, including those who never type Korean.
+
+**What was measured.** The eval suite ran the 11 `trigger-ko-*` cases twice: once
+against the shipped descriptions, once against a copy identical except that the
+Korean was stripped from the frontmatter. Same prompts, same cases, byte-identical
+skill bodies, and the stripped copy passed `claude plugin validate --strict`. Korean
+prompts fired the right skill in both arms. Measured on the default model; the
+supported floor is sonnet-or-better, and haiku is out of scope.
+
+**How the guarantee moved.**
+- `tests/test_trigger_containment.py` no longer requires a Korean README phrase to
+  appear in a description. It now requires every skill advertising Korean phrases to
+  have a `evals/trigger-ko-*` case that actually uses one of them, and it fails if
+  Korean reappears in a description.
+- `evals/run-manual.py --verify` asserts the inverse for Korean cases: the phrase must
+  NOT be in the description, since proving it fires without it is the point.
+- `docs/trigger-matrix.md` records the split. `README.ko.md` keeps advertising the
+  Korean phrases; they are unchanged and still fire.
+
+**Limit, stated plainly.** One representative phrase per skill is exercised, not all
+28 the README advertises, and each arm ran once per case.
+
+### Fixed
+- `README.ko.md` still documented the pre-0.5.0 install (`/plugin marketplace add
+  ajitta/know-your-unknowns`) and claimed this repository carries its own marketplace
+  manifest, which 0.5.0 removed. A Korean reader following it could not install. The
+  README parity test caught the drift.
+- `evals/run-manual.py` no longer grades a run that timed out. A timeout produced no
+  tool calls, which the grader read as "the skill did not fire" — scoring negative
+  cases as passes and positive cases as failures. Found when five parallel batches
+  pushed every case past the 240s cap: all 11 "failures" sat exactly at it. `--timeout`
+  now overrides the per-case cap.
+
+---
+
 ## 0.5.0 — 2026-09-06
 
 Distribution only. No skill, agent, hook or test changed.

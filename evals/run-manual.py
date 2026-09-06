@@ -524,11 +524,21 @@ def verify(root):
                     "exercises, in the form: '<phrase>'" % name)
             else:
                 phrase = declared.group(1)
-                quoted = re.findall(r'"([^"]+)"', descriptions[skill])
-                if phrase.lower() not in [q.lower() for q in quoted]:
+                # English phrases must be quoted in the description: containment is
+                # how they match. Korean phrases must NOT be — descriptions are
+                # English-only as of 0.5.1, and these cases exist precisely to prove
+                # the phrase still fires without being written there.
+                if match.group(1) == "en":
+                    quoted = re.findall(r'"([^"]+)"', descriptions[skill])
+                    if phrase.lower() not in [q.lower() for q in quoted]:
+                        problems.append(
+                            "%s: phrase %r is no longer quoted in skills/%s/SKILL.md (%s)"
+                            % (name, phrase, skill, " | ".join(quoted)))
+                elif re.search(r"[가-힣]", descriptions[skill]):
                     problems.append(
-                        "%s: phrase %r is no longer quoted in skills/%s/SKILL.md (%s)"
-                        % (name, phrase, skill, " | ".join(quoted)))
+                        "%s: skills/%s/SKILL.md carries Korean again — descriptions "
+                        "are English-only, and this case's whole point is that the "
+                        "phrase fires without it" % (name, skill))
                 if phrase.lower() not in re.sub(r"\s+", " ", case["prompt"]).lower():
                     problems.append(
                         "%s: prompt no longer contains its declared phrase %r"

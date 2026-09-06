@@ -5,8 +5,7 @@ description: |
   implementer's narrative. Use proactively before merging work the model largely
   implemented, to check plan/spec conformance, whether recorded deviations were
   acceptable, and tests-pass-but-reality-fails cases. Separate context from the
-  implementer is the point. Triggers: "independent review before merge",
-  "독립 검증 돌려줘", "머지 전에 이 변경 믿어도 되는지 확인해줘".
+  implementer is the point. Triggers: "independent review before merge".
 model: inherit
 color: red
 tools: Read, Grep, Glob, Bash

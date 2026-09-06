@@ -30,7 +30,7 @@ https://thariqs.github.io/html-effectiveness/unknowns/. 스킬 11종이 원문 1
 Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 ```
-/plugin marketplace add ajitta/know-your-unknowns
+/plugin marketplace add ajitta/claude-plugins
 /plugin install unknowns@ajitta
 ```
 
@@ -78,10 +78,10 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 ### 마켓플레이스 (권장)
 
-위 [빠른 시작](#빠른-시작)의 두 줄이 전부입니다. 이 레포는 자체 마켓플레이스 매니페스트를
-포함하므로 `/plugin marketplace add ajitta/know-your-unknowns`가 HTTPS로 클론하고
-`/plugin install unknowns@ajitta`가 그 클론에서 설치합니다. 이 프로젝트가 실제로 검증하는
-유일한 경로입니다.
+위 [빠른 시작](#빠른-시작)의 두 줄이 전부입니다. 마켓플레이스는 카탈로그 저장소
+[ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)이고, 이 플러그인을
+목록에 올린 뒤 여기를 가리킵니다 — 따라서 `/plugin install unknowns@ajitta`는 이 저장소의
+`plugin.json`이 선언한 버전으로 설치합니다. 이 프로젝트가 실제로 검증하는 유일한 경로입니다.
 
 ### 클론에서 바로 실행
 

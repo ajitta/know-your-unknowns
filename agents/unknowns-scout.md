@@ -4,8 +4,7 @@ description: |
   Read-only blind-spot investigator. Use proactively BEFORE implementation in an
   unfamiliar domain, library, or code area: surfaces unknown unknowns, risky
   assumptions, structural conflicts and regression-prone areas, and hands back an
-  improved prompt. Triggers: "blind-spot pass", "what am I missing",
-  "사각지대 조사해줘", "내가 놓친 게 뭔지 찾아줘".
+  improved prompt. Triggers: "blind-spot pass", "what am I missing".
 model: inherit
 color: cyan
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch

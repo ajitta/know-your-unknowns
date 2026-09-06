@@ -1,6 +1,6 @@
 {
   "name": "unknowns",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://github.com/ajitta/know-your-unknowns",
   "repository": "https://github.com/ajitta/know-your-unknowns",
   "description": "Know your unknowns — an operational loop for finding and managing the gaps between the map (your plan) and the territory (the actual code and domain). Provides blind-spot investigation (blindspot), domain primers (teach-me), interviews, divergent prototypes, solution brainstorming, reference analysis, tweak-likelihood-ordered planning (plan), deviation notes (notes), independent verification, buy-in documents, and comprehension quizzes as skills/agents/hooks. Based on Thariq Shihipar's (Anthropic) 'Field Guide to Fable' talk and its 'Know your unknowns' example collection.",

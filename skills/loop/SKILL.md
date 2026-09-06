@@ -3,8 +3,8 @@ name: loop
 description: >
   Run the know-your-unknowns workflow end to end (explore → question → plan →
   implement → verify → quiz) on significant or ambiguous work. Use on "unknowns loop",
-  "run the operating loop", "know your unknowns", "운영 루프로 진행", "풀 루프로 해줘".
-  A bare "loop"/"루프 돌려줘" means the built-in interval runner.
+  "run the operating loop", "know your unknowns".
+  A bare "loop" means the built-in interval runner, not this skill.
 argument-hint: "<task description> | status | resume"
 ---
 

@@ -3,8 +3,7 @@ name: notes
 description: >
   Implementation notes — log significant deviations from the plan while working.
   Use automatically when implementation hits an unknown the plan did not cover, and on
-  "implementation notes", "record a deviation", "where did we diverge from the plan?",
-  "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?".
+  "implementation notes", "record a deviation", "where did we diverge from the plan?".
 argument-hint: "[init | show | <content to log>]"
 ---
 

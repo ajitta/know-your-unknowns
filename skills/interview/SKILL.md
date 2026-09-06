@@ -3,7 +3,7 @@ name: interview
 description: >
   Pre-implementation interview — the model asks the user the questions that turn
   known unknowns into decisions, biggest blast radius first. Use when the user says
-  "interview me", "ask me questions before implementing", "인터뷰해줘", "스펙 질문",
+  "interview me", "ask me questions before implementing",
   or requirements are incomplete and implementation has not started.
 argument-hint: "[task/spec description] [priority hint]"
 ---
