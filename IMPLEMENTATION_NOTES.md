@@ -1,5 +1,26 @@
 # Implementation Notes — plan deviation log
 
+## [2026-09-06] 0.5.1 릴리스 위생 소급 집행 + 문서 드리프트 정리
+
+- **Situation found**: 0.5.1을 local 스코프로 설치해 잔여 작업을 점검하다가, A4가 정한 릴리스 정책이 **두 릴리스 연속 지켜지지 않은 것**을 발견. 0.5.0은 태그만 있고 Release 없음, 0.5.1은 태그도 Release도 없음. 즉 사용자가 방금 설치한 버전을 가리키는 불변 포인터가 존재하지 않았다.
+- **Response chosen**: 0.5.1을 소급 집행(주석 태그 → 빌드 → Release + 자산). 0.5.0은 Release를 만들지 않고 태그만 역사 포인터로 남김.
+- **Reason for choice**: 0.5.0은 27분 만에 대체됐고 `README.ko.md`가 존재하지 않는 설치 경로를 가리키는 결함을 담고 있다 — 내려받을 수 있는 자산으로 공개하면 알려진 결함본을 배포하는 셈.
+- **Risk/follow-up check**: 카탈로그 소스가 git `url`(기본 브랜치 클론)이라 **설치는 태그가 아니라 main HEAD를 따라간다**. 태그는 배포 경로가 아니라 감사 포인터이므로, "설치가 되니 태그는 없어도 된다"는 추론이 다음에 또 나올 수 있다. A4에 그 문장을 못 박았다.
+
+- **Situation found**: 계획에 없던 발견 — `docs/README.md`의 언어 정책이 **0.5.1과 정면으로 모순**된 채 남아 있었다("스킬 description은 이중 언어다"). 같은 파일에 0.5.0이 삭제한 `.claude-plugin/marketplace.json`을 현재형으로 설명하는 문단도 있었다.
+- **Deviation from plan**: 점검 계획은 태그·릴리스·미결 항목 세 가지였고 문서 드리프트는 범위에 없었다.
+- **Response chosen**: 두 곳 모두 수정. CI가 잡지 못하는 종류였다 — `tests/`의 파리티·컨테인먼트 검사는 README ↔ frontmatter와 en ↔ ko README를 보지만 `docs/**` 산문은 보지 않는다.
+- **Improvements for next attempt**: description의 언어 정책처럼 **여러 파일에 산문으로 흩어진 계약**을 바꿀 때는, 바꾼 축(여기서는 "description에 한국어가 있는가")을 `grep`으로 전수 조사한 뒤 릴리스할 것. 0.5.1은 `skills/`·`agents/`·`README.ko.md`·`trigger-matrix.md`는 고쳤지만 `docs/README.md`를 놓쳤다.
+
+- **Situation found**: `CHANGELOG.md`와 릴리스 커밋이 "양쪽 arm에서 11/11"이라고 적었는데, 디스크에 보존된 산출물은 stripped arm 11/11과 shipped arm 3/11(+ 240초 타임아웃 5건, 미보존 3건)만 뒷받침한다. `evals/results/`가 gitignore라 실행 증거가 저장소에 남지 않는다.
+- **Response chosen**: 주장을 고쳐 쓰지 않고, `docs/trigger-eval-v0.5.1.md`에 **보존된 것과 주장된 것을 나란히** 적었다. 결정(한국어 제거)을 지탱하는 것은 stripped arm이고 그 축은 완전하므로 결정은 유지.
+- **Reason for choice**: 재실행됐지만 디렉터리가 덮여 사라졌을 가능성과 실행되지 않았을 가능성을 지금 구분할 방법이 없다. 둘 중 하나를 골라 적으면 그게 새 허구가 된다.
+- **Risk/follow-up check**: 다음 eval 실행 때 결과가 지워지기 전에 요약 표를 저장소에 커밋할 것. 근본 원인은 "측정은 gitignore된 곳에, 주장은 커밋되는 곳에" 있는 구조다.
+
+- **Situation found**: 카탈로그 설치가 **작업 트리를 가린다**. 이제 이 프로젝트 세션은 `~/.claude/plugins/cache/ajitta/unknowns/0.5.1`에서 로드하므로, 저장소의 `skills/`를 고쳐도 반영되지 않고 push하지 않은 편집은 어떤 경로로도 보이지 않는다.
+- **Response chosen**: 수정하지 않고 `docs/open-questions.md`의 해소 항목에 기록. 0.5.0 전의 `directory` 소스 문제("배포본이 아닌 것을 도그푸딩한다")와 **정확히 반대 방향의 트레이드오프**이고, 지금 쪽이 낫다.
+- **Risk/follow-up check**: 개발 중 즉시 반영이 필요하면 `directory` 스코프 설치를 따로 둬야 하며, 그때는 A7의 `${CLAUDE_PLUGIN_ROOT}` 고정 함정이 다시 적용된다.
+
 ## [2026-09-06] 리뷰 124건 전면 적용 (v0.4.0)
 
 - **Situation found**: 권고 3건이 검증자 재검토에서 무효화되거나 좁혀짐 — 계획은 "확인된 권고 전부 적용"이었음.

@@ -1,5 +1,40 @@
 # Changelog
 
+## Unreleased
+
+Maintenance records only. No skill, agent, hook or test behaviour changed.
+
+**Release hygiene, applied retroactively.** 0.5.0 and 0.5.1 both shipped without the
+release the project's own policy requires (`docs/open-questions.md` A4: annotated tag →
+`scripts/build-plugin.sh` → GitHub Release with the payload attached). 0.5.1 now has all
+three: tag `unknowns--v0.5.1` at `0a2adf4`, and a Release carrying
+`unknowns-v0.5.1.plugin` (86,212 bytes, 42 files — one fewer than 0.4.0, the
+`.claude-plugin/marketplace.json` that 0.5.0 deliberately removed). 0.5.0 keeps its tag as
+a history pointer but gets no Release: it was superseded 27 minutes later, and it carries
+the `README.ko.md` defect 0.5.1 fixed, so there is no reason to publish it as something
+downloadable. Note for later: the catalog entry is a git `url` source, so installs follow
+the default branch, not a tag — the tag is the audit pointer, not the delivery path.
+
+### Fixed
+- `docs/README.md` still stated that skill descriptions are bilingual, which 0.5.1 made
+  false, and described `.claude-plugin/marketplace.json` in the present tense after 0.5.0
+  deleted it. Neither is reachable by the existing parity tests, which compare README to
+  frontmatter and English README to Korean, but never read `docs/**` prose.
+
+### Added
+- `docs/trigger-eval-v0.5.1.md` — the measurement record behind 0.5.1's English-only
+  descriptions: the stripped-description arm fired the right skill 11/11 with no timeouts.
+  It also records, rather than papers over, a provenance gap: `evals/results/` is
+  git-ignored, and the artifacts still on disk back the stripped arm in full but the
+  shipped control arm only 3 of 11. The decision rests on the stripped arm, which is
+  complete; the "11/11 in both arms" phrasing in 0.5.1 is more than the repository can
+  currently show.
+- `docs/value-contract.md` now names the dates its own conditions fire on — 2026-09-09 for
+  the 60-day "unmeasured" marking, 2026-11-08 for maintenance mode — instead of "at the
+  next check", which never arrives if no one checks.
+
+---
+
 ## 0.5.1 — 2026-09-06
 
 Descriptions are English-only. The Korean trigger phrases moved out of the skill

@@ -22,9 +22,11 @@
 
 두 가지 예외가 정책의 일부다.
 
-- **스킬 description은 이중 언어다.** 영어 트리거 문구 옆에 한국어 문구를 함께 싣는다.
-  자연어 자동 발화는 문자열 매칭에 가깝게 동작하므로, 한국어 문구가 빠지면 한국어로 말할 때
-  스킬이 뜨지 않는다. 목록은 [trigger-matrix.md](trigger-matrix.md).
+- **스킬 description은 0.5.1부터 영어 전용이다.** 그전까지는 영어 트리거 문구 옆에 한국어
+  문구를 함께 실었다. 한국어로 말해도 스킬은 그대로 뜬다 — 다만 보증 방식이 "description에
+  써 두는 것"에서 "eval로 재는 것"으로 옮겨졌다(`evals/trigger-ko-*` 11건 + `tests/`의 회귀 가드).
+  근거는 [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md), 문구 목록은
+  [trigger-matrix.md](trigger-matrix.md)와 [README.ko.md](../README.ko.md).
 - **런타임 산출물은 사용자의 언어를 따른다.** 카드·질문·프롬프트 초안 같은 사용자 대면 문장은
   사용자가 쓰고 있는 언어로 쓴다(파일명·템플릿 키·코드 식별자는 고정).
   근거: [`skills/loop/references/output-routing.md`](../skills/loop/references/output-routing.md) §3.
@@ -36,7 +38,8 @@
 | [README.md](README.md) | 이 색인 | 한국어 | 수기 | docs/에 파일이 늘거나 줄 때 |
 | [open-questions.md](open-questions.md) | 결정 기록(A)과 재검증 대기(B). 왜 그렇게 결정했는지가 본문 | 한국어 | 수기 | 결정이 날 때마다. 항목은 B→A로 옮기고 삭제하지 않는다 |
 | [trigger-matrix.md](trigger-matrix.md) | 11개 스킬의 트리거 문구 전수 + 충돌 쌍과 해소 상태 | 한국어 | 반자동 — 문서 안의 추출 스크립트 출력으로 표를 수기 갱신 | 문서 "갱신 방법" 절의 `python3` 블록을 저장소 루트에서 실행 |
-| [trigger-eval-v0.3.0.md](trigger-eval-v0.3.0.md) | v0.3.0 시점 자동 발화율·루프 준수 실측 기록 | 한국어 | headless `claude -p` 실행 6건의 transcript에서 추출 | **동결** — 특정 시점 측정 기록. 재측정은 새 날짜의 새 파일로 (open-questions B5) |
+| [trigger-eval-v0.3.0.md](trigger-eval-v0.3.0.md) | v0.3.0 시점 자동 발화율·루프 준수 실측 기록 | 한국어 | headless `claude -p` 실행 6건의 transcript에서 추출 | **동결** — 특정 시점 측정 기록. 재측정은 새 날짜의 새 파일로 — 첫 후속은 trigger-eval-v0.5.1.md |
+| [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md) | 0.5.1이 description에서 한국어를 뺀 뒤의 트리거 측정. 한국어 축 11/11, 나머지 축은 미측정임을 명시 | 한국어 | `evals/run-manual.py` 실행의 `manual-result.json`에서 추출 | **동결** — 단 `evals/results/`가 gitignore되므로, 다음 실행 때는 결과가 지워지기 전에 새 날짜의 새 파일을 만들 것 |
 | [research-know-your-unknowns.md](research-know-your-unknowns.md) | 원문 "Know your unknowns" 페이지 조사·대조 분석. 【검증】/【단일】/【추정】 확실성 표기 | 한국어 | 수기 — 원문 다회 페치 + 플러그인 소스 대조 | 원문을 다시 페치했을 때. 재확인 날짜를 헤더 표에 한 줄 추가 |
 | [value-contract.md](value-contract.md) | 이 플러그인 자신에 대한 가치 계약 — 지표, 강등·제거 조건, 측정 시계 | 한국어 | 수기 | 수치를 고칠 때(잠정값), 그리고 측정 시계 확인 때마다 표에 한 행 |
 | [value-scorecard.md](value-scorecard.md) | 실사용 1회 = 1행 기록. value-contract의 지표 원장 | 한국어 | 수기 | 실사용마다. 설치자는 자기 저장소의 `.unknowns/scorecard.md`에 따로 기록 |
@@ -47,8 +50,11 @@
 
 **결정: 저장소에 그대로 둔다. 릴리스 zip에는 넣지 않는다. 대신 이 색인에서 링크한다.**
 
-배경. 두 파일은 합쳐 약 200 KB이고, `.claude-plugin/marketplace.json`의 `"source": "./"`가
-플러그인 디렉터리 전체를 캐시로 복사하므로 **마켓플레이스 설치본에 그대로 따라 들어간다**.
+배경. 두 파일은 합쳐 약 200 KB이고, 마켓플레이스 설치는 저장소 전체를 캐시로 클론하므로
+**설치본에 그대로 따라 들어간다**. (0.5.0 전에는 이 저장소 자신의
+`.claude-plugin/marketplace.json`이 `"source": "./"`로 그렇게 만들었다. 0.5.0에서 그 파일은
+삭제됐고 카탈로그가 [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)로 옮겨갔지만,
+카탈로그의 소스가 이 저장소를 가리키는 git `url`이라 결과는 같다.)
 반면 `scripts/build-plugin.sh`가 만드는 zip은 `.claude-plugin skills agents hooks
 README.md README.ko.md CHANGELOG.md LICENSE NOTICE`만 담는다 — 즉 두 배포 경로의 파일 집합이
 애초에 다르고, `docs/`와 `tests/`는 마켓플레이스 경로에만 있다.
