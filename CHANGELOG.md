@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.5.0 — 2026-09-06
+
+Distribution only. No skill, agent, hook or test changed.
+
+This repository stopped being its own marketplace. It carried a manifest named
+`ajitta`, which meant the marketplace name and the path a user had to type
+disagreed: you added `ajitta/know-your-unknowns` to get a marketplace called
+`ajitta`, and there was nowhere to list a second plugin without that mismatch
+getting worse.
+
+The catalog now lives in [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins),
+holds no code, and points back at this repository. Installs and updates still
+resolve here, at the version `plugin.json` declares.
+
+```
+/plugin marketplace add ajitta/claude-plugins
+/plugin install unknowns@ajitta
+```
+
+Existing installs keep working until the marketplace is re-added; the plugin id
+`unknowns@ajitta` is unchanged, because the marketplace kept its name.
+
+- removed `.claude-plugin/marketplace.json`
+- README: install, and the marketplace section, use the catalog
+
+---
+
 ## 0.4.0 — 2026-09-06
 
 Two batches ship under this version. The first is the three commits that landed after the

@@ -33,7 +33,7 @@ original counterpart). For fact-checking details, see
 Install from the marketplace, inside a Claude Code session:
 
 ```
-/plugin marketplace add ajitta/know-your-unknowns
+/plugin marketplace add ajitta/claude-plugins
 /plugin install unknowns@ajitta
 ```
 
@@ -84,10 +84,11 @@ The plugin name is `unknowns` (invocation: `/unknowns:<skill>`).
 
 ### Marketplace (recommended)
 
-The two commands in [Quick start](#quick-start) above. This repo carries its own
-marketplace manifest, so `/plugin marketplace add ajitta/know-your-unknowns` clones it
-over HTTPS and `/plugin install unknowns@ajitta` installs from that clone. This is the
-only path this project actually verifies.
+The two commands in [Quick start](#quick-start) above. The marketplace is a catalog
+repository, [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins), which
+lists this plugin and points back here — so `/plugin install unknowns@ajitta` installs
+from this repository at the version its `plugin.json` declares. This is the only path
+this project actually verifies.
 
 ### Run straight from a clone
 
