@@ -229,12 +229,14 @@ def run_once(case, with_plugin, root, claude_bin):
             cmd += ["--disallowedTools"] + denied
 
         started = time.time()
+        timed_out = False
         try:
             proc = subprocess.run(cmd, cwd=sandbox, capture_output=True, text=True,
                                   timeout=case["timeout_seconds"])
             stdout, stderr, code = proc.stdout, proc.stderr, proc.returncode
         except subprocess.TimeoutExpired:
             stdout, stderr, code = "", "timed out after %ds" % case["timeout_seconds"], -1
+            timed_out = True
 
         events, tool_calls, last_message = [], [], ""
         for line in stdout.splitlines():
@@ -272,6 +274,7 @@ def run_once(case, with_plugin, root, claude_bin):
         return {
             "arm": "with" if with_plugin else "without",
             "exit_code": code,
+            "timed_out": timed_out,
             "stderr": stderr[-2000:],
             "duration_seconds": round(time.time() - started, 1),
             "last_message": last_message,
@@ -378,6 +381,18 @@ def is_display_only(grader):
 
 
 def score_run(case, run):
+    if run.get("timed_out"):
+        # A run that never finished produced no tool calls and no files. Grading it
+        # would score every "did not fire" assertion as a pass and every "fired"
+        # assertion as a fail — a measurement artifact indistinguishable from the
+        # real result. Report it as an error instead.
+        return {"graders": [{"name": g["name"], "type": g["type"],
+                             "weight": float(g.get("weight", 1)),
+                             "display_only": is_display_only(g), "passed": None,
+                             "criteria": g.get("criteria", ""),
+                             "explanation": "run timed out — not graded"}
+                            for g in case["graders"]],
+                "mechanical_score": None, "manual_graders": 0, "timed_out": True}
     results, earned, total, manual = [], 0.0, 0.0, 0
     for grader in case["graders"]:
         passed, why = grade(grader, run)
@@ -546,6 +561,10 @@ def main():
     parser.add_argument("--case", help="glob over case directory names")
     parser.add_argument("--tag", help="only cases carrying this tag")
     parser.add_argument("--runs", type=int, help="override each case's runs")
+    parser.add_argument("--timeout", type=int,
+                        help="override each case's timeout_seconds; raise it when "
+                             "running batches in parallel, since contention pushes "
+                             "wall time up and a timeout is not a result")
     parser.add_argument("--arm", choices=["with", "without", "both"], default="with",
                         help="'both' is the manual equivalent of --ablation with-without")
     parser.add_argument("--plugin-dir", help="plugin root (default: found above evals/)")
@@ -585,6 +604,8 @@ def main():
               "cases": []}
 
     for case in cases:
+        if args.timeout:
+            case["timeout_seconds"] = args.timeout
         runs = args.runs or case["runs"]
         print("\n=== %s (%d run(s) x %d arm(s))" % (case["name"], runs, len(arms)))
         entry = {"name": case["name"], "description": case["description"],
@@ -596,8 +617,9 @@ def main():
                 run.pop("trace", None)
                 run.update(scored)
                 entry["runs"].append(run)
-                shown = "n/a" if scored["mechanical_score"] is None \
-                    else "%.2f" % scored["mechanical_score"]
+                shown = "TIMEOUT" if scored.get("timed_out") else (
+                    "n/a" if scored["mechanical_score"] is None
+                    else "%.2f" % scored["mechanical_score"])
                 print("  [%-7s run %d] mechanical=%s  manual=%d  %ds"
                       % (arm, index + 1, shown, scored["manual_graders"],
                          run["duration_seconds"]))
