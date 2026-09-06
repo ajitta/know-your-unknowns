@@ -1,26 +1,29 @@
 ---
 name: notes
 description: >
-  Implementation notes — log every significant deviation from the plan while working.
-  This skill should be used automatically whenever implementation encounters a
-  situation not covered by the plan or spec (an "unknown") and a non-trivial decision
-  is made, and when the user says "implementation notes", "impl notes", "이탈 기록",
-  "임플 노트", "log deviations", "record a deviation", "where did we diverge from
-  the plan?", "어디서 계획이랑 달라졌어?", or asks where/why the work diverged from
-  the plan.
+  Implementation notes — log significant deviations from the plan while working.
+  Use automatically when implementation hits an unknown the plan did not cover, and on
+  "implementation notes", "record a deviation", "where did we diverge from the plan?",
+  "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?".
 argument-hint: "[init | show | <content to log>]"
 ---
 
 # Notes — Plan Deviation Log (Implementation Notes)
 
-When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Origin: Thariq Shihipar — "If it runs into an unknown, ask it to log it, so you can see where the deviations happened and figure out why." Core device stopping agent from silently drifting off-plan.
+When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Core device stopping agent from silently drifting off-plan. Origin: Implementation Notes — see skills/loop/references/talk-source.md.
 
 ## File Rules
 
 - Location: `IMPLEMENTATION_NOTES.md` at project root (create if missing).
-- Argument `init`: create file with empty template. Argument `show`: summarize current notes.
+- **Persistence**: once the file exists or `init` has been run, appending to the file is mandatory — a chat-only summary does not satisfy the rule (the reminder hook, buy-in and quiz all read the file). With no file, a chat summary is allowed, but the final message must then say there is no notes file.
+- Argument `init`: create the file — heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template. Then offer (never write silently) to append a 3–5 line deviation-log rule — log criteria, escalation, file path — to the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context for every later session, not only when this skill is invoked.
+- Argument `show`: summarize current notes.
+- Any other text: append an entry using that text as **Situation found**, filling remaining fields from context; ask only about what context cannot supply.
+- No argument: log the most recent unplanned decision of this session, or state that there is none.
 
-## Entry Format (per entry)
+## Entry Format
+
+Deviation entry:
 
 ```markdown
 ## [YYYY-MM-DD] <task/feature name>
@@ -30,8 +33,11 @@ When work hits a situation not in plan/spec (unknown), **do not decide arbitrari
 - **Reason for choice**: why that approach
 - **Alternatives considered**: discarded options and why discarded
 - **Risk/follow-up check**: if this decision is wrong, where it shows up
-- **Improvements for next attempt**: what to do differently on same task next time (1–3)
 ```
+
+Two lighter kinds, same file, one line each:
+- **Discovery** — code or environment differs from what the plan assumed, no decision needed yet: what was assumed / what is true.
+- **Todo for human** — a judgment call that belongs to the user but blocks neither merge nor QA. Log it and keep working.
 
 ## Logging Criteria
 
@@ -47,4 +53,4 @@ Not just log — **stop work and ask user** when:
 
 ## Wrap-up
 
-Before ending session or creating PR, summarize accumulated note entries to user and suggest continuing with `/unknowns:quiz`. If work needs approval, reflect this note's unresolved items into the `/unknowns:buy-in` doc as "known limitations".
+Before ending session or creating PR: summarize accumulated entries, then write the **fold back into the plan** block — 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises — and list any open **Todo for human** items beside it. Suggest continuing with `/unknowns:quiz` (or `/quiz` for copied installs). If work needs approval, reflect this note's unresolved items into the `/unknowns:buy-in` doc as "known limitations".

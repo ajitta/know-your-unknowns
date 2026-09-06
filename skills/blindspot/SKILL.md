@@ -1,13 +1,10 @@
 ---
 name: blindspot
 description: >
-  Blind-spot pass — investigate unknown unknowns BEFORE implementation. This skill
-  should be used when the user says "blind spot pass", "blindspot", "what am I missing",
-  "do a blind-spot investigation", "find my unknowns", "unknown unknowns",
-  "사각지대 조사해줘", "내가 놓친 게 뭐지", "내가 모르는 게 뭐지", or is about to start
-  work in an unfamiliar domain, library, or codebase area and wants to discover what
-  they are missing before writing a fuller prompt or spec. Do NOT trigger for routine
-  tasks the user clearly understands.
+  Blind-spot pass — investigate unknown unknowns before implementation and turn them
+  into a better prompt. Use when the user says "blind spot pass", "what am I missing",
+  "unknown unknowns", "사각지대 조사해줘", "내가 놓친 게 뭐지", or before work in an
+  unfamiliar codebase area. Not for routine, well-understood tasks.
 argument-hint: "<task description or target area> [context sources: git/docs/slack etc.]"
 ---
 
@@ -15,8 +12,7 @@ argument-hint: "<task description or target area> [context sources: git/docs/sla
 
 Before implementation, find the **gap between the map (plan/prompt) and the territory
 (actual codebase, domain, constraints)**.
-Original source: Thariq Shihipar — "I'm working on X that I know nothing about. Do a blind-spot
-pass to help me figure out my relevant unknown unknowns and help me prompt better."
+Origin: Blindspot Pass — see skills/loop/references/talk-source.md
 
 ## Iron Rules
 
@@ -25,35 +21,45 @@ pass to help me figure out my relevant unknown unknowns and help me prompt bette
 
 ## Procedure
 
-1. Parse task description and context sources from `$ARGUMENTS`. If sources given
-   (git history, docs, specific modules, etc.), investigate those first.
-2. Scope codebase-wide or large → delegate to **unknowns-scout agent**.
+1. Parse task description and context sources from `$ARGUMENTS`. Empty → the task
+   currently under discussion; if there is none, ask one question first. If sources are
+   given (git history, docs, specific modules, etc.), investigate those first.
+2. Scope codebase-wide or large → spawn the `unknowns:unknowns-scout` agent with the
+   Agent tool. Hand it a packet: the user's original prompt verbatim, the context
+   sources, the target area and its entry points, and what to return (finding table +
+   improved prompt draft); map its rows onto the card kinds below.
    Scope is a few files → investigate directly with Read/Grep/Glob.
-3. Compile these 6:
-   - **Assumptions** the user is likely missing
-   - Expected **unknown unknowns** (decision points absent from the plan)
-   - **Potential conflicts** with existing structure/conventions
-   - **Regression-prone areas** if changed (incl. test coverage)
-   - **Questions to answer** before implementation
-   - **Information needed** to sharpen the prompt
-4. Present sorted by **importance × impact**.
-5. End with an **improved prompt draft** reflecting the findings — the core
-   deliverable of this skill.
-6. If undecided items that could change architecture surface, suggest continuing
-   with `/unknowns:interview`. If the user lacks the unfamiliar domain's vocabulary
-   itself, suggest `/unknowns:teach-me`.
+3. Compile findings, each tagged with a kind:
+   - **Landmine** — touching this breaks something non-obvious (regression risk, fragile
+     or missing tests, a module mid-migration)
+   - **Convention** — an unwritten rule the codebase enforces
+   - **Missing concept** — a mechanism the user's prompt has no word for
+   - **History** — an earlier or reverted attempt at this exact task
+   Also collect the **questions to answer** and the **information still needed** to
+   sharpen the prompt.
+4. Lead with the contrast: **What you asked for** (the task as the user framed it, and why
+   it sounds small) vs **What you're actually walking into**, with a tally by kind
+   ("4 landmines, 2 conventions, 1 missing concept, 1 reverted attempt"). Then the cards —
+   kind, finding, **why it bites**, recommended action — sorted by **importance × impact**.
+5. End with an **improved prompt draft** reflecting the findings — the core deliverable of
+   this skill. It names the execution order and ends with an explicit checkpoint
+   ("stop and show me the plan before writing code").
+6. Offer with one AskUserQuestion: proceed with this prompt now / edit it first / stop here.
+7. If undecided items that could change architecture surface, suggest continuing with
+   `/unknowns:interview` (or `/interview` for copied installs). If the user lacks the
+   unfamiliar domain's vocabulary itself, suggest `/unknowns:teach-me`.
 
-## Output Format (HTML First)
+## Output
 
-In renderable environments (Cowork, artifact viewer), build a **single-file interactive
-HTML**: 1 finding = 1 card (category, finding, why it matters, recommended action), each
-card with a copyable **"prompt fix"** button reflecting that finding; selecting cards
-**auto-assembles the selected fixes into an improved prompt draft** at the bottom.
-Inline CSS/JS, no external dependencies.
-Viewer-less CLI environment → fall back to same-structure markdown table + prompt draft.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-blindspot-<slug>.html`; else markdown.
+Reaction control: a copyable **prompt fix** per card; selected fixes assemble into the improved prompt draft.
+Details: skills/loop/references/output-routing.md
 
 ## Scope
 
-Not limited to code. Applies equally to learning new fields (e.g. color grading,
-payments, auth, physics engines) — the model often knows the field better than the
-user; the goal is to elicit that.
+Not limited to application code — specs, migrations, infra and vendor integrations all
+have landmines and unwritten conventions worth mapping before you touch them.
+The subject is always a **specific codebase, plan or system** and its blind spots.
+If the gap is the user's **vocabulary** for an unfamiliar field, that is
+`/unknowns:teach-me` (or `/teach-me` for copied installs), not this skill. Running both
+is fine: teach-me first for the words, blindspot for the territory.

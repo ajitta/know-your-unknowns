@@ -1,14 +1,73 @@
 {
-  "description": "unknowns — reminder to record plan deviations during implementation (IMPLEMENTATION_NOTES.md). Fires when file edits reach N (default 10), once per session by default. UNKNOWNS_NOTES_THRESHOLD adjusts threshold (0=off); UNKNOWNS_NOTES_REPEAT=1 repeats at every threshold multiple. Legacy FIELD_GUIDE_NOTES_THRESHOLD also recognized.",
+  "description": "unknowns — reminder to record plan deviations during implementation (IMPLEMENTATION_NOTES.md), plus a read-only guard for the plugin's sub-agents. The reminder fires in projects that already use the methodology (an IMPLEMENTATION_NOTES.md or a .unknowns/ directory; UNKNOWNS_NOTES_ALWAYS=1 for every project) when file edits reach N (default 10), once per session by default; it is restated after compaction and once at Stop if notes were never written. UNKNOWNS_NOTES_THRESHOLD adjusts the threshold (0=off); UNKNOWNS_NOTES_REPEAT=1 repeats at every threshold multiple; legacy FIELD_GUIDE_NOTES_THRESHOLD is still recognized. UNKNOWNS_AGENT_GUARD=0 disables the sub-agent Bash guard.",
   "hooks": {
-    "PostToolUse": [
+    "PreToolUse": [
       {
-        "matcher": "Edit|Write|NotebookEdit|MultiEdit",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py",
+            "command": "python3",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/scripts/agent_readonly_guard.py"],
             "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py"],
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py",
+              "--session-start"
+            ],
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py",
+              "--stop"
+            ],
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py",
+              "--cleanup"
+            ]
           }
         ]
       }

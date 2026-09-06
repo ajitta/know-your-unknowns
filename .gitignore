@@ -3,3 +3,11 @@ __pycache__/
 *.pyc
 *.plugin
 .serena/
+
+# Local-only, machine-specific — never part of the plugin
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/superclaude/
+
+# Runtime output written by the plugin's own skills
+.unknowns/

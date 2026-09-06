@@ -1,28 +1,22 @@
 ---
 name: reference
 description: >
-  Point at a reference — treat a provided example as a map, not an answer. Analyze
-  reference code, mockups, or docs and prove comprehension before implementing. This
-  skill should be used when the user provides reference material and says "use this
-  as a reference", "use it as a reference", "use this code as reference", "make it
-  like this", "레퍼런스로 써", "이 코드처럼 만들어줘", "이거 참고해서", "이 코드
-  참고해서", "이거랑 비슷하게", or passes
-  example code in another language/system, an HTML mockup, a screenshot, or a
-  competitor's UX as the basis for new work.
+  Point at a reference — treat a provided example as a map, not an answer, and prove
+  comprehension before implementing. Use when the user says "use this as a reference",
+  "make it like this", "레퍼런스로 써", "이 코드처럼 만들어줘", "이거 참고해서", or
+  supplies example code, a mockup, or a competitor's UX to build from.
 argument-hint: "<reference file/path/description>"
 ---
 
 # Reference — A Reference Is Another Map
 
 Best way to give a model a map: **give it another map**.
-Source: Thariq Shihipar — "Here's some code that represents what I want. It could be
-in a different system or language. Read this code, understand it, and use that to
-start your work." One working example beats hundreds of lines of explanation.
+Origin: Point at a Reference — see skills/loop/references/talk-source.md.
 
 ## Iron Rule
 
 **Reference is not an answer to copy verbatim — it is material for understanding intent and behavior.**
-Before implementing, **prove comprehension** — the semantics map from the original "Point at a Reference".
+Before implementing, **prove comprehension** with a semantics map.
 
 ## Procedure
 
@@ -33,21 +27,28 @@ Before implementing, **prove comprehension** — the semantics map from the orig
    - **Unnecessary or dangerous parts** — must not be brought into this project
    - **Parts improvable beyond the reference** — where we can do better
 3. For port/transform work, also present **proof of comprehension (semantics map)**:
-   key reference excerpts ↔ new-environment counterparts side by side, including
-   gotcha points where behavior subtly differs and an edge-case table.
+   key reference excerpts ↔ new-environment counterparts side by side, gotcha points
+   where behavior subtly differs, and an edge-case table with a **Match** column —
+   identical / equivalent / changed ("equivalent" = same decision, different surface).
+   Number every note and row so a correction can name one.
 4. Contrast with current project conventions (code style, dependencies, test
    approach); present an **application plan**.
-5. Start implementation after user confirmation. Record intentional deviations
-   from the reference per `/unknowns:notes` rules.
+5. **Sign-off gate — nothing is implemented until the user signs off.** They reply
+   `semantics confirmed`, or correct any row by its number ("note 5", "budget
+   exhaustion row") and the map is revised before any code. In-session, offer the same
+   choice once with AskUserQuestion: implement now / revise the map / stop.
+6. On sign-off, **port the reference's existing tests first**, then implement. Record
+   intentional deviations from the reference per `/unknowns:notes` (or `/notes` for
+   copied installs).
 
-## Output Format (HTML First)
+## Output
 
-Large analysis (many files, language port): **single-file interactive HTML** —
-side-by-side comparison (reference excerpt ↔ counterpart plan), gotcha notes,
-edge-case table, UI where per-item **approve/request-change selections assemble
-into a reply**. No viewer available: fall back to markdown with same structure
-(4-category analysis + semantics map comparison + gotcha/edge-case table).
-Small analysis: markdown suffices.
+Artifact tool if available → else `.unknowns/<YYYY-MM-DD>-reference-<slug>.html` → else
+markdown; always echo the assembled reply in chat.
+Numbered mapping rows (reference excerpt ↔ counterpart plan) and edge-case rows each
+carry **approve / request-change**; selections assemble into a `semantics confirmed`
+reply or a numbered correction template.
+Details: skills/loop/references/output-routing.md
 
 ## What Can Be a Reference
 
