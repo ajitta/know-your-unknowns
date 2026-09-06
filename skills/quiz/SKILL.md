@@ -52,3 +52,9 @@ After quiz, present handoff summary — assume another dev takes over tomorrow:
 structure summary / key decisions / how to run & test / incident check order / remaining risks.
 If user wants, convert to PR body draft; if work needs reviewer approval,
 suggest writing a `/unknowns:buy-in` (or `/buy-in` for copied installs) doc.
+
+Then capture one scorecard row — ask whether this work surfaced something the user did
+not know and whether it changed a decision, and append it to `.unknowns/scorecard.md`.
+Never answer those for them; write the row even when both answers are no. Skip it if a
+`/unknowns:loop` value review already captured one for this work.
+Details: skills/loop/references/scorecard.md

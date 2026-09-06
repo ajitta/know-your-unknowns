@@ -178,10 +178,6 @@ When a description changes, the case that used a dropped phrase must change with
    empty"), scoring 0 in both arms for a reason that had nothing to do with the
    plugin. If you add a case, give it its material. What the suite therefore measures
    is what a skill does with a *described* situation, not with real code it can read.
-5. **`skills/loop/SKILL.md` step 3 still says "max 5 per round"** while
-   `skills/interview/SKILL.md` says 4. `behavior-interview-max-four-questions` grades
-   against 4, the interview skill's own number. If the loop's number is the one that is
-   right, this case has to change with it.
 
 ## Recording results
 

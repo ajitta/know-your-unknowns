@@ -18,6 +18,10 @@
 
 ## 직접 기록하는 법 (설치자용)
 
+v0.4.0부터 `/unknowns:loop`의 10단계와 `/unknowns:quiz` 마무리가 이 행을 **자동으로 물어보고 쓴다**
+(`.unknowns/scorecard.md`, 규격은 [skills/loop/references/scorecard.md](../skills/loop/references/scorecard.md)).
+아래는 그 두 경로를 쓰지 않을 때의 수동 절차다.
+
 위 표는 **플러그인 자체 사용 기록**이다. 설치자는 여기 쓰지 말고 자기 저장소에 사본을 둔다.
 
 1. 위 표의 헤더 2줄을 자기 저장소 `.unknowns/scorecard.md`로 복사한다.

@@ -71,6 +71,10 @@ or stakeholder **approval**, also produce a `/unknowns:buy-in` doc.
 Judge by real value, not code quality: whose problem shrank and which / how much
 faster / reasons it might go unused / metrics / removal condition. **Building is
 easier, generating value is still hard.**
+Close by capturing one scorecard row — ask the user whether this surfaced something they
+did not know and whether it changed a decision, then append the row to
+`.unknowns/scorecard.md`. Never answer those two for them, and write the row even when
+both answers are no. Details: skills/loop/references/scorecard.md
 
 ## Scale-down criteria
 

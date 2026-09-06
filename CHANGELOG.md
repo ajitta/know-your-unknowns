@@ -198,6 +198,13 @@ was ever created — "0.3.0" means commit `622c32b`.
   calendar windows — a release counter stalls in exactly the situation the clause exists to
   detect — and `docs/value-scorecard.md` gained column definitions and a self-serve
   recording procedure for installers.
+- **The value measurement is now wired, not just specified.** The `loop`'s value review
+  and the `quiz` wrap-up ask two questions through one `AskUserQuestion` call — did this
+  surface something you did not know, and did it change a decision — and append the answer
+  to `.unknowns/scorecard.md`; new `skills/loop/references/scorecard.md` holds the format.
+  Neither may answer for the user, and a row where both answers are "no" is still written,
+  because the contract's demotion conditions fire only on recorded zeros. Until this, the
+  contract promised a metric nothing collected.
 - `docs/research-know-your-unknowns.md` re-verified against the live source on 2026-09-06:
   the demo count is 20, not "about 19", and the 2×2 quadrant figure is decorative and
   `aria-hidden`, which closes a hedge that had been standing since July.
