@@ -38,7 +38,7 @@ Before implementing, **prove comprehension** with a semantics map.
    exhaustion row") and the map is revised before any code. In-session, offer the same
    choice once with AskUserQuestion: implement now / revise the map / stop.
 6. On sign-off, **port the reference's existing tests first**, then implement. Record
-   intentional deviations from the reference per `/unknowns:notes` (or `/notes` for
+   intentional deviations from the reference per the **notes** skill (or `/notes` for
    copied installs).
 
 ## Output

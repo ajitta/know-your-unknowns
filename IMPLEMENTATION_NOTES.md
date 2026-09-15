@@ -1,5 +1,29 @@
 # Implementation Notes — plan deviation log
 
+## [2026-09-15] 0.7.0 — Claude Desktop/웹 설치 경로 추가
+
+- **Situation found**: 첫 실제 업로드가 거부됐다 — "Plugin description must be at most 500 characters". `plugin.json`의 description은 579자였고, `claude plugin validate --strict`와 CI는 둘 다 통과시켰다.
+- **Deviation from plan**: 계획은 "로컬 validate와 테스트가 통과하면 업로드 가능한 파일"이었다. 두 검증기가 서로 다른 규칙을 본다는 사실이 계획에 없었다.
+- **Response chosen**: description을 477자로 줄이고(스킬 목록에서 "independent verification"을 빼되 두 출처 표기는 유지), 한도를 `tests/test_manifest_limits.py`에 못 박았다. 숫자의 출처는 문서가 아니라 업로드 폼의 에러 메시지이며, 그 사실을 파일 안에 적어 뒀다.
+- **Reason for choice**: 로컬 검증기가 보지 않는 축은 로컬 검증기를 고쳐서 막을 수 없다. 이 저장소가 통제할 수 있는 지점은 테스트뿐이다.
+- **Risk/follow-up check**: 이 발견은 **200자 스킬 description 한도 쪽 판단을 지지한다** — 앱 업로드가 CLI가 걸지 않는 한도를 실제로 집행한다는 사례가 하나 생겼기 때문이다. 다만 이것은 플러그인 매니페스트의 500자를 확인한 것이지 스킬의 200자를 확인한 것이 아니다. 스킬 zip 업로드는 여전히 미검증이다.
+- **Improvements for next attempt**: "새 표면에 배포한다"는 작업의 완료 조건에 **그 표면에서 실제로 설치해 본다**를 넣을 것. 0.7.0은 문서 조사와 로컬 검증만으로 완료로 보고했고, 사용자의 첫 업로드가 3분 만에 반증했다.
+
+- **Situation found**: 스킬 단독 업로드(Customize → Skills)의 description 한도가 문서마다 다르다. Agent Skills 스펙(platform.claude.com)은 1024자, 헬프센터의 커스텀 스킬 문서는 200자. 현재 description은 248–283자로, 한쪽 기준으로는 통과하고 다른 쪽으로는 전부 초과다.
+- **Deviation from plan**: 계획은 "스킬을 그대로 포팅해서 zip으로 묶는다"였다. 한도 충돌은 계획에 없었다.
+- **Response chosen**: `SKILL.md`의 description은 손대지 않고 `scripts/skill-descriptions.json`에 200자 이하 축약본을 따로 두고, 빌드 시 치환한다. `tests/test_skill_descriptions.py`가 README가 광고하는 영어 트리거 문구의 보존을 강제한다.
+- **Reason for choice**: 현재 description은 0.5.1의 A/B eval이 측정한 물건이다. 미검증 제약(200자) 때문에 정본을 고치면 측정된 것이 사라지고, 새 표면의 위험이 이미 검증된 표면으로 번진다. 새 표면이 새 위험을 진다.
+- **Alternatives considered**: (a) 정본 단축 — 11개 description의 트리거 거동이 미측정 상태가 되므로 기각. (b) frontmatter에 `metadata.short-description` 추가 — `claude plugin validate --strict` 통과는 확인했으나, 프론트매터가 상시 컨텍스트에 실릴 경우 Claude Code 사용자에게 토큰 비용을 지우므로 기각. 빌드 전용 파일은 런타임 비용이 0이다.
+- **Risk/follow-up check**: 소스가 둘이 되었으므로 드리프트가 가능하다. 테스트가 막는 축은 "트리거 문구 누락" 하나뿐이고, 문장의 나머지 뉘앙스는 막지 않는다. 그리고 200자 제한 자체가 **실제 업로드로 확인되지 않았다** — 업로드가 248자를 받아준다면 이 파일 전체가 불필요하다. 다음에 데스크톱에서 하나 올려 보고, 받아들여지면 `scripts/skill-descriptions.json`을 지우고 빌드 스크립트에서 치환 단계를 뺄 것.
+
+- **Situation found**: 빌드 스크립트에서 `talk-source.md` 포인터를 GitHub URL로 바꾼 뒤 참조 경로 정규식을 돌렸더니, 정규식이 **URL 안의 경로까지** 다시 써서 `blob/main/references/talk-source.md`가 되고 15KB 파일이 11개 zip 전부에 들어갔다.
+- **Response chosen**: 부정 전방탐색으로 `talk-source`를 제외하고 URL 치환을 뒤로 옮겼다. zip 안에 플러그인 루트 경로가 남지 않는지 검사하는 테스트를 추가했다.
+- **Risk/follow-up check**: 텍스트 치환을 연쇄로 걸 때 앞 단계의 출력이 뒤 단계의 입력 패턴과 겹치는 고전적 실수다. 산출물 검사(zip을 열어 본문을 본다)가 없었으면 통과했을 것이다 — 변환 스크립트에는 변환 결과를 여는 테스트를 같이 둘 것.
+
+- **Situation found**: 모바일 앱이 스킬을 로드하는지 Anthropic 문서에서 확인할 수 없다. 헬프센터는 웹·데스크톱·Cowork·Claude Code를 표면으로 이름 붙이고 휴대폰 앱은 언급하지 않는다. 릴리스 노트에도 없다.
+- **Response chosen**: 지원한다고 쓰지 않았다. README 표에 "문서 없음"으로 적고, 스킬이 모바일에서 마크다운 등급으로 내려가도록 `surfaces.md`에 경로만 만들어 두었다.
+- **Reason for choice**: 이 저장소는 0.5.1에서 "주장이 증거보다 넓은" 실패를 한 번 겪었다. 설치 경로를 늘리면서 같은 실패를 반복하지 않는다.
+
 ## [2026-09-06] B1·B5 재검증 — 두 미결 항목 해소
 
 - **Situation found**: B1(scout에 Grep/Glob이 없어 보임)의 재프로브 조건 1은 "대화형 세션, 헤드리스 금지"였다. 이 세션은 auto mode라 자기 메인 루프에도 Grep/Glob이 없어 조건을 만족할 수 없었다 — 세 번째 무의미한 관측이 될 상황.

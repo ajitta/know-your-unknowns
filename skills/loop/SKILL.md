@@ -29,32 +29,32 @@ Fix with user before starting: purpose / value to user / done criteria /
 existing behavior that must never break / allowed cost & change scope.
 **Without success criteria, implementation volume gets mistaken for progress.**
 
-### 2. Blind-spot investigation → `/unknowns:blindspot` (or `/blindspot` for copied installs)
+### 2. Blind-spot investigation → the **blindspot** skill
 Investigate only, no implementation. Find unknown unknowns, conflict points,
 regression risks; produce improved prompt. If the **domain itself** is unfamiliar
-(requests vague because terms unknown), run `/unknowns:teach-me` alongside.
+(requests vague because terms unknown), run the **teach-me** skill alongside.
 
-### 3. Interview → `/unknowns:interview`
+### 3. Interview → the **interview** skill
 Architecture-changing questions first, max 4 per round.
 
 ### 4. Explore solutions & shape (as needed)
-- **What to do** undecided → `/unknowns:brainstorm` (solution-space map)
-- Can't describe **what it should look like** in words → `/unknowns:prototypes` (divergent mockups)
-- Has **example to emulate** → `/unknowns:reference` (reference analysis)
+- **What to do** undecided → the **brainstorm** skill (solution-space map)
+- Can't describe **what it should look like** in words → the **prototypes** skill (divergent mockups)
+- Has **example to emulate** → the **reference** skill (reference analysis)
 
 ### 5. Risky-assumption prototype (as needed)
 Before full implementation, build **minimal prototype verifying only the most
 uncertain technical assumption**. State the assumption and success/failure
 criteria first.
 
-### 6. Plan → `/unknowns:plan`
+### 6. Plan → the **plan** skill
 Tweakable plan sorted by **probability of revision**, not execution order.
 Decisions needing user input (schema, interfaces, UX contracts) go on top.
 
-### 7. Implement + deviation log → apply `/unknowns:notes` rules
+### 7. Implement + deviation log → apply the **notes** skill rules
 Log anything not in the plan; stop and ask on decisions touching architecture,
 user-visible behavior, data, or security. If the conversation was compacted, re-invoke
-`/unknowns:notes` (and this skill for the step list) before continuing implementation.
+the **notes** skill (and this skill for the step list) before continuing implementation.
 
 ### 8. Independent verification → `unknowns:independent-reviewer` agent
 Spawn it with the Agent tool (`subagent_type: unknowns:independent-reviewer`). **Never a
@@ -62,10 +62,13 @@ fork or `/subtask`** — those inherit the implementer's context, which is the o
 this step exists to exclude. Hand the agent: done criteria (step 1), the approved plan
 (step 6), the `IMPLEMENTATION_NOTES.md` path, the diff range / touched files, and how to
 run the tests. **Never hand it the implementer's own summary.**
+No Agent tool in this session (Desktop/web chat, mobile) → hand the user that same packet
+to paste into a **new conversation**, and say the review is standing in for the agent.
+Details: skills/loop/references/surfaces.md
 
-### 9. Comprehension check & handoff → `/unknowns:quiz`
+### 9. Comprehension check & handoff → the **quiz** skill
 Verify user can explain this work in a PR or handoff. If the work needs reviewer
-or stakeholder **approval**, also produce a `/unknowns:buy-in` doc.
+or stakeholder **approval**, also run the **buy-in** skill.
 
 ### 10. Value review
 Judge by real value, not code quality: whose problem shrank and which / how much
@@ -87,7 +90,11 @@ both answers are no. Details: skills/loop/references/scorecard.md
 
 Keep `.unknowns/loop.json` — `{task, tier, stage, decisions[], artifacts[]}` — and rewrite
 it at every stage boundary. Close each stage with one AskUserQuestion checkpoint
-(continue / skip ahead / stop) and record the answer there.
+(continue / skip ahead / stop) and record the answer there. No AskUserQuestion tool → ask
+the same three options as a numbered question and wait for the answer.
+Nowhere durable to write the tracker (chat sessions, mobile) → restate the whole tracker
+as a fenced JSON block at each stage boundary, so the newest message always holds it;
+skills/loop/references/surfaces.md has the rest.
 
 - Argument `status`: read the file; report tier, current stage, steps remaining.
 - Argument `resume`: read the file; continue from the recorded stage.

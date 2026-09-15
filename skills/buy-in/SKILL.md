@@ -12,7 +12,7 @@ argument-hint: "[target work/PR] [audience: team/reviewers]"
 
 Implementation done, but **others' approval** remains an unknown. Know what reviewers
 will ask in advance — it becomes known.
-`/unknowns:quiz` (or `/quiz` for copied installs) validates **my understanding**;
+the **quiz** skill validates **my understanding**;
 buy-in prepares **others' trust**.
 Origin: The Buy-In Doc — see skills/loop/references/talk-source.md.
 
@@ -28,7 +28,7 @@ Origin: The Buy-In Doc — see skills/loop/references/talk-source.md.
    follow (spec §, IMPLEMENTATION_NOTES.md entry date, metric, test run, file:line).
    No unsupported rebuttals — no evidence, move it to limitations.
 4. **Spec at a glance**: area / decision / ref table, one row per settled decision.
-5. **Known limitations and unresolved unknowns**: if IMPLEMENTATION_NOTES.md exists,
+5. **Known limitations and unresolved unknowns**: if a deviation log exists (file or in-conversation),
    pull recorded deviations and unresolved risks here. Not hiding is the basis of trust.
 6. **Sign-off list**: name people/teams needing to approve, with roles, and assign
    what each must check.
@@ -44,7 +44,9 @@ Details: skills/loop/references/output-routing.md
 
 ## Integration
 
-- Run `/unknowns:quiz` before writing — work the user can't explain can't be
+- Run the **quiz** skill before writing — work the user can't explain can't be
   defended in a buy-in doc either.
 - The `unknowns:independent-reviewer` agent (spawned with the Agent tool) produces the
-  strongest evidence for objection responses, including its "verified" list.
+  strongest evidence for objection responses, including its "verified" list. Without the
+  Agent tool, use the fresh-thread substitute in `skills/loop/references/surfaces.md` —
+  and never present an unreviewed doc as reviewed.

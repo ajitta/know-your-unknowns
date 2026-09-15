@@ -12,3 +12,6 @@ CLAUDE.local.md
 
 # Runtime output written by the plugin's own skills
 .unknowns/
+
+# Built skill zips for the Claude Desktop / web upload
+dist/

@@ -25,7 +25,7 @@ Origin: The Tweakable Plan — see skills/loop/references/talk-source.md.
 
 1. Confirm spec from `$ARGUMENTS` plus conversation context (blindspot findings,
    interview decisions); with no argument, that context is the whole input. Big gaps →
-   suggest `/unknowns:interview` (or `/interview` for copied installs) first.
+   suggest the **interview** skill first.
 2. **Size gate**: task touches ≤2 files and carries no schema, interface, or UX-contract
    decision → say so and defer to native plan mode instead of writing this document.
 3. Split work into items, two kinds:
@@ -44,7 +44,7 @@ Origin: The Tweakable Plan — see skills/loop/references/talk-source.md.
    and close with **2–3 pre-written reply lines** — the highest-leverage tweaks, ready to
    copy, edit, and send.
 8. Proceed to implementation only after user approval/change requests update the plan.
-   Record mid-implementation deviations per `/unknowns:notes` rules.
+   Record mid-implementation deviations per the **notes** skill rules.
 
 ## Output
 

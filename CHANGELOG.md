@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.7.0 — 2026-09-15
+
+Claude Desktop, Claude web and Cowork as install targets. The skills already loaded there;
+what they did not do was notice when a step's tool was missing. A skill that spawns a
+sub-agent, writes `IMPLEMENTATION_NOTES.md` and relies on a reminder hook silently loses
+all three in the Chat tab, and the failure mode was a step reported as done when nothing
+ran it.
+
+### Added
+
+- **`skills/loop/references/surfaces.md`** — the one place that says what each surface has
+  and what to do instead when it does not. Sub-agent absent → a review packet the user
+  pastes into a fresh conversation, never a same-thread review called independent. Hooks
+  absent → the notes discipline becomes the skill's own. No durable files → the log lives
+  in the session workspace, or is restated in full in the conversation, with the user told
+  which. Referenced from `loop`, `notes`, `blindspot`, `brainstorm`, `buy-in` and
+  `output-routing.md`.
+- **`scripts/build-skill-zips.py`** — one uploadable zip per skill for Customize → Skills,
+  the route for a free plan or an organization with plugin installs turned off. It ports
+  each skill for standalone upload and lists every difference in its header.
+- **`scripts/skill-descriptions.json`** — short descriptions for those zips. The upload form
+  documents a 200-character maximum and the SKILL.md descriptions run 248–283, so they are
+  shortened here rather than in `SKILL.md`: the descriptions the 0.5.1 eval A/B measured
+  stay untouched, and the new surface carries the new risk.
+- **`tests/test_skill_descriptions.py`** — fails if a skill has no short description, if one
+  is over the limit, if a port drops a trigger phrase the README advertises, or if a built
+  zip still holds a plugin-root path or `$ARGUMENTS`.
+
+### Changed
+
+- **Cross-skill pointers no longer name a slash command.** `/unknowns:quiz` (or `/quiz` for
+  copied installs) became "the **quiz** skill" in every skill body — the namespace exists in
+  Claude Code and nowhere else, and the parenthetical was a third of the sentence. The
+  README keeps the slash form, which is where it is true.
+- **`scripts/build-plugin.sh` accepts `HEAD`** for building an untagged file to test an
+  install with. Tag checks still apply to everything else.
+- **README / README.ko** — "Cowork / Claude Desktop", which this project had flagged as
+  unverified, is replaced by the two install routes, a what-works-where table, and a plain
+  statement that Anthropic's documentation does not name the phone apps as a skills surface.
+- **`plugin.json` description cut from 579 to 477 characters.** The Customize → Plugins
+  upload rejects anything over 500 — a limit `claude plugin validate --strict` does not
+  check and CI therefore never caught. Found by the first real upload of this plugin to
+  Claude Desktop, which is the point of this release. `tests/test_manifest_limits.py` now
+  holds the number.
+
 ## 0.6.0 — 2026-09-06
 
 Skill behaviour changes from a cross-check against the knowledge-elicitation literature
