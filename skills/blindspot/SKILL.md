@@ -28,7 +28,9 @@ Origin: Blindspot Pass — see skills/loop/references/talk-source.md
    Agent tool. Hand it a packet: the user's original prompt verbatim, the context
    sources, the target area and its entry points, and what to return (finding table +
    improved prompt draft); map its rows onto the card kinds below.
-   Scope is a few files → investigate directly with Read/Grep/Glob.
+   Scope is a few files → investigate directly with Read/Grep/Glob. No Agent tool in this
+   session → investigate directly too, and say the scope was narrowed to one pass
+   (skills/loop/references/surfaces.md).
 3. Compile findings, each tagged with a kind:
    - **Landmine** — touching this breaks something non-obvious (regression risk, fragile
      or missing tests, a module mid-migration)
@@ -46,8 +48,8 @@ Origin: Blindspot Pass — see skills/loop/references/talk-source.md
    ("stop and show me the plan before writing code").
 6. Offer with one AskUserQuestion: proceed with this prompt now / edit it first / stop here.
 7. If undecided items that could change architecture surface, suggest continuing with
-   `/unknowns:interview` (or `/interview` for copied installs). If the user lacks the
-   unfamiliar domain's vocabulary itself, suggest `/unknowns:teach-me`.
+   the **interview** skill. If the user lacks the
+   unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
 
 ## Output
 
@@ -61,5 +63,5 @@ Not limited to application code — specs, migrations, infra and vendor integrat
 have landmines and unwritten conventions worth mapping before you touch them.
 The subject is always a **specific codebase, plan or system** and its blind spots.
 If the gap is the user's **vocabulary** for an unfamiliar field, that is
-`/unknowns:teach-me` (or `/teach-me` for copied installs), not this skill. Running both
+the **teach-me** skill, not this skill. Running both
 is fine: teach-me first for the words, blindspot for the territory.

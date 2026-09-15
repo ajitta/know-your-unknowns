@@ -1,9 +1,14 @@
 #!/bin/sh
 # Build the distributable unknowns plugin zip from a tagged, clean commit.
-# Usage: scripts/build-plugin.sh [tag]  ->  unknowns-v<version>.plugin (git-ignored)
+# Usage: scripts/build-plugin.sh [tag|HEAD]  ->  unknowns-v<version>.plugin (git-ignored)
 # Default tag is {name}--v{version}, the form `claude plugin tag` creates.
 # Attach the result to the GitHub Release for that tag — never hand out a
 # locally built zip.
+#
+# `HEAD` builds from the current commit without a tag. That is for testing an
+# install — uploading the file to Claude Desktop, say — and never for release:
+# the result is unversioned from the outside and nobody can tell two of them
+# apart.
 set -eu
 cd "$(dirname "$0")/.."
 NAME=$(python3 -c "import json; print(json.load(open('.claude-plugin/plugin.json'))['name'])")
@@ -15,15 +20,20 @@ if [ -n "$(git status --porcelain)" ]; then
   echo "refusing to build: working tree is dirty — commit or stash first" >&2
   exit 1
 fi
-if ! git rev-parse -q --verify "refs/tags/${REF}" >/dev/null; then
-  echo "refusing to build: tag '${REF}' does not exist — tag the release first" >&2
-  exit 1
-fi
-TAG_VERSION=$(git show "${REF}:.claude-plugin/plugin.json" \
-  | python3 -c "import json,sys; print(json.load(sys.stdin)['version'])")
-if [ "$TAG_VERSION" != "$VERSION" ]; then
-  echo "refusing to build: tag '${REF}' declares version ${TAG_VERSION}, not ${VERSION}" >&2
-  exit 1
+if [ "$REF" = "HEAD" ]; then
+  OUT="unknowns-v${VERSION}-$(git rev-parse --short HEAD).plugin"
+  echo "building from HEAD, untagged — for install testing only, not for release" >&2
+else
+  if ! git rev-parse -q --verify "refs/tags/${REF}" >/dev/null; then
+    echo "refusing to build: tag '${REF}' does not exist — tag the release first" >&2
+    exit 1
+  fi
+  TAG_VERSION=$(git show "${REF}:.claude-plugin/plugin.json" \
+    | python3 -c "import json,sys; print(json.load(sys.stdin)['version'])")
+  if [ "$TAG_VERSION" != "$VERSION" ]; then
+    echo "refusing to build: tag '${REF}' declares version ${TAG_VERSION}, not ${VERSION}" >&2
+    exit 1
+  fi
 fi
 
 rm -f "$OUT"

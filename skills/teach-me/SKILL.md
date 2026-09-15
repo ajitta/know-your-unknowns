@@ -60,7 +60,7 @@ acquired by immersion in a discourse community, and does not transfer as a term 
 - **Do not expect**: the vocabulary to be wielded unaided across revision rounds 2–4 — the
   predicted failure point, where terms must be *used* rather than pasted.
 - When revisions stop converging, that is this skill's ceiling, not the user's mistake. Hand off
-  to `/unknowns:interview` (or `/interview`) to lock decisions rather than teaching more vocabulary.
+  to the **interview** skill to lock decisions rather than teaching more vocabulary.
 
 **Success signal is convergence across revision rounds 2–4, not the quality of the first
 rewritten request.** Step 6 is what buys those later rounds: judging criteria transfer far better
@@ -69,7 +69,7 @@ axis to move. Keep step 6 even when trimming for size.
 
 ## Related
 
-- Codebase blind spots: run `/unknowns:blindspot` (or `/blindspot` for copied installs)
+- Codebase blind spots: run the **blindspot** skill
   first — teach-me covers blind spots in domain **concepts**. Running both is fine.
 - If requirements still diverge after gaining vocabulary, lock decisions with
-  `/unknowns:interview`.
+  the **interview** skill.

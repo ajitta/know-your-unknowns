@@ -13,8 +13,14 @@ When work hits a situation not in plan/spec (unknown), **do not decide arbitrari
 
 ## File Rules
 
-- Location: `IMPLEMENTATION_NOTES.md` at project root (create if missing).
-- **Persistence**: once the file exists or `init` has been run, appending to the file is mandatory — a chat-only summary does not satisfy the rule (the reminder hook, buy-in and quiz all read the file). With no file, a chat summary is allowed, but the final message must then say there is no notes file.
+- Location: `IMPLEMENTATION_NOTES.md` at project root (create if missing). No project root
+  but file writes work (Desktop/web chat, Cowork without a folder) → keep the same file in
+  the session workspace and hand it to the user at every wrap-up. Nothing writable
+  (mobile) → keep the log in the conversation, restated in full each time it grows.
+  Either way the entry format and the escalation rule are unchanged.
+  Details: skills/loop/references/surfaces.md
+- **Persistence**: once the file exists or `init` has been run, appending to the file is mandatory — a chat-only summary does not satisfy the rule (the reminder hook, buy-in and quiz all read the file). With no file, a chat summary is allowed, but the final message must then say there is no notes file, and where it lives instead.
+- **No reminder hook** in this session (hooks run only in Claude Code and Cowork) → re-read the logging criteria yourself at every natural break: before a commit, before handing work back, after roughly ten file edits.
 - Argument `init`: create the file — heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template. Then offer (never write silently) to append a 3–5 line deviation-log rule — log criteria, escalation, file path — to the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context for every later session, not only when this skill is invoked.
 - Argument `show`: summarize current notes.
 - Any other text: append an entry using that text as **Situation found**, filling remaining fields from context; ask only about what context cannot supply.
@@ -64,4 +70,4 @@ Not just log — **stop work and ask user** when:
 
 ## Wrap-up
 
-Before ending session or creating PR: summarize accumulated entries, then write the **fold back into the plan** block — 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises — and list any open **Todo for human** items beside it. Suggest continuing with `/unknowns:quiz` (or `/quiz` for copied installs). If work needs approval, reflect this note's unresolved items into the `/unknowns:buy-in` doc as "known limitations".
+Before ending session or creating PR: summarize accumulated entries, then write the **fold back into the plan** block — 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises — and list any open **Todo for human** items beside it. Suggest continuing with the **quiz** skill. If work needs approval, reflect this note's unresolved items into the the **buy-in** skill doc as "known limitations".

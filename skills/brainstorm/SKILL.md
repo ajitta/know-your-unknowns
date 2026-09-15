@@ -25,7 +25,7 @@ Origin: Brainstorm the Intervention — see skills/loop/references/talk-source.m
    conversation context. If empty or vague, ask back once for a measurable statement:
    which metric, how bad, since when, for whom — one round only.
 2. When a codebase is in scope, **search it first** (or spawn the `unknowns:unknowns-scout`
-   agent with the Agent tool) for machinery that already exists but sits disconnected —
+   agent where the Agent tool exists) for machinery that already exists but sits disconnected —
    the cheapest candidates are usually wiring, not building.
 3. Generate **~10** candidate interventions, spread across the time axis: ship this
    afternoon / short-term (1–2 weeks) / mid-term (quarter) / quarter-long bets.
@@ -48,6 +48,5 @@ Details: skills/loop/references/output-routing.md
 
 ## Follow-ups
 
-- After picking interventions: form in question → `/unknowns:prototypes` (or
-  `/prototypes` for copied installs); spec finalization → `/unknowns:interview`;
-  implementation plan → `/unknowns:plan`.
+- After picking interventions: form in question → the **prototypes** skill; spec finalization → the **interview** skill;
+  implementation plan → the **plan** skill.

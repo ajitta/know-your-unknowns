@@ -53,7 +53,7 @@ procedure, you are set. From there:
 - Works without slashes: phrases like "blind spot pass", "interview me", "design
   options", "quiz me" are themselves triggers.
 
-Other install paths (clone, copy-a-skill, Cowork) are under
+Other install paths (clone, copy-a-skill, Desktop) are under
 [Installation](#installation) below.
 
 ---
@@ -113,15 +113,53 @@ you do not have. Invocations then lose the namespace and get short — `/blindsp
 `/quiz`. The hooks only activate automatically in plugin form; see [Hook behavior and
 configuration](#hook-behavior-and-configuration) for the manual setup.
 
-### Cowork / Claude Desktop
+### Claude Desktop, Claude web and Cowork
 
-If you received an `unknowns` plugin card in chat, its Install button is the fastest
-path. Otherwise the documented route is **Customize → Plugins → upload a plugin file**;
-plugins added this way are saved locally to your computer. This repo does not publish a
-built plugin file — `scripts/build-plugin.sh` produces one from a release tag — and
-neither route has been exercised by this project, so treat the desktop path as
-unverified. The reminder hook additionally needs `python3` on that environment's PATH,
-which is untested there.
+Two routes. Which one you can use depends on your plan.
+
+**The whole plugin, one upload** — Customize → Plugins → upload a plugin file. Skills,
+agents and hooks all come along, and updating means uploading a newer file. Build it
+first; if you received an `unknowns` plugin card in chat, its Install button does the
+same job:
+
+```bash
+scripts/build-plugin.sh HEAD      # untagged, for testing an install
+scripts/build-plugin.sh           # from the release tag, for a version you can name
+```
+
+Plugins added this way are stored locally on your computer and need a paid plan. Hooks
+and sub-agents [run only in Cowork](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) —
+in the Chat tab they are greyed out, and the skills fall back to the substitutes in
+`skills/loop/references/surfaces.md` instead of pretending the step ran.
+
+**One zip per skill** — Customize → Skills. This is the route for a free plan, or an
+organization that has plugin installs turned off:
+
+```bash
+python3 scripts/build-skill-zips.py    # -> dist/<skill>.zip, eleven of them
+```
+
+Upload the ones you want; `loop` names the others as it goes, so it is the one to start
+with. These zips hold the same skills ported for standalone upload — shortened
+descriptions (the upload form documents a 200-character maximum), references copied into
+the skill folder, no `$ARGUMENTS`. The script header lists every difference, and
+`tests/test_skill_descriptions.py` fails if a port drops a trigger phrase.
+
+**What each surface gives you**
+
+| | Claude Code | Cowork | Desktop / web chat | Mobile |
+|---|---|---|---|---|
+| Skills | yes | yes | yes | undocumented |
+| Sub-agents | yes | yes | no — fresh-thread stand-in | no |
+| Hooks | yes | yes | no — the skill self-enforces | no |
+| Files that persist | the repo | connected folder | the session only | none |
+| Invocation | `/unknowns:` prefix | name or trigger phrase | name or trigger phrase | name or trigger phrase |
+
+Mobile is the honest gap: Anthropic's documentation names web, Desktop, Cowork and
+Claude Code as the surfaces that take skills and does not mention the phone apps. The
+skills degrade to plain markdown there by design, but whether they load at all is not
+something this repo can promise — try one and see. The reminder hook additionally needs
+`python3` on the PATH of whatever machine runs it.
 
 ### Updating
 

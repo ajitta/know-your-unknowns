@@ -1,0 +1,22 @@
+{
+  "_comment": [
+    "Short descriptions used ONLY by scripts/build-skill-zips.py, for the skill zips",
+    "uploaded through Customize → Skills. That upload form documents a 200-character",
+    "maximum; the descriptions in SKILL.md are 248-283 characters and are the ones the",
+    "eval suite measured, so they are left alone and shortened here instead.",
+    "This file ships in no plugin and costs no context. tests/test_skill_descriptions.py",
+    "fails if a skill is missing, if a description is over 200 characters, or if it drops",
+    "a trigger phrase the README advertises."
+  ],
+  "blindspot": "Blind-spot pass — find unknown unknowns before implementing and turn them into a better prompt. Use on \"blind spot pass\", \"what am I missing\", or unfamiliar code. Not for routine, understood tasks.",
+  "brainstorm": "Brainstorm the intervention — spread ~10 codebase-grounded candidates from ship-today to quarter-long bet. Use on \"brainstorm interventions\", \"show me options\". NOT for UI variants — use prototypes.",
+  "buy-in": "The buy-in doc — a ship-readiness pitch that leads with a demo, pre-answers reviewer objections with evidence and states limitations. Use on \"buy-in doc\", \"prep me for review\", or before review.",
+  "interview": "Pre-implementation interview — the model asks you the questions that turn known unknowns into decisions, biggest blast radius first. Use on \"interview me\", \"ask me questions before implementing\".",
+  "loop": "Run the know-your-unknowns workflow end to end: explore, question, plan, implement, verify, quiz. Use on \"unknowns loop\", \"run the operating loop\", \"know your unknowns\". A bare \"loop\" is NOT this.",
+  "notes": "Implementation notes — log plan deviations. Use when work hits an unknown the plan did not cover, and on \"implementation notes\", \"record a deviation\", \"where did we diverge from the plan?\".",
+  "plan": "The tweakable plan — a plan sorted by likelihood-of-tweaking, not execution order, so the most changeable decisions are reviewed first. Use on \"plan this\", \"make a plan\", \"tweakable plan\".",
+  "prototypes": "Divergent prototype fan-out — N (default 4) prototypes with clearly different design philosophies to react to. Use on \"divergent prototypes\", \"design options\", \"know it when I see it\".",
+  "quiz": "Post-work comprehension quiz — explain what changed, then quiz the user so they can represent the work in a PR or handoff. Use on \"quiz me\", \"test my understanding\", or before merging.",
+  "reference": "Point at a reference — treat a provided example as a map, not an answer, and prove comprehension before implementing. Use on \"use this as a reference\", \"make it like this\", or given example code.",
+  "teach-me": "Teach me my unknowns — an interactive explainer for a domain vocabulary and mental model, so vague requests become precise. Use on \"teach me\", \"make me an explainer\". Not a codebase investigation."
+}

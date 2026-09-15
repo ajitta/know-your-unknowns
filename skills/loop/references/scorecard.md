@@ -10,7 +10,8 @@ worthless without recorded rows, and asking days later produces fiction.
 ## What to do
 
 1. Ask the user with **one** `AskUserQuestion` call carrying exactly these two questions
-   (the tool's hard cap is 1–4):
+   (the tool's hard cap is 1–4; without the tool, ask them as two numbered questions in
+   one message):
    - "Did this surface something you did not already know?" — options: yes / no.
    - "Did it change a decision?" — options: yes / no.
    Follow up in free text for the one-line "what", only for answers that were yes.
@@ -19,7 +20,9 @@ worthless without recorded rows, and asking days later produces fiction.
    plugin has about its own value.
 3. Append the row to `.unknowns/scorecard.md` in the current project, creating the file
    with the two header lines below if it does not exist. Offer once to add `.unknowns/`
-   to `.gitignore`.
+   to `.gitignore`. No project to write into (Desktop/web chat, mobile) → print the row
+   as a copyable one-line table row and say where it belongs; see
+   `skills/loop/references/surfaces.md`.
 4. Write the row **even when both answers are no.** The value contract's demotion and
    removal conditions fire only on recorded zeros, so a skipped no-row silently protects
    a skill that is not earning its place.

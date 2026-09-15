@@ -32,7 +32,8 @@ Before quiz, explain concisely — anchor each explained behavior with **Where: 
    during an incident or a review.
 3. Grade answers. Each wrong or blank one names the **exact change site (file:line)**
    to re-read; re-explain only those parts, then offer a retry.
-4. If IMPLEMENTATION_NOTES.md exists, include at least 1 quiz question on its recorded deviations.
+4. If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in
+   this conversation — include at least 1 quiz question on its recorded deviations.
 5. At 6/6 emit the **cleared to merge** checklist: understanding verified (6/6), CI
    green, migration/rollout reviewed, merge style, what to watch after deploy.
    Below 6/6 the doc stays "not yet" — list the sections to re-read.
@@ -51,10 +52,10 @@ Details: skills/loop/references/output-routing.md
 After quiz, present handoff summary — assume another dev takes over tomorrow:
 structure summary / key decisions / how to run & test / incident check order / remaining risks.
 If user wants, convert to PR body draft; if work needs reviewer approval,
-suggest writing a `/unknowns:buy-in` (or `/buy-in` for copied installs) doc.
+suggest writing a **buy-in** doc.
 
 Then capture one scorecard row — ask whether this work surfaced something the user did
 not know and whether it changed a decision, and append it to `.unknowns/scorecard.md`.
 Never answer those for them; write the row even when both answers are no. Skip it if a
-`/unknowns:loop` value review already captured one for this work.
+the **loop** skill value review already captured one for this work.
 Details: skills/loop/references/scorecard.md
