@@ -8,6 +8,12 @@ sub-agent, writes `IMPLEMENTATION_NOTES.md` and relies on a reminder hook silent
 all three in the Chat tab, and the failure mode was a step reported as done when nothing
 ran it.
 
+Release steps per `docs/open-questions.md` A4 (annotated tag → `scripts/build-plugin.sh` →
+GitHub Release with the payload attached) are done for this version at tag
+`unknowns--v0.7.0`, cut 2026-09-16 — a day after the merge, during which the catalog was
+already serving 0.7.0 from `main` HEAD. The tag is the immutable record of what that
+version was, not the install path.
+
 ### Added
 
 - **`skills/loop/references/surfaces.md`** — the one place that says what each surface has
