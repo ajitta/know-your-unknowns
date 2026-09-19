@@ -1,0 +1,17 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "know-your-unknowns",
+  "description": "The unknowns plugin, served from its own repository — one command to add, one to install, always at the version this repository declares.",
+  "owner": {
+    "name": "ajitta",
+    "email": "ajitta@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "unknowns",
+      "source": "./",
+      "description": "Know your unknowns — an operating loop for the gap between the map (your plan) and the territory (the actual code and domain). Eleven skills: blind-spot investigation, domain primers, interviews, divergent prototypes, brainstorming, reference analysis, tweak-likelihood-ordered planning, deviation notes, buy-in docs and comprehension quizzes — plus two agents and two hooks.",
+      "category": "productivity"
+    }
+  ]
+}
