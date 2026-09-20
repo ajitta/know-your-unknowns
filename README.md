@@ -18,6 +18,13 @@ What that buys you, concretely:
 - Plan deviations get logged while they are still cheap, and a hook nudges you when a
   session drifts.
 
+> **Measurement status: unmeasured.** The value contract
+> ([`docs/value-contract.md`](docs/value-contract.md)) holds that this plugin earns its
+> place only when it surfaces something you did not already know **and** that changes a
+> decision. Its metric needs a 10-row rolling window; the scorecard has 2 rows
+> (2026-07-11, 2026-09-20), and the gap between them tripped the contract's own 60-day
+> boundary. So the three claims above are design intent, not measured outcomes.
+
 It packages the methodology of Thariq Shihipar (Anthropic, Claude Code team). Two sources
 are the origin: the talk **"Field Guide to Fable"** (AI Engineer World's Fair 2026
 keynote) and the example collection **"Know your unknowns"** (11 interactive examples) —
