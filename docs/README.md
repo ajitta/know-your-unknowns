@@ -41,6 +41,7 @@
 | [trigger-eval-v0.3.0.md](trigger-eval-v0.3.0.md) | v0.3.0 시점 자동 발화율·루프 준수 실측 기록 | 한국어 | headless `claude -p` 실행 6건의 transcript에서 추출 | **동결** — 특정 시점 측정 기록. 재측정은 새 날짜의 새 파일로 — 첫 후속은 trigger-eval-v0.5.1.md |
 | [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md) | 0.5.1이 description에서 한국어를 뺀 뒤의 트리거 측정. 한국어 축 11/11, 나머지 축은 미측정임을 명시 | 한국어 | `evals/run-manual.py` 실행의 `manual-result.json`에서 추출 | **동결** — 단 `evals/results/`가 gitignore되므로, 다음 실행 때는 결과가 지워지기 전에 새 날짜의 새 파일을 만들 것 |
 | [research-know-your-unknowns.md](research-know-your-unknowns.md) | 원문 "Know your unknowns" 페이지 조사·대조 분석. 【검증】/【단일】/【추정】 확실성 표기 | 한국어 | 수기 — 원문 다회 페치 + 플러그인 소스 대조 | 원문을 다시 페치했을 때. 재확인 날짜를 헤더 표에 한 줄 추가 |
+| [protocol-alignment.md](protocol-alignment.md) | 인간-AI 협업 프로토콜(볼트 노트 3편) 대조에서 나온 격차 G1~G7 + 구조 항목 S1, 결정 표와 다음 세션용 프롬프트 | 한국어 | 수기 — 프로토콜 대조 + `unknowns:interview` 4문항 | 항목을 반영할 때마다 해당 절에 집행 기록. 전부 반영되면 open-questions.md A절로 요약 이관 |
 | [value-contract.md](value-contract.md) | 이 플러그인 자신에 대한 가치 계약 — 지표, 강등·제거 조건, 측정 시계 | 한국어 | 수기 | 수치를 고칠 때(잠정값), 그리고 측정 시계 확인 때마다 표에 한 행 |
 | [value-scorecard.md](value-scorecard.md) | 실사용 1회 = 1행 기록. value-contract의 지표 원장 | 한국어 | 수기 | 실사용마다. 설치자는 자기 저장소의 `.unknowns/scorecard.md`에 따로 기록 |
 | [intent-report-v0.2.0.html](intent-report-v0.2.0.html) | v0.2.0 의도 부합성 검증 리포트 (97,836 바이트) | 한국어 | 검증 워크플로 산출물 — `wf_1d569a3d`, `wf_ecf82b01`. 이 저장소 커밋을 인용하지 않는다(본문의 16진수 id는 git 객체가 아님) | **동결** — 재생성하지 않는다 |
