@@ -40,6 +40,7 @@
 | [trigger-matrix.md](trigger-matrix.md) | 11개 스킬의 트리거 문구 전수 + 충돌 쌍과 해소 상태 | 한국어 | 반자동 — 문서 안의 추출 스크립트 출력으로 표를 수기 갱신 | 문서 "갱신 방법" 절의 `python3` 블록을 저장소 루트에서 실행 |
 | [trigger-eval-v0.3.0.md](trigger-eval-v0.3.0.md) | v0.3.0 시점 자동 발화율·루프 준수 실측 기록 | 한국어 | headless `claude -p` 실행 6건의 transcript에서 추출 | **동결** — 특정 시점 측정 기록. 재측정은 새 날짜의 새 파일로 — 첫 후속은 trigger-eval-v0.5.1.md |
 | [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md) | 0.5.1이 description에서 한국어를 뺀 뒤의 트리거 측정. 한국어 축 11/11, 나머지 축은 미측정임을 명시 | 한국어 | `evals/run-manual.py` 실행의 `manual-result.json`에서 추출 | **동결** — 단 `evals/results/`가 gitignore되므로, 다음 실행 때는 결과가 지워지기 전에 새 날짜의 새 파일을 만들 것 |
+| [trigger-eval-v0.7.1-opus-5-5.md](trigger-eval-v0.7.1-opus-5-5.md) | Claude Opus 5.5 첫 측정 — 31케이스 기계 채점, blindspot 발화 3/8 → 6/6 수정 | 한국어 | `evals/run-manual.py` (`ANTHROPIC_MODEL=claude-opus-5-5`) 실행의 `manual-result.json`에서 추출 | **동결** |
 | [research-know-your-unknowns.md](research-know-your-unknowns.md) | 원문 "Know your unknowns" 페이지 조사·대조 분석. 【검증】/【단일】/【추정】 확실성 표기 | 한국어 | 수기 — 원문 다회 페치 + 플러그인 소스 대조 | 원문을 다시 페치했을 때. 재확인 날짜를 헤더 표에 한 줄 추가 |
 | [protocol-alignment.md](protocol-alignment.md) | 인간-AI 협업 프로토콜(볼트 노트 3편) 대조에서 나온 격차 G1~G7 + 구조 항목 S1, 결정 표와 다음 세션용 프롬프트 | 한국어 | 수기 — 프로토콜 대조 + `unknowns:interview` 4문항 | 항목을 반영할 때마다 해당 절에 집행 기록. 전부 반영되면 open-questions.md A절로 요약 이관 |
 | [value-contract.md](value-contract.md) | 이 플러그인 자신에 대한 가치 계약 — 지표, 강등·제거 조건, 측정 시계 | 한국어 | 수기 | 수치를 고칠 때(잠정값), 그리고 측정 시계 확인 때마다 표에 한 행 |

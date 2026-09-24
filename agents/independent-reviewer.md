@@ -44,4 +44,5 @@ complexity.
 
 **Output format:** grouped by severity (Critical / Warning / Info). Each item: file:line,
 problem description, failure scenario (what input/state breaks it, how), fix suggestion.
-End with the verified OK list.
+End with the verified OK list, then a **not verified** list: each area you could not
+check, why, and where you looked.

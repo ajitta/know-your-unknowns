@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.7.1 — 2026-09-25
+
+A check against Claude Opus 5.5 (`claude-opus-5-5`, Claude Code 2.1.281). The suite had last
+been run on the model before it. Record: [docs/trigger-eval-v0.7.1-opus-5-5.md](docs/trigger-eval-v0.7.1-opus-5-5.md).
+
+Release steps per `docs/open-questions.md` A4 are done the same day as the merge, at tag
+`unknowns--v0.7.1`.
+
+### Fixed
+
+- **`blindspot` fired 3 times in 8 on Opus 5.5.** "What am I missing?" (and "내가 놓친 게 뭐지?")
+  was answered directly in the other 5 runs. The answers were good, but they had no card
+  kinds and no improved prompt, and those are the point of the skill. The model had decided
+  it could answer without the skill. The description now says to run the skill even then,
+  because the deliverable is the prompt, not the answer. After the change it fired 6 of 6,
+  and the `neg-vocabulary-does-not-fire-blindspot` negative case stayed at 3 of 3.
+- **`evals/run-manual.py` crashed partway through the suite** with
+  `AttributeError: 'str' object has no attribute 'get'`. Claude Code 2.1.281's stream-json
+  output has some events whose `message` is a plain string. The parser now skips any
+  `message` that is not an object.
+
+### Changed
+
+- **`loop` step 7 names the stops it does not want.** On a long run, Opus 5.5 sometimes ends a
+  turn by reporting progress: it names the next step without taking it, or offers to
+  continue. Anthropic's prompting guide for the model says it follows instructions that
+  name those stops. Inside the implement stage the rule is now to keep going and put status
+  in the same message as the next action. The stage-boundary checkpoint stays where the
+  user steers. The escalation rule (architecture, user-visible behavior, data, security) is
+  unchanged.
+- **`output-routing.md` names the design defaults to leave out.** With no design direction,
+  the model falls back on a few default styles, and a general "avoid a generic look" only
+  swaps one default for another. The page contract now lists the specific patterns instead:
+  cream backgrounds, italic heading accents, "01/02/03" labels, monospace labels, pill
+  buttons.
+- **`independent-reviewer` ends with a "not verified" list**: each area it could not check,
+  why, and where it looked. This pairs with the existing verified-OK list.
+
+### Checked, no change needed
+
+- No "think hard" or "step by step" instructions in any skill or agent. Opus 5.5 always
+  thinks, and these lines only slow it down.
+- No request to reproduce the model's reasoning in the reply. On Opus 5.5 that can be
+  refused as `reasoning_extraction`. The notes skill's **Attributed** block asks for a
+  decision's reason in a few lines, which is not the same thing.
+- No `model:` pins or `effort:` frontmatter. Both agents use `model: inherit`, which avoids
+  the Claude Code bug where `effort:` next to `model:` silently drops the model override.
+
 ## 0.7.0 — 2026-09-15
 
 Claude Desktop, Claude web and Cowork as install targets. The skills already loaded there;

@@ -53,7 +53,10 @@ Decisions needing user input (schema, interfaces, UX contracts) go on top.
 
 ### 7. Implement + deviation log → apply the **notes** skill rules
 Log anything not in the plan; stop and ask on decisions touching architecture,
-user-visible behavior, data, or security. If the conversation was compacted, re-invoke
+user-visible behavior, data, or security. Everything else inside this stage: keep going —
+put status notes in the same message as the next action, and do not stop to report a
+finished plan item or offer to continue. The stage-boundary checkpoint is where the user
+steers. If the conversation was compacted, re-invoke
 the **notes** skill (and this skill for the step list) before continuing implementation.
 
 ### 8. Independent verification → `unknowns:independent-reviewer` agent

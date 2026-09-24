@@ -47,6 +47,13 @@ identifiers fixed.
 again under `:root[data-theme="dark"]`. Give `body` an explicit token background. Never
 define a color only inside a media or `[data-theme]` block.
 
+**Look**: these pages are working surfaces, not landing pages. With no design direction,
+recent models fall back on the same few defaults, and "avoid a generic look" only swaps one
+default for another — so name them: no cream or off-white page background, no italic
+accent words in headings, no numbered "01 / 02 / 03" section labels, no monospace labels
+outside code, no pill-shaped buttons. Let the content's own structure (cards, tables) do
+the work.
+
 **Accessibility**: real `<button>` and `<input type="checkbox">` for chips and checkboxes,
 never `div` with an onclick. Visible `:focus-visible` styles. Set `lang` to the reply
 language. Render the assembled reply as plain text too, so the deliverable survives with

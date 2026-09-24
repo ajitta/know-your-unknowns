@@ -541,7 +541,7 @@ Edit/Write 이벤트 없이 파일을 고치므로, 그렇게 작업한 세션�
 | 위 값을 나만 지정 | `.claude/settings.local.json`, 같은 `env` 블록, git 무시 |
 | 구버전 변수 | `FIELD_GUIDE_NOTES_THRESHOLD`도 계속 인식 (새 변수가 우선) |
 | 요구사항 | `python3` (표준 라이브러리만, 외부 의존성 없음) |
-| 검증 환경 | Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` 통과, 리마인더는 실제 PostToolUse 파이프라인 경유 확인, 두 스크립트 모두 `tests/`로 커버 |
+| 검증 환경 | Claude Code 2.1.281 + Opus 5.5, Linux arm64 (2026-09-25): eval 31케이스 실행, 기계 채점 전부 통과 · Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` 통과, 리마인더는 실제 PostToolUse 파이프라인 경유 확인, 두 스크립트 모두 `tests/`로 커버 |
 | 플랫폼 | CI가 ubuntu-latest와 windows-latest에서 스크립트 테스트를, ubuntu-latest에서 플러그인 검증을 돌립니다. macOS는 로컬 실행으로만 커버됩니다. Windows에서는 훅 명령이 `python3`인데 기본 PATH에는 보통 없음 — `python3` alias를 만들거나 명령을 조정하세요 |
 
 **플러그인 없이 수동 설치** (스킬만 복사한 사용자): `hooks/scripts/impl_notes_reminder.py`를

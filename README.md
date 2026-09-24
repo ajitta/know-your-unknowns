@@ -590,7 +590,7 @@ Anything it cannot parse is allowed through — it is a guard rail, not a sandbo
 | Set any of these for yourself only | `.claude/settings.local.json`, same `env` block, git-ignored |
 | Legacy variable | `FIELD_GUIDE_NOTES_THRESHOLD` is still recognized (the new variable wins) |
 | Requirements | `python3` (standard library only, no external dependencies) |
-| Tested with | Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` passes; the reminder verified through the live PostToolUse pipeline; both scripts covered by `tests/` |
+| Tested with | Claude Code 2.1.281 + Opus 5.5, Linux arm64 (2026-09-25): 31 eval cases run, all mechanical graders pass; Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` passes; the reminder verified through the live PostToolUse pipeline; both scripts covered by `tests/` |
 | Platforms | CI runs the script tests on ubuntu-latest and windows-latest and validates the plugin on ubuntu-latest; macOS is covered by local runs only. On Windows the hook command is `python3`, which is usually absent from a default PATH — create a `python3` alias or adjust the command |
 
 **Manual install without the plugin** (for copied-skill users): copy

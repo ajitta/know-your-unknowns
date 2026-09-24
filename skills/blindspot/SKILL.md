@@ -4,7 +4,8 @@ description: >
   Blind-spot pass — investigate unknown unknowns before implementation and turn them
   into a better prompt. Use when the user says "blind spot pass", "what am I missing",
   "unknown unknowns", or before work in an
-  unfamiliar codebase area. Not for routine, well-understood tasks.
+  unfamiliar codebase area — run it even when you could answer directly, because the
+  deliverable is the improved prompt, not the answer. Not for routine, well-understood tasks.
 argument-hint: "<task description or target area> [context sources: git/docs/slack etc.]"
 ---
 

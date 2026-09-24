@@ -250,7 +250,11 @@ def run_once(case, with_plugin, root, claude_bin):
             events.append(event)
             if event.get("type") == "result" and isinstance(event.get("result"), str):
                 last_message = event["result"]
-            message = event.get("message") or {}
+            message = event.get("message")
+            # Not every stream-json event carries a message object: some newer
+            # CLI events put a plain string under "message". Skip those.
+            if not isinstance(message, dict):
+                continue
             for block in message.get("content", []) or []:
                 if not isinstance(block, dict):
                     continue
