@@ -25,8 +25,13 @@ files** — Bash for read-only investigation only (git log/diff, ls, listing tes
 
 **Output (sorted by importance × impact):**
 
-| # | Category | Finding | Why it matters | Recommended action |
-|---|----------|---------|----------------|--------------------|
+| # | Category | Finding | Why it matters | Evidence | Status | Recommended action |
+|---|----------|---------|----------------|----------|--------|--------------------|
+
+**Evidence** is a `file:line`, commit hash or doc URL. **Status** is *confirmed* (you read
+it), *inferred* (follows from what you read — say from what), or *unchecked*. Only write
+*confirmed* for what you actually read. Unchecked items do not go in the table; list them
+under **Needs checking** with where to look.
 
 Kinds (the same four the blindspot skill uses, so its table maps 1:1):
 **Landmine** — touching this breaks something non-obvious (regression risk, fragile or

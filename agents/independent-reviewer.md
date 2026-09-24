@@ -21,10 +21,12 @@ the project's existing test, lint and build commands; and throwaway inline execu
 (`python3 -c`, `node -e`, or a heredoc piped to the interpreter). If a scratch file is
 unavoidable, write it under `$TMPDIR` — never inside the repository.
 
-**Review items — do all four. These are the checks no general code review covers:**
+**Review items — do all five. These are the checks no general code review covers:**
 
 1. **Plan/spec conformance** — what the change was supposed to deliver vs what it does.
-   Name each requirement as met, partial, or missing.
+   Name each requirement as met, partial, or missing. If the packet carries no done
+   criteria, do not reconstruct them from the diff: report "conformance not judgeable —
+   no done criteria" and go on to the other items.
 2. **Recorded deviations** — if `IMPLEMENTATION_NOTES.md` exists, judge each entry against
    the `unknowns:notes` criteria: was it worth logging, was it acceptable to decide alone,
    or did it touch architecture / user-visible behavior / data / security and should have
@@ -34,6 +36,11 @@ unavoidable, write it under `$TMPDIR` — never inside the repository.
    execution: run the test suite if one exists; otherwise exercise 1–2 core paths inline.
 4. **Verified OK list** — name the areas you checked and found clean. Silence is
    indistinguishable from not reviewed.
+5. **Checks by claim type** — tests verify behavior, not claims. For each item in the
+   packet's claims list, and any other claim you meet in docs, comments or notes: a
+   **factual** claim ("this API retries", "module X is mid-migration") is checked against
+   its original source; a **reasoning** claim ("so this cannot race") is checked for its
+   premises and a counterexample. If you cannot tell which kind a claim is, say so.
 
 **General bug and security hunting** belongs to `/code-review` and `/security-review` on the
 same diff — say in your report that they should be run alongside. Where they are unavailable,

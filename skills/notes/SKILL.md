@@ -63,6 +63,11 @@ Two lighter kinds, same file, one line each:
 
 ## Escalation
 
+A deviation that invalidates a **decision item** of the approved plan (schema, public
+interface, UX contract) is not closed by the log entry: revise that item in the plan
+document itself, mark it *revised — needs re-approval*, and get the user's approval before
+building on it. Deviations from mechanical items need only the log entry.
+
 Not just log — **stop work and ask user** when:
 - Decision changes architecture
 - Decision changes user-visible behavior (UX/API contract)

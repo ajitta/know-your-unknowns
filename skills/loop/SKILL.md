@@ -50,6 +50,7 @@ criteria first.
 ### 6. Plan → the **plan** skill
 Tweakable plan sorted by **probability of revision**, not execution order.
 Decisions needing user input (schema, interfaces, UX contracts) go on top.
+The plan's done-criteria section quotes step 1 — do not ask those questions again.
 
 ### 7. Implement + deviation log → apply the **notes** skill rules
 Log anything not in the plan; stop and ask on decisions touching architecture,
@@ -62,9 +63,10 @@ the **notes** skill (and this skill for the step list) before continuing impleme
 ### 8. Independent verification → `unknowns:independent-reviewer` agent
 Spawn it with the Agent tool (`subagent_type: unknowns:independent-reviewer`). **Never a
 fork or `/subtask`** — those inherit the implementer's context, which is the one thing
-this step exists to exclude. Hand the agent: done criteria (step 1), the approved plan
-(step 6), the `IMPLEMENTATION_NOTES.md` path, the diff range / touched files, and how to
-run the tests. **Never hand it the implementer's own summary.**
+this step exists to exclude. Hand the agent: done criteria (step 1 / the plan's done-criteria section), the approved plan
+(step 6), the `IMPLEMENTATION_NOTES.md` path, the diff range / touched files, how to
+run the tests, and a list of the **claims** the work rests on (facts about APIs, data or
+the domain, and reasoning the design depends on) for the reviewer's claim-type check. **Never hand it the implementer's own summary.**
 No Agent tool in this session (Desktop/web chat, mobile) → hand the user that same packet
 to paste into a **new conversation**, and say the review is standing in for the agent.
 Details: skills/loop/references/surfaces.md
@@ -77,6 +79,8 @@ or stakeholder **approval**, also run the **buy-in** skill.
 Judge by real value, not code quality: whose problem shrank and which / how much
 faster / reasons it might go unused / metrics / removal condition. **Building is
 easier, generating value is still hard.**
+Also fix, with the user, **how the result will be checked in reality** (what to look at)
+and **when** (a date they choose — there is no default, it depends on the work).
 Close by capturing one scorecard row — ask the user whether this surfaced something they
 did not know and whether it changed a decision, then append the row to
 `.unknowns/scorecard.md`. Never answer those two for them, and write the row even when
@@ -103,6 +107,10 @@ skills/loop/references/surfaces.md has the rest.
 - Argument `resume`: read the file; continue from the recorded stage.
 - Any other argument text is the task description.
 - No argument: resume `.unknowns/loop.json` if it exists, otherwise ask for the task first.
+- On every start, read `.unknowns/scorecard.md` if it exists. Any row whose recheck date has
+  passed and whose reality check is still empty is raised **before** the new task: ask
+  the user what they saw and fill the cell. This is the only thing that reads that column;
+  without it the date is a promise nobody keeps.
 
 ## Operating principles (compressed)
 

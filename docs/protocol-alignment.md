@@ -4,6 +4,8 @@
 (01 프로토콜 · 02 Higgsfield 사례 연구 · 03 용어집).
 결정 방식: `unknowns:interview` 4문항 1라운드(아래 결정 표).
 범위: **이 문서까지.** 스킬 본문 편집은 다음 세션 — 단 G7은 이번에 집행했다.
+**집행 상태(2026-09-25, 0.8.0):** G1·G2·G3·G4·G5·G6 모두 스킬 본문에 반영했다. S1(README 재구성)은
+하지 않았다. 항목별 실제 편집 내용과 계획과 달라진 점은 맨 아래 "집행 기록" 절에 있다.
 
 ## 왜 대조했나
 
@@ -245,3 +247,28 @@ README의 `Skills at a glance`는 Phase 열이 Before / During / After다. 프�
 > 기록한다. 순서의 근거는 하나뿐이다 — G1이 `independent-reviewer` 패킷을 바꾸므로 같은
 > 파일을 건드리는 G4보다 앞선다. G2·G3·G6 사이에는 의존성이 없으니 편한 순서로 해도 된다.
 > 짧은 계획을 먼저 보이고 시작할 것.
+
+---
+
+## 집행 기록 (2026-09-25, 0.8.0)
+
+| 항목 | 반영한 파일 | 계획과 다른 점 |
+|---|---|---|
+| G1 | `plan` 2단계(신설)·3단계 size gate, `loop` 6·8단계, `independent-reviewer` 1항 | 없음. size gate를 통과한 작업도 완료 조건을 한 줄로 적는다 |
+| G2 | `blindspot` 3·4단계, `unknowns-scout` 표, `reference` 3단계, `teach-me` 4단계 | teach-me는 용어마다 출처를 달고, 확신이 없는 용어에는 *unverified*를 표시한다 |
+| G3 | `blindspot` 1단계, `interview` 1단계 | 없음 |
+| G6 | `notes` Escalation 절 | 없음 |
+| G4 | `independent-reviewer` 5항(신설), `loop` 8단계 패킷의 claims 목록 | 없음 |
+| G5 | `loop` 10단계, `loop` 인자 절, `scorecard.md` 파일 형식 열 2개 | **아래 참조** |
+
+**G5 — "누가 언제 읽는가"의 답.** 가장 약한 부분 절이 요구한 선결 조건이다. 답: **`loop`가 시작할
+때마다** `.unknowns/scorecard.md`를 읽고, 재확인일이 지났는데 현실 확인 칸이 비어 있는 행이
+있으면 새 작업보다 먼저 묻는다. 새 훅은 만들지 않았다. 훅은 Claude Code와 Cowork에서만 돌기
+때문에(`surfaces.md`), 모든 표면에서 똑같이 동작하는 쪽을 택했다. 한계도 남는다. `loop`를 다시
+쓰지 않는 사용자에게는 아무도 묻지 않는다. 이 한계는 README 미측정 표기와 같은 성격이라 따로
+장치를 두지 않았다.
+
+**검증.** `tests/` 93건 통과, `claude plugin validate --strict` 통과. eval에 G1 케이스
+(`behavior-plan-opens-with-done-criteria`)와 G2 케이스(`behavior-blindspot-labels-evidence-status`)를
+추가했다. G3·G4·G5·G6은 여러 턴이나 하위 에이전트가 필요해 헤드리스 단일 프롬프트 eval로는 재기
+어렵다. 그래서 eval 케이스가 없다. 이 넷은 문구만 반영했고 효과는 측정하지 않았다.

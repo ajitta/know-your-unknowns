@@ -535,12 +535,15 @@ Use the independent-reviewer agent — verify the implementation we just finishe
 Run an independent verification
 ```
 It treats the implementing session's explanation **as claims only** and verifies directly
-by reading code and running tests. Its four checks are deliberately the ones a general
+by reading code and running tests. Its five checks are deliberately the ones a general
 code review does not cover: **plan/spec conformance** (each requirement named met,
 partial or missing), **whether each recorded deviation was acceptable to decide alone**,
 **tests-pass-but-reality-fails** (mocks hiding real dependencies, tests that merely mirror
-the implementation), and a **verified OK list** — because silence is indistinguishable
-from not reviewed. General bug and security hunting belongs to `/code-review` and
+the implementation), a **verified OK list** — because silence is indistinguishable
+from not reviewed — and **checks by claim type**: a factual claim is checked against its
+source, a reasoning claim for its premises and a counterexample. With no done criteria in
+its packet it reports conformance as not judgeable instead of guessing, and it ends with
+what it could not verify. General bug and security hunting belongs to `/code-review` and
 `/security-review` on the same diff; run those alongside. Where they are unavailable the
 agent covers error handling, security, performance and needless complexity itself as a
 secondary pass. Stage 8 of the loop skill calls it automatically.

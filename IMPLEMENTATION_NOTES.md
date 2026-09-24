@@ -1,5 +1,19 @@
 # Implementation Notes — plan deviation log
 
+## [2026-09-25] 0.8.0 — protocol-alignment G1–G6 반영
+
+**Observed**
+- **Situation found**: G5의 선결 조건 "재확인 열을 누가 언제 읽는가"는 문서가 답을 남기지 않았다.
+- **Deviation from plan**: 계획(`protocol-alignment.md` G5)은 "열 추가까지만 하고 알림 기제는 미결"이었다. 실제로는 읽는 쪽까지 넣었다. `loop`가 시작할 때 `.unknowns/scorecard.md`를 읽고, 날짜가 지났는데 비어 있는 행을 먼저 묻는다.
+- **Response chosen**: `skills/loop/SKILL.md` 인자 절에 한 줄을 추가했다. 훅은 추가하지 않았다.
+
+**Attributed**
+- **Reason for choice**: 가장 약한 부분 절이 "읽는 쪽 없이 열만 추가하면 지켜지지 않는 약속이 하나 더 생긴다"고 적었다. 그래서 열만 추가하는 것은 계획을 따르는 게 아니라 알려진 실패를 반복하는 것이었다.
+- **Alternatives considered**: SessionStart 훅 — Claude Code와 Cowork에서만 돌아서 Desktop·웹 사용자에게는 이 열을 읽는 쪽이 없다. 그래서 기각했다.
+- **Risk/follow-up check**: `loop`를 다시 쓰지 않는 사용자에게는 아무도 묻지 않는다. 60일 value-contract 판정(2026-11-19)에서 Reality check 칸이 몇 개 채워졌는지 볼 것.
+
+- **Discovery**: G3·G4·G5·G6의 효과는 헤드리스 단일 프롬프트 eval로 잴 수 없다. G3은 사용자 응답이 필요하고, G4는 하위 에이전트가 필요하며, G5·G6은 여러 세션에 걸친다. 그래서 문구만 반영하고 CHANGELOG에 미측정이라고 적었다.
+
 ## [2026-09-15] 0.7.0 — Claude Desktop/웹 설치 경로 추가
 
 - **Situation found**: 첫 실제 업로드가 거부됐다 — "Plugin description must be at most 500 characters". `plugin.json`의 description은 579자였고, `claude plugin validate --strict`와 CI는 둘 다 통과시켰다.

@@ -25,6 +25,11 @@ Origin: Blindspot Pass — see skills/loop/references/talk-source.md
 1. Parse task description and context sources from `$ARGUMENTS`. Empty → the task
    currently under discussion; if there is none, ask one question first. If sources are
    given (git history, docs, specific modules, etc.), investigate those first.
+   **Before investigating, ask once** (one AskUserQuestion, or one message) for three
+   lists: ① what the user is already sure of, ② what they are assuming, ③ where they do
+   not know how to judge. ① narrows the scope, but ask how recent that certainty is;
+   ② becomes the **first** thing to check, not something to skip; ③ points at the
+   **teach-me** skill. A skip means a full investigation — never block on it.
 2. Scope codebase-wide or large → spawn the `unknowns:unknowns-scout` agent with the
    Agent tool. Hand it a packet: the user's original prompt verbatim, the context
    sources, the target area and its entry points, and what to return (finding table +
@@ -38,12 +43,17 @@ Origin: Blindspot Pass — see skills/loop/references/talk-source.md
    - **Convention** — an unwritten rule the codebase enforces
    - **Missing concept** — a mechanism the user's prompt has no word for
    - **History** — an earlier or reverted attempt at this exact task
-   Also collect the **questions to answer** and the **information still needed** to
-   sharpen the prompt.
+   Each finding also carries **evidence** (`file:line`, commit hash, or doc URL) and a
+   **status**: *confirmed* (you read it), *inferred* (follows from what you read, or from
+   how such systems usually work — say which), or *unchecked*. Unchecked items stay out of
+   the cards and the tally; list them under **Needs checking**, so the tally is not padded
+   with guesses. Also collect the **questions to answer** and the **information still
+   needed** to sharpen the prompt.
 4. Lead with the contrast: **What you asked for** (the task as the user framed it, and why
    it sounds small) vs **What you're actually walking into**, with a tally by kind
    ("4 landmines, 2 conventions, 1 missing concept, 1 reverted attempt"). Then the cards —
-   kind, finding, **why it bites**, recommended action — sorted by **importance × impact**.
+   kind, finding, **why it bites**, evidence, status, recommended action — sorted by
+   **importance × impact**.
 5. End with an **improved prompt draft** reflecting the findings — the core deliverable of
    this skill. It names the execution order and ends with an explicit checkpoint
    ("stop and show me the plan before writing code").

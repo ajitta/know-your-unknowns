@@ -1,5 +1,57 @@
 # Changelog
 
+## 0.8.0 — 2026-09-25
+
+The six gaps `docs/protocol-alignment.md` found against the human-AI collaboration protocol
+(G1–G6), now in the skill bodies. The plugin still asks "do you understand the result?" and
+now also asks "is the result right?". The decisions come from that document's decision
+table. What changed from its plan is in its new "집행 기록" section.
+
+Release steps per `docs/open-questions.md` A4 are done the same day as the merge, at tag
+`unknowns--v0.8.0`.
+
+### Added
+
+- **Done criteria are part of `plan` (G1).** Every plan opens with purpose / done criteria /
+  must-never-break / allowed cost & scope. A task under the size gate still states them
+  in one line. If the user skips the questions, the plan says the criteria are not set.
+  The independent reviewer's packet no longer asks for input that only `loop` used to
+  produce, and with no criteria the reviewer reports "conformance not judgeable" instead
+  of reconstructing them from the diff.
+- **Evidence and status on factual findings (G2).** In `blindspot` and `unknowns-scout`,
+  each finding carries evidence (`file:line` / commit / URL) and a status: confirmed,
+  inferred or unchecked. Unchecked findings leave the table and the tally for a **Needs
+  checking** list. `reference` rows cite the source location. `teach-me` gives each term a
+  source and marks uncertain ones *unverified*.
+- **Known knowns are declared up front (G3).** `blindspot` asks once what the user is sure
+  of, what they are assuming and where they cannot judge. Assumptions are checked first,
+  not skipped. `interview` opens round 1 the same way.
+- **The reviewer checks claims by type (G4).** New fifth check: a factual claim against its
+  source, a reasoning claim for premises and a counterexample. `loop` step 8 hands over the
+  list of claims the work rests on.
+- **A recheck date, and a reader for it (G5).** `loop`'s value review asks how the result
+  will be checked in reality and when. The scorecard gains **Recheck on** and **Reality
+  check** columns. `loop` reads the scorecard on every start and asks about overdue
+  rechecks before the new task. That start-of-loop read is the answer to the document's
+  weakest part ("who reads this column?"). No hook was added: hooks only run in Claude Code
+  and Cowork.
+- **Plans are revised, not just logged against (G6).** A deviation that invalidates a
+  plan's decision item (schema, interface, UX contract) now changes that item in the plan,
+  marked *revised — needs re-approval*.
+- Two eval cases: `behavior-plan-opens-with-done-criteria` (G1) and
+  `behavior-blindspot-labels-evidence-status` (G2).
+
+### Measured on Claude Opus 5.5
+
+- G1: the plan fired 3/3 and opened with the done-criteria section every time. Unknown
+  targets were marked *(assumed)* rather than presented as agreed.
+- G2: blindspot fired 3/3 and used status labels in every run. No codebase finding was
+  marked confirmed about a repository the model was told it could not see.
+- No regressions: `trigger-en-plan` 3/3, and `neg-one-file-plan-defers-to-plan-mode` still
+  writes no plan document (3/3).
+- G3–G6 are wording only. Their effects need multi-turn or sub-agent runs that a headless
+  single-prompt eval cannot drive, so they are unmeasured.
+
 ## 0.7.1 — 2026-09-25
 
 A check against Claude Opus 5.5 (`claude-opus-5-5`, Claude Code 2.1.281). The suite had last

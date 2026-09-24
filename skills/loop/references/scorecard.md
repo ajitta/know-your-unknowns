@@ -30,12 +30,16 @@ worthless without recorded rows, and asking days later produces fiction.
 ## File format
 
 ```markdown
-| # | Date | Task | Skills used | Learned something? | Changed a decision? | Note |
-|---|------|------|-------------|--------------------|---------------------|------|
-| 1 | 2026-09-06 | <task in one line> | blindspot → plan | yes — <what they did not know> | no | <note> |
+| # | Date | Task | Skills used | Learned something? | Changed a decision? | Note | Recheck on | Reality check |
+|---|------|------|-------------|--------------------|---------------------|------|------------|---------------|
+| 1 | 2026-09-06 | <task in one line> | blindspot → plan | yes — <what they did not know> | no | <note> | 2026-10-06 — <what to look at> | |
 ```
 
 Number rows sequentially from the existing file. Keep each cell to one line.
+**Recheck on** comes from the loop's value review: the date the user chose and what to look
+at. Leave **Reality check** empty; the loop fills it when it starts after that date. An older
+file without the two columns: add them to the header and leave old rows empty. The quiz
+wrap-up leaves both empty unless the user names a date.
 
 ## When to skip
 

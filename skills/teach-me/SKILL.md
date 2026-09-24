@@ -30,7 +30,10 @@ Origin: Teach Me My Unknowns — see skills/loop/references/talk-source.md
 3. Pick 3–7 **decision axes** the user will decide on in this task
    (e.g. color grading: exposure / white balance / contrast curve / saturation vs naturalness / look).
 4. Build a **vocabulary ladder**: per axis, everyday word → expert term, each term with
-   1 example sentence of "what you can request with this term".
+   1 example sentence of "what you can request with this term" and one source (a doc,
+   standard or reference text). A precise term can make a wrong premise sound right, so
+   mark any term whose usage you are not sure of as *unverified* rather than defining it
+   confidently.
 5. Show a **before/after comparison** per concept — same subject with vs without the
    concept applied. Visual domains: synthetic inline comparisons (SVG/canvas, or CSS
    filters over two rendered states), never external image URLs; if a real photo is

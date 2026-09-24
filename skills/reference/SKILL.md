@@ -30,7 +30,9 @@ Before implementing, **prove comprehension** with a semantics map.
    key reference excerpts ↔ new-environment counterparts side by side, gotcha points
    where behavior subtly differs, and an edge-case table with a **Match** column —
    identical / equivalent / changed ("equivalent" = same decision, different surface).
-   Number every note and row so a correction can name one.
+   Number every note and row so a correction can name one, and give each row the
+   reference location it came from (`file:line`, section, or timestamp) so the user can
+   check the reading against the source.
 4. Contrast with current project conventions (code style, dependencies, test
    approach); present an **application plan**.
 5. **Sign-off gate — nothing is implemented until the user signs off.** They reply

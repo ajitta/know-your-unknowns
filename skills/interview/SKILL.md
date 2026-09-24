@@ -25,6 +25,9 @@ Origin: The Interview — see skills/loop/references/talk-source.md.
 
 1. From `$ARGUMENTS` and conversation context, list spec gaps (known unknowns).
    No arguments → the spec under discussion; if none, ask once what to interview about.
+   If the user has not yet said what they are sure of and what they are assuming, make
+   that the first question of round 1: settled items are not asked again, and stated
+   assumptions become questions of their own.
 2. Ask **max 4 questions per round** (AskUserQuestion hard cap: 1-4 questions,
    2-4 options each), in priority order. Attach a **one-line reason why it matters**
    to each question.
