@@ -1,5 +1,65 @@
 # Changelog
 
+## 0.8.1 — 2026-09-28
+
+Fixes from an outside review of 0.8.0, then a second pass after the plugin's own
+`independent-reviewer` checked the first draft of this release. Each defect below was
+reproduced before it was fixed; the guard ones by piping the command into the hook exactly
+as Claude Code does.
+
+### Fixed
+
+- **The sub-agent read-only guard let writes through.** Two probes of 0.8.0 (15 commands,
+  then 10 more) found 21 writes allowed; `python3 -c` was also allowed, by design. The
+  independent review of the first fix then found neighbouring forms of the same classes
+  (parenthesised awk `print`, sed address shapes, clustered `sort -uo`, `cp -t`, `xargs -i`,
+  `env -S`, `/tmp/../`), and those are fixed here too.
+  - `unknowns-scout`: commands on its read allowlist still wrote through their options or
+    program text — `awk '{print > "f"}'`, `sed 'w f'`, `sort -o`, `yq -i`, `find -fprint`,
+    `tree -o`, `uniq in out`, `git diff --output=`. `git fetch` and `git notes add` changed
+    `.git`. All are now denied; the read forms (`awk '{print $1}'`, `sed -n '1,40p'`,
+    `sort -u`, `git notes list`) stay allowed. awk programs are read by a small lexer that
+    blanks string and regex literals, and sed scripts by a scanner rather than a regex —
+    the regex in the first draft took 5 s on a 1,000-character argument, which is the
+    hook's timeout.
+  - `independent-reviewer`: the guard was a deny list, so a wrapper or an unlisted command
+    got past it — `xargs rm`, `bash -c 'rm -rf src'`, `env rm`, `cp /dev/null src/x`,
+    `touch src/x`. Wrappers (`xargs`, `env` including `-S`, `command`, `timeout`, `nice`,
+    `time`, `sh -c`, `eval`, `find -exec`) are now unwrapped and the inner command checked;
+    nesting deeper than six levels is denied rather than trusted. `cp`, `touch`, `mkdir`,
+    `ln`, `chmod` and friends are denied unless every target — including a `-t` /
+    `--target-directory` value — is under a temp directory, so the scratch files
+    `agents/independent-reviewer.md` prescribes still work. A variable set from
+    `$(mktemp)` in the same command counts as temp; a path with a `..` segment never does.
+    `patch` needs `--dry-run`; `git format-patch` needs `--stdout` or a temp output
+    directory.
+  - Both agents: `git -c alias.x='!cmd'` (and other `-c` keys that run a program, such as
+    `core.fsmonitor` or `*.textconv`) could run any command; it is now denied. `git remote
+    update`, `archive -o`, `read-tree`, `checkout-index`, `clone`, `merge-file`, `hash-object
+    -w`, `symbolic-ref <name> <ref>`, `sparse-checkout set`, `reflog expire`, `bundle
+    create`, `replace`, `update-index` and the state-changing `bisect` verbs join the write
+    lists. `git -c core.pager=cat`, `bisect log` and `reflog` stay allowed.
+  - Still not inspected, and now said so in the README: scripts the agent runs
+    (`python3 -c`, a test file, `bash script.sh`). The guard remains a guard rail, not a
+    sandbox.
+- **`output-routing.md` pointed at an Artifact action that does not exist.** Rung 1 told
+  the model to collect comments with `action: comments`; the Artifact tool has no such
+  action. Comments go through the separate `ArtifactComments` tool, and the text now says so.
+- **`surfaces.md` read like a detection rule.** A Claude app task running in a cloud
+  workspace starts from web or desktop yet carries the Agent tool and this plugin's agents,
+  which the "Desktop / web chat: no sub-agents" column contradicts. The table is now marked
+  as defaults, with the tool list as the deciding signal — which is what every substitute
+  was already keyed to.
+- Text left over from earlier edits: `reference` still named `/notes` for copied installs
+  (0.7.0 removed slash commands from skill bodies); "the the **buy-in**" in `notes`; "a the
+  **loop**" in `quiz`.
+
+### Added
+
+- Guard tests for every bypass above, each paired with the read forms that must stay
+  allowed, and one for a long sed argument (`tests/test_agent_readonly_guard.py`, 24 → 41
+  tests).
+
 ## 0.8.0 — 2026-09-25
 
 The six gaps `docs/protocol-alignment.md` found against the human-AI collaboration protocol

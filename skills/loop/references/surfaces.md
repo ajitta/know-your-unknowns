@@ -16,6 +16,11 @@ calls for a tool the current session does not have — never silently skip the s
 | Artifact publishing | yes | yes | yes | view only |
 | Slash invocation | `/unknowns:<skill>` | by name | by name | by name |
 
+The columns are defaults, not a detection rule. A session's own tool list decides: a
+Claude app task that runs in a cloud workspace is started from web or desktop, yet it can
+carry the Agent tool and this plugin's agents. Every substitute below is keyed to a tool
+being absent, never to the surface's name.
+
 "By name" means the skill is model-invoked: say the trigger phrase, or name the skill
 ("run the blindspot skill on this"). There is no namespace prefix outside Claude Code.
 

@@ -75,4 +75,4 @@ Not just log — **stop work and ask user** when:
 
 ## Wrap-up
 
-Before ending session or creating PR: summarize accumulated entries, then write the **fold back into the plan** block — 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises — and list any open **Todo for human** items beside it. Suggest continuing with the **quiz** skill. If work needs approval, reflect this note's unresolved items into the the **buy-in** skill doc as "known limitations".
+Before ending session or creating PR: summarize accumulated entries, then write the **fold back into the plan** block — 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises — and list any open **Todo for human** items beside it. Suggest continuing with the **quiz** skill. If work needs approval, reflect this note's unresolved items into the **buy-in** skill doc as "known limitations".

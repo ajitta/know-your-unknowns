@@ -1,5 +1,26 @@
 # Implementation Notes — plan deviation log
 
+## [2026-09-28] 0.8.1 — 읽기 전용 가드 구멍, 문서 결함
+
+**Observed**
+- **Situation found**: 계획은 외부 검토가 재현한 쓰기 11건만 막는 것이었다. 고치기 전 두 번째 탐침에서 같은 부류가 10건 더 나왔고(scout의 `sed 'w f'`·`tree -o`·`uniq in out`, reviewer의 `sh -c`·`env`·`mkdir`·`ln`·`chmod`·`patch`·`git format-patch`), 첫 수정안을 `independent-reviewer`에 넘기자 같은 부류의 변형 우회(W1–W9), 새 오탐(W10), CHANGELOG 숫자 오류(W11), 그리고 부류 밖의 `git -c alias.x='!cmd'` 임의 실행(I1)이 나왔다.
+- **Deviation from plan**: "11건" → 부류 단위로 막았다. 래퍼 해제, "대상이 전부 임시 디렉터리일 때만 허용하는 파일 쓰기 명령" 목록, 읽기 명령의 쓰기 옵션 검사를 새로 두었다. 리뷰 뒤에는 awk용 소형 렉서와 sed 스크립트 스캐너로 정규식을 대체했고, I1(`git -c` 실행 키)도 이번 릴리스에 넣었다.
+- **Response chosen**: `hooks/scripts/agent_readonly_guard.py` 재작성, 테스트 24 → 41. 거부 사례와 허용돼야 하는 읽기 형태를 테스트마다 짝지었다(케이스 수는 같지 않다 — 거부 쪽이 더 많다).
+- **Discovery**: CHANGELOG에 A4 릴리스 문장("done the same day as the merge, at tag …")을 넣지 않았다. 태그와 Release는 머지 뒤의 일이고, A4 0.6.0 교훈대로 릴리스 자산에 들어갈 파일이 아직 참이 아닌 릴리스 상태를 주장하면 안 된다. 태그 직전에 그 문장을 추가할 것.
+
+**Attributed**
+- **Reason for choice**: 재현된 명령만 막으면 같은 옵션을 가진 이웃 명령이 그대로 남는다는 것을 리뷰가 실제로 보여 줬다. 막는 기준(래퍼, 쓰기 대상 인자, 쓰기 옵션)이 설명 가능해야 다음 누락도 같은 기준으로 찾을 수 있다.
+- **Alternatives considered**: reviewer를 scout처럼 허용목록으로 바꾸기 — 테스트·빌드 명령은 프로젝트마다 달라 정상 작업을 막는다. 파일 머리의 "막는 가드가 없는 것보다 나쁘다" 원칙과 충돌해서 기각.
+- **Risk/follow-up check**: 과잉 거부. awk 렉서는 `/`가 피연산자 뒤에 오면 나눗셈으로 본다 — 줄바꿈으로 끝난 문장 바로 다음 줄의 정규식 패턴은 나눗셈으로 오독할 수 있다. 실사용에서 정상 명령이 거부되면 여기부터 볼 것.
+
+리뷰가 "기록 안 된 결정"으로 짚은 것들:
+- **Todo for human** — 범위 확대(11건 → 부류 단위, reviewer에게 `cp`·`mkdir`·`touch`·`chmod` 새로 거부)는 reviewer 에이전트의 권한 경계를 바꾸는 결정이다. 사용자는 "확인이 끝난 결함을 수정"을 지시했고, 확대분은 같은 부류의 재현된 결함이라 그 범위로 판단했다. 사전 확인은 받지 않았다.
+- **Discovery** — 중첩 깊이 상한(6)을 넘으면 허용이 아니라 거부한다. 정상 명령은 두세 단계를 넘지 않는다.
+- **Discovery** — `command -v`·`-V`(묶음 포함)는 해제하지 않는다. 이름 조회일 뿐 실행하지 않는다.
+- **Discovery** — `git bisect`는 상태를 바꾸는 동사만 거부한다. `bisect log`·`terms`·`visualize`는 허용.
+- **Discovery** — 스크래치 경로로 인정하는 변수는 `$TMPDIR`·`$TMP`·`$TEMP`와 같은 명령 안에서 `$(mktemp …)`로 받은 변수뿐이다. 다른 변수에 담긴 경로는 거부된다.
+- **Discovery** — Windows의 네이티브 임시 경로는 `TMP`·`TEMP` 환경변수 값의 접두어로 인정한다(리뷰 I6). CI의 windows-latest 잡은 문자열 비교만 쓰므로 영향이 없다는 판단은 이번 세션에서 실행 확인하지 않았다 — 푸시 후 CI 결과로 확인할 것.
+
 ## [2026-09-25] 0.8.0 — protocol-alignment G1–G6 반영
 
 **Observed**

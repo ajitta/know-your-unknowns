@@ -8,9 +8,11 @@ The skill bodies carry the 3-line ladder; this file carries the details.
 
 1. **Artifact tool available** → write the page to a file, publish it with the Artifact
    tool, and give the user the link. Prefer reactions that come back on their own:
-   comments (`action: comments`), or the `db` capability for a page that must remember
-   state. Keep the copyable assembled reply as the fallback — it costs nothing and works
-   when the user would rather paste than comment.
+   comments, read and answered with the separate `ArtifactComments` tool (the Artifact
+   tool itself has no comments action; load `ArtifactComments` first if it is only listed
+   as deferred), or the `db` capability for a page that must remember state. Keep the
+   copyable assembled reply as the fallback — it costs nothing and works when the user
+   would rather paste than comment.
 2. **No Artifact tool, but file writes allowed** → write
    `.unknowns/<YYYY-MM-DD>-<skill>-<slug>.html` and tell the user to open it. Offer once
    to add `.unknowns/` to `.gitignore`.
