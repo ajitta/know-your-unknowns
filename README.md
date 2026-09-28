@@ -576,9 +576,14 @@ the counter near zero. That is the usual reason the reminder never appears.
 
 **The sub-agent read-only guard** runs on every Bash call, exits immediately unless the
 call belongs to `unknowns-scout` or `independent-reviewer`, and denies commands that
-would change your tree (`rm`, `mv`, writing `git` subcommands, package installs, …). The
-scout is held to an allowlist of read commands; the reviewer keeps tests, lint and build.
-Anything it cannot parse is allowed through — it is a guard rail, not a sandbox.
+would change your tree (`rm`, `mv`, `cp`/`touch` into the tree, writing `git` subcommands,
+package installs, …), including when wrapped in `xargs`, `sh -c`, `env` or `find -exec`.
+For both agents, the write options of reading commands (`sort -o`, `sed w`, `awk print >`,
+`yq -i`, `git --output`, …) are denied as well. The scout is held to an allowlist of read
+commands; the reviewer keeps tests, lint and build, and may write scratch files under a
+temp directory (`/tmp`, `$TMPDIR`, or a variable set from `$(mktemp)` in the same command).
+Anything it cannot parse is allowed through, and a script the agent runs (`python3 -c`, a
+test file) is not inspected — it is a guard rail, not a sandbox.
 
 **Configuration**:
 

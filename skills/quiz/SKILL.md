@@ -56,6 +56,6 @@ suggest writing a **buy-in** doc.
 
 Then capture one scorecard row — ask whether this work surfaced something the user did
 not know and whether it changed a decision, and append it to `.unknowns/scorecard.md`.
-Never answer those for them; write the row even when both answers are no. Skip it if a
-the **loop** skill value review already captured one for this work.
+Never answer those for them; write the row even when both answers are no. Skip it if the
+**loop** skill's value review already captured one for this work.
 Details: skills/loop/references/scorecard.md

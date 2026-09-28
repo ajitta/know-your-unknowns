@@ -282,6 +282,263 @@ class GuardTestCase(unittest.TestCase):
         self.assertAllowed("pytest -q > /tmp/out.txt", REVIEWER)
         self.assertAllowed("pytest -q 2>&1", REVIEWER)
 
+    # --- 0.8.1: write paths the 0.8.0 guard let through --------------------
+
+    def test_scout_allowlisted_readers_may_not_use_their_write_options(self):
+        # each of these passed the 0.8.0 guard: the command is on the scout's
+        # allowlist, but an option or program text makes it write
+        for command in (
+            "awk 'BEGIN{print 1 > \"x.txt\"}'",
+            "awk '{print $1 | \"sh\"}' f",
+            "awk 'BEGIN{system(\"rm x\")}'",
+            "sed -n 'w out.txt' src/a.py",
+            "sed 's/a/b/w out.txt' src/a.py",
+            "sort -o src/a.py src/a.py",
+            "sort --output=src/a.py src/a.py",
+            "yq -i '.a=1' cfg.yaml",
+            "find . -name '*.py' -fprint out.txt",
+            "tree -o out.txt",
+            "uniq a.txt out.txt",
+            "git fetch origin",
+            "git notes add -m x",
+            "git diff --output=patch.txt",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, SCOUT)
+
+    def test_scout_readers_keep_their_read_forms(self):
+        for command in (
+            "awk '{print $1}' f",
+            "awk '{printf \"%s|%s\\n\", $1, $2}' f",
+            "awk '$3 > 100 {print $1}' f",
+            "sed 's/foo/bar/g' src/a.py",
+            "sort -u a.txt",
+            "sort -o /tmp/sorted.txt a.txt",
+            "uniq -c a.txt",
+            "uniq -f 1 a.txt",
+            "tree -L 2",
+            "git notes list",
+            "git notes show HEAD",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, SCOUT)
+
+    def test_reviewer_wrapped_commands_are_checked(self):
+        for command in (
+            "find . -name '*.pyc' | xargs rm",
+            "xargs -I{} rm {} < list.txt",
+            "bash -c 'rm -rf src'",
+            "sh -c 'git reset --hard'",
+            "bash -lc 'echo x > src/a.py'",
+            "env rm x",
+            "env FOO=1 rm x",
+            "command rm x",
+            "timeout 5 rm x",
+            "nice -n 10 git clean -fd",
+            "eval 'rm x'",
+            "find . -exec rm {} +",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, REVIEWER)
+
+    def test_reviewer_wrapped_reads_stay_allowed(self):
+        for command in (
+            "command -v rm",
+            "find . -name '*.py' | xargs grep -n TODO",
+            "bash -c 'pytest -q'",
+            "timeout 60 pytest -q",
+            "env PYTHONPATH=. pytest",
+            "find . -name '*.py' -exec grep -l foo {} +",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, REVIEWER)
+
+    def test_reviewer_may_not_create_or_change_files_in_the_tree(self):
+        for command in (
+            "cp /dev/null src/main.py",
+            "touch src/new.py",
+            "mkdir build2",
+            "ln -sf a b",
+            "chmod +x src/a.py",
+            "patch -p1 < fix.diff",
+            "git format-patch HEAD~1",
+            "git bisect start",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, REVIEWER)
+
+    def test_reviewer_scratch_files_under_temp_stay_allowed(self):
+        for command in (
+            "mkdir -p /tmp/rev && cp src/a.py /tmp/rev/",
+            "mkdir -p $TMPDIR/rev",
+            "touch ${TMPDIR}/marker",
+            "git diff --output=/tmp/d.patch",
+            "git format-patch --stdout HEAD~1",
+            "patch --dry-run -p1 < fix.diff",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, REVIEWER)
+
+
+    # --- 0.8.1 independent review: variants of the classes above -----------
+
+    def test_awk_redirects_behind_parentheses_or_regex_literals(self):
+        for command in (
+            "awk '{printf(\"%s\\n\",$1) > \"out\"}'",
+            "awk '{print toupper($1) > \"x\"}'",
+            "awk '{print substr($0,1,3) | \"sh\"}'",
+            "awk 'BEGIN{print(1) > \"x\"}'",
+            "awk '/\"/ {print > \"out\"}' f",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, SCOUT)
+        for command in (
+            "awk '{print ($1 > 5)}' f",
+            "awk '{print > \"/dev/stderr\"}' f",
+            "awk -F: '{print $1}' /etc/passwd",
+            "awk '{n=$1/2; print n}' f",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, SCOUT)
+
+    def test_sed_write_commands_in_every_address_form(self):
+        for command in (
+            "sed '/foo/!w out' f",
+            "sed '1!w out' f",
+            "sed '\\,x,w out' f",
+            "sed '/a\\/b/w out' f",
+            "sed '/a/Iw out' f",
+            "sed '1~2w out' f",
+            "sed 's/a/b/ w out' f",
+            "sed 's/a/b/I w out' f",
+            "sed 's/a/b/e' f",
+            "sed --expression='w out' f",
+            "sed -e'w out' f",
+            "sed -ne 'w out' f",
+            "sed --in-place=.bak s/a/b/ f",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, SCOUT)
+        for command in (
+            "sed -n '/re/p' f",
+            "sed -n 1p e",
+            "sed -n 1p w",
+            "sed -E 's/(a|b)/x/' f",
+            "sed -n '$p' f",
+            "sed '/^#/d' f",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, SCOUT)
+
+    def test_a_long_sed_argument_does_not_outrun_the_hook_timeout(self):
+        # 0.8.1's first draft used a backtracking regex: 1,000 characters took
+        # about 5 s, the hook's timeout, and a timed-out hook lets the call run
+        result = self.run_guard("sed '%s' f" % ("s" * 20000), SCOUT)
+        self.assertEqual(result.returncode, 0)
+
+    def test_clustered_and_abbreviated_write_options(self):
+        for command in (
+            "sort -uo out f",
+            "sort -rno out f",
+            "sort --outp=out f",
+            "yq -Pi '.a=1' c",
+            "git notes --ref refs/notes/x add -m y",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, SCOUT)
+        for command in ("sort -t, -k2 f", "yq -o json '.a' c"):
+            with self.subTest(command=command):
+                self.assertAllowed(command, SCOUT)
+
+    def test_dot_dot_does_not_escape_a_temp_directory(self):
+        for agent, command in (
+            (SCOUT, "sort -o /tmp/../x f"),
+            (SCOUT, "find . -fprint /tmp/../home/x"),
+            (SCOUT, "sort -o $TMPDIR/../../etc/x f"),
+            (REVIEWER, "cp a /tmp/../home/claude/x"),
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, agent)
+
+    def test_git_writes_outside_the_first_list(self):
+        for command in (
+            "git -c alias.x='!touch pwn' x",
+            "git -c core.fsmonitor=./x status",
+            "git remote update",
+            "git archive -o x.tar HEAD",
+            "git read-tree HEAD",
+            "git hash-object -w f",
+            "git symbolic-ref HEAD refs/heads/x",
+            "git sparse-checkout set a",
+            "git reflog expire --all",
+            "git bundle create b HEAD",
+            "git bisect start",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, SCOUT)
+        for command in (
+            "git -c core.pager=cat log",
+            "git symbolic-ref HEAD",
+            "git reflog",
+            "git bisect log",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, SCOUT)
+
+    def test_wrapper_forms_the_first_unwrap_missed(self):
+        for command in (
+            "xargs -i rm {}",
+            "xargs -l rm",
+            "xargs -e rm",
+            "env -S 'rm x'",
+            "env --split-string='rm x'",
+            "timeout -- 5 rm x",
+            "bash -c -- 'rm x'",
+            "bash -c 'cat > src/a.py <<EOF\nx\nEOF'",
+            "time -o out.txt pytest",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, REVIEWER)
+
+    def test_nesting_past_the_limit_is_denied_not_trusted(self):
+        self.assertDenied("env env env env env env env env ls", REVIEWER)
+        self.assertAllowed("env env ls", REVIEWER)
+
+    def test_target_directory_options_name_the_real_destination(self):
+        for command in (
+            "cp -t src /tmp/a",
+            "cp -rt src /tmp/a",
+            "cp --target-directory=src /tmp/a",
+            "ln -t src /tmp/a",
+            "install -t src /tmp/a",
+            "chmod --reference=a src/x",
+        ):
+            with self.subTest(command=command):
+                self.assertDenied(command, REVIEWER)
+        for command in (
+            "mkdir -m 755 /tmp/x",
+            "touch -d yesterday /tmp/x",
+            "cp -t /tmp/x a b",
+            "install -d /tmp/a/b",
+            "chmod +x /tmp/x.sh",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, REVIEWER)
+
+    def test_mktemp_variables_count_as_temp(self):
+        self.assertAllowed("d=$(mktemp -d) && cp a $d/", REVIEWER)
+        self.assertAllowed('d=$(mktemp -d); cp a "$d/x"', REVIEWER)
+        self.assertDenied("d=src; cp a $d/", REVIEWER)
+
+    def test_lookups_and_dry_runs_stay_allowed(self):
+        for command in (
+            "command -pv rm",
+            "patch --version",
+            "git format-patch -o/tmp/p -1",
+        ):
+            with self.subTest(command=command):
+                self.assertAllowed(command, REVIEWER)
+
 
 if __name__ == "__main__":
     unittest.main()
