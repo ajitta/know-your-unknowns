@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f7f5">
+  <meta name="description" content="Know Your Unknowns is a Claude Code plugin for finding blind spots, shaping plans, and reviewing what changed during implementation. Explore the skills and install it from GitHub.">
+  <link rel="canonical" href="https://ajitta.github.io/know-your-unknowns/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Know Your Unknowns — Claude Code plugin">
+  <meta property="og:description" content="Find blind spots before implementation, keep plans aligned with reality, and review what changed.">
+  <meta property="og:url" content="https://ajitta.github.io/know-your-unknowns/">
+  <title>Know Your Unknowns — Claude Code plugin</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f3f7f5;
+      --ink: #202922;
+      --muted: #4f5f54;
+      --line: #cbd3c9;
+      --green: #174d3c;
+      --green-light: #e3eee6;
+      --orange: #b54f30;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--green); text-underline-offset: .22em; }
+    a:hover { color: var(--orange); }
+    a:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+    ::selection { background: #c2ddc9; color: var(--ink); }
+    .wrap { width: min(1120px, calc(100% - 3rem)); margin-inline: auto; }
+    .site-header {
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-height: 72px;
+    }
+    .wordmark { color: var(--ink); font-size: 1rem; font-weight: 750; letter-spacing: -.025em; text-decoration: none; }
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; font-size: .91rem; font-weight: 650; }
+    nav a { text-decoration: none; }
+    .hero { padding: clamp(4rem, 8vw, 7.25rem) 0 5.5rem; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr); align-items: center; gap: clamp(2rem, 6vw, 5.5rem); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 11ch; font-size: clamp(3.1rem, 6.2vw, 5.6rem); font-weight: 750; letter-spacing: -.04em; line-height: 1.02; }
+    .hero-lead { max-width: 58ch; color: var(--muted); font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.55; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; margin-top: 2rem; }
+    .button { display: inline-flex; align-items: center; min-height: 48px; padding: .65rem 1.1rem; border: 1px solid var(--green); border-radius: 8px; background: var(--green); color: #fff; font-weight: 700; text-decoration: none; }
+    .button:hover { background: #0e382a; color: #fff; }
+    .text-link { font-weight: 700; }
+    .map { padding: 2rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .map-title { margin-bottom: 1.75rem; color: var(--muted); font-size: .82rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+    .map-row { display: grid; grid-template-columns: 4.2rem 1fr; gap: 1rem; padding: 1.15rem 0; border-top: 1px solid var(--line); }
+    .map-row:first-of-type { border-top: 0; }
+    .map-row span { color: var(--green); font: 700 .85rem/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .map-row p { margin: 0; font-size: 1.05rem; font-weight: 650; line-height: 1.4; }
+    .map-gap { margin: 1.25rem 0 0; padding: 1rem 1.1rem; border-radius: 6px; background: var(--green-light); color: var(--green); font-size: .92rem; font-weight: 650; }
+    section { scroll-margin-top: 2rem; }
+    .band { padding-block: 2.25rem; border-block: 1px solid var(--line); background: #e8f0eb; }
+    .band-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .band-inner p { margin: 0; color: var(--muted); font-size: .96rem; }
+    .band-inner strong { display: block; margin-bottom: .3rem; color: var(--ink); font-size: 1rem; }
+    .content { padding-block: 5.5rem; }
+    .section-head { max-width: 730px; margin-bottom: 2.5rem; }
+    h2 { font-size: clamp(2rem, 3.8vw, 3.2rem); letter-spacing: -.035em; line-height: 1.12; }
+    .section-head p { margin-bottom: 0; color: var(--muted); font-size: 1.08rem; }
+    .workflow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .workflow article { padding-top: 1.25rem; border-top: 2px solid var(--green); }
+    .workflow h3 { margin-bottom: .65rem; font-size: 1.24rem; letter-spacing: -.025em; }
+    .workflow p { color: var(--muted); }
+    .workflow code, .example code { font: .9em ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .install { background: var(--green); color: #fff; }
+    .install .wrap { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 3rem; align-items: center; }
+    .install p { color: #fff; }
+    .install a { color: #fff; }
+    .install pre { overflow-x: auto; margin: 0; padding: 1.5rem; border: 1px solid #688b79; border-radius: 9px; background: #103d2e; color: #f3f8f3; font: .9rem/1.9 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .install code { font: inherit; }
+    .examples { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 3rem; align-items: start; }
+    .example { padding: 1.15rem 0; border-top: 1px solid var(--line); }
+    .example:last-child { border-bottom: 1px solid var(--line); }
+    .example p { margin: .35rem 0 0; color: var(--muted); }
+    .example code { overflow-wrap: anywhere; color: var(--green); font-weight: 700; }
+    footer { padding-block: 2.5rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
+    footer p { max-width: 75ch; margin-bottom: 0; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 2rem, 620px); }
+      .header-inner { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 1rem; }
+      nav { gap: .75rem 1.25rem; }
+      .hero { padding-block: 4rem; }
+      .hero-grid, .install .wrap, .examples { grid-template-columns: 1fr; }
+      .map { padding: 1.5rem; }
+      .band-inner, .workflow { grid-template-columns: 1fr; gap: 1.5rem; }
+      .content { padding-block: 4rem; }
+      .install .wrap, .examples { gap: 1.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="#top">Know Your Unknowns</a>
+      <nav aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#install">Install</a>
+        <a href="#examples">Examples</a>
+        <a href="https://github.com/ajitta/know-your-unknowns">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <h1>Find the gap before it finds you.</h1>
+          <p class="hero-lead">Know Your Unknowns is a Claude Code plugin for discovering blind spots, shaping plans, and reviewing what changed during implementation.</p>
+          <div class="actions">
+            <a class="button" href="#install">Install the plugin</a>
+            <a class="text-link" href="https://github.com/ajitta/know-your-unknowns">View the GitHub repository ↗</a>
+          </div>
+        </div>
+        <div class="map" aria-label="The plugin helps align a plan with what implementation reveals">
+          <p class="map-title">From plan to reality</p>
+          <div class="map-row"><span>Before</span><p>What am I missing?</p></div>
+          <div class="map-row"><span>During</span><p>What changed, and why?</p></div>
+          <div class="map-row"><span>After</span><p>What should I verify before merging?</p></div>
+          <p class="map-gap">Make the unknowns visible while decisions can still change.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="band">
+      <div class="wrap band-inner">
+        <p><strong>11 skills</strong>Use the whole workflow or call one technique at a time.</p>
+        <p><strong>2 agents</strong>Support independent investigation and review.</p>
+        <p><strong>2 hooks</strong>Guard read-only work and prompt for deviation notes.</p>
+      </div>
+    </div>
+
+    <section id="how-it-works" class="content">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>A working loop for uncertain tasks</h2>
+          <p>Use <code>/unknowns:loop</code> for a larger task, or invoke a single skill when you need one focused step.</p>
+        </div>
+        <div class="workflow">
+          <article>
+            <h3>Investigate first</h3>
+            <p><code>blindspot</code> inspects the work ahead. <code>teach-me</code> explains unfamiliar terms. <code>interview</code> helps turn missing decisions into a clearer request.</p>
+          </article>
+          <article>
+            <h3>Plan with room to change</h3>
+            <p><code>prototypes</code>, <code>brainstorm</code>, and <code>reference</code> explore options. <code>plan</code> orders decisions by how likely they are to change.</p>
+          </article>
+          <article>
+            <h3>Review the work</h3>
+            <p><code>notes</code> records plan deviations. <code>quiz</code> checks understanding before merge. <code>buy-in</code> helps explain the result to reviewers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="content install">
+      <div class="wrap">
+        <div>
+          <h2>Install in Claude Code</h2>
+          <p>Run these commands inside a Claude Code session. Start a new session or run <code>/reload-plugins</code>, then try <code>/unknowns:blindspot test</code>.</p>
+          <a href="https://github.com/ajitta/know-your-unknowns#installation">Other installation options on GitHub ↗</a>
+        </div>
+        <pre><code>/plugin marketplace add ajitta/know-your-unknowns
+/plugin install unknowns@know-your-unknowns</code></pre>
+      </div>
+    </section>
+
+    <section id="examples" class="content">
+      <div class="wrap examples">
+        <div class="section-head">
+          <h2>Start with a real question</h2>
+          <p>These are example prompts. The full <a href="https://github.com/ajitta/know-your-unknowns#skill-by-skill-usage">README</a> explains every skill and its triggers.</p>
+        </div>
+        <div>
+          <div class="example"><code>/unknowns:blindspot Add OAuth to this app</code><p>Investigate a domain or codebase before implementation.</p></div>
+          <div class="example"><code>/unknowns:plan Add subscription renewal</code><p>Make a plan that exposes likely changes early.</p></div>
+          <div class="example"><code>/unknowns:quiz Quiz me before I merge this PR</code><p>Check what you understand about the finished work.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>This plugin packages a method inspired by <a href="https://thariqs.github.io/html-effectiveness/unknowns/">Thariq Shihipar's Know your unknowns examples</a>. Its benefits are design goals; the project has not yet measured them as outcomes.</p>
+      <a href="https://github.com/ajitta/know-your-unknowns">Source and documentation on GitHub ↗</a>
+    </div>
+  </footer>
+</body>
+</html>
