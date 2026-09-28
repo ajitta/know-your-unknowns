@@ -7,6 +7,9 @@ Fixes from an outside review of 0.8.0, then a second pass after the plugin's own
 reproduced before it was fixed; the guard ones by piping the command into the hook exactly
 as Claude Code does.
 
+Release steps per `docs/open-questions.md` A4 are done the same day as the merge, at tag
+`unknowns--v0.8.1`.
+
 ### Fixed
 
 - **The sub-agent read-only guard let writes through.** Two probes of 0.8.0 (15 commands,
