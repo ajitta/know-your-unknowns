@@ -113,13 +113,13 @@ inside the session, it worked. (`--plugin-dir` also accepts a `.zip` archive.)
 
 ### Copy individual skills (no plugin)
 
-If you only want specific skills, copy the `skills/<name>` folders into your vault's or
-project's `.claude/skills/`, and `agents/*.md` into `.claude/agents/`. Copy
-`skills/loop/references/` alongside them — most skills point at
-`skills/loop/references/output-routing.md` and `talk-source.md`, and those pointers
-resolve relative to the plugin root, so a skill folder copied on its own points at files
-you do not have. Invocations then lose the namespace and get short — `/blindspot`,
-`/quiz`. The hooks only activate automatically in plugin form; see [Hook behavior and
+If you only want specific skills, do not copy `skills/<name>` as is: its SKILL.md points
+at `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`, which Claude Code fills in only for
+plugin skills, so a copied folder shows the model a literal placeholder. Run
+`python3 scripts/build-skill-zips.py` and unzip the skills you want from `dist/` into your
+vault's or project's `.claude/skills/` — each is self-contained, with its references in
+its own `references/` folder. Copy `agents/*.md` into `.claude/agents/`. Invocations then
+lose the namespace and get short — `/blindspot`, `/quiz`. The hooks only activate automatically in plugin form; see [Hook behavior and
 configuration](#hook-behavior-and-configuration) for the manual setup.
 
 ### Claude Desktop, Claude web and Cowork
@@ -469,11 +469,12 @@ Auto-triggers: "quiz me", "test my understanding", "퀴즈", "내가 이해했�
 **How it runs**: 1. An explanation first (structure of the changes / 3 key design
 decisions / where it's most likely to fail / what you should verify yourself), each
 behavior anchored with a `file:line` → 2. **6 questions, and the pass mark is all 6**
-(delivered as 4 + 2, because AskUserQuestion takes at most 4 per call), prioritising
+(five multiple choice, delivered as 4 + 1 because AskUserQuestion takes at most 4 per
+call, plus one teach-back the user explains in their own words), prioritising
 incident response > design rationale > behavior prediction and avoiding rote recall; if
 IMPLEMENTATION_NOTES.md exists, at least 1 question covers a recorded deviation →
 3. Grading — each wrong or blank answer names the exact change site to re-read, and you
-get a retry → 4. At 6/6 a **cleared to merge** checklist (understanding verified, CI
+get a retry → 4. At 6/6 a **cleared to merge** checklist (quiz passed 6/6, CI
 green, migration/rollout reviewed, merge style, what to watch after deploy); below 6/6 it
 stays "not yet" and lists the sections to re-read. It closes with a handoff summary
 written as if another developer takes over tomorrow, convertible into a PR body draft.
@@ -561,7 +562,10 @@ the one actually doing the recording, receives it too. It never blocks anything.
 also restated once after a compaction summarizes it away, and once at Stop if the
 threshold was crossed and the notes file was never touched. Editing
 IMPLEMENTATION_NOTES.md itself does not count as an edit, and a sub-agent's edits never
-spend the reminder, since a sub-agent's context is discarded when it returns.
+spend the reminder, since a sub-agent's context is discarded when it returns. At session
+start it also puts one line, `[unknowns] hooks active`, into Claude's context, only where
+the reminder will actually fire; the notes skill reads the absence of that line as "no
+reminder here" and keeps the discipline itself, since a model cannot see whether hooks run.
 
 **It is opt-in per project**: it stays silent unless the project already uses the
 methodology — either an `IMPLEMENTATION_NOTES.md`, or the `.unknowns/` directory the
@@ -626,9 +630,9 @@ one, rather than pasting a second top-level `hooks` key:
 }
 ```
 
-The plugin registers the same script on SessionStart(compact), Stop and SessionEnd as
-well; add those entries the same way if you want the restatement, the end-of-session
-check and the state-file cleanup.
+The plugin registers the same script on SessionStart, Stop and SessionEnd as well; add
+those entries the same way if you want the `hooks active` marker and its restatement after
+compaction, the end-of-session check and the state-file cleanup.
 
 ---
 

@@ -22,7 +22,7 @@ worthless without recorded rows, and asking days later produces fiction.
    with the two header lines below if it does not exist. Offer once to add `.unknowns/`
    to `.gitignore`. No project to write into (Desktop/web chat, mobile) → print the row
    as a copyable one-line table row and say where it belongs; see
-   `skills/loop/references/surfaces.md`.
+   `surfaces.md` in this folder.
 4. Write the row **even when both answers are no.** The value contract's demotion and
    removal conditions fire only on recorded zeros, so a skipped no-row silently protects
    a skill that is not earning its place.

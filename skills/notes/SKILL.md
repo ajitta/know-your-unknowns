@@ -9,7 +9,7 @@ argument-hint: "[init | show | <content to log>]"
 
 # Notes — Plan Deviation Log (Implementation Notes)
 
-When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Core device stopping agent from silently drifting off-plan. Origin: Implementation Notes — see skills/loop/references/talk-source.md.
+When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Core device stopping agent from silently drifting off-plan. Origin: Implementation Notes — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## File Rules
 
@@ -18,9 +18,9 @@ When work hits a situation not in plan/spec (unknown), **do not decide arbitrari
   the session workspace and hand it to the user at every wrap-up. Nothing writable
   (mobile) → keep the log in the conversation, restated in full each time it grows.
   Either way the entry format and the escalation rule are unchanged.
-  Details: skills/loop/references/surfaces.md
+  Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md
 - **Persistence**: once the file exists or `init` has been run, appending to the file is mandatory — a chat-only summary does not satisfy the rule (the reminder hook, buy-in and quiz all read the file). With no file, a chat summary is allowed, but the final message must then say there is no notes file, and where it lives instead.
-- **No reminder hook** in this session (hooks run only in Claude Code and Cowork) → re-read the logging criteria yourself at every natural break: before a commit, before handing work back, after roughly ten file edits.
+- **Reminder hook**: the line `[unknowns] hooks active` in context means the hook is counting edits and **one** reminder is still to come. Without that line — plugin hooks not running on this surface, a project that has not opted in, the reminder turned off — or once that reminder has arrived, nothing more will: re-read the logging criteria yourself at every natural break (before a commit, before handing work back, after roughly ten file edits). Decide by the line, never by which app you think you are in.
 - Argument `init`: create the file — heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template. Then offer (never write silently) to append a 3–5 line deviation-log rule — log criteria, escalation, file path — to the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context for every later session, not only when this skill is invoked.
 - Argument `show`: summarize current notes.
 - Any other text: append an entry using that text as **Situation found**, filling remaining fields from context; ask only about what context cannot supply.

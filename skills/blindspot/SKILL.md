@@ -13,7 +13,7 @@ argument-hint: "<task description or target area> [context sources: git/docs/sla
 
 Before implementation, find the **gap between the map (plan/prompt) and the territory
 (actual codebase, domain, constraints)**.
-Origin: Blindspot Pass — see skills/loop/references/talk-source.md
+Origin: Blindspot Pass — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md
 
 ## Iron Rules
 
@@ -36,7 +36,7 @@ Origin: Blindspot Pass — see skills/loop/references/talk-source.md
    improved prompt draft); map its rows onto the card kinds below.
    Scope is a few files → investigate directly with Read/Grep/Glob. No Agent tool in this
    session → investigate directly too, and say the scope was narrowed to one pass
-   (skills/loop/references/surfaces.md).
+   (${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md).
 3. Compile findings, each tagged with a kind:
    - **Landmine** — touching this breaks something non-obvious (regression risk, fragile
      or missing tests, a module mid-migration)
@@ -57,7 +57,7 @@ Origin: Blindspot Pass — see skills/loop/references/talk-source.md
 5. End with an **improved prompt draft** reflecting the findings — the core deliverable of
    this skill. It names the execution order and ends with an explicit checkpoint
    ("stop and show me the plan before writing code").
-6. Offer with one AskUserQuestion: proceed with this prompt now / edit it first / stop here.
+6. Offer with one AskUserQuestion: proceed with this prompt now / edit it first / stop here. Run as a **loop** stage, this is not a separate question: the loop's stage checkpoint carries these options.
 7. If undecided items that could change architecture surface, suggest continuing with
    the **interview** skill. If the user lacks the
    unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
@@ -66,7 +66,7 @@ Origin: Blindspot Pass — see skills/loop/references/talk-source.md
 
 Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-blindspot-<slug>.html`; else markdown.
 Reaction control: a copyable **prompt fix** per card; selected fixes assemble into the improved prompt draft.
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Scope
 

@@ -460,17 +460,81 @@ class HookTestCase(unittest.TestCase):
         self.assertTrue(self.read_state()["reminded"])
 
         restart = self.run_hook(
-            self.payload(), env_extra=env, args=["--session-start"]
+            self.payload(source="compact"), env_extra=env, args=["--session-start"]
         )
         self.assertEqual(restart.returncode, 0)
         self.assertIn(b"IMPLEMENTATION_NOTES.md", restart.stdout)
+        self.assertIn(b"[unknowns] hooks active", restart.stdout)
         self.assertFalse(self.read_state()["reminded"])
         # the PostToolUse reminder can fire again after compaction
         self.assertIn(b"reached 2", self.run_hook(self.payload(), env_extra=env).stdout)
 
     def test_session_start_is_silent_in_a_project_without_notes(self):
+        for source in ("startup", "compact"):
+            with self.subTest(source=source):
+                result = self.run_hook(
+                    self.payload(cwd=self.bare, source=source),
+                    args=["--session-start"],
+                )
+                self.assertEqual(result.stdout, b"")
+
+    def test_startup_announces_the_marker_while_a_reminder_is_pending(self):
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "3"}
+        for source in ("startup", "resume", "clear", "fork"):
+            with self.subTest(source=source):
+                result = self.run_hook(
+                    self.payload(source=source), env_extra=env,
+                    args=["--session-start"],
+                )
+                self.assertEqual(result.returncode, 0)
+                self.assertTrue(
+                    result.stdout.startswith(b"[unknowns] hooks active"),
+                    result.stdout,
+                )
+                self.assertIn(b"arrives at 3 edits", result.stdout)
+
+    def test_no_marker_once_the_reminder_was_spent(self):
+        # a resumed session whose reminder already fired gets no further one,
+        # so announcing "hooks active" would promise a reminder that never comes
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "1"}
+        self.run_hook(self.payload(), env_extra=env)
+        self.assertTrue(self.read_state()["reminded"])
+        resumed = self.run_hook(
+            self.payload(source="resume"), env_extra=env, args=["--session-start"]
+        )
+        self.assertEqual(resumed.stdout, b"")
+        # startup does not re-arm; only compaction does
+        self.assertTrue(self.read_state()["reminded"])
+        # with UNKNOWNS_NOTES_REPEAT the next multiple still reminds
+        repeat = dict(env, UNKNOWNS_NOTES_REPEAT="1")
+        again = self.run_hook(
+            self.payload(source="resume"), env_extra=repeat, args=["--session-start"]
+        )
+        self.assertIn(b"[unknowns] hooks active", again.stdout)
+
+    def test_no_marker_without_a_usable_state_dir(self):
+        blocker = os.path.join(self.tmp, "not-a-dir")
+        with open(blocker, "w") as fh:
+            fh.write("x")
+        env = {"CLAUDE_PLUGIN_DATA": blocker}
+        start = self.run_hook(
+            self.payload(source="startup"), env_extra=env, args=["--session-start"]
+        )
+        self.assertEqual(start.stdout, b"")
+        compact = self.run_hook(
+            self.payload(source="compact"), env_extra=env, args=["--session-start"]
+        )
+        # the rule is still restated, but without promising a reminder
+        self.assertIn(b"IMPLEMENTATION_NOTES.md", compact.stdout)
+        self.assertNotIn(b"hooks active", compact.stdout)
+
+    def test_no_marker_when_the_reminder_is_disabled(self):
+        # absence of the marker is what tells the skills to self-check, so it
+        # must not appear where the reminder will never fire
         result = self.run_hook(
-            self.payload(cwd=self.bare), args=["--session-start"]
+            self.payload(source="startup"),
+            env_extra={"UNKNOWNS_NOTES_THRESHOLD": "0"},
+            args=["--session-start"],
         )
         self.assertEqual(result.stdout, b"")
 
@@ -572,9 +636,12 @@ class HooksJsonTest(unittest.TestCase):
             "agent_readonly_guard.py", entries[0]["hooks"][0]["args"][0]
         )
 
-    def test_session_start_only_reruns_after_compaction(self):
+    def test_session_start_runs_on_every_source(self):
+        # startup/resume/clear announce the marker; compact restates the rule.
+        # The script branches on the payload's `source`, so one entry covers all.
         entries = self.events["SessionStart"]
-        self.assertEqual([e["matcher"] for e in entries], ["compact"])
+        self.assertEqual(len(entries), 1)
+        self.assertNotIn("matcher", entries[0])
         self.assertIn("--session-start", entries[0]["hooks"][0]["args"])
 
 

@@ -14,7 +14,7 @@ Implementation done, but **others' approval** remains an unknown. Know what revi
 will ask in advance — it becomes known.
 the **quiz** skill validates **my understanding**;
 buy-in prepares **others' trust**.
-Origin: The Buy-In Doc — see skills/loop/references/talk-source.md.
+Origin: The Buy-In Doc — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Procedure
 
@@ -40,7 +40,7 @@ Ladder: Artifact tool → `.unknowns/<YYYY-MM-DD>-buy-in-<slug>.html` → markdo
 structure (use markdown directly when the target is a PR body).
 Reaction control = sign-off checklist, one checkbox per approver item; assembles into a
 review-comment draft ("Reply with a ✓ on your piece").
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Integration
 
@@ -48,5 +48,5 @@ Details: skills/loop/references/output-routing.md
   defended in a buy-in doc either.
 - The `unknowns:independent-reviewer` agent (spawned with the Agent tool) produces the
   strongest evidence for objection responses, including its "verified" list. Without the
-  Agent tool, use the fresh-thread substitute in `skills/loop/references/surfaces.md` —
+  Agent tool, use the fresh-thread substitute in `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md` —
   and never present an unreviewed doc as reviewed.

@@ -11,7 +11,7 @@ argument-hint: "<thing to build> [count, default 4]"
 # Prototypes — Divergent Prototype Fan-out (Design Directions)
 
 People can't describe what they want but **can judge when they see it** (unknown knowns).
-Origin: Four Design Directions / Mock before you wire — see skills/loop/references/talk-source.md.
+Origin: Four Design Directions / Mock before you wire — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron Rules
 
@@ -37,6 +37,12 @@ Origin: Four Design Directions / Mock before you wire — see skills/loop/refere
    reactions, the set was too small — offer 2 more along the axis still splitting opinion.
    Kelly's stopping rule is "until no new constructs appear"; a fixed N says nothing about
    whether the option space is covered.
+   Steal/skip only harvests constructs the user can already name. When reactions stall
+   ("they all look fine") or before the saturation call, run one **triad** — Kelly's own
+   elicitation: show three options and ask which two feel alike and how the third differs.
+   The answer is a construct nobody volunteered (e.g. "calm vs. busy"); then have the user
+   place **every** option on that construct (1–5), so it becomes an axis the requirements
+   can name instead of a one-off remark.
 6. Convert reactions into an **explicit requirements list** — taste they couldn't verbalize
    (unknown knowns) becomes spec.
 7. Proceed to real implementation only after the combined option is confirmed.
@@ -49,7 +55,7 @@ assembled reply in chat.
 Each option — and each element inside it — carries **steal / skip chips**, with a one-tap
 **"would steal if…"** field revealed on skip (step 4); selections assemble into a
 **requirements list** ("option 2's layout + option 4's colors…").
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Variants
 

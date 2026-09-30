@@ -14,10 +14,12 @@ so this script ports it. Every difference is listed here and nowhere else:
      `scripts/skill-descriptions.json` are substituted. Those are shortened rather
      than replaced: every trigger phrase the README advertises survives, and
      `tests/test_skill_descriptions.py` fails if one does not.
-  2. Cross-skill reference paths. Inside the plugin, `skills/loop/references/x.md`
-     resolves from the plugin root. A lone skill folder has no plugin root, so the
-     operational references are copied into the skill and the paths are rewritten
-     to `references/x.md`.
+  2. Cross-skill reference paths. Inside the plugin, SKILL.md bodies write
+     `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/x.md`, which Claude Code
+     substitutes with the installed plugin root (the model's working directory is
+     the user's project, so a bare relative path would not resolve). A lone skill
+     folder has no plugin root, so the operational references are copied into the
+     skill and the paths are rewritten to `references/x.md`.
   3. `talk-source.md` is provenance, not procedure, and 15 KB of it in every zip
      is dead weight. Its pointer is rewritten to the file on GitHub.
   4. `$ARGUMENTS` is a Claude Code substitution. Nothing substitutes it elsewhere,
@@ -64,8 +66,9 @@ def port(body: str) -> tuple[str, set[str]]:
         used.add(match.group(1))
         return f"references/{match.group(1)}.md"
 
-    body = re.sub(r"skills/loop/references/(?!talk-source)([a-z-]+)\.md", ref, body)
-    body = body.replace("skills/loop/references/talk-source.md", TALK_SOURCE_URL)
+    root = r"(?:\$\{CLAUDE_PLUGIN_ROOT\}/)?"
+    body = re.sub(root + r"skills/loop/references/(?!talk-source)([a-z-]+)\.md", ref, body)
+    body = re.sub(root + r"skills/loop/references/talk-source\.md", TALK_SOURCE_URL, body)
     body = body.replace("`$ARGUMENTS`", ARGUMENTS_PROSE).replace("$ARGUMENTS", ARGUMENTS_PROSE)
     return body, used
 

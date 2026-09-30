@@ -12,7 +12,7 @@ argument-hint: "<problem to solve> [constraints: timeline/people/budget]"
 
 Jumping on the first solution leaves **the rest of the solution space unknown**.
 The user picks; the model draws the space.
-Origin: Brainstorm the Intervention — see skills/loop/references/talk-source.md.
+Origin: Brainstorm the Intervention — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron Rules
 
@@ -44,7 +44,7 @@ markdown; always echo the assembled reply in chat.
 Cards on a time axis (ship this afternoon → quarter-long bet) with a toggle to the
 impact × effort matrix; each card's **resonate checkbox** assembles into a copyable
 "proceed with these, in this order".
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Follow-ups
 
