@@ -29,7 +29,10 @@ Before quiz, explain concisely — anchor each explained behavior with **Where: 
    a choice: "Explain to a reviewer, in your own words, <the change's riskiest decision>."
    Picking the right option only shows recognition; saying it unprompted is what the user
    will have to do in the PR. Grade it against the 2–3 points (and change sites) a correct
-   explanation must mention, fixed **before** reading the answer.
+   explanation must mention, fixed **before** reading the answer: write them to
+   `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking, and quote that file when
+   grading, so the key provably predates the answer. Nothing writable → grade anyway, and
+   say in the grading message that the points were not committed in advance.
 2. Question priority: **incident response** ("X dies — where do you look first") >
    **design rationale** ("why B, not A") > **behavior prediction** ("given this input, what result") >
    rote recall (avoid). Not trivia — each is a call the user would have to make right

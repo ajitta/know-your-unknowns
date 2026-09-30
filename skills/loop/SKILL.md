@@ -88,15 +88,23 @@ both answers are no. Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/score
 
 ## Scale-down criteria
 
-- **Small fix** (1–2 files, clear spec): step-7 rules (notes) only — no loop needed.
+- **Small fix** (1–2 files, clear spec): step 1 in one line (the done criteria, stated, not
+  asked) plus the step-7 rules (notes) — no tracker, no checkpoints.
 - **Medium work**: 1 (one exchange) → 2 → 3 → 6 → 7 → 9.
 - **Large or unfamiliar work**: all steps, with 4 and 5 only as needed.
-- Step 1 runs in every tier. Unsure which tier → ask the user, then record the choice.
+- Step 1 runs in every tier — for a small fix as that one line. Unsure which tier → ask
+  the user, then record the choice.
 
 ## Loop status (survives compaction, /resume, new sessions)
 
-Keep `.unknowns/loop.json` — `{task, tier, stage, decisions[], artifacts[]}` — and rewrite
-it at every stage boundary. Close each stage with one AskUserQuestion checkpoint
+Keep `.unknowns/loop.json` — `{task, tier, stage, status, baseline, decisions[], artifacts[]}` — and
+rewrite it at every stage boundary. **Write it first when the loop starts**, with
+`status: "active"`, before step 1's exchange — a compaction inside the first stage should
+still find it. `status` is `active` while the loop runs, `done` after its last step,
+`stopped` when the user chooses stop; `resume` (or the user confirming an old tracker is
+unfinished) sets it back to `active`. Keep every field on each rewrite. The plugin's
+compaction hook points back at the loop only while it is `active`, so a running loop must
+say so and a finished one must not. Close each stage with one AskUserQuestion checkpoint
 (continue / skip ahead / stop) and record the answer there. **One stop per boundary**:
 a stage skill's own closing offer (blindspot, interview, teach-me: proceed / edit / stop;
 plan and reference: approve / revise) is not asked separately — fold its options into this
@@ -108,9 +116,13 @@ as a fenced JSON block at each stage boundary, so the newest message always hold
 ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md has the rest.
 
 - Argument `status`: read the file; report tier, current stage, steps remaining.
-- Argument `resume`: read the file; continue from the recorded stage.
+- Argument `resume`: read the file, set `status` to `active`, continue from the recorded stage.
 - Any other argument text is the task description.
-- No argument: resume `.unknowns/loop.json` if it exists, otherwise ask for the task first.
+- No argument: if `.unknowns/loop.json` is `active`, name its task and stage in one line and
+  confirm before resuming — an abandoned loop stays `active` until someone says stop, and a
+  confirmed "no" sets it to `stopped`. Otherwise (no file,
+  `done`, `stopped`, or an older file without `status`) ask for the task first — offering to
+  resume the old one only if the user says it is unfinished.
 - On every start, read `.unknowns/scorecard.md` if it exists. Any row whose recheck date has
   passed and whose reality check is still empty is raised **before** the new task: ask
   the user what they saw and fill the cell. This is the only thing that reads that column;

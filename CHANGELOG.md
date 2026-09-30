@@ -45,6 +45,42 @@ Not released: no version bump, no tag.
   - `interview`: an architecture or data answer given without a reason gets one "why"
     follow-up next round (laddering); follow-ups count toward the 4 per round.
   The contract records the check; B7 (efficacy) stays open.
+- **The loop tracker says whether it is finished.** `.unknowns/loop.json` gains `status`
+  (`active` / `done` / `stopped`). After a compaction the hook puts one line pointing back
+  at an `active` loop into Claude's context: compaction re-attaches invoked skills
+  most-recent-first within a fixed budget, so the loop skill — invoked first — is the one
+  most likely dropped, along with its own "re-invoke me after compaction" line. The hint
+  does not depend on the notes reminder (it still appears with the threshold at 0), and a
+  file without `status` gets none, since it may be a finished loop. The loop writes the
+  tracker as `active` before its first exchange, `resume` sets it back to `active`, and a
+  bare `/unknowns:loop` offers to resume only an `active` tracker, confirming first since an
+  abandoned loop stays `active` until someone says stop.
+- **`independent-reviewer` no longer preloads the notes skill.** The `skills:` field
+  injects the whole body, including instructions this read-only agent cannot follow
+  (append to the file, stop and ask the user — sub-agents have no AskUserQuestion). The
+  criteria it judges deviations by are now written into its own item 2.
+- **Small-fix tier states its done criteria.** The scale-down list said "notes only, no
+  loop" for a small fix and "step 1 runs in every tier" two lines later; a small fix now
+  states the done criteria in one line, as `plan`'s size gate already did.
+- **Scorecard rows can be anchored.** blindspot keeps the user's pre-investigation lists
+  (sure of / assuming / cannot judge) verbatim, and the scorecard shows findings against
+  them before asking "did you learn something?", recording `compared` or `none` in a new
+  last column, **Baseline** — a recollection of what one already knew drifts once the
+  answer has been seen. Columns are only ever appended, so an existing scorecard migrates
+  by extending its header; `docs/value-contract.md` now reports `compared` rows separately.
+- **The teach-back key predates the answer.** quiz writes the grading points to
+  `.unknowns/<date>-quiz-<slug>-key.md` before asking and quotes the file when grading.
+- **notes' "Why the split" cites what the studies measured.** Fox, Ericsson & Best (2011)
+  measured whether people speaking during a task change the task, not whether an
+  after-the-fact log is accurate; the paragraph now leans on Turpin et al. (2023) and
+  Nisbett & Wilson (1977) for "a stated reason is a hypothesis", and keeps Fox as a caution.
+- **Standalone skill builds.** References are bundled transitively, so the six zips whose
+  `output-routing.md` points at `surfaces.md` now contain it. `--target local` builds plain
+  folders for a Claude Code `.claude/skills/` copy that keep the full description,
+  `argument-hint` and `$ARGUMENTS`, and drop the plugin namespace from agent names
+  (`unknowns:unknowns-scout` → `unknowns-scout`) to match agents copied into
+  `.claude/agents/`; the README's copy-a-skill section now uses it. Siblings a reference
+  names by full plugin path are bundled too, not only bare names.
 
 ## 0.8.1 — 2026-09-28
 

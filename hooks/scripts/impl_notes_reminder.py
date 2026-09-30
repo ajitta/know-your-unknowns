@@ -10,7 +10,9 @@ Four modes, one script (see hooks/hooks.json):
                     "[unknowns] hooks active" marker the skills key on, only
                     while a reminder is still to come; after compaction,
                     restate the rule (compaction summarized the reminder away),
-                    re-arm it, and carry the marker when re-arming persisted
+                    re-arm it, and carry the marker when re-arming persisted;
+                    also point back at an unfinished loop (.unknowns/loop.json
+                    with status "active")
 - --stop            Stop: if the threshold was crossed and the notes file was
                     never touched, say so once
 - --cleanup         SessionEnd: delete this session's state file
@@ -252,6 +254,69 @@ def _find_markers(bases):
     return None, opted_in
 
 
+LOOP_FILE = "loop.json"
+LOOP_MAX_BYTES = 65536
+
+
+def _find_loop(bases):
+    """Path of the nearest .unknowns/loop.json below the repo root, or None."""
+    for base in bases:
+        try:
+            current = os.path.abspath(base)
+        except Exception:
+            continue
+        for _ in range(MAX_WALK):
+            candidate = os.path.join(current, WORK_DIR, LOOP_FILE)
+            if os.path.isfile(candidate):
+                return candidate
+            if os.path.exists(os.path.join(current, ".git")):
+                break
+            parent = os.path.dirname(current)
+            if parent == current:
+                break
+            current = parent
+    return None
+
+
+def _one_line(value, limit):
+    text = " ".join(str(value).split())
+    return text if len(text) <= limit else text[: limit - 3] + "..."
+
+
+def _loop_hint(bases):
+    """Resume hint for an unfinished loop, or None.
+
+    Compaction re-attaches invoked skills most-recent-first within a fixed
+    budget, so the loop skill - invoked first - is the one most likely to be
+    dropped, together with its own "re-invoke me after compaction" line. The
+    tracker survives on disk; this points back at it. Only status "active"
+    counts: a file without a status may be a finished loop from before the
+    field existed, and a false "resume" is worse than none.
+    """
+    path = _find_loop(bases)
+    if path is None:
+        return None
+    try:
+        if os.path.getsize(path) > LOOP_MAX_BYTES:
+            return None
+        with open(path, "r", encoding="utf-8") as fh:
+            loop = json.load(fh)
+    except Exception:
+        return None
+    if not isinstance(loop, dict) or loop.get("status") != "active":
+        return None
+    return (
+        "[unknowns] A loop is in progress (task: %s; tier: %s; stage: %s). "
+        "Compaction may have dropped the loop skill's text: re-invoke the "
+        "unknowns loop skill with `resume` before continuing.\n"
+        % (
+            _one_line(loop.get("task", "?"), 120),
+            _one_line(loop.get("tier", "?"), 20),
+            _one_line(loop.get("stage", "?"), 40),
+        )
+    )
+
+
 def _gate(data):
     """(fire allowed, notes path, bases) — see _find_markers for the opt-in."""
     bases = _bases(data)
@@ -352,8 +417,16 @@ def session_start(data, threshold, repeat):
     conditions, so it never promises a reminder that will not arrive. Once the
     reminder has fired, the skill goes back to self-checking.
     """
-    allowed, _notes_path, _bases = _gate(data)
+    allowed, _notes_path, bases = _gate(data)
     if not allowed:
+        return 0
+    if data.get("source") == "compact":
+        # independent of the notes reminder: a loop tracker exists only where
+        # the loop ran, and threshold 0 turns off the reminder, not the loop
+        hint = _loop_hint(bases)
+        if hint:
+            sys.stdout.buffer.write(hint.encode("utf-8"))
+    if threshold <= 0:
         return 0
     state_dir = _state_dir()
     if data.get("source") != "compact":
@@ -475,10 +548,11 @@ def main(argv) -> int:
         ["UNKNOWNS_NOTES_THRESHOLD", "FIELD_GUIDE_NOTES_THRESHOLD"],
         DEFAULT_THRESHOLD,
     )
+    if mode == "--session-start":
+        # handles threshold <= 0 itself: the loop resume hint does not depend on it
+        return session_start(data, threshold, _env_flag("UNKNOWNS_NOTES_REPEAT"))
     if threshold <= 0:
         return 0
-    if mode == "--session-start":
-        return session_start(data, threshold, _env_flag("UNKNOWNS_NOTES_REPEAT"))
     if mode == "--stop":
         return stop(data, threshold)
     return post_tool_use(data, threshold, _env_flag("UNKNOWNS_NOTES_REPEAT"))

@@ -116,9 +116,10 @@ inside the session, it worked. (`--plugin-dir` also accepts a `.zip` archive.)
 If you only want specific skills, do not copy `skills/<name>` as is: its SKILL.md points
 at `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`, which Claude Code fills in only for
 plugin skills, so a copied folder shows the model a literal placeholder. Run
-`python3 scripts/build-skill-zips.py` and unzip the skills you want from `dist/` into your
-vault's or project's `.claude/skills/` — each is self-contained, with its references in
-its own `references/` folder. Copy `agents/*.md` into `.claude/agents/`. Invocations then
+`python3 scripts/build-skill-zips.py --target local` and copy the folders you want from
+`dist/local/` into your vault's or project's `.claude/skills/` — each is self-contained,
+with its references in its own `references/` folder, and keeps the full description,
+`argument-hint` and `$ARGUMENTS` (the upload zips shorten and rewrite those). Copy `agents/*.md` into `.claude/agents/`. Invocations then
 lose the namespace and get short — `/blindspot`, `/quiz`. The hooks only activate automatically in plugin form; see [Hook behavior and
 configuration](#hook-behavior-and-configuration) for the manual setup.
 
@@ -235,7 +236,10 @@ every tier. Tell it the size and it picks:
 **Staying oriented**: the loop keeps a `.unknowns/loop.json` tracker (task, tier, stage,
 decisions, artifacts) and rewrites it at every stage boundary, so it survives compaction,
 `/resume` and new sessions. `/unknowns:loop status` reports the tier, the current stage
-and what is left; `/unknowns:loop resume` picks up where it stopped.
+and what is left; `/unknowns:loop resume` picks up where it stopped. While the tracker's
+`status` is `active`, a compaction also puts a one-line pointer back to it into Claude's
+context, because compaction is what most often drops the loop skill itself (it was
+invoked first, and re-attached skills are kept most-recent-first).
 
 ---
 
@@ -594,7 +598,7 @@ test file) is not inspected — it is a guard rail, not a sandbox.
 | What you want | How |
 |---------------|-----|
 | Change the threshold (e.g. 20 edits) | `UNKNOWNS_NOTES_THRESHOLD=20` |
-| Turn the reminder off | `UNKNOWNS_NOTES_THRESHOLD=0` |
+| Turn the reminder off | `UNKNOWNS_NOTES_THRESHOLD=0` — also removes the `hooks active` marker; the one-line loop pointer after a compaction stays, because it appears only while a `.unknowns/loop.json` is `active` |
 | Repeat the reminder at every multiple of the threshold | `UNKNOWNS_NOTES_REPEAT=1` |
 | Fire in every project, not only ones already using the plugin | `UNKNOWNS_NOTES_ALWAYS=1` |
 | Turn the sub-agent Bash guard off | `UNKNOWNS_AGENT_GUARD=0` |

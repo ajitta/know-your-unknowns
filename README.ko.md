@@ -108,9 +108,10 @@ claude --plugin-dir ./know-your-unknowns
 특정 스킬만 원하면 `skills/<이름>`을 그대로 복사하지 마세요. SKILL.md가
 `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`를 가리키는데, Claude Code는 이 값을
 플러그인 스킬에만 채워 넣으므로 복사한 폴더에서는 모델에게 자리표시자가 글자 그대로
-보입니다. `python3 scripts/build-skill-zips.py`를 돌려 `dist/`에서 원하는 스킬을 볼트나
-프로젝트의 `.claude/skills/`에 풀어 넣으세요 — 각 스킬은 자기 `references/` 폴더를 품은
-독립 폴더입니다. `agents/*.md`는 `.claude/agents/`에 복사합니다. 이 경우 호출명은
+보입니다. `python3 scripts/build-skill-zips.py --target local`을 돌려 `dist/local/`에서
+원하는 폴더를 볼트나 프로젝트의 `.claude/skills/`에 복사하세요 — 각 스킬은 자기
+`references/` 폴더를 품은 독립 폴더이고, 전체 description과 `argument-hint`, `$ARGUMENTS`를
+그대로 유지합니다(업로드용 zip은 이것들을 줄이거나 바꿉니다). `agents/*.md`는 `.claude/agents/`에 복사합니다. 이 경우 호출명은
 네임스페이스 없이 `/blindspot`, `/quiz`처럼 짧아집니다. 훅은 플러그인 형태일 때만 자동 활성화되므로,
 수동 설정은 [훅 동작과 설정](#훅-동작과-설정)을 참고하세요.
 
@@ -221,7 +222,9 @@ GitHub 레포 리네임으로 옛 URL(`ajitta/field-guide`)은 자동 리다이�
 **진행 상태 유지**: 루프는 `.unknowns/loop.json` 트래커(작업·규모·단계·결정·산출물)를
 단계 경계마다 다시 씁니다. 그래서 컴팩션, `/resume`, 새 세션을 넘어 살아남습니다.
 `/unknowns:loop status`는 규모·현재 단계·남은 단계를 보고하고,
-`/unknowns:loop resume`은 멈춘 지점에서 이어갑니다.
+`/unknowns:loop resume`은 멈춘 지점에서 이어갑니다. 트래커의 `status`가 `active`인 동안에는
+컴팩션 때 이 트래커를 가리키는 한 줄도 Claude 컨텍스트에 들어갑니다 — 컴팩션이 가장 먼저
+떨어뜨리는 것이 loop 스킬 자신이기 때문입니다(가장 먼저 호출됐고, 재첨부는 최근 호출 순).
 
 ---
 
@@ -544,7 +547,7 @@ scout은 읽기 명령 화이트리스트로 묶이고, reviewer는 테스트·�
 | 하고 싶은 것 | 방법 |
 |--------------|------|
 | 임계값 변경 (예: 20회) | `UNKNOWNS_NOTES_THRESHOLD=20` |
-| 리마인더 끄기 | `UNKNOWNS_NOTES_THRESHOLD=0` |
+| 리마인더 끄기 | `UNKNOWNS_NOTES_THRESHOLD=0` — `hooks active` 표식도 사라집니다. 컴팩션 후 loop 안내 한 줄은 남습니다 — `.unknowns/loop.json`이 `active`일 때만 나오기 때문입니다 |
 | 임계값 배수마다 반복 리마인드 | `UNKNOWNS_NOTES_REPEAT=1` |
 | 아직 플러그인을 쓰지 않는 프로젝트에서도 울리기 | `UNKNOWNS_NOTES_ALWAYS=1` |
 | 서브에이전트 Bash 가드 끄기 | `UNKNOWNS_AGENT_GUARD=0` |

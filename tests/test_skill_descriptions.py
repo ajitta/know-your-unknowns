@@ -125,5 +125,48 @@ class SkillZipBuildTest(unittest.TestCase):
                 self.assertIsNone(bare.search(text), skill_md)
 
 
+    def build(self, *extra):
+        out = tempfile.mkdtemp()
+        self.addCleanup(__import__("shutil").rmtree, out, True)
+        result = subprocess.run(
+            [sys.executable, os.path.join(ROOT, "scripts", "build-skill-zips.py"),
+             "--out", out, *extra],
+            capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return Path(out)
+
+    def test_bundled_references_bring_the_siblings_they_name(self):
+        refs = {p.stem for p in (SKILLS_DIR / "loop" / "references").glob("*.md")}
+        sibling = re.compile(r"(?<![\w/.-])([a-z][a-z-]*)\.md\b")
+        for archive in sorted(self.build().glob("*.zip")):
+            with zipfile.ZipFile(archive) as zf:
+                names = set(zf.namelist())
+                for name in names:
+                    if "/references/" not in name:
+                        continue
+                    text = zf.read(name).decode("utf-8")
+                    for ref in set(sibling.findall(text)) & (refs - {"talk-source"}):
+                        with self.subTest(archive=archive.name, ref=ref):
+                            self.assertIn("%s/references/%s.md" % (archive.stem, ref),
+                                          names)
+
+    def test_local_target_keeps_what_claude_code_reads_natively(self):
+        out = self.build("--target", "local") / "local"
+        self.assertEqual({p.name for p in out.iterdir()}, skill_names())
+        body = (out / "blindspot" / "SKILL.md").read_text(encoding="utf-8")
+        original = (SKILLS_DIR / "blindspot" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("$ARGUMENTS", body)
+        self.assertIn("argument-hint:", body)
+        # full description, frontmatter byte-for-byte
+        self.assertEqual(body.split("\n---\n", 1)[0], original.split("\n---\n", 1)[0])
+        self.assertNotIn("${CLAUDE_PLUGIN_ROOT}", body)
+        self.assertTrue((out / "blindspot" / "references" / "surfaces.md").exists())
+        loop = (out / "loop" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("independent-reviewer", loop)
+        self.assertNotIn("unknowns:independent-reviewer", loop)
+        self.assertNotIn("unknowns:unknowns-scout",
+                         (out / "blindspot" / "SKILL.md").read_text(encoding="utf-8"))
+
 if __name__ == "__main__":
     unittest.main()

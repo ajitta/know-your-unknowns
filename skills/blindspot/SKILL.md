@@ -30,6 +30,10 @@ Origin: Blindspot Pass — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk
    not know how to judge. ① narrows the scope, but ask how recent that certainty is;
    ② becomes the **first** thing to check, not something to skip; ③ points at the
    **teach-me** skill. A skip means a full investigation — never block on it.
+   Record the three lists **verbatim before investigating** — in `.unknowns/loop.json` as
+   `baseline` when a loop runs, otherwise restated in your reply right then (the output's
+   first section later copies them). They are the before-picture the scorecard compares
+   findings against, so they must exist before any finding does.
 2. Scope codebase-wide or large → spawn the `unknowns:unknowns-scout` agent with the
    Agent tool. Hand it a packet: the user's original prompt verbatim, the context
    sources, the target area and its entry points, and what to return (finding table +
