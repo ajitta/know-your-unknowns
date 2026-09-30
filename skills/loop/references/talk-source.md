@@ -244,10 +244,14 @@ Devices that read as source-derived but are not (each with the source's counterp
 Two entries left this list in 0.4.0: blindspot now uses the source's four card kinds,
 and quiz now asks the source's six questions with a pass gate.
 
-- **"importance × impact" as a sort axis** (`blindspot`, `unknowns-scout`, README) —
-  "importance" occurs zero times across the index, all 11 demos, and the talk transcript.
-  Demo 01 *types* its seven cards (Landmine / Convention / Missing concept / History) and
-  does not rank them.
+- **A sort axis for blindspot cards** (`blindspot`, `unknowns-scout`, README) — demo 01
+  *types* its seven cards (Landmine / Convention / Missing concept / History) and does not
+  rank them. Until 2026-09-30 the plugin sorted by "importance × impact", which names the
+  same quantity twice ("importance" occurs zero times across the index, all 11 demos, and
+  the talk transcript); it now sorts by likelihood × blast radius — how likely this task is
+  to hit a finding, times how much breaks if it does. "Blast radius" is demo 06's word (for
+  interview questions); "likelihood" and applying it to blindspot cards are the plugin's.
+  Still an extension, not the source.
 - **The interview priority ladder** (architecture → data loss/security → compatibility →
   performance → taste) — demo 06 orders by "blast radius" with four labels only:
   Architecture, Data model, UX, Polish.
@@ -257,7 +261,9 @@ and quiz now asks the source's six questions with a pass gate.
   Deliberately changed / Dropped.
 - **Notes' stop-and-ask escalation** (architecture, user-visible behavior, data, or
   security decisions halt the run and ask) — demo 09's prompt says the opposite: "pick the
-  conservative option, log it under 'Deviations', and keep going."
+  conservative option, log it under 'Deviations', and keep going." Since 2026-09-30 the gap
+  is wider: a "Todo for human" may not touch those four areas, and when unsure the skill
+  escalates rather than logs.
 
 Numeric defaults in these extensions are deliberate initial guesses, not
 source-derived: the hook threshold of 10 edits; the interview cap of 4

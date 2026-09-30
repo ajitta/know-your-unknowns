@@ -58,7 +58,7 @@ diff; Attributed is a claim to test later. On conflict, the diff wins.
 
 Two lighter kinds, same file, one line each:
 - **Discovery** — code or environment differs from what the plan assumed, no decision needed yet: what was assumed / what is true.
-- **Todo for human** — a judgment call that belongs to the user but blocks neither merge nor QA. Log it and keep working.
+- **Todo for human** — a judgment call that belongs to the user but blocks neither merge nor QA, and falls outside every stop-and-ask case below (it changes no architecture, no user-visible behavior, no data or security). Log it and keep working. If it touches any of those, it is not a Todo — escalate. When unsure which, escalate: a question costs one round trip, a silent contract change costs a revert.
 
 ## Logging Criteria
 

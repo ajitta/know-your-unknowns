@@ -81,6 +81,32 @@ Not released: no version bump, no tag.
   (`unknowns:unknowns-scout` → `unknowns-scout`) to match agents copied into
   `.claude/agents/`; the README's copy-a-skill section now uses it. Siblings a reference
   names by full plugin path are bundled too, not only bare names.
+- **blindspot cards sort by likelihood × blast radius** — how likely this task is to hit a
+  finding, times how much breaks if it does. "Importance × impact" named one quantity
+  twice and was, per `talk-source.md`, never in the source.
+- **brainstorm asks the scout for an inventory**, not its default blindspot cards and
+  prompt draft: one row per existing mechanism, with what is missing to wire it in. The
+  scout now follows a return shape the packet asks for.
+- **"Todo for human" vs stop-and-ask.** A Todo is now only a call that changes no
+  architecture, user-visible behavior, data or security; anything touching those
+  escalates, and when unsure, escalate.
+- **The Stop check sees notes written outside Edit/Write.** An append through Bash
+  (`cat >> IMPLEMENTATION_NOTES.md`) fired no Edit/Write event, so Stop said the notes were
+  never updated. The hook now records the notes file as it stood at the session's first
+  counted edit (absent, or its modification time) and at Stop counts it as touched if it
+  has since appeared or its modification time changed. It compares the file with itself,
+  never with the hook's clock, so a file stamped in the future (network share, `cp -p` from
+  a fast clock) is not mistaken for one written now.
+- **Crowded skill listings.** `evals/run-manual.py --crowd N` loads a generated plugin of
+  N filler skills first, in a fresh, empty `CLAUDE_CONFIG_DIR` per run (usage counts,
+  which decide whose descriptions survive, live in the config and headless runs update
+  them; synced or managed plugins may still load); `--budget-fraction F` forces an
+  overflow. Each crowd run records what the CLI logged about the listing, and a run that
+  cannot start is reported as FAILED rather than scored as a miss. Forced overflow (logged
+  by the CLI; that every unknowns description was dropped is a probe run's self-report):
+  9 of 11 English trigger cases still fired, notes and blindspot did not (one run per
+  case; `docs/trigger-eval-crowd-2026-09-30.md`). The README's "skills don't
+  trigger" answer explains the budget and `skillListingBudgetFraction`.
 
 ## 0.8.1 — 2026-09-28
 

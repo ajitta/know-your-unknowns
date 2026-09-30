@@ -14,6 +14,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -610,6 +611,76 @@ class HookTestCase(unittest.TestCase):
         )
         result = self.run_hook(self.payload(), env_extra=env, args=["--stop"])
         self.assertEqual(result.stdout, b"")
+
+    def test_stop_is_silent_when_the_notes_file_was_appended_outside_edit(self):
+        # `cat >> IMPLEMENTATION_NOTES.md` through Bash fires no Edit/Write event
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "1"}
+        notes = os.path.join(self.project, "IMPLEMENTATION_NOTES.md")
+        os.utime(notes, (1000000000, 1000000000))  # written long before the session
+        self.run_hook(self.payload(), env_extra=env)
+        with open(notes, "a", encoding="utf-8") as fh:
+            fh.write("\n## [2026-09-30] appended by a shell command\n")
+        os.utime(notes, None)  # now, after the first counted edit
+        result = self.run_hook(self.payload(), env_extra=env, args=["--stop"])
+        self.assertEqual(result.stdout, b"")
+        self.assertTrue(self.read_state()["notes_touched"])
+
+    def test_stop_is_not_silenced_by_a_future_dated_untouched_file(self):
+        # a file stamped ahead of this machine's clock (network share, cp -p from
+        # a fast clock) must not read as "written during the session"
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "1"}
+        notes = os.path.join(self.project, "IMPLEMENTATION_NOTES.md")
+        future = time.time() + 3600
+        os.utime(notes, (future, future))
+        self.run_hook(self.payload(), env_extra=env)
+        result = self.run_hook(self.payload(), env_extra=env, args=["--stop"])
+        self.assertIn(b"was not updated", result.stdout)
+        self.assertFalse(self.read_state()["notes_touched"])
+
+    def test_stop_is_silent_when_the_notes_file_is_created_by_a_shell(self):
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "1"}
+        # opted in through .unknowns/, no notes file yet
+        os.makedirs(os.path.join(self.bare, ".unknowns"))
+        self.run_hook(self.payload(cwd=self.bare), env_extra=env)
+        with open(os.path.join(self.bare, "IMPLEMENTATION_NOTES.md"), "w") as fh:
+            fh.write("# Implementation Notes\n")
+        result = self.run_hook(self.payload(cwd=self.bare), env_extra=env,
+                               args=["--stop"])
+        self.assertEqual(result.stdout, b"")
+
+    def test_stop_ignores_an_old_notes_file_in_another_directory(self):
+        # snapshot says "absent" in the opted-in project; at Stop the cwd is a
+        # sibling repo with its own old, untouched notes file
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "1"}
+        os.makedirs(os.path.join(self.bare, ".unknowns"))
+        sibling = os.path.join(self.tmp, "sibling")
+        os.makedirs(os.path.join(sibling, ".git"))
+        with open(os.path.join(sibling, "IMPLEMENTATION_NOTES.md"), "w") as fh:
+            fh.write("# old\n")
+        self.run_hook(self.payload(cwd=self.bare), env_extra=env)
+        result = self.run_hook(
+            self.payload(cwd=sibling), env_extra=dict(env, CLAUDE_PROJECT_DIR=self.bare),
+            args=["--stop"])
+        self.assertIn(b"was not updated", result.stdout)
+        self.assertFalse(self.read_state()["notes_touched"])
+
+    def test_stop_ignores_a_different_existing_notes_file(self):
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "1"}
+        self.run_hook(self.payload(), env_extra=env)  # snapshot: self.project's file
+        other = os.path.join(self.tmp, "pkg")
+        os.makedirs(os.path.join(other, ".git"))
+        with open(os.path.join(other, "IMPLEMENTATION_NOTES.md"), "w") as fh:
+            fh.write("# other package\n")
+        result = self.run_hook(self.payload(cwd=other), env_extra=env, args=["--stop"])
+        self.assertIn(b"was not updated", result.stdout)
+
+    def test_stop_still_fires_when_the_notes_file_predates_the_edits(self):
+        env = {"UNKNOWNS_NOTES_THRESHOLD": "1"}
+        notes = os.path.join(self.project, "IMPLEMENTATION_NOTES.md")
+        os.utime(notes, (1000000000, 1000000000))
+        self.run_hook(self.payload(), env_extra=env)
+        result = self.run_hook(self.payload(), env_extra=env, args=["--stop"])
+        self.assertIn(b"was not updated", result.stdout)
 
     def test_stop_is_silent_below_the_threshold_and_while_looping(self):
         env = {"UNKNOWNS_NOTES_THRESHOLD": "5"}

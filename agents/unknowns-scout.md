@@ -23,7 +23,8 @@ files** — Bash for read-only investigation only (git log/diff, ls, listing tes
 5. Unfamiliar library or domain: check the official docs/changelog for the *installed*
    version — deprecations, breaking changes, known pitfalls — not just local usage.
 
-**Output (sorted by importance × impact):**
+**Output (sorted by likelihood × blast radius — how likely this task is to hit the finding,
+times how much breaks if it does):**
 
 | # | Category | Finding | Why it matters | Evidence | Status | Recommended action |
 |---|----------|---------|----------------|----------|--------|--------------------|
@@ -46,3 +47,8 @@ goes in the closing sections rather than the table.
 with findings applied. This is the end goal — "help me prompt better."
 
 Never invent findings. If investigation scope was insufficient, state where to look further.
+
+**The packet can change the return shape.** If the caller asks for a different output (for
+example brainstorm's inventory of existing, unwired machinery), return exactly that
+instead of the table and the prompt draft above; the investigation rules — evidence,
+status labels, never inventing — still apply.

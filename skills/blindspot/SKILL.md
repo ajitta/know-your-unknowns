@@ -57,7 +57,9 @@ Origin: Blindspot Pass — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk
    it sounds small) vs **What you're actually walking into**, with a tally by kind
    ("4 landmines, 2 conventions, 1 missing concept, 1 reverted attempt"). Then the cards —
    kind, finding, **why it bites**, evidence, status, recommended action — sorted by
-   **importance × impact**.
+   **likelihood × blast radius**: how likely *this task* is to hit it, times how much breaks
+   if it does. A severe landmine in code the task never touches ranks below a modest
+   convention every new line must follow.
 5. End with an **improved prompt draft** reflecting the findings — the core deliverable of
    this skill. It names the execution order and ends with an explicit checkpoint
    ("stop and show me the plan before writing code").

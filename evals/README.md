@@ -104,6 +104,24 @@ tree on disk is what is measured, not an installed copy), and applies the case's
 `allowed_tools` via `--allowedTools` / `--disallowedTools`. `--arm both` runs the
 with- and without-plugin arms, which is the manual equivalent of the ablation.
 
+`--crowd N` also loads a generated plugin of N filler skills (written into the results
+directory, so the run can be repeated). Claude Code budgets the skill listing (1% of the
+context window by default) and, when it overflows, keeps descriptions for the most-used
+skills (usage counts decayed by recency) and lists the rest by name only. A clean eval
+environment rarely overflows, so a trigger rate measured there says little about a
+machine with sixty skills installed. Usage counts live in the Claude config
+(`skillUsage` in `.claude.json`) and headless runs update them too, so each crowd run gets
+a fresh, empty `CLAUDE_CONFIG_DIR` (no usage history — synced or managed plugins may still
+load) and the filler plugin is loaded first, so ties do not favour this plugin. Each crowd
+run writes a `--debug-file`; the report records whether the CLI logged the listing as over
+budget and which plugins loaded. **Sign-in:** a fresh config dir usually holds no
+credentials, so set `ANTHROPIC_API_KEY` for crowd runs; a run that cannot start is
+reported as `FAILED` and left ungraded, not counted as a trigger miss. `--budget-fraction F` sets
+`skillListingBudgetFraction` to force an overflow regardless of the context window —
+`--crowd 60 --budget-fraction 0.002` drops every unknowns description (the CLI logs
+"Skill listing over budget" under `--debug-file`). First result:
+[docs/trigger-eval-crowd-2026-09-30.md](../docs/trigger-eval-crowd-2026-09-30.md).
+
 For the no-plugin arm to be honest the plugin must not *also* be enabled in your own
 config. Check with `claude plugin list`; `claude plugin disable unknowns` for the
 duration of the run if it is.
