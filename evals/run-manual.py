@@ -17,11 +17,28 @@ What it does and does not do:
     `target: files` mean the same thing they mean under the real runner.
   * With `--arm both` it runs each case twice, with and without `--plugin-dir`, which
     is the manual equivalent of `--ablation with-without`.
+  * With `--crowd N` it also loads a generated filler plugin of N ordinary-looking
+    skills. Claude Code gives the skill listing a budget (1% of the context window by
+    default) and drops descriptions, least-used first (usage counts, decayed by
+    recency), when it overflows; a clean eval environment rarely overflows, so a
+    trigger that passes there can still lose its description on a machine with many
+    skills. The crowd arm measures that. Usage counts live in the Claude config and
+    headless runs update them too, so every crowd run gets a fresh, empty
+    CLAUDE_CONFIG_DIR (no usage history; synced or managed plugins may still load)
+    and the filler plugin is loaded first, so ties in the ranking do not favour this
+    plugin. Each crowd run writes a --debug-file and the report records what the CLI
+    logged: whether the listing went over budget, and which plugins loaded.
+    A fresh config dir holds no sign-in on most machines, so crowd runs need
+    ANTHROPIC_API_KEY (or credentials the CLI finds outside the config dir); a run
+    that fails to start is reported as FAILED, never scored as "did not fire".
+    `--budget-fraction F` sets skillListingBudgetFraction for the run, to force an
+    overflow regardless of the model's context window.
 
 Usage:
 
     python3 evals/run-manual.py --case 'trigger-*' --runs 1
     python3 evals/run-manual.py --case 'behavior-notes-*' --arm both
+    python3 evals/run-manual.py --case 'trigger-*' --crowd 60 --budget-fraction 0.002
     python3 evals/run-manual.py --list
 
 Stdlib only, Python 3.8+. No PyYAML: the frontmatter in this suite is deliberately
@@ -211,8 +228,83 @@ def snapshot(root):
     return seen
 
 
-def run_once(case, with_plugin, root, claude_bin):
+# Filler skills for --crowd: plausible, unrelated work, some sharing trigger words
+# ("plan", "review", "test", "explain") with this plugin so the listing competes
+# the way a real one does. Names are prefixed so they never collide.
+CROWD_TOPICS = [
+    ("sprint-plan", "Plan a sprint from a backlog: size tickets, pick a goal, and draft the sprint board. Use when the user says plan the sprint or sprint planning."),
+    ("pr-review", "Review a pull request for style, naming and obvious bugs, and draft review comments. Use on review this PR or code review."),
+    ("test-writer", "Write unit tests for a function or module using the project's test framework. Use when asked to add tests or improve coverage."),
+    ("explain-code", "Explain what a piece of code does, line by line, for a newcomer. Use on explain this code or what does this do."),
+    ("release-notes", "Draft release notes from merged pull requests and commit messages. Use on write release notes or changelog draft."),
+    ("sql-helper", "Write or optimize SQL queries and explain query plans. Use when the user asks for a query, index advice or a slow query fix."),
+    ("api-docs", "Generate API reference docs from route handlers and types. Use on document this API or generate API docs."),
+    ("refactor", "Refactor code for readability without changing behavior: extract functions, rename, simplify. Use on refactor this or clean up."),
+    ("bug-triage", "Triage a bug report: reproduce, find the likely module, and propose a fix plan. Use on triage this bug or investigate this issue."),
+    ("dockerize", "Write a Dockerfile and compose file for the project. Use on containerize this app or add Docker."),
+    ("ci-setup", "Set up a CI pipeline for lint, test and build. Use on add CI or set up GitHub Actions."),
+    ("perf-profile", "Profile slow code paths and suggest optimizations. Use on this is slow, profile this, or performance review."),
+    ("migration", "Plan and write a database migration with a rollback. Use on add a migration or change the schema."),
+    ("security-scan", "Scan code for common security issues and explain each. Use on security review or check for vulnerabilities."),
+    ("commit-msg", "Write a conventional commit message from the staged diff. Use on write a commit message."),
+    ("onboarding", "Write an onboarding guide for a codebase: setup, architecture tour, first tasks. Use on onboarding doc or explain the codebase to a new hire."),
+    ("design-doc", "Draft a design doc with context, goals, options and a recommendation. Use on write a design doc or RFC."),
+    ("meeting-notes", "Turn a meeting transcript into notes with decisions and action items. Use on summarize this meeting."),
+    ("regex-helper", "Write and explain a regular expression with test cases. Use on write a regex."),
+    ("i18n", "Extract user-facing strings and set up translations. Use on internationalize or add translations."),
+]
+
+
+def crowd_plugin(count, into):
+    """Write a throwaway plugin with `count` filler skills; returns its root."""
+    root = os.path.join(into, "crowd-plugin")
+    if os.path.isdir(root):
+        # a reused --out must not keep fillers from an earlier, larger crowd
+        shutil.rmtree(root)
+    os.makedirs(os.path.join(root, ".claude-plugin"), exist_ok=True)
+    with open(os.path.join(root, ".claude-plugin", "plugin.json"), "w",
+              encoding="utf-8") as handle:
+        json.dump({"name": "evalcrowd", "version": "0.0.0",
+                   "description": "Filler skills for the crowded-listing eval arm."},
+                  handle)
+    for index in range(count):
+        slug, text = CROWD_TOPICS[index % len(CROWD_TOPICS)]
+        name = "crowd-%02d-%s" % (index, slug)
+        folder = os.path.join(root, "skills", name)
+        os.makedirs(folder, exist_ok=True)
+        with open(os.path.join(folder, "SKILL.md"), "w", encoding="utf-8") as handle:
+            handle.write("---\nname: %s\ndescription: %s\n---\n\n%s\n"
+                         % (name, json.dumps(text), text))
+    return root
+
+
+LISTING_OVER = re.compile(
+    r"Skill listing over budget: (\d+) skills, (\d+) chars > (\d+) budget")
+INLINE_PLUGIN = re.compile(r"Loaded inline plugin from path: (\S+)")
+
+
+def listing_report(debug_file):
+    """What the CLI logged about the skill listing and the plugins it loaded."""
+    try:
+        text = read(debug_file)
+    except OSError:
+        return {"debug_log": False}
+    over = LISTING_OVER.search(text)
+    return {
+        "debug_log": True,
+        "over_budget": bool(over),
+        "skills": int(over.group(1)) if over else None,
+        "chars": int(over.group(2)) if over else None,
+        "budget_chars": int(over.group(3)) if over else None,
+        # every plugin the CLI loaded, including synced or managed ones that still
+        # load with an empty config dir (and this plugin and the filler plugin)
+        "plugins_loaded": sorted(set(INLINE_PLUGIN.findall(text))),
+    }
+
+
+def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fraction=None):
     sandbox = tempfile.mkdtemp(prefix="unknowns-eval-")
+    config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if crowd_root else None
     try:
         before = snapshot(sandbox)
         cmd = [claude_bin, "-p", case["prompt"],
@@ -220,8 +312,20 @@ def run_once(case, with_plugin, root, claude_bin):
                "--max-turns", str(case["max_turns"])]
         if case["model"]:
             cmd += ["--model", case["model"]]
+        if crowd_root:
+            # first, so listing-order ties go to the fillers, not to this plugin
+            cmd += ["--plugin-dir", crowd_root]
         if with_plugin:
             cmd += ["--plugin-dir", root]
+        if budget_fraction is not None:
+            cmd += ["--settings", json.dumps({"skillListingBudgetFraction": budget_fraction})]
+        env = dict(os.environ)
+        debug_file = None
+        if config_dir:
+            env["CLAUDE_CONFIG_DIR"] = config_dir
+            # the CLI's own word on the listing, instead of the model's report
+            debug_file = os.path.join(config_dir, "eval-debug.log")
+            cmd += ["--debug-file", debug_file]
         if case["allowed_tools"]:
             cmd += ["--allowedTools"] + list(case["allowed_tools"])
         denied = [tool for tool in DENYABLE if tool not in case["allowed_tools"]]
@@ -232,13 +336,15 @@ def run_once(case, with_plugin, root, claude_bin):
         timed_out = False
         try:
             proc = subprocess.run(cmd, cwd=sandbox, capture_output=True, text=True,
-                                  timeout=case["timeout_seconds"])
+                                  timeout=case["timeout_seconds"], env=env)
             stdout, stderr, code = proc.stdout, proc.stderr, proc.returncode
         except subprocess.TimeoutExpired:
             stdout, stderr, code = "", "timed out after %ds" % case["timeout_seconds"], -1
             timed_out = True
 
         events, tool_calls, last_message = [], [], ""
+        model_used = None
+        result_error = False
         for line in stdout.splitlines():
             line = line.strip()
             if not line.startswith("{"):
@@ -248,6 +354,10 @@ def run_once(case, with_plugin, root, claude_bin):
             except ValueError:
                 continue
             events.append(event)
+            if event.get("type") == "system" and isinstance(event.get("model"), str):
+                model_used = event["model"]
+            if event.get("type") == "result" and event.get("is_error") is True:
+                result_error = True
             if event.get("type") == "result" and isinstance(event.get("result"), str):
                 last_message = event["result"]
             message = event.get("message")
@@ -266,6 +376,12 @@ def run_once(case, with_plugin, root, claude_bin):
                 elif block.get("type") == "text" and message.get("role") == "assistant":
                     last_message = block.get("text", "") or last_message
 
+        listing = listing_report(debug_file) if debug_file else None
+        # a run that could not start (no sign-in in a fresh config dir, a bad flag)
+        # makes no tool calls either; it must not be scored as "did not fire". Its
+        # message may still be text ("Not logged in"), so the message is not the test.
+        failed = not timed_out and not tool_calls and (code != 0 or result_error)
+
         created = sorted(snapshot(sandbox) - before)
         file_text = {}
         for rel in created:
@@ -276,9 +392,12 @@ def run_once(case, with_plugin, root, claude_bin):
                 file_text[rel] = ""
 
         return {
-            "arm": "with" if with_plugin else "without",
+            "arm": ("with" if with_plugin else "without") + ("+crowd" if crowd_root else ""),
             "exit_code": code,
             "timed_out": timed_out,
+            "failed": failed,
+            "listing": listing,
+            "model": model_used,
             "stderr": stderr[-2000:],
             "duration_seconds": round(time.time() - started, 1),
             "last_message": last_message,
@@ -289,6 +408,8 @@ def run_once(case, with_plugin, root, claude_bin):
         }
     finally:
         shutil.rmtree(sandbox, ignore_errors=True)
+        if config_dir:
+            shutil.rmtree(config_dir, ignore_errors=True)
 
 
 # --------------------------------------------------------------------- grading
@@ -385,7 +506,10 @@ def is_display_only(grader):
 
 
 def score_run(case, run):
-    if run.get("timed_out"):
+    if run.get("timed_out") or run.get("failed"):
+        why = "run timed out" if run.get("timed_out") else (
+            "run failed (exit %s): %s" % (run.get("exit_code"),
+                                          (run.get("stderr") or "").strip()[-200:]))
         # A run that never finished produced no tool calls and no files. Grading it
         # would score every "did not fire" assertion as a pass and every "fired"
         # assertion as a fail — a measurement artifact indistinguishable from the
@@ -394,9 +518,10 @@ def score_run(case, run):
                              "weight": float(g.get("weight", 1)),
                              "display_only": is_display_only(g), "passed": None,
                              "criteria": g.get("criteria", ""),
-                             "explanation": "run timed out — not graded"}
+                             "explanation": why + " — not graded"}
                             for g in case["graders"]],
-                "mechanical_score": None, "manual_graders": 0, "timed_out": True}
+                "mechanical_score": None, "manual_graders": 0,
+                "timed_out": bool(run.get("timed_out")), "failed": bool(run.get("failed"))}
     results, earned, total, manual = [], 0.0, 0.0, 0
     for grader in case["graders"]:
         passed, why = grade(grader, run)
@@ -582,6 +707,13 @@ def main():
     parser.add_argument("--arm", choices=["with", "without", "both"], default="with",
                         help="'both' is the manual equivalent of --ablation with-without")
     parser.add_argument("--plugin-dir", help="plugin root (default: found above evals/)")
+    parser.add_argument("--crowd", type=int, default=0, metavar="N",
+                        help="also load a generated plugin of N filler skills, to test "
+                             "triggering when the skill listing overflows its budget; "
+                             "each such run uses a fresh, empty CLAUDE_CONFIG_DIR")
+    parser.add_argument("--budget-fraction", type=float, metavar="F",
+                        help="skillListingBudgetFraction for the run (default budget is "
+                             "0.01 of the context window); small values force overflow")
     parser.add_argument("--claude", default="claude", help="claude binary")
     parser.add_argument("--out", help="results directory (default: evals/results/manual-<ts>)")
     parser.add_argument("--list", action="store_true", help="list matching cases and exit")
@@ -612,8 +744,14 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
 
     arms = ["with", "without"] if args.arm == "both" else [args.arm]
+    crowd_root = None
+    if args.crowd > 0:
+        # kept beside the results, so a run can be re-created with the same crowd
+        crowd_root = crowd_plugin(args.crowd, out_dir)
     report = {"method": "manual (claude -p, stream-json)",
-              "plugin_dir": root, "arms": arms,
+              "plugin_dir": root, "arms": arms, "crowd_skills": args.crowd,
+              "budget_fraction": args.budget_fraction,
+              "isolated_config": bool(crowd_root),
               "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
               "cases": []}
 
@@ -626,17 +764,27 @@ def main():
                  "tags": case["tags"], "runs": []}
         for arm in arms:
             for index in range(runs):
-                run = run_once(case, arm == "with", root, args.claude)
+                run = run_once(case, arm == "with", root, args.claude, crowd_root,
+                               args.budget_fraction)
                 scored = score_run(case, run)
                 run.pop("trace", None)
                 run.update(scored)
                 entry["runs"].append(run)
-                shown = "TIMEOUT" if scored.get("timed_out") else (
+                shown = "TIMEOUT" if scored.get("timed_out") else "FAILED" if scored.get("failed") else (
                     "n/a" if scored["mechanical_score"] is None
                     else "%.2f" % scored["mechanical_score"])
                 print("  [%-7s run %d] mechanical=%s  manual=%d  %ds"
                       % (arm, index + 1, shown, scored["manual_graders"],
                          run["duration_seconds"]))
+                listing = run.get("listing")
+                if listing:
+                    print("      listing: %s%s" % (
+                        ("over budget, %s skills, %s > %s chars"
+                         % (listing["skills"], listing["chars"], listing["budget_chars"]))
+                        if listing.get("over_budget") else
+                        ("within budget" if listing.get("debug_log") else "no debug log"),
+                        ("; plugins loaded: %s" % ", ".join(listing["plugins_loaded"]))
+                        if listing.get("plugins_loaded") else ""))
                 for grader in scored["graders"]:
                     mark = {True: "PASS", False: "FAIL", None: "JUDGE"}[grader["passed"]]
                     note = " (display-only)" if grader["display_only"] else ""
@@ -650,12 +798,22 @@ def main():
     lines = ["# Manual eval run", "",
              "- method: `claude -p` + stream-json (see evals/README.md)",
              "- plugin dir: `%s`" % os.path.relpath(root, os.path.dirname(HERE) or "."),
-             "- arms: %s" % ", ".join(arms), "",
+             "- arms: %s" % ", ".join(arms),
+             "- crowd: %d filler skills%s%s" % (
+                 args.crowd,
+                 ", fresh CLAUDE_CONFIG_DIR per run" if crowd_root else "",
+                 (", skillListingBudgetFraction %s" % args.budget_fraction)
+                 if args.budget_fraction is not None else ""), "",
              "| case | arm | mechanical | graders needing a judge |",
              "|---|---|---|---|"]
     for case in report["cases"]:
         for run in case["runs"]:
-            shown = "n/a" if run["mechanical_score"] is None else "%.2f" % run["mechanical_score"]
+            shown = ("TIMEOUT" if run.get("timed_out") else "FAILED" if run.get("failed")
+                     else "n/a" if run["mechanical_score"] is None
+                     else "%.2f" % run["mechanical_score"])
+            listing = run.get("listing") or {}
+            if listing.get("over_budget"):
+                shown += " (listing over budget: %s skills)" % listing["skills"]
             lines.append("| %s | %s | %s | %d |"
                          % (case["name"], run["arm"], shown, run["manual_graders"]))
     lines += ["", "## Rubrics still to score by hand", ""]

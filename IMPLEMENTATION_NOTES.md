@@ -1,5 +1,37 @@
 # Implementation Notes — plan deviation log
 
+## [2026-09-30] Unreleased — D1: Bash로 쓴 노트를 Stop이 인정
+
+**Observed**
+- **Situation found**: 첫 구현은 첫 편집 시각(훅의 시계)과 노트 파일 mtime을 초 단위 `>=`로 비교했다 — 기존 Stop 테스트가 실패했다(준비 단계에서 만든 파일이 같은 초에 생김). 엄격한 `>`로 고친 두 번째 구현도 독립 리뷰가 깼다: mtime이 미래로 찍힌 손대지 않은 파일에서 Stop이 조용해지고 `notes_touched: true`가 저장됐다(재현됨).
+- **Deviation from plan**: 계획은 "Bash로 쓴 노트를 인정"(not covered: 무엇과 비교하나). 훅의 시계와 비교하지 않고, 첫 편집 때의 노트 파일 자신(`notes_at_start`: 없음 또는 mtime)과 비교한다.
+- **Response chosen**: Stop은 Edit/Write로 건드렸거나, 파일이 새로 생겼거나, mtime이 첫 편집 때와 **달라졌을** 때 건드린 것으로 본다. 옛 상태 파일(스냅샷 없음)은 추론하지 않는다. 테스트: Bash 추가, 셸이 새로 만든 파일, 미래 시각 파일, 편집 전부터 있던 파일.
+
+**Attributed**
+- **Reason for choice**: 파일을 자기 자신과 비교하면 시계 어긋남(다른 기계의 빠른 시계, 네트워크 공유, `cp -p`, WSL 시계 지연)이 판정에 들어오지 않는다. mtime 비교는 새 훅 항목 없이 셸·다른 편집기·스크립트를 모두 덮는다.
+- **Alternatives considered**: PostToolUse에 Bash matcher를 더해 명령 문자열을 보기 — 읽기(`cat IMPLEMENTATION_NOTES.md`)와 쓰기를 가려야 하고 우회 형태가 끝없어 기각.
+- **Discovery** — 세 번째 결함(독립 리뷰 재확인에서 재현): 스냅샷에 경로가 없어서, Stop 때 cwd가 다른 패키지·형제 저장소로 가 있으면 그쪽의 오래된 노트 파일을 "새로 생겼다"로 읽었다. 스냅샷에 경로를 넣고, 시작 때 없었으면 그때 찾아본 위치 목록(`candidates`)을 남긴다 — 같은 경로의 mtime 변화, 또는 그때 비어 있던 위치에 새로 생긴 파일만 인정한다. 테스트 2건 추가.
+- **Risk/follow-up check**: 기록 없이 노트 파일 mtime을 바꾸는 것은 전부 거짓 침묵이 된다 — 포매터, `git checkout`/`stash`/`rebase`/`pull`, 같은 체크아웃의 다른 Claude 세션. 실사용에서 "기록 안 했는데 Stop이 안 울린다"가 보이면 여기부터.
+
+## [2026-09-30] Unreleased — C3·C4·C5·A2
+
+**Observed**
+- **Situation found**: `--crowd 60` 첫 실행(5케이스 5/5)을 "예산이 넘쳤는데도 unknowns 설명이 유지됐다"로 기록했는데, 독립 리뷰가 두 전제를 깼다: 헤드리스 실행도 `~/.claude.json`의 `skillUsage`를 올리므로 앞선 eval 실행이 테스트 대상 5개 스킬에 사용 이력(각 2회)을 쌓아 줬고, 넘친 원인은 이 환경에 깔린 다른 플러그인일 수 있었다. 내가 적었던 "헤드리스 세션은 호출 이력이 없다"는 틀렸다.
+- **Deviation from plan**: 계획은 `--crowd N` 옵션까지였다. 편향을 없애려고 crowd 실행마다 빈 `CLAUDE_CONFIG_DIR`, 필러 먼저 로드, `--budget-fraction F`(→ `--settings`)를 더했고, 재측정 결과를 `docs/trigger-eval-crowd-2026-09-30.md`로 남겼다. `--plugin-dir` 반복과 `--settings` JSON은 설치된 CLI `--help`로, 격리 설정에서의 인증은 실제 실행으로 확인했다.
+- **Response chosen**: 강제 예산 초과(CLI 로그 "124 skills, 35443 chars > 6000 budget", unknowns 설명 전부 빠짐)에서 영어 트리거 9/11, 같은 날 plain 11/11. 미발화는 notes·blindspot.
+
+- **Discovery** — 설명이 빠지면 blindspot 설명의 "run it even when you could answer directly" 보정도 빠진다. crowd 미발화 양상이 v0.7.1의 미발화(스킬 없이 바로 답함)와 같다.
+
+**Attributed**
+- **Reason for choice**: 사용 이력이 설명 생존을 정하므로, 이력을 지우지 않은 측정은 "많이 쓴 스킬은 살아남는다"만 확인한다.
+- **Alternatives considered**: 사용자의 `~/.claude.json`에서 `skillUsage`를 지우기 — 사용자 설정을 건드리므로 기각.
+- **Risk/follow-up check**: 1회 표본이고, plain 조건은 격리하지 않아 두 조건이 예산 외에도 다르다. 다음 측정은 `--runs 3` + 격리된 plain으로.
+
+독립 리뷰 재확인이 짚은 것:
+- **Discovery** — 빈 `CLAUDE_CONFIG_DIR`로도 동기화·관리 플러그인(이 환경에서는 design·finance·cowork-plugin-management)은 로드된다. "다른 플러그인 없음"은 틀린 서술이라 고쳤고, crowd 실행마다 `--debug-file`을 남겨 예산 초과 여부와 로드된 플러그인을 보고서에 기록한다.
+- **Discovery** — 이 컨테이너는 인증이 설정 디렉터리 밖에 있어 격리해도 돌았지만, 보통 머신에서는 빈 설정 디렉터리에 로그인이 없다. 그러면 모든 crowd 실행이 도구 호출 0회로 끝나 "미발화"로 채점됐을 것이다. 시작도 못 한 실행(비정상 종료 + 도구 호출·응답 없음)은 이제 FAILED로 채점에서 뺀다. `--claude false`로 그 경로를 실제로 확인했다. 마지막 재확인이 한 구멍을 더 짚었다 — 로그아웃 실행은 "Not logged in" 같은 문구를 결과로 돌려줄 수 있어 "응답 없음" 조건을 비껴간다. 판정을 "도구 호출 없음 + (비정상 종료 또는 결과 이벤트 `is_error`)"로 바꾸고, 그 응답을 흉내 낸 가짜 CLI로 FAILED가 나오는 것을 확인했다.
+- **Discovery** — 문서에 적었던 "두 조건 모두 claude-sonnet-5-5"는 리뷰어의 보고를 옮긴 것이었다. 원본을 보니 모델명은 탐침 로그에만 있고 측정 결과에는 없었다 — 추정으로 낮췄고, 러너가 이제 실행마다 stream-json의 `model`을 기록한다(스모크 실행으로 확인).
+
 ## [2026-09-30] Unreleased — 후속 과제 8건 (A1·A4·C1·B1·D2·I3·zip)
 
 **Observed**

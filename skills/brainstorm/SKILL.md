@@ -26,7 +26,11 @@ Origin: Brainstorm the Intervention — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/re
    which metric, how bad, since when, for whom — one round only.
 2. When a codebase is in scope, **search it first** (or spawn the `unknowns:unknowns-scout`
    agent where the Agent tool exists) for machinery that already exists but sits disconnected —
-   the cheapest candidates are usually wiring, not building.
+   the cheapest candidates are usually wiring, not building. The scout's default return is
+   blindspot cards plus an improved prompt, which is not what this step needs, so the
+   packet overrides it: return an **inventory** — one row per existing mechanism that
+   bears on the problem: `path` / what it does today / what is missing to wire it in /
+   evidence / status (confirmed / inferred) — and no cards, no prompt draft.
 3. Generate **~10** candidate interventions, spread across the time axis: ship this
    afternoon / short-term (1–2 weeks) / mid-term (quarter) / quarter-long bets.
 4. Attach to each candidate: **name / one-line description / expected impact (what

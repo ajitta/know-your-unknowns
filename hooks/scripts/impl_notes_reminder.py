@@ -14,7 +14,9 @@ Four modes, one script (see hooks/hooks.json):
                     also point back at an unfinished loop (.unknowns/loop.json
                     with status "active")
 - --stop            Stop: if the threshold was crossed and the notes file was
-                    never touched, say so once
+                    never touched, say so once (touched = edited through
+                    Edit/Write, or the file appeared or its mtime changed since
+                    the session's first counted edit, which catches Bash appends)
 - --cleanup         SessionEnd: delete this session's state file
 
 Opt-in by project: the reminder fires where the project already uses the
@@ -158,6 +160,11 @@ def _read_state(state_path):
         "reminded": False,
         "notes_touched": False,
         "stop_reminded": False,
+        # the notes file as it stood at the first counted edit:
+        # None = not recorded (older state file), else
+        # {"path", "exists", "mtime"} plus, when absent, "candidates": the
+        # paths that were looked at and found empty
+        "notes_at_start": None,
     }
     try:
         with open(state_path, "r", encoding="utf-8") as fh:
@@ -171,7 +178,50 @@ def _read_state(state_path):
         state["count"] = count
     for flag in ("reminded", "notes_touched", "stop_reminded"):
         state[flag] = bool(loaded.get(flag))
+    snap = loaded.get("notes_at_start")
+    if isinstance(snap, dict) and isinstance(snap.get("exists"), bool):
+        mtime = snap.get("mtime")
+        path = snap.get("path") if isinstance(snap.get("path"), str) else None
+        candidates = snap.get("candidates")
+        if not snap["exists"] and isinstance(candidates, list):
+            state["notes_at_start"] = {
+                "path": None, "exists": False, "mtime": None,
+                "candidates": [c for c in candidates if isinstance(c, str)],
+            }
+        elif path and isinstance(mtime, (int, float)) and not isinstance(mtime, bool):
+            state["notes_at_start"] = {"path": path, "exists": True, "mtime": float(mtime)}
     return state
+
+
+def _notes_candidates(bases):
+    """Every path _find_markers checks for the notes file, in the same walk."""
+    found = []
+    for base in bases:
+        try:
+            current = os.path.abspath(base)
+        except Exception:
+            continue
+        for _ in range(MAX_WALK):
+            found.append(os.path.realpath(os.path.join(current, NOTES_NAME)))
+            if os.path.exists(os.path.join(current, ".git")):
+                break
+            parent = os.path.dirname(current)
+            if parent == current:
+                break
+            current = parent
+    return found
+
+
+def _notes_snapshot(notes_path, bases=()):
+    """The notes file the gate found right now; when none, where it looked."""
+    if notes_path is not None:
+        try:
+            return {"path": os.path.realpath(notes_path), "exists": True,
+                    "mtime": os.path.getmtime(notes_path)}
+        except OSError:
+            pass
+    return {"path": None, "exists": False, "mtime": None,
+            "candidates": _notes_candidates(bases)}
 
 
 def _write_state(state_path, state):
@@ -375,6 +425,8 @@ def post_tool_use(data, threshold, repeat):
             _write_state(state_path, state)
             return 0
         state["count"] += 1
+        if state["notes_at_start"] is None:
+            state["notes_at_start"] = _notes_snapshot(notes_path, bases)
         if repeat:
             fire = state["count"] % threshold == 0
         else:
@@ -472,11 +524,41 @@ def session_start(data, threshold, repeat):
     return 0
 
 
+def _notes_changed(notes_path, at_start):
+    """True when the notes file appeared or its mtime changed since the first edit.
+
+    "The file" means the same path: one that existed at the first counted edit,
+    or one created at a location that was checked then and found empty.
+
+    The file is compared with itself - the mtime recorded at the first counted
+    edit - never with this hook's clock, so a file stamped in the future (a fast
+    clock on another machine, a network share, `cp -p`) is not mistaken for one
+    written now. A write within one mtime tick on a coarse filesystem is missed,
+    which only restores the old behaviour (one Stop reminder); the other
+    direction, calling an untouched file written, would silence the reminder and
+    is the failure this check must not add. No snapshot (a state file from before
+    this field existed) means no inference at all.
+    """
+    if at_start is None:
+        return False
+    now = _notes_snapshot(notes_path)
+    if not now["exists"]:
+        return False
+    if at_start["exists"]:
+        # a different file (the agent cd'd into another package or repo) says
+        # nothing about the one that was there at the start
+        return now["path"] == at_start["path"] and now["mtime"] != at_start["mtime"]
+    # absent at the start: it counts only if it now sits at a path that was
+    # checked then and found empty, i.e. it was created during the session; an
+    # old file found somewhere else (another package, a sibling repo) does not
+    return now["path"] in at_start.get("candidates", [])
+
+
 def stop(data, threshold):
     """Stop: threshold crossed and the notes file never touched."""
     if data.get("stop_hook_active"):
         return 0
-    allowed, _notes_path, _bases = _gate(data)
+    allowed, notes_path, _bases = _gate(data)
     if not allowed:
         return 0
     state_dir = _state_dir(create=False)
@@ -491,6 +573,11 @@ def stop(data, threshold):
     try:
         state = _read_state(state_path)
         count = state["count"]
+        if not state["notes_touched"] and _notes_changed(notes_path, state["notes_at_start"]):
+            # appended through Bash (`cat >>`), a script or another editor: no
+            # Edit/Write event saw it, but the file on disk says it was written
+            state["notes_touched"] = True
+            _write_state(state_path, state)
         fire = (
             count >= threshold
             and not state["notes_touched"]

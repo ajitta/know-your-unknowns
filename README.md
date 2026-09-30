@@ -258,7 +258,7 @@ Auto-triggers: "blind spot pass", "what am I missing", "unknown unknowns",
 **How it runs**: It investigates **without modifying any code**. For codebase-wide or
 large scopes it delegates to the `unknowns:unknowns-scout` agent. It leads with the
 contrast — what you asked for versus what you are actually walking into, with a tally —
-then one card per finding, sorted by importance × impact and tagged by kind:
+then one card per finding, sorted by likelihood × blast radius and tagged by kind:
 **Landmine** (touching this breaks something non-obvious), **Convention** (an unwritten
 rule the codebase enforces), **Missing concept** (a mechanism your prompt has no word
 for), **History** (an earlier or reverted attempt at this exact task).
@@ -445,7 +445,8 @@ every later session rather than only when the skill is invoked.
 situation found / how it deviates from the plan / the response chosen / the reason /
 alternatives discarded / risk and follow-up check. Two lighter one-line kinds share the
 same file: **Discovery** (reality differs from what the plan assumed, no decision needed
-yet) and **Todo for human** (a judgment call that is yours but blocks nothing).
+yet) and **Todo for human** (a judgment call that is yours but blocks nothing and touches
+no architecture, user-visible behavior, data or security — anything that does escalates).
 
 **Persistence**: once the file exists or `init` has been run, appending to the file is
 mandatory — a chat-only summary does not satisfy the rule, because the hook, buy-in and
@@ -528,7 +529,7 @@ The blindspot skill also calls this agent automatically for large investigations
 the target area, reads git history for hairy dead ends and reverted commits, checks test
 coverage and unwritten conventions, and — for an unfamiliar library — checks the official
 docs and changelog for the *installed* version, so it holds WebFetch and WebSearch
-alongside the read tools. It returns an investigation table sorted by importance × impact
+alongside the read tools. It returns an investigation table sorted by likelihood × blast radius
 plus an improved prompt draft. It is instructed never to modify files, its toolset
 excludes Edit/Write, and a bundled PreToolUse hook denies mutating Bash commands — but
 Bash stays available for read-only inspection, so this is a strong default, not a sandbox
@@ -564,7 +565,10 @@ when they **reach 10, exactly once**, delivers "if you deviated from the plan, r
 in IMPLEMENTATION_NOTES.md" to both your screen and Claude's context — so that Claude,
 the one actually doing the recording, receives it too. It never blocks anything. It is
 also restated once after a compaction summarizes it away, and once at Stop if the
-threshold was crossed and the notes file was never touched. Editing
+threshold was crossed and the notes file was never touched (a write made outside
+Edit/Write — `cat >>` in Bash, another editor — counts too: the hook notes the file at the
+session's first counted edit and treats it as touched if it has since appeared there or
+its modification time changed). Editing
 IMPLEMENTATION_NOTES.md itself does not count as an edit, and a sub-agent's edits never
 spend the reminder, since a sub-agent's context is discarded when it returns. At session
 start it also puts one line, `[unknowns] hooks active`, into Claude's context, only where
@@ -676,7 +680,19 @@ verification, all the way to buy-in.
 **Q. Skills don't trigger automatically.**
 Auto-triggering is a contextual judgment call and is conservative. To be certain, invoke
 directly with a slash: `/unknowns:blindspot`. Right after installing, start a new
-session or run `/reload-plugins`.
+session or run `/reload-plugins`. With many skills installed there is a second cause:
+Claude Code gives the skill listing a budget (1% of the context window by default) and,
+when it overflows, keeps descriptions only for the skills you use most (recency-weighted)
+and lists the rest by name alone. Whichever unknowns skills you rarely use are the ones at
+risk — and it matters most for notes, which is meant to fire on its own. With every
+unknowns description dropped (the CLI logged the overflow; that all eleven lost their
+descriptions is a probe run's self-report), 9 of 11 English trigger cases still fired in
+one measured run; notes and blindspot did not
+([docs/trigger-eval-crowd-2026-09-30.md](docs/trigger-eval-crowd-2026-09-30.md)).
+`/doctor` shows the listing's cost; raise the budget with the
+`skillListingBudgetFraction` setting (e.g. `0.02`), or set other rarely used skills to
+`"name-only"` in `skillOverrides` (which does not apply to plugin skills, so it frees room
+rather than protecting these). The eval suite's `--crowd N` option measures this case.
 
 **Q. Can I type `/blindspot` instead of `/unknowns:blindspot`?**
 Yes for most of them. A plugin skill is reachable both by its scoped name and by its bare
