@@ -538,6 +538,55 @@ class HookTestCase(unittest.TestCase):
         )
         self.assertEqual(result.stdout, b"")
 
+    def write_loop(self, root, loop):
+        work = os.path.join(root, ".unknowns")
+        os.makedirs(work, exist_ok=True)
+        with open(os.path.join(work, "loop.json"), "w", encoding="utf-8") as fh:
+            fh.write(loop if isinstance(loop, str) else json.dumps(loop))
+
+    def test_compaction_points_back_at_an_active_loop(self):
+        self.write_loop(self.project, {"task": "export\nfeature", "tier": "medium",
+                                       "stage": "6-plan", "status": "active"})
+        result = self.run_hook(self.payload(source="compact"),
+                               args=["--session-start"])
+        self.assertIn(b"A loop is in progress (task: export feature; tier: medium;"
+                      b" stage: 6-plan)", result.stdout)
+        self.assertIn(b"`resume`", result.stdout)
+        # the notes restatement is still there
+        self.assertIn(b"IMPLEMENTATION_NOTES.md", result.stdout)
+
+    def test_loop_hint_survives_a_disabled_reminder(self):
+        self.write_loop(self.bare, {"task": "t", "tier": "large", "stage": "7",
+                                    "status": "active"})
+        result = self.run_hook(self.payload(cwd=self.bare, source="compact"),
+                               env_extra={"UNKNOWNS_NOTES_THRESHOLD": "0"},
+                               args=["--session-start"])
+        self.assertIn(b"A loop is in progress", result.stdout)
+        self.assertNotIn(b"IMPLEMENTATION_NOTES.md", result.stdout)
+
+    def test_no_loop_hint_for_finished_legacy_or_broken_trackers(self):
+        cases = {
+            "done": {"task": "t", "tier": "medium", "stage": "10", "status": "done"},
+            "stopped": {"task": "t", "tier": "medium", "stage": "3", "status": "stopped"},
+            "legacy": {"task": "t", "tier": "medium", "stage": "10"},
+            "broken": "{not json",
+            "list": "[1, 2]",
+        }
+        for name, loop in cases.items():
+            with self.subTest(case=name):
+                self.write_loop(self.bare, loop)
+                result = self.run_hook(self.payload(cwd=self.bare, source="compact"),
+                                       args=["--session-start"])
+                self.assertEqual(result.returncode, 0)
+                self.assertNotIn(b"loop is in progress", result.stdout)
+
+    def test_no_loop_hint_outside_compaction(self):
+        self.write_loop(self.project, {"task": "t", "tier": "medium", "stage": "2",
+                                       "status": "active"})
+        result = self.run_hook(self.payload(source="startup"),
+                               args=["--session-start"])
+        self.assertNotIn(b"loop is in progress", result.stdout)
+
     def test_stop_fires_once_when_notes_were_never_written(self):
         env = {"UNKNOWNS_NOTES_THRESHOLD": "2"}
         self.run_hook(self.payload(), env_extra=env)

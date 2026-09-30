@@ -29,8 +29,20 @@ so this script ports it. Every difference is listed here and nowhere else:
 
 Nothing else changes — same body, same triggers, same procedure.
 
-Usage:  python3 scripts/build-skill-zips.py [--out dist]
-Output: dist/<skill>.zip  (each holding <skill>/SKILL.md [+ <skill>/references/])
+References are bundled transitively: a reference file that names a sibling
+("`surfaces.md` in this folder") brings that sibling along.
+
+`--target local` builds for a Claude Code `.claude/skills/` copy instead of an
+upload: plain folders, not zips, and only difference 2 (and 3) applies — the
+full description, `argument-hint` and `$ARGUMENTS` stay, since Claude Code
+reads all three natively and the 200-character limit belongs to the upload form.
+One local-only rewrite: agent names lose the plugin namespace
+(`unknowns:unknowns-scout` -> `unknowns-scout`), matching agents copied into
+`.claude/agents/`.
+
+Usage:  python3 scripts/build-skill-zips.py [--out dist] [--target upload|local]
+Output: upload -> dist/<skill>.zip  (each holding <skill>/SKILL.md [+ references/])
+        local  -> dist/local/<skill>/SKILL.md [+ references/]
 """
 import argparse
 import json
@@ -57,10 +69,11 @@ TALK_SOURCE_URL = (
     "skills/loop/references/talk-source.md"
 )
 ARGUMENTS_PROSE = "the request that invoked this skill"
+AGENTS = sorted(path.stem for path in (ROOT / "agents").glob("*.md"))
 
 
-def port(body: str) -> tuple[str, set[str]]:
-    """Rewrite a SKILL.md body for standalone upload. Returns (text, refs used)."""
+def port(body: str, keep_arguments: bool = False) -> tuple[str, set[str]]:
+    """Rewrite a SKILL.md body for a standalone skill. Returns (text, refs used)."""
     used = set()
     def ref(match):
         used.add(match.group(1))
@@ -69,8 +82,39 @@ def port(body: str) -> tuple[str, set[str]]:
     root = r"(?:\$\{CLAUDE_PLUGIN_ROOT\}/)?"
     body = re.sub(root + r"skills/loop/references/(?!talk-source)([a-z-]+)\.md", ref, body)
     body = re.sub(root + r"skills/loop/references/talk-source\.md", TALK_SOURCE_URL, body)
-    body = body.replace("`$ARGUMENTS`", ARGUMENTS_PROSE).replace("$ARGUMENTS", ARGUMENTS_PROSE)
+    if not keep_arguments:
+        body = body.replace("`$ARGUMENTS`", ARGUMENTS_PROSE).replace("$ARGUMENTS", ARGUMENTS_PROSE)
+    else:
+        # local copies go next to agents copied into .claude/agents/, where the
+        # plugin namespace is gone: `unknowns:unknowns-scout` -> `unknowns-scout`
+        body = re.sub(r"\bunknowns:(%s)\b" % "|".join(map(re.escape, AGENTS)), r"\1", body)
     return body, used
+
+
+def sibling_refs(text: str) -> set[str]:
+    """Reference files a reference names by bare file name (e.g. `surfaces.md`).
+
+    A name that is part of a path (`.unknowns/scorecard.md`) is a data file the
+    skill writes, not a sibling to bundle, so anything after `/` or `.` is skipped.
+    """
+    known = {path.stem for path in REFS.glob("*.md")} - {"talk-source"}
+    return {name for name in re.findall(r"(?<![\w/.-])([a-z][a-z-]*)\.md\b", text) if name in known}
+
+
+def ref_closure(start: set[str]) -> set[str]:
+    """`start` plus every reference those files name, transitively."""
+    seen, queue = set(), sorted(start)
+    while queue:
+        name = queue.pop()
+        if name in seen:
+            continue
+        seen.add(name)
+        source = REFS / f"{name}.md"
+        if source.exists():
+            text = source.read_text(encoding="utf-8")
+            # siblings named bare ("`surfaces.md`") and by full plugin path alike
+            queue.extend(sorted((sibling_refs(text) | port(text)[1]) - seen))
+    return seen
 
 
 def split_frontmatter(text: str) -> tuple[str, str]:
@@ -102,7 +146,11 @@ def emit_frontmatter(fields: dict) -> str:
     return "\n".join(out) + "\n"
 
 
-def build(out_dir: Path) -> int:
+def build(out_dir: Path, target: str = "upload") -> int:
+    local = target == "local"
+    if local:
+        out_dir = out_dir / "local"
+        out_dir.mkdir(parents=True, exist_ok=True)
     problems, built = [], []
     staging = out_dir / ".staging"
     if staging.exists():
@@ -113,7 +161,7 @@ def build(out_dir: Path) -> int:
         raw, body = split_frontmatter(skill_md.read_text(encoding="utf-8"))
         fields = parse_frontmatter(raw)
         name = fields.get("name", "")
-        description = SHORT.get(folder)
+        description = SHORT.get(folder) if not local else fields.get("description", "")
         if description is None:
             problems.append(f"{folder}: no short description in "
                             f"scripts/skill-descriptions.json")
@@ -124,15 +172,16 @@ def build(out_dir: Path) -> int:
             problems.append(f"{folder}: frontmatter name {name!r} != folder name")
         if len(name) > NAME_MAX:
             problems.append(f"{folder}: name is {len(name)} chars (max {NAME_MAX})")
-        if len(description) > DESC_MAX:
+        if not local and len(description) > DESC_MAX:
             problems.append(f"{folder}: description is {len(description)} chars — the "
                             f"upload form documents a {DESC_MAX}-char maximum")
 
-        ported, used = port(body)
+        ported, used = port(body, keep_arguments=local)
+        used = ref_closure(used)
         skill_dir = staging / folder
         (skill_dir).mkdir(parents=True)
-        (skill_dir / "SKILL.md").write_text(emit_frontmatter(fields) + ported,
-                                            encoding="utf-8")
+        header = f"---\n{raw}\n---\n" if local else emit_frontmatter(fields)
+        (skill_dir / "SKILL.md").write_text(header + ported, encoding="utf-8")
         for ref_name in sorted(used):
             source = REFS / f"{ref_name}.md"
             if not source.exists():
@@ -140,22 +189,31 @@ def build(out_dir: Path) -> int:
                 continue
             target = skill_dir / "references"
             target.mkdir(exist_ok=True)
-            ported_ref, _ = port(source.read_text(encoding="utf-8"))
+            ported_ref, _ = port(source.read_text(encoding="utf-8"),
+                                 keep_arguments=local)
             (target / source.name).write_text(ported_ref, encoding="utf-8")
 
-        archive = out_dir / f"{folder}.zip"
-        with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zf:
-            for path in sorted(skill_dir.rglob("*")):
-                if path.is_file():
-                    zf.write(path, path.relative_to(staging).as_posix())
+        if local:
+            archive = out_dir / folder
+            if archive.exists():
+                shutil.rmtree(archive)
+            shutil.copytree(skill_dir, archive)
+        else:
+            archive = out_dir / f"{folder}.zip"
+            with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zf:
+                for path in sorted(skill_dir.rglob("*")):
+                    if path.is_file():
+                        zf.write(path, path.relative_to(staging).as_posix())
         built.append((archive, len(used)))
 
     shutil.rmtree(staging)
     for archive, refs in built:
-        size = archive.stat().st_size
+        size = (sum(f.stat().st_size for f in archive.rglob("*") if f.is_file())
+                if archive.is_dir() else archive.stat().st_size)
         print(f"  {archive.name:<18} {size:>6} bytes  "
               f"{refs} reference file{'s' if refs != 1 else ''}")
-    print(f"built {len(built)} skill zips in {out_dir}/")
+    kind = "skill folders" if local else "skill zips"
+    print(f"built {len(built)} {kind} in {out_dir}/")
     if problems:
         print("\nproblems:", file=sys.stderr)
         for problem in problems:
@@ -167,7 +225,10 @@ def build(out_dir: Path) -> int:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default="dist", help="output directory (default: dist)")
+    parser.add_argument("--target", choices=("upload", "local"), default="upload",
+                        help="upload: zips for Customize → Skills (default); "
+                             "local: folders for a Claude Code .claude/skills/ copy")
     args = parser.parse_args()
     destination = (ROOT / args.out).resolve()
     destination.mkdir(parents=True, exist_ok=True)
-    raise SystemExit(build(destination))
+    raise SystemExit(build(destination, args.target))

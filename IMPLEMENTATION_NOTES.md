@@ -1,5 +1,26 @@
 # Implementation Notes — plan deviation log
 
+## [2026-09-30] Unreleased — 후속 과제 8건 (A1·A4·C1·B1·D2·I3·zip)
+
+**Observed**
+- **Situation found**: 후속 목록을 구현하다 zip 참조 폐포 탐지가 `.unknowns/scorecard.md` 같은 데이터 파일 경로를 참조 파일 이름으로 잡아 plan·teach-me 등에 `scorecard.md`를 끼워 넣었다.
+- **Deviation from plan**: 계획에 없던 것 — `docs/value-scorecard.md`의 설치자 안내(헤더 복사처)를 스펙 파일로 돌렸다. 스코어카드 형식에 `Baseline` 열이 생겨 기존 안내대로 복사하면 열이 모자란다.
+- **Response chosen**: 형제 참조는 `/`·`.` 뒤에 오지 않는 `<name>.md`만 인정한다. `--session-start`는 임계값 검사보다 먼저 분기해, 임계값 0에서도 compact 시 loop 힌트만 낸다. loop 힌트는 `status == "active"`일 때만.
+- **Discovery**: 새 참조 폐포 테스트는 폐포 계산을 끄면 brainstorm·plan·prototypes·quiz 등에서 실패한다 — 수정 전 결함을 실제로 잡는 테스트임을 확인했다.
+
+**Attributed**
+- **Reason for choice**: `status` 없는 옛 loop.json을 active로 치면 끝난 루프마다 "resume"이 뜬다. 힌트가 없는 쪽이 잘못된 힌트보다 싸다.
+- **Alternatives considered**: loop 힌트를 startup에도 내기 — 새 세션마다 한 줄이 늘고, 무인자 `/unknowns:loop`가 이미 active 트래커를 이어받으므로 기각.
+- **Risk/follow-up check**: 모델이 마지막 단계에서 `status: done`을 안 쓰면 이후 compaction마다 힌트가 뜬다 — 실사용에서 "끝난 loop인데 resume 안내"가 보이면 loop 10단계/마지막 티어 단계의 문구부터 볼 것.
+
+독립 리뷰(2차 묶음)가 짚은 것:
+- **Discovery** — `Baseline` 열을 표 가운데(5번째)에 넣었는데 마이그레이션 문구는 "헤더에 추가하고 옛 행은 비워 둔다"였다. 문자 그대로 따르면 기존 `.unknowns/scorecard.md`의 모든 옛 행이 한 칸씩 밀려 답이 엉뚱한 열 밑으로 간다 — 사용자 데이터를 건드리는 결정이었고 로그에도 없었다. 열을 맨 끝으로 옮기고 "열은 끝에만 추가, 기존 셀은 옮기지 않는다"를 명시해 데이터 재작성 자체가 필요 없게 했다.
+- **Discovery** — 트래커가 첫 단계 경계 전에는 없고, `resume`이 `status`를 되살리지 않아 진행 중인 loop의 힌트가 빠질 수 있었다. 시작 즉시 `active`로 쓰고 `resume`이 `active`로 되돌린다.
+- **Discovery** — local 산출물이 `unknowns:` 접두 에이전트 이름을 그대로 두어, `.claude/agents/`로 복사한 설치에서 loop 8단계가 없는 에이전트를 부른다. local 대상에서만 접두를 뗀다.
+- **Discovery** — 참조 폐포가 bare 이름만 봐서, 참조 파일이 전체 플러그인 경로로 형제를 가리키면 경로는 `references/x.md`로 바뀌는데 파일은 안 담긴다. `port()`가 찾은 참조도 폐포에 넣는다.
+- 고치지 않은 것: loop.json 64KB 상한(넘으면 힌트 없음)은 둔다 — 결정·기준선이 그만큼 커질 일은 드물고, 거대한 파일을 훅 5초 제한 안에서 읽는 편이 더 위험하다. `--out dist/local --target local`이 `dist/local/local/`을 만드는 것도 둔다.
+
+
 ## [2026-09-30] Unreleased — 사각지대 리뷰 반영 (A3·A5·C2·B2)
 
 **Observed**
