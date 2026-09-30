@@ -6,8 +6,11 @@ Four modes, one script (see hooks/hooks.json):
 - no argument       PostToolUse(Edit|Write|NotebookEdit): count file edits and,
                     at the threshold, remind the user and Claude to record plan
                     deviations in IMPLEMENTATION_NOTES.md
-- --session-start   SessionStart(compact): re-inject the rule after compaction
-                    summarized the reminder away, and re-arm it
+- --session-start   SessionStart: on startup/resume/clear/fork, announce the
+                    "[unknowns] hooks active" marker the skills key on, only
+                    while a reminder is still to come; after compaction,
+                    restate the rule (compaction summarized the reminder away),
+                    re-arm it, and carry the marker when re-arming persisted
 - --stop            Stop: if the threshold was crossed and the notes file was
                     never touched, say so once
 - --cleanup         SessionEnd: delete this session's state file
@@ -39,6 +42,8 @@ NOTES_NAME = "IMPLEMENTATION_NOTES.md"
 # loop.json, so its presence means this project has run the methodology
 WORK_DIR = ".unknowns"
 DEFAULT_THRESHOLD = 10
+# what the skills look for in context to know the reminder runs here
+ACTIVE_MARKER = "[unknowns] hooks active"
 MAX_WALK = 40
 
 
@@ -336,12 +341,39 @@ def post_tool_use(data, threshold, repeat):
     return 0
 
 
-def session_start(data):
-    """SessionStart(compact): compaction summarizes the reminder away."""
+def session_start(data, threshold, repeat):
+    """SessionStart: announce the reminder, and restate the rule after compaction.
+
+    The skills cannot observe whether hooks run on their surface, so the
+    ACTIVE_MARKER line is their signal: present means a reminder is still to
+    come in this session (plugin hooks run, the project opted in, threshold > 0,
+    state persists, the once-per-session reminder not yet spent); absent means
+    the notes skill applies its own self-check. It is emitted only under those
+    conditions, so it never promises a reminder that will not arrive. Once the
+    reminder has fired, the skill goes back to self-checking.
+    """
     allowed, _notes_path, _bases = _gate(data)
     if not allowed:
         return 0
     state_dir = _state_dir()
+    if data.get("source") != "compact":
+        # startup, resume, clear (and fork): announce only while a reminder is
+        # still to come. Without a state dir the counter cannot run; after the
+        # once-per-session reminder has fired (a resumed session), none follows.
+        if state_dir is None:
+            return 0
+        state_path = _state_path(state_dir, str(data.get("session_id", "default")))
+        if _read_state(state_path)["reminded"] and not repeat:
+            return 0
+        sys.stdout.buffer.write(
+            (
+                "%s: file edits are counted and a reminder to record plan "
+                "deviations in %s arrives at %d edits.\n"
+                % (ACTIVE_MARKER, NOTES_NAME, threshold)
+            ).encode("utf-8")
+        )
+        return 0
+    rearmed = False
     if state_dir is not None:
         state_path = _state_path(state_dir, str(data.get("session_id", "default")))
         lock = _lock(state_path)
@@ -349,15 +381,19 @@ def session_start(data):
             state = _read_state(state_path)
             if state["reminded"]:
                 state["reminded"] = False
-                _write_state(state_path, state)
+                rearmed = _write_state(state_path, state)
+            else:
+                rearmed = True
         finally:
             _unlock(lock)
-    # plain stdout on SessionStart is added to Claude's context
+    # plain stdout on SessionStart is added to Claude's context; the marker
+    # rides along only when the counter can actually remind again
+    prefix = "%s. " % ACTIVE_MARKER if rearmed else "[unknowns] "
     sys.stdout.buffer.write(
         (
-            "[unknowns] Notes rule (restated after compaction): record any "
+            "%sNotes rule (restated after compaction): record any "
             "decision that was not in the plan/spec (an unknown) in %s.\n"
-            % NOTES_NAME
+            % (prefix, NOTES_NAME)
         ).encode("utf-8")
     )
     return 0
@@ -442,7 +478,7 @@ def main(argv) -> int:
     if threshold <= 0:
         return 0
     if mode == "--session-start":
-        return session_start(data)
+        return session_start(data, threshold, _env_flag("UNKNOWNS_NOTES_REPEAT"))
     if mode == "--stop":
         return stop(data, threshold)
     return post_tool_use(data, threshold, _env_flag("UNKNOWNS_NOTES_REPEAT"))

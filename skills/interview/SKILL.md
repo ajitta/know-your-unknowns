@@ -11,7 +11,7 @@ argument-hint: "[task/spec description] [priority hint]"
 # Interview — Pre-Implementation Interview
 
 Requirements incomplete? Don't implement yet — **model interviews user**.
-Origin: The Interview — see skills/loop/references/talk-source.md.
+Origin: The Interview — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Question Priority (blast radius, fixed)
 
@@ -35,6 +35,11 @@ Origin: The Interview — see skills/loop/references/talk-source.md.
    option a short consequence (tradeoff) note.
 4. On answers: re-present decisions as an **updated spec summary**; if undecided
    items remain, propose next round.
+   **Ladder once on the load-bearing answers**: an architecture or data answer that came
+   without a reason gets one "why" follow-up at the top of the next round ("what would
+   break for you if it went the other way?"). The reason, not the choice, is what lets a
+   later deviation be judged — it fills the decision table's rationale column. Follow-ups
+   count toward the round's 4.
 5. If user wants a deep interview (e.g. "40-question level"), repeat rounds while
    keeping architecture → data → compatibility → performance → taste order.
 
@@ -51,7 +56,7 @@ When interview ends, present two things:
    implement". User copying this to start implementation is the skill's purpose.
 
 Then offer in one AskUserQuestion: proceed with this prompt now / let me edit it /
-stop here.
+stop here. Run as a **loop** stage, this is not a separate question: the loop's stage checkpoint carries these options.
 
 ## Never
 

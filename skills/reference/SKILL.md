@@ -11,7 +11,7 @@ argument-hint: "<reference file/path/description>"
 # Reference — A Reference Is Another Map
 
 Best way to give a model a map: **give it another map**.
-Origin: Point at a Reference — see skills/loop/references/talk-source.md.
+Origin: Point at a Reference — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron Rule
 
@@ -38,7 +38,7 @@ Before implementing, **prove comprehension** with a semantics map.
 5. **Sign-off gate — nothing is implemented until the user signs off.** They reply
    `semantics confirmed`, or correct any row by its number ("note 5", "budget
    exhaustion row") and the map is revised before any code. In-session, offer the same
-   choice once with AskUserQuestion: implement now / revise the map / stop.
+   choice once with AskUserQuestion: implement now / revise the map / stop. Run as a **loop** stage, this is not a separate question: the loop's stage checkpoint carries these options.
 6. On sign-off, **port the reference's existing tests first**, then implement. Record
    intentional deviations from the reference per the **notes** skill.
 
@@ -49,7 +49,7 @@ markdown; always echo the assembled reply in chat.
 Numbered mapping rows (reference excerpt ↔ counterpart plan) and edge-case rows each
 carry **approve / request-change**; selections assemble into a `semantics confirmed`
 reply or a numbered correction template.
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## What Can Be a Reference
 

@@ -105,12 +105,13 @@ claude --plugin-dir ./know-your-unknowns
 
 ### 스킬만 골라서 복사 (플러그인 없이)
 
-특정 스킬만 원하면 `skills/<이름>` 폴더를 볼트나 프로젝트의 `.claude/skills/`에,
-`agents/*.md`를 `.claude/agents/`에 복사합니다. `skills/loop/references/`도 함께
-복사하세요 — 대부분의 스킬이 `skills/loop/references/output-routing.md`와
-`talk-source.md`를 가리키는데, 이 경로는 플러그인 루트 기준으로 해석되므로 스킬 폴더만
-복사하면 없는 파일을 가리키게 됩니다. 이 경우 호출명은 네임스페이스 없이
-`/blindspot`, `/quiz`처럼 짧아집니다. 훅은 플러그인 형태일 때만 자동 활성화되므로,
+특정 스킬만 원하면 `skills/<이름>`을 그대로 복사하지 마세요. SKILL.md가
+`${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`를 가리키는데, Claude Code는 이 값을
+플러그인 스킬에만 채워 넣으므로 복사한 폴더에서는 모델에게 자리표시자가 글자 그대로
+보입니다. `python3 scripts/build-skill-zips.py`를 돌려 `dist/`에서 원하는 스킬을 볼트나
+프로젝트의 `.claude/skills/`에 풀어 넣으세요 — 각 스킬은 자기 `references/` 폴더를 품은
+독립 폴더입니다. `agents/*.md`는 `.claude/agents/`에 복사합니다. 이 경우 호출명은
+네임스페이스 없이 `/blindspot`, `/quiz`처럼 짧아집니다. 훅은 플러그인 형태일 때만 자동 활성화되므로,
 수동 설정은 [훅 동작과 설정](#훅-동작과-설정)을 참고하세요.
 
 ### Claude Desktop, Claude 웹, Cowork
@@ -430,10 +431,11 @@ the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌�
 
 **진행 방식**: ① 먼저 설명(변경 구조 / 핵심 설계 결정 3개 / 실패 가능성 높은 곳 / 직접
 확인해야 할 곳), 설명한 동작마다 `file:line` 앵커 → ② **질문 6개, 합격선은 6개 전부
-정답**(AskUserQuestion이 한 번에 최대 4개라 4 + 2로 나눠 진행), 장애 대응 > 설계 이유 >
+정답**(객관식 5개는 AskUserQuestion이 한 번에 최대 4개라 4 + 1로 나눠 진행, 1개는 자기 말로
+설명하는 티치백), 장애 대응 > 설계 이유 >
 동작 예측 순이며 암기는 지양; IMPLEMENTATION_NOTES.md가 있으면 기록된 이탈 지점 최소 1개
 포함 → ③ 채점 — 오답·무응답은 다시 읽을 변경 지점을 정확히 가리키고 재시도를 줍니다 →
-④ 6/6이면 **머지 가능(cleared to merge)** 체크리스트(이해도 검증, CI 그린,
+④ 6/6이면 **머지 가능(cleared to merge)** 체크리스트(퀴즈 6/6 통과, CI 그린,
 마이그레이션·롤아웃 검토, 머지 방식, 배포 후 관찰 대상), 6/6 미만이면 "아직"으로 두고 다시
 읽을 절을 나열합니다. 마지막은 다른 개발자가 내일 인수받는다고 가정한 인수인계 요약이며,
 원하면 PR 본문 초안으로 변환합니다.
@@ -513,6 +515,9 @@ Use the independent-reviewer agent — 방금 구현 머지 전 검증
 임계값을 넘겼는데 노트 파일을 끝내 건드리지 않았으면 Stop에서 한 번 더 말합니다.
 IMPLEMENTATION_NOTES.md 자체를 수정한 것은 카운트에 들어가지 않고, 서브에이전트의 수정은
 리마인더를 소비하지 않습니다 — 서브에이전트 컨텍스트는 반환과 함께 버려지기 때문입니다.
+세션 시작 시에는 리마인더가 실제로 울릴 곳에서만 `[unknowns] hooks active` 한 줄을 Claude
+컨텍스트에 넣습니다. 모델은 훅이 도는지 볼 수 없으므로, notes 스킬은 이 줄이 없으면
+"여기서는 리마인더가 없다"로 읽고 기록 규율을 스스로 지킵니다.
 
 **프로젝트별 옵트인입니다**: 그 프로젝트가 이미 이 방법론을 쓰고 있어야 울립니다 —
 `IMPLEMENTATION_NOTES.md`가 있거나, 스킬들이 산출물을 쓰는 `.unknowns/` 디렉터리가 있거나
@@ -574,8 +579,8 @@ scout은 읽기 명령 화이트리스트로 묶이고, reviewer는 테스트·�
 }
 ```
 
-플러그인은 같은 스크립트를 SessionStart(compact)·Stop·SessionEnd에도 등록합니다. 컴팩션 후
-재진술, 세션 종료 점검, 상태 파일 정리가 필요하면 같은 방식으로 항목을 추가하세요.
+플러그인은 같은 스크립트를 SessionStart·Stop·SessionEnd에도 등록합니다. `hooks active` 표식과
+컴팩션 후 재진술, 세션 종료 점검, 상태 파일 정리가 필요하면 같은 방식으로 항목을 추가하세요.
 
 ---
 

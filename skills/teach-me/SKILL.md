@@ -12,7 +12,7 @@ argument-hint: "<domain/task to learn> [current level]"
 
 Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste.
 This skill fills the **concept/terminology gap** among unknown unknowns.
-Origin: Teach Me My Unknowns — see skills/loop/references/talk-source.md
+Origin: Teach Me My Unknowns — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md
 
 ## Iron Rules
 
@@ -45,13 +45,13 @@ Origin: Teach Me My Unknowns — see skills/loop/references/talk-source.md
 7. Close with the payoff — a **precise-request draft rewriting the user's original request
    in the new vocabulary**. User picks items and adjusts values/direction; the result
    becomes the next prompt. Offer with one AskUserQuestion: use this request now / edit it
-   first / stop here.
+   first / stop here. Run as a **loop** stage, this is not a separate question: the loop's stage checkpoint carries these options.
 
 ## Output
 
 Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-teach-me-<slug>.html`; else markdown.
 Reaction control: an "include in my request" checkbox per concept (plus live before/after sliders and presets); checked items assemble into the precise-request draft.
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Limits — what this can and cannot deliver
 

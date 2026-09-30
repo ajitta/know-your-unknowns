@@ -15,12 +15,12 @@ user's ability to keep the map (plan) matched to the territory (reality). That g
 is the unknowns.** Designing the explore → question → plan → implement → log
 deviations → verify loop matters more than one good prompt.
 Origin: the 11 "Know your unknowns" examples; the loop itself is a plugin extension —
-see skills/loop/references/talk-source.md.
+see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 Output: Artifact tool → `.unknowns/<YYYY-MM-DD>-loop-<slug>.html` → markdown.
 Each stage's artifact keeps its own skill's reaction control; the loop's own control is the
 per-stage checkpoint, which assembles into the `.unknowns/loop.json` tracker.
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Steps (10 — scale down by size)
 
@@ -69,7 +69,7 @@ run the tests, and a list of the **claims** the work rests on (facts about APIs,
 the domain, and reasoning the design depends on) for the reviewer's claim-type check. **Never hand it the implementer's own summary.**
 No Agent tool in this session (Desktop/web chat, mobile) → hand the user that same packet
 to paste into a **new conversation**, and say the review is standing in for the agent.
-Details: skills/loop/references/surfaces.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md
 
 ### 9. Comprehension check & handoff → the **quiz** skill
 Verify user can explain this work in a PR or handoff. If the work needs reviewer
@@ -84,7 +84,7 @@ and **when** (a date they choose — there is no default, it depends on the work
 Close by capturing one scorecard row — ask the user whether this surfaced something they
 did not know and whether it changed a decision, then append the row to
 `.unknowns/scorecard.md`. Never answer those two for them, and write the row even when
-both answers are no. Details: skills/loop/references/scorecard.md
+both answers are no. Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/scorecard.md
 
 ## Scale-down criteria
 
@@ -97,11 +97,15 @@ both answers are no. Details: skills/loop/references/scorecard.md
 
 Keep `.unknowns/loop.json` — `{task, tier, stage, decisions[], artifacts[]}` — and rewrite
 it at every stage boundary. Close each stage with one AskUserQuestion checkpoint
-(continue / skip ahead / stop) and record the answer there. No AskUserQuestion tool → ask
+(continue / skip ahead / stop) and record the answer there. **One stop per boundary**:
+a stage skill's own closing offer (blindspot, interview, teach-me: proceed / edit / stop;
+plan and reference: approve / revise) is not asked separately — fold its options into this
+checkpoint as a single question, e.g. "continue with this prompt / edit it first / skip
+ahead / stop". No AskUserQuestion tool → ask
 the same three options as a numbered question and wait for the answer.
 Nowhere durable to write the tracker (chat sessions, mobile) → restate the whole tracker
 as a fenced JSON block at each stage boundary, so the newest message always holds it;
-skills/loop/references/surfaces.md has the rest.
+${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md has the rest.
 
 - Argument `status`: read the file; report tier, current stage, steps remaining.
 - Argument `resume`: read the file; continue from the recorded stage.

@@ -19,7 +19,7 @@ calls for a tool the current session does not have — never silently skip the s
 The columns are defaults, not a detection rule. A session's own tool list decides: a
 Claude app task that runs in a cloud workspace is started from web or desktop, yet it can
 carry the Agent tool and this plugin's agents. Every substitute below is keyed to a tool
-being absent, never to the surface's name.
+being absent (for hooks, to a marker line being absent), never to the surface's name.
 
 "By name" means the skill is model-invoked: say the trigger phrase, or name the skill
 ("run the blindspot skill on this"). There is no namespace prefix outside Claude Code.
@@ -35,9 +35,12 @@ run the tests. Say plainly that this stands in for the sub-agent and that a same
 review would not be independent. For blindspot's scout, investigate directly instead and
 say the scope was narrowed to what one pass can read.
 
-**No hooks.** The notes reminder does not fire, so the discipline is the skill's own:
-re-read the logging criteria at every natural break — before a commit, before handing
-work back, after roughly ten file edits.
+**No hooks.** A tool list shows whether a tool exists; nothing shows whether hooks run.
+So the plugin's SessionStart hook announces `[unknowns] hooks active` wherever a notes
+reminder is still to come (and restates it after compaction). No such line in context, or
+the one reminder already delivered → nothing more will fire, so the discipline is the
+skill's own: re-read the logging criteria at every natural break — before a commit,
+before handing work back, after roughly ten file edits.
 
 **No persistent project files.** `IMPLEMENTATION_NOTES.md`, `.unknowns/loop.json` and
 `.unknowns/scorecard.md` have nowhere durable to live. In order:

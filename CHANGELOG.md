@@ -1,5 +1,51 @@
 # Changelog
 
+## Unreleased
+
+From a blind-spot review of 0.8.1 that checked the plugin's assumptions against the
+current Claude Code docs and the literature the skills cite, then had its own draft
+re-checked by a separate agent (which retracted several claims before any code changed).
+Not released: no version bump, no tag.
+
+### Fixed
+
+- **Cross-skill paths did not resolve from the user's project.** SKILL.md bodies pointed at
+  `skills/loop/references/*.md`, a path relative to the plugin root, while the model works
+  in the user's project directory. They now write `${CLAUDE_PLUGIN_ROOT}/skills/loop/...`,
+  which Claude Code substitutes in plugin skill content. Reference files, which are read
+  with the Read tool and get no substitution, name their siblings as "in this folder".
+  `build-skill-zips.py` strips the prefix for standalone zips; a test fails if a SKILL.md
+  body uses the bare path or a zip keeps the prefix.
+- **"No reminder hook in this session" was undetectable.** The notes skill told the model
+  to self-check when hooks do not run, and named the surfaces where they do — against
+  `surfaces.md`'s own rule of keying on what the session has, not on its name. A model
+  cannot see whether hooks run. SessionStart now fires on every source: on
+  startup/resume/clear/fork it emits `[unknowns] hooks active`, only while a reminder is
+  still to come (opted-in project, threshold > 0, state persists, the once-per-session
+  reminder not yet spent — a resumed session whose reminder fired gets no marker); after
+  compaction it restates the rule, re-arms, and carries the marker. The notes skill and `surfaces.md` key on that line.
+- **Double stops inside the loop.** Each stage skill's closing offer (proceed / edit /
+  stop, or approve / revise) was followed by the loop's stage checkpoint — a dozen or more
+  user stops in one medium-tier run, counted from the skill texts. The loop now folds the skill's options into its single
+  checkpoint, and each such skill says so, so the rule survives if compaction drops the
+  loop's own text.
+
+### Changed
+
+- **Three skills now carry the mechanism `docs/value-contract.md` credits them with.**
+  The contract argued that prototypes, interview and quiz rest on established elicitation
+  methods and only need to preserve them; a text comparison found each only partly did.
+  - `prototypes`: adds a **triad** step (which two of three are alike, and how the third
+    differs), then places every option on the construct it yields — Kelly's elicitation,
+    where steal/skip only harvests constructs the user can already name.
+  - `quiz`: one of the six questions is now a **teach-back** in plain text (5 multiple
+    choice as 4 + 1, plus one "explain it in your own words"), graded against points fixed
+    before reading the answer. The checklist says "quiz passed", marked self-graded when
+    the page graded it, instead of "understanding verified".
+  - `interview`: an architecture or data answer given without a reason gets one "why"
+    follow-up next round (laddering); follow-ups count toward the 4 per round.
+  The contract records the check; B7 (efficacy) stays open.
+
 ## 0.8.1 — 2026-09-28
 
 Fixes from an outside review of 0.8.0, then a second pass after the plugin's own

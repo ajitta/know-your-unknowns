@@ -19,6 +19,7 @@ Run with: python3 -m unittest tests.test_skill_descriptions -v
 """
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -108,6 +109,20 @@ class SkillZipBuildTest(unittest.TestCase):
                     % archive.name,
                 )
                 self.assertNotIn("$ARGUMENTS", body)
+                self.assertNotIn(
+                    "${CLAUDE_PLUGIN_ROOT}", body,
+                    "%s keeps a plugin-only substitution" % archive.name,
+                )
+
+    def test_skill_bodies_anchor_cross_skill_paths_at_the_plugin_root(self):
+        # The model reads these paths from the user's project directory, so a
+        # bare `skills/loop/...` does not resolve; Claude Code substitutes
+        # ${CLAUDE_PLUGIN_ROOT} in plugin SKILL.md content.
+        bare = re.compile(r"(?<!\$\{CLAUDE_PLUGIN_ROOT\}/)skills/loop/references/")
+        for skill_md in sorted(Path(ROOT, "skills").glob("*/SKILL.md")):
+            with self.subTest(skill=skill_md.parent.name):
+                text = skill_md.read_text(encoding="utf-8")
+                self.assertIsNone(bare.search(text), skill_md)
 
 
 if __name__ == "__main__":

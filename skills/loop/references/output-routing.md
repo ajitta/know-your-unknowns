@@ -21,7 +21,7 @@ The skill bodies carry the 3-line ladder; this file carries the details.
 
 Which rung is available is a property of the surface, not of the task: Claude Code and
 Cowork reach rung 1 or 2, Desktop and web chat usually reach rung 1, mobile is rung 3.
-`skills/loop/references/surfaces.md` covers the rest of what changes by surface.
+`surfaces.md` in this folder covers the rest of what changes by surface.
 
 **On every rung**: end the turn with the assembled default reply (improved prompt,
 requirements list, decision summary) as plain text in the conversation. The artifact is
@@ -74,7 +74,7 @@ reaction control, and the selections assemble at the bottom into one copyable re
 | brainstorm | resonate checkbox per candidate | "proceed with these, in this order" |
 | reference | approve / request-change per mapping | reply to the analysis |
 | plan | approve / request-change per decision | "item 3 → alternative B, rest approved" |
-| quiz | answer buttons, wrong answer links to the change site | merge-readiness checklist |
+| quiz | answer buttons (keyed, self-grading) + a teach-back text box (no key on the page, graded in chat); wrong answer links to the change site | merge-readiness checklist |
 | buy-in | sign-off checklist | review-comment draft |
 | loop | per-stage checkpoint (continue / skip / stop) | the `.unknowns/loop.json` stage record |
 

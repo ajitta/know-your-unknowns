@@ -12,7 +12,7 @@ argument-hint: "<task description or confirmed spec>"
 
 Plan's purpose: not execution-order listing but **pulling user-intervention points forward**.
 Even if the user tires reading top-down, they have already seen every decision that matters.
-Origin: The Tweakable Plan — see skills/loop/references/talk-source.md.
+Origin: The Tweakable Plan — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron rules
 
@@ -51,7 +51,7 @@ Origin: The Tweakable Plan — see skills/loop/references/talk-source.md.
 8. Flag the **weakest part of this plan** (the decision resting on the thinnest evidence),
    and close with **2–3 pre-written reply lines** — the highest-leverage tweaks, ready to
    copy, edit, and send.
-9. Proceed to implementation only after user approval/change requests update the plan.
+9. Proceed to implementation only after user approval/change requests update the plan. Run as a **loop** stage, ask for that approval inside the loop's stage checkpoint, not as a separate question.
    Record mid-implementation deviations per the **notes** skill rules.
 
 ## Output
@@ -60,4 +60,4 @@ Artifact tool → `.unknowns/<YYYY-MM-DD>-plan-<slug>.html` → markdown; highes
 Each decision card carries an **alternative toggle** and an **approve / request-change**
 control; selections assemble into a reply like "item 3 → alternative B, rest approved",
 with mechanical work collapsed.
-Details: skills/loop/references/output-routing.md
+Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md

@@ -1,5 +1,26 @@
 # Implementation Notes — plan deviation log
 
+## [2026-09-30] Unreleased — 사각지대 리뷰 반영 (A3·A5·C2·B2)
+
+**Observed**
+- **Situation found**: 계획은 리뷰가 고른 네 항목(A5 훅 존재 감지, C2 이중 확인, B2 기제 보강, A3 경로)만 고치는 것이었다. A5를 구현하다 보니 README 두 벌이 SessionStart(compact) 전용 동작을 서술하고 있었고, quiz의 4 + 2 분할도 README에 적혀 있었다.
+- **Deviation from plan**: 계획에 README 수정은 없었다("not covered"). SessionStart 항목의 `compact` matcher를 없애 모든 source에서 스크립트가 돌게 했다 — 계획은 "표식 추가"였지 matcher 변경이 아니었다.
+- **Response chosen**: `hooks.json` SessionStart는 matcher 없는 한 항목이고, 스크립트가 payload `source`로 갈린다(compact → 기존 재진술 + 재무장, 재무장이 저장됐을 때만 표식 추가; 그 외 → 상태가 저장되고 1회 리마인더가 아직 남았을 때만 표식, `UNKNOWNS_NOTES_REPEAT`면 항상). README.md·README.ko.md에 표식 한 문단과 quiz 4 + 1 + 티치백을 같은 구조로 반영했다(parity 테스트 통과).
+- **Discovery**: zip 빌더는 스킬 본문이 쓰는 reference만 담는다. `output-routing.md`가 `surfaces.md`를 가리키는데 plan·quiz 등 zip에는 `surfaces.md`가 없다 — 이번 변경 이전부터 있던 결함이고 범위 밖이라 고치지 않았다.
+
+**Attributed**
+- **Reason for choice**: matcher를 `startup|resume|clear`와 `compact` 두 항목으로 나누는 것보다 한 항목 + source 분기가 hooks.json 테스트와 README 설명을 단순하게 한다. 표식은 리마인더가 실제로 울릴 곳에서만 내야 "표식 없음 = 자가 점검"이 거짓 안심을 만들지 않는다.
+- **Alternatives considered**: 자가 점검을 무조건 적용 — 훅이 도는 곳에서 이중 알림이 되고, 스킬이 훅의 존재를 모른다는 문제 자체를 남긴다.
+- **Risk/follow-up check**: opt-in 프로젝트에서 세션마다 한 줄이 컨텍스트에 들어간다. SessionStart에서 `source` 필드가 빠지는 호스트가 있으면 compact 뒤에도 재무장이 안 된다 — 그때는 표식만 나가고 리마인더는 다시 울리지 않는다.
+
+독립 리뷰(`independent-reviewer`)가 짚은 것:
+- **Discovery** — 첫 구현은 startup/resume에서 옵트인·임계값만 보고 표식을 냈다. 리마인더가 이미 울린 뒤 resume하거나 상태 디렉터리를 못 만들면 표식이 "앞으로 알려 준다"고 약속하지만 알림은 오지 않는다 — 위 Attributed의 "거짓 안심을 만들지 않는다"와 정면으로 어긋났다. 표식은 이제 상태가 저장되고 1회 리마인더가 아직 남았을 때만 나가고(`UNKNOWNS_NOTES_REPEAT`면 항상), compact 재진술은 재무장이 저장됐을 때만 표식을 단다. notes 스킬도 "표식 = 리마인더 한 번이 남았다, 받은 뒤에는 자가 점검"으로 고쳤다. 첫 구현의 테스트가 이 결함을 고정하고 있었다 — 뒤집었다.
+- **Discovery** — SessionStart의 `source`에는 `fork`도 있다(리뷰어가 설치된 바이너리 스키마에서 확인). matcher가 없으니 표식 분기로 가고, 테스트에 넣었다.
+- **Discovery** — `${CLAUDE_PLUGIN_ROOT}`는 플러그인 스킬에만 치환되므로 README의 "스킬 폴더만 복사" 설치 경로가 자리표시자를 그대로 노출하게 됐다. README 두 벌이 이제 `build-skill-zips.py` 산출물을 풀어 넣으라고 안내한다.
+- 리뷰가 제기했지만 고치지 않은 것: teach-back 채점 기준을 "읽기 전에 고정"했다는 사실을 기록할 장치가 없다(I3) — 파일을 새로 두는 것은 범위 확대라 후속으로 남긴다. `docs/value-contract.md`의 "티치백(Johnson & Johnson 1987)"이 협동학습 문헌 오인용일 수 있다는 지적(I5)은 받아들이지 않았다 — 지식 도출 분야에 teachback 면담 기법이 실재한다(배우는 쪽이 전문가에게 되가르치고 교정받는 방식; WPI 지식 도출 기법 목록 https://web.cs.wpi.edu/~jburge/thesis/kematrix.html). 다만 Johnson & Johnson(1987)이 그 문헌인지는 이번에 확인하지 못했다 — 미검증으로 남긴다.
+
+- **Todo for human** — 버전 번호와 릴리스(A4 절차)는 머지 뒤 결정. CHANGELOG는 "Unreleased"로만 적었다.
+
 ## [2026-09-28] 0.8.1 — 읽기 전용 가드 구멍, 문서 결함
 
 **Observed**
