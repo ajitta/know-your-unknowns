@@ -11,7 +11,6 @@ argument-hint: "<reference file/path/description>"
 # Reference — A Reference Is Another Map
 
 Best way to give a model a map: **give it another map**.
-Origin: Point at a Reference — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron Rule
 

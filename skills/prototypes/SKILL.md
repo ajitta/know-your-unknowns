@@ -11,7 +11,6 @@ argument-hint: "<thing to build> [count, default 4]"
 # Prototypes — Divergent Prototype Fan-out (Design Directions)
 
 People can't describe what they want but **can judge when they see it** (unknown knowns).
-Origin: Four Design Directions / Mock before you wire — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron Rules
 
@@ -30,16 +29,12 @@ Origin: Four Design Directions / Mock before you wire — see ${CLAUDE_PLUGIN_RO
    - Implementation complexity (simple-robust vs rich-complex)
 3. Attach to each option: **name + one-line design philosophy + pros/cons + when it fits**.
 4. Collect reactions on **both poles**. A skip is not the inverse of a steal — on every skip
-   ask what *would* have made it a steal. Kelly's repertory grid (1955) elicits a construct as
-   a **bipolar pair**; the contrast pole carries as much information as the pole users
-   volunteer, and it is the one they volunteer least.
+   ask what *would* have made it a steal — the contrast pole is the one users volunteer least.
 5. **Saturation check** before converting to spec: if the last option shown still drew new
    reactions, the set was too small — offer 2 more along the axis still splitting opinion.
-   Kelly's stopping rule is "until no new constructs appear"; a fixed N says nothing about
-   whether the option space is covered.
    Steal/skip only harvests constructs the user can already name. When reactions stall
-   ("they all look fine") or before the saturation call, run one **triad** — Kelly's own
-   elicitation: show three options and ask which two feel alike and how the third differs.
+   ("they all look fine") or before the saturation call, run one **triad**: show
+   three options and ask which two feel alike and how the third differs.
    The answer is a construct nobody volunteered (e.g. "calm vs. busy"); then have the user
    place **every** option on that construct (1–5), so it becomes an axis the requirements
    can name instead of a one-off remark.

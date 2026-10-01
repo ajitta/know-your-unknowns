@@ -65,7 +65,8 @@ the `independent-reviewer` agent is an independent verification step between
 One section per example. **Source prompt** is the verbatim text of that demo page's
 `The prompt` block (the pages' decorative enclosing quotation marks are dropped; inner
 punctuation is unchanged). **Provenance** holds the quotes that used to be narrated in
-each SKILL.md body; the skills now point here instead. Six examples have a matching talk
+each SKILL.md body. The skills no longer point here: this file is provenance, not procedure,
+so it lives in `docs/` and is not loaded at runtime. Six examples have a matching talk
 passage; the other five are page-only.
 
 ### 1. Blindspot Pass → `blindspot` skill + `unknowns-scout` agent
@@ -179,7 +180,7 @@ The shared format of the original examples — **single-file interactive HTML
 with a reaction-assembly UI** (steal/skip chips, resonate checkboxes,
 copyable prompt fixes, selections auto-assembled into a reply template) — is
 the plugin's default deliverable shape. As of 0.4.0 the rules live in one place,
-`loop/references/output-routing.md`, and the skills carry only a 3-line pointer.
+`skills/loop/references/output-routing.md`, and the skills carry only a 3-line pointer.
 Two deliberate exceptions: `interview` performs reaction-assembly directly through
 AskUserQuestion dialogue, so it needs no separate HTML; and `notes`, as in the
 original, produces a markdown file log (`IMPLEMENTATION_NOTES.md`). Rationale: the

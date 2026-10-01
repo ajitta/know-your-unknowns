@@ -31,7 +31,7 @@ keynote) and the example collection **"Know your unknowns"** (11 interactive exa
 https://thariqs.github.io/html-effectiveness/unknowns/. The 11 skills cover all 11
 original examples (prototypes covers two of them; loop is the orchestrator with no
 original counterpart). For fact-checking details, see
-`skills/loop/references/talk-source.md`.
+`docs/talk-source.md`.
 
 ---
 
@@ -738,7 +738,7 @@ Set `UNKNOWNS_NOTES_THRESHOLD=0`, or raise the threshold to around 30 — per pr
 the `env` block in `.claude/settings.json`, so you don't have to change it globally.
 
 **Q. Where does the plugin differ from the original material?**
-`skills/loop/references/talk-source.md` has a table separating "verified directly from
+`docs/talk-source.md` has a table separating "verified directly from
 the source" from "extended during authoring".
 
 ---
@@ -764,4 +764,4 @@ The plugin's own code and prose are MIT-licensed; `LICENSE` carries the full MIT
 - Parent essay: https://thariqs.github.io/html-effectiveness/ ("The unreasonable effectiveness of HTML")
 - Talk: https://www.youtube.com/watch?v=9fubhllmsBU (AI Engineer World's Fair 2026)
 - This plugin: https://github.com/ajitta/know-your-unknowns
-- Verification details and related literature: `skills/loop/references/talk-source.md`
+- Verification details and related literature: `docs/talk-source.md`

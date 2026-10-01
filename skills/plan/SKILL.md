@@ -12,7 +12,6 @@ argument-hint: "<task description or confirmed spec>"
 
 Plan's purpose: not execution-order listing but **pulling user-intervention points forward**.
 Even if the user tires reading top-down, they have already seen every decision that matters.
-Origin: The Tweakable Plan — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron rules
 

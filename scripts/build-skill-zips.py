@@ -10,7 +10,7 @@ A skill uploaded on its own is not the same file as a skill inside the plugin,
 so this script ports it. Every difference is listed here and nowhere else:
 
   1. The description. The upload form documents a 200-character maximum and the
-     SKILL.md descriptions run 248-283, so the short ones in
+     SKILL.md descriptions run 248-383, so the short ones in
      `scripts/skill-descriptions.json` are substituted. Those are shortened rather
      than replaced: every trigger phrase the README advertises survives, and
      `tests/test_skill_descriptions.py` fails if one does not.
@@ -20,11 +20,9 @@ so this script ports it. Every difference is listed here and nowhere else:
      the user's project, so a bare relative path would not resolve). A lone skill
      folder has no plugin root, so the operational references are copied into the
      skill and the paths are rewritten to `references/x.md`.
-  3. `talk-source.md` is provenance, not procedure, and 15 KB of it in every zip
-     is dead weight. Its pointer is rewritten to the file on GitHub.
-  4. `$ARGUMENTS` is a Claude Code substitution. Nothing substitutes it elsewhere,
+  3. `$ARGUMENTS` is a Claude Code substitution. Nothing substitutes it elsewhere,
      so it becomes plain words.
-  5. `argument-hint` is dropped: it describes a slash invocation these surfaces
+  4. `argument-hint` is dropped: it describes a slash invocation these surfaces
      do not have.
 
 Nothing else changes — same body, same triggers, same procedure.
@@ -33,7 +31,7 @@ References are bundled transitively: a reference file that names a sibling
 ("`surfaces.md` in this folder") brings that sibling along.
 
 `--target local` builds for a Claude Code `.claude/skills/` copy instead of an
-upload: plain folders, not zips, and only difference 2 (and 3) applies — the
+upload: plain folders, not zips, and only difference 2 applies — the
 full description, `argument-hint` and `$ARGUMENTS` stay, since Claude Code
 reads all three natively and the 200-character limit belongs to the upload form.
 One local-only rewrite: agent names lose the plugin namespace
@@ -64,10 +62,6 @@ NAME_MAX = 64
 DESC_MAX = 200
 SHORT = json.loads((ROOT / "scripts" / "skill-descriptions.json").read_text(encoding="utf-8"))
 
-TALK_SOURCE_URL = (
-    "https://github.com/ajitta/know-your-unknowns/blob/main/"
-    "skills/loop/references/talk-source.md"
-)
 ARGUMENTS_PROSE = "the request that invoked this skill"
 AGENTS = sorted(path.stem for path in (ROOT / "agents").glob("*.md"))
 
@@ -80,8 +74,7 @@ def port(body: str, keep_arguments: bool = False) -> tuple[str, set[str]]:
         return f"references/{match.group(1)}.md"
 
     root = r"(?:\$\{CLAUDE_PLUGIN_ROOT\}/)?"
-    body = re.sub(root + r"skills/loop/references/(?!talk-source)([a-z-]+)\.md", ref, body)
-    body = re.sub(root + r"skills/loop/references/talk-source\.md", TALK_SOURCE_URL, body)
+    body = re.sub(root + r"skills/loop/references/([a-z-]+)\.md", ref, body)
     if not keep_arguments:
         body = body.replace("`$ARGUMENTS`", ARGUMENTS_PROSE).replace("$ARGUMENTS", ARGUMENTS_PROSE)
     else:
@@ -97,7 +90,7 @@ def sibling_refs(text: str) -> set[str]:
     A name that is part of a path (`.unknowns/scorecard.md`) is a data file the
     skill writes, not a sibling to bundle, so anything after `/` or `.` is skipped.
     """
-    known = {path.stem for path in REFS.glob("*.md")} - {"talk-source"}
+    known = {path.stem for path in REFS.glob("*.md")}
     return {name for name in re.findall(r"(?<![\w/.-])([a-z][a-z-]*)\.md\b", text) if name in known}
 
 

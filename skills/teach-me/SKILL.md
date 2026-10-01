@@ -12,7 +12,6 @@ argument-hint: "<domain/task to learn> [current level]"
 
 Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste.
 This skill fills the **concept/terminology gap** among unknown unknowns.
-Origin: Teach Me My Unknowns — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md
 
 ## Iron Rules
 
@@ -55,20 +54,13 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Limits — what this can and cannot deliver
 
-Vocabulary hands over a **request**, not fluency. Domain fluency is collective tacit knowledge,
-acquired by immersion in a discourse community, and does not transfer as a term list (Collins,
-*Tacit and Explicit Knowledge*, 2010). So:
-
-- **Expect**: the user's *next* request to be markedly more precise.
-- **Do not expect**: the vocabulary to be wielded unaided across revision rounds 2–4 — the
-  predicted failure point, where terms must be *used* rather than pasted.
+- Vocabulary hands over a **request**, not fluency: expect the user's *next* request to be
+  markedly more precise, not the terms wielded unaided across revision rounds 2–4. Success is
+  convergence across those rounds, not the quality of the first rewritten request.
 - When revisions stop converging, that is this skill's ceiling, not the user's mistake. Hand off
   to the **interview** skill to lock decisions rather than teaching more vocabulary.
-
-**Success signal is convergence across revision rounds 2–4, not the quality of the first
-rewritten request.** Step 6 is what buys those later rounds: judging criteria transfer far better
-than production vocabulary, because recognising a bad result is a cheaper skill than knowing which
-axis to move. Keep step 6 even when trimming for size.
+- Judging criteria (step 6) transfer far better than production vocabulary — recognising a bad
+  result is cheaper than knowing which axis to move. Keep step 6 even when trimming for size.
 
 ## Related
 

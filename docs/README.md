@@ -43,6 +43,7 @@
 | [trigger-eval-v0.7.1-opus-5-5.md](trigger-eval-v0.7.1-opus-5-5.md) | Claude Opus 5.5 첫 측정 — 31케이스 기계 채점, blindspot 발화 3/8 → 6/6 수정 | 한국어 | `evals/run-manual.py` (`ANTHROPIC_MODEL=claude-opus-5-5`) 실행의 `manual-result.json`에서 추출 | **동결** |
 | [trigger-eval-crowd-2026-09-30.md](trigger-eval-crowd-2026-09-30.md) | 스킬 목록 예산 초과(설명 없이 이름만) 조건의 첫 트리거 측정 — 영어 11건 중 9건 발화, notes·blindspot 미발화 | 한국어 | `evals/run-manual.py --crowd 60 --budget-fraction 0.002` 실행의 `manual-result.json`과 CLI 디버그 로그에서 추출 | **동결** |
 | [research-know-your-unknowns.md](research-know-your-unknowns.md) | 원문 "Know your unknowns" 페이지 조사·대조 분석. 【검증】/【단일】/【추정】 확실성 표기 | 한국어 | 수기 — 원문 다회 페치 + 플러그인 소스 대조 | 원문을 다시 페치했을 때. 재확인 날짜를 헤더 표에 한 줄 추가 |
+| [talk-source.md](talk-source.md) | 원문 강연·"Know your unknowns" 11개 예시와 플러그인 구성 요소의 대응, 예시별 원문 프롬프트와 출처, 강연에서 직접 검증한 기법 | **영어** (예외 — 0.8.1까지 `skills/loop/references/`에 있던 파일을 그대로 옮김) | 수기 — 원문 페치 + 강연 대조 | 원문을 다시 대조했을 때. 스킬 본문은 이 파일을 참조하지 않는다(런타임 미로드) |
 | [protocol-alignment.md](protocol-alignment.md) | 인간-AI 협업 프로토콜(볼트 노트 3편) 대조에서 나온 격차 G1~G7 + 구조 항목 S1, 결정 표와 다음 세션용 프롬프트 | 한국어 | 수기 — 프로토콜 대조 + `unknowns:interview` 4문항 | 항목을 반영할 때마다 해당 절에 집행 기록. 전부 반영되면 open-questions.md A절로 요약 이관 |
 | [value-contract.md](value-contract.md) | 이 플러그인 자신에 대한 가치 계약 — 지표, 강등·제거 조건, 측정 시계 | 한국어 | 수기 | 수치를 고칠 때(잠정값), 그리고 측정 시계 확인 때마다 표에 한 행 |
 | [value-scorecard.md](value-scorecard.md) | 실사용 1회 = 1행 기록. value-contract의 지표 원장 | 한국어 | 수기 | 실사용마다. 설치자는 자기 저장소의 `.unknowns/scorecard.md`에 따로 기록 |

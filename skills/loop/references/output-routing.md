@@ -19,9 +19,8 @@ The skill bodies carry the 3-line ladder; this file carries the details.
 3. **Neither (chat-only, Write denied, or the target is a PR body)** → markdown with the
    same structure and the same reaction prompts.
 
-Which rung is available is a property of the surface, not of the task: Claude Code and
-Cowork reach rung 1 or 2, Desktop and web chat usually reach rung 1, mobile is rung 3.
-`surfaces.md` in this folder covers the rest of what changes by surface.
+Which rung is available depends on the surface, not the task; `surfaces.md` in this
+folder covers what changes by surface.
 
 **On every rung**: end the turn with the assembled default reply (improved prompt,
 requirements list, decision summary) as plain text in the conversation. The artifact is
@@ -66,17 +65,7 @@ JS off. Respect `prefers-reduced-motion`.
 The device that makes the artifact a loop instead of a document: each item carries a
 reaction control, and the selections assemble at the bottom into one copyable reply.
 
-| Skill | Control | Assembles into |
-|-------|---------|----------------|
-| blindspot | copyable "prompt fix" per card | improved prompt draft |
-| teach-me | "include in my request" checkbox | precise request draft |
-| prototypes | steal / skip chips per option or element | requirements list |
-| brainstorm | resonate checkbox per candidate | "proceed with these, in this order" |
-| reference | approve / request-change per mapping | reply to the analysis |
-| plan | approve / request-change per decision | "item 3 → alternative B, rest approved" |
-| quiz | answer buttons (keyed, self-grading) + a teach-back text box (no key on the page, graded in chat); wrong answer links to the change site | merge-readiness checklist |
-| buy-in | sign-off checklist | review-comment draft |
-| loop | per-stage checkpoint (continue / skip / stop) | the `.unknowns/loop.json` stage record |
+Each skill body names its own control and what it assembles into.
 
 Minimal shape: give each item a `data-reply` attribute holding the sentence it
 contributes, collect the selected ones in document order, join them into a `<textarea>`,

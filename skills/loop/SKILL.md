@@ -14,8 +14,6 @@ Core principle: **the bottleneck with strong models is not the model — it's th
 user's ability to keep the map (plan) matched to the territory (reality). That gap
 is the unknowns.** Designing the explore → question → plan → implement → log
 deviations → verify loop matters more than one good prompt.
-Origin: the 11 "Know your unknowns" examples; the loop itself is a plugin extension —
-see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 Output: Artifact tool → `.unknowns/<YYYY-MM-DD>-loop-<slug>.html` → markdown.
 Each stage's artifact keeps its own skill's reaction control; the loop's own control is the
@@ -127,11 +125,3 @@ ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md has the rest.
   passed and whose reality check is still empty is raised **before** the new task: ask
   the user what they saw and fill the cell. This is the only thing that reads that column;
   without it the date is a promise nobody keeps.
-
-## Operating principles (compressed)
-
-1. Define purpose. 2. Find blind spots before implementing. 3. Make the model ask
-questions. 4. Give references and prototypes instead of words. 5. Sort plans by
-probability of revision. 6. Log unknowns and plan deviations. 7. Verify with tests
-and independent review. 8. Confirm user can explain the result. 9. Deliverables in
-reactable form. 10. Measure real value, not code volume.

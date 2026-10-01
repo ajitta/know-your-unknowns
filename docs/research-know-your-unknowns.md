@@ -186,7 +186,7 @@ agent produced instead of a wall of markdown"과 카테고리별 카운트 합
 와 이 페이지는 동일 방법론의 두 표현이다. 강연은 blindspot pass, 발산형 프로토타입
 4개, 구현 전 인터뷰, 레퍼런스=지도, implementation notes, 작업 후 퀴즈의 6개 기법을
 구두로 설명했고(타임스탬프별 대조는 플러그인 레포의
-`skills/loop/references/talk-source.md`), unknowns 페이지는 여기에 **teach-me,
+`docs/talk-source.md`), unknowns 페이지는 여기에 **teach-me,
 brainstorm, tweakable plan, buy-in doc, mock-before-wireframe의 5개 아티팩트를
 추가**하고 전부를 작동하는 데모로 구현했다. 강연이 원리 선언이라면 이 페이지가
 실행 사양에 가깝다.【추정 — "실행 사양" 평가는 조사자 해석】
@@ -270,7 +270,7 @@ brainstorm, tweakable plan, buy-in doc, mock-before-wireframe의 5개 아티팩�
   https://thariqs.github.io/html-effectiveness/
 - Thariq Shihipar, "Field Guide to Fable" 키노트 (AI Engineer World's Fair 2026):
   https://www.youtube.com/watch?v=9fubhllmsBU
-- 플러그인 내 검증 문서: `skills/loop/references/talk-source.md`
+- 플러그인 내 검증 문서: `docs/talk-source.md`
   (강연 타임스탬프 대조, 외부 사실검증: Korzybski 1931, Johari 1955, Rumsfeld 2002,
   Jack Clark "capability overhang", Aschenbrenner "unhobbling", Olah "grown not
   designed" 등)
