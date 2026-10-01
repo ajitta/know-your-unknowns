@@ -91,11 +91,9 @@ loop 10단계(가치 리뷰: 지표 + 제거 조건)를 플러그인 자신에�
   정확하다는 뜻이 아니다 — Observed와 Attributed를 나누는 근거일 뿐 Observed를 참으로 만들지 않는다.
 - `teach-me` "Limits" — 분야 유창성은 담론 공동체에 몸담아 얻는 집단적 암묵지라서 용어 목록으로
   전달되지 않는다(Collins, *Tacit and Explicit Knowledge*, 2010).
-- `prototypes` 4단계·삼원 비교 — 레퍼토리 그리드는 구성 개념을 **양극 쌍**으로 끌어내며, 대비 극은
-  사용자가 자발적으로 내놓는 극만큼 정보가 있지만 가장 덜 내놓는다. 삼원 비교는 Kelly 자신의
-  도출법이다(Kelly 1955). 5단계의 종료 규칙 문장("until no new constructs appear")은 **본문에 남겼다** —
-  지웠을 때 `behavior-prototypes-asks-contrast-on-skip`에서 포화 확인이 6회 중 3회만 나왔다(이전 본문 5/5,
-  되살린 뒤 4/5). 근거 문장이 행동을 지탱하는 경우도 있다는 기록이다.
+- `prototypes`의 Kelly 문장(양극 쌍, 종료 규칙, 삼원 비교)은 **본문에 남겼다**. 줄였을 때
+  `behavior-prototypes-asks-contrast-on-skip`에서 포화 확인이 6회 중 3회만 나왔다(이전 본문 5/5).
+  근거 문장이 행동을 지탱하는 경우도 있다는 기록이다.
 
 **측정 보정 (2026-09-30).** 스코어카드에 `Baseline` 열을 더했다(`compared`/`none`). blindspot이
 조사 전에 받은 사용자 목록과 결과를 대조한 뒤 물은 행이 `compared`다. 3번 지표를 계산할 때

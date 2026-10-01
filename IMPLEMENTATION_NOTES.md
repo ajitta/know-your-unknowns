@@ -4,13 +4,13 @@
 
 **Observed**
 - **Situation found**: 계획(조사 → 개선안 → 독립 검증 v2)은 `output-routing.md` §1에서 본문과 겹치는 사다리 설명도 줄여 ~375 토큰을 줄인다고 했다. 실제로 겹치는 것은 반응 표(§4)와 표면별 단 목록 두 줄뿐이었고, 사다리 세 단의 문장은 본문에 없는 세부(ArtifactComments, `db`, `.gitignore` 1회 제안, 3단 조건)를 담고 있었다.
-- **Deviation from plan**: §1 사다리 문장은 그대로 두고 표면 목록 두 줄만 `surfaces.md` 포인터 한 문장으로 줄였다. 측정 절감은 939바이트(~230 토큰)로 계획치보다 작다. teach-me "Limits"는 계획의 3불릿을 쓰되 "성공 신호는 라운드 2–4의 수렴"을 첫 불릿에 남겼다(`docs/value-contract.md`가 이 절을 그 근거로 인용한다).
-- **Response chosen**: 본문 11개 `Origin:` 줄, loop "Operating principles", notes·teach-me·prototypes의 인용 근거문 삭제(인용은 `docs/value-contract.md`로), `hooks.json` description 1문장, `talk-source.md` → `docs/`, 빌드 스크립트·테스트의 talk-source 특례 제거. `scorecard.md`의 `.gitignore` 문장은 검증에서 적용 시점이 다르다고 확인돼 남겼다.
+- **Deviation from plan**: §1 사다리 문장은 그대로 두고 반응 표만 지웠다(표면별 단 목록은 리뷰가 `surfaces.md`에 단 개념이 없다고 짚어 되살림). 측정 절감은 계획치(~375 토큰)보다 작다. teach-me "Limits"는 계획의 3불릿을 쓰되 "성공 신호는 라운드 2–4의 수렴"을 첫 불릿에 남겼다(`docs/value-contract.md`가 이 절을 그 근거로 인용한다).
+- **Response chosen**: 본문 11개 `Origin:` 줄, loop "Operating principles", notes·teach-me의 인용 근거문 삭제(인용은 `docs/value-contract.md`로), `hooks.json` description 1문장, `talk-source.md` → `docs/`, 빌드 스크립트·테스트의 talk-source 특례 제거. `scorecard.md`의 `.gitignore` 문장은 검증에서 적용 시점이 다르다고 확인돼 남겼다.
 
 **Attributed**
 - **Reason for choice**: 호출된 본문은 세션 끝까지 매 요청에 남으므로, 실행 지시가 아닌 근거문은 이후 모든 요청에 비용이 든다. 지시는 한 문장도 지우지 않았다.
 - **Alternatives considered**: 사다리 문장까지 줄여 계획치를 맞추기 — 본문에 없는 세부가 사라져 기각.
-- **Discovery** — 가정: prototypes의 Kelly 문장은 근거일 뿐이다 / 실제: 5단계 종료 규칙 문장을 지우자 `behavior-prototypes-asks-contrast-on-skip`의 포화 확인(LLM 채점 항목, 수동 판정)이 6회 중 3회로 떨어졌다(main 5/5). 그 문장만 원문 그대로 되살려 4/5. 표본이 작아 4/5와 5/5는 구분되지 않는다. 4단계 대비 극 문장과 삼원 비교의 인용은 지운 채로 두었다(skip 대비 질문 11/11 유지).
+- **Discovery** — 가정: prototypes의 Kelly 문장은 근거일 뿐이다 / 실제: 5단계 종료 규칙 문장을 지우자 `behavior-prototypes-asks-contrast-on-skip`의 포화 확인(LLM 채점 항목, 수동 판정)이 6회 중 3회로 떨어졌다(main 5/5). 그 문장만 되살리면 4/5였으나, 리뷰가 4단계 정의 없이 5단계·삼원 비교에 "construct"가 남는다고 짚어 prototypes 본문은 main으로 전부 되돌렸다(`Origin:` 줄 삭제만 유지).
 - **Risk/follow-up check**: 인용을 뺀 notes·prototypes에서 행동이 바뀌면 `behavior-notes-appends-to-file`·`behavior-prototypes-asks-contrast-on-skip`에서 먼저 보인다. 릴리스 zip(`build-plugin.sh`)에는 `docs/`가 없으므로 README의 `docs/talk-source.md` 경로는 zip 설치본에서 GitHub로 찾아야 한다.
 
 ## [2026-09-30] Unreleased — D1: Bash로 쓴 노트를 Stop이 인정

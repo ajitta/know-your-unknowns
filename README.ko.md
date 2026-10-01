@@ -27,7 +27,7 @@ Thariq Shihipar(Anthropic, Claude Code 팀)의 방법론을 패키징했습니�
 **"Know your unknowns"**(11개 인터랙티브 예시) —
 https://thariqs.github.io/html-effectiveness/unknowns/. 스킬 11종이 원문 11개 예시를 모두
 커버합니다(prototypes가 2개를 커버, loop는 원문 대응이 없는 오케스트레이터). 사실검증
-상세는 `docs/talk-source.md` 참조.
+상세는 [`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md) 참조.
 
 ---
 
@@ -679,7 +679,7 @@ echo '{"session_id":"x","tool_name":"Edit","cwd":"'$PWD'"}' \
 `env` 블록으로 프로젝트 단위로 지정하면 전역을 건드리지 않아도 됩니다.
 
 **Q. 원문과 플러그인이 다른 부분은?**
-`docs/talk-source.md`에 "원문에서 직접 검증된 부분"과
+[`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md)에 "원문에서 직접 검증된 부분"과
 "제작 시 확장한 부분"이 표로 구분되어 있습니다.
 
 ---
@@ -704,4 +704,4 @@ https://www.apache.org/licenses/LICENSE-2.0. "Field Guide to Fable" 강연에서
 - 부모 글: https://thariqs.github.io/html-effectiveness/ ("The unreasonable effectiveness of HTML")
 - 강연: https://www.youtube.com/watch?v=9fubhllmsBU (AI Engineer World's Fair 2026)
 - 이 플러그인: https://github.com/ajitta/know-your-unknowns
-- 검증 상세와 관련 문헌: `docs/talk-source.md`
+- 검증 상세와 관련 문헌: [`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md)

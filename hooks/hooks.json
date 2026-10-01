@@ -1,5 +1,5 @@
 {
-  "description": "unknowns — IMPLEMENTATION_NOTES.md deviation reminder (opt-in per project) and a read-only Bash guard for the plugin's sub-agents. Behavior and UNKNOWNS_* variables: README.md, \"Hook behavior and configuration\".",
+  "description": "unknowns — the IMPLEMENTATION_NOTES.md deviation reminder with its SessionStart, post-compaction and Stop context lines, and a read-only Bash guard for the plugin's sub-agents. Behavior and UNKNOWNS_* variables: README.md, \"Hook behavior and configuration\".",
   "hooks": {
     "PreToolUse": [
       {

@@ -32,7 +32,8 @@ Not released: no version bump, no tag.
 
 - **Stale description-length note.** `scripts/skill-descriptions.json`, `build-skill-zips.py`
   and `tests/test_skill_descriptions.py` said the SKILL.md descriptions run 248-283
-  characters; blindspot's has been 383 since 0.7.1.
+  characters; blindspot's has been 383 since 0.7.1. `docs/trigger-matrix.md`'s length column
+  and total are re-measured.
 
 ### Changed
 
@@ -113,17 +114,16 @@ Not released: no version bump, no tag.
   trigger" answer explains the budget and `skillListingBudgetFraction`.
 - **Skill bodies carry instructions, not their justification.** An invoked body stays in
   context for the rest of the session, so rationale written for maintainers is paid for on
-  every later request. notes' "Why the split", teach-me's "Limits" and prototypes' step 4 and
-  triad keep every rule and drop the citations (Turpin, Nisbett & Wilson, Fox, Collins, Kelly),
-  which move to `docs/value-contract.md`. `output-routing.md` drops the reaction-control
-  table — each of the nine skill bodies already states its own control — and the surface
-  list that `surfaces.md` covers. prototypes keeps Kelly's stopping
-  rule in step 5: without it, the saturation check (offer more options) appeared in 3 of 6
-  `behavior-prototypes-asks-contrast-on-skip` runs against 5 of 5 on the previous text, and
-  4 of 5 once restored. `hooks.json`'s description is one sentence pointing at the
-  README instead of a third copy of the hook variables. Measured on the files: about 430
-  fewer tokens across the six bodies a medium loop invokes (more once
-  `${CLAUDE_PLUGIN_ROOT}` expands), about 230 fewer when `output-routing.md` is read.
+  every later request. notes' "Why the split" and teach-me's "Limits" keep every rule and
+  drop the citations (Turpin, Nisbett & Wilson, Fox, Collins), which move to
+  `docs/value-contract.md`. `output-routing.md` drops the reaction-control table — each of
+  the nine skill bodies already states its own control. prototypes keeps its Kelly text:
+  with it trimmed, the saturation check (offer more options) appeared in 3 of 6
+  `behavior-prototypes-asks-contrast-on-skip` runs against 5 of 5 on the previous text.
+  `hooks.json`'s description is one sentence pointing at the README instead of a third copy
+  of the hook variables. Measured on the files: about 430 fewer tokens across the six bodies
+  a medium loop invokes (more once `${CLAUDE_PLUGIN_ROOT}` expands), about 200 fewer when
+  `output-routing.md` is read.
 
 ### Removed
 

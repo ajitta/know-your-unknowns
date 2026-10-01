@@ -59,8 +59,9 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
   convergence across those rounds, not the quality of the first rewritten request.
 - When revisions stop converging, that is this skill's ceiling, not the user's mistake. Hand off
   to the **interview** skill to lock decisions rather than teaching more vocabulary.
-- Judging criteria (step 6) transfer far better than production vocabulary — recognising a bad
-  result is cheaper than knowing which axis to move. Keep step 6 even when trimming for size.
+- Step 6 is what buys those later rounds: judging criteria transfer far better than production
+  vocabulary, because recognising a bad result is cheaper than knowing which axis to move. Keep
+  step 6 even when trimming for size.
 
 ## Related
 

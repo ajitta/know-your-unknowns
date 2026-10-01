@@ -19,8 +19,9 @@ The skill bodies carry the 3-line ladder; this file carries the details.
 3. **Neither (chat-only, Write denied, or the target is a PR body)** → markdown with the
    same structure and the same reaction prompts.
 
-Which rung is available depends on the surface, not the task; `surfaces.md` in this
-folder covers what changes by surface.
+Which rung is available is a property of the surface, not of the task: Claude Code and
+Cowork reach rung 1 or 2, Desktop and web chat usually reach rung 1, mobile is rung 3.
+`surfaces.md` in this folder covers the rest of what changes by surface.
 
 **On every rung**: end the turn with the assembled default reply (improved prompt,
 requirements list, decision summary) as plain text in the conversation. The artifact is
