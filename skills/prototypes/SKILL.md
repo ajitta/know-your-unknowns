@@ -32,6 +32,8 @@ People can't describe what they want but **can judge when they see it** (unknown
    ask what *would* have made it a steal — the contrast pole is the one users volunteer least.
 5. **Saturation check** before converting to spec: if the last option shown still drew new
    reactions, the set was too small — offer 2 more along the axis still splitting opinion.
+   Kelly's stopping rule is "until no new constructs appear"; a fixed N says nothing about
+   whether the option space is covered.
    Steal/skip only harvests constructs the user can already name. When reactions stall
    ("they all look fine") or before the saturation call, run one **triad**: show
    three options and ask which two feel alike and how the third differs.
