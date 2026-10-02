@@ -9,7 +9,7 @@ argument-hint: "[init | show | <content to log>]"
 
 # Notes — Plan Deviation Log (Implementation Notes)
 
-When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Core device stopping agent from silently drifting off-plan. Origin: Implementation Notes — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
+When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Core device stopping agent from silently drifting off-plan.
 
 ## File Rules
 
@@ -45,16 +45,9 @@ artifacts first, and never revise it to fit Attributed:
 - **Risk/follow-up check**: if this decision is wrong, where it shows up
 ```
 
-**Why the split.** Models omit the factor that actually drove a choice while producing a
-fluent rationale instead (Turpin et al. 2023 — accuracy fell up to 36 points under a bias
-never once mentioned in the explanation); people do the same when asked why they acted
-(Nisbett & Wilson 1977). So a stated reason is a hypothesis. The human think-aloud research
-adds a caution, not a guarantee: describing what one does leaves the accuracy of the work
-unchanged (it may slow it), while being asked to explain it changes the work itself
-(Fox, Ericsson & Best 2011 — 94 studies, r = −.03 for plain verbalization). That measured people speaking *during* a task, not the
-accuracy of an after-the-fact log, so it argues for keeping the two kinds of report apart —
-it does not make Observed true. Observed earns trust only by being checkable against the
-diff; Attributed is a claim to test later. On conflict, the diff wins.
+**Why the split.** A stated reason is a hypothesis — models and people both produce fluent
+rationales that omit what actually drove the choice. Observed earns trust only by being
+checkable against the diff; Attributed is a claim to test later. On conflict, the diff wins.
 
 Two lighter kinds, same file, one line each:
 - **Discovery** — code or environment differs from what the plan assumed, no decision needed yet: what was assumed / what is true.

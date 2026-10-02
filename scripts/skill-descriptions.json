@@ -2,7 +2,7 @@
   "_comment": [
     "Short descriptions used ONLY by scripts/build-skill-zips.py, for the skill zips",
     "uploaded through Customize → Skills. That upload form documents a 200-character",
-    "maximum; the descriptions in SKILL.md are 248-283 characters and are the ones the",
+    "maximum; the descriptions in SKILL.md are 248-383 characters and are the ones the",
     "eval suite measured, so they are left alone and shortened here instead.",
     "This file ships in no plugin and costs no context. tests/test_skill_descriptions.py",
     "fails if a skill is missing, if a description is over 200 characters, or if it drops",

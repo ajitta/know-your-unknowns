@@ -66,17 +66,7 @@ JS off. Respect `prefers-reduced-motion`.
 The device that makes the artifact a loop instead of a document: each item carries a
 reaction control, and the selections assemble at the bottom into one copyable reply.
 
-| Skill | Control | Assembles into |
-|-------|---------|----------------|
-| blindspot | copyable "prompt fix" per card | improved prompt draft |
-| teach-me | "include in my request" checkbox | precise request draft |
-| prototypes | steal / skip chips per option or element | requirements list |
-| brainstorm | resonate checkbox per candidate | "proceed with these, in this order" |
-| reference | approve / request-change per mapping | reply to the analysis |
-| plan | approve / request-change per decision | "item 3 → alternative B, rest approved" |
-| quiz | answer buttons (keyed, self-grading) + a teach-back text box (no key on the page, graded in chat); wrong answer links to the change site | merge-readiness checklist |
-| buy-in | sign-off checklist | review-comment draft |
-| loop | per-stage checkpoint (continue / skip / stop) | the `.unknowns/loop.json` stage record |
+Each skill body names its own control and what it assembles into.
 
 Minimal shape: give each item a `data-reply` attribute holding the sentence it
 contributes, collect the selected ones in document order, join them into a `<textarea>`,

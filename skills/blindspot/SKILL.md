@@ -13,7 +13,6 @@ argument-hint: "<task description or target area> [context sources: git/docs/sla
 
 Before implementation, find the **gap between the map (plan/prompt) and the territory
 (actual codebase, domain, constraints)**.
-Origin: Blindspot Pass — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md
 
 ## Iron Rules
 

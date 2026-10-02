@@ -12,7 +12,6 @@ argument-hint: "<problem to solve> [constraints: timeline/people/budget]"
 
 Jumping on the first solution leaves **the rest of the solution space unknown**.
 The user picks; the model draws the space.
-Origin: Brainstorm the Intervention — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron Rules
 

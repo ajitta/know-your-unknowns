@@ -30,6 +30,11 @@ Not released: no version bump, no tag.
   checkpoint, and each such skill says so, so the rule survives if compaction drops the
   loop's own text.
 
+- **Stale description-length note.** `scripts/skill-descriptions.json`, `build-skill-zips.py`
+  and `tests/test_skill_descriptions.py` said the SKILL.md descriptions run 248-283
+  characters; blindspot's has been 383 since 0.7.1. `docs/trigger-matrix.md`'s length column
+  and total are re-measured.
+
 ### Changed
 
 - **Three skills now carry the mechanism `docs/value-contract.md` credits them with.**
@@ -107,6 +112,29 @@ Not released: no version bump, no tag.
   9 of 11 English trigger cases still fired, notes and blindspot did not (one run per
   case; `docs/trigger-eval-crowd-2026-09-30.md`). The README's "skills don't
   trigger" answer explains the budget and `skillListingBudgetFraction`.
+- **Skill bodies carry instructions, not their justification.** An invoked body stays in
+  context for the rest of the session, so rationale written for maintainers is paid for on
+  every later request. notes' "Why the split" and teach-me's "Limits" keep every rule and
+  drop the citations (Turpin, Nisbett & Wilson, Fox, Collins), which move to
+  `docs/value-contract.md`. `output-routing.md` drops the reaction-control table — each of
+  the nine skill bodies already states its own control. prototypes keeps its Kelly text:
+  with it trimmed, the saturation check (offer more options) appeared in 3 of 6
+  `behavior-prototypes-asks-contrast-on-skip` runs against 5 of 5 on the previous text.
+  `hooks.json`'s description is one sentence pointing at the README instead of a third copy
+  of the hook variables. Measured on the files: about 430 fewer tokens across the six bodies
+  a medium loop invokes (more once `${CLAUDE_PLUGIN_ROOT}` expands), about 200 fewer when
+  `output-routing.md` is read.
+
+### Removed
+
+- **`Origin:` lines in the eleven skill bodies.** They pointed at a provenance file the model
+  had no reason to read. The mapping stays in `talk-source.md` and the README's "Skills at a
+  glance" table.
+- **loop's "Operating principles (compressed)"**, a third summary of the ten steps above it.
+- **`talk-source.md` moved from `skills/loop/references/` to `docs/`.** It is provenance, not
+  procedure, and nothing in `skills/` names it any more; the plugin payload is 16 KB smaller.
+  `build-skill-zips.py` loses its talk-source special case (and the standalone zips their
+  GitHub link to it).
 
 ## 0.8.1 — 2026-09-28
 

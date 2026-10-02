@@ -14,7 +14,6 @@ Implementation done, but **others' approval** remains an unknown. Know what revi
 will ask in advance — it becomes known.
 the **quiz** skill validates **my understanding**;
 buy-in prepares **others' trust**.
-Origin: The Buy-In Doc — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Procedure
 

@@ -11,7 +11,6 @@ argument-hint: "[task/spec description] [priority hint]"
 # Interview — Pre-Implementation Interview
 
 Requirements incomplete? Don't implement yet — **model interviews user**.
-Origin: The Interview — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Question Priority (blast radius, fixed)
 

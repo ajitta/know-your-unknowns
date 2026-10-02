@@ -11,7 +11,6 @@ argument-hint: "<thing to build> [count, default 4]"
 # Prototypes — Divergent Prototype Fan-out (Design Directions)
 
 People can't describe what they want but **can judge when they see it** (unknown knowns).
-Origin: Four Design Directions / Mock before you wire — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Iron Rules
 

@@ -11,7 +11,6 @@ argument-hint: "[target work/PR scope]"
 # Quiz — Post-Work Comprehension Check (Stay in the Loop)
 
 Even delegated work, **user must be able to explain the result**.
-Origin: Quiz Me Before I Merge — see ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/talk-source.md.
 
 ## Procedure — Part 1: Explain First
 
