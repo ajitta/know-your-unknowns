@@ -1,11 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.8.2 — 2026-10-02
 
 From a blind-spot review of 0.8.1 that checked the plugin's assumptions against the
 current Claude Code docs and the literature the skills cite, then had its own draft
 re-checked by a separate agent (which retracted several claims before any code changed).
-Not released: no version bump, no tag.
+A second pass then removed text from the skill bodies that the model does not act on.
+
+Release steps per `docs/open-questions.md` A4 are done the same day as the last merge, at
+tag `unknowns--v0.8.2`.
 
 ### Fixed
 
