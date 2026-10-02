@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- **`plugin.json` names the author `ajitta`** (was `chosh`, same email), matching the
+  owner in `marketplace.json` and the copyright line in LICENSE and NOTICE. No version
+  bump: no skill, agent or hook changes, so an installed copy picks this up with the next
+  release.
+
 ## 0.8.2 — 2026-10-02
 
 From a blind-spot review of 0.8.1 that checked the plugin's assumptions against the
