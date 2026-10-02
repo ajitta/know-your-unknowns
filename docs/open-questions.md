@@ -1,6 +1,6 @@
 # 결정 기록과 미결 사항
 
-작성: 2026-07-11(사각지대 26건 전환 직후) · 개정: 2026-09-07(리뷰 웨이브 결과 + 0.5.1·0.6.0 릴리스 위생 반영) · 2026-10-02(A4에 0.7.1–0.8.2 릴리스 기록 추가).
+작성: 2026-07-11(사각지대 26건 전환 직후) · 개정: 2026-09-07(리뷰 웨이브 결과 + 0.5.1·0.6.0 릴리스 위생 반영) · 2026-10-02(A4에 0.7.1–0.8.2 릴리스 기록 추가, 카탈로그 경유 배포 재실측 추가).
 
 2026-07-11에는 전부 "미결정"이었다. 2026-09-06 리뷰 웨이브에서 A1–A5와 B6이 결정됐고,
 결정 내용은 각각 근거 파일에 실제로 반영돼 있다. 이 문서는 그 결정의 색인이자,
@@ -101,6 +101,39 @@
   (카탈로그 소스가 git `url`이라 push하지 않은 편집은 어떤 경로로도 보이지 않는다).
   개발 중 즉시 반영이 필요하면 `directory` 스코프 설치를 따로 둬야 하고, 그때는 A7의
   `${CLAUDE_PLUGIN_ROOT}` 고정 함정이 다시 적용된다.
+- **카탈로그 경유 배포 재실측(2026-10-02) — `unknowns@ajitta`는 0.8.2를 받는다.**
+  질문은 "예전에 `ajitta/claude-plugins`로 설치한 사람도 최신 릴리스를 받는가"였다.
+  Claude Code 2.1.287, 격리한 `CLAUDE_CONFIG_DIR`에서
+  `claude plugin marketplace add https://github.com/ajitta/claude-plugins.git` +
+  `claude plugin install unknowns@ajitta` → **0.8.2 / user 스코프 / enabled**,
+  `claude plugin details`가 Skills (11)·Agents (2)·훅 이벤트 5개를 보고했다.
+  카탈로그 엔트리에는 `ref`·`sha`·`version`이 없어서 설치는 main HEAD(`b48c779`)를 받는다 —
+  태그 `unknowns--v0.8.2`(`43ff33a`)와의 차이는 이 파일 하나다. 즉 릴리스 때 카탈로그 저장소를
+  고칠 일은 없다.
+  **전달 조건 두 가지**: ① 새 사본은 `plugin.json`의 `version`이 바뀔 때만 내려간다(A4의
+  0.8.2 간극이 생긴 이유와 같은 규칙이다). ② 서드파티 마켓플레이스는 자동 업데이트가 기본으로
+  꺼져 있어서, 사용자가 `/plugin marketplace update ajitta` 또는
+  `claude plugin update unknowns@ajitta`를 돌려야 받는다. GitHub Release(태그·zip)는 이 경로에
+  관여하지 않는다.
+  **측정하지 않은 것**: 0.8.1이 깔린 설치본에서 업데이트를 돌리는 경로. 이번에 돌린 것은 새 설치뿐이고,
+  업데이트 쪽은 공식 문서(`plugins/host-marketplace` "Release a new version")의 서술에 기대고 있다.
+  **같은 카탈로그의 형제 엔트리는 깨져 있었다.** `game-engagement-retention@ajitta`는 버전
+  `580a0016ffd2`(커밋 SHA), **Skills (0)** 으로 설치됐다. 그 플러그인이 3.3.0(`497b6ab`,
+  2026-09-28)에서 페이로드를 `plugin/`으로 옮겼는데 카탈로그 엔트리는 저장소 루트를 가리키는
+  `url` 소스 그대로였고(카탈로그 마지막 커밋은 그 전날), 루트에는 `plugin.json`도 `skills/`도 없다.
+  나흘 동안 카탈로그 설치와 업데이트가 빈 플러그인을 내보냈고, 그 저장소 README는 그동안
+  "카탈로그로 설치한 것은 계속 동작한다"고 적고 있었다. 수정: `ajitta/claude-plugins` PR #1
+  (`2363677`)에서 엔트리를 `git-subdir` + `path: plugin`으로 바꿨고, 병합 뒤 main에서 다시 설치해
+  **3.4.1 / Skills (3)** 을 확인했다. 그 저장소에서 빠져 있던 3.3.1·3.4.0·3.4.1의 GitHub Release도
+  같은 날 채웠다.
+  **A7에 걸리는 것**: 카탈로그 엔트리는 플러그인 저장소의 디렉터리 배치에 묶여 있고, 플러그인
+  저장소의 CI는 카탈로그를 보지 않는다 — 그래서 배치를 옮긴 릴리스가 자기 검증은 전부 통과한 채
+  카탈로그 경로만 깨뜨렸다. A7(`plugins/unknowns/`로 이동)을 재개하면 이 저장소도 똑같이 된다.
+  재개 조건의 "격리 HOME 설치 테스트"는 자기 저장소 경로(`unknowns@know-your-unknowns`)와 카탈로그
+  경로(`unknowns@ajitta`) **둘 다** 돌려야 하고, 카탈로그 엔트리 변경은 이동과 같은 날 나가야 한다.
+  **위 2026-09-06 항목의 로컬 서술은 이제 참이 아니다**: 이 머신의 `known_marketplaces.json`에는
+  `ajitta`가 없고 `know-your-unknowns`(`github: ajitta/know-your-unknowns`)가 있다.
+  근거 로그: 세션 스크래치패드의 격리 설정 디렉터리 4개(세션 종료 시 소멸).
 
 ## 처리 규칙
 
