@@ -10,7 +10,7 @@ argument-hint: "[task/spec description] [priority hint]"
 
 # Interview — Pre-Implementation Interview
 
-Requirements incomplete? Don't implement yet — **model interviews user**.
+Requirements incomplete? Don't implement yet: **the model interviews the user**.
 
 ## Question Priority (blast radius, fixed)
 
@@ -30,21 +30,21 @@ Requirements incomplete? Don't implement yet — **model interviews user**.
 2. Ask **max 4 questions per round** (AskUserQuestion hard cap: 1-4 questions,
    2-4 options each), in priority order. Attach a **one-line reason why it matters**
    to each question.
-3. If AskUserQuestion tool available, use it for multiple-choice questions. Give each
-   option a short consequence (tradeoff) note.
-4. On answers: re-present decisions as an **updated spec summary**; if undecided
-   items remain, propose next round.
+3. If the AskUserQuestion tool is available, use it for multiple-choice questions. Give
+   each option a short consequence (tradeoff) note.
+4. On answers, restate the decisions as an **updated spec summary**. If undecided items
+   remain, propose the next round.
    **Ladder once on the load-bearing answers**: an architecture or data answer that came
    without a reason gets one "why" follow-up at the top of the next round ("what would
    break for you if it went the other way?"). The reason, not the choice, is what lets a
    later deviation be judged — it fills the decision table's rationale column. Follow-ups
    count toward the round's 4.
-5. If user wants a deep interview (e.g. "40-question level"), repeat rounds while
-   keeping architecture → data → compatibility → performance → taste order.
+5. If the user wants a deep interview (e.g. "40-question level"), repeat rounds in the
+   same order: architecture → data → compatibility → performance → taste.
 
 ## Final Deliverables
 
-When interview ends, present two things:
+When the interview ends, present two things:
 
 1. **Decision table** — radius (architecture / data / ux / polish) / question /
    decision / rationale / left undecided.
@@ -52,7 +52,7 @@ When interview ends, present two things:
    applied. Mark skipped questions "(unanswered — use your judgment)"; declare the
    architecture and data decisions **fixed**, with "if anything later conflicts with
    them, flag it before writing code"; close with "start with a short plan, then
-   implement". User copying this to start implementation is the skill's purpose.
+   implement". The skill's purpose is that the user copies this to start implementation.
 
 Then offer in one AskUserQuestion: proceed with this prompt now / let me edit it /
 stop here. Run as a **loop** stage, this is not a separate question: the loop's stage checkpoint carries these options.

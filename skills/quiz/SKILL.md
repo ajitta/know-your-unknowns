@@ -10,16 +10,16 @@ argument-hint: "[target work/PR scope]"
 
 # Quiz — Post-Work Comprehension Check (Stay in the Loop)
 
-Even delegated work, **user must be able to explain the result**.
+Even when the work was delegated, **the user must be able to explain the result**.
 
 ## Procedure — Part 1: Explain First
 
-Before quiz, explain concisely — anchor each explained behavior with **Where: file:line**:
+Before the quiz, explain concisely, anchoring each explained behavior with **Where: file:line**:
 
-1. **Overall structure** of changes (what created/changed, where)
+1. **Overall structure** of the changes (what was created/changed, where)
 2. **Top 3 design decisions** and why
-3. **Most likely failure points** (if wrong, where does it surface first)
-4. What **user must verify themselves** (what model cannot guarantee)
+3. **Most likely failure points** (if something is wrong, where it surfaces first)
+4. What the **user must verify themselves** (what the model cannot guarantee)
 
 ## Procedure — Part 2: Six-Question Gate
 
@@ -34,8 +34,8 @@ Before quiz, explain concisely — anchor each explained behavior with **Where: 
    say in the grading message that the points were not committed in advance.
 2. Question priority: **incident response** ("X dies — where do you look first") >
    **design rationale** ("why B, not A") > **behavior prediction** ("given this input, what result") >
-   rote recall (avoid). Not trivia — each is a call the user would have to make right
-   during an incident or a review.
+   rote recall (avoid). No trivia: each question is a call the user would have to make
+   right during an incident or a review.
 3. Grade answers. Each wrong or blank one names the **exact change site (file:line)**
    to re-read; re-explain only those parts, then offer a retry.
 4. If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in
@@ -57,9 +57,9 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Wrap-Up: Handoff Summary
 
-After quiz, present handoff summary — assume another dev takes over tomorrow:
+After the quiz, present a handoff summary, assuming another dev takes over tomorrow:
 structure summary / key decisions / how to run & test / incident check order / remaining risks.
-If user wants, convert to PR body draft; if work needs reviewer approval,
+If the user wants, convert it to a PR body draft. If the work needs reviewer approval,
 suggest writing a **buy-in** doc.
 
 Then capture one scorecard row — ask whether this work surfaced something the user did

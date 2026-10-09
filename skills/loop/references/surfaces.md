@@ -37,9 +37,9 @@ say the scope was narrowed to what one pass can read.
 
 **No hooks.** A tool list shows whether a tool exists; nothing shows whether hooks run.
 So the plugin's SessionStart hook announces `[unknowns] hooks active` wherever a notes
-reminder is still to come (and restates it after compaction). No such line in context, or
-the one reminder already delivered → nothing more will fire, so the discipline is the
-skill's own: re-read the logging criteria at every natural break — before a commit,
+reminder is still to come (and restates it after compaction). If no such line is in
+context, or the one reminder was already delivered, nothing more will fire, so the
+discipline is the skill's own: re-read the logging criteria at every natural break — before a commit,
 before handing work back, after roughly ten file edits.
 
 **No persistent project files.** `IMPLEMENTATION_NOTES.md`, `.unknowns/loop.json` and

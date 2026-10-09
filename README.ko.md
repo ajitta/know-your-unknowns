@@ -63,7 +63,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 원문 11개 예시 커버 — prototypes가 2개 커버, loop는 오케스트레이터.
 
 | 시점 | 스킬 | 하는 일 | 원문 예시 |
-|------|------|---------|-----------|
+|---|---|---|---|
 | 전 | `blindspot` | 사각지대 조사 → 개선된 프롬프트 | Blindspot Pass |
 | 전 | `teach-me` | 도메인 어휘 설명서 → 정밀한 요청 | Teach Me My Unknowns |
 | 전 | `interview` | 모델이 사용자를 인터뷰 → 결정 테이블 | The Interview |
@@ -548,7 +548,7 @@ scout은 읽기 명령 화이트리스트로 묶이고, reviewer는 테스트·�
 **설정**:
 
 | 하고 싶은 것 | 방법 |
-|--------------|------|
+|---|---|
 | 임계값 변경 (예: 20회) | `UNKNOWNS_NOTES_THRESHOLD=20` |
 | 리마인더 끄기 | `UNKNOWNS_NOTES_THRESHOLD=0` — `hooks active` 표식도 사라집니다. 컴팩션 후 loop 안내 한 줄은 남습니다 — `.unknowns/loop.json`이 `active`일 때만 나오기 때문입니다 |
 | 임계값 배수마다 반복 리마인드 | `UNKNOWNS_NOTES_REPEAT=1` |

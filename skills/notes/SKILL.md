@@ -9,7 +9,7 @@ argument-hint: "[init | show | <content to log>]"
 
 # Notes — Plan Deviation Log (Implementation Notes)
 
-When work hits a situation not in plan/spec (unknown), **do not decide arbitrarily and pass silently — log it**. Core device stopping agent from silently drifting off-plan.
+When work hits a situation the plan/spec does not cover (an unknown), **do not decide arbitrarily and move on silently: log it**. This log is what keeps the agent from drifting off-plan unnoticed.
 
 ## File Rules
 
@@ -20,7 +20,7 @@ When work hits a situation not in plan/spec (unknown), **do not decide arbitrari
   Either way the entry format and the escalation rule are unchanged.
   Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md
 - **Persistence**: once the file exists or `init` has been run, appending to the file is mandatory — a chat-only summary does not satisfy the rule (the reminder hook, buy-in and quiz all read the file). With no file, a chat summary is allowed, but the final message must then say there is no notes file, and where it lives instead.
-- **Reminder hook**: the line `[unknowns] hooks active` in context means the hook is counting edits and **one** reminder is still to come. Without that line — plugin hooks not running on this surface, a project that has not opted in, the reminder turned off — or once that reminder has arrived, nothing more will: re-read the logging criteria yourself at every natural break (before a commit, before handing work back, after roughly ten file edits). Decide by the line, never by which app you think you are in.
+- **Reminder hook**: the line `[unknowns] hooks active` in context means the hook is counting edits and **one** reminder is still to come. Without that line (plugin hooks not running on this surface, a project that has not opted in, the reminder turned off), or once that reminder has arrived, no more reminders come: re-read the logging criteria yourself at every natural break (before a commit, before handing work back, after roughly ten file edits). Decide by the line, never by which app you think you are in.
 - Argument `init`: create the file — heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template. Then offer (never write silently) to append a 3–5 line deviation-log rule — log criteria, escalation, file path — to the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context for every later session, not only when this skill is invoked.
 - Argument `show`: summarize current notes.
 - Any other text: append an entry using that text as **Situation found**, filling remaining fields from context; ask only about what context cannot supply.
@@ -45,7 +45,7 @@ artifacts first, and never revise it to fit Attributed:
 - **Risk/follow-up check**: if this decision is wrong, where it shows up
 ```
 
-**Why the split.** A stated reason is a hypothesis — models and people both produce fluent
+**Why the split.** A stated reason is a hypothesis: models and people both produce fluent
 rationales that omit what actually drove the choice. Observed earns trust only by being
 checkable against the diff; Attributed is a claim to test later. On conflict, the diff wins.
 
@@ -65,11 +65,11 @@ interface, UX contract) is not closed by the log entry: revise that item in the 
 document itself, mark it *revised — needs re-approval*, and get the user's approval before
 building on it. Deviations from mechanical items need only the log entry.
 
-Not just log — **stop work and ask user** when:
+Do more than log — **stop work and ask the user** when:
 - Decision changes architecture
 - Decision changes user-visible behavior (UX/API contract)
 - Decision touches data loss/security
 
 ## Wrap-up
 
-Before ending session or creating PR: summarize accumulated entries, then write the **fold back into the plan** block — 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises — and list any open **Todo for human** items beside it. Suggest continuing with the **quiz** skill. If work needs approval, reflect this note's unresolved items into the **buy-in** skill doc as "known limitations".
+Before ending the session or creating a PR, summarize the accumulated entries, then write the **fold back into the plan** block: 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises. List any open **Todo for human** items beside it. Suggest continuing with the **quiz** skill. If the work needs approval, carry this log's unresolved items into the **buy-in** skill doc as "known limitations".

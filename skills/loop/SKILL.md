@@ -23,14 +23,14 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 ## Steps (10 — scale down by size)
 
 ### 1. Define value & done criteria
-Fix with user before starting: purpose / value to user / done criteria /
+Fix with the user before starting: purpose / value to user / done criteria /
 existing behavior that must never break / allowed cost & change scope.
 **Without success criteria, implementation volume gets mistaken for progress.**
 
 ### 2. Blind-spot investigation → the **blindspot** skill
-Investigate only, no implementation. Find unknown unknowns, conflict points,
-regression risks; produce improved prompt. If the **domain itself** is unfamiliar
-(requests vague because terms unknown), run the **teach-me** skill alongside.
+Investigate only, no implementation. Find unknown unknowns, conflict points and
+regression risks; produce an improved prompt. If the **domain itself** is unfamiliar
+(requests are vague because the terms are unknown), run the **teach-me** skill alongside.
 
 ### 3. Interview → the **interview** skill
 Architecture-changing questions first, max 4 per round.
@@ -38,11 +38,11 @@ Architecture-changing questions first, max 4 per round.
 ### 4. Explore solutions & shape (as needed)
 - **What to do** undecided → the **brainstorm** skill (solution-space map)
 - Can't describe **what it should look like** in words → the **prototypes** skill (divergent mockups)
-- Has **example to emulate** → the **reference** skill (reference analysis)
+- Has an **example to emulate** → the **reference** skill (reference analysis)
 
 ### 5. Risky-assumption prototype (as needed)
-Before full implementation, build **minimal prototype verifying only the most
-uncertain technical assumption**. State the assumption and success/failure
+Before full implementation, build a **minimal prototype that verifies only the most
+uncertain technical assumption**. State the assumption and the success/failure
 criteria first.
 
 ### 6. Plan → the **plan** skill
@@ -70,11 +70,11 @@ to paste into a **new conversation**, and say the review is standing in for the 
 Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md
 
 ### 9. Comprehension check & handoff → the **quiz** skill
-Verify user can explain this work in a PR or handoff. If the work needs reviewer
+Verify the user can explain this work in a PR or handoff. If the work needs reviewer
 or stakeholder **approval**, also run the **buy-in** skill.
 
 ### 10. Value review
-Judge by real value, not code quality: whose problem shrank and which / how much
+Judge by real value, not code quality: whose problem shrank and which one / how much
 faster / reasons it might go unused / metrics / removal condition. **Building is
 easier, generating value is still hard.**
 Also fix, with the user, **how the result will be checked in reality** (what to look at)

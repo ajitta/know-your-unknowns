@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **Plugin text tightened without changing behavior or triggers.** Agent bodies (2), skill
+  bodies (11 including loop), the three loop references, the brainstorm description and
+  five README.md passages now use complete, shorter sentences. Table separator rows in
+  the agents, scorecard template and both READMEs use `---` per cell. Hook messages and
+  manifest descriptions were already concise and are unchanged. On Sonnet 5.5, the
+  `behavior-*` evals match the baseline grader for grader (no regression), and brainstorm's
+  trigger cases fire 3/3 (en, ko) with its neg case 0/3. Results:
+  `docs/features/concise-plugin-text/06-results.md`.
 - **`plugin.json` names the author `ajitta`** (was `chosh`, same email), matching the
   owner in `marketplace.json` and the copyright line in LICENSE and NOTICE. No version
   bump: no skill, agent or hook changes, so an installed copy picks this up with the next
