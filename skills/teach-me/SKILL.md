@@ -10,41 +10,45 @@ argument-hint: "<domain/task to learn> [current level]"
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)
 
-Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste.
-This skill fills the **concept/terminology gap** among unknown unknowns.
+Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste. This skill fills the **concept/terminology gap** among unknown unknowns.
 
 ## Iron Rules
 
 1. **Do not start the work yet.** Teach first, so the user can make the request precise.
-2. Teach **only vocabulary needed for decisions**, not an encyclopedia — start from
-   the axes the user must choose on in this task.
+2. Teach **only vocabulary needed for decisions**, not an encyclopedia — start from the axes the user must choose on in this task.
 
 ## Procedure
 
-1. Parse the domain, goal and current level from `$ARGUMENTS`. Empty → the domain of the work
-   under discussion; if still unclear, ask once, briefly.
-2. Open with the **mental model**: the domain's pipeline in 3–5 ordered stages
-   (color grading: ingest → correct → grade → match), so the user knows what comes before
-   what — correction first, then the creative look.
-3. Pick 3–7 **decision axes** the user will decide on in this task
-   (e.g. color grading: exposure / white balance / contrast curve / saturation vs naturalness / look).
-4. Build a **vocabulary ladder**: per axis, everyday word → expert term, each term with
-   1 example sentence of "what you can request with this term" and one source (a doc,
-   standard or reference text). A precise term can make a wrong premise sound right, so
-   mark any term whose usage you are not sure of as *unverified* rather than defining it
-   confidently.
-5. Show a **before/after comparison** per concept — same subject with vs without the
-   concept applied. Visual domains: synthetic inline comparisons (SVG/canvas, or CSS
-   filters over two rendered states), never external image URLs; if a real photo is
-   essential, ask the user for a file and embed it as a `data:` URI. Code/writing:
-   comparison examples. Add 2–3 named presets (e.g. flat / corporate clean / cinematic
-   teal-orange) so a whole look can be felt at once, not only single sliders.
-6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary
-   (e.g. "skin tones stay believable", "blacks are rich but not crushed").
-7. Close with the payoff — a **precise-request draft rewriting the user's original request
-   in the new vocabulary**. The user picks items and adjusts values/direction; the result
-   becomes the next prompt. Offer with one AskUserQuestion: use this request now / edit it
-   first / stop here. Run as a **loop** stage, this is not a separate question: the loop's stage checkpoint carries these options.
+1. Parse the input.
+
+   a. Parse the domain, goal and current level from `$ARGUMENTS`.
+
+   b. When `$ARGUMENTS` is empty, take the domain of the work under discussion; if the domain is still unclear, ask once, briefly.
+2. Open with the **mental model**: the domain's pipeline in 3–5 ordered stages (color grading: ingest → correct → grade → match). The pipeline is there so the user knows what comes before what — correction first, then the creative look.
+3. Pick 3–7 **decision axes** the user will decide on in this task (e.g. color grading: exposure / white balance / contrast curve / saturation vs naturalness / look).
+4. Build a **vocabulary ladder**: per axis, everyday word → expert term. Give each term:
+   - 1 example sentence of "what you can request with this term"
+   - one source (a doc, standard or reference text)
+
+   Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently. A precise term can make a wrong premise sound right.
+5. Show what each concept changes.
+
+   a. Show a **before/after comparison** per concept — same subject with vs without the concept applied. Build it by domain:
+
+   | Domain | Comparison |
+   |---|---|
+   | Visual | Synthetic inline comparisons (SVG/canvas, or CSS filters over two rendered states), never external image URLs. If a real photo is essential, ask the user for a file and embed it as a `data:` URI. |
+   | Code/writing | Comparison examples. |
+
+   b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), so a whole look can be felt at once, not only single sliders.
+6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed").
+7. Close with the payoff.
+
+   a. Write a **precise-request draft**: the user's original request rewritten in the new vocabulary.
+
+   b. The user picks items and adjusts values/direction; the result becomes the next prompt.
+
+   c. Offer with one AskUserQuestion: use this request now / edit it first / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
 
 ## Output
 
@@ -54,18 +58,11 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Limits — what this can and cannot deliver
 
-- Vocabulary hands over a **request**, not fluency: expect the user's *next* request to be
-  markedly more precise, not the terms wielded unaided across revision rounds 2–4. Success is
-  convergence across those rounds, not the quality of the first rewritten request.
-- When revisions stop converging, that is this skill's ceiling, not the user's mistake. Hand off
-  to the **interview** skill to lock decisions rather than teaching more vocabulary.
-- Step 6 is what buys those later rounds: judging criteria transfer far better than production
-  vocabulary, because recognising a bad result is cheaper than knowing which axis to move. Keep
-  step 6 even when trimming for size.
+- Vocabulary hands over a **request**, not fluency: expect the user's *next* request to be markedly more precise, not the terms wielded unaided across revision rounds 2–4. Success is convergence across those rounds, not the quality of the first rewritten request.
+- When revisions stop converging, hand off to the **interview** skill to lock decisions rather than teaching more vocabulary. Revisions that stop converging mark this skill's ceiling, not the user's mistake.
+- Keep step 6 even when trimming for size. Step 6 is what buys those later rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 
 ## Related
 
-- Codebase blind spots: run the **blindspot** skill
-  first — teach-me covers blind spots in domain **concepts**. Running both is fine.
-- If requirements still diverge after gaining vocabulary, lock decisions with
-  the **interview** skill.
+- Codebase blind spots: run the **blindspot** skill first — teach-me covers blind spots in domain **concepts**. Running both is fine.
+- If requirements still diverge after gaining vocabulary, lock decisions with the **interview** skill.
