@@ -28,6 +28,7 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 - 경로와 치환자: `$ARGUMENTS`, `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/*.md`, `.unknowns/...`, `IMPLEMENTATION_NOTES.md`, `unknowns:unknowns-scout`, `unknowns:independent-reviewer` (`scripts/build-skill-zips.py`가 바꾸는 문자열)
 - loop 안에서 skill의 마지막 질문을 loop checkpoint로 접는 문장(0.8.2 Fixed)
 - #4 리뷰에서 되살린 문장: prototypes 5단계의 Kelly stopping rule과 "construct", teach-me의 "Step 6 is what buys those later rounds", output-routing.md의 rung-per-surface 줄
+- skill의 결과물·최종 목표를 가리키는 문장. 중복처럼 보여도 남긴다(파일럿: blindspot 5단계 "the core deliverable of this skill"을 Iron Rule 2와 중복으로 지우자 `labels-the-prompt-draft`가 3/6 → 0/6)
 
 덜어낸다:
 - 같은 규칙을 두 번 설명하는 문장, 본문과 references의 중복(한쪽만 남기고 경로로 가리킨다)
@@ -59,21 +60,21 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 ## Phase 0: 기준선 기록
 
 **Files:** Create: `06-results.md`(feature README에 항목 추가). eval 원본 출력은 `evals/results/`(git-ignored)
-- [ ] Step 1: `claude plugin list`의 unknowns 상태를 06-results에 기록(복구 기준)
-- [ ] Step 2: `python -m unittest discover -s tests -v` → 통과 수 기록
-- [ ] Step 3: `python evals/run-manual.py --verify` → exit 0
-- [ ] Step 4: eval 실행 규칙대로 `python evals/run-manual.py --case 'behavior-*' --runs 3 --arm with` → grader별 통과율 기록
-- [ ] Step 5: `behavior-blindspot-*` 6회의 `llm` rubric 2개(`ends-with-a-pasteable-prompt`, `claims-nothing-confirmed-unseen`)를 `summary.md`에서 손으로 채점해 기록
+- [x] Step 1: `claude plugin list`의 unknowns 상태를 06-results에 기록(복구 기준)
+- [x] Step 2: `python -m unittest discover -s tests -v` → 통과 수 기록
+- [x] Step 3: `python evals/run-manual.py --verify` → exit 0
+- [x] Step 4: eval 실행 규칙대로 `python evals/run-manual.py --case 'behavior-*' --runs 3 --arm with` → grader별 통과율 기록
+- [x] Step 5: `behavior-blindspot-*` 6회의 `llm` rubric 2개(`ends-with-a-pasteable-prompt`, `claims-nothing-confirmed-unseen`)를 `summary.md`에서 손으로 채점해 기록
 
 ## Phase 0.5: caveman-compress 파일럿 (blindspot 본문)
 
 **Files:** Modify: `skills/blindspot/SKILL.md` 본문. 설계와 통과 조건: 01-discovery "파일럿 설계"
-- [ ] Step 1: 원본을 scratchpad로 복사, caveman-compress 디렉터리(`~/.claude/plugins/marketplaces/caveman/plugins/caveman/skills/caveman-compress/`)에서 `CAVEMAN_COMPRESS_MODEL=claude-sonnet-5-5 python3 -m scripts <사본 절대경로>`. 모델 ID와 caveman 검증 결과 기록
-- [ ] Step 2: caveman 출력과 원본의 diff에서 "남긴다"에 걸리는 삭제를 모두 06-results에 적는다
-- [ ] Step 3: caveman 출력을 편집 규칙대로 문법이 온전한 짧은 영어 문장으로 다시 쓰고, Step 2의 삭제는 되살려 `skills/blindspot/SKILL.md`에 적용
-- [ ] Step 4: Proof 1·2·3, reviewer 누락 확인, eval 실행 규칙대로 `--case 'behavior-blindspot-*' --runs 3`, `llm` rubric 2개 손 채점
-- [ ] Step 5: 통과 → 원본 대비 diff와 Step 2 목록을 보여 주고 Phase 1~3에 파이프라인을 쓸지 사용자에게 묻는다. 실패 → `git checkout -- skills/blindspot/SKILL.md`, Phase 1~3은 직접 편집. 어느 쪽이든 Step 2 목록 중 "남긴다"에 없는 항목을 편집 규칙에 추가
-- [ ] Step 6: 통과했으면 Commit `docs(blindspot): tighten skill body (caveman pilot)`
+- [x] Step 1: 원본을 scratchpad로 복사, caveman-compress 디렉터리(`~/.claude/plugins/marketplaces/caveman/plugins/caveman/skills/caveman-compress/`)에서 `CAVEMAN_COMPRESS_MODEL=claude-sonnet-5-5 python3 -m scripts <사본 절대경로>`. 모델 ID와 caveman 검증 결과 기록
+- [x] Step 2: caveman 출력과 원본의 diff에서 "남긴다"에 걸리는 삭제를 모두 06-results에 적는다
+- [x] Step 3: caveman 출력을 편집 규칙대로 문법이 온전한 짧은 영어 문장으로 다시 쓰고, Step 2의 삭제는 되살려 `skills/blindspot/SKILL.md`에 적용
+- [x] Step 4: Proof 1·2·3, reviewer 누락 확인, eval 실행 규칙대로 `--case 'behavior-blindspot-*' --runs 3`, `llm` rubric 2개 손 채점
+- [x] Step 5: 통과 → 원본 대비 diff와 Step 2 목록을 보여 주고 Phase 1~3에 파이프라인을 쓸지 사용자에게 묻는다. 실패 → `git checkout -- skills/blindspot/SKILL.md`, Phase 1~3은 직접 편집. 어느 쪽이든 Step 2 목록 중 "남긴다"에 없는 항목을 편집 규칙에 추가
+- [x] ~~Step 6: 통과했으면 Commit `docs(blindspot): tighten skill body (caveman pilot)`~~ (파일럿 실패, Deviations 참고)
 
 ## Phase 1: agents 본문
 
@@ -158,4 +159,8 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 
 ## Deviations
 
-(구현 중 기록)
+- Phase 0 Step 1 / eval 실행 규칙: `claude plugin disable unknowns`는 "not found in any editable settings scope"로 실패한다. synced 설치본은 `claude plugin disable unknowns@synced`, `claude plugin enable unknowns@synced`로 끄고 켰다.
+- Phase 0 Step 4: `behavior-*`는 5케이스가 아니라 6케이스(`--list`)여서 18회를 돌렸다.
+- Phase 0.5 Step 4: 기계 grader 차이가 1회라 "6회로 판단" 규칙을 적용하면서, 기준선도 원본 파일로 3회 더 돌려 6회 대 6회로 비교했다(규칙이 기준선 추가 실행을 정하지 않았다).
+- Phase 0.5: 파일럿 실패(`labels-the-prompt-draft` 3/6 → 0/6). reviewer 확인은 eval 실패가 먼저 확정되어 돌리지 않았다. Step 6 커밋은 하지 않고 `git checkout`으로 되돌렸다. Phase 1~3은 직접 편집. 근거: 06-results "Phase 0.5".
+- 편집 규칙: Step 2 삭제 목록은 비었고(caveman은 기능어만 지웠다), 대신 회귀에서 나온 "결과물·최종 목표 문장은 남긴다"를 "남긴다"에 추가했다.
