@@ -10,27 +10,28 @@ argument-hint: "[target work/PR] [audience: team/reviewers]"
 
 # Buy-in — Reviewer Persuasion Doc (The Buy-In Doc)
 
-Implementation done, but **others' approval** remains an unknown. Know what reviewers
-will ask in advance — it becomes known.
-the **quiz** skill validates **my understanding**;
-buy-in prepares **others' trust**.
+Implementation is done, but **others' approval** is still unknown. Find out in advance
+what reviewers will ask, and it becomes known.
+The **quiz** skill validates **my understanding**; buy-in prepares **others' trust**.
 
 ## Procedure
 
-1. From `$ARGUMENTS`, identify target work and audience (reviewers, team, decision-makers).
+1. Identify the target work and audience (reviewers, team, decision-makers) from `$ARGUMENTS`.
    No arguments → this session's implemented work, audience = reviewers.
    Inputs: the plan/spec, the prototype, and IMPLEMENTATION_NOTES.md.
-2. **Demo first**: working result at top of doc — execution output, screenshot/GIF,
-   interactive demo operable inside the doc if possible. Target read time: 90 seconds.
+2. **Demo first**: put the working result at the top of the doc: execution output,
+   screenshot/GIF, or an interactive demo inside the doc if possible. Target read time:
+   90 seconds.
 3. **Preempt objections**: anticipate ~5 questions/objections reviewers would raise,
    answer each with **evidence**, and give every answer a reference the reviewer can
    follow (spec §, IMPLEMENTATION_NOTES.md entry date, metric, test run, file:line).
-   No unsupported rebuttals — no evidence, move it to limitations.
+   No unsupported rebuttals: an answer without evidence moves to limitations.
 4. **Spec at a glance**: area / decision / ref table, one row per settled decision.
-5. **Known limitations and unresolved unknowns**: if a deviation log exists (file or in-conversation),
-   pull recorded deviations and unresolved risks here. Not hiding is the basis of trust.
-6. **Sign-off list**: name people/teams needing to approve, with roles, and assign
-   what each must check.
+5. **Known limitations and unresolved unknowns**: if a deviation log exists (file or
+   in-conversation), pull its recorded deviations and unresolved risks here. Not hiding
+   is the basis of trust.
+6. **Sign-off list**: name the people/teams who must approve, with roles, and what each
+   must check.
 7. **Rollback plan**: one paragraph on how to revert if things break.
 
 ## Output

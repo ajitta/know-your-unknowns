@@ -10,19 +10,19 @@ argument-hint: "<reference file/path/description>"
 
 # Reference — A Reference Is Another Map
 
-Best way to give a model a map: **give it another map**.
+The best way to give a model a map: **give it another map**.
 
 ## Iron Rule
 
-**Reference is not an answer to copy verbatim — it is material for understanding intent and behavior.**
+**A reference is not an answer to copy verbatim; it is material for understanding intent and behavior.**
 Before implementing, **prove comprehension** with a semantics map.
 
 ## Procedure
 
-1. Read reference to the end; summarize **intent, core behavior, invariants**.
-2. Present 4-category analysis:
+1. Read the reference to the end; summarize its **intent, core behavior, invariants**.
+2. Present a 4-category analysis:
    - **Behaviors to preserve** — the reference's reason to exist
-   - **Parts to transform for current environment** — language/framework/scale differences
+   - **Parts to transform for the current environment** — language/framework/scale differences
    - **Unnecessary or dangerous parts** — must not be brought into this project
    - **Parts improvable beyond the reference** — where we can do better
 3. For port/transform work, also present **proof of comprehension (semantics map)**:
@@ -32,8 +32,8 @@ Before implementing, **prove comprehension** with a semantics map.
    Number every note and row so a correction can name one, and give each row the
    reference location it came from (`file:line`, section, or timestamp) so the user can
    check the reading against the source.
-4. Contrast with current project conventions (code style, dependencies, test
-   approach); present an **application plan**.
+4. Contrast it with the current project's conventions (code style, dependencies, test
+   approach) and present an **application plan**.
 5. **Sign-off gate — nothing is implemented until the user signs off.** They reply
    `semantics confirmed`, or correct any row by its number ("note 5", "budget
    exhaustion row") and the map is revised before any code. In-session, offer the same
@@ -52,7 +52,7 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## What Can Be a Reference
 
-Existing implementation code, same algorithm in another language, working HTML
-mockup, competitor product UX, past project design docs, test code,
-screenshots/video, actual example of desired output. E.g., an HTML mockup as the
-map when building a React component.
+Existing implementation code, the same algorithm in another language, a working HTML
+mockup, a competitor's product UX, past project design docs, test code,
+screenshots/video, an actual example of the desired output. For example, an HTML mockup
+as the map when building a React component.

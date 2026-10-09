@@ -86,10 +86,10 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 ## Phase 2: skill 본문
 
 **Files:** Modify: 파일 맵 Phase 2 행 SKILL.md 본문(Phase 0.5가 통과했으면 blindspot 제외 9개)
-- [ ] Step 1: 파일마다 편집(파이프라인은 채택했을 때만)
-- [ ] Step 2: Proof 1·2·3
-- [ ] Step 3: reviewer(켜진 상태)에 `git diff HEAD -- skills`를 주고 삭제된 지시·숫자·용어·조건만 묻는다. 지적된 것은 되살린다
-- [ ] Step 4: Commit `docs(skills): tighten skill bodies`
+- [x] Step 1: 파일마다 편집(파이프라인은 채택했을 때만)
+- [x] Step 2: Proof 1·2·3
+- [x] Step 3: reviewer(켜진 상태)에 `git diff HEAD -- skills`를 주고 삭제된 지시·숫자·용어·조건만 묻는다. 지적된 것은 되살린다
+- [x] Step 4: Commit `docs(skills): tighten skill bodies`
 
 ## Phase 3: loop와 references
 
@@ -162,5 +162,6 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 - Phase 0 Step 1 / eval 실행 규칙: `claude plugin disable unknowns`는 "not found in any editable settings scope"로 실패한다. synced 설치본은 `claude plugin disable unknowns@synced`, `claude plugin enable unknowns@synced`로 끄고 켰다.
 - Phase 0 Step 4: `behavior-*`는 5케이스가 아니라 6케이스(`--list`)여서 18회를 돌렸다.
 - Phase 0.5 Step 4: 기계 grader 차이가 1회라 "6회로 판단" 규칙을 적용하면서, 기준선도 원본 파일로 3회 더 돌려 6회 대 6회로 비교했다(규칙이 기준선 추가 실행을 정하지 않았다).
+- Phase 2: Phase 0.5가 실패해 blindspot도 Phase 2에서 편집했다(파일럿 초안에서 Iron Rule 2 원문과 5단계 "the core deliverable of this skill"을 되살린 판). reviewer가 지적한 의미 변화 3건(quiz "right during", notes "only by being checkable", blindspot "before-picture")은 원문으로 되살렸다.
 - Phase 0.5: 파일럿 실패(`labels-the-prompt-draft` 3/6 → 0/6). reviewer 확인은 eval 실패가 먼저 확정되어 돌리지 않았다. Step 6 커밋은 하지 않고 `git checkout`으로 되돌렸다. Phase 1~3은 직접 편집. 근거: 06-results "Phase 0.5".
 - 편집 규칙: Step 2 삭제 목록은 비었고(caveman은 기능어만 지웠다), 대신 회귀에서 나온 "결과물·최종 목표 문장은 남긴다"를 "남긴다"에 추가했다.

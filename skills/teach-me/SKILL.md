@@ -21,7 +21,7 @@ This skill fills the **concept/terminology gap** among unknown unknowns.
 
 ## Procedure
 
-1. Parse domain, goal, current level from `$ARGUMENTS`. Empty → the domain of the work
+1. Parse the domain, goal and current level from `$ARGUMENTS`. Empty → the domain of the work
    under discussion; if still unclear, ask once, briefly.
 2. Open with the **mental model**: the domain's pipeline in 3–5 ordered stages
    (color grading: ingest → correct → grade → match), so the user knows what comes before
@@ -42,7 +42,7 @@ This skill fills the **concept/terminology gap** among unknown unknowns.
 6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary
    (e.g. "skin tones stay believable", "blacks are rich but not crushed").
 7. Close with the payoff — a **precise-request draft rewriting the user's original request
-   in the new vocabulary**. User picks items and adjusts values/direction; the result
+   in the new vocabulary**. The user picks items and adjusts values/direction; the result
    becomes the next prompt. Offer with one AskUserQuestion: use this request now / edit it
    first / stop here. Run as a **loop** stage, this is not a separate question: the loop's stage checkpoint carries these options.
 

@@ -19,8 +19,8 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Procedure
 
-1. Parse target and count (default 4) from `$ARGUMENTS`; if empty, target = the thing
-   last discussed, count 4.
+1. Parse the target and count (default 4) from `$ARGUMENTS`. If empty, the target is the
+   thing last discussed and the count is 4.
 2. Make options differ along these axes:
    - Information structure (what shows first)
    - User flow (operation order)
@@ -42,8 +42,8 @@ People can't describe what they want but **can judge when they see it** (unknown
    The answer is a construct nobody volunteered (e.g. "calm vs. busy"); then have the user
    place **every** option on that construct (1–5), so it becomes an axis the requirements
    can name instead of a one-off remark.
-6. Convert reactions into an **explicit requirements list** — taste they couldn't verbalize
-   (unknown knowns) becomes spec.
+6. Convert reactions into an **explicit requirements list**: the taste they couldn't
+   verbalize (unknown knowns) becomes spec.
 7. Proceed to real implementation only after the combined option is confirmed.
 
 ## Output
@@ -66,4 +66,4 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
   feeding the same self-filling copyable reply template.
 - Works for code architecture too: present approaches to the same feature
   (e.g. event-driven vs polling vs push) side by side as minimal skeletons.
-- If user asks for "wild", widen the distance between philosophies.
+- If the user asks for "wild", widen the distance between philosophies.
