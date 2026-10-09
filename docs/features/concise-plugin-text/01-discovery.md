@@ -51,9 +51,9 @@ Seed: "'caveman-compress'를이용해보는 방안". Anchor: [00-intent.md](./00
 
 전제: 05-plan Phase 0(기준선)을 먼저 끝낸다. 파일럿은 그 결과 중 `behavior-blindspot-*` 2케이스 × 3회를 기준선으로 쓴다. 이 6회의 `llm` rubric 2개(`ends-with-a-pasteable-prompt`, `claims-nothing-confirmed-unseen`)는 경로 B가 채점하지 않으므로, 결과 디렉터리의 `summary.md`를 보고 손으로 채점해 기준선에 넣는다.
 
-`trigger-*-blindspot`은 돌리지 않는다. description이 고정되어 있고 본문은 발화한 뒤에 로드되므로 본문 편집은 발화율을 바꾸지 못하고, 이 케이스의 나머지 grader(`ends-with-improved-prompt`)는 `llm`이라 경로 B에서 채점되지 않는다.
+`trigger-*-blindspot`은 돌리지 않는다. 파일럿은 본문만 고치고(description은 05-plan Phase 3.5에서 따로 고친다) 본문은 발화한 뒤에 로드되므로 본문 편집은 발화율을 바꾸지 못하고, 이 케이스의 나머지 grader(`ends-with-improved-prompt`)는 `llm`이라 경로 B에서 채점되지 않는다.
 
-1. 위 파이프라인 1~3단계를 `skills/blindspot/SKILL.md`에 적용한다. 단계마다 단어 수(`wc -w`)와 caveman 검증 결과를 기록한다.
+1. 위 파이프라인 1~3단계를 `skills/blindspot/SKILL.md`에 적용한다. 사용한 모델 ID와 caveman 검증 결과를 기록한다.
 2. caveman 출력과 원본의 diff에서 "남긴다" 목록에 걸리는 삭제를 모두 적는다. 파이프라인이 실패하더라도 이 목록은 05-plan의 "남긴다"를 보강하는 데 쓴다.
 3. 3단계 결과를 브랜치의 `skills/blindspot/SKILL.md`에 적용한다.
 4. 검증: Proof 1·2·3, `independent-reviewer`에 diff를 주고 빠진 지시·숫자·용어·조건 확인, `python evals/run-manual.py --case 'behavior-blindspot-*' --runs 3 --arm with`, 그리고 그 6회의 `llm` rubric 2개를 `summary.md`에서 손으로 채점.
@@ -63,10 +63,9 @@ Seed: "'caveman-compress'를이용해보는 방안". Anchor: [00-intent.md](./00
 - reviewer가 지적한 누락 0건(지적되면 되살린 뒤 다시 확인)
 - 기계 채점 grader 4개(`fires-unknowns-blindspot` × 2, `labels-the-prompt-draft`, `uses-status-labels`) 중 3회 기준 2회 이상 떨어진 것 0개. 1회 차이는 3회 더 돌려 6회로 판단
 - 손 채점한 `llm` rubric 2개(`ends-with-a-pasteable-prompt`, `claims-nothing-confirmed-unseen`)의 통과 수가 기준선보다 낮지 않다
-- 단어 수가 원본(799)보다 적다
 
 결과에 따른 다음 단계:
-- 통과: 원본, caveman 출력, 최종본의 단어 수 세 개와 2단계의 삭제 목록을 사용자에게 보여 주고, Phase 1~3에 파이프라인을 쓸지는 사용자가 정한다. 채택하든 안 하든 blindspot 편집은 Phase 2 결과로 그대로 쓴다.
+- 통과: 원본 대비 최종본의 diff와 2단계의 삭제 목록을 사용자에게 보여 주고, 문장이 간략하고 명료해졌는지 보고 Phase 1~3에 파이프라인을 쓸지는 사용자가 정한다. 채택하든 안 하든 blindspot 편집은 Phase 2 결과로 그대로 쓴다.
 - 실패: blindspot을 원본으로 되돌리고 05-plan대로 직접 편집한다. 2단계의 삭제 목록은 "남긴다" 보강에 쓴다.
 
 ## 05-plan에 미칠 변경 (review 후 반영)
@@ -88,3 +87,7 @@ Seed: "'caveman-compress'를이용해보는 방안". Anchor: [00-intent.md](./00
 - 통과하면 Phase 1~3에 자동으로 채택하던 부분: 단어 수 세 개(원본·caveman·최종)와 삭제 목록을 보여 주고 사용자가 채택 여부를 정하도록 바꿨다. "단어 수 < 799"는 어떤 편집이든 통과하므로 파이프라인의 가치를 가려내지 못한다.
 - `trigger-*-blindspot` 실행을 뺐다. 본문 편집은 발화율을 바꾸지 못하고, 남은 grader는 경로 B에서 채점되지 않는다.
 - 확인만 하고 바꾸지 않은 것: eval 글롭이 각각 2케이스를 고른다(`--list`), `.md`는 압축 대상이다(`detect.py:13`), frontmatter는 그대로 다시 붙는다.
+
+**v2 → v3 (2026-10-09, 사용자 결정 반영)**
+- "목적이 단어수 줄이는 것이 아니다": 통과 조건에서 "단어 수 < 799"를, 기록 항목에서 `wc -w`를 뺐다. 채택 판단 자료는 단어 수 대신 원본 대비 diff와 삭제 목록이다.
+- "description은 손댈 수 있어": 파일럿은 여전히 본문만 고친다. description 편집은 05-plan Phase 3.5에서 trigger·neg eval과 함께 따로 한다.
