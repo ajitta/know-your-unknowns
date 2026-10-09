@@ -94,10 +94,10 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 ## Phase 3: loop와 references
 
 **Files:** Modify: `skills/loop/SKILL.md`, `skills/loop/references/*.md`
-- [ ] Step 1: 편집(파이프라인은 채택했을 때만). stage 순서, tier별 분기, checkpoint 접기, `.unknowns/loop.json` 필드, references끼리 "in this folder"로 부르는 문장은 남긴다. `skills/loop/references/scorecard.md:40` 템플릿 구분행은 칸마다 `---`
-- [ ] Step 2: Proof 1·2·3 (`test_bundled_references_bring_the_siblings_they_name` 포함)
-- [ ] Step 3: Phase 2 Step 3과 같은 reviewer 확인
-- [ ] Step 4: Commit `docs(loop): tighten loop and its references`
+- [x] Step 1: 편집(파이프라인은 채택했을 때만). stage 순서, tier별 분기, checkpoint 접기, `.unknowns/loop.json` 필드, references끼리 "in this folder"로 부르는 문장은 남긴다. `skills/loop/references/scorecard.md:40` 템플릿 구분행은 칸마다 `---`
+- [x] Step 2: Proof 1·2·3 (`test_bundled_references_bring_the_siblings_they_name` 포함)
+- [x] Step 3: Phase 2 Step 3과 같은 reviewer 확인
+- [x] Step 4: Commit `docs(loop): tighten loop and its references`
 
 ## Phase 3.5: description
 

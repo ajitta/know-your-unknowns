@@ -30,7 +30,7 @@ the reacting surface; the chat message is what survives a closed tab.
 ## 2. When HTML is worth it
 
 Roughly 5+ reactable items, or any live before/after demo. Below that, markdown in the
-conversation is the better deliverable — an HTML file the user must open to read four
+conversation is the better deliverable: an HTML file the user must open to read four
 bullets costs more than it returns.
 
 ## 3. Page contract
@@ -63,9 +63,8 @@ JS off. Respect `prefers-reduced-motion`.
 
 ## 4. Reaction-assembly UI
 
-The device that makes the artifact a loop instead of a document: each item carries a
+This is what makes the artifact a loop instead of a document: each item carries a
 reaction control, and the selections assemble at the bottom into one copyable reply.
-
 Each skill body names its own control and what it assembles into.
 
 Minimal shape: give each item a `data-reply` attribute holding the sentence it

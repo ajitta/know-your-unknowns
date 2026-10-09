@@ -12,8 +12,8 @@ worthless without recorded rows, and asking days later produces fiction.
 1. **Anchor the first question if a baseline exists.** When blindspot recorded the user's
    pre-investigation lists (sure of / assuming / cannot judge — in `loop.json` `baseline` or
    the blindspot output), show the findings next to those lists first, marking each finding
-   that no list mentioned. The question is then about that marked set, not a recollection:
-   memory of what one "already knew" drifts toward yes once the answer has been seen.
+   that no list mentioned. The question is then about that marked set, not a recollection,
+   because memory of what one "already knew" drifts toward yes once the answer has been seen.
    Record in **Baseline** whether this row was `compared` or had `none`.
    Then ask the user with **one** `AskUserQuestion` call carrying exactly these two questions
    (the tool's hard cap is 1–4; without the tool, ask them as two numbered questions in
@@ -37,7 +37,7 @@ worthless without recorded rows, and asking days later produces fiction.
 
 ```markdown
 | # | Date | Task | Skills used | Learned something? | Changed a decision? | Note | Recheck on | Reality check | Baseline |
-|---|------|------|-------------|--------------------|---------------------|------|------------|---------------|----------|
+|---|---|---|---|---|---|---|---|---|---|
 | 1 | 2026-09-06 | <task in one line> | blindspot → plan | yes — <what they did not know> | no | <note> | 2026-10-06 — <what to look at> | | compared |
 ```
 
