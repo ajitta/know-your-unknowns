@@ -1,6 +1,15 @@
 # Changelog
 
-## Unreleased
+## 0.8.3 — 2026-10-10
+
+A text-only release: no skill, agent or hook behavior changes. The plugin's own text was
+tightened into complete, shorter sentences and checked against the eval suite on Sonnet
+5.5 before and after (PR #9). The author fix from PR #8 ships with it.
+
+Release steps per `docs/open-questions.md` A4 are done the same day as the last merge, at
+tag `unknowns--v0.8.3`.
+
+### Changed
 
 - **Plugin text tightened without changing behavior or triggers.** Agent bodies (2), skill
   bodies (11 including loop), the three loop references, the brainstorm description and
@@ -11,9 +20,7 @@
   trigger cases fire 3/3 (en, ko) with its neg case 0/3. Results:
   `docs/features/concise-plugin-text/06-results.md`.
 - **`plugin.json` names the author `ajitta`** (was `chosh`, same email), matching the
-  owner in `marketplace.json` and the copyright line in LICENSE and NOTICE. No version
-  bump: no skill, agent or hook changes, so an installed copy picks this up with the next
-  release.
+  owner in `marketplace.json` and the copyright line in LICENSE and NOTICE.
 
 ## 0.8.2 — 2026-10-02
 
