@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: complete
 revised: 2026-10-09
 ---
 # Concise plugin text: measurement results
@@ -90,3 +90,39 @@ Only the brainstorm description changed. It went from 258 to 275 characters, add
 | trigger-en-brainstorm | fires 2/3 or more | 3/3 |
 | trigger-ko-brainstorm | fires 2/3 or more | 3/3 |
 | neg-ui-options-does-not-fire-brainstorm | fires 0/3 | 0/3 (all three fired `unknowns:prototypes`) |
+
+## Phase 6: re-measurement after all edits
+
+- `python -m unittest discover -s tests`: `Ran 127 tests`, `OK (skipped=2)`, same as Phase 0.
+- `python evals/run-manual.py --verify`: `33 case(s), 74 grader(s), 0 problem(s)`, exit 0.
+- `claude plugin validate . --strict` and `claude plugin validate ./.claude-plugin/plugin.json --strict` fail in the working tree on one warning: `CLAUDE.local.md at the plugin root is not loaded as project context`. That file is a personal, git-ignored file. A clean `git archive HEAD` export passes both commands (`✔ Validation passed`).
+- Table separator grep (Proof 6): no output.
+
+### behavior-* (6 cases × 3 runs)
+
+`evals/results/final-behavior/`, plus `final-prototypes-rerun/` for one prototypes run that timed out at 420 s after writing its HTML file (not graded). Every graded run reported `claude-sonnet-5-5`.
+
+| Case | Grader | Baseline (Phase 0) | After |
+|---|---|---|---|
+| blindspot-ends-with-improved-prompt | fires-unknowns-blindspot | 3/3 | 3/3 |
+| | labels-the-prompt-draft | 1/3 (3/6 with the Phase 0.5 extra runs) | 1/3 |
+| blindspot-labels-evidence-status | fires-unknowns-blindspot | 3/3 | 3/3 |
+| | uses-status-labels | 3/3 | 3/3 |
+| interview-max-four-questions | fires-unknowns-interview | 3/3 | 3/3 |
+| | no-fifth-numbered-question | 3/3 | 3/3 |
+| notes-appends-to-file | fires-unknowns-notes | 3/3 | 3/3 |
+| | creates-implementation-notes-file | 3/3 | 3/3 |
+| plan-opens-with-done-criteria | fires-unknowns-plan | 3/3 | 3/3 |
+| | names-done-criteria | 3/3 | 3/3 |
+| prototypes-asks-contrast-on-skip | fires-unknowns-prototypes | 3/3 | 3/3 |
+
+Hand-scored blindspot rubrics:
+
+| Rubric | Baseline | After |
+|---|---|---|
+| ends-with-a-pasteable-prompt | 0/3 (0/6) | 0/3 |
+| claims-nothing-confirmed-unseen | 1/3 (3/6) | 2/3 |
+
+Regressions (a grader down by 2 or more of 3 runs): **none**. As in Phase 0, every `ends-with-improved-prompt` run stopped at Step 1's three-lists question, so those two graders still score the question message, not a finished pass. In both full passes (labels runs 1 and 3), every finding was labelled *inferred*, code-specific items sat under **Needs checking**, and the pass ended with an improved prompt draft.
+
+The installed plugin was re-enabled after the evals: `unknowns@synced` 0.8.2, `Status: ✔ loaded`, the same as the Phase 0 record.

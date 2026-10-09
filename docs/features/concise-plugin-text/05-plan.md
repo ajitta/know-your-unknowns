@@ -1,6 +1,6 @@
 ---
-status: draft
-revised: 2026-10-09
+status: complete
+revised: 2026-10-10
 ---
 # Concise plugin text Implementation Plan
 
@@ -127,11 +127,11 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 ## Phase 6: 재측정과 기록
 
 **Files:** Modify: `CHANGELOG.md`, `06-results.md`, 이 문서
-- [ ] Step 1: Phase 0 Step 2·3·4(`behavior-*` 전체)·5를 다시 실행. trigger·neg는 Phase 3.5 Step 4 결과를 쓴다
-- [ ] Step 2: 06-results에서 grader별 비교. 회귀는 해당 skill의 바뀐 문장을 이전 문구로 되돌리고 그 케이스만 다시 잰다
-- [ ] Step 3: `CHANGELOG.md` Unreleased에 항목 하나(대상 파일, eval 비교 결과). 버전 bump와 release는 하지 않는다
-- [ ] Step 4: Deviations 기록, 모든 체크박스가 찼으면 `status: complete`. `claude plugin list`의 unknowns 상태가 Phase 0 Step 1 기록과 같은지 확인
-- [ ] Step 5: Commit `docs: record concise-plugin-text results`
+- [x] Step 1: Phase 0 Step 2·3·4(`behavior-*` 전체)·5를 다시 실행. trigger·neg는 Phase 3.5 Step 4 결과를 쓴다
+- [x] Step 2: 06-results에서 grader별 비교. 회귀는 해당 skill의 바뀐 문장을 이전 문구로 되돌리고 그 케이스만 다시 잰다
+- [x] Step 3: `CHANGELOG.md` Unreleased에 항목 하나(대상 파일, eval 비교 결과). 버전 bump와 release는 하지 않는다
+- [x] Step 4: Deviations 기록, 모든 체크박스가 찼으면 `status: complete`. `claude plugin list`의 unknowns 상태가 Phase 0 Step 1 기록과 같은지 확인
+- [x] Step 5: Commit `docs: record concise-plugin-text results`
 
 ## Risks
 
@@ -166,5 +166,7 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 - Phase 3.5: description은 brainstorm 하나만 고쳤다(관사·동사가 빠진 두 구절). 나머지 skill 10개와 agent 2개는 이미 온전한 문장이라 그대로 두었고, 그래서 agent reviewer 확인과 다른 skill의 trigger·neg eval은 돌리지 않았다.
 - Phase 4: 결정으로 뺐다. hook 메시지 5개와 manifest `description` 3개는 이미 짧고 온전한 문장이고, 상당수가 테스트가 고정한 부분 문자열(`read-only`, `arrives at`, `was not updated` 등)로 이루어져 바꿀 근거가 없었다.
 - Phase 5: README.md 산문은 겹 괄호·긴 문장이 엉킨 다섯 단락(개별 skill 복사, plan, scout, notes 리마인더, 자동 발화 FAQ)만 문장을 나눴다. 나머지 산문은 이미 명료해 두었다. 구분행 4개는 계획대로 고쳤다.
+- Phase 6 Step 1: prototypes 1회가 420초 timeout으로 채점되지 않아(HTML 파일은 썼다) 그 케이스만 1회 더 돌려 3회를 채웠다.
+- Proof 4: 작업 트리에서는 git 제외 개인 파일 `CLAUDE.local.md` 경고 하나로 `--strict`가 실패한다. `git archive HEAD`로 꺼낸 트리에서 두 명령 모두 통과해 그것으로 판정했다.
 - Phase 0.5: 파일럿 실패(`labels-the-prompt-draft` 3/6 → 0/6). reviewer 확인은 eval 실패가 먼저 확정되어 돌리지 않았다. Step 6 커밋은 하지 않고 `git checkout`으로 되돌렸다. Phase 1~3은 직접 편집. 근거: 06-results "Phase 0.5".
 - 편집 규칙: Step 2 삭제 목록은 비었고(caveman은 기능어만 지웠다), 대신 회귀에서 나온 "결과물·최종 목표 문장은 남긴다"를 "남긴다"에 추가했다.
