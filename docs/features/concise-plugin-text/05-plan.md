@@ -112,17 +112,17 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 ## Phase 4: hook 메시지와 manifest 설명
 
 **Files:** Modify: 파일 맵 Phase 4 행. Test: `tests/test_impl_notes_reminder.py`, `tests/test_agent_readonly_guard.py`, `tests/test_manifest_limits.py`
-- [ ] Step 1: 테스트가 고정한 부분 문자열 유지: `[unknowns]`, `[unknowns] hooks active`, `reached %d`, `IMPLEMENTATION_NOTES.md.`, `was not updated`, `/unknowns:notes init`, `A loop is in progress`, `arrives at`, `read-only`, `report the needed change`, `unknowns-scout`, `independent-reviewer`
-- [ ] Step 2: 메시지 문자열과 `description` 값만 수정. 포맷 인자(`%d`, `%s`) 개수는 그대로
-- [ ] Step 3: Proof 2. plugin.json description은 81~500자, "unknowns" 포함
-- [ ] Step 4: Commit `docs(hooks): shorten hook and manifest text`
+- [x] ~~Step 1: 테스트가 고정한 부분 문자열 유지: `[unknowns]`, `[unknowns] hooks active`, `reached %d`, `IMPLEMENTATION_NOTES.md.`, `was not updated`, `/unknowns:notes init`, `A loop is in progress`, `arrives at`, `read-only`, `report the needed change`, `unknowns-scout`, `independent-reviewer`~~ (Deviations 참고)
+- [x] ~~Step 2: 메시지 문자열과 `description` 값만 수정. 포맷 인자(`%d`, `%s`) 개수는 그대로~~ (Deviations 참고)
+- [x] ~~Step 3: Proof 2. plugin.json description은 81~500자, "unknowns" 포함~~ (Deviations 참고)
+- [x] ~~Step 4: Commit `docs(hooks): shorten hook and manifest text`~~ (Deviations 참고)
 
 ## Phase 5: README
 
 **Files:** Modify: `README.md`, `README.ko.md`(표 구분행만). Test: `tests/test_readme_parity.py`, `tests/test_trigger_containment.py`, `tests/test_skill_descriptions.py`
-- [ ] Step 1: heading·fence·table row 수, URL, `/unknowns:` 명령, `UNKNOWNS_*`, "Auto-triggers:" 블록의 따옴표 문구는 그대로 두고 산문만 다듬는다. 구분행 `README.md:73`, `:603`, `README.ko.md:66`, `:551`은 칸마다 `---`
-- [ ] Step 2: 위 세 테스트 → 통과
-- [ ] Step 3: Commit `docs(readme): tighten README prose`
+- [x] Step 1: heading·fence·table row 수, URL, `/unknowns:` 명령, `UNKNOWNS_*`, "Auto-triggers:" 블록의 따옴표 문구는 그대로 두고 산문만 다듬는다. 구분행 `README.md:73`, `:603`, `README.ko.md:66`, `:551`은 칸마다 `---`
+- [x] Step 2: 위 세 테스트 → 통과
+- [x] Step 3: Commit `docs(readme): tighten README prose`
 
 ## Phase 6: 재측정과 기록
 
@@ -164,5 +164,7 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 - Phase 0.5 Step 4: 기계 grader 차이가 1회라 "6회로 판단" 규칙을 적용하면서, 기준선도 원본 파일로 3회 더 돌려 6회 대 6회로 비교했다(규칙이 기준선 추가 실행을 정하지 않았다).
 - Phase 2: Phase 0.5가 실패해 blindspot도 Phase 2에서 편집했다(파일럿 초안에서 Iron Rule 2 원문과 5단계 "the core deliverable of this skill"을 되살린 판). reviewer가 지적한 의미 변화 3건(quiz "right during", notes "only by being checkable", blindspot "before-picture")은 원문으로 되살렸다.
 - Phase 3.5: description은 brainstorm 하나만 고쳤다(관사·동사가 빠진 두 구절). 나머지 skill 10개와 agent 2개는 이미 온전한 문장이라 그대로 두었고, 그래서 agent reviewer 확인과 다른 skill의 trigger·neg eval은 돌리지 않았다.
+- Phase 4: 결정으로 뺐다. hook 메시지 5개와 manifest `description` 3개는 이미 짧고 온전한 문장이고, 상당수가 테스트가 고정한 부분 문자열(`read-only`, `arrives at`, `was not updated` 등)로 이루어져 바꿀 근거가 없었다.
+- Phase 5: README.md 산문은 겹 괄호·긴 문장이 엉킨 다섯 단락(개별 skill 복사, plan, scout, notes 리마인더, 자동 발화 FAQ)만 문장을 나눴다. 나머지 산문은 이미 명료해 두었다. 구분행 4개는 계획대로 고쳤다.
 - Phase 0.5: 파일럿 실패(`labels-the-prompt-draft` 3/6 → 0/6). reviewer 확인은 eval 실패가 먼저 확정되어 돌리지 않았다. Step 6 커밋은 하지 않고 `git checkout`으로 되돌렸다. Phase 1~3은 직접 편집. 근거: 06-results "Phase 0.5".
 - 편집 규칙: Step 2 삭제 목록은 비었고(caveman은 기능어만 지웠다), 대신 회귀에서 나온 "결과물·최종 목표 문장은 남긴다"를 "남긴다"에 추가했다.

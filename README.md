@@ -70,7 +70,7 @@ Other install paths (clone, copy-a-skill, Desktop) are under
 Covering the original 11 examples — prototypes covers two, loop orchestrates.
 
 | Phase | Skill | What it does | Original example |
-|-------|-------|--------------|------------------|
+|---|---|---|---|
 | Before | `blindspot` | Blind-spot investigation → improved prompt | Blindspot Pass |
 | Before | `teach-me` | Domain vocabulary explainer → precise requests | Teach Me My Unknowns |
 | Before | `interview` | The model interviews you → decision table | The Interview |
@@ -113,15 +113,16 @@ inside the session, it worked. (`--plugin-dir` also accepts a `.zip` archive.)
 
 ### Copy individual skills (no plugin)
 
-If you only want specific skills, do not copy `skills/<name>` as is: its SKILL.md points
+If you only want specific skills, do not copy `skills/<name>` as is. Its SKILL.md points
 at `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`, which Claude Code fills in only for
-plugin skills, so a copied folder shows the model a literal placeholder. Run
+plugin skills, so a copied folder shows the model a literal placeholder. Instead, run
 `python3 scripts/build-skill-zips.py --target local` and copy the folders you want from
-`dist/local/` into your vault's or project's `.claude/skills/` — each is self-contained,
-with its references in its own `references/` folder, and keeps the full description,
-`argument-hint` and `$ARGUMENTS` (the upload zips shorten and rewrite those). Copy `agents/*.md` into `.claude/agents/`. Invocations then
-lose the namespace and get short — `/blindspot`, `/quiz`. The hooks only activate automatically in plugin form; see [Hook behavior and
-configuration](#hook-behavior-and-configuration) for the manual setup.
+`dist/local/` into your vault's or project's `.claude/skills/`. Each folder is
+self-contained: its references sit in its own `references/` folder, and it keeps the full
+description, `argument-hint` and `$ARGUMENTS` (the upload zips shorten and rewrite those).
+Copy `agents/*.md` into `.claude/agents/`. Invocations then lose the namespace and get
+short: `/blindspot`, `/quiz`. The hooks activate automatically only in plugin form; see
+[Hook behavior and configuration](#hook-behavior-and-configuration) for the manual setup.
 
 ### Claude Desktop, Claude web and Cowork
 
@@ -409,15 +410,15 @@ screenshot, a real example of the desired output all serve as the "map".
 Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
 
-**How it runs**: There is a size gate first — a task touching ≤2 files with no schema,
+**How it runs**: There is a size gate first: a task touching ≤2 files with no schema,
 interface or UX-contract decision is handed back to native plan mode instead of getting a
 document. Otherwise items are presented **in order of how likely they are to change**,
-not execution order: decision items like schemas, interfaces, and UX contracts at the
-top, each with the alternatives considered and its blast radius, with every new or
-changed public type rendered as annotated code, while mechanical work is folded away at
-the bottom. Approve/request-change selections assemble into your reply. It includes
-verification method, risks and rollback, flags the weakest part of the plan, and closes
-with 2–3 pre-written reply lines you can copy and send.
+not execution order. Decision items such as schemas, interfaces and UX contracts go at
+the top, each with the alternatives considered and its blast radius, and every new or
+changed public type is rendered as annotated code. Mechanical work is folded away at the
+bottom. Approve/request-change selections assemble into your reply. The plan includes
+verification method, risks and rollback, flags its own weakest part, and closes with 2–3
+pre-written reply lines you can copy and send.
 
 ---
 
@@ -526,14 +527,14 @@ Use the unknowns-scout agent — investigate what I'm missing in the migration p
 Scout the auth module with the unknowns-scout agent
 ```
 The blindspot skill also calls this agent automatically for large investigations. It maps
-the target area, reads git history for hairy dead ends and reverted commits, checks test
-coverage and unwritten conventions, and — for an unfamiliar library — checks the official
-docs and changelog for the *installed* version, so it holds WebFetch and WebSearch
-alongside the read tools. It returns an investigation table sorted by likelihood × blast radius
-plus an improved prompt draft. It is instructed never to modify files, its toolset
-excludes Edit/Write, and a bundled PreToolUse hook denies mutating Bash commands — but
-Bash stays available for read-only inspection, so this is a strong default, not a sandbox
-guarantee.
+the target area, reads git history for hairy dead ends and reverted commits, and checks
+test coverage and unwritten conventions. For an unfamiliar library it also reads the
+official docs and changelog for the *installed* version, which is why it holds WebFetch
+and WebSearch alongside the read tools. It returns an investigation table sorted by
+likelihood × blast radius plus an improved prompt draft. Three things keep it read-only:
+it is instructed never to modify files, its toolset excludes Edit/Write, and a bundled
+PreToolUse hook denies mutating Bash commands. Bash stays available for read-only
+inspection, though, so this is a strong default, not a sandbox guarantee.
 
 **independent-reviewer** (independent verification):
 ```
@@ -560,20 +561,20 @@ secondary pass. Stage 8 of the loop skill calls it automatically.
 
 The plugin ships two hooks, both pure standard-library Python.
 
-**The notes reminder** counts file edits (Edit / Write / NotebookEdit) in a session and,
-when they **reach 10, exactly once**, delivers "if you deviated from the plan, record it
-in IMPLEMENTATION_NOTES.md" to both your screen and Claude's context — so that Claude,
-the one actually doing the recording, receives it too. It never blocks anything. It is
-also restated once after a compaction summarizes it away, and once at Stop if the
-threshold was crossed and the notes file was never touched (a write made outside
-Edit/Write — `cat >>` in Bash, another editor — counts too: the hook notes the file at the
-session's first counted edit and treats it as touched if it has since appeared there or
-its modification time changed). Editing
-IMPLEMENTATION_NOTES.md itself does not count as an edit, and a sub-agent's edits never
-spend the reminder, since a sub-agent's context is discarded when it returns. At session
-start it also puts one line, `[unknowns] hooks active`, into Claude's context, only where
-the reminder will actually fire; the notes skill reads the absence of that line as "no
-reminder here" and keeps the discipline itself, since a model cannot see whether hooks run.
+**The notes reminder** counts file edits (Edit / Write / NotebookEdit) in a session. When
+they **reach 10, exactly once**, it delivers "if you deviated from the plan, record it in
+IMPLEMENTATION_NOTES.md" to both your screen and Claude's context, so that Claude, the one
+actually doing the recording, receives it too. It never blocks anything. It is restated
+once after a compaction summarizes it away, and once at Stop if the threshold was crossed
+and the notes file was never touched. A write made outside Edit/Write (`cat >>` in Bash,
+another editor) counts as touching it: the hook notes the file at the session's first
+counted edit and treats it as touched if it has since appeared there or its modification
+time changed. Editing IMPLEMENTATION_NOTES.md itself does not count as an edit, and a
+sub-agent's edits never spend the reminder, since a sub-agent's context is discarded when
+it returns. At session start it also puts one line, `[unknowns] hooks active`, into
+Claude's context, but only where the reminder will actually fire. A model cannot see
+whether hooks run, so the notes skill reads the absence of that line as "no reminder
+here" and keeps the discipline itself.
 
 **It is opt-in per project**: it stays silent unless the project already uses the
 methodology — either an `IMPLEMENTATION_NOTES.md`, or the `.unknowns/` directory the
@@ -600,7 +601,7 @@ test file) is not inspected — it is a guard rail, not a sandbox.
 **Configuration**:
 
 | What you want | How |
-|---------------|-----|
+|---|---|
 | Change the threshold (e.g. 20 edits) | `UNKNOWNS_NOTES_THRESHOLD=20` |
 | Turn the reminder off | `UNKNOWNS_NOTES_THRESHOLD=0` — also removes the `hooks active` marker; the one-line loop pointer after a compaction stays, because it appears only while a `.unknowns/loop.json` is `active` |
 | Repeat the reminder at every multiple of the threshold | `UNKNOWNS_NOTES_REPEAT=1` |
@@ -684,10 +685,10 @@ session or run `/reload-plugins`. With many skills installed there is a second c
 Claude Code gives the skill listing a budget (1% of the context window by default) and,
 when it overflows, keeps descriptions only for the skills you use most (recency-weighted)
 and lists the rest by name alone. Whichever unknowns skills you rarely use are the ones at
-risk — and it matters most for notes, which is meant to fire on its own. With every
-unknowns description dropped (the CLI logged the overflow; that all eleven lost their
-descriptions is a probe run's self-report), 9 of 11 English trigger cases still fired in
-one measured run; notes and blindspot did not
+risk, and it matters most for notes, which is meant to fire on its own. In one measured
+run with every unknowns description dropped, 9 of 11 English trigger cases still fired;
+notes and blindspot did not. The CLI logged the overflow; that all eleven lost their
+descriptions is a probe run's self-report
 ([docs/trigger-eval-crowd-2026-09-30.md](docs/trigger-eval-crowd-2026-09-30.md)).
 `/doctor` shows the listing's cost; raise the budget with the
 `skillListingBudgetFraction` setting (e.g. `0.02`), or set other rarely used skills to
