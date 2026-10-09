@@ -79,9 +79,9 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 ## Phase 1: agents 본문
 
 **Files:** Modify: `agents/unknowns-scout.md`, `agents/independent-reviewer.md` 본문
-- [ ] Step 1: Phase 0.5에서 파이프라인을 채택했으면 그 방식으로, 아니면 직접 편집. scout의 출력 표 열, status 정의, "Never invent findings", packet이 반환 형태를 바꾼다는 단락은 남긴다. `agents/unknowns-scout.md:30` 표 구분행은 칸마다 `---`
-- [ ] Step 2: Proof 1·2
-- [ ] Step 3: Commit `docs(agents): tighten agent instructions`
+- [x] Step 1: Phase 0.5에서 파이프라인을 채택했으면 그 방식으로, 아니면 직접 편집. scout의 출력 표 열, status 정의, "Never invent findings", packet이 반환 형태를 바꾼다는 단락은 남긴다. `agents/unknowns-scout.md:30` 표 구분행은 칸마다 `---`
+- [x] Step 2: Proof 1·2
+- [x] Step 3: Commit `docs(agents): tighten agent instructions`
 
 ## Phase 2: skill 본문
 
