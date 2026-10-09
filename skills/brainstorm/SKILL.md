@@ -1,10 +1,10 @@
 ---
 name: brainstorm
 description: >
-  Brainstorm the intervention — spread ~10 codebase-grounded candidates from
-  ship-this-afternoon to quarter-long bet. Use on "brainstorm interventions",
-  "show me options", or a problem
-  named with no approach chosen. NOT for UI/design variants — use prototypes.
+  Brainstorm the intervention — spread ~10 codebase-grounded candidates, from a
+  ship-this-afternoon fix to a quarter-long bet. Use on "brainstorm interventions",
+  "show me options", or when a problem is named with no approach chosen.
+  NOT for UI/design variants — use prototypes.
 argument-hint: "<problem to solve> [constraints: timeline/people/budget]"
 ---
 

@@ -78,3 +78,15 @@ All 3 baseline passes of `labels-the-prompt-draft` were runs that stopped at the
 - The pipeline is not adopted. caveman added nothing beyond dropping articles, and the rewrite built on it regressed a grader.
 - Edit-rule addition from the regression (Step 2's list is empty): sentences that name a skill's deliverable or end goal stay, even when they look like duplicates (for example blindspot Iron Rule 2 and Step 5's "core deliverable" clause).
 - Measurement limit for Phase 6: in all 12 runs of `ends-with-improved-prompt` (baseline and pilot), the model stopped at Step 1's question. Four of the six blindspot graders therefore score the question message, not a finished pass.
+
+## Phase 3.5: descriptions
+
+Only the brainstorm description changed. It went from 258 to 275 characters, adding the article before "quarter-long bet" and a verb to "or a problem named with no approach chosen". The other 10 skill descriptions and both agent descriptions already read as complete, clear sentences, so they were left alone.
+
+`evals/results/desc-brainstorm/`, all runs `claude-sonnet-5-5`:
+
+| Case | Pass criterion | Result |
+|---|---|---|
+| trigger-en-brainstorm | fires 2/3 or more | 3/3 |
+| trigger-ko-brainstorm | fires 2/3 or more | 3/3 |
+| neg-ui-options-does-not-fire-brainstorm | fires 0/3 | 0/3 (all three fired `unknowns:prototypes`) |

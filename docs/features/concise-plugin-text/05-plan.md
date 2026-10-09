@@ -102,12 +102,12 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 ## Phase 3.5: description
 
 **Files:** Modify: 11개 SKILL.md와 2개 agent의 `description:`, `docs/trigger-matrix.md`의 description 인용. Test: `tests/test_trigger_containment.py`, `tests/test_skill_descriptions.py`
-- [ ] Step 1: description 규칙: README "Auto-triggers:"의 영어 따옴표 문구, `evals/trigger-*` 케이스가 선언한 문구, 반대 조건("Not for", "Do NOT"), blindspot의 "run it even when you could answer directly"(0.7.1에서 발화율 3/8 → 6/6)는 남긴다. agent는 발화 eval 케이스가 없으므로 트리거 문구(`Triggers: ...`, "Use proactively ..." 문장)를 그대로 두고 나머지 문장만 다듬는다(사용자 결정 B). agent는 reviewer 확인만 한다
-- [ ] Step 2: 편집. `scripts/skill-descriptions.json`(zip용 짧은 설명)은 바꾸지 않는다
-- [ ] Step 3: Proof 1·2·3. `--verify`가 trigger 케이스 문구가 description에 남았는지 본다
-- [ ] Step 4: eval 실행 규칙대로(Sonnet 5.5) description을 바꾼 skill의 `trigger-*`·`neg-*` 케이스 × 3회. 통과: trigger 케이스는 3회 중 2회 이상 발화, neg 케이스는 0회 발화. 통과하지 못한 skill은 description을 이전 문구로 되돌리고 다시 잰다
-- [ ] Step 5: `docs/trigger-matrix.md`의 description 인용 갱신
-- [ ] Step 6: Commit `docs(skills): tighten skill and agent descriptions`
+- [x] Step 1: description 규칙: README "Auto-triggers:"의 영어 따옴표 문구, `evals/trigger-*` 케이스가 선언한 문구, 반대 조건("Not for", "Do NOT"), blindspot의 "run it even when you could answer directly"(0.7.1에서 발화율 3/8 → 6/6)는 남긴다. agent는 발화 eval 케이스가 없으므로 트리거 문구(`Triggers: ...`, "Use proactively ..." 문장)를 그대로 두고 나머지 문장만 다듬는다(사용자 결정 B). agent는 reviewer 확인만 한다
+- [x] Step 2: 편집. `scripts/skill-descriptions.json`(zip용 짧은 설명)은 바꾸지 않는다
+- [x] Step 3: Proof 1·2·3. `--verify`가 trigger 케이스 문구가 description에 남았는지 본다
+- [x] Step 4: eval 실행 규칙대로(Sonnet 5.5) description을 바꾼 skill의 `trigger-*`·`neg-*` 케이스 × 3회. 통과: trigger 케이스는 3회 중 2회 이상 발화, neg 케이스는 0회 발화. 통과하지 못한 skill은 description을 이전 문구로 되돌리고 다시 잰다
+- [x] Step 5: `docs/trigger-matrix.md`의 description 인용 갱신
+- [x] Step 6: Commit `docs(skills): tighten skill and agent descriptions`
 
 ## Phase 4: hook 메시지와 manifest 설명
 
@@ -163,5 +163,6 @@ Input: [00-intent.md](./00-intent.md), [01-discovery.md](./01-discovery.md) (cav
 - Phase 0 Step 4: `behavior-*`는 5케이스가 아니라 6케이스(`--list`)여서 18회를 돌렸다.
 - Phase 0.5 Step 4: 기계 grader 차이가 1회라 "6회로 판단" 규칙을 적용하면서, 기준선도 원본 파일로 3회 더 돌려 6회 대 6회로 비교했다(규칙이 기준선 추가 실행을 정하지 않았다).
 - Phase 2: Phase 0.5가 실패해 blindspot도 Phase 2에서 편집했다(파일럿 초안에서 Iron Rule 2 원문과 5단계 "the core deliverable of this skill"을 되살린 판). reviewer가 지적한 의미 변화 3건(quiz "right during", notes "only by being checkable", blindspot "before-picture")은 원문으로 되살렸다.
+- Phase 3.5: description은 brainstorm 하나만 고쳤다(관사·동사가 빠진 두 구절). 나머지 skill 10개와 agent 2개는 이미 온전한 문장이라 그대로 두었고, 그래서 agent reviewer 확인과 다른 skill의 trigger·neg eval은 돌리지 않았다.
 - Phase 0.5: 파일럿 실패(`labels-the-prompt-draft` 3/6 → 0/6). reviewer 확인은 eval 실패가 먼저 확정되어 돌리지 않았다. Step 6 커밋은 하지 않고 `git checkout`으로 되돌렸다. Phase 1~3은 직접 편집. 근거: 06-results "Phase 0.5".
 - 편집 규칙: Step 2 삭제 목록은 비었고(caveman은 기능어만 지웠다), 대신 회귀에서 나온 "결과물·최종 목표 문장은 남긴다"를 "남긴다"에 추가했다.
