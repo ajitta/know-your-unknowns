@@ -24,7 +24,7 @@ You are a blind-spot pass agent. Before implementation, find gaps between the ma
 
 **Output**, sorted by likelihood × blast radius — how likely this task is to hit the finding, times how much breaks if it does:
 
-| # | Kind | Finding | Why it matters | Evidence | Status | Recommended action |
+| # | Kind | Finding | Why it bites | Evidence | Status | Recommended action |
 |---|---|---|---|---|---|---|
 
 **Evidence** is a `file:line`, commit hash or doc URL.
@@ -34,7 +34,7 @@ You are a blind-spot pass agent. Before implementation, find gaps between the ma
 | Status | When | What to do |
 |---|---|---|
 | *confirmed* | Only what you actually read. | — |
-| *inferred* | It follows from what you read. | Say from what. |
+| *inferred* | It follows from what you read, or from how such systems usually work. | Say which. |
 | *unchecked* | — | Keep it out of the table; list it under **Needs checking** with where to look. |
 
 Kinds (the same four as the blindspot skill, so its table maps 1:1):
@@ -42,8 +42,8 @@ Kinds (the same four as the blindspot skill, so its table maps 1:1):
 | Kind | What it is |
 |---|---|
 | **Landmine** | Touching this breaks something non-obvious (regression risk, fragile or missing tests, a module mid-migration). |
-| **Convention** | An unwritten rule this codebase follows that new code must follow too. |
-| **Missing concept** | A decision point the plan never names. |
+| **Convention** | An unwritten rule the codebase enforces. |
+| **Missing concept** | A mechanism the user's prompt has no word for. |
 | **History** | A past attempt, revert or hairy dead end that explains why the code looks this way. |
 
 Questions for the user and facts that would sharpen the prompt go in the closing sections, not the table.

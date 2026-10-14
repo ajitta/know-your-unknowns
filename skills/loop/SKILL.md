@@ -144,7 +144,8 @@ Close each stage with one AskUserQuestion checkpoint (continue / skip ahead / st
 | Stage skill | Its own closing offer |
 |---|---|
 | blindspot, interview, teach-me | proceed / edit / stop |
-| plan, reference | approve / revise |
+| plan | approve / revise |
+| reference | implement now / revise the map / stop |
 
 No AskUserQuestion tool → ask the checkpoint's three options (continue / skip ahead / stop) as a numbered question and wait for the answer.
 

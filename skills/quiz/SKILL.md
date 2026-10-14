@@ -66,7 +66,7 @@ Before the quiz, explain concisely, anchoring each explained behavior with **Whe
 
 ## Output
 
-Ladder: Artifact tool → `.unknowns/<YYYY-MM-DD>-quiz-<slug>.html` → markdown, same structure.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-quiz-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 
 Reaction controls per question type:
 
@@ -86,7 +86,7 @@ After the quiz, present a handoff summary, assuming another dev takes over tomor
 - If the user wants, convert the handoff summary to a PR body draft.
 - If the work needs reviewer approval, suggest writing a **buy-in** doc.
 
-Then capture one scorecard row, unless the **loop** skill's value review already captured one for this work:
+Then, unless the **loop** skill's value review already captured a scorecard row for this work, capture one as follows. When it already did, say so instead of asking again.
 
 1. Ask whether this work surfaced something the user did not know, and whether it changed a decision.
 2. Append the row to `.unknowns/scorecard.md`.

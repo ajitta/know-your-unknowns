@@ -66,7 +66,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
 ## Output
 
-Artifact tool → `.unknowns/<YYYY-MM-DD>-plan-<slug>.html` → markdown; highest available rung wins.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-plan-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 
 Each decision card carries an **alternative toggle** and an **approve / request-change** control; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work collapsed.
 

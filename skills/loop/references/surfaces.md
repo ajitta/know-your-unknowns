@@ -21,7 +21,7 @@ The columns are defaults, not a detection rule: a session's own tool list decide
 
 **No sub-agent (Agent tool absent).** Two steps want a reader who has not seen the work: blindspot's scout and the loop's independent verification. A fresh thread is the substitute, never a fork or a summary of the work written by whoever did the work.
 
-- Hand the user a self-contained review packet to paste into a **new conversation**: done criteria, the approved plan, the deviation log, the diff or the files touched, and how to run the tests.
+- Hand the user a self-contained review packet to paste into a **new conversation**: done criteria, the approved plan, the deviation log, the diff or the files touched, how to run the tests, and a list of the **claims** the work rests on (facts about APIs, data or the domain, and reasoning the design depends on).
 - Say plainly that this packet stands in for the sub-agent and that a same-thread review would not be independent.
 - For blindspot's scout, investigate directly instead and say the scope was narrowed to what one pass can read.
 

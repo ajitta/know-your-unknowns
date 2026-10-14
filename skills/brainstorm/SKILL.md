@@ -41,7 +41,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
 ## Output
 
-Artifact tool if available → else `.unknowns/<YYYY-MM-DD>-brainstorm-<slug>.html` → else markdown; always echo the assembled reply in chat.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-brainstorm-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 
 Layout: cards on a time axis (ship this afternoon → quarter-long bet), with a toggle to the impact × effort matrix.
 

@@ -28,7 +28,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
    | List | What to do with it |
    |---|---|
    | ① What the user is already sure of | It narrows the scope. Ask how recent that certainty is. |
-   | ② What the user is assuming | It is the **first** thing to check, not something to skip. |
+   | ② What the user is assuming | It is the **first** thing to check (step 1d), not something to skip. |
    | ③ Where the user does not know how to judge | It points at the **teach-me** skill. |
 
    If the user skips, run a full investigation; a skip never stops the pass.
@@ -40,7 +40,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    The output's first section copies the three lists later. They are the before-picture the scorecard compares findings against, so they must exist before any finding does.
 
-   d. Investigate any given sources (git history, docs, specific modules) first, before the rest of the investigation.
+   d. Investigate in this order: ②'s assumptions, then any given sources (git history, docs, specific modules), then the rest. Look for each assumption in the given sources first.
 
 2. Choose how to investigate by scope:
 
@@ -69,7 +69,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
    | Landmine | Touching this breaks something non-obvious (regression risk, fragile or missing tests, a module mid-migration). |
    | Convention | An unwritten rule the codebase enforces. |
    | Missing concept | A mechanism the user's prompt has no word for. |
-   | History | An earlier or reverted attempt at this exact task. |
+   | History | A past attempt, revert or hairy dead end that explains why the code looks this way. |
 
    b. Give each finding **evidence** (`file:line`, commit hash, or doc URL) and a **status**:
 
@@ -98,14 +98,14 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 7. Suggest the next skill:
 
    - When undecided items that could change the architecture surface, suggest the **interview** skill next.
-   - When the user lacks the unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
+   - When ③ has items and teach-me has not run for this task yet, or the user lacks the unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
 
 ## Output
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-blindspot-<slug>.html`; else markdown.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-blindspot-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 Reaction control: a copyable **prompt fix** per card; selected fixes assemble into the improved prompt draft.
 Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Scope
 
-Not limited to application code: specs, migrations, infra and vendor integrations also have landmines and unwritten conventions. The subject is always a **specific codebase, plan or system** and its blind spots. If the gap is the user's **vocabulary** for an unfamiliar field, use the **teach-me** skill instead. Running both is fine: teach-me first for the words, blindspot for the territory.
+Not limited to application code: specs, migrations, infra and vendor integrations also have landmines and unwritten conventions. The subject is always a **specific codebase, plan or system** and its blind spots. If the gap is the user's **vocabulary** for an unfamiliar field, use the **teach-me** skill instead. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.

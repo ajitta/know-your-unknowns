@@ -64,7 +64,7 @@ The best way to give a model a map: **give it another map**.
 
 ## Output
 
-Artifact tool if available → else `.unknowns/<YYYY-MM-DD>-reference-<slug>.html` → else markdown; always echo the assembled reply in chat.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-reference-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 
 Numbered mapping rows (reference excerpt ↔ counterpart plan) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
 

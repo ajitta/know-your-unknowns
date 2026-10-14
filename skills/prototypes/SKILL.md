@@ -44,7 +44,8 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Output
 
-Artifact tool if available → else `.unknowns/<YYYY-MM-DD>-prototypes-<slug>.html` → else markdown (also when HTML is unnatural: static document, API design); always echo the assembled reply in chat.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-prototypes-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
+Use markdown also when HTML is unnatural (static document, API design).
 
 - Each option — and each element inside it — carries **steal / skip chips**.
 - On skip, a one-tap **"would steal if…"** field is revealed (step 4).

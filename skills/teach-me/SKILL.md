@@ -52,7 +52,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
 ## Output
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-teach-me-<slug>.html`; else markdown.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-teach-me-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 Reaction control: an "include in my request" checkbox per concept (plus live before/after sliders and presets); checked items assemble into the precise-request draft.
 Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
@@ -64,5 +64,5 @@ Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Related
 
-- Codebase blind spots: run the **blindspot** skill first — teach-me covers blind spots in domain **concepts**. Running both is fine.
+- Codebase blind spots: use the **blindspot** skill — teach-me covers blind spots in domain **concepts**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
 - If requirements still diverge after gaining vocabulary, lock decisions with the **interview** skill.

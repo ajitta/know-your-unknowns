@@ -38,9 +38,9 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
 ## Output
 
-When the target is a PR body, use markdown directly, same structure. Otherwise follow the ladder.
+When the target is a PR body, use markdown directly, same structure. Otherwise follow this ladder:
 
-Ladder: Artifact tool → `.unknowns/<YYYY-MM-DD>-buy-in-<slug>.html` → markdown, same structure.
+Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-buy-in-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 
 Reaction control: a sign-off checklist, one checkbox per approver item. The sign-off checklist assembles into a review-comment draft ("Reply with a ✓ on your piece").
 
