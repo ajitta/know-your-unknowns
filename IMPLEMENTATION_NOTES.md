@@ -262,7 +262,7 @@
 - **Discovery**: 이후 사용자 요청으로 240자 한도 자체가 규칙에서 빠짐(7번은 "내용으로 나누고 길이로 나누지 않는다"). 축약 근거는 사라졌고, 승인 원문으로 되돌릴지는 사용자 결정.
 
 - **Discovery**: `agents/independent-reviewer.md` 항목 2의 "Also report unplanned decisions visible in the diff that the log does not record."는 `IMPLEMENTATION_NOTES.md`가 없을 때도 적용되는지 원문만으로 알 수 없음. 재구성 때 위치를 바꾸지 않고 항목 2 수준에 그대로 둠.
-- **Todo for human**: 위 문장의 적용 범위를 정할 것(노트 파일이 있을 때만 / 항상).
+- **Todo for human**: 위 문장의 적용 범위를 정할 것(노트 파일이 있을 때만 / 항상). → **결정·반영됨(2026-10-14)**: 항상.
 - **Todo for human**: `.claude/` 전체가 추적되지 않는 상태 — 규칙을 커밋하려면 `.claude/rules/skill-writing.md`만 지정해 add. → **해소됨**: e94986b에서 이 파일만 커밋.
 
 ## [2026-10-10] skills/agents 16개 파일에 skill-writing 규칙 적용 (파일별 독립 에이전트 작성 → 독립 검증)
@@ -305,4 +305,16 @@
 - **Reason for choice**: README와 사용자에게 보이는 카드가 이미 blindspot 기준이고, 도메인 상식 위험을 카드로 올리는 것이 플러그인의 목적에 맞음. 나머지는 이미 한쪽 문서가 정한 규칙에 다른 쪽을 맞춘 것.
 - **Alternatives considered**: scout 기준(엄격한 inferred) — 근거를 직접 확인한 것만 카드로 올리는 쪽. 사용자가 기각.
 - **Risk/follow-up check**: blindspot·prototypes·plan·quiz 동작이 바뀌었으므로 해당 behavior eval을 모델로 돌려 확인할 것(미실행). 규칙 11의 공유 블록 목록에 순서 문장을 추가함.
-- **Todo for human**: 2026-10-10 항목의 independent-reviewer "Also report unplanned decisions…" 적용 범위(노트 파일이 있을 때만 / 항상)는 이번 인터뷰에서 다루지 않아 열려 있음.
+- **Todo for human**: 2026-10-10 항목의 independent-reviewer "Also report unplanned decisions…" 적용 범위(노트 파일이 있을 때만 / 항상)는 이번 인터뷰에서 다루지 않아 열려 있음. → 아래 항목에서 결정.
+
+## [2026-10-14] scout packet의 ② 가정, reviewer의 계획 밖 결정 보고 범위
+
+**Observed**
+- **Situation found**: 독립 리뷰가 지적 — blindspot의 scout packet에 ② 가정이 없어, 큰 범위(scout 경로)에서는 "② 먼저" 순서가 전달되지 않음. 그리고 reviewer 항목 2의 "unplanned decisions" 문장 적용 범위가 열려 있었음.
+- **Response chosen** (사용자 승인):
+  - blindspot scout packet에 "② what the user is assuming, to check first (step 1d)" 추가. scout 본문에 "packet이 가정을 담고 있으면 먼저 확인" 한 줄 추가(절차 번호는 그대로).
+  - independent-reviewer: 노트 파일 유무와 관계없이 diff에 보이는 계획 밖 결정을 보고.
+
+**Attributed**
+- **Reason for choice**: 순서 결정이 주 경로(scout)에서도 지켜지게 함. 노트 파일이 없을 때 계획 밖 결정 보고가 가장 필요함.
+- **Risk/follow-up check**: 모델 eval 미실행. reviewer는 eval이 없으므로 모델로 검증되지 않음.

@@ -33,7 +33,7 @@ If a scratch file is unavoidable, write it under `$TMPDIR` — never inside the 
      A deviation that invalidated a plan decision item (schema, public interface, UX contract) should also show that item revised and re-approved.
    - *Observed vs Attributed*: check the Observed block against the diff; treat Attributed (reason, alternatives) as a hypothesis — on conflict, the diff wins.
 
-   Also report unplanned decisions visible in the diff that the log does not record.
+   Whether or not `IMPLEMENTATION_NOTES.md` exists, report unplanned decisions visible in the diff that no log entry records.
 
    The notes rules above are given here so you need not load the **notes** skill; that skill's write and ask-the-user instructions do not apply to you.
 3. **Tests pass but reality fails** — real dependencies hidden by mocks, tests that merely mirror the implementation, behavior the change touches that no test verifies.
