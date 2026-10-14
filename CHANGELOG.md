@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.8.4 — 2026-10-14
+
+Skill and agent text was rewritten under new writing rules, and the inconsistencies that
+pass found were decided and applied, so some skill behavior changes (PR #12, and the loop
+alignment in the release PR). Checked with unit tests, `run-manual.py --verify`,
+`claude plugin validate` and an independent review against the previous text. **Model-run
+evals were not run for this release.**
+
+Release steps per `docs/open-questions.md` A4 are done the same day as the last merge, at
+tag `unknowns--v0.8.4`.
+
+### Added
+
+- **`.claude/rules/skill-writing.md`**: 16 rules for writing skill and agent text, loaded
+  when `skills/**` or `agents/**` is edited. Development only; not part of the payload.
+
+### Changed
+
+- **Skill and agent bodies rewritten** to follow those rules: one action per step, tables
+  for parallel cases, shared names and shared sentences copied word for word. Frontmatter
+  is byte-identical, so triggers are unchanged.
+- **Finding kinds and statuses unified.** The scout follows blindspot's definitions; History
+  is "a past attempt, revert or hairy dead end that explains why the code looks this way"
+  in both; *inferred* may rest on how such systems usually work, saying which. The scout's
+  column is "Why it bites". Both READMEs updated.
+- **blindspot / teach-me order.** teach-me first when the user cannot yet describe the task;
+  otherwise blindspot first, with its "cannot judge" list handed to teach-me. The same
+  sentence is in blindspot, teach-me and loop step 2. blindspot checks the user's
+  assumptions first, in the given sources first, and passes them to the scout.
+- **One output ladder in nine skills**, including the rule to end every rung with the
+  assembled reply in chat (previously in three skill bodies and `output-routing.md`).
+- **Smaller alignments:** the fresh-thread review packet in `surfaces.md` gains the claims
+  list; quiz says so when loop already captured the scorecard row; loop's closing-offer
+  table lists reference's real options; `independent-reviewer` reports unplanned decisions
+  whether or not `IMPLEMENTATION_NOTES.md` exists.
+
 ## 0.8.3 — 2026-10-10
 
 A text-only release: no skill, agent or hook behavior changes. The plugin's own text was
