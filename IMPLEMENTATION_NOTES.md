@@ -247,3 +247,74 @@
 
 - **Situation found**: loop/plan description 수정은 현행 세션에는 미반영(플러그인은 세션 시작 시 로드). headless `claude -p` 프로세스는 디스크에서 새로 로드하므로 트리거 eval은 수정 후 상태를 측정함.
 - **Response chosen**: eval 결과에 이 사실 명시.
+
+## [2026-10-10] skill-writing 규칙 신설과 independent-reviewer.md 적용
+
+**Observed**
+- **Situation found**: 사용자가 승인한 규칙 7번 교체안을 한 줄로 쓰면 약 290자로, 규칙 자신이 정한 240자 한도를 넘음.
+- **Deviation from plan**: 승인 문구를 그대로 넣기로 했으나 문장을 줄여 223자로 넣음(뜻은 동일).
+- **Response chosen**: `.claude/rules/skill-writing.md` 7번은 축약 문구. 변경 사실은 사용자에게 보고함.
+
+**Attributed**
+- **Reason for choice**: 규칙 파일이 자기 규칙을 어기면 예시로서 신뢰를 잃음.
+- **Alternatives considered**: 원문 유지 후 두 문단으로 분할 — 당시엔 목록 항목 안 분할 규칙이 없어서 기각(이후 7번에 추가됨).
+- **Risk/follow-up check**: 없음. 사용자가 원문을 원하면 7번 첫 문단만 교체.
+- **Discovery**: 이후 사용자 요청으로 240자 한도 자체가 규칙에서 빠짐(7번은 "내용으로 나누고 길이로 나누지 않는다"). 축약 근거는 사라졌고, 승인 원문으로 되돌릴지는 사용자 결정.
+
+- **Discovery**: `agents/independent-reviewer.md` 항목 2의 "Also report unplanned decisions visible in the diff that the log does not record."는 `IMPLEMENTATION_NOTES.md`가 없을 때도 적용되는지 원문만으로 알 수 없음. 재구성 때 위치를 바꾸지 않고 항목 2 수준에 그대로 둠.
+- **Todo for human**: 위 문장의 적용 범위를 정할 것(노트 파일이 있을 때만 / 항상). → **결정·반영됨(2026-10-14)**: 항상.
+- **Todo for human**: `.claude/` 전체가 추적되지 않는 상태 — 규칙을 커밋하려면 `.claude/rules/skill-writing.md`만 지정해 add. → **해소됨**: e94986b에서 이 파일만 커밋.
+
+## [2026-10-10] skills/agents 16개 파일에 skill-writing 규칙 적용 (파일별 독립 에이전트 작성 → 독립 검증)
+
+**Observed**
+- **Situation found**: blindspot 1단계 원문은 "주어진 소스를 먼저 조사"와 "조사 전에 한 번 묻기"가 서로 먼저라고 주장함.
+- **Deviation from plan**: 계획(규칙 12)은 모호한 문장을 제자리에 두는 것이었으나, 이 건은 묻기(1b) → 기록(1c) → 소스 조사(1d) 순서로 정함.
+- **Response chosen**: "they must exist before any finding does"와 맞는 유일한 순서라 채택. 세션 초반 사용자에게 같은 해석을 보고함.
+
+**Attributed**
+- **Reason for choice**: 기준선은 어떤 발견보다 먼저 있어야 한다는 원문 문장.
+- **Alternatives considered**: 원문 순서 유지 — 기준선 기록 전에 발견이 생길 수 있어 기각.
+- **Risk/follow-up check**: blindspot 행동 eval(behavior-blindspot-*)을 모델로 돌려 묻기가 먼저 나오는지 확인.
+
+- **Discovery**: 결정된 용어 통일 외에 작성 에이전트가 추가로 바꾼 이름 — interview `## Never` → `## Iron Rules`(각 항목 앞에 Never), notes/plan 표 머리글 `Entry`/`Item type`, quiz 열 `Question type`. 의미 변화 없음.
+- **Discovery**: 검증에서 확인된 동작 변화 5건을 수정 — blindspot 7단계에 추가된 "only", buy-in PR 본문의 "same structure" 누락, blindspot 2단계 packet 순서, loop "the same three options" 지시 대상 변경, teach-me 1단계 "still unclear" 범위 확대. 그 밖에 prototypes "in the page" 범위, loop 2단계 "Investigate only" 범위, reference 공유 문장 위치 복원.
+- **Todo for human**: scout와 blindspot의 kind·status 정의 불일치(Missing concept, History, Convention, inferred)와 `Why it matters`/`why it bites` — HEAD부터 있던 문제, 어느 쪽 정의로 맞출지 결정. → **결정·반영됨(2026-10-14)**, 아래 항목 참고.
+- **Todo for human**: surfaces.md의 fresh-thread 리뷰 packet에 claims 목록 누락(loop 8단계와 불일치) — HEAD부터 있던 문제. → **결정·반영됨(2026-10-14)**, 아래 항목 참고.
+- **Todo for human**: quiz wrap-up이 loop가 이미 기록한 경우 조용히 건너뛰는지, scorecard.md처럼 "그렇다고 말하는지" — HEAD부터 불일치. → **결정·반영됨(2026-10-14)**, 아래 항목 참고.
+- **Todo for human**: blindspot과 teach-me의 실행 순서(teach-me "blindspot first" vs blindspot "teach-me first"), blindspot ②가정 확인과 1d 소스 조사 중 무엇이 먼저인지. → **결정·반영됨(2026-10-14)**, 아래 항목 참고.
+- **Todo for human**: 각 스킬 Output 절(출력 사다리) 문구가 5가지로 다름 — output-routing.md가 정의하는 "3-line ladder"와 함께 한 번에 정할 것. → **결정·반영됨(2026-10-14)**, 아래 항목 참고.
+- **Todo for human**: loop의 closing offer 표가 reference 실제 옵션(implement now / revise the map / stop)과 다름 — HEAD부터 있던 문제. → **결정·반영됨(2026-10-14)**, 아래 항목 참고.
+
+## [2026-10-14] skill-writing 재작성 뒤 미결정 항목 결정 반영 (PR #12 두 번째 커밋)
+
+**Observed**
+- **Situation found**: 2026-10-10 항목의 Todo for human 6건과 규칙 7 원문 복원 여부를 사용자와 인터뷰로 정함.
+- **Deviation from plan**: 재작성 커밋(e94986b)은 문구만 바꿨고, 이 커밋은 동작을 바꾼다(규칙 16). 커밋을 나눠 같은 PR에 얹음.
+- **Response chosen**:
+  - kind·status 정의: blindspot 기준. History만 scout의 넓은 정의("A past attempt, revert or hairy dead end that explains why the code looks this way")를 쓰고, *inferred*는 일반 지식 추론도 허용(scout도 "Say which."). scout 열 이름은 eval grader가 쓰는 "Why it bites". README.md·README.ko.md의 History 설명도 맞춤.
+  - blindspot ↔ teach-me 순서: 과제를 말로 설명하지 못하면 teach-me 먼저, 아니면 blindspot 먼저 하고 ③ 목록을 teach-me로 넘김. 두 스킬에 같은 문장. blindspot 1d는 "② 가정 → 주어진 소스 → 나머지, 가정은 주어진 소스에서 먼저 찾음"으로 합침.
+  - Output 사다리: 8개 스킬(blindspot, brainstorm, buy-in, plan, prototypes, quiz, reference, teach-me)에 같은 문장, output-routing.md의 "On every rung" 규칙(조립된 답을 채팅에 남김)을 본문에 올림. buy-in PR 본문 예외와 prototypes "HTML이 어색하면 markdown"은 스킬별 줄로 유지. loop의 Output 줄은 바꾸지 않음.
+  - surfaces.md 새 대화용 리뷰 packet에 claims 목록 추가(loop 8단계와 같은 항목).
+  - quiz wrap-up: loop가 이미 행을 기록했으면 그렇다고 말함(scorecard.md "When to skip"과 일치).
+  - loop "One stop per boundary" 표: reference 행을 implement now / revise the map / stop으로 분리.
+  - blindspot 7단계: "③에 항목이 있고 이 과제에서 teach-me를 아직 안 돌렸으면" teach-me를 권함 — 순서 결정의 ③ 넘기기가 실제로 일어나는 자리. teach-me가 먼저 돈 경우 다시 권하지 않도록 조건을 붙임(독립 리뷰 W1).
+  - 규칙 7: 현행 유지. 승인 원문에는 길이 기준이 있어 이후 결정(길이 한도 제거)과 충돌.
+
+**Attributed**
+- **Reason for choice**: README와 사용자에게 보이는 카드가 이미 blindspot 기준이고, 도메인 상식 위험을 카드로 올리는 것이 플러그인의 목적에 맞음. 나머지는 이미 한쪽 문서가 정한 규칙에 다른 쪽을 맞춘 것.
+- **Alternatives considered**: scout 기준(엄격한 inferred) — 근거를 직접 확인한 것만 카드로 올리는 쪽. 사용자가 기각.
+- **Risk/follow-up check**: blindspot·prototypes·plan·quiz 동작이 바뀌었으므로 해당 behavior eval을 모델로 돌려 확인할 것(미실행). 규칙 11의 공유 블록 목록에 순서 문장을 추가함.
+- **Todo for human**: 2026-10-10 항목의 independent-reviewer "Also report unplanned decisions…" 적용 범위(노트 파일이 있을 때만 / 항상)는 이번 인터뷰에서 다루지 않아 열려 있음. → 아래 항목에서 결정.
+
+## [2026-10-14] scout packet의 ② 가정, reviewer의 계획 밖 결정 보고 범위
+
+**Observed**
+- **Situation found**: 독립 리뷰가 지적 — blindspot의 scout packet에 ② 가정이 없어, 큰 범위(scout 경로)에서는 "② 먼저" 순서가 전달되지 않음. 그리고 reviewer 항목 2의 "unplanned decisions" 문장 적용 범위가 열려 있었음.
+- **Response chosen** (사용자 승인):
+  - blindspot scout packet에 "② what the user is assuming, to check first (step 1d)" 추가. scout 본문에 "packet이 가정을 담고 있으면 먼저 확인" 한 줄 추가(절차 번호는 그대로).
+  - independent-reviewer: 노트 파일 유무와 관계없이 diff에 보이는 계획 밖 결정을 보고.
+
+**Attributed**
+- **Reason for choice**: 순서 결정이 주 경로(scout)에서도 지켜지게 함. 노트 파일이 없을 때 계획 밖 결정 보고가 가장 필요함.
+- **Risk/follow-up check**: 모델 eval 미실행. reviewer는 eval이 없으므로 모델로 검증되지 않음.

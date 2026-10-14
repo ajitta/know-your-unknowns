@@ -262,7 +262,8 @@ contrast — what you asked for versus what you are actually walking into, with 
 then one card per finding, sorted by likelihood × blast radius and tagged by kind:
 **Landmine** (touching this breaks something non-obvious), **Convention** (an unwritten
 rule the codebase enforces), **Missing concept** (a mechanism your prompt has no word
-for), **History** (an earlier or reverted attempt at this exact task).
+for), **History** (a past attempt, revert or hairy dead end that explains why the code
+looks this way).
 
 **Key deliverable**: an **improved prompt draft** assembled from the cards' "prompt
 fixes", naming the execution order and ending with an explicit checkpoint. Copying that

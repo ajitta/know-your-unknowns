@@ -1,37 +1,39 @@
 # Scorecard capture — the plugin's only measurement
 
-Referenced by the `loop` skill's value review (step 10) and the `quiz` wrap-up, the two
-points where a piece of work ends and the user still remembers what happened.
+Referenced by the `loop` skill's value review (step 10) and the `quiz` wrap-up, the two points where a piece of work ends and the user still remembers what happened.
 
-Background: `docs/value-contract.md` promises this plugin earns its place only when it
-surfaces something the user did not know **and** that changes a decision. That claim is
-worthless without recorded rows, and asking days later produces fiction.
+Background: `docs/value-contract.md` promises this plugin earns its place only when it surfaces something the user did not know **and** that changes a decision. That claim is worthless without recorded rows, and asking days later produces fiction.
 
 ## What to do
 
-1. **Anchor the first question if a baseline exists.** When blindspot recorded the user's
-   pre-investigation lists (sure of / assuming / cannot judge — in `loop.json` `baseline` or
-   the blindspot output), show the findings next to those lists first, marking each finding
-   that no list mentioned. The question is then about that marked set, not a recollection,
-   because memory of what one "already knew" drifts toward yes once the answer has been seen.
-   Record in **Baseline** whether this row was `compared` or had `none`.
-   Then ask the user with **one** `AskUserQuestion` call carrying exactly these two questions
-   (the tool's hard cap is 1–4; without the tool, ask them as two numbered questions in
-   one message):
+1. **Anchor the first question if a baseline exists.**
+
+   a. When blindspot recorded the user's pre-investigation lists (sure of / assuming / cannot judge — in `loop.json` `baseline` or the blindspot output), show the findings next to those lists before asking the questions in step 1c, marking each finding that no list mentioned. The question is then about that marked set, not a recollection.
+
+   b. Record in **Baseline** whether this row was `compared` or had `none`.
+
+   c. Ask the user with **one** `AskUserQuestion` call carrying exactly these two questions (the tool's hard cap is 1–4):
+
    - "Did this surface something you did not already know?" — options: yes / no.
    - "Did it change a decision?" — options: yes / no.
-   Follow up in free text for the one-line "what", only for answers that were yes.
-2. **Never answer these for the user.** Only they can say whether they already knew
-   something. A row you invented is worse than no row: it corrupts the one signal the
-   plugin has about its own value.
-3. Append the row to `.unknowns/scorecard.md` in the current project, creating the file
-   with the two header lines below if it does not exist. Offer once to add `.unknowns/`
-   to `.gitignore`. No project to write into (Desktop/web chat, mobile) → print the row
-   as a copyable one-line table row and say where it belongs; see
-   `surfaces.md` in this folder.
-4. Write the row **even when both answers are no.** The value contract's demotion and
-   removal conditions fire only on recorded zeros, so a skipped no-row silently protects
-   a skill that is not earning its place.
+
+   No `AskUserQuestion` tool → ask the two questions as two numbered questions in one message.
+
+   d. Follow up in free text for the one-line "what", only for answers that were yes.
+
+   The findings go next to the lists before the questions because memory of what one "already knew" drifts toward yes once the answer has been seen.
+
+2. **Never answer these for the user.** Only they can say whether they already knew something. A row you invented is worse than no row: it corrupts the one signal the plugin has about its own value.
+
+3. **Append the row.**
+
+   a. Append the row to `.unknowns/scorecard.md` in the current project, creating the file with the two header lines below if it does not exist.
+
+   b. Offer once to add `.unknowns/` to `.gitignore`.
+
+   No project to write into (Desktop/web chat, mobile) → print the row as a copyable one-line table row and say where it belongs; see `surfaces.md` in this folder.
+
+4. Write the row **even when both answers are no.** The value contract's demotion and removal conditions fire only on recorded zeros, so a skipped no-row silently protects a skill that is not earning its place.
 
 ## File format
 
@@ -41,22 +43,22 @@ worthless without recorded rows, and asking days later produces fiction.
 | 1 | 2026-09-06 | <task in one line> | blindspot → plan | yes — <what they did not know> | no | <note> | 2026-10-06 — <what to look at> | | compared |
 ```
 
-Number rows sequentially from the existing file. Keep each cell to one line.
-**Recheck on** comes from the loop's value review: the date the user chose and what to look
-at. Leave **Reality check** empty; the loop fills it when it starts after that date. The quiz
-wrap-up leaves Recheck on and Reality check empty unless the user names a date.
+- Number rows sequentially from the existing file.
+- Keep each cell to one line.
+- **Recheck on** comes from the loop's value review: the date the user chose and what to look at.
+- Leave **Reality check** empty; the loop fills it when it starts after the Recheck on date.
+- The quiz wrap-up leaves Recheck on and Reality check empty unless the user names a date.
 
-**Older files.** New columns are only ever added at the **end**, so an existing file is
-migrated by extending the header and separator lines alone: append whichever of Recheck on,
-Reality check, Baseline it lacks, in that order. Never insert a column mid-table or move
-existing cells (filling an empty Reality check cell is fine) — a shifted row silently moves
-every answer under the wrong heading.
+**Older files.** New columns are only ever added at the **end**, so an existing file is migrated by extending the header and separator lines alone: append whichever of Recheck on, Reality check, Baseline it lacks, in that order. Never insert a column mid-table or move existing cells; filling an empty Reality check cell is fine. A shifted row silently moves every answer under the wrong heading.
 
-When the value contract's ratio is computed, report `compared` rows separately — they are
-the ones a changed mind cannot have rewritten (see `docs/value-contract.md`).
+When the value contract's ratio is computed, report `compared` rows separately — they are the ones a changed mind cannot have rewritten (see `docs/value-contract.md`).
 
 ## When to skip
 
-Do not ask twice for one piece of work: if the loop already captured a row at step 10,
-the quiz wrap-up says so instead of asking again. Skip the capture entirely for work the
-user abandoned, and for a run where no unknowns skill actually did anything.
+Do not ask twice for one piece of work.
+
+| Case | What to do |
+|---|---|
+| The loop already captured a row at step 10 for this piece of work | The quiz wrap-up says so instead of asking again. |
+| The user abandoned the work | Skip the capture entirely. |
+| No unknowns skill actually did anything in the run | Skip the capture entirely. |
