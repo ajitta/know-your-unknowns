@@ -318,3 +318,14 @@
 **Attributed**
 - **Reason for choice**: 순서 결정이 주 경로(scout)에서도 지켜지게 함. 노트 파일이 없을 때 계획 밖 결정 보고가 가장 필요함.
 - **Risk/follow-up check**: 모델 eval 미실행. reviewer는 eval이 없으므로 모델로 검증되지 않음.
+
+## [2026-10-14] prompt-audit(agents, skills) 발견 1·2 반영
+
+**Observed**
+- **Situation found**: `/claude-api prompt-audit` 결과, loop가 같은 날 정한 결정과 어긋난 두 곳. 2단계 "run teach-me alongside"(2026-09-15)는 blindspot/teach-me의 순서 문장과 다르고, 15행 Output 줄은 output-routing.md가 9개 스킬 공통이라 한 사다리 문구와 다름.
+- **Deviation from plan**: Output 사다리 결정은 8개 스킬로 정했는데, 그 근거("loop에는 Output 절이 없다")가 틀렸음 — loop:15에 한 줄로 있었음.
+- **Response chosen** (사용자 승인): loop 2b를 "teach-me before the blindspot pass; otherwise hand blindspot's ③ list to teach-me afterwards"로, loop Output 줄을 다른 8개와 같은 사다리 문장으로 바꿈.
+
+**Attributed**
+- **Reason for choice**: 규칙 11(공유 문장은 글자 그대로) — loop로 돌 때만 순서와 채팅 남기기가 빠지는 상태를 없앰.
+- **Risk/follow-up check**: 감사의 Low 2건은 열려 있음 — **Todo for human**: quiz에서 "assembled reply"로 채팅에 무엇을 남길지(답안 블록은 사용자가 채우므로 정의 안 됨, 정답 노출 위험). **Todo for human**: buy-in "Target read time: 90 seconds" 유지 여부.
