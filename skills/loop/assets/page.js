@@ -102,7 +102,8 @@
     window.unknownsReply = update;
   }
 
-  // Works wherever the script sits: before the content it waits for the DOM.
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+  // Run at once when the content is already parsed (the rendered page puts this script last), so
+  // window.unknownsReply exists for the page's own DOMContentLoaded handlers; wait only when placed early.
+  if (document.getElementById("reply") || document.readyState !== "loading") init();
+  else document.addEventListener("DOMContentLoaded", init);
 })();

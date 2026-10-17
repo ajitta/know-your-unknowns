@@ -67,7 +67,7 @@ Generating the shared code on every page costs output tokens and lets it drift b
 **Custom styles and scripts** (live demos, sliders, mockups): put them in the fragment's own `<style>` and `<script>`.
 
 - Page chrome uses the color tokens (`--bg`, `--fg`, `--muted`, `--line`, `--card`, `--accent`, `--accent-fg`, `--ok`, `--bad`, `--warn`), so dark mode keeps working.
-- A color the content itself needs (a mockup's palette, a grading demo) may be literal. Never define a color only inside a media or `[data-theme]` block.
+- A color the content itself needs (a mockup's palette, a grading demo) may be literal. When it needs a dark variant, define the variant under `@media (prefers-color-scheme: dark)` guarded as `:root:not([data-theme="light"])`, and again under `:root[data-theme="dark"]`. Never define a color only inside a media or `[data-theme]` block.
 - A custom control that changes the reply calls `window.unknownsReply()`.
 
 **Look**: these pages are working surfaces, not landing pages. Leave out these defaults in the content and in custom styles:

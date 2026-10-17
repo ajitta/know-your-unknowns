@@ -153,6 +153,12 @@ class RenderTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             render_page.render(FRAGMENT.replace("Proceed with", "<section>x</section>Proceed with"), "en", False)
 
+    def test_block_markup_in_the_reply_keeps_its_lines(self):
+        fragment = re.sub(r"(<section[^>]*>).*(</section>)", r"\1<p>one</p><ul><li>two</li><li>three</li></ul>\2",
+                          FRAGMENT, flags=re.S)
+        page = render_page.render(fragment, "en", artifact=False)
+        self.assertIn('<textarea id="reply" aria-label="Reply">one\ntwo\nthree</textarea>', page)
+
     def test_script_text_is_left_alone(self):
         fragment = FRAGMENT + '<script>const s = "<style>.a{}</style>";</script>'
         page = render_page.render(fragment, "en", artifact=False)
@@ -183,7 +189,23 @@ class RenderTest(unittest.TestCase):
         for extra in refused:
             with self.subTest(extra), self.assertRaises(ValueError):
                 render_page.render(FRAGMENT + extra, "en", artifact=False)
+        refused += [
+            '<script>const i = new Image(); i.src = "https://x.example/p.gif";</script>',
+            '<pre><img src="https://cdn.example.com/a.png"></pre>',
+            '<pre style="background:url(https://cdn.example.com/a.png)">x</pre>',
+        ]
+        for extra in refused[-3:]:
+            with self.subTest(extra), self.assertRaises(ValueError):
+                render_page.render(FRAGMENT + extra, "en", artifact=False)
         allowed = [
+            # canvas and data-URI demos written in JS are not markup
+            "<script>for(var i=0;i<w*h;i++){} var src=new Float32Array(3); x=a>>>0;</script>",
+            "<script>for(let i=0;i<n;i++){ img.src = c.toDataURL(); } if(a>b){}</script>",
+            '<script>canvas.toDataURL("image/png"); URL.createObjectURL(new Blob([s]));</script>',
+            "<script>new URL(location.href).searchParams</script>",
+            "<script>items.map(c => `<img src=\"${c.img}\">`)</script>",
+            "<p><code>background:url(https://cdn.example.com/a.png)</code></p>",
+            '<textarea>&lt;img src="https://x"&gt; fetch(x)</textarea>',
             '<pre>&lt;img src="https://cdn.example.com/a.png"&gt;</pre>',
             "<pre><code>const r = await fetch(url)</code></pre>",
             '<img src="data:image/png;base64,iVBORw0KGgo=">',
