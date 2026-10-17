@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.9.1 — 2026-10-18
+
+The hooks now run on Windows without a `python3` alias. Release steps per
+`docs/open-questions.md` A4 are done the same day as the merge, at tag
+`unknowns--v0.9.1`.
+
+### Changed
+
+- **`hooks/hooks.json`**: every handler is one shell string instead of exec form
+  (`"command": "python3"` + `args`). Exec form has to name one interpreter, and Windows
+  usually has no `python3`, or has the Microsoft Store stub that exits 9009. Claude Code
+  runs a shell string with `sh -c` on Linux and macOS, Git Bash on Windows, and PowerShell
+  on Windows without Git Bash, so the string is a sh/PowerShell polyglot: each shell runs
+  its own half and reads the other half as a comment.
+  - Linux and macOS: `exec python3 "<script>" <args>`, the same process and exit codes as
+    before.
+  - Windows (Git Bash or PowerShell): the first of `python3`, `python` and `py -3` that
+    runs `-c 0` runs the script.
+  - Exit codes the PreToolUse guard relies on are unchanged: a deny is JSON on exit 0, a
+    missing script exits 2 and blocks the call (A7), and no interpreter is a non-zero exit
+    other than 2, a non-blocking error, now with the message
+    `[unknowns] no working Python 3 found`.
+- README "Platforms" and "Requirements" rows (both languages) drop the alias advice.
+- CI's hook-tests job installs the Claude Code CLI on both systems.
+
+### Added
+
+- **`tests/test_hook_launcher.py`**: pins every handler to the one launcher, then runs
+  each handler's string through every shell on the machine (sh/bash/dash, Git Bash,
+  Windows PowerShell, pwsh): SessionStart marker, guard deny with stdin passed through, a
+  plugin path with a space and `$`, exit 2 on a missing script, a non-blocking exit with
+  no Python, and fallback past a `python3` that fails. It also runs the real
+  `claude --init-only`, which fires SessionStart from hooks.json without logging in,
+  in the default shell and pinned to PowerShell.
+
+### Checked
+
+- Locally (Linux arm64, Claude Code 2.1.301, pwsh 7.6.7): the full suite, both
+  `claude plugin validate --strict` forms, `evals/run-manual.py --verify`; a live
+  `claude -p --plugin-dir .` session fired SessionStart (marker in context), PreToolUse
+  (the scout's `rm` denied) and Stop through the new strings.
+
+### Not verified
+
+- An interactive Claude Code session on Windows: on windows-latest the hooks run through
+  `claude --init-only` (SessionStart only) and the shells directly; PreToolUse, PostToolUse
+  and Stop never fire inside Claude Code there. macOS was not run.
+
 ## 0.9.0 — 2026-10-18
 
 Pages are now built from a shared template, so the model writes only their content. On

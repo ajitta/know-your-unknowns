@@ -7,8 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3",
-            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/scripts/agent_readonly_guard.py"],
+            "command": "echo `# <#` >/dev/null; s=\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/agent_readonly_guard.py\"; for p in python3 python \"py -3\"; do [ \"${OS-}\" != Windows_NT ] || $p -c 0 </dev/null >/dev/null 2>&1 || continue; exec $p \"$s\"; done; echo \"[unknowns] no working Python 3 found (tried python3, python, py -3)\" >&2; exit 1 #> > $null; $s = \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/agent_readonly_guard.py\"; foreach ($p in 'python3', 'python', 'py') { $a = @(); if ($p -eq 'py') { $a = @('-3') }; if (Get-Command $p -CommandType Application -ErrorAction SilentlyContinue) { & $p @a -c 0 2>$null; if ($LASTEXITCODE -eq 0) { & $p @a $s; exit $LASTEXITCODE } } }; [Console]::Error.WriteLine('[unknowns] no working Python 3 found (tried python3, python, py -3)'); exit 1",
             "timeout": 5
           }
         ]
@@ -20,8 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3",
-            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py"],
+            "command": "echo `# <#` >/dev/null; s=\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; for p in python3 python \"py -3\"; do [ \"${OS-}\" != Windows_NT ] || $p -c 0 </dev/null >/dev/null 2>&1 || continue; exec $p \"$s\"; done; echo \"[unknowns] no working Python 3 found (tried python3, python, py -3)\" >&2; exit 1 #> > $null; $s = \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; foreach ($p in 'python3', 'python', 'py') { $a = @(); if ($p -eq 'py') { $a = @('-3') }; if (Get-Command $p -CommandType Application -ErrorAction SilentlyContinue) { & $p @a -c 0 2>$null; if ($LASTEXITCODE -eq 0) { & $p @a $s; exit $LASTEXITCODE } } }; [Console]::Error.WriteLine('[unknowns] no working Python 3 found (tried python3, python, py -3)'); exit 1",
             "timeout": 5
           }
         ]
@@ -32,11 +30,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3",
-            "args": [
-              "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py",
-              "--session-start"
-            ],
+            "command": "echo `# <#` >/dev/null; s=\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; for p in python3 python \"py -3\"; do [ \"${OS-}\" != Windows_NT ] || $p -c 0 </dev/null >/dev/null 2>&1 || continue; exec $p \"$s\" --session-start; done; echo \"[unknowns] no working Python 3 found (tried python3, python, py -3)\" >&2; exit 1 #> > $null; $s = \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; foreach ($p in 'python3', 'python', 'py') { $a = @(); if ($p -eq 'py') { $a = @('-3') }; if (Get-Command $p -CommandType Application -ErrorAction SilentlyContinue) { & $p @a -c 0 2>$null; if ($LASTEXITCODE -eq 0) { & $p @a $s --session-start; exit $LASTEXITCODE } } }; [Console]::Error.WriteLine('[unknowns] no working Python 3 found (tried python3, python, py -3)'); exit 1",
             "timeout": 5
           }
         ]
@@ -47,11 +41,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3",
-            "args": [
-              "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py",
-              "--stop"
-            ],
+            "command": "echo `# <#` >/dev/null; s=\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; for p in python3 python \"py -3\"; do [ \"${OS-}\" != Windows_NT ] || $p -c 0 </dev/null >/dev/null 2>&1 || continue; exec $p \"$s\" --stop; done; echo \"[unknowns] no working Python 3 found (tried python3, python, py -3)\" >&2; exit 1 #> > $null; $s = \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; foreach ($p in 'python3', 'python', 'py') { $a = @(); if ($p -eq 'py') { $a = @('-3') }; if (Get-Command $p -CommandType Application -ErrorAction SilentlyContinue) { & $p @a -c 0 2>$null; if ($LASTEXITCODE -eq 0) { & $p @a $s --stop; exit $LASTEXITCODE } } }; [Console]::Error.WriteLine('[unknowns] no working Python 3 found (tried python3, python, py -3)'); exit 1",
             "timeout": 5
           }
         ]
@@ -62,11 +52,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3",
-            "args": [
-              "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py",
-              "--cleanup"
-            ]
+            "command": "echo `# <#` >/dev/null; s=\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; for p in python3 python \"py -3\"; do [ \"${OS-}\" != Windows_NT ] || $p -c 0 </dev/null >/dev/null 2>&1 || continue; exec $p \"$s\" --cleanup; done; echo \"[unknowns] no working Python 3 found (tried python3, python, py -3)\" >&2; exit 1 #> > $null; $s = \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/impl_notes_reminder.py\"; foreach ($p in 'python3', 'python', 'py') { $a = @(); if ($p -eq 'py') { $a = @('-3') }; if (Get-Command $p -CommandType Application -ErrorAction SilentlyContinue) { & $p @a -c 0 2>$null; if ($LASTEXITCODE -eq 0) { & $p @a $s --cleanup; exit $LASTEXITCODE } } }; [Console]::Error.WriteLine('[unknowns] no working Python 3 found (tried python3, python, py -3)'); exit 1"
           }
         ]
       }
