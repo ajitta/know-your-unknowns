@@ -68,7 +68,7 @@ Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-reference-<slug
 
 Numbered mapping rows (reference excerpt ↔ counterpart plan) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
 
-Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## What Can Be a Reference
 

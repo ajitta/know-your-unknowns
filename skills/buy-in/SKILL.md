@@ -44,7 +44,7 @@ Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-buy-in-<slug>.h
 
 Reaction control: a sign-off checklist, one checkbox per approver item. The sign-off checklist assembles into a review-comment draft ("Reply with a ✓ on your piece").
 
-Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Related
 
