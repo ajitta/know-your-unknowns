@@ -561,9 +561,9 @@ scout은 읽기 명령 화이트리스트로 묶이고, reviewer는 테스트·�
 | 위 값을 프로젝트 단위로 지정 | `.claude/settings.json` → `{"env": {"UNKNOWNS_NOTES_THRESHOLD": "20"}}`, 팀과 커밋 (각자 폴더를 신뢰해야 적용) |
 | 위 값을 나만 지정 | `.claude/settings.local.json`, 같은 `env` 블록, git 무시 |
 | 구버전 변수 | `FIELD_GUIDE_NOTES_THRESHOLD`도 계속 인식 (새 변수가 우선) |
-| 요구사항 | Python 3 (표준 라이브러리만, 외부 의존성 없음): Linux·macOS는 `python3`, Windows는 `python3`, `python`, `py -3` 중 먼저 실행되는 것 |
+| 요구사항 | Python 3 (표준 라이브러리만, 외부 의존성 없음): Linux·macOS는 `python3`, Windows는 `python3`, `python`, `py -3` 중 먼저 찾은 Python 3 |
 | 검증 환경 | Claude Code 2.1.281 + Opus 5.5, Linux arm64 (2026-09-25): eval 31케이스 실행, 기계 채점 전부 통과 · Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` 통과, 리마인더는 실제 PostToolUse 파이프라인 경유 확인, 두 스크립트 모두 `tests/`로 커버 |
-| 플랫폼 | CI가 ubuntu-latest와 windows-latest에서 테스트를, ubuntu-latest에서 플러그인 검증을 돌립니다. macOS는 로컬 실행으로만 커버됩니다. 각 훅은 `sh`(Linux·macOS), Git Bash(Git for Windows가 있는 Windows), PowerShell(없는 Windows)에서 모두 도는 셸 문자열 하나입니다. Windows에서는 없는 `python3`나 Microsoft Store 스텁을 건너뛰고 `python`, 그다음 `py -3`로 넘어가므로 alias가 필요 없습니다. `tests/test_hook_launcher.py`가 각 훅을 그 셸들로, 그리고 두 CI 시스템에서 `claude --init-only`로 실행합니다 |
+| 플랫폼 | CI가 ubuntu-latest와 windows-latest에서 테스트를, ubuntu-latest에서 플러그인 검증을 돌립니다. macOS는 로컬 실행으로만 커버됩니다. 각 훅은 `sh`(Linux·macOS), Git Bash(Git for Windows가 있는 Windows), PowerShell(없는 Windows)에서 모두 도는 셸 문자열 하나입니다. Windows에서는 없는 `python3`나 Microsoft Store 스텁을 건너뛰고 `python`, 그다음 `py -3`로 넘어가므로 alias가 필요 없습니다. `tests/test_hook_launcher.py`가 각 훅을 그 셸들로 직접 실행하고, 두 CI 시스템에서 SessionStart를 `claude --init-only`로 실행합니다 |
 
 **플러그인 없이 수동 설치** (스킬만 복사한 사용자): `hooks/scripts/impl_notes_reminder.py`를
 프로젝트에 복사하고 아래를 `.claude/settings.json`에 추가합니다 — 이미 `hooks` 객체가

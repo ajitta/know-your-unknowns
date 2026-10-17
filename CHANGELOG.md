@@ -14,16 +14,27 @@ The hooks now run on Windows without a `python3` alias. Release steps per
   runs a shell string with `sh -c` on Linux and macOS, Git Bash on Windows, and PowerShell
   on Windows without Git Bash, so the string is a sh/PowerShell polyglot: each shell runs
   its own half and reads the other half as a comment.
-  - Linux and macOS: `exec python3 "<script>" <args>`, the same process and exit codes as
-    before.
+  - Linux and macOS: `exec python3 "<script>" <args>`, the same process, argv,
+    stdout/stderr and script exit codes as before.
   - Windows (Git Bash or PowerShell): the first of `python3`, `python` and `py -3` that
-    runs `-c 0` runs the script.
-  - Exit codes the PreToolUse guard relies on are unchanged: a deny is JSON on exit 0, a
-    missing script exits 2 and blocks the call (A7), and no interpreter is a non-zero exit
-    other than 2, a non-blocking error, now with the message
-    `[unknowns] no working Python 3 found`.
+    passes a one-line Python 3 check runs the script, so a Python 2 `python` is skipped.
+  - Exit codes the PreToolUse guard relies on are unchanged: a deny is JSON on exit 0 and
+    a missing script exits 2 and blocks the call (A7). No interpreter is still a
+    non-blocking error (an exit code other than 2): on Windows the hook prints
+    `[unknowns] no working Python 3 found`; on Linux and macOS the shell reports
+    `exec: python3: not found` (exit 127), where exec form reported
+    `Executable not found in $PATH`.
+  - The PreToolUse guard sets `"onFailure": "continue"` (Claude Code 2.1.295+). The hooks
+    reference says a failing shell-form PreToolUse hook on Windows without Git Bash can
+    block the call when `onFailure` is unset; with it, a failure or timeout lets the call
+    through as exec form did, and exit 2 still blocks.
 - README "Platforms" and "Requirements" rows (both languages) drop the alias advice.
 - CI's hook-tests job installs the Claude Code CLI on both systems.
+
+### Fixed
+
+- `hooks/scripts/agent_readonly_guard.py`: the `"\;"` literal (a `SyntaxWarning` on every
+  guard run under Python 3.12+) is now `"\\;"`, the same string.
 
 ### Added
 
@@ -31,22 +42,35 @@ The hooks now run on Windows without a `python3` alias. Release steps per
   each handler's string through every shell on the machine (sh/bash/dash, Git Bash,
   Windows PowerShell, pwsh): SessionStart marker, guard deny with stdin passed through, a
   plugin path with a space and `$`, exit 2 on a missing script, a non-blocking exit with
-  no Python, and fallback past a `python3` that fails. It also runs the real
-  `claude --init-only`, which fires SessionStart from hooks.json without logging in,
-  in the default shell and pinned to PowerShell.
+  no Python, fallback past a `python3` that fails and past a Python 2 `python`. It also
+  runs the real `claude --init-only`, which fires SessionStart from hooks.json without
+  logging in, in the default shell and pinned to PowerShell, from a plugin path holding a
+  space and a literal `$HOME`.
 
 ### Checked
 
 - Locally (Linux arm64, Claude Code 2.1.301, pwsh 7.6.7): the full suite, both
   `claude plugin validate --strict` forms, `evals/run-manual.py --verify`; a live
   `claude -p --plugin-dir .` session fired SessionStart (marker in context), PreToolUse
-  (the scout's `rm` denied) and Stop through the new strings.
+  (the scout's `rm` denied) and Stop through the new strings. After the review fixes
+  (Python 3 probe, `onFailure`), a second live session ran SessionStart, PreToolUse (the
+  scout's `touch` outside a temp dir denied by the guard's JSON, file not created) and
+  Stop through the final strings.
+- Independent review (separate reviewer run, read-only on the repo): one blocker (the
+  no-interpreter message was claimed for Linux and macOS too) and one should-fix
+  (`onFailure`), both fixed here, plus nits N1–N3 fixed; N4 (zsh word splitting, never
+  used by Claude Code) and N5 (CI installs Claude Code unpinned) left as they are.
 
 ### Not verified
 
 - An interactive Claude Code session on Windows: on windows-latest the hooks run through
   `claude --init-only` (SessionStart only) and the shells directly; PreToolUse, PostToolUse
   and Stop never fire inside Claude Code there. macOS was not run.
+- Through Claude Code on Windows: Windows PowerShell 5.1 (the pinned-PowerShell test gets
+  pwsh 7 on windows-latest), the PowerShell default without Git Bash (where `onFailure`
+  matters), and the real Microsoft Store stub (CI's fallback test uses a stand-in, and
+  windows-latest has a working `python3`).
+- `onFailure` on Claude Code older than 2.1.295.
 
 ## 0.9.0 — 2026-10-18
 

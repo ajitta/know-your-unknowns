@@ -19,15 +19,20 @@ over the sh part, and `> $null` that silences the echo.
 
 - sh part: off Windows it is `exec python3 "<script>" <args>`, the same process
   and exit code as the old exec-form hook. On Windows (`OS=Windows_NT`, Git
-  Bash) it probes python3, python and `py -3` with `-c 0` and execs the first
-  that runs.
+  Bash) it probes python3, python and `py -3` with a one-line check that the
+  interpreter is Python 3, and execs the first that passes.
 - PowerShell part: the same probe and order.
 
 Exit codes are what the PreToolUse guard's fail-safe depends on, so they are
 pinned here for every shell: a deny is JSON on exit 0; a missing script is
 Python's exit 2, which blocks the call (as the exec-form hook did); no
-interpreter at all is a non-zero exit other than 2, which Claude Code treats as
-a non-blocking error (as the exec-form hook's "cannot start" was).
+interpreter at all is a non-zero exit other than 2: on Linux and macOS the
+shell's own `exec: python3: not found` (127), on Windows the launcher's
+message and exit 1. Claude Code treats either as a non-blocking error, as it
+did the exec-form hook's "cannot start". One exception is documented: on
+Windows without Git Bash a failing shell-form PreToolUse hook can block the
+call unless `onFailure` is set, so the guard sets `"onFailure": "continue"`
+(exit 2 is a verdict, not a failure, and still blocks).
 
 These tests run each handler's string through every shell this machine has:
 sh, bash and dash on POSIX, Git Bash and Windows PowerShell on Windows, and
@@ -54,7 +59,8 @@ SH_PART = (
     'echo `# <#` >/dev/null; '
     's="${{CLAUDE_PLUGIN_ROOT}}/hooks/scripts/{script}"; '
     'for p in python3 python "py -3"; do '
-    '[ "${{OS-}}" != Windows_NT ] || $p -c 0 </dev/null >/dev/null 2>&1 || continue; '
+    "[ \"${{OS-}}\" != Windows_NT ] || "
+    "$p -c 'import sys;sys.exit(sys.version_info<(3,))' </dev/null >/dev/null 2>&1 || continue; "
     'exec $p "$s"{args}; done; '
     'echo "[unknowns] no working Python 3 found (tried python3, python, py -3)" >&2; exit 1 '
 )
@@ -64,7 +70,7 @@ PS_PART = (
     "foreach ($p in 'python3', 'python', 'py') {{ "
     "$a = @(); if ($p -eq 'py') {{ $a = @('-3') }}; "
     "if (Get-Command $p -CommandType Application -ErrorAction SilentlyContinue) {{ "
-    "& $p @a -c 0 2>$null; "
+    "& $p @a -c 'import sys;sys.exit(sys.version_info<(3,))' 2>$null; "
     "if ($LASTEXITCODE -eq 0) {{ & $p @a $s{args}; exit $LASTEXITCODE }} }} }}; "
     "[Console]::Error.WriteLine('[unknowns] no working Python 3 found "
     "(tried python3, python, py -3)'); exit 1"
@@ -215,9 +221,22 @@ class HooksJsonLauncherTest(unittest.TestCase):
                 # pin one shell; both defeat the per-platform choice.
                 self.assertNotIn("args", handler)
                 self.assertNotIn("shell", handler)
+                # Only the guard sets onFailure, and only to keep a failure
+                # non-blocking on Windows without Git Bash (exit 2 still blocks).
+                if event == "PreToolUse":
+                    self.assertEqual(handler.get("onFailure"), "continue")
+                else:
+                    self.assertNotIn("onFailure", handler)
                 self.assertEqual(handler["command"], render(script, args))
                 self.assertTrue(os.path.isfile(
                     os.path.join(ROOT, "hooks", "scripts", script)))
+
+    def test_the_guard_matches_bash_only(self):
+        # onFailure keeps a widened matcher safe too, but a change here should
+        # be deliberate: the guarded agents have no PowerShell tool.
+        with open(HOOKS_JSON, encoding="utf-8") as fh:
+            entries = json.load(fh)["hooks"]["PreToolUse"]
+        self.assertEqual([e["matcher"] for e in entries], ["Bash"])
 
     def test_timeouts_are_unchanged(self):
         handlers = load_handlers()
@@ -332,6 +351,32 @@ class ShellsTest(LauncherTestCase):
                 self.assertDeny(self.scout_rm(kind, exe, env), name)
                 self.assertMarker(self.session_start(kind, exe, dict(env)), name)
 
+    @unittest.skipIf(WINDOWS, "POSIX stubs; the probe string is the same on Windows")
+    def test_a_python_2_is_skipped_for_py_3(self):
+        # A `python` that runs `-c` but is Python 2 must not win over `py -3`.
+        # The stub reports version 2.7 to any -c code and fails on a script.
+        fake = os.path.join(self.tmp, "py2-bin")
+        os.makedirs(fake)
+        stubs = {
+            "python3": "#!/bin/sh\nexit 49\n",
+            "python": ('#!/bin/sh\nif [ "$1" = -c ]; then exec "%s" -c '
+                       '"import sys; sys.version_info = (2, 7, 18); '
+                       'exec(compile(sys.argv[1], \'<c>\', \'exec\'))" "$2"; fi\n'
+                       'echo "SyntaxError: invalid syntax" >&2; exit 1\n'
+                       ) % sys.executable,
+            "py": '#!/bin/sh\n[ "$1" = -3 ] && shift\nexec "%s" "$@"\n' % sys.executable,
+        }
+        for name, body in stubs.items():
+            path = os.path.join(fake, name)
+            with open(path, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(body)
+            os.chmod(path, 0o755)
+        path = os.pathsep.join((fake, "/usr/bin", "/bin"))
+        for name, kind, exe in self.shells:
+            with self.subTest(shell=name):
+                env = self.env(path=path, OS="Windows_NT")
+                self.assertDeny(self.scout_rm(kind, exe, env), name)
+
     @unittest.skipIf(WINDOWS, "the POSIX branch never runs on Windows")
     def test_posix_branch_is_a_plain_exec_of_python3(self):
         # Off Windows the sh part must not probe or fall back: python3 or
@@ -408,7 +453,9 @@ class ClaudeCodeTest(unittest.TestCase):
     def plugin_copy(self, shell, probe):
         """The plugin's hooks in a temp copy, plus one SessionStart probe hook
         that prints which shell ran it; `shell` pins every handler to it."""
-        plugin = os.path.join(self.tmp, "plugin")
+        # A space and a literal `$HOME` in the path: if Claude Code ever
+        # substituted the placeholder as text in sh form, this would break.
+        plugin = os.path.join(self.tmp, "plug in $HOME")
         shutil.copytree(os.path.join(ROOT, "hooks"), os.path.join(plugin, "hooks"))
         shutil.copytree(os.path.join(ROOT, ".claude-plugin"),
                         os.path.join(plugin, ".claude-plugin"))

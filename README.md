@@ -617,9 +617,9 @@ test file) is not inspected — it is a guard rail, not a sandbox.
 | Set any of these per project | `.claude/settings.json` → `{"env": {"UNKNOWNS_NOTES_THRESHOLD": "20"}}`, committed for the team (each teammate must trust the folder first) |
 | Set any of these for yourself only | `.claude/settings.local.json`, same `env` block, git-ignored |
 | Legacy variable | `FIELD_GUIDE_NOTES_THRESHOLD` is still recognized (the new variable wins) |
-| Requirements | Python 3 (standard library only, no external dependencies): `python3` on Linux and macOS; on Windows the first of `python3`, `python` and `py -3` that runs |
+| Requirements | Python 3 (standard library only, no external dependencies): `python3` on Linux and macOS; on Windows the first of `python3`, `python` and `py -3` that is Python 3 |
 | Tested with | Claude Code 2.1.281 + Opus 5.5, Linux arm64 (2026-09-25): 31 eval cases run, all mechanical graders pass; Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` passes; the reminder verified through the live PostToolUse pipeline; both scripts covered by `tests/` |
-| Platforms | CI runs the tests on ubuntu-latest and windows-latest and validates the plugin on ubuntu-latest; macOS is covered by local runs only. Each hook is one shell string that runs in `sh` (Linux, macOS), Git Bash (Windows with Git for Windows) and PowerShell (Windows without it). On Windows it skips a missing `python3` or the Microsoft Store stub and falls back to `python`, then `py -3`; no alias is needed. `tests/test_hook_launcher.py` runs each hook through those shells, and through `claude --init-only` on both CI systems |
+| Platforms | CI runs the tests on ubuntu-latest and windows-latest and validates the plugin on ubuntu-latest; macOS is covered by local runs only. Each hook is one shell string that runs in `sh` (Linux, macOS), Git Bash (Windows with Git for Windows) and PowerShell (Windows without it). On Windows it skips a missing `python3` or the Microsoft Store stub and falls back to `python`, then `py -3`; no alias is needed. `tests/test_hook_launcher.py` runs each hook through those shells directly, and SessionStart through `claude --init-only` on both CI systems |
 
 **Manual install without the plugin** (for copied-skill users): copy
 `hooks/scripts/impl_notes_reminder.py` into your project and add this to
