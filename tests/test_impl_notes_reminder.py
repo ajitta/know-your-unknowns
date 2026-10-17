@@ -11,6 +11,7 @@ tempfile.gettempdir() when CLAUDE_PLUGIN_DATA is unset).
 import glob
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -730,15 +731,16 @@ class HooksJsonTest(unittest.TestCase):
             {"PreToolUse", "PostToolUse", "SessionStart", "Stop", "SessionEnd"},
         )
 
-    def test_exec_form_with_args_so_paths_with_spaces_survive(self):
+    def test_every_handler_runs_an_existing_script(self):
+        # The launcher itself is pinned in test_hook_launcher.py; this only
+        # checks that each handler names a script that ships.
         for event, _entry, handler in self.handlers():
             with self.subTest(event=event):
                 self.assertEqual(handler["type"], "command")
-                self.assertEqual(handler["command"], "python3")
-                script = handler["args"][0]
-                self.assertTrue(script.startswith("${CLAUDE_PLUGIN_ROOT}/"), script)
-                relative = script[len("${CLAUDE_PLUGIN_ROOT}/"):]
-                self.assertTrue(os.path.exists(os.path.join(ROOT, relative)), script)
+                match = re.search(r'/hooks/scripts/([A-Za-z_]+\.py)"', handler["command"])
+                self.assertIsNotNone(match, handler["command"])
+                self.assertTrue(os.path.exists(
+                    os.path.join(ROOT, "hooks", "scripts", match.group(1))))
 
     def test_post_tool_use_matcher_lists_exactly_the_edit_tools(self):
         entries = self.events["PostToolUse"]
@@ -753,7 +755,7 @@ class HooksJsonTest(unittest.TestCase):
         self.assertEqual(len(entries), 1)
         self.assertEqual(entries[0]["matcher"], "Bash")
         self.assertIn(
-            "agent_readonly_guard.py", entries[0]["hooks"][0]["args"][0]
+            "agent_readonly_guard.py", entries[0]["hooks"][0]["command"]
         )
 
     def test_session_start_runs_on_every_source(self):
@@ -762,7 +764,7 @@ class HooksJsonTest(unittest.TestCase):
         entries = self.events["SessionStart"]
         self.assertEqual(len(entries), 1)
         self.assertNotIn("matcher", entries[0])
-        self.assertIn("--session-start", entries[0]["hooks"][0]["args"])
+        self.assertIn("--session-start", entries[0]["hooks"][0]["command"])
 
 
 if __name__ == "__main__":

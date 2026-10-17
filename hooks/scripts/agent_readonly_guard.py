@@ -829,7 +829,7 @@ def _find_exec_commands(args):
             if arg in ("-exec", "-execdir", "-ok", "-okdir"):
                 current = []
             continue
-        if arg in (";", "+", "\;"):
+        if arg in (";", "+", "\\;"):
             commands.append(current)
             current = None
             continue

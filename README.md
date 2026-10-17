@@ -176,7 +176,7 @@ Mobile is the honest gap: Anthropic's documentation names web, Desktop, Cowork a
 Claude Code as the surfaces that take skills and does not mention the phone apps. The
 skills degrade to plain markdown there by design, but whether they load at all is not
 something this repo can promise — try one and see. The reminder hook additionally needs
-`python3` on the PATH of whatever machine runs it.
+Python 3 on the machine that runs it (`python3`; on Windows `python` or `py -3` also works).
 
 ### Updating
 
@@ -617,9 +617,9 @@ test file) is not inspected — it is a guard rail, not a sandbox.
 | Set any of these per project | `.claude/settings.json` → `{"env": {"UNKNOWNS_NOTES_THRESHOLD": "20"}}`, committed for the team (each teammate must trust the folder first) |
 | Set any of these for yourself only | `.claude/settings.local.json`, same `env` block, git-ignored |
 | Legacy variable | `FIELD_GUIDE_NOTES_THRESHOLD` is still recognized (the new variable wins) |
-| Requirements | `python3` (standard library only, no external dependencies) |
+| Requirements | Python 3 (standard library only, no external dependencies): `python3` on Linux and macOS; on Windows the first of `python3`, `python` and `py -3` that is Python 3 |
 | Tested with | Claude Code 2.1.281 + Opus 5.5, Linux arm64 (2026-09-25): 31 eval cases run, all mechanical graders pass; Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` passes; the reminder verified through the live PostToolUse pipeline; both scripts covered by `tests/` |
-| Platforms | CI runs the script tests on ubuntu-latest and windows-latest and validates the plugin on ubuntu-latest; macOS is covered by local runs only. On Windows the hook command is `python3`, which is usually absent from a default PATH — create a `python3` alias or adjust the command |
+| Platforms | CI runs the tests on ubuntu-latest and windows-latest and validates the plugin on ubuntu-latest; macOS is covered by local runs only. Each hook is one shell string that runs in `sh` (Linux, macOS), Git Bash (Windows with Git for Windows) and PowerShell (Windows without it). On Windows it skips a missing `python3` or the Microsoft Store stub and falls back to `python`, then `py -3`; no alias is needed. `tests/test_hook_launcher.py` runs each hook through those shells directly, and SessionStart through `claude --init-only` on both CI systems |
 
 **Manual install without the plugin** (for copied-skill users): copy
 `hooks/scripts/impl_notes_reminder.py` into your project and add this to
@@ -648,7 +648,8 @@ one, rather than pasting a second top-level `hooks` key:
 
 The plugin registers the same script on SessionStart, Stop and SessionEnd as well; add
 those entries the same way if you want the `hooks active` marker and its restatement after
-compaction, the end-of-session check and the state-file cleanup.
+compaction, the end-of-session check and the state-file cleanup. On Windows without
+`python3`, use `"command": "py"` with `"-3"` as the first `args` element.
 
 ---
 
@@ -731,7 +732,8 @@ echo '{"session_id":"x","tool_name":"Edit","cwd":"'$PWD'"}' \
 It should print a JSON object containing `systemMessage` and exit 0. (6) Run
 `claude --debug` and read `~/.claude/debug/<session-id>.txt`; the script writes
 `[unknowns] state persist failed` and similar warnings to stderr, which only the debug
-log ever shows.
+log ever shows. `[unknowns] no working Python 3 found` there means the hook ran none of
+`python3`, `python` or `py -3`.
 
 **Q. The counter looks wrong, or the reminder fired twice.**
 Per-session state lives in one small JSON file, under `$CLAUDE_PLUGIN_DATA/state/` when
