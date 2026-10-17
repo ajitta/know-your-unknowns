@@ -20,7 +20,10 @@
         out.push(group ? label + (el.classList.contains("correct") ? " ✓" : " ✗") : label);
       } else if (el.matches("input,textarea,select")) {
         const v = el.value.trim();
-        if (v) out.push(label ? label + ": " + v : v);
+        const changed = el.matches("select")
+          ? !(el.options[el.selectedIndex] || {}).defaultSelected
+          : el.value !== el.defaultValue;
+        if (v && changed) out.push(label ? label + ": " + v : v);
       }
     }
     return out;

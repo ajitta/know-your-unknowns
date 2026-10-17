@@ -75,7 +75,7 @@ Each item carries a reaction control, and the selections assemble at the bottom 
 | Chip row, one pick (A/B/C) | `<div class="choices"><button data-reply="sentence">A</button>…</div>` | the pressed button's `data-reply` |
 | Chip row, several picks | `<div class="choices" data-multi>…</div>` | every pressed button's `data-reply` |
 | Self-graded question | `<div class="choices" data-answer="B" data-goto="#change-site"><button data-value="B" data-reply="Q1: B">…</button>…</div>`, an optional `<p class="explain">` beside it, and `<span data-score></span>` anywhere | the picked answer with ✓ or ✗, plus the score line; a wrong pick scrolls to `data-goto` |
-| Text box, slider, select | `<textarea data-reply="Label">` / `<input type="range" data-reply="Label">` | `Label: value` when not empty |
+| Text box, slider, select | `<textarea data-reply="Label">` / `<input type="range" data-reply="Label">` | `Label: value` once the user changes it |
 
 Reply section: `<section class="reply" data-label="…" data-copy="…" data-copied="…" data-head="…" data-foot="…" data-score-label="…">default reply</section>`. Every attribute is optional; write the labels in the reply language. `data-head` and `data-foot` frame the assembled lines; with nothing selected the default reply comes back.
 
