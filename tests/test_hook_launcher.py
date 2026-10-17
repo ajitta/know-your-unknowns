@@ -17,8 +17,8 @@ sh sees an empty command substitution, runs the sh part and treats the rest of
 the line as a comment. PowerShell sees `echo '#'`, a block comment `<# ... #>`
 over the sh part, and `> $null` that silences the echo.
 
-- sh part: off Windows it is `exec python3 "<script>" <args>`, the same process
-  and exit code as the old exec-form hook. On Windows (`OS=Windows_NT`, Git
+- sh part: off Windows it is `exec python3 "<script>" <args>`, the same process,
+  argv, stdout/stderr and script exit codes as the old exec-form hook. On Windows (`OS=Windows_NT`, Git
   Bash) it probes python3, python and `py -3` with a one-line check that the
   interpreter is Python 3, and execs the first that passes.
 - PowerShell part: the same probe and order.
@@ -481,8 +481,12 @@ class ClaudeCodeTest(unittest.TestCase):
         self.assertIn(text, log, self.hook_lines(log)[-2000:])
 
     def test_session_start_fires_from_the_real_hooks_json(self):
-        result, log = self.run_claude(ROOT)
+        # The default shell, from the `plug in $HOME` copy: proves sh form
+        # gets the path from the environment, not by text substitution.
+        plugin = self.plugin_copy(None, 'echo "[probe] root=$CLAUDE_PLUGIN_ROOT"')
+        result, log = self.run_claude(plugin)
         self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertRegex(log, r"\[probe\] root=.*plug in \$HOME", self.hook_lines(log)[-2000:])
         print("\n    " + self.hook_lines(log)[-600:], file=sys.stderr)
         self.assertHookPrinted(log, ACTIVE_MARKER)
 

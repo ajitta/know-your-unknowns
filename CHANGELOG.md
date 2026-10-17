@@ -42,10 +42,10 @@ The hooks now run on Windows without a `python3` alias. Release steps per
   each handler's string through every shell on the machine (sh/bash/dash, Git Bash,
   Windows PowerShell, pwsh): SessionStart marker, guard deny with stdin passed through, a
   plugin path with a space and `$`, exit 2 on a missing script, a non-blocking exit with
-  no Python, fallback past a `python3` that fails and past a Python 2 `python`. It also
-  runs the real `claude --init-only`, which fires SessionStart from hooks.json without
-  logging in, in the default shell and pinned to PowerShell, from a plugin path holding a
-  space and a literal `$HOME`.
+  no Python, fallback past a `python3` that fails and (POSIX shells) past a Python 2
+  `python`. It also runs the real `claude --init-only`, which fires SessionStart from
+  hooks.json without logging in, in the default shell and pinned to PowerShell, from a
+  plugin path holding a space and a literal `$HOME`.
 
 ### Checked
 
