@@ -40,10 +40,10 @@ The theme, accessibility and reply-assembly code is the same on every page, so i
 
    c. End with one `<section class="reply">` holding the default assembled reply as plain text.
 
-2. Run `python3 ${CLAUDE_PLUGIN_ROOT}/skills/loop/scripts/render-page.py <path> --lang <reply language>`. Add `--artifact` when the page goes to the Artifact tool. The script wraps the fragment in place, inlining `page.css` and `page.js`.
+2. Run `python3 "${CLAUDE_PLUGIN_ROOT}/skills/loop/scripts/render-page.py" "<path>" --lang <reply language>`, with both paths quoted. Add `--artifact` when the page goes to the Artifact tool. The script wraps the fragment in place, inlining `page.css` and `page.js`. No `python3` command (common on Windows) → run the same line with `py -3` or `python` in its place.
 3. When the script exits non-zero, fix what it names in the fragment and run it again. To change a page after it is rendered, edit the rendered file directly.
 
-No Bash or no Python → Read `assets/page.css` and `assets/page.js`, then write the whole page yourself: those two files inlined unchanged in `<style>` and `<script>`, the fragment wrapped in `<main class="page" lang="…">`, and the reply section expanded to the shape the script produces (an `<h2>`, `<textarea id="reply">` holding the default reply, `<button type="button" id="copy-reply">`). Publishing through the Artifact tool: no `<!doctype>`, `<html>`, `<head>` or `<body>` wrapper — start with `<title>` and `<style>`.
+No shell tool (Bash or PowerShell) or no Python 3 → Read `assets/page.css` and `assets/page.js`, then write the whole page yourself: those two files inlined unchanged in `<style>` and `<script>`, the fragment wrapped in `<main class="page" lang="…">`, and the reply section expanded to the shape the script produces (an `<h2>`, `<textarea id="reply">` holding the default reply, `<button type="button" id="copy-reply">`). Publishing through the Artifact tool: no `<!doctype>`, `<html>`, `<head>` or `<body>` wrapper — start with `<title>` and `<style>`.
 
 Generating the shared code on every page costs output tokens and lets it drift between pages; the script makes it a fixed copy and checks the rules below mechanically.
 

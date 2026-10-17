@@ -98,6 +98,27 @@ class RenderTest(unittest.TestCase):
                                    capture_output=True, text=True, encoding="utf-8")
             self.assertEqual(again.returncode, 1)
 
+    def test_cli_survives_a_legacy_windows_console(self):
+        # Windows consoles often run cp1252 or cp949; a Korean file name must not crash the run.
+        import os
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "지출-요약.html"
+            path.write_text(FRAGMENT, encoding="utf-8")
+            env = dict(os.environ, PYTHONIOENCODING="cp1252", PYTHONUTF8="0")
+            done = subprocess.run([sys.executable, str(SCRIPT), str(path), "--lang", "ko"],
+                                  capture_output=True, env=env)
+            self.assertEqual(done.returncode, 0, done.stderr)
+            again = subprocess.run([sys.executable, str(SCRIPT), str(path)], capture_output=True, env=env)
+            self.assertEqual(again.returncode, 1)
+            self.assertIn(b"already rendered", again.stderr)
+
+    def test_output_uses_lf_on_every_os(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "page.html"
+            path.write_text(FRAGMENT, encoding="utf-8")
+            subprocess.run([sys.executable, str(SCRIPT), str(path)], check=True, capture_output=True)
+            self.assertNotIn(b"\r\n", path.read_bytes())
+
     def test_routing_doc_names_the_real_paths(self):
         text = ROUTING.read_text(encoding="utf-8")
         self.assertIn("${CLAUDE_PLUGIN_ROOT}/skills/loop/scripts/render-page.py", text)

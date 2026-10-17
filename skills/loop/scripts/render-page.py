@@ -2,6 +2,7 @@
 """Wrap a page fragment in the unknowns page template, in place.
 
 Usage: python3 render-page.py PAGE.html [--lang ko] [--artifact] [--out OUT.html]
+       (Windows without a python3 command: py -3 render-page.py ... or python render-page.py ...)
 
 The fragment holds only the page's content: a <title> first, the cards and
 controls, and one <section class="reply">default assembled reply</section>.
@@ -12,6 +13,8 @@ model never writes the shared theme, accessibility or reply-assembly code.
             starting with <title> and <style>.
 Exit 1 with a message when the fragment breaks the page contract.
 """
+from __future__ import annotations
+
 import argparse
 import html
 import re
@@ -55,7 +58,7 @@ def reply_panel(attrs: str, inner: str) -> str:
 
 def render(fragment: str, lang: str, artifact: bool) -> str:
     if MARK in fragment:
-        raise ValueError("already rendered — edit this page directly, or rewrite the fragment and render again")
+        raise ValueError("already rendered - edit this page directly, or rewrite the fragment and render again")
     if re.search(r"<!doctype|<html\b|<head\b|<body\b", fragment, re.I):
         raise ValueError("write a fragment: no <!doctype>, <html>, <head> or <body>")
     title = re.search(r"<title>(.*?)</title>", fragment, re.S | re.I)
@@ -89,6 +92,10 @@ def render(fragment: str, lang: str, artifact: bool) -> str:
 
 
 def main() -> int:
+    # A Windows console may use cp1252/cp949; a non-ASCII path or message must not crash the run.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
     ap = argparse.ArgumentParser(description="Wrap a page fragment in the unknowns page template.")
     ap.add_argument("page")
     ap.add_argument("--lang", default="en", help="language of the page's prose (BCP 47, e.g. ko, en)")
@@ -103,11 +110,13 @@ def main() -> int:
         print(f"render-page: {err}", file=sys.stderr)
         return 1
     out = Path(args.out) if args.out else src
-    out.write_text(page, encoding="utf-8")
+    # LF on every OS, so a page built on Windows is byte-identical to one built elsewhere
+    with open(out, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(page)
     controls = len(re.findall(r"\bdata-reply\s*=", fragment))
     print(f"render-page: wrote {out} ({len(page.encode('utf-8'))} bytes, {controls} reply controls)")
     if controls == 0:
-        print("render-page: warning — no [data-reply] controls, so the reply never changes", file=sys.stderr)
+        print("render-page: warning - no [data-reply] controls, so the reply never changes", file=sys.stderr)
     return 0
 
 
