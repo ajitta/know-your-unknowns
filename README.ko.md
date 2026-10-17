@@ -13,7 +13,10 @@
 - 몰랐던 것을 PR 이후가 아니라 **프롬프트를 쓰기 전에** 발견합니다.
 - 보고 반응해야 하는 산출물은 **반응을 구조화된 답변으로 조립해 주는 단일 파일 인터랙티브
   페이지**로 나옵니다 — 문단을 쓰는 것보다 칩을 누르는 편이 빠릅니다. 뷰어가 없는
-  환경에서는 마크다운으로 폴백합니다.
+  환경에서는 마크다운으로 폴백합니다. 페이지의 테마·접근성·회신 복사 코드는 공용 템플릿
+  (`skills/loop/assets/`, 조립은 `skills/loop/scripts/render-page.py`)에서 오므로 모델은
+  내용만 씁니다. 스크립트는 Python 3이 필요합니다. Windows에서 `python3`이 없으면 스킬이
+  `py -3`을 쓰라고 안내하고, Python이 아예 없으면 모델이 템플릿을 직접 인라인합니다.
 - 계획 이탈은 아직 값이 쌀 때 기록되고, 세션이 표류하면 훅이 찔러 줍니다.
 
 > **측정 상태: 미측정(unmeasured).** 가치 계약([`docs/value-contract.md`](docs/value-contract.md))은
@@ -110,7 +113,7 @@ claude --plugin-dir ./know-your-unknowns
 플러그인 스킬에만 채워 넣으므로 복사한 폴더에서는 모델에게 자리표시자가 글자 그대로
 보입니다. `python3 scripts/build-skill-zips.py --target local`을 돌려 `dist/local/`에서
 원하는 폴더를 볼트나 프로젝트의 `.claude/skills/`에 복사하세요 — 각 스킬은 자기
-`references/` 폴더를 품은 독립 폴더이고, 전체 description과 `argument-hint`, `$ARGUMENTS`를
+`references/` 폴더(그리고 `assets/`·`scripts/`의 페이지 템플릿)를 품은 독립 폴더이고, 전체 description과 `argument-hint`, `$ARGUMENTS`를
 그대로 유지합니다(업로드용 zip은 이것들을 줄이거나 바꿉니다). `agents/*.md`는 `.claude/agents/`에 복사합니다. 이 경우 호출명은
 네임스페이스 없이 `/blindspot`, `/quiz`처럼 짧아집니다. 훅은 플러그인 형태일 때만 자동 활성화되므로,
 수동 설정은 [훅 동작과 설정](#훅-동작과-설정)을 참고하세요.
