@@ -19,7 +19,11 @@ so this script ports it. Every difference is listed here and nowhere else:
      substitutes with the installed plugin root (the model's working directory is
      the user's project, so a bare relative path would not resolve). A lone skill
      folder has no plugin root, so the operational references are copied into the
-     skill and the paths are rewritten to `references/x.md`.
+     skill and the paths are rewritten to `references/x.md`. A skill that uses
+     `output-routing.md` also gets the page template it builds pages from
+     (`assets/page.css`, `assets/page.js`, `scripts/render-page.py`).
+     `output-routing.md` finds them relative to its own `references/` folder, so
+     the same text works in the plugin and in a lone skill folder.
   3. `$ARGUMENTS` is a Claude Code substitution. Nothing substitutes it elsewhere,
      so it becomes plain words.
   4. `argument-hint` is dropped: it describes a slash invocation these surfaces
@@ -39,8 +43,8 @@ One local-only rewrite: agent names lose the plugin namespace
 `.claude/agents/`.
 
 Usage:  python3 scripts/build-skill-zips.py [--out dist] [--target upload|local]
-Output: upload -> dist/<skill>.zip  (each holding <skill>/SKILL.md [+ references/])
-        local  -> dist/local/<skill>/SKILL.md [+ references/]
+Output: upload -> dist/<skill>.zip  (each holding <skill>/SKILL.md [+ references/ assets/ scripts/])
+        local  -> dist/local/<skill>/SKILL.md [+ references/ assets/ scripts/]
 """
 import argparse
 import json
@@ -53,6 +57,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
 REFS = SKILLS / "loop" / "references"
+# The page template that output-routing.md builds every page from.
+PAGE_FILES = [SKILLS / "loop" / "assets" / "page.css", SKILLS / "loop" / "assets" / "page.js",
+              SKILLS / "loop" / "scripts" / "render-page.py"]
 
 # Limits: `name` 64 and `description` 1024 are the Agent Skills spec
 # (platform.claude.com, agent-skills/overview). The Claude help centre states 200
@@ -75,6 +82,7 @@ def port(body: str, keep_arguments: bool = False) -> tuple[str, set[str]]:
 
     root = r"(?:\$\{CLAUDE_PLUGIN_ROOT\}/)?"
     body = re.sub(root + r"skills/loop/references/([a-z-]+)\.md", ref, body)
+    body = re.sub(root + r"skills/loop/(assets|scripts)/", r"\1/", body)
     if not keep_arguments:
         body = body.replace("`$ARGUMENTS`", ARGUMENTS_PROSE).replace("$ARGUMENTS", ARGUMENTS_PROSE)
     else:
@@ -185,6 +193,11 @@ def build(out_dir: Path, target: str = "upload") -> int:
             ported_ref, _ = port(source.read_text(encoding="utf-8"),
                                  keep_arguments=local)
             (target / source.name).write_text(ported_ref, encoding="utf-8")
+        if "output-routing" in used:
+            for source in PAGE_FILES:
+                target = skill_dir / source.parent.name
+                target.mkdir(exist_ok=True)
+                shutil.copy2(source, target / source.name)
 
         if local:
             archive = out_dir / folder

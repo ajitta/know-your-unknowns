@@ -14,7 +14,12 @@ What that buys you, concretely:
 - You find out what you didn't know **before** you write the prompt, not after the PR.
 - Anything you have to look at and react to arrives as a **single-file interactive page
   that assembles your reactions back into a structured answer** — clicking chips beats
-  writing paragraphs. It falls back to Markdown where there is no viewer.
+  writing paragraphs. It falls back to Markdown where there is no viewer. The page's
+  theme, accessibility and copy-back code come from a shared template
+  (`skills/loop/assets/`, assembled by `skills/loop/scripts/render-page.py`), so the
+  model writes only the content. The script needs Python 3; on Windows the skills say
+  to use `py -3` when there is no `python3`, and with no Python at all the model inlines
+  the template itself.
 - Plan deviations get logged while they are still cheap, and a hook nudges you when a
   session drifts.
 
@@ -118,7 +123,8 @@ at `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`, which Claude Code fills i
 plugin skills, so a copied folder shows the model a literal placeholder. Instead, run
 `python3 scripts/build-skill-zips.py --target local` and copy the folders you want from
 `dist/local/` into your vault's or project's `.claude/skills/`. Each folder is
-self-contained: its references sit in its own `references/` folder, and it keeps the full
+self-contained: its references sit in its own `references/` folder, the page template in
+`assets/` and `scripts/`, and it keeps the full
 description, `argument-hint` and `$ARGUMENTS` (the upload zips shorten and rewrite those).
 Copy `agents/*.md` into `.claude/agents/`. Invocations then lose the namespace and get
 short: `/blindspot`, `/quiz`. The hooks activate automatically only in plugin form; see

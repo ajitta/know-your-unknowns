@@ -105,7 +105,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-blindspot-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 Reaction control: a copyable **prompt fix** per card; selected fixes assemble into the improved prompt draft.
-Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Scope
 

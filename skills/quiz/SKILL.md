@@ -77,7 +77,7 @@ Reaction controls per question type:
 
 The reaction controls assemble into the cleared-to-merge checklist plus a copyable answers + teach-back + score + missed-sections block the user pastes back, which step 3 and the wrap-up then run on.
 
-Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Wrap-Up: Handoff Summary
 

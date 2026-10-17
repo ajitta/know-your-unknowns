@@ -43,6 +43,7 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
     - the four finding kinds and the status labels (unknowns-scout, blindspot)
     - the independent-reviewer packet (loop step 8, `skills/loop/references/surfaces.md`)
     - each skill's Output ladder (`skills/loop/references/output-routing.md` defines it)
+    - the page-template pointer that follows each Output ladder ("Before writing HTML, read how to build the page from the template: …")
     - the blindspot ↔ teach-me order sentence (blindspot Scope, teach-me Related)
 12. **Moving a sentence can change its meaning.**
     - Putting it under a sub-bullet or a condition, or taking it out, changes when it applies.

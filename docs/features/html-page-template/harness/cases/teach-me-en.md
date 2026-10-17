@@ -1,0 +1,1 @@
+/unknowns:teach-me I have to brief a colorist on our 30-second product video and I don't have the vocabulary — I just know it looks "flat and kind of cheap". Teach me the terms I need so I can write a precise request. Make it a page file I can play with and check off what I want.

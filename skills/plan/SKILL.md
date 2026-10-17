@@ -70,4 +70,4 @@ Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-plan-<slug>.htm
 
 Each decision card carries an **alternative toggle** and an **approve / request-change** control; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work collapsed.
 
-Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md

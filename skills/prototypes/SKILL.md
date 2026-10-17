@@ -51,7 +51,7 @@ Use markdown also when HTML is unnatural (static document, API design).
 - On skip, a one-tap **"would steal if…"** field is revealed (step 4).
 - Selections assemble into a **requirements list** ("option 2's layout + option 4's colors…").
 
-Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Variants
 

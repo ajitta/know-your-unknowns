@@ -1,5 +1,68 @@
 # Changelog
 
+## 0.9.0 — 2026-10-18
+
+Pages are now built from a shared template, so the model writes only their content. On
+Opus 5.5, a page-producing run used 30% fewer output tokens on average (median −16% to
+−34% per case, each p < 0.03) and cost 26% less in total (−10% to −33% per case,
+significant in two of three). Measured on 3 skills × 6 runs, this release and main run
+side by side with the same harness:
+`docs/features/html-page-template/README.md`.
+
+Release steps per `docs/open-questions.md` A4 are done the same day as the last merge, at
+tag `unknowns--v0.9.0`.
+
+### Added
+
+- **Page template**: `skills/loop/assets/page.css` (light/dark tokens, focus, reduced
+  motion for CSS, layout classes) and `skills/loop/assets/page.js` (reply assembly from
+  `data-reply` controls: checkboxes, chip rows, self-graded questions with a score, and
+  text, slider and select inputs once they differ from their opening value; copy button).
+- **`skills/loop/scripts/render-page.py`**: wraps a fragment in place with the template
+  inlined (`--artifact` for the Artifact tool form, no document wrapper). It refuses the
+  common external-resource forms, a missing `<title>`, and a missing, empty, nested or
+  duplicated reply section. Python 3.7+, standard library only.
+- `tests/test_render_page.py`.
+
+### Changed
+
+- **`output-routing.md` §3–§4** describe the fragment + script workflow and the full
+  control vocabulary, and say the template sources need not be read. The template is found
+  relative to the reference file itself, because `${CLAUDE_PLUGIN_ROOT}` is not substituted
+  in reference files and is not set in the shell. With no shell or no Python, the model
+  inlines the two asset files itself, with `page.js` after the content.
+- Page rules: the theme, focus, CSS reduced-motion and JS-off reply rules now live in the
+  template. The rest is restated: a new **Self-contained** block (inline all CSS and JS,
+  no separate files), the language rule now covers the reply labels and `--lang`, custom
+  colors keep the per-theme rule, and custom JS animation must respect reduced motion.
+  The look rules are unchanged.
+- The nine skills that produce pages point at the template with one shared sentence in
+  place of their `Details:` line (listed in `.claude/rules/skill-writing.md` rule 11).
+- `scripts/build-skill-zips.py` bundles the template into every standalone skill that uses
+  `output-routing.md`.
+
+### Windows
+
+- The render command quotes both paths and falls back to `py -3` or `python` when there
+  is no `python3`. The script survives a cp1252/cp949 console, reads a BOM, and writes LF
+  on every OS. Covered by unit tests that CI runs on windows-latest; not run inside Claude
+  Code on Windows.
+
+### Checked
+
+- Two independent reviews (a separate agent profile) of the branch; every blocker and
+  should-fix finding was fixed. Headless-Chromium checks of the template's controls, theme
+  and JS-off reply.
+- `behavior-*` evals, 3 runs, mechanical graders: main 33/33, this
+  release 31/33. Both misses are blindspot asking its intake questions before writing the
+  prompt draft; a side-by-side 10-run rerun of that grader gave 8/10 on main and 8/10 here.
+
+### Not measured
+
+- The other six page-producing skills, the Artifact tool rung (headless runs have no
+  Artifact tool), standalone skill zips on Desktop/web, and the `llm` graders of the
+  `behavior-*` cases.
+
 ## 0.8.4 — 2026-10-14
 
 Skill and agent text was rewritten under new writing rules, and the inconsistencies that

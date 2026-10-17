@@ -12,7 +12,7 @@ argument-hint: "<task description> | status | resume"
 
 Core principle: the bottleneck with strong models is not the model — it's the user's ability to keep the map (plan) matched to the territory (reality). That gap is **the unknowns**. Designing the explore → question → plan → implement → log deviations → verify loop matters more than one good prompt.
 
-Output: Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-loop-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat. Each stage's artifact keeps its own skill's reaction control; the loop's own control is the stage checkpoint, which assembles into the `.unknowns/loop.json` tracker. Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Output: Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-loop-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat. Each stage's artifact keeps its own skill's reaction control; the loop's own control is the stage checkpoint, which assembles into the `.unknowns/loop.json` tracker. Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Steps (10 — scale down by size)
 

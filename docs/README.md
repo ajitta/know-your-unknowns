@@ -37,6 +37,7 @@
 |------|------|------|----------------|------------|
 | [README.md](README.md) | 이 색인 | 한국어 | 수기 | docs/에 파일이 늘거나 줄 때 |
 | [open-questions.md](open-questions.md) | 결정 기록(A)과 재검증 대기(B). 왜 그렇게 결정했는지가 본문 | 한국어 | 수기 | 결정이 날 때마다. 항목은 B→A로 옮기고 삭제하지 않는다 |
+| [features/html-page-template/](features/html-page-template/README.md) | 0.9.0 페이지 템플릿(`render-page.py`)의 출력 토큰 측정: main 대비 3케이스 × 6회, 하네스 포함 | 한국어 | 수기 + `harness/analyze.py` 출력 | 페이지 템플릿이나 output-routing.md §3–§4를 바꿀 때 재측정 |
 | [trigger-matrix.md](trigger-matrix.md) | 11개 스킬의 트리거 문구 전수 + 충돌 쌍과 해소 상태 | 한국어 | 반자동 — 문서 안의 추출 스크립트 출력으로 표를 수기 갱신 | 문서 "갱신 방법" 절의 `python3` 블록을 저장소 루트에서 실행 |
 | [trigger-eval-v0.3.0.md](trigger-eval-v0.3.0.md) | v0.3.0 시점 자동 발화율·루프 준수 실측 기록 | 한국어 | headless `claude -p` 실행 6건의 transcript에서 추출 | **동결** — 특정 시점 측정 기록. 재측정은 새 날짜의 새 파일로 — 첫 후속은 trigger-eval-v0.5.1.md |
 | [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md) | 0.5.1이 description에서 한국어를 뺀 뒤의 트리거 측정. 한국어 축 11/11, 나머지 축은 미측정임을 명시 | 한국어 | `evals/run-manual.py` 실행의 `manual-result.json`에서 추출 | **동결** — 단 `evals/results/`가 gitignore되므로, 다음 실행 때는 결과가 지워지기 전에 새 날짜의 새 파일을 만들 것 |

@@ -47,7 +47,7 @@ Layout: cards on a time axis (ship this afternoon → quarter-long bet), with a 
 
 Reaction control: a **resonate checkbox** on each card; the checked cards assemble into a copyable "proceed with these, in this order".
 
-Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
 
 ## Related
 
