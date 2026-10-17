@@ -94,7 +94,7 @@ class RenderTest(unittest.TestCase):
             self.assertEqual(done.returncode, 0, done.stderr)
             self.assertIn("1 reply controls", done.stdout)
             self.assertIn('<html lang="ko">', path.read_text(encoding="utf-8"))
-            again = subprocess.run([sys.executable, str(SCRIPT), str(path)],
+            again = subprocess.run([sys.executable, str(SCRIPT), str(path), "--lang", "ko"],
                                    capture_output=True, text=True, encoding="utf-8")
             self.assertEqual(again.returncode, 1)
 
@@ -108,7 +108,8 @@ class RenderTest(unittest.TestCase):
             done = subprocess.run([sys.executable, str(SCRIPT), str(path), "--lang", "ko"],
                                   capture_output=True, env=env)
             self.assertEqual(done.returncode, 0, done.stderr)
-            again = subprocess.run([sys.executable, str(SCRIPT), str(path)], capture_output=True, env=env)
+            again = subprocess.run([sys.executable, str(SCRIPT), str(path), "--lang", "ko"],
+                                   capture_output=True, env=env)
             self.assertEqual(again.returncode, 1)
             self.assertIn(b"already rendered", again.stderr)
 
@@ -116,16 +117,108 @@ class RenderTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "page.html"
             path.write_text(FRAGMENT, encoding="utf-8")
-            subprocess.run([sys.executable, str(SCRIPT), str(path)], check=True, capture_output=True)
+            subprocess.run([sys.executable, str(SCRIPT), str(path), "--lang", "en"], check=True,
+                           capture_output=True)
             self.assertNotIn(b"\r\n", path.read_bytes())
 
-    def test_routing_doc_names_the_real_paths(self):
+    def test_routing_doc_names_paths_relative_to_itself(self):
+        # Reference files are opened with Read, so ${CLAUDE_PLUGIN_ROOT} is never substituted
+        # in them and is not set in the shell; the doc must locate the template from itself.
         text = ROUTING.read_text(encoding="utf-8")
-        self.assertIn("${CLAUDE_PLUGIN_ROOT}/skills/loop/scripts/render-page.py", text)
+        self.assertIn('"<template>/scripts/render-page.py"', text)
+        self.assertNotIn("${CLAUDE_PLUGIN_ROOT}/skills/loop/scripts", text)
+        template = ROUTING.parent.parent
+        self.assertTrue((template / "scripts" / "render-page.py").exists())
         for name in ("page.css", "page.js"):
-            self.assertIn(f"assets/{name}", text)
-            self.assertTrue(ASSETS.joinpath(name).exists())
+            self.assertIn(f"<template>/assets/{name}" if name == "page.css" else name, text)
+            self.assertTrue((template / "assets" / name).exists())
 
+    def test_attribute_entities_are_decoded_once(self):
+        fragment = FRAGMENT.replace('data-label="Reply"', 'data-label="Q&amp;A" data-head="Brief &quot;v2&quot;&#10;Points:"')
+        page = render_page.render(fragment, "en", artifact=False)
+        self.assertIn("<h2>Q&amp;A</h2>", page)
+        self.assertIn('data-head="Brief &quot;v2&quot;\nPoints:"', page)
+        self.assertNotIn("&amp;amp;", page)
+        self.assertNotIn("&amp;quot;", page)
+        self.assertNotIn("&amp;#10;", page)
+
+    def test_reply_section_variants(self):
+        single = FRAGMENT.replace('<section class="reply"', "<section class='card reply' id=\"reply\" data-label='회신'")
+        page = render_page.render(single, "ko", artifact=False)
+        self.assertIn('<section class="reply card"', page)
+        self.assertIn("<h2>회신</h2>", page)
+        self.assertEqual(page.count('id="reply"'), 1)
+        hint = FRAGMENT + '<p class="reply-hint">hint</p><section class="no-reply">x</section>'
+        render_page.render(hint, "en", artifact=False)  # only the class token "reply" counts
+        with self.assertRaises(ValueError):
+            render_page.render(FRAGMENT.replace("Proceed with", "<section>x</section>Proceed with"), "en", False)
+
+    def test_script_text_is_left_alone(self):
+        fragment = FRAGMENT + '<script>const s = "<style>.a{}</style>";</script>'
+        page = render_page.render(fragment, "en", artifact=False)
+        self.assertIn('const s = "<style>.a{}</style>";', page)
+
+    def test_title_with_attributes_and_bom(self):
+        page = render_page.render(FRAGMENT.replace("<title>", '<title id="t">'), "en", artifact=False)
+        self.assertIn("<title>Options</title>", page)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "page.html"
+            path.write_bytes(b"\xef\xbb\xbf" + FRAGMENT.encode("utf-8"))
+            subprocess.run([sys.executable, str(SCRIPT), str(path), "--lang", "en"], check=True, capture_output=True)
+            self.assertNotIn("\ufeff", path.read_text(encoding="utf-8"))
+
+    def test_external_resources_more_forms(self):
+        refused = [
+            '<img srcset="https://cdn.example.com/a.png 1x">',
+            '<svg><image href="https://cdn.example.com/a.png"/></svg>',
+            '<svg><use xlink:href="https://cdn.example.com/s.svg#i"/></svg>',
+            '<object data="https://cdn.example.com/a.pdf"></object>',
+            '<button onclick="fetch(\'https://x.example\')">x</button>',
+            "<script>navigator.sendBeacon('/x')</script>",
+            '<link rel="stylesheet" href="https://evil.example/fonts.googleapis.com.css">',
+            '<script src="https://fonts.googleapis.com/evil.js"></script>',
+            '<script src="app.js"></script>',
+            '<img src="shot.png">',
+        ]
+        for extra in refused:
+            with self.subTest(extra), self.assertRaises(ValueError):
+                render_page.render(FRAGMENT + extra, "en", artifact=False)
+        allowed = [
+            '<pre>&lt;img src="https://cdn.example.com/a.png"&gt;</pre>',
+            "<pre><code>const r = await fetch(url)</code></pre>",
+            '<img src="data:image/png;base64,iVBORw0KGgo=">',
+            '<svg><use href="#icon"/></svg>',
+            "<style>@import url('https://fonts.googleapis.com/css2?family=Inter');</style>",
+        ]
+        for extra in allowed:
+            with self.subTest(extra):
+                render_page.render(FRAGMENT + extra, "en", artifact=False)
+
+    def test_cli_errors_are_messages_not_tracebacks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "page.html"
+            path.write_text(FRAGMENT, encoding="utf-8")
+            done = subprocess.run([sys.executable, str(SCRIPT), str(path), "--lang", "en",
+                                   "--out", str(Path(tmp) / "missing" / "x.html")],
+                                  capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(done.returncode, 1)
+            self.assertNotIn("Traceback", done.stderr)
+            no_lang = subprocess.run([sys.executable, str(SCRIPT), str(path)], capture_output=True)
+            self.assertEqual(no_lang.returncode, 2)  # --lang is required
+
+    def test_skill_zips_carry_the_template(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            subprocess.run([sys.executable, str(ROOT / "scripts" / "build-skill-zips.py"), "--out", tmp],
+                           check=True, capture_output=True)
+            import zipfile
+            with zipfile.ZipFile(Path(tmp) / "brainstorm.zip") as zf:
+                names = set(zf.namelist())
+                self.assertTrue({"brainstorm/assets/page.css", "brainstorm/assets/page.js",
+                                 "brainstorm/scripts/render-page.py",
+                                 "brainstorm/references/output-routing.md"} <= names)
+                self.assertNotIn("CLAUDE_PLUGIN_ROOT", zf.read("brainstorm/SKILL.md").decode("utf-8"))
+            with zipfile.ZipFile(Path(tmp) / "interview.zip") as zf:
+                self.assertFalse(any("/assets/" in n for n in zf.namelist()))
 
 if __name__ == "__main__":
     unittest.main()

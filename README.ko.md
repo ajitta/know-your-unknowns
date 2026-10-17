@@ -113,7 +113,8 @@ claude --plugin-dir ./know-your-unknowns
 플러그인 스킬에만 채워 넣으므로 복사한 폴더에서는 모델에게 자리표시자가 글자 그대로
 보입니다. `python3 scripts/build-skill-zips.py --target local`을 돌려 `dist/local/`에서
 원하는 폴더를 볼트나 프로젝트의 `.claude/skills/`에 복사하세요 — 각 스킬은 자기
-`references/` 폴더(그리고 `assets/`·`scripts/`의 페이지 템플릿)를 품은 독립 폴더이고, 전체 description과 `argument-hint`, `$ARGUMENTS`를
+`references/` 폴더와 `assets/`·`scripts/`의 페이지 템플릿을 품은 독립 폴더이고,
+전체 description과 `argument-hint`, `$ARGUMENTS`를
 그대로 유지합니다(업로드용 zip은 이것들을 줄이거나 바꿉니다). `agents/*.md`는 `.claude/agents/`에 복사합니다. 이 경우 호출명은
 네임스페이스 없이 `/blindspot`, `/quiz`처럼 짧아집니다. 훅은 플러그인 형태일 때만 자동 활성화되므로,
 수동 설정은 [훅 동작과 설정](#훅-동작과-설정)을 참고하세요.

@@ -21,9 +21,9 @@ so this script ports it. Every difference is listed here and nowhere else:
      folder has no plugin root, so the operational references are copied into the
      skill and the paths are rewritten to `references/x.md`. A skill that uses
      `output-routing.md` also gets the page template it builds pages from
-     (`assets/page.css`, `assets/page.js`, `scripts/render-page.py`), with
-     `${CLAUDE_PLUGIN_ROOT}/skills/loop/assets/` and `.../scripts/` rewritten to
-     `assets/` and `scripts/`.
+     (`assets/page.css`, `assets/page.js`, `scripts/render-page.py`).
+     `output-routing.md` finds them relative to its own `references/` folder, so
+     the same text works in the plugin and in a lone skill folder.
   3. `$ARGUMENTS` is a Claude Code substitution. Nothing substitutes it elsewhere,
      so it becomes plain words.
   4. `argument-hint` is dropped: it describes a slash invocation these surfaces

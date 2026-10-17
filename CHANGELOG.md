@@ -1,5 +1,58 @@
 # Changelog
 
+## 0.9.0 — 2026-10-17
+
+Pages are now built from a shared template, so the model writes only their content. On
+Opus 5.5, output tokens for a page-producing run fell by a median 28–32% per case (mean
+36.2k → 24.8k) and cost by 26%, with page checks at least as good as before. Measured on 3
+skills × 6 runs against main, same day, same harness:
+`docs/features/html-page-template/README.md`.
+
+Release steps per `docs/open-questions.md` A4 are done the same day as the last merge, at
+tag `unknowns--v0.9.0`.
+
+### Added
+
+- **Page template**: `skills/loop/assets/page.css` (light/dark tokens, focus, reduced
+  motion, layout classes) and `skills/loop/assets/page.js` (reply assembly from
+  `data-reply` controls: checkboxes, chip rows, self-graded questions with a score, text,
+  slider and select inputs once changed, copy button).
+- **`skills/loop/scripts/render-page.py`**: wraps a fragment in place with the template
+  inlined (`--artifact` for the Artifact tool form, no document wrapper). It refuses
+  external resources, a missing `<title>`, and a missing, empty or duplicated reply
+  section. Python 3.7+, standard library only.
+- `tests/test_render_page.py`.
+
+### Changed
+
+- **`output-routing.md` §3–§4** describe the fragment + script workflow and the full
+  control vocabulary, and say the template sources need not be read. With no shell or no
+  Python, the model inlines the two asset files itself. Language, look and accessibility
+  rules are unchanged; the theme, focus, reduced-motion and JS-off reply rules now live in
+  the template.
+- The nine skills that produce pages point at the template with one shared sentence in
+  place of their `Details:` line.
+- `scripts/build-skill-zips.py` bundles the template into every standalone skill that uses
+  `output-routing.md` and rewrites its paths.
+
+### Fixed
+
+- Pages could ship with an empty reply box until the user clicked something, breaking the
+  JS-off rule (2 of 18 baseline pages). The template always fills it.
+
+### Windows
+
+- The render command quotes both paths and falls back to `py -3` or `python` when there
+  is no `python3`. The script survives a cp1252/cp949 console and writes LF on every OS.
+  Covered by unit tests that CI runs on windows-latest; not run inside Claude Code on
+  Windows.
+
+### Not measured
+
+- The other six page-producing skills, the Artifact tool rung (headless runs have no
+  Artifact tool), standalone skill zips on Desktop/web, and `llm` graders of the
+  `behavior-*` cases (mechanical graders: 33/33 on the branch, 32/33 on main).
+
 ## 0.8.4 — 2026-10-14
 
 Skill and agent text was rewritten under new writing rules, and the inconsistencies that
