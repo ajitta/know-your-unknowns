@@ -59,7 +59,9 @@ The hooks now run on Windows without a `python3` alias. Release steps per
 - Independent review (separate reviewer run, read-only on the repo): one blocker (the
   no-interpreter message was claimed for Linux and macOS too) and one should-fix
   (`onFailure`), both fixed here, plus nits N1–N3 fixed; N4 (zsh word splitting, never
-  used by Claude Code) and N5 (CI installs Claude Code unpinned) left as they are.
+  used by Claude Code) and N5 (CI installs Claude Code unpinned) left as they are. A second
+  pass on the fixes gave `VERDICT: ship`; its three nits (the default-shell Claude Code
+  test now runs from the `plug in $HOME` copy too, two wording fixes) are in.
 
 ### Not verified
 
