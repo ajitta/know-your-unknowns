@@ -496,7 +496,7 @@ Bash는 읽기 전용 조회용으로 남아 있어 샌드박스 수준의 보�
 **independent-reviewer** (독립 검증):
 ```
 Use the independent-reviewer agent — 방금 구현 머지 전 검증
-독립 검증 돌려줘
+unknowns independent-reviewer로 이 브랜치를 계획 대비 검증해줘
 ```
 구현한 세션의 설명을 **주장으로만 취급**하고 코드·테스트 실행으로 직접 확인합니다. 다섯 가지
 점검 항목은 일반 코드 리뷰가 다루지 않는 것들로 의도적으로 좁혀져 있습니다:

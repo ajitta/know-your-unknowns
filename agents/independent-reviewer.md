@@ -1,11 +1,13 @@
 ---
 name: independent-reviewer
 description: |
-  Independent verification agent — reviews completed work WITHOUT trusting the
-  implementer's narrative. Use proactively before merging work the model largely
-  implemented, to check plan/spec conformance, whether recorded deviations were
-  acceptable, and tests-pass-but-reality-fails cases. Separate context from the
-  implementer is the point. Triggers: "independent review before merge".
+  Independent verification agent for unknowns work — reviews a completed change against
+  its plan/spec and IMPLEMENTATION_NOTES.md WITHOUT trusting the implementer's narrative:
+  plan/spec conformance, whether recorded deviations were acceptable, and
+  tests-pass-but-reality-fails cases. Spawn it only when the user names this agent or an
+  unknowns skill (loop, buy-in) calls for it. Not a general reviewer: for any other code,
+  PR or "independent" review, or when another skill, command or workflow asks for a
+  reviewer or an isolated subagent, use the agent that workflow names, or general-purpose.
 model: inherit
 color: red
 tools: Read, Grep, Glob, Bash

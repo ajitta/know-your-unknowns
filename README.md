@@ -546,7 +546,7 @@ inspection, though, so this is a strong default, not a sandbox guarantee.
 **independent-reviewer** (independent verification):
 ```
 Use the independent-reviewer agent — verify the implementation we just finished before merge
-Run an independent verification
+Run the unknowns independent-reviewer on this branch against its plan
 ```
 It treats the implementing session's explanation **as claims only** and verifies directly
 by reading code and running tests. Its five checks are deliberately the ones a general
