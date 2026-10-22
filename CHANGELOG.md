@@ -2,57 +2,79 @@
 
 ## 0.9.2 — 2026-10-22
 
-Other review workflows no longer pick up the `independent-reviewer` agent. Release steps
-per `docs/open-questions.md` A4 are done the same day as the merge, at tag
-`unknowns--v0.9.2`.
+Both agents, `independent-reviewer` and `unknowns-scout`, now run only when you name them
+or an unknowns skill calls them. Other review or research workflows no longer pick them
+up, and an unnamed "independent review" or "investigate first" request no longer reaches
+them either. Release steps per `docs/open-questions.md` A4 are done the same day as the
+merge, at tag `unknowns--v0.9.2`.
 
 ### Fixed
 
-- **`agents/independent-reviewer.md` description**: the agent was chosen whenever any
-  workflow asked for an "independent" review or an isolated reviewer subagent. Two real
-  sessions on the owner's machine did this: SuperClaude's `/sc:review`, whose own flow
-  names its `self-review` agent, and a vault skill asking a subagent to compare note
-  claims. The description dropped "Use proactively before merging…" and
-  `Triggers: "independent review before merge"`. It now says to spawn the agent only when
-  the user names it or an unknowns skill (loop, buy-in) calls for it, and that any other
-  review request, or another workflow's reviewer or subagent, goes to the agent that
-  workflow names, or general-purpose. The agent body is unchanged.
+- **`agents/independent-reviewer.md` description**: a workflow asking for an
+  "independent" review or an isolated reviewer subagent could pick this agent. It
+  happened in 2 of 32 review-type dispatches in the owner's session history: SuperClaude's
+  `/sc:review`, whose own flow names its `self-review` agent, and a vault skill asking a
+  subagent to compare note claims. The description dropped "Use proactively before
+  merging…" and `Triggers: "independent review before merge"`. It now says to spawn the
+  agent only when the user names it or an unknowns skill (loop, buy-in) calls for it, and
+  that any other review request, or another workflow's reviewer or subagent, goes to the
+  agent that workflow names, or general-purpose. The agent body is unchanged.
+- **`agents/unknowns-scout.md` description**: the same pattern ("Use proactively BEFORE
+  implementation…", `Triggers: "blind-spot pass", "what am I missing"`) is replaced by the
+  same rule: by name, or from blindspot or brainstorm; other exploring or research
+  subagent requests go to the workflow's own agent, Explore, or general-purpose. The
+  trigger phrases stay with the blindspot skill. No unintended scout call was found in the
+  session history; this closes the same risk before it shows. The agent body is unchanged.
 - README (both languages): the agent example "Run an independent verification" /
-  "독립 검증 돌려줘" no longer reaches this agent, so it names the agent instead.
+  "독립 검증 돌려줘" no longer reaches the reviewer, so it names the agent; both agent
+  sections say when each agent runs.
+
+### Added
+
+- `tests/test_agent_descriptions.py`: both agent descriptions must not say "proactively"
+  or carry `Triggers:`, and must keep the by-name rule.
 
 ### Checked
 
 Opus 5.5 (`claude-opus-5-5`), Claude Code 2.1.307, base `main` and this change run side by
-side from frozen worktrees with the owner's install set (dia, design, SuperClaude user
-config), in a small git repository, 10 runs per cell. Agent calls were recorded and
-denied by a probe hook so no subagent ran. Details and harness:
-`docs/features/agent-collision/`.
+side from frozen worktrees with the owner's install set (dia, design, SuperClaude at user
+level; the test repository also carries a project-level SuperClaude install), in a small
+git repository. Agent calls were recorded and denied by a probe hook so no subagent ran. A
+run passes a "not unknowns" cell when no unknowns skill or agent appears anywhere in it.
+Details and harness: `docs/features/agent-collision/`.
 
-- Review requests that do not name the agent (three cells): the agent was picked in 21 of
-  30 base runs and 0 of 30 with this change (English "independent review before I merge"
-  10/10 → 0/10, p = 1.1e-5; Korean 9/10 → 0/10, p = 1.1e-4; "spawn one subagent to check
-  the README" 2/10 → 0/10, p = 0.47). With the change those requests went to
-  `/sc:review`, general-purpose or a direct answer.
-- Requests that name the agent: 10/10 → 10/10 in Korean and in English. Loop stage 8
+- `independent-reviewer`, review requests that do not name it (three cells, 10 runs
+  each): picked in 21 of 30 base runs and 0 of 30 with this change (English "independent
+  review before I merge" 10/10 → 0/10, p = 1.1e-5; Korean 9/10 → 0/10, p = 1.2e-4; "spawn
+  one subagent to check the README" 2/10 → 0/10, p = 0.47). Seven of the 30 change-arm
+  runs went through `/sc:review` and hit the turn limit before choosing a reviewer. The
+  independent review re-ran the two main cells at a 20-turn limit, 5 runs per arm:
+  20/20 → 0/20; with this change, runs that chose a reviewer after `/sc:review` took
+  `self-review` or general-purpose, never the unknowns agent. Without SuperClaude the same
+  requests went to general-purpose (English) or a direct answer (Korean).
+- `independent-reviewer` by name: 10/10 → 10/10 in Korean and in English. Loop stage 8
   from `/unknowns:loop resume`: 8/10 → 10/10 (the two base misses stopped on permission
-  prompts before stage 8).
-- Calls from inside the plugin, with permissions granted: `/unknowns:loop resume` at stage
-  8 5/5 → 5/5 and `/unknowns:buy-in` 5/5 → 5/5 spawned the agent.
-- `python3 -m unittest discover -s tests`, both `claude plugin validate --strict` forms.
+  prompts before stage 8). With permissions granted, `/unknowns:loop resume` at stage 8
+  5/5 → 5/5 and `/unknowns:buy-in` 5/5 → 5/5.
+- SCOUT_LINE
+- `python3 -m unittest discover -s tests`, both `claude plugin validate --strict` forms,
+  `evals/run-manual.py --verify`; an independent review (verdict "ship with fixes", all
+  fixes in this entry).
 
 Single-turn screens before the change (base only, 3 runs per cell: brainstorm, review,
 plan, quiz, interview, notes and reference wording with dia, design or SuperClaude next to
-unknowns) found no other unintended unknowns call; generic brainstorm requests went to
-`dia:dia-brainstorm`, `/sc:brainstorm` or a direct answer. No skill description changed.
+unknowns) found no unintended unknowns skill call. Generic brainstorm requests went to
+`dia:dia-brainstorm` or a direct answer, and `/sc:brainstorm` typed as a command ran
+without any unknowns skill. No skill description changed.
 
 ### Not verified
 
 - claude.ai, the desktop app and mobile, where skill names show without the plugin
-  prefix. A brainstorm collision seen there is not covered by this measurement.
-- Routing in the middle of a long multi-turn workflow; both real cases were mid-workflow,
-  the probes are single requests.
-- `unknowns-scout` keeps its "Use proactively" sentence: no unintended scout call was
-  found in the session history.
+  prefix. The brainstorm collision the owner reported was not reproduced in Claude Code
+  and is not covered by this measurement.
+- Routing in the middle of a long multi-turn workflow. Both real cases were
+  mid-workflow; the probes are single requests, and the base arm never reproduced the
+  choice made inside `/sc:review` (base picked the agent at the top level instead).
 
 ## 0.9.1 — 2026-10-18
 

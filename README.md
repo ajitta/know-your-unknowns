@@ -533,7 +533,10 @@ back to Bash `grep`/`find`.
 Use the unknowns-scout agent — investigate what I'm missing in the migration plan
 Scout the auth module with the unknowns-scout agent
 ```
-The blindspot skill also calls this agent automatically for large investigations. It maps
+The blindspot skill also calls this agent automatically for large investigations, and the
+brainstorm skill may use it to inventory existing code. Otherwise it runs only when you
+name it: other workflows asking for an exploring or research subagent get their own
+agent, Explore or a general agent. It maps
 the target area, reads git history for hairy dead ends and reverted commits, and checks
 test coverage and unwritten conventions. For an unfamiliar library it also reads the
 official docs and changelog for the *installed* version, which is why it holds WebFetch
@@ -560,7 +563,9 @@ its packet it reports conformance as not judgeable instead of guessing, and it e
 what it could not verify. General bug and security hunting belongs to `/code-review` and
 `/security-review` on the same diff; run those alongside. Where they are unavailable the
 agent covers error handling, security, performance and needless complexity itself as a
-secondary pass. Stage 8 of the loop skill calls it automatically.
+secondary pass. Stage 8 of the loop skill calls it automatically. Otherwise it runs only
+when you name it: an unnamed "independent review" goes to your other review tools or a
+general agent instead.
 
 ---
 

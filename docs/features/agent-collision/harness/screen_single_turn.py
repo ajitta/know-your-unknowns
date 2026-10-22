@@ -1,7 +1,7 @@
 """Collision probe for unknowns: which skill/agent fires on generic requests that
 should NOT go to unknowns (and positive controls that should).
 
-usage: python3 run.py <arm> [runs] [cell-prefix...]
+usage: python3 screen_single_turn.py <arm> [runs] [cell-prefix...]
   arm = name of a dir under arms/ holding the unknowns tree (base, var, ...)
 Companion plugins dia + design are loaded in every arm (the owner's install set).
 """

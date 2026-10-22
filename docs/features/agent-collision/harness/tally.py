@@ -27,12 +27,13 @@ for f in glob.glob(f"{D}/{OUT}/*/*.json"):
 for cell in sorted(res):
     line = [cell]
     cnt = {}
-    for arm in ("base", "var"):
+    ARMS = ["base"] + sorted({a for c in res.values() for a in c} - {"base"})
+    for arm in ARMS:
         v = res[cell].get(arm, [])
         p = sum(1 for o, _ in v if o); cnt[arm] = (p, len(v))
         fired = collections.Counter(str(x[1][0]) if x[1] else "-" for x in v)
         line.append(f"{arm} {p}/{len(v)} {dict(fired)}")
     if all(cnt[a][1] for a in cnt):
-        (pb, nb), (pv, nv) = cnt["base"], cnt["var"]
+        (pb, nb), (pv, nv) = cnt["base"], cnt[ARMS[-1]]
         line.append("p=%.4f" % fisher(pb, nb - pb, pv, nv - pv))
     print(" | ".join(line))
