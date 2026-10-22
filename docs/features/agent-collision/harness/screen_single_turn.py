@@ -58,6 +58,11 @@ C = {
   "g-reference-ko": ("NONE", "이 참고문헌을 APA 형식으로 바꿔줘: Kim, 2020, 한국 IT 산업 연구, 서울대출판부."),
 }
 JOBS = [(c, i) for c in C if (not PREFIX or any(c.startswith(p) for p in PREFIX)) for i in range(1, RUNS + 1)]
+# Pass the current access token as an env var; never copy the credentials file into
+# probe config dirs: the copies refresh on their own and wiped the main login once.
+TOKEN = (os.environ.get("CLAUDE_CODE_OAUTH_TOKEN") or
+         json.load(open(os.path.expanduser("~/.claude/.credentials.json")))["claudeAiOauth"]["accessToken"])
+MODEL = os.environ.get("MODEL", "claude-opus-5-5")
 OUT = f"{D}/out/{ARM}"
 os.makedirs(OUT, exist_ok=True)
 os.makedirs(f"{D}/cwd", exist_ok=True)
@@ -65,8 +70,8 @@ os.makedirs(f"{D}/cwd", exist_ok=True)
 
 def claude(prompt, cfg):
     env = {k: v for k, v in os.environ.items() if k != "CLAUDE_CONFIG_DIR"}
-    env.update(CLAUDE_CONFIG_DIR=cfg, ENABLE_CLAUDEAI_MCP_SERVERS="false")
-    cmd = ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose", "--max-turns", "3",
+    env.update(CLAUDE_CONFIG_DIR=cfg, ENABLE_CLAUDEAI_MCP_SERVERS="false", CLAUDE_CODE_OAUTH_TOKEN=TOKEN)
+    cmd = ["claude", "-p", prompt, "--model", MODEL, "--output-format", "stream-json", "--verbose", "--max-turns", "3",
            "--plugin-dir", f"{D}/arms/{ARM}", "--plugin-dir", f"{D}/arms/dia", "--plugin-dir", f"{D}/arms/design"]
     return subprocess.run(cmd, cwd=f"{D}/cwd", env=env, capture_output=True, text=True, timeout=900).stdout
 
@@ -98,10 +103,11 @@ def run(job):
     if os.path.exists(fn):
         return
     cfg = tempfile.mkdtemp(prefix="cc-", dir=os.environ.get("TMPDIR"))
-    shutil.copy(os.path.expanduser("~/.claude/.credentials.json"), cfg)
     try:
         out = claude(C[cell][1], cfg)
         fired, text, model, ns = parse(out)
+        if "Failed to authenticate" in text:
+            print("AUTH FAILURE - aborting", cell, i, flush=True); os._exit(3)
         if not model:
             print("EMPTY", cell, i, out[-300:], flush=True); return
         rec = dict(cell=cell, run=i, arm=ARM, expect=C[cell][0], fired=fired, model=model, nskills=ns, text=text[:3000])
@@ -111,6 +117,6 @@ def run(job):
         shutil.rmtree(cfg, ignore_errors=True)
 
 
-with cf.ThreadPoolExecutor(int(os.environ.get("CONC", "4"))) as ex:
+with cf.ThreadPoolExecutor(int(os.environ.get("CONC", "2"))) as ex:
     list(ex.map(run, JOBS))
 print("DONE", ARM, len(os.listdir(OUT)), "files", flush=True)

@@ -3,7 +3,8 @@
 0.9.2 found `independent-reviewer` picked by other workflows (SuperClaude's
 /sc:review, a vault skill) because its description said "Use proactively" and
 carried a generic trigger phrase. Both agents are now spawned only by name or
-from an unknowns skill; this test keeps that wording in place.
+from an unknowns skill; this test keeps that wording in place. It is a wording
+guard only: a differently phrased proactive sentence would still pass.
 Measurement: docs/features/agent-collision/.
 
 Run with: python3 -m unittest tests.test_agent_descriptions -v

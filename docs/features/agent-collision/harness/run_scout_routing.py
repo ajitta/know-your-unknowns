@@ -53,6 +53,7 @@ OUT = f"{D}/out-scout/{ARM}"
 # copies refresh on their own and the rotation wiped the main login once (2026-10-22).
 TOKEN = (os.environ.get("CLAUDE_CODE_OAUTH_TOKEN") or
          json.load(open(os.path.expanduser("~/.claude/.credentials.json")))["claudeAiOauth"]["accessToken"])
+MODEL = os.environ.get("MODEL", "claude-opus-5-5")
 os.makedirs(OUT, exist_ok=True)
 os.makedirs(f"{D}/cwd", exist_ok=True)
 
@@ -62,7 +63,7 @@ def claude(prompt, cfg):
     shutil.copytree(f"{D}/fixture", wd, symlinks=True)
     env = {k: v for k, v in os.environ.items() if k != "CLAUDE_CONFIG_DIR"}
     env.update(CLAUDE_CONFIG_DIR=cfg, ENABLE_CLAUDEAI_MCP_SERVERS="false", CLAUDE_CODE_OAUTH_TOKEN=TOKEN)
-    cmd = ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose", "--max-turns", "10",
+    cmd = ["claude", "-p", prompt, "--model", MODEL, "--output-format", "stream-json", "--verbose", "--max-turns", "10",
            "--plugin-dir", f"{D}/arms/{ARM}", "--plugin-dir", f"{D}/arms/dia", "--plugin-dir", f"{D}/arms/design"]
     return subprocess.run(cmd, cwd=wd, env=env, capture_output=True, text=True, timeout=900).stdout
 
@@ -121,6 +122,6 @@ def run(job):
         shutil.rmtree(cfg, ignore_errors=True)
 
 
-with cf.ThreadPoolExecutor(int(os.environ.get("CONC", "4"))) as ex:
+with cf.ThreadPoolExecutor(int(os.environ.get("CONC", "2"))) as ex:
     list(ex.map(run, JOBS))
 print("DONE", ARM, len(os.listdir(OUT)), "files", flush=True)

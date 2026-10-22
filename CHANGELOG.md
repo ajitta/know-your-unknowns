@@ -36,11 +36,12 @@ merge, at tag `unknowns--v0.9.2`.
 
 ### Checked
 
-Opus 5.5 (`claude-opus-5-5`), Claude Code 2.1.307, base `main` and this change run side by
-side from frozen worktrees with the owner's install set (dia, design, SuperClaude at user
-level; the test repository also carries a project-level SuperClaude install), in a small
-git repository. Agent calls were recorded and denied by a probe hook so no subagent ran. A
-run passes a "not unknowns" cell when no unknowns skill or agent appears anywhere in it.
+Opus 5.5 (`claude-opus-5-5`), base `main` and this change run side by side from frozen
+worktrees with the owner's install set (dia, design, SuperClaude at user level; the small
+test repository also carries a project-level SuperClaude install). Agent calls were
+recorded and denied by a probe hook so no subagent ran. A run passes a "not unknowns" cell
+when no unknowns skill or agent appears anywhere in it. The `independent-reviewer` runs
+used Claude Code 2.1.307.
 Details and harness: `docs/features/agent-collision/`.
 
 - `independent-reviewer`, review requests that do not name it (three cells, 10 runs
@@ -56,19 +57,22 @@ Details and harness: `docs/features/agent-collision/`.
   from `/unknowns:loop resume`: 8/10 → 10/10 (the two base misses stopped on permission
   prompts before stage 8). With permissions granted, `/unknowns:loop resume` at stage 8
   5/5 → 5/5 and `/unknowns:buy-in` 5/5 → 5/5.
-- `unknowns-scout` (10 runs per cell): English "have a subagent investigate the codebase
-  for risks first" picked the scout in 10/10 base runs and 0/10 with this change, in the
-  small test repository and in a clone of `pallets/click` (20/20 → 0/20, p = 1.1e-5 per
-  cell); the change sent them to general-purpose. Korean "서브에이전트로 코드베이스 조사"
-  and "repository structure" requests went to Explore, and a library-research request to
-  SuperClaude's `deep-researcher`, in both arms. By name: 20/20 → 20/20. `/unknowns:blindspot`
-  on the whole click repository spawned the scout in 17/20 → 16/20 runs (p = 1.0); the
-  other runs judged the scope small and read the files directly, in both arms.
-  `/unknowns:brainstorm` never spawned the scout in either arm (0/10, 0/10); its body lets
-  it search the code itself.
+- `unknowns-scout`, re-run on Opus 5.5 with `--model` pinned (Claude Code 2.1.308, the
+  access token passed as an environment variable, 10 runs per cell). English "have a
+  subagent investigate the codebase for risks first" picked the scout in 10/10 base runs
+  and 0/10 with this change, both in the small test repository and in a shallow clone of
+  `pallets/click` that has no project-level SuperClaude (20/20 → 0/20, p = 1.1e-5 per
+  cell); the change sent them to general-purpose. Korean "investigate the codebase with a
+  subagent" and "explore the repository structure" requests went to Explore (with one or
+  two general-purpose runs), and a library-research request to SuperClaude's
+  `deep-researcher` (one change-arm run: general-purpose), in both arms. By name: 20/20 →
+  20/20. `/unknowns:blindspot` on the whole click repository: 20/20 → 20/20. A first
+  scout batch ran on Sonnet 5.5 by mistake (the token path defaulted to it); it pointed
+  the same way (unnamed English requests 20/20 → 0/20, by name 20/20 → 20/20, blindspot
+  17/20 → 16/20, the misses read the files without the scout).
 - `python3 -m unittest discover -s tests`, both `claude plugin validate --strict` forms,
-  `evals/run-manual.py --verify`; an independent review (verdict "ship with fixes", all
-  fixes in this entry).
+  `evals/run-manual.py --verify`; two independent review passes, both "ship with fixes"
+  (the second covered the scout change), with every fix in this entry.
 
 Single-turn screens before the change (base only, 3 runs per cell: brainstorm, review,
 plan, quiz, interview, notes and reference wording with dia, design or SuperClaude next to
@@ -81,6 +85,8 @@ without any unknowns skill. No skill description changed.
 - claude.ai, the desktop app and mobile, where skill names show without the plugin
   prefix. The brainstorm collision the owner reported was not reproduced in Claude Code
   and is not covered by this measurement.
+- The brainstorm skill's optional scout call: it searched the code itself in every run of
+  both arms, so whether it still reaches the scout after this change was not observed.
 - Routing in the middle of a long multi-turn workflow. Both real cases were
   mid-workflow; the probes are single requests, and the base arm never reproduced the
   choice made inside `/sc:review` (base picked the agent at the top level instead).

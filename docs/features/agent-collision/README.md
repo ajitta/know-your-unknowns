@@ -40,7 +40,7 @@ README 두 언어의 호출 예시 "Run an independent verification" / "독립 �
 
 ## 측정
 
-- 모델 `claude-opus-5-5`, Claude Code 2.1.307, Linux arm64, 2026-10-22. 두 팔(base = main `f35a8a0`, var = 이 변경)을 고정 worktree에서 같은 시각에 병렬로 돌렸다.
+- 모델 `claude-opus-5-5`, Linux arm64, 2026-10-22. 리뷰어 측정은 Claude Code 2.1.307, scout 측정은 2.1.308. 두 팔(base = main `f35a8a0`, var = 이 변경)을 고정 worktree에서 같은 시각에 병렬로 돌렸다.
 - 환경: 소유자의 설치 조합을 재현했다 — unknowns + dia 1.3.0 + design(claude.ai 동기화 사본)을 `--plugin-dir`로, SuperClaude(`~/.claude`의 `CLAUDE.md`·`superclaude/`·`commands/`·`agents/`·`skills/sc-*`·`settings.json` 훅)를 새 `CLAUDE_CONFIG_DIR`에 복사. `ENABLE_CLAUDEAI_MCP_SERVERS=false`. fixture 저장소 자체에도 프로젝트 수준 SuperClaude(`.claude/`의 CLAUDE.md, commands/sc, agents/self-review, 훅)가 들어 있어 SuperClaude는 두 수준에서 로드된다. "SuperClaude 없음"을 재현하려면 둘 다 빼야 한다.
 - 작업 디렉터리: 매 실행마다 새로 복사한 작은 todo CLI 저장소(`main` + `feature/todo-due-dates` 브랜치, 계획·요구사항 문서는 브랜치에 있음).
 - 비용 절감: `PreToolUse` 훅이 Agent 호출을 거부한다. 거부 전에 tool_use가 기록되므로 "어느 에이전트를 골랐나"는 그대로 남고, 서브에이전트는 실제로 돌지 않는다. 판정(`tally.py`): "unknowns 아님" 셀은 실행 어디에도 unknowns 스킬·에이전트가 없으면 통과, 양성 셀은 기대한 에이전트가 호출 목록에 있으면 통과.
@@ -83,23 +83,23 @@ README 두 언어의 호출 예시 "Run an independent verification" / "독립 �
 
 스킬 안에서 부르는 경로는 두 팔 모두 매번 이 에이전트에 닿았다.
 
-### unknowns-scout 라우팅
+### unknowns-scout 라우팅 (Opus, 셀당 10회)
 
-같은 하네스(Agent 거부 훅, 소유자 설치 조합), 두 팔 병렬, 셀당 10회. fixture는 위 todo 저장소와 `pallets/click` 얕은 클론(178파일) 두 가지. 인증은 자격 증명 파일 복사 대신 현재 access token을 `CLAUDE_CODE_OAUTH_TOKEN`으로 넘겼다 — 복사본들이 각자 토큰을 갱신하다 원본 로그인이 지워진 일이 한 번 있었다(2026-10-22 21:16 KST, 그 사이 실행 결과는 모두 버렸다).
+같은 하네스(Agent 거부 훅, 소유자 설치 조합), 두 팔 병렬, `--model claude-opus-5-5` 고정, Claude Code 2.1.308. fixture는 위 todo 저장소(프로젝트 수준 SuperClaude 포함)와 `pallets/click` 얕은 클론(178파일, `.claude/` 없음 — SuperClaude는 사용자 수준만) 두 가지. 인증은 자격 증명 파일 복사 대신 현재 access token을 `CLAUDE_CODE_OAUTH_TOKEN`으로 넘겼다 — 복사본들이 각자 토큰을 갱신하다 원본 로그인이 지워진 일이 한 번 있었다(2026-10-22 21:16 KST, 그 사이 실행 결과는 모두 버렸다).
 
 | 셀 | 요청 | 기대 | base | var | p |
 |---|---|---|---|---|---|
 | s-pre-en (todo) | "…have a subagent investigate the codebase for risks first." | unknowns 아님 | 0/10 (10회 scout) | 10/10 (general-purpose 10) | 1.1e-5 |
 | k-pre-en (click) | 같은 요청, click parser 교체 | unknowns 아님 | 0/10 (10회 scout) | 10/10 (general-purpose 10) | 1.1e-5 |
-| s-pre-ko (todo) | "…서브에이전트 하나 띄워서 코드베이스부터 조사해줘." | unknowns 아님 | 10/10 (Explore) | 10/10 (Explore) | 1.0 |
+| s-pre-ko (todo) | "…서브에이전트 하나 띄워서 코드베이스부터 조사해줘." | unknowns 아님 | 10/10 (Explore 9, general-purpose 1) | 10/10 (Explore 8, general-purpose 2) | 1.0 |
 | s-map-ko (todo) | "서브에이전트로 이 저장소 구조 탐색해서 요약해줘." | unknowns 아님 | 10/10 (Explore) | 10/10 (Explore) | 1.0 |
 | s-lib-en (todo) | "…Spin up a research subagent…" (sqlite3) | unknowns 아님 | 10/10 (deep-researcher) | 10/10 (deep-researcher 9, general-purpose 1) | 1.0 |
 | s-pos-ko / s-pos-en (todo) | "unknowns-scout 에이전트로 …" / "Use the unknowns-scout agent — …" | scout | 20/20 | 20/20 | 1.0 |
-| k-blind-en / k-blind-ko (click) | "/unknowns:blindspot skip … 저장소 전체 …" | scout | 17/20 | 16/20 | 1.0 |
-| s-blind-ko (todo) | "/unknowns:blindspot 저장소 전체 …" | (정보) | 0/10 | 0/10 | — |
-| s-brain-ko (todo) | "/unknowns:brainstorm overdue 목록이 …" | (정보) | 0/10 | 0/10 | — |
+| k-blind-en / k-blind-ko (click) | "/unknowns:blindspot skip … 저장소 전체 …" | scout | 20/20 | 20/20 | 1.0 |
 
-이름 없는 영어 "조사 서브에이전트" 요청 20회 중 scout가 가로챈 횟수: base 20, var 0. blindspot의 미스(base 3, var 4)는 모두 범위를 "몇 파일"로 판단해 직접 읽은 실행이다 — 본문 2단계의 범위 판단이고 두 팔에 같이 있다. 7파일짜리 todo 저장소에서는 blindspot이 두 팔 모두 scout를 쓰지 않았고(범위가 작음), var 일부 실행은 사전 질문에서 멈췄다. brainstorm 본문은 "직접 검색하거나 scout를 띄운다"이고, 두 팔 모두 직접 검색했다.
+이름 없는 영어 "조사 서브에이전트" 요청 20회 중 scout가 가로챈 횟수: base 20, var 0. 이름 없는 조사 요청 전체 50회로 보면 나머지 30회(한국어·구조 탐색·라이브러리 조사)는 두 팔 모두 scout 0이었다. 실제 세션 기록에는 의도하지 않은 scout 호출이 없었으므로, scout 쪽은 측정에서만 재현된 위험이다.
+
+**첫 배치(Sonnet, 실수):** 처음 돌린 220회는 `--model`을 고정하지 않아 env 토큰 경로의 기본값인 `claude-sonnet-5-5`로 돌았다(2차 독립 검토가 발견). 방향은 같았다: 이름 없는 영어 요청 20/20 → 0/20, 이름 호출 20/20 → 20/20, click blindspot 17/20 → 16/20(미스 7회는 scout 없이 파일을 직접 읽었다; 이유는 남기지 않아 추정하지 않는다). todo 저장소 blindspot 셀(s-blind-ko)은 runner에서 scout 양성 대조로 두었지만 두 팔 모두 0/10이었고 — 7파일짜리 저장소다 — var는 10회 중 8회, base는 2회가 1단계 사전 질문에서 멈춰 2단계에 닿지 못했다(p ≈ 0.023, 스킬 본문이 같으므로 우연으로 본다). 그래서 Opus 재측정에서는 이 셀을 빼고 사전 질문을 건너뛰게 한 click 셀을 썼다. `/unknowns:brainstorm` 셀(s-brain-ko)은 두 팔 모두 0/10 — 본문이 "직접 검색하거나 scout를 띄운다"이고 매번 직접 검색했다. 변경 뒤 brainstorm → scout 경로가 닿는지는 관측되지 않았다. 데이터: 측정 디렉터리 `out-scout/`·`out-scout-big/`(Sonnet), `out-scout-opus/`·`out-scout-big-opus/`(Opus).
 
 ### 단발 스크린 (base만, 셀당 3회)
 
@@ -121,7 +121,9 @@ README 두 언어의 호출 예시 "Run an independent verification" / "독립 �
 - `screen_single_turn.py <arm> [runs] [cell-prefix…]` — dia + design 동반 단발 스크린
 - `screen_superclaude.py` — 같은 것에 SuperClaude 설정 복사를 더한 것(빈 디렉터리)
 - `screen_repo.py` — SuperClaude 동반, 저장소 fixture 안 단발 스크린(리뷰·브레인스토밍 12셀)
-- `run_scout_routing.py` — scout 라우팅 표(todo fixture; click 셀은 같은 파일에서 셀과 fixture 경로만 바꿔 돌렸다)
+- `run_scout_routing.py` — scout 라우팅 표(todo fixture; click 셀은 파일 안 주석의 프롬프트로, fixture 경로만 바꿔 돌렸다)
+
+모든 runner는 자격 증명 파일을 복사하지 않고 `CLAUDE_CODE_OAUTH_TOKEN`(없으면 `~/.claude/.credentials.json`의 현재 access token)을 넘기며, `MODEL`(기본 `claude-opus-5-5`)을 `--model`로 고정하고, 인증 실패 텍스트가 나오면 기록하지 않고 멈춘다. 기본 동시 실행 수는 2.
 - `run_review_routing.py` — 위 리뷰 라우팅 표(저장소 fixture, Agent 거부 훅)
 - `run_loop.py` — loop·buy-in 경로(`--permission-mode acceptEdits`, git/make/python3 허용)
 - `tally.py <out-dir>` — 셀별 base/var 통과 수와 Fisher 정확 검정
