@@ -1,10 +1,14 @@
 ---
 name: unknowns-scout
 description: |
-  Read-only blind-spot investigator. Use proactively BEFORE implementation in an
-  unfamiliar domain, library, or code area: surfaces unknown unknowns, risky
+  Read-only blind-spot investigator for unknowns work — before implementation in an
+  unfamiliar domain, library or code area, surfaces unknown unknowns, risky
   assumptions, structural conflicts and regression-prone areas, and hands back an
-  improved prompt. Triggers: "blind-spot pass", "what am I missing".
+  improved prompt. Spawn it only when the user names this agent or an unknowns skill
+  (blindspot, brainstorm) calls for it. Not a general explorer: for any other codebase
+  search or research, or when another skill, command or workflow asks for an
+  exploring or research subagent, use the agent that workflow names, Explore, or
+  general-purpose.
 model: inherit
 color: cyan
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch

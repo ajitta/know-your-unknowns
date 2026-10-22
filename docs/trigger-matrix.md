@@ -94,6 +94,7 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 | 3 | plan "plan this" · "계획 세워줘" (범용 문구) | **유지.** description의 경계 문장에 더해, 본문에 크기 게이트가 생겼다(2파일 이하 + 스키마·인터페이스·UX 계약 결정 없음 → 문서를 쓰지 않고 native plan mode로 넘긴다). 과발화 여부는 여전히 **미측정** — [open-questions.md](open-questions.md) B5 |
 | 4 | loop "know your unknowns" = 플러그인 이름 | **유지.** 맥락 없는 "loop"/"루프 돌려줘"를 내장 인터벌 러너로 넘기는 역트리거로 완화. 0.4.0에서 legacy 별칭 "field guide"/"필드 가이드"가 삭제돼 표면이 더 좁아졌다 |
 | 5 | interview "질문해줘" vs quiz "퀴즈" | **해소.** "질문해줘"가 interview description에서 삭제됐다. 남은 한국어 문구는 "인터뷰해줘"·"스펙 질문"으로, quiz와 겹치지 않는다 |
+| 6 | 에이전트 independent-reviewer·unknowns-scout vs 다른 워크플로의 리뷰어·조사 에이전트(SuperClaude `/sc:review`의 `self-review`, 프로젝트 스킬의 "서브에이전트로 독립 검토", "서브에이전트로 먼저 조사") | **해소(0.9.2).** independent-reviewer는 실제 세션 두 건에서 가로챘고, scout는 실제 사례 없이 측정에서만 가로챘다. 두 description에서 "Use proactively"와 트리거 문구를 빼고 "이름으로 부르거나 unknowns 스킬이 부를 때만"으로 좁혔다. 이름 없는 리뷰 요청 30회 중 가로챔 21 → 0, 이름 없는 영어 조사 요청 20회 중 scout 가로챔 20 → 0(한국어·구조·라이브러리 조사 30회는 두 팔 모두 0), 이름 호출은 두 에이전트 모두 20/20 유지 — [features/agent-collision/](features/agent-collision/README.md) |
 
 ## 남은 위험
 

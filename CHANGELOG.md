@@ -1,5 +1,96 @@
 # Changelog
 
+## 0.9.2 — 2026-10-22
+
+Both agents, `independent-reviewer` and `unknowns-scout`, now run only when you name them
+or an unknowns skill calls them. Other review or research workflows no longer pick them
+up, and an unnamed "independent review" or "investigate first" request no longer reaches
+them either. Release steps per `docs/open-questions.md` A4 are done the same day as the
+merge, at tag `unknowns--v0.9.2`.
+
+### Fixed
+
+- **`agents/independent-reviewer.md` description**: a workflow asking for an
+  "independent" review or an isolated reviewer subagent could pick this agent. It
+  happened in 2 of 32 review-type dispatches in the owner's session history: SuperClaude's
+  `/sc:review`, whose own flow names its `self-review` agent, and a vault skill asking a
+  subagent to compare note claims. The description dropped "Use proactively before
+  merging…" and `Triggers: "independent review before merge"`. It now says to spawn the
+  agent only when the user names it or an unknowns skill (loop, buy-in) calls for it, and
+  that any other review request, or another workflow's reviewer or subagent, goes to the
+  agent that workflow names, or general-purpose. The agent body is unchanged.
+- **`agents/unknowns-scout.md` description**: the same pattern ("Use proactively BEFORE
+  implementation…", `Triggers: "blind-spot pass", "what am I missing"`) is replaced by the
+  same rule: by name, or from blindspot or brainstorm; other exploring or research
+  subagent requests go to the workflow's own agent, Explore, or general-purpose. The
+  trigger phrases stay with the blindspot skill. No unintended scout call was found in the
+  session history; this closes the same risk before it shows. The agent body is unchanged.
+- README (both languages): the agent example "Run an independent verification" /
+  "독립 검증 돌려줘" no longer reaches the reviewer, so it names the agent; both agent
+  sections say when each agent runs.
+
+### Added
+
+- `tests/test_agent_descriptions.py`: both agent descriptions must not say "proactively"
+  or carry `Triggers:`, and must keep the by-name rule.
+
+### Checked
+
+Opus 5.5 (`claude-opus-5-5`), base `main` and this change run side by side from frozen
+worktrees with the owner's install set (dia, design, SuperClaude at user level; the small
+test repository also carries a project-level SuperClaude install). Agent calls were
+recorded and denied by a probe hook so no subagent ran. A run passes a "not unknowns" cell
+when no unknowns skill or agent appears anywhere in it. The `independent-reviewer` runs
+used Claude Code 2.1.307.
+Details and harness: `docs/features/agent-collision/`.
+
+- `independent-reviewer`, review requests that do not name it (three cells, 10 runs
+  each): picked in 21 of 30 base runs and 0 of 30 with this change (English "independent
+  review before I merge" 10/10 → 0/10, p = 1.1e-5; Korean 9/10 → 0/10, p = 1.2e-4; "spawn
+  one subagent to check the README" 2/10 → 0/10, p = 0.47). Seven of the 30 change-arm
+  runs went through `/sc:review` and hit the turn limit before choosing a reviewer. The
+  independent review re-ran the two main cells at a 20-turn limit, 5 runs per arm:
+  20/20 → 0/20; with this change, runs that chose a reviewer after `/sc:review` took
+  `self-review` or general-purpose, never the unknowns agent. Without SuperClaude the same
+  requests went to general-purpose (English) or a direct answer (Korean).
+- `independent-reviewer` by name: 10/10 → 10/10 in Korean and in English. Loop stage 8
+  from `/unknowns:loop resume`: 8/10 → 10/10 (the two base misses stopped on permission
+  prompts before stage 8). With permissions granted, `/unknowns:loop resume` at stage 8
+  5/5 → 5/5 and `/unknowns:buy-in` 5/5 → 5/5.
+- `unknowns-scout`, re-run on Opus 5.5 with `--model` pinned (Claude Code 2.1.308, the
+  access token passed as an environment variable, 10 runs per cell). English "have a
+  subagent investigate the codebase for risks first" picked the scout in 10/10 base runs
+  and 0/10 with this change, both in the small test repository and in a shallow clone of
+  `pallets/click` that has no project-level SuperClaude (20/20 → 0/20, p = 1.1e-5 per
+  cell); the change sent them to general-purpose. Korean "investigate the codebase with a
+  subagent" and "explore the repository structure" requests went to Explore (with one or
+  two general-purpose runs), and a library-research request to SuperClaude's
+  `deep-researcher` (one change-arm run: general-purpose), in both arms. By name: 20/20 →
+  20/20. `/unknowns:blindspot` on the whole click repository: 20/20 → 20/20. A first
+  scout batch ran on Sonnet 5.5 by mistake (the token path defaulted to it); it pointed
+  the same way (unnamed English requests 20/20 → 0/20, by name 20/20 → 20/20, blindspot
+  17/20 → 16/20, the misses read the files without the scout).
+- `python3 -m unittest discover -s tests`, both `claude plugin validate --strict` forms,
+  `evals/run-manual.py --verify`; two independent review passes, both "ship with fixes"
+  (the second covered the scout change), with every fix in this entry.
+
+Single-turn screens before the change (base only, 3 runs per cell: brainstorm, review,
+plan, quiz, interview, notes and reference wording with dia, design or SuperClaude next to
+unknowns) found no unintended unknowns skill call. Generic brainstorm requests went to
+`dia:dia-brainstorm` or a direct answer, and `/sc:brainstorm` typed as a command ran
+without any unknowns skill. No skill description changed.
+
+### Not verified
+
+- claude.ai, the desktop app and mobile, where skill names show without the plugin
+  prefix. The brainstorm collision the owner reported was not reproduced in Claude Code
+  and is not covered by this measurement.
+- The brainstorm skill's optional scout call: it searched the code itself in every run of
+  both arms, so whether it still reaches the scout after this change was not observed.
+- Routing in the middle of a long multi-turn workflow. Both real cases were
+  mid-workflow; the probes are single requests, and the base arm never reproduced the
+  choice made inside `/sc:review` (base picked the agent at the top level instead).
+
 ## 0.9.1 — 2026-10-18
 
 The hooks now run on Windows without a `python3` alias. Release steps per
