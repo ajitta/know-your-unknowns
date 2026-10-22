@@ -34,6 +34,10 @@ DRAFT = "초안: 우리 서비스는 2019년에 출시됐고 월 사용자 300�
 # cell -> (expect, prompt). expect: "NONE" = no unknowns skill/agent may fire;
 # "unknowns:x" = that skill must fire; "INFO:..." = recorded only.
 C = {
+  # click cells (fixture-big = shallow clone of pallets/click):
+  #   "k-blind-ko": "/unknowns:blindspot 사전 목록은 skip. 저장소 전체 대상 — click의 옵션 파싱 계층(parser.py)을 표준 argparse로 갈아끼우기 전에 사각지대 조사해줘."
+  #   "k-blind-en": "/unknowns:blindspot skip the up-front lists. Whole codebase: before we replace click's option parser (parser.py) with argparse, run a blind spot pass."
+  #   "k-pre-en": "Before we replace click's option parser (parser.py) with argparse, have a subagent investigate the codebase for risks first."
   "s-pre-ko": ("NONE", "todo.py 저장 방식을 JSON에서 SQLite로 바꾸려고 해. 구현 시작 전에 서브에이전트 하나 띄워서 코드베이스부터 조사해줘."),
   "s-pre-en": ("NONE", "Before I implement a SQLite backend for todo.py, have a subagent investigate the codebase for risks first."),
   "s-map-ko": ("NONE", "서브에이전트로 이 저장소 구조 탐색해서 요약해줘."),
@@ -45,6 +49,10 @@ C = {
 }
 JOBS = [(c, i) for c in C if (not PREFIX or any(c.startswith(p) for p in PREFIX)) for i in range(1, RUNS + 1)]
 OUT = f"{D}/out-scout/{ARM}"
+# Use the current access token as an env var instead of copying the credentials file:
+# copies refresh on their own and the rotation wiped the main login once (2026-10-22).
+TOKEN = (os.environ.get("CLAUDE_CODE_OAUTH_TOKEN") or
+         json.load(open(os.path.expanduser("~/.claude/.credentials.json")))["claudeAiOauth"]["accessToken"])
 os.makedirs(OUT, exist_ok=True)
 os.makedirs(f"{D}/cwd", exist_ok=True)
 
@@ -53,7 +61,7 @@ def claude(prompt, cfg):
     wd = cfg + "/ws"
     shutil.copytree(f"{D}/fixture", wd, symlinks=True)
     env = {k: v for k, v in os.environ.items() if k != "CLAUDE_CONFIG_DIR"}
-    env.update(CLAUDE_CONFIG_DIR=cfg, ENABLE_CLAUDEAI_MCP_SERVERS="false")
+    env.update(CLAUDE_CONFIG_DIR=cfg, ENABLE_CLAUDEAI_MCP_SERVERS="false", CLAUDE_CODE_OAUTH_TOKEN=TOKEN)
     cmd = ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose", "--max-turns", "10",
            "--plugin-dir", f"{D}/arms/{ARM}", "--plugin-dir", f"{D}/arms/dia", "--plugin-dir", f"{D}/arms/design"]
     return subprocess.run(cmd, cwd=wd, env=env, capture_output=True, text=True, timeout=900).stdout
@@ -87,7 +95,6 @@ def run(job):
         return
     cfg = tempfile.mkdtemp(prefix="cc-", dir=os.environ.get("TMPDIR"))
     H = os.path.expanduser("~/.claude")
-    shutil.copy(f"{H}/.credentials.json", cfg)
     for n in ("CLAUDE.md",):
         shutil.copy(f"{H}/{n}", cfg)
     for n in ("superclaude", "commands", "agents", "hooks", "output-styles", ".superclaude_hooks"):
@@ -103,6 +110,8 @@ def run(job):
     try:
         out = claude(C[cell][1], cfg)
         fired, text, model, ns = parse(out)
+        if "Failed to authenticate" in text or "OAuth" in text[:200]:
+            print("AUTH FAILURE - aborting", cell, i, flush=True); os._exit(3)
         if not model:
             print("EMPTY", cell, i, out[-300:], flush=True); return
         rec = dict(cell=cell, run=i, arm=ARM, expect=C[cell][0], fired=fired, model=model, nskills=ns, text=text[:3000])

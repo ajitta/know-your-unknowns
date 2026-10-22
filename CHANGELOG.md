@@ -56,7 +56,16 @@ Details and harness: `docs/features/agent-collision/`.
   from `/unknowns:loop resume`: 8/10 → 10/10 (the two base misses stopped on permission
   prompts before stage 8). With permissions granted, `/unknowns:loop resume` at stage 8
   5/5 → 5/5 and `/unknowns:buy-in` 5/5 → 5/5.
-- SCOUT_LINE
+- `unknowns-scout` (10 runs per cell): English "have a subagent investigate the codebase
+  for risks first" picked the scout in 10/10 base runs and 0/10 with this change, in the
+  small test repository and in a clone of `pallets/click` (20/20 → 0/20, p = 1.1e-5 per
+  cell); the change sent them to general-purpose. Korean "서브에이전트로 코드베이스 조사"
+  and "repository structure" requests went to Explore, and a library-research request to
+  SuperClaude's `deep-researcher`, in both arms. By name: 20/20 → 20/20. `/unknowns:blindspot`
+  on the whole click repository spawned the scout in 17/20 → 16/20 runs (p = 1.0); the
+  other runs judged the scope small and read the files directly, in both arms.
+  `/unknowns:brainstorm` never spawned the scout in either arm (0/10, 0/10); its body lets
+  it search the code itself.
 - `python3 -m unittest discover -s tests`, both `claude plugin validate --strict` forms,
   `evals/run-manual.py --verify`; an independent review (verdict "ship with fixes", all
   fixes in this entry).

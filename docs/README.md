@@ -37,7 +37,7 @@
 |------|------|------|----------------|------------|
 | [README.md](README.md) | 이 색인 | 한국어 | 수기 | docs/에 파일이 늘거나 줄 때 |
 | [open-questions.md](open-questions.md) | 결정 기록(A)과 재검증 대기(B). 왜 그렇게 결정했는지가 본문 | 한국어 | 수기 | 결정이 날 때마다. 항목은 B→A로 옮기고 삭제하지 않는다 |
-| [features/agent-collision/](features/agent-collision/README.md) | 0.9.2 independent-reviewer 가로챔 수정의 라우팅 측정: 소유자 설치 조합(dia·design·SuperClaude)에서 main 대비 7셀 × 10회, 단발 스크린, 하네스 포함 | 한국어 | 수기 + `harness/tally.py` 출력 | 에이전트 description이나 다른 플러그인 조합이 바뀔 때 재측정 |
+| [features/agent-collision/](features/agent-collision/README.md) | 0.9.2 두 에이전트(independent-reviewer·unknowns-scout) 가로챔 수정의 라우팅 측정: 소유자 설치 조합(dia·design·SuperClaude)에서 main 대비 리뷰 7셀·scout 11셀 × 10회, 단발 스크린, 하네스 포함 | 한국어 | 수기 + `harness/tally.py` 출력 | 에이전트 description이나 다른 플러그인 조합이 바뀔 때 재측정 |
 | [features/html-page-template/](features/html-page-template/README.md) | 0.9.0 페이지 템플릿(`render-page.py`)의 출력 토큰 측정: main 대비 3케이스 × 6회, 하네스 포함 | 한국어 | 수기 + `harness/analyze.py` 출력 | 페이지 템플릿이나 output-routing.md §3–§4를 바꿀 때 재측정 |
 | [trigger-matrix.md](trigger-matrix.md) | 11개 스킬의 트리거 문구 전수 + 충돌 쌍과 해소 상태 | 한국어 | 반자동 — 문서 안의 추출 스크립트 출력으로 표를 수기 갱신 | 문서 "갱신 방법" 절의 `python3` 블록을 저장소 루트에서 실행 |
 | [trigger-eval-v0.3.0.md](trigger-eval-v0.3.0.md) | v0.3.0 시점 자동 발화율·루프 준수 실측 기록 | 한국어 | headless `claude -p` 실행 6건의 transcript에서 추출 | **동결** — 특정 시점 측정 기록. 재측정은 새 날짜의 새 파일로 — 첫 후속은 trigger-eval-v0.5.1.md |
