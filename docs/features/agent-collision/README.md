@@ -55,7 +55,14 @@ README 두 언어의 호출 예시 "Run an independent verification" / "독립 �
 
 ### loop·buy-in 경로 (권한 허용, 셀당 5회)
 
-LOOP_RESULTS
+`fixture-feat`(브랜치 체크아웃 상태), `--permission-mode acceptEdits`, git·make·python3 허용, `--max-turns 20`.
+
+| 셀 | 요청 | base | var |
+|---|---|---|---|
+| l-loop-ko | "/unknowns:loop resume … 8단계 독립 검증부터" | 5/5 independent-reviewer | 5/5 |
+| l-buyin-ko | "/unknowns:buy-in 이 브랜치 머지 승인 받을 설득 문서" | 5/5 independent-reviewer | 5/5 |
+
+스킬 안에서 부르는 경로는 두 팔 모두 매번 이 에이전트에 닿았다.
 
 ### 단발 스크린 (base만, 셀당 3회)
 

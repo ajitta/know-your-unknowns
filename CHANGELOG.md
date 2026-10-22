@@ -36,7 +36,8 @@ denied by a probe hook so no subagent ran. Details and harness:
 - Requests that name the agent: 10/10 → 10/10 in Korean and in English. Loop stage 8
   from `/unknowns:loop resume`: 8/10 → 10/10 (the two base misses stopped on permission
   prompts before stage 8).
-- LOOP_LINE
+- Calls from inside the plugin, with permissions granted: `/unknowns:loop resume` at stage
+  8 5/5 → 5/5 and `/unknowns:buy-in` 5/5 → 5/5 spawned the agent.
 - `python3 -m unittest discover -s tests`, both `claude plugin validate --strict` forms.
 
 Single-turn screens before the change (base only, 3 runs per cell: brainstorm, review,
