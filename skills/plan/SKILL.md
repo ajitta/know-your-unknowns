@@ -65,7 +65,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. Proceed to implementation only after the user's approval or change requests have updated the plan. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries the approval.
 
-   b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Present proposed code for the user to save; do not claim it was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
+   b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
 
 ## Output
 

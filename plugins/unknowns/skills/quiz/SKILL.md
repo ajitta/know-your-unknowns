@@ -26,6 +26,8 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
 
 1. Ask **6 questions**; pass = **all 6 correct**.
 
+   If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in this conversation — include at least 1 quiz question on its recorded deviations.
+
    a. Five are multiple choice. Ask 4 + 1, splitting a batch across calls when the question tool accepts fewer questions. Keep answer keys hidden until the user has answered.
 
    b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the change's riskiest decision>."
@@ -53,8 +55,7 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
 
    a. For each wrong or blank answer, name the **exact change site (file:line)** to re-read.
 
-   b. Re-explain only those parts, then offer a retry.
-4. If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in this conversation — include at least 1 quiz question on its recorded deviations.
+4. For each wrong or blank answer, re-explain only those parts, then offer a retry.
 5. Close the gate by score:
 
    | Score | What to do |

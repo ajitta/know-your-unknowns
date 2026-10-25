@@ -6,7 +6,7 @@ Background: `docs/value-contract.md` promises this plugin earns its place only w
 
 ## What to do
 
-1. **Anchor the first question if a baseline exists.**
+1. **Ask the two questions.**
 
    a. When blindspot recorded the user's pre-investigation lists (sure of / assuming / cannot judge — in `loop.json` `baseline` or the blindspot output), show the findings next to those lists before asking the questions in step 1c, marking each finding that no list mentioned. The question is then about that marked set, not a recollection.
 

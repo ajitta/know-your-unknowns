@@ -63,7 +63,7 @@ The best way to give a model a map: **give it another map**.
 
    b. Implement.
 
-   c. Record intentional deviations from the reference per the **notes** skill. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Show proposed tests and implementation as Markdown code blocks for the user to save; do not claim they were applied. No execution tool → give verification commands and keep their results unverified until the user supplies evidence.
+   c. Record intentional deviations from the reference per the **notes** skill. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and keep their results unverified until the user supplies evidence.
 
 ## Output
 

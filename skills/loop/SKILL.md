@@ -75,7 +75,7 @@ c. Everything else inside this stage: keep going. Put status notes in the same m
 
 d. If the conversation was compacted, re-invoke the **notes** skill (and this skill for the step list) before continuing implementation.
 
-No skill-loading tool → apply the logging criteria and escalation rules stated here: log design, behavior, or compatibility decisions and differences from the plan; skip trivial syntax, formatting, and naming changes. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Present proposed code for the user to save; do not claim the implementation was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
+No skill-loading tool → apply the logging criteria and escalation rules stated here: log design, behavior, or compatibility decisions and differences from the plan; skip trivial syntax, formatting, and naming changes. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
 
 ### 8. Independent verification → `unknowns:independent-reviewer` agent
 
