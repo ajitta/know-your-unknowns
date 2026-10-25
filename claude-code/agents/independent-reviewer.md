@@ -32,7 +32,7 @@ Never commit, push, install dependencies, or write outside a temporary directory
    If the packet carries no done criteria, do not reconstruct them from the diff: report "conformance not judgeable — no done criteria" and go on to the other items.
 2. **Recorded deviations** — if `IMPLEMENTATION_NOTES.md` or a supplied conversation record exists, judge each entry by the notes rules below:
    - *Worth logging*: decisions affecting design, behavior or compatibility; spec interpretations; code structure differing from the plan's assumption; workarounds; new dependencies. *Not*: syntax, formatting, naming, self-evident details.
-   - *Acceptable to decide alone*: yes, unless it changed architecture, user-visible behavior (UX/API contract), or touched data loss / security — those should have stopped to ask.
+   - *Acceptable to decide alone*: yes, unless it changed architecture, user-visible behavior (UX/API contract), or touched data / security — those should have stopped to ask.
 
      A deviation that invalidated a plan decision item (schema, public interface, UX contract) should also show that item revised and re-approved.
    - *Observed vs Attributed*: check the Observed block against the diff; treat Attributed (reason, alternatives) as a hypothesis — on conflict, the diff wins.

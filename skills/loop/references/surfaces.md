@@ -29,7 +29,11 @@ Never give the reviewer the implementer's own summary. With no file system, supp
 
 Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run.
 
-No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant" or "Assistant review; not independent", as appropriate. Use the same packet and contract. A separate pass in the same conversation does not provide independent verification.
+No scout sub-agent → do the scout pass yourself as a separate step and label it "Scout pass performed by the assistant". Use the same packet and read-only contract.
+
+For independent verification:
+
+No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns. Use the same read-only contract.
 
 No file access, search, or execution tools → check only the supplied material, ask for missing evidence, and report unverified areas. Never invent files, history, command output, or test results.
 
@@ -47,7 +51,7 @@ Keep a quiz key hidden until the user answers. Without a file system, choose the
 
 ## Deviation discipline
 
-At each stage boundary, before a commit, and before handing work back, check whether work departed from the plan. Append design, behavior, or compatibility deviations to `IMPLEMENTATION_NOTES.md` before ending the turn. Apply the notes skill's entry format and escalation rules; stop and ask before changing architecture, user-visible behavior, data loss, or security.
+At each stage boundary, before a commit, and before handing work back, check whether work departed from the plan. Append design, behavior, or compatibility deviations to `IMPLEMENTATION_NOTES.md` before ending the turn. Apply the notes skill's entry format and escalation rules; stop and ask before changing architecture, user-visible behavior, data, or security.
 
 No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
 

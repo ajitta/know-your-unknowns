@@ -90,7 +90,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 2. Discover에서 `unknowns` 플러그인을 선택하고 Add를 누릅니다. 마켓플레이스만 추가하면 플러그인은 설치되지 않습니다.
 3. "blind spot pass"처럼 스킬 이름이나 문구로 요청합니다.
 
-1·2단계 대신 Customize › Plugins › Add › Upload plugin에서 [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip)을 올려도 됩니다. Skills가 아니라 Plugins 업로드를 쓰세요. 사용하는 데스크톱 앱마다 설치하고, 웹·모바일에서는 웹 설치를 사용합니다.
+1·2단계 대신 Customize › Plugins › Add › Upload plugin에서 [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip)을 올려도 됩니다. Skills가 아니라 Plugins 업로드를 쓰세요. [Claude 공식 설치 안내](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)는 웹·데스크톱 플러그인이 계정에 저장되고 지원 표면에 따라온다고 설명합니다. 이 플러그인의 모바일·데스크톱 동기화는 소유자가 아직 확인하지 않았습니다.
 
 ### Claude 모바일
 
@@ -122,17 +122,12 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 2. `$unknowns:plan`처럼 스코프가 있는 스킬 이름 뒤에 작업을 적어 요청합니다.
 3. 절차와 도구 폴백을 확인합니다. 이 경로는 예상이며 소유자가 아직 확인하지 않았습니다.
 
-### ChatGPT 웹과 모바일
+### ChatGPT 데스크톱(Codex 포함)과 모바일
 
-1. [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip)을 내려받습니다.
-2. ChatGPT 웹의 플러그인 업로드에서 올립니다. 이 아카이브에는 OpenAI 매니페스트·스킬·목록용 자산이 들어 있습니다.
-3. 같은 계정의 웹이나 모바일에서 스킬 이름이나 문구로 요청하고 절차를 확인합니다. 업로드와 모바일 동작은 예상이며 소유자가 아직 확인하지 않았습니다.
+두 경로는 소유자가 dia에서 사용하는 설치 절차이며, **이 플러그인에서는 소유자가 아직 확인하지 않았습니다**.
 
-### ChatGPT 데스크톱
-
-1. 앱의 Codex 플러그인 화면에서 GitHub 마켓플레이스 `ajitta/know-your-unknowns` 또는 로컬 클론을 추가합니다.
-2. 해당 마켓플레이스에서 `unknowns`를 선택해 추가합니다.
-3. 스킬을 요청하고 절차를 확인합니다. 이 경로는 예상이며 소유자가 아직 확인하지 않았습니다. 사용하는 데스크톱 앱마다 따로 설치합니다.
+1. **웹에서 zip 업로드(웹·모바일).** [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip)을 내려받아 chatgpt.com의 플러그인 zip 업로드로 올립니다. 플러그인은 계정에 저장되어 ChatGPT 웹·모바일에서 사용합니다. 이 zip에는 OpenAI 매니페스트·스킬·목록용 자산이 들어 있습니다. 업로드는 자동으로 갱신되지 않으므로 새 릴리스마다 다시 올립니다.
+2. **데스크톱 앱에서 마켓플레이스 추가.** 앱의 Codex 플러그인 화면에서 GitHub 마켓플레이스 `ajitta/know-your-unknowns` 또는 로컬 클론을 추가하고 `unknowns`를 선택해 설치합니다. 이 경로는 데스크톱 앱의 로컬 Codex 폴더에 설치하며 웹·모바일용 계정에 저장되지 않습니다. 업데이트는 마켓플레이스로 받습니다.
 
 ### Windows
 
@@ -143,7 +138,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 ### 표면별 지원
 
 - 스킬 11종은 모두 대화에 마크다운을 내고 번호로 반응을 받아 회신을 조립합니다. 질문·파일·검색·실행 도구가 없을 때의 폴백이 명시되어 있습니다.
-- 이름 있는 에이전트 2종은 Claude Code에서만 실행됩니다. 다른 표면에서는 어시스턴트가 구분된 패스를 직접 수행하며, 같은 대화의 리뷰에는 "독립 검증 아님"이라고 표시합니다.
+- 이름 있는 에이전트 2종은 Claude Code에서만 실행됩니다. 다른 표면에서는 어시스턴트가 스카우트 패스를 직접 수행하고, 독립 검증은 같은 패킷을 새 대화에 붙여 넣도록 전달하여 그 리뷰가 에이전트를 대신합니다. 리뷰가 돌아올 때까지 해당 단계는 미완료로 둡니다.
 - 어떤 표면에서도 설치된 패키지에 훅이나 스크립트는 없습니다. 작업 중 요청한 실행 가능한 프로토타입은 호스트가 지원하면 여전히 코드 파일로 쓸 수 있습니다.
 - 트래커·스코어카드·이탈 로그는 파일을 쓸 수 있으면 파일에 저장합니다. 그렇지 않으면 전체 기록을 마크다운으로 출력하고 사용자가 무엇을 저장해야 하는지 말합니다.
 
@@ -414,12 +409,12 @@ the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌�
 정식 항목은 발견 상황 / 계획과 다른 점 / 선택한 대응 / 이유 / 버린 대안 / 위험·후속 확인을
 담습니다. 같은 파일에 한 줄짜리 가벼운 종류 둘이 함께 들어갑니다: **Discovery**(계획이
 가정한 것과 현실이 다름, 아직 결정은 불필요)와 **Todo for human**(사용자 몫이지만 아무것도
-막지 않고 아키텍처·사용자에게 보이는 동작·데이터 손실·보안을 건드리지 않는 판단 — 건드리면 멈추고
+막지 않고 아키텍처·사용자에게 보이는 동작·데이터·보안을 건드리지 않는 판단 — 건드리면 멈추고
 묻습니다).
 
 **지속성**: 파일 시스템을 쓸 수 있으면 파일이 생기거나 `init`을 실행한 뒤부터 그 파일에 덧붙입니다. buy-in과 quiz가 그 기록을 씁니다. 파일 시스템이 없으면 전체 갱신 로그를 마크다운으로 출력하고 IMPLEMENTATION_NOTES.md로 저장하라고 안내합니다. 턴 종료 전, 단계 경계, 커밋 전에 직접 이탈 여부를 확인합니다.
 
-**에스컬레이션**: 아키텍처·사용자 가시 동작·데이터 손실·보안에 닿는 결정은 기록 후
+**에스컬레이션**: 아키텍처·사용자 가시 동작·데이터·보안에 닿는 결정은 기록 후
 **작업을 멈추고 질문**하게 되어 있습니다. 마무리 단계에서는 **계획에 되먹이기** 블록 —
 시도 #2에서 무엇이 달라지는지 복사 가능한 3줄 — 을 열린 Todo for human 항목과 함께
 씁니다.
@@ -474,7 +469,7 @@ id — `unknowns:unknowns-scout`, `unknowns:independent-reviewer` — 로 부르
 Agent 도구의 `subagent_type`과 `@agent-unknowns:unknowns-scout` 멘션 형식이 요구하는 것이
 이 id입니다. `subagent_type`에 스코프 없는 `unknowns-scout`을 주면 거부됩니다.
 
-이름 있는 에이전트는 Claude Code에서만 실행됩니다. **실효** 도구 집합은 선언된 목록을 호스트가 노출하는 도구로 좁힌 결과입니다. scout은 Read·Grep·Glob·WebFetch·WebSearch만 가지며 Bash나 쓰기 도구는 없습니다. 읽을 수 있는 이력 기록을 보고 명령 실행이 필요한 질문은 호출자에게 돌려줍니다. 다른 호스트에서는 스킬 안의 구분된 패스를 사용하며 같은 대화의 리뷰는 독립 검증이 아닙니다.
+이름 있는 에이전트는 Claude Code에서만 실행됩니다. **실효** 도구 집합은 선언된 목록을 호스트가 노출하는 도구로 좁힌 결과입니다. scout은 Read·Grep·Glob·WebFetch·WebSearch만 가지며 Bash나 쓰기 도구는 없습니다. 읽을 수 있는 이력 기록을 보고 명령 실행이 필요한 질문은 호출자에게 돌려줍니다. 다른 호스트에서는 구분된 스카우트 패스를 사용하고, 독립 검증은 패킷을 새 대화에 붙여 넣도록 사용자에게 전달한 뒤 그 리뷰를 기다립니다.
 
 **unknowns-scout** (읽기 전용 정찰):
 ```
@@ -615,7 +610,7 @@ CHANGELOG.md에 내용이 있는 `## [Unreleased]` 항목이 있으면 배포 �
 
 텍스트는 UTF-8과 LF를 씁니다. 릴리스 아카이브는 바이트 재현성을 위해 ZIP_STORED와 고정 시각·모드를 사용합니다. 패키저는 표준 라이브러리만 사용하고 Python 3.7+를 지원하며, 선택적인 개별 스킬 도우미는 Python 3.9+를 사용합니다.
 
-현재 CI 테스트와 검증은 Ubuntu에서 실행됩니다. 이전 Windows 근거는 삭제된 훅을 CI에서만 검사한 것이며, 재구성한 패키지의 Windows 동작은 미측정입니다. `docs/`의 과거 라우팅 결과는 각 문서가 명시한 버전의 것입니다. 구조 검사는 갱신된 스킬의 동작·로딩·업로드를 측정하지 않습니다.
+현재 CI 개발 도구 테스트는 Ubuntu와 Windows를 대상으로 하며, 엄격한 플러그인 검증은 Ubuntu에서 실행됩니다. 새 Windows CI 작업의 실행 결과는 아직 확인하지 않았습니다. 이전 Windows 근거는 삭제된 훅을 CI에서만 검사한 것이며, 재구성한 패키지의 Windows 동작은 미측정입니다. `docs/`의 과거 라우팅 결과는 각 문서가 명시한 버전의 것입니다. 구조 검사는 갱신된 스킬의 동작·로딩·업로드를 측정하지 않습니다.
 
 ---
 

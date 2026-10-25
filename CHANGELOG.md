@@ -12,7 +12,7 @@ Planned as **0.10.0**, not released. The owner will bump the version and publish
 - **Breaking: deliverables are Markdown in the conversation.** Removed the shared HTML presentation assets and renderer. Numbered reactions still assemble into a prompt, requirements list, decision summary, or review comment. Task-specific runnable prototypes may still be code written to files.
 - Removed both hooks, their launchers and tests, and their environment-variable settings. No executable code ships in either plugin archive. The Ubuntu/Windows hook matrix was replaced by a plain test job; package and strict manifest validation remain.
 - The scout has only Read, Grep, Glob, WebFetch, and WebSearch; it returns history questions needing command execution to its caller. The reviewer keeps Bash for tests, lint, and builds under a **prose-only read-only contract**: no edits, commits, dependency installs, or writes outside a temporary directory.
-- Replaced Claude-only argument substitution and question-tool names with request prose and conditional tool use. Missing named sub-agents become labeled passes performed by the assistant; same-conversation reviews are explicitly not independent. Missing file systems use complete Markdown records that the user can save.
+- Replaced Claude-only argument substitution and question-tool names with request prose and conditional tool use. Missing scout sub-agents become labeled passes performed by the assistant; missing independent reviewers use the same packet pasted by the user into a new conversation, and the stage waits for that review. Missing file systems use complete Markdown records that the user can save.
 - Updated English and Korean install instructions, repository layout, development commands, and the eval runner's default `plugins/unknowns/` path. Existing invocation and scenario examples remain.
 - Replaced the transitional record-deletion workaround: `tools/package.py` may update `plugin-release.json` at an unchanged version only while a non-empty `## [Unreleased]` entry exists. Without one it requires a version bump; `--check` still fails on stale output or a stale digest.
 
@@ -45,15 +45,35 @@ The Phase W2 per-file re-audit covers the same 16 instruction sources individual
 |---|---:|---:|---:|---:|
 | Phase W | 4 | 3 | 3 | 1 |
 | Phase W2 supplied checker findings | 30 | 27 | 27 | 3 |
-| Phase W2 owner-added escalation wording | 1 | 1 | 1 | 0 |
+| Phase W2 owner-added escalation wording (reversed in R) | 1 | 0 | 0 | 1 |
 | Phase W2 diff review, unique findings | 3 | 2 | 2 | 1 |
-| **Total** | **38** | **33** | **33** | **5** |
+| **W + W2 after the R ruling** | **38** | **32** | **32** | **6** |
 
 - W2 binds investigation constraints, interview option notes, review execution limits, scout output overrides, quiz preparation/grading conditions, scorecard eligibility/answer rules, and judging criteria to their actions. It numbers the existing brainstorm selection, buy-in prerequisites/review, and mockup procedures. Shared reply instructions consistently say Markdown in the conversation.
 - W2 clarifies that small fixes have no tracker/checkpoints, the plan size gate counts files created or modified, verification/risk/rollback applies to plan items, final implementation of prototypes requires the combined-option confirmation, and read-only records use complete Markdown updates. Reference keeps its semantics map for port/transform work and also requires it before any reference-based implementation, matching its Iron Rule.
-- Under the owner's additional rule-4 decision, loop and notes now use **data loss or security**, matching the existing escalation criteria and implementation prompts. The wider generic-data wording in notes' Todo qualification and both README summaries is aligned, and the implementation-notes todo is resolved. This narrows the generic-data stop trigger.
-- Scope and execution-order clarifications in W2, including that escalation decision, are **meaning-changing and unmeasured**. The report classifies every fix; naming, duplicate removal and mockup numbering are form-only. Existing explicit approval rules and stage-specific question/logging reminders were preserved when three initial checker suggestions would have changed them without a rule requiring it.
+- W2 initially narrowed the escalation scope to data loss. Phase R reverses that item under the owner's final ruling: all escalation instructions now use **architecture, user-visible behavior, data, or security**, preserving main loop's broader permission boundary. The rejected column above includes this one owner-reversed W2 item; the remaining five rejections retain their original adjudications.
+- The retained scope and execution-order clarifications in W2 are **meaning-changing and unmeasured**; the escalation decision has been reversed. The report classifies every fix; naming, duplicate removal and mockup numbering are form-only. Existing explicit approval rules and stage-specific question/logging reminders were preserved when three initial checker suggestions would have changed them without a rule requiring it.
 - The fresh diff review against `0ac7d82` found two confirmed regressions, both fixed. The second and final round reported only a repeat of the rejected prototype-permission objection; no confirmed finding remains. This repeat is not double-counted in the totals. Per-file findings, quote verification, adjudications, and classifications are recorded in the owner's local `kyu-review/wfm2/report.md` audit record, outside this repository.
+
+### Independent review fixes — Phase R
+
+Reproduced and fixed the review's seven findings plus the owner's Windows CI ruling. The W2 escalation item is reversed rather than counted as a retained audit fix.
+
+| Audit scope | Found | Confirmed | Fixed | Rejected |
+|---|---:|---:|---:|---:|
+| W + W2 after reversal | 38 | 32 | 32 | 6 |
+| R review findings and CI ruling | 8 | 8 | 8 | 0 |
+| R writing-for-models diff review | 1 | 0 | 0 | 1 |
+| **Combined** | **47** | **40** | **40** | **7** |
+
+- Restore the no-sub-agent independent review substitute: hand the same packet to the user for a new conversation and keep the stage pending until that review returns. Scout fallbacks still run a labeled pass locally.
+- Restore escalation for architecture, user-visible behavior, **data**, or security in every implementation prompt, notes Todo/exclusion/escalation rule, reviewer contract and README summary. This owner-authorized reversal restores main's broader scope; it is meaning-changing and unmeasured.
+- Replace both unshipped value-contract pointers in the scorecard with the required value signal, provisional thresholds and baseline/ratio interpretation. Validate file paths in every generated skill Markdown file, with an explicit allow-list for user-project records; negative tests cover missing vendored-reference paths.
+- Include the entire canonical plugin manifest in the content digest except `version`. A manifest-only mutation without Unreleased notes is rejected; version/JSON-format-only changes keep the same digest.
+- Cite official Claude guidance for account-based installation while keeping this plugin's mobile/desktop sync unverified. Use the owner's dia ChatGPT zip/account/local-desktop routes, labeled not yet owner-checked for this plugin; uploads need to be replaced for updates.
+- Move missing-tool fallbacks after the affected instructions and reasons after the fallbacks in blindspot, plan and reference; inspect all eleven skill bodies for the same ordering pattern.
+- Add Ubuntu/Windows developer-tooling CI coverage: package build/check, unit tests, and both individual-skill helper targets. The new Windows job is configured, not observed passing.
+- The independent review, reproduction evidence and findings-to-fix table are in the owner's local `kyu-review/review/` records outside the repository. The fresh writing-for-models diff check uses `4bb7d86` as its base; prompt scope/order changes remain unmeasured. It returned one quote-verified suggestion to narrow data; rejected because it contradicts the owner's explicit broader-data ruling. No confirmed finding remains.
 
 ### Not measured
 
@@ -61,7 +81,7 @@ The Phase W2 per-file re-audit covers the same 16 instruction sources individual
 - Uploads of the rebuilt Claude archive to claude.ai or the rebuilt OpenAI archive to ChatGPT.
 - Mobile skill loading and cross-device/account synchronization.
 - Live A/B measurements of the Phase W and W2 writing-for-models fixes; prior trigger and behavior results describe older snapshots. W2 scope and execution-order clarifications are not measured improvements. An optional W2 behavior smoke was stopped after repeated 60-second timeouts; its no-plugin arm also loaded an installed unknowns skill, so it supplies no valid baseline.
-- Windows execution of the rebuilt package: earlier hook coverage was CI-only, the hook matrix has been removed, and current CI runs Ubuntu.
+- Native Windows execution of the rebuilt developer tools: the new Ubuntu/Windows CI matrix is configured but has not been observed running; earlier hook checks were CI-only and those hooks are removed.
 - The new tag-triggered release workflow against a real tag or published release.
 
 ## 0.9.2 — 2026-10-22

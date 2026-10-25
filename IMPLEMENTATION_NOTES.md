@@ -1,5 +1,17 @@
 # Implementation Notes — plan deviation log
 
+## [2026-10-26] Independent review corrections — Phase R
+
+**Observed**
+- **Situation found**: independent review reproduced lost fresh-conversation review handoff, narrowed data escalation, an unshipped scorecard dependency, a manifest-only version-record bypass, unsupported install/sync claims, fallback ordering issues, and missing Windows tooling coverage.
+- **Deviation from plan**: W2 accepted data loss as the common escalation scope. The owner reversed that choice and requires main loop's broader architecture, user-visible behavior, data, or security set everywhere.
+- **Response chosen**: restore the new-conversation reviewer packet and keep the stage pending; restore broad data escalation; make scorecard guidance self-contained; validate every generated skill Markdown resource and digest every manifest field except version; align both README routes with the owner's rulings and official Claude guidance; add the Windows CI matrix.
+
+**Attributed**
+- **Reason for choice**: the owner's Phase R rulings preserve independence and main's permission boundaries while closing reproducible packaging holes. Historical W2 counts now exclude the reversed item from accepted fixes.
+- **Alternatives considered**: a same-conversation review cannot discharge independent verification; keeping data loss would preserve the narrowed boundary; shipping the whole repository to resolve one pointer would undo the source/generated split.
+- **Risk/follow-up check**: restored scope and new-conversation handoff are meaning-changing and unmeasured. New Windows CI is configured but not yet observed; mobile/desktop sync and ChatGPT routes are not owner-checked for this plugin. The writing-for-models diff review and local structural/build checks are recorded in the external Phase R fixes report.
+
 ## [2026-10-26] Portable package restructure — phases A, B, W, C
 
 **Observed**

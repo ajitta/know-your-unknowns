@@ -2,7 +2,7 @@
 
 Referenced by the `loop` skill's value review (step 10) and the `quiz` wrap-up, the two points where a piece of work ends and the user still remembers what happened.
 
-Background: `docs/value-contract.md` promises this plugin earns its place only when it surfaces something the user did not know **and** that changes a decision. That claim is worthless without recorded rows, and asking days later produces fiction.
+Value means surfacing something the user did not know **and** changing a decision. Measure decision changes over a rolling window of ten real-use rows, with a provisional target of at least 50%. Provisional follow-up criteria are: demote a skill from the recommended flow after no decision changes in its first five uses; mark the plugin unmeasured after 60 days without a new row, and declare maintenance mode after 120 days. Revisit these thresholds after ten rows. These judgments need recorded rows; asking days later produces fiction.
 
 ## What to do
 
@@ -16,7 +16,7 @@ Background: `docs/value-contract.md` promises this plugin earns its place only w
 
    Otherwise, capture the row as follows.
 
-   a. When blindspot recorded the user's pre-investigation lists (sure of / assuming / cannot judge — in `loop.json` `baseline` or the blindspot output), show the findings next to those lists before asking the questions in step 1c, marking each finding that no list mentioned. The question is then about that marked set, not a recollection.
+   a. When blindspot recorded the user's pre-investigation lists (sure of / assuming / cannot judge — in `.unknowns/loop.json` `baseline` or the blindspot output), show the findings next to those lists before asking the questions in step 1c, marking each finding that no list mentioned. The question is then about that marked set, not a recollection.
 
    b. Record in **Baseline** whether this row was `compared` or had `none`.
 
@@ -35,7 +35,7 @@ Background: `docs/value-contract.md` promises this plugin earns its place only w
 
 2. **Append the row.**
 
-   a. Append the row to `.unknowns/scorecard.md` in the current project, creating the file with the two header lines below if it does not exist. Write the row **even when both answers are no.** The value contract's demotion and removal conditions fire only on recorded zeros, so a skipped no-row silently protects a skill that is not earning its place.
+   a. Append the row to `.unknowns/scorecard.md` in the current project, creating the file with the two header lines below if it does not exist. Write the row **even when both answers are no.** Recorded zeros keep the decision-change rate honest; omitting them silently protects a skill that is not earning its place.
 
    b. Offer once to add `.unknowns/` to `.gitignore`.
 
@@ -57,4 +57,4 @@ Background: `docs/value-contract.md` promises this plugin earns its place only w
 
 **Older files.** New columns are only ever added at the **end**, so an existing file is migrated by extending the header and separator lines alone: append whichever of Recheck on, Reality check, Baseline it lacks, in that order. Never insert a column mid-table or move existing cells; filling an empty Reality check cell is fine. A shifted row silently moves every answer under the wrong heading.
 
-When the value contract's ratio is computed, report `compared` rows separately — they are the ones a changed mind cannot have rewritten (see `docs/value-contract.md`).
+When computing the decision-change rate, report the overall rate and the rate for `compared` rows separately; these rows use the recorded baseline instead of hindsight. If the rates differ substantially, treat the overall rate as unreliable.

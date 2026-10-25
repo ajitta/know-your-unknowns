@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import io
 import json
+import posixpath
 import re
 import sys
 import zipfile
@@ -39,6 +40,10 @@ OPENAI_CATEGORIES = {
 ALLOWED_KEYS = {"name", "description", "license", "metadata", "compatibility", "allowed-tools"}
 SHIPPED_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".svg"}
 RESOURCE_RE = re.compile(r"(?<![\w/.-])((?:references|assets|scripts)/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+)\b")
+PROJECT_FILES = {"IMPLEMENTATION_NOTES.md", "CHANGELOG.md", "CLAUDE.md",
+                 "AGENTS.md", ".gitignore", ".claude/rules/unknowns.md"}
+PROJECT_PREFIXES = (".unknowns/",)
+FILE_PATH_RE = re.compile(r"(?!/)[\w .<>/$+-]+\.[A-Za-z0-9]+(?:#[\w-]+)?")
 
 
 def scalar(value):
@@ -171,6 +176,33 @@ def plugin_files(skills):
     return files
 
 
+def validate_markdown_paths(skill_name, files, skill_body):
+    """Resolve packaged references in every Markdown resource of a standalone skill."""
+    errors = []
+    prefix = "skills/" + skill_name + "/"
+    for path, data in sorted(files.items()):
+        if not path.startswith(prefix) or not path.endswith(".md"):
+            continue
+        text = data.decode("utf-8")
+        if path == prefix + "SKILL.md":
+            # Direct source validation also works before that source is regenerated.
+            text += "\n" + skill_body
+        paths = set(RESOURCE_RE.findall(text))
+        paths.update(token for token in re.findall(r"(?<!`)`([^`\n]+)`(?!`)", text)
+                     if FILE_PATH_RE.fullmatch(token))
+        paths.update(link.split("#", 1)[0] for link in re.findall(r"\]\(([^)]+)\)", text)
+                     if not re.match(r"[a-z]+:|#|/", link))
+        for rel in sorted(paths):
+            rel = rel.split("#", 1)[0]
+            if posixpath.normpath(rel) in PROJECT_FILES or posixpath.normpath(rel).startswith(PROJECT_PREFIXES):
+                continue
+            candidates = {posixpath.normpath(prefix + rel),
+                          posixpath.normpath(posixpath.dirname(path) + "/" + rel)}
+            if not any(candidate.startswith(prefix) and candidate in files for candidate in candidates):
+                errors.append(path[len(prefix):] + ": missing generated relative path: " + rel)
+    return errors
+
+
 def validate_skill(skill, files):
     errors = []
     fields, metadata, body = frontmatter((skill / "SKILL.md").read_text(encoding="utf-8"))
@@ -185,15 +217,7 @@ def validate_skill(skill, files):
         errors.append("metadata.version differs from plugin-manifest.json")
     if "$" + "{CLAUDE_PLUGIN_ROOT}" in body:
         errors.append("body contains a plugin-root substitution")
-    prefix = "skills/" + skill.name + "/"
-    # Packaged resources and relative Markdown links must resolve in this skill.
-    # Project records (.unknowns/, IMPLEMENTATION_NOTES.md, CLAUDE.md) are runtime inputs/outputs.
-    paths = set(RESOURCE_RE.findall(body))
-    paths.update(link.split("#", 1)[0] for link in re.findall(r"\]\(([^)]+)\)", body)
-                 if not re.match(r"[a-z]+:|#|/", link))
-    for rel in sorted(paths):
-        if ".." in Path(rel).parts or prefix + rel not in files:
-            errors.append("missing generated relative path: " + rel)
+    errors.extend(validate_markdown_paths(skill.name, files, body))
     yaml_path = skill / "agents" / "openai.yaml"
     if not yaml_path.is_file():
         errors.append("agents/openai.yaml missing")
@@ -343,7 +367,7 @@ def zip_bytes(files: dict[str, bytes]) -> bytes:
 
 
 def content_digest(files: dict[str, bytes]) -> str:
-    """sha256 over the plugin files minus the manifest, plus the OpenAI listing and assets,
+    """sha256 over plugin files (excluding only manifest.version), listing and assets,
     so a version bump alone leaves it unchanged; unreleased notes permit a new baseline."""
     h = hashlib.sha256()
     extra = {}
@@ -352,8 +376,11 @@ def content_digest(files: dict[str, bytes]) -> str:
         extra = {"openai:interface.json": json.dumps(interface, sort_keys=True).encode()}
         extra.update({f"openai:{k}": v for k, v in assets.items()})
     for rel, data in sorted({**files, **extra}.items()):
-        if rel != ".claude-plugin/plugin.json":
-            h.update(rel.encode() + b"\0" + data + b"\0")
+        if rel == ".claude-plugin/plugin.json":
+            manifest = json.loads(data)
+            manifest.pop("version", None)
+            data = json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        h.update(rel.encode() + b"\0" + data + b"\0")
     return h.hexdigest()
 
 

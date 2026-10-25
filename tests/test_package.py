@@ -168,6 +168,29 @@ class PackageTest(unittest.TestCase):
                 self.assertNotEqual(updated["digest"], recorded["digest"])
                 self.assertEqual(pkg.check_release(changed), [])
 
+    def test_manifest_only_mutation_requires_unreleased_notes_or_version_bump(self):
+        with tempfile.TemporaryDirectory() as temp:
+            release = Path(temp) / "plugin-release.json"
+            changelog = Path(temp) / "CHANGELOG.md"
+            changelog.write_bytes(b"## [0.9.2]\n\nReleased.\n")
+            with mock.patch.object(pkg, "RELEASE", release), mock.patch.object(pkg, "CHANGELOG", changelog):
+                self.assertEqual(pkg.record_release(self.files), [])
+                recorded = release.read_bytes()
+                changed = dict(self.files)
+                manifest = json.loads(changed[".claude-plugin/plugin.json"])
+                manifest["description"] += " Manifest-only mutation."
+                changed[".claude-plugin/plugin.json"] = json.dumps(manifest).encode()
+                self.assertTrue(pkg.record_release(changed))
+                self.assertTrue(pkg.check_release(changed))
+                self.assertEqual(release.read_bytes(), recorded)
+
+    def test_manifest_version_and_json_format_do_not_change_content_digest(self):
+        changed = dict(self.files)
+        manifest = json.loads(changed[".claude-plugin/plugin.json"])
+        manifest["version"] = "99.0.0"
+        changed[".claude-plugin/plugin.json"] = json.dumps(manifest, sort_keys=True).encode()
+        self.assertEqual(pkg.content_digest(changed), pkg.content_digest(self.files))
+
     def test_unreleased_entry_must_contain_notes(self):
         with tempfile.TemporaryDirectory() as temp:
             changelog = Path(temp) / "CHANGELOG.md"
@@ -196,6 +219,29 @@ class PackageTest(unittest.TestCase):
             errors = pkg.validate_skill(skill, self.files)
             self.assertTrue(any("references/missing.md" in e for e in errors), errors)
             self.assertTrue(any("guide.md" in e for e in errors), errors)
+
+    def test_markdown_resources_validate_file_references(self):
+        skill = ROOT / "skills" / "plan"
+        resource = "skills/plan/references/check.md"
+        for pointer in ("`docs/missing.md`", "`missing.md`", "`references/missing.md`",
+                        "[missing](missing.md)", "`../outside.md`", "`.unknowns/../missing.md`",
+                        "`docs/missing file$.md`"):
+            with self.subTest(pointer=pointer):
+                changed = dict(self.files)
+                changed[resource] = ("Read " + pointer + ".\n").encode()
+                self.assertTrue(any("missing generated relative path" in e
+                                    for e in pkg.validate_skill(skill, changed)))
+        changed = dict(self.files)
+        changed[resource] = b"Read `guide.md`, `docs/guide.md` and `../SKILL.md`.\n"
+        changed[resource] += b"Also read `docs/guide file$.md`.\n"
+        changed[resource] += b"Use `.unknowns/loop.json`, `IMPLEMENTATION_NOTES.md`, `CHANGELOG.md`, `CLAUDE.md`, `.claude/rules/unknowns.md` and `.gitignore` for project records.\n"
+        changed["skills/plan/references/guide.md"] = b"Guide.\n"
+        changed["skills/plan/docs/guide.md"] = b"Guide.\n"
+        changed["skills/plan/docs/guide file$.md"] = b"Guide.\n"
+        self.assertEqual(pkg.validate_skill(skill, changed), [])
+        changed["skills/plan/SKILL.md"] += b"\nRead `docs/missing-in-body.md`.\n"
+        self.assertTrue(any("docs/missing-in-body.md" in e
+                            for e in pkg.validate_skill(skill, changed)))
 
     def test_bad_frontmatter_is_rejected(self):
         for text in (

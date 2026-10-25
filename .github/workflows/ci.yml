@@ -19,16 +19,27 @@ env:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+      - name: Check committed packages
+        run: python tools/package.py --check
+      - name: Build packages
+        run: python tools/package.py
       - name: Check generated packages
         run: python tools/package.py --check
       - name: Unit tests
         run: python -m unittest discover -s tests -v
+      - name: Build individual skill uploads
+        run: python scripts/build-skill-zips.py
+      - name: Build individual local skills
+        run: python scripts/build-skill-zips.py --target local
 
   plugin-validate:
     runs-on: ubuntu-latest

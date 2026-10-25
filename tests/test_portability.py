@@ -44,8 +44,15 @@ class PortabilityTest(unittest.TestCase):
         for name in ("loop", "buy-in"):
             text = skill(name)
             self.assertIn(REVIEW_CONTRACT, text)
-            self.assertIn("No sub-agent → do the pass yourself as a separate step", text)
-            self.assertIn("Assistant review; not independent", text)
+            self.assertIn("No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent.", text)
+            self.assertIn("The independent verification stage stays pending until that review returns.", text)
+
+    def test_review_handoff_matches_all_copies(self):
+        sentence = "No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns."
+        for text in (skill("loop"), skill("buy-in"),
+                     (PLUGIN / "skills/loop/references/surfaces.md").read_text(encoding="utf-8")):
+            self.assertIn(sentence, text)
+            self.assertNotIn('label it "Assistant review; not independent"', text)
 
     def test_agent_tool_boundaries(self):
         scout = (PLUGIN / "agents/unknowns-scout.md").read_text(encoding="utf-8")
@@ -66,8 +73,8 @@ class PortabilityTest(unittest.TestCase):
             self.assertIn("before ending the turn", text, name)
             self.assertIn("No file system →", text, name)
             if name in ("loop", "plan", "prototypes", "reference", "interview", "brainstorm"):
-                self.assertIn("Stop and ask before changes to architecture, user-visible behavior, data loss, or security.", text, name)
-                self.assertNotIn("Stop and ask before changes to architecture, user-visible behavior, data, or security.", text, name)
+                self.assertIn("Stop and ask before changes to architecture, user-visible behavior, data, or security.", text, name)
+                self.assertNotIn("Stop and ask before changes to architecture, user-visible behavior, data loss, or security.", text, name)
 
     def test_quiz_keeps_six_question_gate_and_private_teachback_key(self):
         text = skill("quiz")

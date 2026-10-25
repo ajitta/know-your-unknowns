@@ -60,9 +60,9 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    When the scout returns, map its rows onto the card kinds in step 3.
 
-   Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant"; say what one pass could not cover. No file access or search tools → investigate the supplied material and list missing sources under **Needs checking**. Details: references/surfaces.md
-
    Investigate in this order: ②'s assumptions, then any given sources (git history, docs, specific modules), then the rest. Look for each assumption in the given sources first.
+
+   Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant"; say what one pass could not cover. No file access or search tools → investigate the supplied material and list missing sources under **Needs checking**. Details: references/surfaces.md
 
 3. Compile the findings:
 

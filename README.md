@@ -96,7 +96,7 @@ The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name t
 2. Open Discover, select the `unknowns` plugin, and select Add. Adding the marketplace alone does not install the plugin.
 3. Ask for a skill by name or phrase, for example "blind spot pass".
 
-Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin with [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip). Use the Plugins upload, not the Skills upload. Install in each desktop app you use; use the web install for web/mobile access.
+Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin with [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip). Use the Plugins upload, not the Skills upload. [Claude's official installation guidance](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) says web/Desktop plugins are saved to your account and follow you across supported surfaces. Mobile/desktop sync for this plugin is not yet checked by the owner.
 
 ### Claude mobile
 
@@ -128,17 +128,12 @@ Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin wi
 2. Ask with a scoped skill name, for example `$unknowns:plan`, followed by the task.
 3. Check the procedure and tool fallbacks; this route is expected and not yet checked by the owner.
 
-### ChatGPT web and mobile
+### ChatGPT desktop (with Codex) and mobile
 
-1. Download [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip).
-2. Upload it through the plugin upload on ChatGPT web. This archive contains the OpenAI manifest, skills, and listing assets.
-3. On web or mobile with the same account, ask for a skill by name or phrase and check its procedure. Upload and mobile behavior are expected and not yet checked by the owner.
+These two routes follow the owner's dia installation procedure; behavior is **not yet checked by the owner for this plugin**.
 
-### ChatGPT desktop
-
-1. In the app's Codex plugin interface, add the GitHub marketplace `ajitta/know-your-unknowns`, or a local clone of it.
-2. Select and add `unknowns` from that marketplace.
-3. Ask for a skill and check its procedure. This route is expected and not yet checked by the owner; install separately in each desktop app you use.
+1. **Upload the zip on the web (web and mobile).** Download [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip) and upload it on chatgpt.com with the plugin zip upload. The plugin is saved to your account for ChatGPT web and mobile. This zip carries the OpenAI manifest, skills, and listing assets. Uploads do not update themselves; upload each new release again.
+2. **Add the marketplace in the desktop app.** In the app's Codex plugin interface, add the GitHub marketplace `ajitta/know-your-unknowns` or a local clone, then select and add `unknowns`. This route installs into the desktop app's local Codex folder; it is not saved to your account for web/mobile access. Updates arrive through the marketplace.
 
 ### Windows
 
@@ -149,7 +144,7 @@ Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin wi
 ### What works where
 
 - All eleven skills deliver Markdown in the conversation, with numbered reactions and an assembled reply. Missing question, file, search, or execution tools have explicit fallbacks.
-- The two named agents run only in Claude Code. Elsewhere the assistant performs a labeled pass itself; a same-conversation review is labeled "not independent".
+- The two named agents run only in Claude Code. Elsewhere the assistant performs the scout pass itself; for independent verification it gives you the same packet to paste into a new conversation, whose review stands in for the agent. That stage stays pending until the review returns.
 - The installed package has no hooks or scripts on any surface. A runnable prototype requested during a task can still be code written to files when the host supports it.
 - Trackers, scorecards, and deviation logs use files when available; otherwise the assistant prints the complete record in Markdown and says what the user should save.
 
@@ -446,11 +441,11 @@ situation found / how it deviates from the plan / the response chosen / the reas
 alternatives discarded / risk and follow-up check. Two lighter one-line kinds share the
 same file: **Discovery** (reality differs from what the plan assumed, no decision needed
 yet) and **Todo for human** (a judgment call that is yours but blocks nothing and touches
-no architecture, user-visible behavior, data loss or security — anything that does escalates).
+no architecture, user-visible behavior, data or security — anything that does escalates).
 
 **Persistence**: when a file system is available, append to the notes file once it exists or `init` has been run; buy-in and quiz use that record. With no file system, print the complete updated log as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Before ending a turn, at stage boundaries, and before commits, check for deviations yourself.
 
-**Escalation**: decisions touching architecture, user-visible behavior, data loss, or security must be recorded and then **work stops and the question goes to you**. At
+**Escalation**: decisions touching architecture, user-visible behavior, data, or security must be recorded and then **work stops and the question goes to you**. At
 wrap-up the skill writes a **fold back into the plan** block — three copyable bullets on
 what this changes for attempt #2 — beside any open Todo for human items.
 
@@ -511,7 +506,7 @@ address them by their plugin-scoped id — `unknowns:unknowns-scout` and
 `@agent-unknowns:unknowns-scout` mention form both expect. A bare `unknowns-scout` is
 rejected as `subagent_type`.
 
-The named agents run only in Claude Code. An agent's **effective** toolset is its declared list narrowed to what the host session exposes. The scout has Read, Grep, Glob, WebFetch, and WebSearch, with no Bash or write tools. It reads available history records and hands questions needing command execution back to the caller. Other hosts use the labeled in-skill pass; a same-conversation review is not independent.
+The named agents run only in Claude Code. An agent's **effective** toolset is its declared list narrowed to what the host session exposes. The scout has Read, Grep, Glob, WebFetch, and WebSearch, with no Bash or write tools. It reads available history records and hands questions needing command execution back to the caller. Other hosts use the labeled scout pass; independent verification hands the packet to you for a new conversation and waits for its review.
 
 **unknowns-scout** (read-only reconnaissance):
 ```
@@ -660,7 +655,7 @@ The owner bumps and releases only after all work and verification are complete. 
 
 Text uses UTF-8 and LF. Release archives use ZIP_STORED with fixed timestamps and modes for byte reproducibility. The packager is standard-library-only and supports Python 3.7+; the optional individual-skill helper uses Python 3.9+.
 
-The current CI test and validation jobs run on Ubuntu. Earlier Windows evidence covered the removed hooks through CI only; the rebuilt package's Windows behavior is not measured. Historical routing results in `docs/` refer to the versions they name. Structural checks do not measure the updated skills' behavior, loading, or uploads.
+The developer tooling test matrix targets Ubuntu and Windows; strict plugin validation runs on Ubuntu. The new Windows CI job has not been observed running yet. Earlier Windows evidence covered the removed hooks through CI only; the rebuilt package's Windows behavior is not measured. Historical routing results in `docs/` refer to the versions they name. Structural checks do not measure the updated skills' behavior, loading, or uploads.
 
 ---
 

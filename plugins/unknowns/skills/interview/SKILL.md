@@ -54,7 +54,7 @@ When the interview ends, present two things:
    - Mark skipped questions "(unanswered — use your judgment)".
    - Declare the architecture and data decisions **fixed**, with "if anything later conflicts with them, flag it before writing code".
    - Close with "start with a short plan, then implement".
-   - Include: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
+   - Include: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
 
    The skill's purpose is that the user copies this prompt to start implementation.
 

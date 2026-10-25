@@ -37,7 +37,7 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
    e. Use `unknowns:independent-reviewer` when the host can start a sub-agent of that name to check evidence for objection responses, including its "verified" list.
 
-   Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run. No sub-agent → do the pass yourself as a separate step and label it "Assistant review; not independent". Details: references/surfaces.md
+   Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run. No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns. Details: references/surfaces.md
 4. **Spec at a glance**: an area / decision / ref table, one row per settled decision.
 5. **Known limitations and unresolved unknowns**: if a deviation log exists (file or in-conversation), pull its recorded deviations and unresolved risks here. Not hiding is the basis of trust.
 6. **Sign-off list**: name the people/teams who must approve, with roles, and what each must check.

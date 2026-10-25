@@ -45,7 +45,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 6. Convert reactions into an **explicit requirements list**: the taste the user couldn't verbalize (unknown knowns) becomes spec.
 7. Proceed to real implementation only after the combined option is confirmed.
 
-   When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
+   When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
 
 ## Output
 

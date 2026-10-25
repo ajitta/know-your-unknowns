@@ -69,7 +69,7 @@ No file system → show the prototype code and success/failure criteria in Markd
 
 a. Log anything not in the plan. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Check for deviations at each stage boundary. Apply the **notes** skill's logging criteria and escalation rules.
 
-b. Stop and ask before changes to architecture, user-visible behavior, data loss, or security.
+b. Stop and ask before changes to architecture, user-visible behavior, data, or security.
 
 c. Everything else inside this stage: keep going. Put status notes in the same message as the next action, and do not stop to report a finished plan item or offer to continue. The stage checkpoint is where the user steers.
 
@@ -94,7 +94,7 @@ c. **Never hand it the implementer's own summary.**
 
 Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run.
 
-No sub-agent → do the pass yourself as a separate step and label it "Assistant review; not independent". Use the same packet and read-only contract. Details: references/surfaces.md
+No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns. Use the same read-only contract. Details: references/surfaces.md
 
 ### 9. Comprehension check & handoff → the **quiz** skill
 

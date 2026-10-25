@@ -31,9 +31,9 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    c. If the user skips, write "done criteria not set — the reviewer cannot judge conformance" in the section; never drop it silently.
 
-   The independent reviewer's packet starts from this section.
-
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
+
+   The independent reviewer's packet starts from this section.
 3. **Size gate**: when the planned implementation creates or modifies ≤2 files and carries no schema, interface, or UX-contract decision:
 
    a. Say so and defer to native plan mode instead of writing this document.
@@ -65,7 +65,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. Proceed to implementation only after the user's approval or change requests have updated the plan. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries the approval.
 
-   b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
+   b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
 
 ## Output
 

@@ -48,7 +48,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
    c. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
 
-   Each implementation prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
+   Each implementation prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
 
 ## Output
 
