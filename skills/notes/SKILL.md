@@ -4,7 +4,6 @@ description: >
   Implementation notes — log significant deviations from the plan while working.
   Use automatically when implementation hits an unknown the plan did not cover, and on
   "implementation notes", "record a deviation", "where did we diverge from the plan?".
-argument-hint: "[init | show | <content to log>]"
 ---
 
 # Notes — Plan Deviation Log (Implementation Notes)
@@ -18,24 +17,18 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
   | Surface | Where the log lives |
   |---|---|
   | Project root available | `IMPLEMENTATION_NOTES.md` at project root (create if missing). |
-  | No project root but file writes work (Desktop/web chat, Cowork without a folder) | The same file in the session workspace; hand it to the user at every wrap-up. |
-  | Nothing writable (mobile) | The conversation; restate the log in full each time it grows. |
+  | File system available without a project root | The same file in the session workspace; hand it to the user at every wrap-up. |
+  | No file system | The conversation; restate the log in full each time it grows. |
+
+  No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
 
   On every surface the entry format and the escalation rule are unchanged. Details: references/surfaces.md
 
 - **Persistence**:
-  - Once the file exists or `init` has been run, appending to the file is mandatory — a chat-only summary does not satisfy the rule, because the reminder hook, buy-in and quiz all read the file.
+  - When a file system is available, append to the notes file once it exists or `init` has been run; buy-in and quiz read that record.
   - With no file, a chat summary is allowed, but the final message must then say there is no notes file, and where it lives instead.
 
-- **Reminder hook**: decide by the line `[unknowns] hooks active` in context, never by which app you think you are in.
-
-  | State | What it means |
-  |---|---|
-  | The line is in context, and the reminder it announces has not arrived yet | The hook is counting edits and **one** reminder is still to come. |
-  | The line is missing (plugin hooks not running on this surface, a project that has not opted in, the reminder turned off) | No more reminders come. |
-  | The reminder the line announced has arrived | No more reminders come. |
-
-  When no more reminders come, re-read the logging criteria yourself at every natural break: before a commit, before handing work back, after roughly ten file edits.
+- **Record deviations while working**: re-read the logging criteria at each stage boundary, before a commit, and before handing work back. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
 
 - **Arguments**:
 
@@ -51,6 +44,8 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
   a. Create the file: heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template.
 
   b. Offer (never write silently) to append a 3–5 line deviation-log rule — log criteria, escalation, file path — to the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context for every later session, not only when this skill is invoked.
+
+  No file system → print the initial log and proposed deviation-log rule as Markdown, say which file each belongs in, and ask the user to save the rule only if they want it.
 
 ## Entry Format
 
@@ -100,6 +95,8 @@ When a decision does any of the following, do more than log — **stop work and 
 - Decision changes architecture
 - Decision changes user-visible behavior (UX/API contract)
 - Decision touches data loss/security
+
+Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
 ## Wrap-up
 

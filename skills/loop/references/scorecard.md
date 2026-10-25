@@ -12,12 +12,12 @@ Background: `docs/value-contract.md` promises this plugin earns its place only w
 
    b. Record in **Baseline** whether this row was `compared` or had `none`.
 
-   c. Ask the user with **one** `AskUserQuestion` call carrying exactly these two questions (the tool's hard cap is 1–4):
+   c. Ask the user these two questions in one round, splitting tool calls only if the tool requires it:
 
    - "Did this surface something you did not already know?" — options: yes / no.
    - "Did it change a decision?" — options: yes / no.
 
-   No `AskUserQuestion` tool → ask the two questions as two numbered questions in one message.
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
    d. Follow up in free text for the one-line "what", only for answers that were yes.
 
@@ -31,7 +31,7 @@ Background: `docs/value-contract.md` promises this plugin earns its place only w
 
    b. Offer once to add `.unknowns/` to `.gitignore`.
 
-   No project to write into (Desktop/web chat, mobile) → print the row as a copyable one-line table row and say where it belongs; see `surfaces.md` in this folder.
+   No file system → print the record in the chat as Markdown and say to save it as `.unknowns/scorecard.md`. Include the header and all saved rows so the user can save the whole updated scorecard; see `surfaces.md` in this folder.
 
 4. Write the row **even when both answers are no.** The value contract's demotion and removal conditions fire only on recorded zeros, so a skipped no-row silently protects a skill that is not earning its place.
 

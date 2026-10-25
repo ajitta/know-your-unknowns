@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Build standalone skill uploads from the generated plugins/unknowns/skills/.
 
-Run tools/package.py first. Shared references and the page template are already
-vendored by that build, so this script copies them without path rewriting.
-Upload zips use the trigger-preserving short descriptions, plain input prose
-instead of $ARGUMENTS, and name/description frontmatter only. --target local
-keeps full frontmatter and $ARGUMENTS and removes agent plugin namespaces.
+Run tools/package.py first. Shared reference instructions are already vendored
+by that build, so this script copies them without path rewriting. Upload zips
+use the trigger-preserving short descriptions and name/description frontmatter
+only. --target local keeps full frontmatter and removes agent plugin namespaces.
+Neither target contains hooks, presentation assets, or executable files.
 
 Usage: python3 scripts/build-skill-zips.py [--out dist] [--target upload|local]
 """
@@ -27,14 +27,11 @@ NAME_MAX = 64
 DESC_MAX = 200
 SHORT = json.loads((ROOT / "scripts" / "skill-descriptions.json").read_text(encoding="utf-8"))
 
-ARGUMENTS_PROSE = "the request that invoked this skill"
 AGENTS = sorted(path.stem for path in (ROOT / "plugins" / "unknowns" / "agents").glob("*.md"))
 
 
-def port(body: str, keep_arguments: bool = False) -> str:
-    """Adapt invocation prose; packaged paths and reference bytes stay unchanged."""
-    if not keep_arguments:
-        return body.replace("`$ARGUMENTS`", ARGUMENTS_PROSE).replace("$ARGUMENTS", ARGUMENTS_PROSE)
+def local_body(body: str) -> str:
+    """Copied Claude Code agents have no plugin namespace."""
     return re.sub(r"\bunknowns:(%s)\b" % "|".join(map(re.escape, AGENTS)), r"\1", body)
 
 
@@ -100,7 +97,7 @@ def build(out_dir: Path, target: str = "upload") -> int:
             problems.append(f"{folder}: description is {len(description)} chars — the "
                             f"upload form documents a {DESC_MAX}-char maximum")
 
-        ported = port(body, keep_arguments=local)
+        ported = local_body(body) if local else body
         skill_dir = staging / folder
         shutil.copytree(skill_md.parent, skill_dir)
         header = f"---\n{raw}\n---\n" if local else emit_frontmatter(fields)

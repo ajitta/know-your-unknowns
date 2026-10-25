@@ -34,9 +34,7 @@ class PackageTest(unittest.TestCase):
     def test_validation(self):
         self.assertEqual(pkg.collect_errors(self.skills, self.files), [])
 
-    @unittest.expectedFailure
     def test_generated_frontmatter_uses_only_agent_skill_spec_keys(self):
-        # Phase B removes argument-hint and this expectedFailure marker.
         extra = {}
         for skill in self.skills:
             text = (ROOT / "plugins" / "unknowns" / "skills" / skill.name / "SKILL.md").read_text(encoding="utf-8")
@@ -47,8 +45,7 @@ class PackageTest(unittest.TestCase):
 
     def test_vendored_shared_files_are_identical(self):
         # Check every copy independently of the build's vendored_paths selection.
-        shared = [p for folder in ("references", "assets", "scripts")
-                  for p in (ROOT / "skills" / "loop" / folder).glob("*") if p.is_file()]
+        shared = list((ROOT / "skills" / "loop" / "references").glob("*.md"))
         copies = 0
         for skill in self.skills:
             body = (skill / "SKILL.md").read_text(encoding="utf-8")
@@ -62,8 +59,7 @@ class PackageTest(unittest.TestCase):
                     copies += 1
                     self.assertEqual(dest.read_bytes(), source.read_bytes(), dest)
             if (target / "references" / "output-routing.md").exists():
-                for rel in ("references/surfaces.md",) + pkg.PAGE_FILES:
-                    self.assertTrue((target / rel).is_file(), (skill.name, rel))
+                self.assertTrue((target / "references/surfaces.md").is_file(), skill.name)
             if (target / "references" / "scorecard.md").exists():
                 self.assertTrue((target / "references" / "surfaces.md").is_file())
         self.assertGreater(copies, len(shared))
@@ -76,12 +72,25 @@ class PackageTest(unittest.TestCase):
                              self.files["skills/" + skill.name + "/SKILL.md"])
 
     def test_no_repository_files_shipped(self):
-        allowed = {".claude-plugin", "README.md", "LICENSE", "NOTICE", "skills", "agents", "hooks"}
+        allowed = {".claude-plugin", "README.md", "LICENSE", "NOTICE", "skills", "agents"}
         self.assertEqual({name.split("/")[0] for name in self.files}, allowed)
-        for folder in ("agents", "hooks"):
+        for folder in ("agents",):
             self.assertEqual(pkg.source_files(ROOT / "claude-code" / folder),
                              {key[len(folder) + 1:]: data for key, data in self.files.items()
                               if key.startswith(folder + "/")})
+
+    def test_no_code_or_hooks_shipped(self):
+        for path in (ROOT / "plugins" / "unknowns").rglob("*"):
+            if path.is_file():
+                rel = path.relative_to(ROOT / "plugins" / "unknowns").as_posix()
+                self.assertEqual(pkg.shipped_violations({rel: path.read_bytes()}), [])
+        for filename in (pkg.ZIP_NAME, pkg.OPENAI_ZIP_NAME):
+            with zipfile.ZipFile(ROOT / "releases" / filename) as archive:
+                files = {name.split("/", 1)[1]: archive.read(name) for name in archive.namelist()}
+                self.assertEqual(pkg.shipped_violations(files), [], filename)
+        for rel in ("hooks/hooks.json", "skills/plan/scripts/run.md", "skills/plan/assets/icon.svg",
+                    "skills/plan/run.py", "run.sh", "page.js", "main.ts", "image.png"):
+            self.assertTrue(pkg.shipped_violations({rel: b"example"}), rel)
 
     def test_openai_interfaces(self):
         for skill in self.skills:

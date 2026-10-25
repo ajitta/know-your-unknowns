@@ -1,56 +1,56 @@
-# Surfaces — where these skills run, and what is missing where
+# Surfaces — use the tools the current session exposes
 
-The skills are written for Claude Code, where there is a project directory, sub-agents and hooks. They also load in Claude Desktop, Claude web and Cowork, where some of that is absent. This file is the one place that says what to do instead. When a step calls for a tool the current session does not have, read this file — never silently skip the step.
+The skills deliver Markdown in the conversation on Claude Code, claude.ai web/desktop/mobile, ChatGPT web/mobile, and Codex CLI. Named Claude agents are available only in Claude Code; other hosts use the separate-pass substitute below. ChatGPT and Codex behavior is expected; not yet checked by the owner.
 
-## What each surface has
+A tool list determines what can run. Never infer tool availability from the app's name or claim a check ran without its result.
 
-| | Claude Code | Cowork | Desktop / web chat | Mobile |
-|---|---|---|---|---|
-| Skills | yes | yes | yes | not documented |
-| Sub-agents (Agent tool) | yes | yes | no | no |
-| Hooks | yes | yes | no | no |
-| Project files that persist | yes (the repo) | yes (connected folder) | session only | no |
-| Artifact publishing | yes | yes | yes | view only |
-| Slash invocation | `/unknowns:<skill>` | by name | by name | by name |
+## Questions
 
-The columns are defaults, not a detection rule: a session's own tool list decides. Every substitute below is keyed to a tool being absent (for hooks, to a marker line being absent), never to the surface's name. For example, a Claude app task that runs in a cloud workspace is started from web or desktop, yet it can carry the Agent tool and this plugin's agents.
+Keep the skill's question count, priority, and approval gate. If a question tool accepts fewer questions than the skill's round, split the round across calls without increasing its total.
 
-"By name" means the skill is model-invoked: say the trigger phrase, or name the skill ("run the blindspot skill on this"). There is no namespace prefix outside Claude Code.
+Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
-## Substitutes
+## Scout and reviewer passes
 
-**No sub-agent (Agent tool absent).** Two steps want a reader who has not seen the work: blindspot's scout and the loop's independent verification. A fresh thread is the substitute, never a fork or a summary of the work written by whoever did the work.
+Use `unknowns:unknowns-scout` or `unknowns:independent-reviewer` when the host can start a sub-agent of that name.
 
-- Hand the user a self-contained review packet to paste into a **new conversation**: done criteria, the approved plan, the deviation log, the diff or the files touched, how to run the tests, and a list of the **claims** the work rests on (facts about APIs, data or the domain, and reasoning the design depends on).
-- Say plainly that this packet stands in for the sub-agent and that a same-thread review would not be independent.
-- For blindspot's scout, investigate directly instead and say the scope was narrowed to what one pass can read.
+Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. Return evidence and status for each finding, and list what could not be checked.
 
-**No hooks.** The plugin's SessionStart hook announces `[unknowns] hooks active` wherever a notes reminder is still to come (and restates it after compaction), because a tool list shows whether a tool exists but nothing shows whether hooks run.
+The reviewer receives this packet:
 
-When no `[unknowns] hooks active` line is in context, or the one reminder was already delivered, nothing more will fire, so the discipline is the skill's own: re-read the logging criteria at every natural break — before a commit, before handing work back, after roughly ten file edits.
+- done criteria (step 1 / the plan's done-criteria section)
+- the approved plan (step 6)
+- the `IMPLEMENTATION_NOTES.md` path
+- the diff range / touched files
+- how to run the tests
+- a list of the **claims** the work rests on (facts about APIs, data or the domain, and reasoning the design depends on), for the reviewer's claim-type check
 
-**No persistent project files.** `IMPLEMENTATION_NOTES.md`, `.unknowns/loop.json` and `.unknowns/scorecard.md` have nowhere durable to live. In order:
+Never give the reviewer the implementer's own summary. With no file system, supply the conversation's saved plan, deviation record, and code excerpts in place of file paths.
 
-1. **Code execution available** (Desktop, web, Cowork) →
+Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run.
 
-   a. Keep the real file in the session workspace, exactly as named.
+No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant" or "Assistant review; not independent", as appropriate. Use the same packet and contract. A separate pass in the same conversation does not provide independent verification.
 
-   b. Give the user the file itself at every wrap-up, so a closed conversation does not lose it.
+No file access, search, or execution tools → check only the supplied material, ask for missing evidence, and report unverified areas. Never invent files, history, command output, or test results.
 
-   c. Say once that the file lives in the session, not in their repo.
+## Records
 
-2. **Nothing writable** (mobile, tool-free chat) →
+Use `IMPLEMENTATION_NOTES.md`, `.unknowns/loop.json`, and `.unknowns/scorecard.md` in the current project when a file system is available. Treat a connected folder as the project root.
 
-   a. Keep the log in the conversation and **restate it in full** each time it grows, so the newest message always holds the whole log.
+With a writable session workspace but no project root, keep the same named files there, say they are session-local, and give them to the user at every wrap-up.
 
-   b. Tell the user once that the log will not survive the conversation, and that the wrap-up block is the thing to paste into their repo.
+No file system → print the record in the chat as Markdown and say which named file the user should save it as. Restate the whole updated record whenever it changes, so the newest message holds the full log or tracker. On resume in another conversation, ask for that saved record instead of inventing its contents.
 
-Either way the content rules do not relax: the same entry format, the same escalation rule, the same wrap-up. What changes is only where the bytes sit.
+Keep a quiz key hidden until the user answers. Without a file system, choose the key before asking, disclose at grading that it was not committed to a file in advance, and print it only with the grading result.
 
-**Connected-folder sessions (Cowork, or Desktop with a folder attached).** Treat the connected folder as the project root: the notes file and `.unknowns/` belong beside the code, not in a scratch directory.
+## Deviation discipline
 
-## What not to do
+At each stage boundary, before a commit, and before handing work back, check whether work departed from the plan. Append design, behavior, or compatibility deviations to `IMPLEMENTATION_NOTES.md` before ending the turn. Apply the notes skill's entry format and escalation rules; stop and ask before changing architecture, user-visible behavior, data loss, or security.
 
-- Do not claim a step ran when its tool was missing. Name the substitute you used.
-- Do not review your own implementation in the thread that produced it and call it independent verification.
-- Do not drop the deviation log because there is no file to write. A log restated in chat still beats a decision nobody recorded.
+No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
+
+## Prototypes and verification
+
+Write requested prototype code to files when the host can write files. Keep the comparison, reactions, and requirements in Markdown in the conversation.
+
+No file system → present proposed code or mockup states in Markdown for the user to save. No execution tool → give run instructions, ask for execution evidence, and mark the result unverified until it arrives.

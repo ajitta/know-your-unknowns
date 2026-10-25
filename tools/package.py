@@ -36,9 +36,7 @@ OPENAI_CATEGORIES = {
     "Finance", "Healthcare", "Travel", "Entertainment", "Other",
 }
 ALLOWED_KEYS = {"name", "description", "license", "metadata", "compatibility", "allowed-tools"}
-# Phase A deliberately leaves argument-hint for Phase B.
-PHASE_A_KEYS = ALLOWED_KEYS | {"argument-hint"}
-PAGE_FILES = ("assets/page.css", "assets/page.js", "scripts/render-page.py")
+SHIPPED_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".svg"}
 RESOURCE_RE = re.compile(r"(?<![\w/.-])((?:references|assets|scripts)/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+)\b")
 
 
@@ -147,10 +145,7 @@ def vendored_paths(body):
     refs = set(re.findall(r"(?<![\w/.-])references/([a-z-]+)\.md\b", body))
     shared = {p.stem for p in (SKILLS / "loop" / "references").glob("*.md")}
     refs = ref_closure(refs & shared)
-    paths = {"references/" + name + ".md" for name in refs}
-    if "output-routing" in refs or any(path in body for path in PAGE_FILES):
-        paths.update(PAGE_FILES)
-    return paths
+    return {"references/" + name + ".md" for name in refs}
 
 
 def plugin_files(skills):
@@ -170,9 +165,8 @@ def plugin_files(skills):
                 raise ValueError(skill.name + ": source conflicts with shared " + rel)
             own[rel] = data
         files.update({prefix + rel: data for rel, data in own.items()})
-    for folder in ("agents", "hooks"):
-        files.update({folder + "/" + rel: data
-                      for rel, data in source_files(ROOT / "claude-code" / folder).items()})
+    files.update({"agents/" + rel: data
+                  for rel, data in source_files(ROOT / "claude-code" / "agents").items()})
     return files
 
 
@@ -182,8 +176,8 @@ def validate_skill(skill, files):
     name = fields.get("name", "")
     if name != skill.name or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name) or len(name) > 64:
         errors.append("name must match the skill folder and use lowercase letters, digits and hyphens")
-    if set(fields) - PHASE_A_KEYS:
-        errors.append("unsupported frontmatter keys: " + repr(sorted(set(fields) - PHASE_A_KEYS)))
+    if set(fields) - ALLOWED_KEYS:
+        errors.append("unsupported frontmatter keys: " + repr(sorted(set(fields) - ALLOWED_KEYS)))
     if not 1 <= len(fields.get("description", "")) <= 1024:
         errors.append("description must have 1..1024 characters")
     if "version" in metadata and metadata["version"] != json.loads(_normalized(MANIFEST))["version"]:
@@ -245,6 +239,22 @@ def collect_errors(skills, files):
     if len(re.sub(r"```.*?```", "", files["README.md"].decode("utf-8"), flags=re.S).split()) < README_MIN_WORDS:
         errors.append("packaging/plugin-README.md needs at least 40 words")
     errors.extend(validate_openai_interface(*openai_parts()))
+    errors.extend(shipped_violations(files))
+    errors.extend(shipped_violations(openai_files(files)))
+    return errors
+
+
+def shipped_violations(files):
+    """Only instructions, manifests, listing SVGs and license notices are shipped."""
+    errors = []
+    for rel in files:
+        parts = Path(rel).parts
+        if rel not in ("LICENSE", "NOTICE") and Path(rel).suffix not in SHIPPED_SUFFIXES:
+            errors.append(rel + ": only Markdown, YAML, JSON and listing SVG assets may ship")
+        if "hooks" in parts or "scripts" in parts or (parts[0] == "skills" and "assets" in parts):
+            errors.append(rel + ": hooks, scripts and skill assets must not ship")
+        if Path(rel).suffix == ".svg" and not rel.startswith("assets/"):
+            errors.append(rel + ": SVG assets belong only to the plugin listing")
     return errors
 
 def _one_line(s: object) -> bool:

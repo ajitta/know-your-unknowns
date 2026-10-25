@@ -1,7 +1,7 @@
 {
   "displayName": "Know Your Unknowns",
   "shortDescription": "Find gaps before you build",
-  "longDescription": "Eleven skills for managing the gap between a plan and the actual code, domain, and constraints. Investigate blind spots, learn vocabulary, clarify requirements through interviews, compare prototypes and interventions, analyze references, plan changeable decisions first, record deviations, prepare review documents, and check understanding with a quiz. The loop skill connects these methods. This upload contains skills and their shared page template; Claude Code hooks and specialist agents are distributed only in the Claude plugin.",
+  "longDescription": "Eleven skills for managing the gap between a plan and the actual code, domain, and constraints. Investigate blind spots, learn vocabulary, clarify requirements through interviews, compare prototypes and interventions, analyze references, plan changeable decisions first, record deviations, prepare review documents, and check understanding with a quiz. The loop skill connects these methods. Deliverables are Markdown in the conversation, with numbered reactions and assembled replies. This upload contains skills and shared reference instructions. The Claude plugin also contains two specialist agents; other hosts use labeled passes performed by the assistant.",
   "developerName": "ajitta",
   "category": "Productivity",
   "capabilities": [

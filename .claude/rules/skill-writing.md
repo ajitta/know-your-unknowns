@@ -42,8 +42,9 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
     - the scorecard-capture sentence (loop step 10, quiz wrap-up)
     - the four finding kinds and the status labels (unknowns-scout, blindspot)
     - the independent-reviewer packet (loop step 8, `skills/loop/references/surfaces.md`)
-    - each skill's Output ladder (`skills/loop/references/output-routing.md` defines it)
-    - the page-template pointer that follows each Output ladder ("Before writing HTML, read how to build the page from the template: …")
+    - each skill's Markdown output sentence (`skills/loop/references/output-routing.md` defines numbered reactions and reply assembly)
+    - the output-routing pointer ("For numbered reactions and reply assembly, read references/output-routing.md.")
+    - the question-tool fallback and read-only pass contracts
     - the blindspot ↔ teach-me order sentence (blindspot Scope, teach-me Related)
 12. **Moving a sentence can change its meaning.**
     - Putting it under a sub-bullet or a condition, or taking it out, changes when it applies.
@@ -55,7 +56,7 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
 
 ## Verify
 
-13. **Before editing, find text that tests quote.** Grep `tests/` for phrases from the file and keep them word for word: `tests/test_agent_readonly_guard.py` quotes the reviewer's Bash allowances. Grep `docs/` and `README*.md` too before renaming a heading or renumbering anything they cite.
+13. **Before editing, find text that tests quote.** Grep `tests/` for phrases from the file and keep requirements that still apply word for word; update guards only when an authorized behavior change requires it. Grep `docs/` and `README*.md` too before renaming a heading or renumbering anything they cite.
 14. **After editing, prove behavior did not change.**
     - Run `python -m unittest discover -s tests` and `claude plugin validate --strict plugins/unknowns` and `claude plugin validate --strict .`.
     - Read all of `git diff --word-diff=plain`, not just the start: every removed instruction must reappear somewhere.

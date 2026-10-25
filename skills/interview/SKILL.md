@@ -5,7 +5,6 @@ description: >
   known unknowns into decisions, biggest blast radius first. Use when the user says
   "interview me", "ask me questions before implementing",
   or requirements are incomplete and implementation has not started.
-argument-hint: "[task/spec description] [priority hint]"
 ---
 
 # Interview — Pre-Implementation Interview
@@ -24,15 +23,17 @@ When requirements are incomplete, don't implement yet: **the model interviews th
 
 1. Find the gaps.
 
-   a. From `$ARGUMENTS` and conversation context, list spec gaps (known unknowns). No arguments → use the spec under discussion; no spec under discussion either → ask once what to interview about.
+   a. From the text the user gave with the request or after the skill name and conversation context, list spec gaps (known unknowns). No arguments → use the spec under discussion; no spec under discussion either → ask once what to interview about.
 
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1: settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order. The cap is AskUserQuestion's hard cap: 1-4 questions, 2-4 options each.
+   a. Ask **max 4 questions per round**, in priority order, with 2–4 options each. If the question tool accepts fewer questions or options, split the round across calls while keeping the four-question total.
 
    b. Attach a **one-line reason why it matters** to each question.
-3. When the AskUserQuestion tool is available, use it for multiple-choice questions. Give each option a short consequence (tradeoff) note.
+3. Give each option a short consequence (tradeoff) note.
+
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 4. After the answers:
 
    a. On answers, restate the decisions as an **updated spec summary**.
@@ -52,10 +53,13 @@ When the interview ends, present two things:
    - Mark skipped questions "(unanswered — use your judgment)".
    - Declare the architecture and data decisions **fixed**, with "if anything later conflicts with them, flag it before writing code".
    - Close with "start with a short plan, then implement".
+   - Include: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
 
    The skill's purpose is that the user copies this prompt to start implementation.
 
-Then offer in one AskUserQuestion: proceed with this prompt now / let me edit it / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+Then offer once: proceed with this prompt now / let me edit it / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+
+Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
 ## Iron Rules
 

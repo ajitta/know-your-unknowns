@@ -100,6 +100,9 @@ class SkillZipBuildTest(unittest.TestCase):
                         "%s must hold exactly one top-level folder" % archive.name,
                     )
                     self.assertIn("%s/SKILL.md" % archive.stem, names)
+                    for name in names:
+                        self.assertIn(Path(name).suffix, {".md", ".yaml", ".yml", ".json"})
+                    self.assertFalse(any("/assets/" in n or "/scripts/" in n for n in names))
                     body = zf.read("%s/SKILL.md" % archive.stem).decode("utf-8")
                 self.assertNotIn(
                     "skills/loop/references/", body,
@@ -145,13 +148,13 @@ class SkillZipBuildTest(unittest.TestCase):
                             self.assertIn("%s/references/%s.md" % (archive.stem, ref),
                                           names)
 
-    def test_local_target_keeps_what_claude_code_reads_natively(self):
+    def test_local_target_keeps_full_frontmatter_and_standalone_instructions(self):
         out = self.build("--target", "local") / "local"
         self.assertEqual({p.name for p in out.iterdir()}, skill_names())
         body = (out / "blindspot" / "SKILL.md").read_text(encoding="utf-8")
         original = (SKILLS_DIR / "blindspot" / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("$ARGUMENTS", body)
-        self.assertIn("argument-hint:", body)
+        self.assertNotIn("$ARGUMENTS", body)
+        self.assertNotIn("argument-hint:", body)
         # full description, frontmatter byte-for-byte
         self.assertEqual(body.split("\n---\n", 1)[0], original.split("\n---\n", 1)[0])
         self.assertNotIn("${CLAUDE_PLUGIN_ROOT}", body)

@@ -5,7 +5,6 @@ description: >
   reviewer objections with evidence, states limitations, and names who must sign off.
   Use when the user says "buy-in doc", "prep me for review",
   or before requesting review/approval/merge.
-argument-hint: "[target work/PR] [audience: team/reviewers]"
 ---
 
 # Buy-in — Reviewer Persuasion Doc (The Buy-In Doc)
@@ -18,10 +17,12 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
 1. Identify the target and the inputs:
 
-   a. Identify the target work and audience (reviewers, team, decision-makers) from `$ARGUMENTS`. No arguments → this session's implemented work, audience = reviewers.
+   a. Identify the target work and audience (reviewers, team, decision-makers) from the text the user gave with the request or after the skill name. No arguments → this session's implemented work, audience = reviewers.
 
    b. Take as inputs the plan/spec, the prototype, and IMPLEMENTATION_NOTES.md.
-2. **Demo first**: put the working result at the top of the doc: execution output, screenshot/GIF, or an interactive demo inside the doc if possible. Target read time: 90 seconds.
+
+   No file access → use the records supplied in the conversation and ask for missing evidence; mark unsupported claims as limitations in step 5.
+2. **Demo first**: put the working result at the top of the doc: execution output, screenshot/GIF, or a link to a runnable demo when available. Target read time: 90 seconds. No access to the result → ask for the result or mark the demo unverified; never invent an execution result.
 3. **Preempt objections**:
 
    a. Anticipate ~5 questions/objections reviewers would raise.
@@ -38,17 +39,17 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
 ## Output
 
-When the target is a PR body, use markdown directly, same structure. Otherwise follow this ladder:
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-buy-in-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
+Reaction: a numbered sign-off checklist, one item per approver. Ask for the item numbers approved or needing changes; assemble the answers into a review-comment draft ("Reply with a ✓ on your piece").
 
-Reaction control: a sign-off checklist, one checkbox per approver item. The sign-off checklist assembles into a review-comment draft ("Reply with a ✓ on your piece").
+Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
-Before writing HTML, read how to build the page from the template: references/output-routing.md
+For numbered reactions and reply assembly, read references/output-routing.md.
 
 ## Related
 
 - Run the **quiz** skill before writing this doc: work the user can't explain can't be defended in a buy-in doc either.
-- The `unknowns:independent-reviewer` agent (spawned with the Agent tool) produces the strongest evidence for objection responses, including its "verified" list.
+- Use `unknowns:independent-reviewer` when the host can start a sub-agent of that name to check evidence for objection responses, including its "verified" list.
 
-  No Agent tool → use the fresh-thread substitute in `references/surfaces.md` — and never present an unreviewed doc as reviewed.
+  Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run. No sub-agent → do the pass yourself as a separate step and label it "Assistant review; not independent". Details: references/surfaces.md

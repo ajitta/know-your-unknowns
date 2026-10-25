@@ -18,37 +18,16 @@ env:
   PLUGIN_DIR: plugins/unknowns
 
 jobs:
-  hook-tests:
-    strategy:
-      fail-fast: false
-      matrix:
-        # Hook scripts are exercised at script level, and the hooks.json
-        # launcher through every shell Claude Code may pick on that OS (sh,
-        # Git Bash, PowerShell) and through `claude --init-only`, which fires
-        # SessionStart without logging in.
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+  tests:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - uses: actions/setup-node@v4
-        with:
-          # The npm package requires Node.js 22 or later.
-          node-version: "22"
-      - name: Install Claude Code CLI
-        run: npm install -g @anthropic-ai/claude-code
-      - name: Print tool versions
-        run: |
-          python --version
-          claude --version
-          pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
       - name: Check generated packages
         run: python tools/package.py --check
-      - name: Run hook script tests
-        env:
-          UNKNOWNS_REQUIRE_CLAUDE: "1"
+      - name: Unit tests
         run: python -m unittest discover -s tests -v
 
   plugin-validate:
@@ -72,7 +51,7 @@ jobs:
         run: python tools/package.py --check
       - name: Validate marketplace manifest
         run: claude plugin validate . --strict
-      - name: Validate plugin (plugin.json, hooks.json, skills, agents)
-        # The marketplace form above never opens the plugin's hook, skill or
+      - name: Validate plugin (manifest, skills, agents)
+        # The marketplace form above never opens the plugin's skill or
         # agent files; the plugin form does.
         run: claude plugin validate --strict ${{ env.PLUGIN_DIR }}

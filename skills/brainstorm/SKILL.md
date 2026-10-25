@@ -5,7 +5,6 @@ description: >
   ship-this-afternoon fix to a quarter-long bet. Use on "brainstorm interventions",
   "show me options", or when a problem is named with no approach chosen.
   NOT for UI/design variants — use prototypes.
-argument-hint: "<problem to solve> [constraints: timeline/people/budget]"
 ---
 
 # Brainstorm — Solution-Space Map (Brainstorm the Intervention)
@@ -19,12 +18,16 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
 ## Procedure
 
-1. Get the problem definition and constraints (timeline, people, cost) from `$ARGUMENTS` and the conversation. If they are empty or vague, ask back once for a measurable statement: which metric, how bad, since when, for whom. One round only.
+1. Get the problem definition and constraints (timeline, people, cost) from the text the user gave with the request or after the skill name and the conversation. If they are empty or vague, ask back once for a measurable statement: which metric, how bad, since when, for whom. One round only.
+
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 2. When a codebase is in scope, search it for machinery that already exists but sits disconnected, before generating candidates in step 3.
 
-   a. Search the codebase yourself or spawn the `unknowns:unknowns-scout` agent. No Agent tool → search the codebase yourself.
+   a. Search the codebase yourself or use `unknowns:unknowns-scout` when the host can start a sub-agent of that name.
 
    b. When you spawn the scout, the packet overrides the scout's default output (blindspot cards and an improved prompt). The packet asks the scout to return an **inventory**, one row per existing mechanism that bears on the problem, with the columns `path` / what it does today / what is missing to wire it in / evidence / status (confirmed / inferred). No cards, no prompt draft.
+
+   Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant"; say what one pass could not cover. No file access or search tools → inventory the supplied material and list what could not be checked.
 
    The cheapest candidates are usually wiring, not building.
 3. Generate **~10** candidate interventions, spread across the time axis: ship this afternoon / short-term (1–2 weeks) / mid-term (quarter) / quarter-long bets.
@@ -39,15 +42,17 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 5. Arrange the candidates by **impact × effort**, so quick wins and big bets stand out at a glance.
 6. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
 
+   Each implementation prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
+
 ## Output
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-brainstorm-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
 
-Layout: cards on a time axis (ship this afternoon → quarter-long bet), with a toggle to the impact × effort matrix.
+Layout: numbered cards on a time axis (ship this afternoon → quarter-long bet), followed by an impact × effort table.
 
-Reaction control: a **resonate checkbox** on each card; the checked cards assemble into a copyable "proceed with these, in this order".
+Reaction: ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order".
 
-Before writing HTML, read how to build the page from the template: references/output-routing.md
+For numbered reactions and reply assembly, read references/output-routing.md.
 
 ## Related
 
