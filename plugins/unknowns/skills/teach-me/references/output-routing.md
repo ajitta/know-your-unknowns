@@ -21,7 +21,7 @@ Use the question tool when one exists. No question tool → present a numbered l
 
 Apply the user's selections to the skill's deliverable: an improved prompt, precise request, requirements list, decision summary, correction list, or review-comment draft. Preserve unresolved items and the skill's approval gate. For a quiz, wait for answers, grade in the conversation, then assemble the score and sections to re-read; never show the teach-back key before the answer.
 
-End the turn with the assembled reply as plain text in chat.
+End the turn with the assembled reply as Markdown in the conversation.
 
 When the skill is a loop stage, fold its closing offer into the loop's single stage checkpoint instead of asking twice.
 

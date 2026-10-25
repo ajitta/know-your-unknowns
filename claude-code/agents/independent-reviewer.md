@@ -42,7 +42,7 @@ Never commit, push, install dependencies, or write outside a temporary directory
    The notes rules above are given here so you need not load the **notes** skill; that skill's write and ask-the-user instructions do not apply to you.
 3. **Tests pass but reality fails** — real dependencies hidden by mocks, tests that merely mirror the implementation, behavior the change touches that no test verifies.
 
-   Confirm by execution: run the test suite if one exists, otherwise exercise 1–2 core paths inline.
+   Confirm by execution only when all writes, including caches and outputs, can stay in a temporary directory: run the test suite if one exists, otherwise exercise 1–2 core paths inline. Use existing read-only or temporary-output options; if the command cannot obey that limit, report the check as not run and explain why.
 4. **Verified OK list** — name the areas you checked and found clean. Silence looks the same as not reviewed.
 5. **Checks by claim type** — for each item in the packet's claims list, and any other claim you meet in docs, comments or notes, check it by its claim type:
 

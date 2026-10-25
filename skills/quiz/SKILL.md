@@ -24,24 +24,9 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
 
 ## Procedure — Part 2: Six-Question Gate
 
-1. Ask **6 questions**; pass = **all 6 correct**.
+1. Prepare **6 questions**; pass = **all 6 correct**.
 
-   If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in this conversation — include at least 1 quiz question on its recorded deviations.
-
-   a. Five are multiple choice. Ask 4 + 1, splitting a batch across calls when the question tool accepts fewer questions. Keep answer keys hidden until the user has answered.
-
-   b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the change's riskiest decision>."
-
-   c. Commit to the 2–3 points (and change sites) a correct teach-back explanation must mention **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
-
-   No file system → choose the points before asking without showing them; the key cannot be committed to a file in advance.
-
-   d. Grade the teach-back against those points, and quote the key file when grading. No file system → grade anyway, and say in the grading message that the points were not committed to a file in advance. Print the key as Markdown only after the answer and say to save it as `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md`.
-
-   Picking the right option only shows recognition; saying it unprompted is what the user will have to do in the PR. Writing the key file before asking and quoting it when grading makes the key provably predate the answer.
-
-   Ask the teach-back separately in plain text. Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-2. Question priority, highest first:
+   Question priority, highest first:
 
    | Priority | Question type | Example |
    |---|---|---|
@@ -51,9 +36,27 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
    | — | rote recall | avoid |
 
    No trivia: each question is a call the user would have to make right during an incident or a review.
+
+   If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in this conversation — include at least 1 quiz question on its recorded deviations.
+
+   a. Five are multiple choice. Keep answer keys hidden until the user has answered.
+
+   b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the change's riskiest decision>."
+
+   c. Commit to the 2–3 points (and change sites) a correct teach-back explanation must mention **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
+
+   No file system → choose the points before asking without showing them; the key cannot be committed to a file in advance.
+
+   Picking the right option only shows recognition; saying it unprompted is what the user will have to do in the PR. Writing the key file before asking and quoting it when grading makes the key provably predate the answer.
+
+2. Ask the prepared questions. Ask the five multiple-choice questions as 4 + 1, splitting a batch across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text.
+
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 3. Grade answers.
 
-   a. For each wrong or blank answer, name the **exact change site (file:line)** to re-read.
+   a. Grade the teach-back against those points, and quote the key file when grading. No file system → grade anyway, and say in the grading message that the points were not committed to a file in advance. Print the key as Markdown only after the answer and say to save it as `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md`.
+
+   b. For each wrong or blank answer, name the **exact change site (file:line)** to re-read. If the change location is unavailable, mark it unverified instead of inventing a reference.
 
 4. For each wrong or blank answer, re-explain only those parts, then offer a retry.
 5. Close the gate by score:
@@ -72,7 +75,7 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Answers per question type:
 
@@ -92,9 +95,9 @@ After the quiz, present a handoff summary, assuming another dev takes over tomor
 - If the user wants, convert the handoff summary to a PR body draft.
 - If the work needs reviewer approval, suggest writing a **buy-in** doc.
 
-Then, unless the **loop** skill's value review already captured a scorecard row for this work, capture one as follows. When it already did, say so instead of asking again.
+Then capture one scorecard row:
 
-1. Ask whether this work surfaced something the user did not know, and whether it changed a decision.
+1. When the **loop** skill's value review already captured a scorecard row for this work, say so and skip the remaining scorecard steps instead of asking again. Otherwise, ask whether this work surfaced something the user did not know, and whether it changed a decision.
 2. Append the row to `.unknowns/scorecard.md`.
 
    No file system → print the record in the chat as Markdown and say to save it as `.unknowns/scorecard.md`.

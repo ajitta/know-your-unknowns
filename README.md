@@ -388,8 +388,7 @@ Auto-triggers: "use this as a reference", "make it like this", "레퍼런스로 
 
 **How it runs**: Instead of copying the reference verbatim, it first presents a 4-way
 analysis — **behavior that must be preserved / parts to adapt to the current environment
-/ parts that are unnecessary or dangerous / parts that can be improved**. For porting
-work it also produces a **proof of understanding (semantics map)** — numbered reference
+/ parts that are unnecessary or dangerous / parts that can be improved**. Before implementation, it also produces a **proof of understanding (semantics map)** — numbered reference
 excerpts matched against the corresponding plan, gotcha notes, and an edge-case table
 with a Match column. Nothing is implemented until you sign off: reply `semantics
 confirmed`, or correct any row by its number. On sign-off it ports the reference's
@@ -411,7 +410,7 @@ screenshot, a real example of the desired output all serve as the "map".
 Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
 
-**How it runs**: There is a size gate first: a task touching ≤2 files with no schema,
+**How it runs**: There is a size gate first: a planned implementation creating or modifying ≤2 files with no schema,
 interface or UX-contract decision is handed back to native plan mode instead of getting a
 document. Otherwise items are presented **in order of how likely they are to change**,
 not execution order. Decision items such as schemas, interfaces and UX contracts go at
@@ -447,7 +446,7 @@ situation found / how it deviates from the plan / the response chosen / the reas
 alternatives discarded / risk and follow-up check. Two lighter one-line kinds share the
 same file: **Discovery** (reality differs from what the plan assumed, no decision needed
 yet) and **Todo for human** (a judgment call that is yours but blocks nothing and touches
-no architecture, user-visible behavior, data or security — anything that does escalates).
+no architecture, user-visible behavior, data loss or security — anything that does escalates).
 
 **Persistence**: when a file system is available, append to the notes file once it exists or `init` has been run; buy-in and quiz use that record. With no file system, print the complete updated log as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Before ending a turn, at stage boundaries, and before commits, check for deviations yourself.
 

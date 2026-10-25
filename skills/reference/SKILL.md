@@ -35,7 +35,7 @@ The best way to give a model a map: **give it another map**.
    | **Unnecessary or dangerous parts** | Must not be brought into this project. |
    | **Parts improvable beyond the reference** | Where we can do better. |
 
-3. For port/transform work, also present **proof of comprehension (semantics map)**. The map holds:
+3. For port/transform work or before implementing any reference-based work, present **proof of comprehension (semantics map)**. The map holds:
 
    - key reference excerpts ↔ new-environment counterparts, side by side
    - gotcha points where behavior subtly differs
@@ -59,15 +59,15 @@ The best way to give a model a map: **give it another map**.
 
 6. On sign-off:
 
+   Record intentional deviations from the reference per the **notes** skill. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and keep their results unverified until the user supplies evidence.
+
    a. **Port the reference's existing tests first**, before implementing.
 
-   b. Implement.
-
-   c. Record intentional deviations from the reference per the **notes** skill. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and keep their results unverified until the user supplies evidence.
+   b. Implement within those limits.
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Numbered mapping rows (reference excerpt ↔ counterpart plan) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
 

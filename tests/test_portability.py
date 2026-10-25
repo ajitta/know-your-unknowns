@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PLUGIN = ROOT / "plugins" / "unknowns"
 QUESTION = "Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit."
-OUTPUT = "Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat."
+OUTPUT = "Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation."
 SCOUT_CONTRACT = "Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings."
 REVIEW_CONTRACT = "Keep the review read-only: never edit or commit repository files or write outside a temporary directory."
 
@@ -65,13 +65,13 @@ class PortabilityTest(unittest.TestCase):
             self.assertIn("IMPLEMENTATION_NOTES.md", text, name)
             self.assertIn("before ending the turn", text, name)
             self.assertIn("No file system →", text, name)
-            if name in ("plan", "prototypes", "reference", "interview", "brainstorm"):
+            if name in ("loop", "plan", "prototypes", "reference", "interview", "brainstorm"):
                 self.assertIn("Stop and ask before changes to architecture, user-visible behavior, data loss, or security.", text, name)
                 self.assertNotIn("Stop and ask before changes to architecture, user-visible behavior, data, or security.", text, name)
 
     def test_quiz_keeps_six_question_gate_and_private_teachback_key(self):
         text = skill("quiz")
-        self.assertIn("Ask **6 questions**; pass = **all 6 correct**.", text)
+        self.assertIn("Prepare **6 questions**; pass = **all 6 correct**.", text)
         self.assertIn("Five are multiple choice.", text)
         self.assertIn("sixth is a **teach-back**", text)
         self.assertIn("Keep the key out of the questions and reply until the user has answered.", text)

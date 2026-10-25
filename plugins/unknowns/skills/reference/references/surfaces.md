@@ -39,6 +39,8 @@ Use `IMPLEMENTATION_NOTES.md`, `.unknowns/loop.json`, and `.unknowns/scorecard.m
 
 With a writable session workspace but no project root, keep the same named files there, say they are session-local, and give them to the user at every wrap-up.
 
+Read-only project records → read them in place and print updates in the conversation as complete Markdown records, saying which named files the user should save them as. Keep quiz keys hidden until the user answers, as below.
+
 No file system → print the record in the chat as Markdown and say which named file the user should save it as. Restate the whole updated record whenever it changes, so the newest message holds the full log or tracker. On resume in another conversation, ask for that saved record instead of inventing its contents.
 
 Keep a quiz key hidden until the user answers. Without a file system, choose the key before asking, disclose at grading that it was not committed to a file in advance, and print it only with the grading result.

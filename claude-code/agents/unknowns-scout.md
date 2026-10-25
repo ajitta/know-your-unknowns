@@ -54,7 +54,7 @@ Kinds (the same four as the blindspot skill, so its table maps 1:1):
 
 Questions for the user and facts that would sharpen the prompt go in the closing sections, not the table.
 
-Always end with an **improved prompt draft**: the user's original prompt rewritten with findings applied. This is the end goal — "help me prompt better."
+Unless the packet requests a different output, end with an **improved prompt draft**: the user's original prompt rewritten with findings applied. This is the end goal — "help me prompt better."
 
 Never invent findings. If the investigation scope was insufficient, say where to look further.
 

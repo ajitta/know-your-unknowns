@@ -42,7 +42,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    | Code/writing | Comparison examples. |
 
    b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each whole look and its settings.
-6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed").
+6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step even when trimming for size. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 7. Close with the payoff.
 
    a. Write a **precise-request draft**: the user's original request rewritten in the new vocabulary.
@@ -55,7 +55,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 Reaction: number the concepts, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft.
 
 For numbered reactions and reply assembly, read references/output-routing.md.
@@ -64,7 +64,6 @@ For numbered reactions and reply assembly, read references/output-routing.md.
 
 - Vocabulary hands over a **request**, not fluency: expect the user's *next* request to be markedly more precise, not the terms wielded unaided across revision rounds 2–4. Success is convergence across those rounds, not the quality of the first rewritten request.
 - When revisions stop converging, hand off to the **interview** skill to lock decisions rather than teaching more vocabulary. Revisions that stop converging mark this skill's ceiling, not the user's mistake.
-- Keep step 6 even when trimming for size. Step 6 is what buys those later rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 
 ## Related
 

@@ -17,9 +17,11 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
 1. Identify the target and the inputs:
 
-   a. Identify the target work and audience (reviewers, team, decision-makers) from the text the user gave with the request or after the skill name. No arguments → this session's implemented work, audience = reviewers.
+   a. Run the **quiz** skill before writing this doc: work the user can't explain can't be defended in a buy-in doc either.
 
-   b. Take as inputs the plan/spec, the prototype, and IMPLEMENTATION_NOTES.md.
+   b. Identify the target work and audience (reviewers, team, decision-makers) from the text the user gave with the request or after the skill name. No arguments → this session's implemented work, audience = reviewers.
+
+   c. Take as inputs the plan/spec, the prototype, and IMPLEMENTATION_NOTES.md.
 
    No file access → use the records supplied in the conversation and ask for missing evidence; mark unsupported claims as limitations in step 5.
 2. **Demo first**: put the working result at the top of the doc: execution output, screenshot/GIF, or a link to a runnable demo when available. Target read time: 90 seconds. No access to the result → ask for the result or mark the demo unverified; never invent an execution result.
@@ -32,6 +34,10 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
    c. Give every answer a reference the reviewer can follow (spec §, IMPLEMENTATION_NOTES.md entry date, metric, test run, file:line).
 
    d. No unsupported rebuttals: when an answer has no evidence, move it to the known limitations (step 5).
+
+   e. Use `unknowns:independent-reviewer` when the host can start a sub-agent of that name to check evidence for objection responses, including its "verified" list.
+
+   Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run. No sub-agent → do the pass yourself as a separate step and label it "Assistant review; not independent". Details: references/surfaces.md
 4. **Spec at a glance**: an area / decision / ref table, one row per settled decision.
 5. **Known limitations and unresolved unknowns**: if a deviation log exists (file or in-conversation), pull its recorded deviations and unresolved risks here. Not hiding is the basis of trust.
 6. **Sign-off list**: name the people/teams who must approve, with roles, and what each must check.
@@ -39,17 +45,10 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Reaction: a numbered sign-off checklist, one item per approver. Ask for the item numbers approved or needing changes; assemble the answers into a review-comment draft ("Reply with a ✓ on your piece").
 
 Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
 For numbered reactions and reply assembly, read references/output-routing.md.
-
-## Related
-
-- Run the **quiz** skill before writing this doc: work the user can't explain can't be defended in a buy-in doc either.
-- Use `unknowns:independent-reviewer` when the host can start a sub-agent of that name to check evidence for objection responses, including its "verified" list.
-
-  Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run. No sub-agent → do the pass yourself as a separate step and label it "Assistant review; not independent". Details: references/surfaces.md

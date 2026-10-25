@@ -34,7 +34,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
    The independent reviewer's packet starts from this section.
 
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-3. **Size gate**: when the task touches ≤2 files and carries no schema, interface, or UX-contract decision:
+3. **Size gate**: when the planned implementation creates or modifies ≤2 files and carries no schema, interface, or UX-contract decision:
 
    a. Say so and defer to native plan mode instead of writing this document.
 
@@ -55,7 +55,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    c. Render every new or changed public type or schema as **annotated code**: the declaration itself, plus numbered notes, one per field choice worth arguing with.
 6. Put mechanical items at the back with a 1-line summary and the details below it.
-7. Required for every step: **verification method** / **expected risks** / **rollback method**.
+7. Required for every plan item: **verification method** / **expected risks** / **rollback method**.
 8. Flag the weakest part, then close.
 
    a. Flag the **weakest part of this plan** (the decision resting on the thinnest evidence).
@@ -69,7 +69,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Each numbered decision card lists lettered alternatives and asks for **approve / request-change**; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work after the decisions.
 

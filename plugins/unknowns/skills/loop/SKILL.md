@@ -11,7 +11,7 @@ description: >
 
 Core principle: the bottleneck with strong models is not the model — it's the user's ability to keep the map (plan) matched to the territory (reality). That gap is **the unknowns**. Designing the explore → question → plan → implement → log deviations → verify loop matters more than one good prompt.
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Each stage keeps its own skill's numbered reactions; the loop's own reaction is the stage checkpoint, whose answer updates the `.unknowns/loop.json` tracker. For numbered reactions and reply assembly, read references/output-routing.md.
 
@@ -69,7 +69,7 @@ No file system → show the prototype code and success/failure criteria in Markd
 
 a. Log anything not in the plan. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Check for deviations at each stage boundary. Apply the **notes** skill's logging criteria and escalation rules.
 
-b. Stop and ask on decisions touching architecture, user-visible behavior, data, or security.
+b. Stop and ask before changes to architecture, user-visible behavior, data loss, or security.
 
 c. Everything else inside this stage: keep going. Put status notes in the same message as the next action, and do not stop to report a finished plan item or offer to continue. The stage checkpoint is where the user steers.
 
@@ -133,6 +133,8 @@ Step 1 runs in every tier — for a small fix as that one line.
 Unsure which tier → ask the user, then record the choice.
 
 ## Loop status (survives compaction, /resume, new sessions)
+
+For medium and large work, apply the tracker and checkpoint rules in this section; small fixes have neither.
 
 Keep `.unknowns/loop.json` — `{task, tier, stage, status, baseline, decisions[], artifacts[]}` — and rewrite it at every stage boundary. Keep every field on each rewrite.
 

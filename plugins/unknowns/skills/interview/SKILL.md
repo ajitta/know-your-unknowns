@@ -31,9 +31,10 @@ When requirements are incomplete, don't implement yet: **the model interviews th
    a. Ask **max 4 questions per round**, in priority order, with 2–4 options each. If the question tool accepts fewer questions or options, split the round across calls while keeping the four-question total.
 
    b. Attach a **one-line reason why it matters** to each question.
-3. Give each option a short consequence (tradeoff) note.
+   c. Give each option a short consequence (tradeoff) note.
 
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
+3. Collect the answers before updating the spec in step 4.
 4. After the answers:
 
    a. On answers, restate the decisions as an **updated spec summary**.

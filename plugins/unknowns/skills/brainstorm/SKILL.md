@@ -40,19 +40,21 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    - how to measure success
    - `Found in code — <path>`, when the candidate builds on machinery already in the repo
 5. Arrange the candidates by **impact × effort**, so quick wins and big bets stand out at a glance.
-6. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
+6. Collect selections and assemble the next steps:
+
+   a. For numbered reactions and reply assembly, read references/output-routing.md.
+
+   b. Ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order".
+
+   c. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
 
    Each implementation prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data loss, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Layout: numbered cards on a time axis (ship this afternoon → quarter-long bet), followed by an impact × effort table.
-
-Reaction: ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order".
-
-For numbered reactions and reply assembly, read references/output-routing.md.
 
 ## Related
 

@@ -13,7 +13,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Iron Rules
 
-1. **Never start final implementation.** Prototypes are tools to elicit reactions.
+1. **Start final implementation only after the combined option is confirmed.** Prototypes are tools to elicit reactions.
 2. Options must have **clearly different design philosophies — not small variations**.
 
 ## Procedure
@@ -49,7 +49,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 
 - Number every option and element inside it; ask for **steal / skip** by number.
 - On skip, ask **"would steal if…"** (step 4).
@@ -60,9 +60,9 @@ For numbered reactions and reply assembly, read references/output-routing.md.
 ## Variants
 
 - **Mock before you wire** — when the interaction itself is the question (toolbar position, click flow):
-  - Build a **clickable mockup** using fake data when the host can write prototype code, with layout toggles and A/B choice buttons; do not wire it to the real app.
-  - State in the mockup and its Markdown description that everything is **fake data and nothing reads from the real app**, and name the file and flag where real wiring would live.
-  - Add an "open questions I'd rather not guess" list, with numbered questions and A/B(/C) options; assemble the answers into the same copyable requirements list.
-  - No file system → show the states and transitions as numbered Markdown mockups. No execution tool → say the click flow has not been run and ask the user to run it before claiming it works.
+
+  1. Build a **clickable mockup** using fake data when the host can write prototype code, with layout toggles and A/B choice buttons; do not wire it to the real app. No file system → show the states and transitions as numbered Markdown mockups. No execution tool → say the click flow has not been run and ask the user to run it before claiming it works.
+  2. State in the mockup and its Markdown description that everything is **fake data and nothing reads from the real app**, and name the file and flag where real wiring would live.
+  3. Add an "open questions I'd rather not guess" list, with numbered questions and A/B(/C) options; assemble the answers into the same copyable requirements list.
 - When the thing to build is code architecture, present approaches to the same feature (e.g. event-driven vs polling vs push) side by side as minimal skeletons.
 - If the user asks for "wild", widen the distance between philosophies.

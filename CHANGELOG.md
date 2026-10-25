@@ -39,12 +39,28 @@ Planned as **0.10.0**, not released. The owner will bump the version and publish
 - The final independent diff checker returned no findings. The detailed report, per-file scope, adjudications, and inputs/outputs are in the owner's local `kyu-review/wfm/report.md` audit record, outside this repository.
 - Trigger phrases, skill descriptions, shared closing offers, and procedure step numbering were retained. This audit is a text review, not a behavior measurement.
 
+The Phase W2 per-file re-audit covers the same 16 instruction sources individually. The brief says 32 findings, but the 16 supplied JSON outputs contain **30 findings**, all verified against frozen commit `e1652fa`; Phase C changed no skill or agent bodies. All supplied findings were adjudicated. None repeats an already-fixed Phase W finding.
+
+| Audit | Found | Confirmed | Fixed | Rejected |
+|---|---:|---:|---:|---:|
+| Phase W | 4 | 3 | 3 | 1 |
+| Phase W2 supplied checker findings | 30 | 27 | 27 | 3 |
+| Phase W2 owner-added escalation wording | 1 | 1 | 1 | 0 |
+| Phase W2 diff review, unique findings | 3 | 2 | 2 | 1 |
+| **Total** | **38** | **33** | **33** | **5** |
+
+- W2 binds investigation constraints, interview option notes, review execution limits, scout output overrides, quiz preparation/grading conditions, scorecard eligibility/answer rules, and judging criteria to their actions. It numbers the existing brainstorm selection, buy-in prerequisites/review, and mockup procedures. Shared reply instructions consistently say Markdown in the conversation.
+- W2 clarifies that small fixes have no tracker/checkpoints, the plan size gate counts files created or modified, verification/risk/rollback applies to plan items, final implementation of prototypes requires the combined-option confirmation, and read-only records use complete Markdown updates. Reference keeps its semantics map for port/transform work and also requires it before any reference-based implementation, matching its Iron Rule.
+- Under the owner's additional rule-4 decision, loop and notes now use **data loss or security**, matching the existing escalation criteria and implementation prompts. The wider generic-data wording in notes' Todo qualification and both README summaries is aligned, and the implementation-notes todo is resolved. This narrows the generic-data stop trigger.
+- Scope and execution-order clarifications in W2, including that escalation decision, are **meaning-changing and unmeasured**. The report classifies every fix; naming, duplicate removal and mockup numbering are form-only. Existing explicit approval rules and stage-specific question/logging reminders were preserved when three initial checker suggestions would have changed them without a rule requiring it.
+- The fresh diff review against `0ac7d82` found two confirmed regressions, both fixed. The second and final round reported only a repeat of the rejected prototype-permission objection; no confirmed finding remains. This repeat is not double-counted in the totals. Per-file findings, quote verification, adjudications, and classifications are recorded in the owner's local `kyu-review/wfm2/report.md` audit record, outside this repository.
+
 ### Not measured
 
 - Fresh routing and behavior probes for the changed skills on Claude Code, Claude web/desktop/mobile, Codex CLI, and ChatGPT web/mobile/desktop.
 - Uploads of the rebuilt Claude archive to claude.ai or the rebuilt OpenAI archive to ChatGPT.
 - Mobile skill loading and cross-device/account synchronization.
-- Live A/B measurements of the writing-for-models fixes; prior trigger and behavior results describe older snapshots.
+- Live A/B measurements of the Phase W and W2 writing-for-models fixes; prior trigger and behavior results describe older snapshots. W2 scope and execution-order clarifications are not measured improvements. An optional W2 behavior smoke was stopped after repeated 60-second timeouts; its no-plugin arm also loaded an installed unknowns skill, so it supplies no valid baseline.
 - Windows execution of the rebuilt package: earlier hook coverage was CI-only, the hook matrix has been removed, and current CI runs Ubuntu.
 - The new tag-triggered release workflow against a real tag or published release.
 

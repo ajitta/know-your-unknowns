@@ -27,7 +27,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
    | List | What to do with it |
    |---|---|
    | ① What the user is already sure of | It narrows the scope. Ask how recent that certainty is. |
-   | ② What the user is assuming | It is the **first** thing to check (step 1d), not something to skip. |
+   | ② What the user is assuming | It is the **first** thing to check (step 2), not something to skip. |
    | ③ Where the user does not know how to judge | It points at the **teach-me** skill. |
 
    If the user skips, run a full investigation; a skip never stops the pass.
@@ -43,8 +43,6 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    The output's first section copies the three lists later. They are the before-picture the scorecard compares findings against, so they must exist before any finding does.
 
-   d. Investigate in this order: ②'s assumptions, then any given sources (git history, docs, specific modules), then the rest. Look for each assumption in the given sources first.
-
 2. Choose how to investigate by scope:
 
    | Scope | How to investigate |
@@ -55,7 +53,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
    When you spawn the scout, hand it a packet:
 
    - the user's original prompt, verbatim
-   - ② what the user is assuming, to check first (step 1d)
+   - ② what the user is assuming, to check first (step 2)
    - the context sources
    - the target area and its entry points
    - what to return: a finding table and an improved prompt draft
@@ -63,6 +61,8 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
    When the scout returns, map its rows onto the card kinds in step 3.
 
    Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant"; say what one pass could not cover. No file access or search tools → investigate the supplied material and list missing sources under **Needs checking**. Details: references/surfaces.md
+
+   Investigate in this order: ②'s assumptions, then any given sources (git history, docs, specific modules), then the rest. Look for each assumption in the given sources first.
 
 3. Compile the findings:
 
@@ -89,7 +89,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 4. Present the findings:
 
-   a. Lead with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally by kind ("4 landmines, 2 conventions, 1 missing concept, 1 reverted attempt").
+   a. Lead with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
 
    b. After the contrast, show the cards. Each card holds: kind, finding, why it bites, evidence, status, recommended action.
 
@@ -108,7 +108,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
 Reaction: a numbered, copyable **prompt fix** per finding card; the user's selected numbers assemble into the improved prompt draft.
 
 For numbered reactions and reply assembly, read references/output-routing.md.

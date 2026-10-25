@@ -20,13 +20,11 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
   | File system available without a project root | The same file in the session workspace; hand it to the user at every wrap-up. |
   | No file system | The conversation; restate the log in full each time it grows. |
 
-  No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
-
   On every surface the entry format and the escalation rule are unchanged. Details: references/surfaces.md
 
 - **Persistence**:
   - When a file system is available, append to the notes file once it exists or `init` has been run; buy-in and quiz read that record.
-  - With no file, a chat summary is allowed, but the final message must then say there is no notes file, and where it lives instead.
+  - With no file system, a chat summary is allowed, but the final message must then say there is no notes file, and where it lives instead.
 
 - **Record deviations while working**: re-read the logging criteria at each stage boundary, before a commit, and before handing work back. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
 
@@ -72,9 +70,9 @@ Two lighter kinds, same file, one line each:
 | Entry | When | What to do |
 |---|---|---|
 | **Discovery** | Code or environment differs from what the plan assumed, no decision needed yet. | Log one line: what was assumed / what is true. |
-| **Todo for human** | A judgment call that belongs to the user but blocks neither merge nor QA, and falls outside every stop-and-ask case below (it changes no architecture, no user-visible behavior, no data or security). | Log it and keep working. |
+| **Todo for human** | A judgment call that belongs to the user but blocks neither merge nor QA, and falls outside every stop-and-ask case below (it changes no architecture, no user-visible behavior, no data loss or security). | Log it and keep working. |
 
-If a judgment call touches any of those (architecture, user-visible behavior, data or security), it is not a Todo — escalate. When unsure whether it is a Todo, escalate: a question costs one round trip, a silent contract change costs a revert.
+If a judgment call touches any of those (architecture, user-visible behavior, data loss, or security), it is not a Todo — escalate. When unsure whether it is a Todo, escalate: a question costs one round trip, a silent contract change costs a revert.
 
 ## Logging Criteria
 
@@ -94,7 +92,7 @@ Deviations from mechanical items need only the log entry.
 When a decision does any of the following, do more than log — **stop work and ask the user**:
 - Decision changes architecture
 - Decision changes user-visible behavior (UX/API contract)
-- Decision touches data loss/security
+- Decision touches data loss or security
 
 Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
