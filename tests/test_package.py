@@ -136,16 +136,55 @@ class PackageTest(unittest.TestCase):
             self.assertEqual({p for p in names if p.startswith("unknowns/skills/")},
                              {"unknowns/" + p for p in self.files if p.startswith("skills/")})
 
-    def test_digest_requires_version_bump(self):
+    def test_digest_requires_version_bump_without_unreleased_notes(self):
         with tempfile.TemporaryDirectory() as temp:
             release = Path(temp) / "plugin-release.json"
-            with mock.patch.object(pkg, "RELEASE", release):
+            changelog = Path(temp) / "CHANGELOG.md"
+            changelog.write_bytes(b"# Changelog\n\n## [0.9.2]\n\nReleased notes.\n")
+            with mock.patch.object(pkg, "RELEASE", release), mock.patch.object(pkg, "CHANGELOG", changelog):
                 self.assertEqual(pkg.record_release(self.files), [])
+                recorded = release.read_bytes()
                 changed = dict(self.files)
                 changed["skills/plan/SKILL.md"] += b"\nChanged content\n"
                 self.assertTrue(pkg.record_release(changed))
+                self.assertEqual(release.read_bytes(), recorded)
                 self.assertTrue(pkg.check_release(changed))
                 self.assertEqual(pkg.check_release(self.files), [])
+
+    def test_digest_can_be_regenerated_at_same_version_with_unreleased_notes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            release = Path(temp) / "plugin-release.json"
+            changelog = Path(temp) / "CHANGELOG.md"
+            changelog.write_bytes(b"# Changelog\n\n## [Unreleased]\n\n- Portable package in progress.\n")
+            with mock.patch.object(pkg, "RELEASE", release), mock.patch.object(pkg, "CHANGELOG", changelog):
+                self.assertEqual(pkg.record_release(self.files), [])
+                recorded = json.loads(release.read_bytes())
+                changed = dict(self.files)
+                changed["skills/plan/SKILL.md"] += b"\nUnreleased change\n"
+                self.assertTrue(pkg.check_release(changed), "--check must reject a stale record even during development")
+                self.assertEqual(pkg.record_release(changed), [])
+                updated = json.loads(release.read_bytes())
+                self.assertEqual(updated["version"], recorded["version"])
+                self.assertNotEqual(updated["digest"], recorded["digest"])
+                self.assertEqual(pkg.check_release(changed), [])
+
+    def test_unreleased_entry_must_contain_notes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            changelog = Path(temp) / "CHANGELOG.md"
+            with mock.patch.object(pkg, "CHANGELOG", changelog):
+                self.assertFalse(pkg.has_unreleased_notes())
+                for text in ("# Changelog\n", "## [Unreleased]\n\n", "## [Unreleased]\n\n### Added\n<!-- pending -->\n",
+                             "## [Unreleased]\n\n## [0.9.2]\n\nReleased notes.\n"):
+                    with self.subTest(text=text):
+                        changelog.write_bytes(text.encode())
+                        self.assertFalse(pkg.has_unreleased_notes())
+                        release = Path(temp) / "plugin-release.json"
+                        with mock.patch.object(pkg, "RELEASE", release):
+                            self.assertEqual(pkg.record_release(self.files), [])
+                            changed = dict(self.files, **{"README.md": b"changed"})
+                            self.assertTrue(pkg.record_release(changed))
+                changelog.write_bytes(b"## [Unreleased]\r\n\r\n- Pending release.\r\n")
+                self.assertTrue(pkg.has_unreleased_notes())
 
     def test_missing_relative_paths_are_rejected(self):
         with tempfile.TemporaryDirectory() as temp:

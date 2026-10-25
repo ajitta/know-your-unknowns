@@ -14,11 +14,10 @@ Two run paths, because `claude plugin eval` is gated:
 
 | path | command | grades `llm` rubrics? | status |
 |---|---|---|---|
-| A — first-class runner | `claude plugin eval .` | yes, with a judge model | **early access on this account** |
+| A — first-class runner | `claude plugin eval --help` (see below) | yes, with a judge model | account access and external-suite layout not rechecked |
 | B — manual headless | `python3 evals/run-manual.py` | no; prints them for a human | works today |
 
-Both read the *same* case files. Path B exists so the suite is not dead weight while
-path A is gated; when the gate lifts, path A is the one to trust.
+Path B reads the case files in this repository and loads the generated plugin from `plugins/unknowns/`. The suite remains developer-only; it is not copied into the installed payload. Historical model results below describe their recorded versions, not the rewritten portable bodies.
 
 ---
 
@@ -39,49 +38,23 @@ evals/
 body is its rubric or pattern. `claude plugin eval --help` is the authority on the
 format — this README does not restate it.
 
-`.claude-plugin/plugin.json` deliberately carries **no** `experimental.evals` key: the
-default eval directory is already `evals/`, so the key would only rename it.
+`plugins/unknowns/.claude-plugin/plugin.json` carries no developer eval configuration. The cases stay in repository `evals/`, alongside rather than inside the generated payload.
 
 ---
 
 ## Path A — `claude plugin eval`
 
-Run from the plugin root (the directory holding `.claude-plugin/plugin.json`):
+The plugin target is `plugins/unknowns/` and the case directory is repository `evals/`. Current CLI help exposes `--eval-dir`, but calls it a directory below the plugin; this repository's split keeps the cases outside that folder. External-suite resolution and account access have not been verified for this layout, so no working first-class invocation is claimed here.
 
 ```bash
-# is the gate still closed?  Prints only "`plugin eval` is currently in early access".
-claude plugin eval init --bare smoke
-
-# pilot: one run per case, cheap, local report only
-claude plugin eval . --runs 1 --ablation with-without --no-scaffold --no-publish \
-  --case 'trigger-*'
-
-# full suite
-claude plugin eval . --ablation with-without --judge-model sonnet --no-publish
-
-# the three behaviour cases need file-writing tools granted by the operator
-claude plugin eval . --case 'behavior-*' --allow-tools Write Edit \
-  --ablation with-without --judge-model sonnet --no-publish
-claude plugin eval . --case 'neg-one-file-plan-*' --allow-tools Write \
-  --ablation with-without --judge-model sonnet --no-publish
+claude plugin eval --help
 ```
 
-Notes that matter:
-
-- **Always `--ablation with-without`.** The headline number is Δ — the with-plugin
-  score minus the no-plugin score. A high absolute score means little; a plain model
-  already answers most of these prompts helpfully.
-- **`--judge-model sonnet`.** The default judge is haiku, which is too small for
-  rubrics like "the rewritten prompt is the last substantial block".
-- **`--no-scaffold` is the default.** No case here has a `scaffold_script`; every
-  prompt is self-contained, because cases run in an empty sandbox cwd.
-- **Cost.** 29 cases × 3 runs × 2 arms = 174 agent runs plus judging. Pilot with
-  `--runs 1 --case '<glob>'` and read `costUsd` in the aggregate result before
-  committing to a full pass. `--max-cost-usd` sets a hard ceiling.
+Use path B below for the current layout. Before a future first-class run, check the installed CLI's external-suite support, use a no-plugin baseline arm, grant writing tools only for cases that need them, and keep results unpublished unless explicitly requested. Do not add eval files to the generated plugin just to make discovery work.
 
 ## Path B — manual headless
 
-Same case files, plain `claude -p`, no early-access gate:
+Same case files, plain `claude -p`, with the generated plugin path as the default:
 
 ```bash
 python3 evals/run-manual.py --verify                     # structural check, calls no model
@@ -99,8 +72,7 @@ quoted in that skill's `description` on disk and still present in the prompt. Tr
 phrase out of a `SKILL.md` and `--verify` fails on the case that used it. Run it after
 any description edit; it exits non-zero on any problem.
 
-Each run gets a fresh temporary cwd, loads the plugin with `--plugin-dir` (so the
-tree on disk is what is measured, not an installed copy), and applies the case's
+Each run gets a fresh temporary cwd and loads the generated `plugins/unknowns/` directory through an absolute `--plugin-dir` path (so the committed payload is measured, not an installed copy), and applies the case's
 `allowed_tools` via `--allowedTools` / `--disallowedTools`. `--arm both` runs the
 with- and without-plugin arms, which is the manual equivalent of the ablation.
 
@@ -126,11 +98,11 @@ For the no-plugin arm to be honest the plugin must not *also* be enabled in your
 config. Check with `claude plugin list`; `claude plugin disable unknowns` for the
 duration of the run if it is.
 
-The raw one-liner behind it, unchanged from the v0.3.0 procedure:
+The raw one-liner behind it, adapted to the generated payload path (run from the repository root):
 
 ```bash
 claude -p "<prompt body from prompt.md>" --output-format stream-json --verbose \
-  --max-turns 6 --plugin-dir . --disallowedTools Edit Write Bash
+  --max-turns 6 --plugin-dir ./plugins/unknowns --disallowedTools Edit Write Bash
 ```
 
 Output lands in `evals/results/manual-<timestamp>/` as `manual-result.json` plus a
@@ -180,11 +152,7 @@ When a description changes, the case that used a dropped phrase must change with
 1. **`llm` rubrics are unscored on path B.** `run-manual.py` records each one as
    `manual` and writes its rubric to `summary.md` in the results directory; a human
    decides. Only path A scores them automatically.
-2. **The AskUserQuestion call shape is not directly checkable.** The requirement in
-   `skills/interview/SKILL.md` is "max 4 questions per round (AskUserQuestion hard cap:
-   1-4)". AskUserQuestion cannot be granted to a headless run — there is no user to
-   answer — so `behavior-interview-max-four-questions` grades the observable
-   equivalent: how many decisions the round puts to the user. The
+2. **Interactive question-tool calls are not directly checkable headlessly.** The portable interview still caps a round at four questions, splitting tool calls when needed or using numbered chat replies. With no user to answer during a headless run, `behavior-interview-max-four-questions` grades the observable equivalent: how many decisions the round puts to the user. The
    `no-fifth-numbered-question` regex only catches numbered or bulleted lists; the
    `llm` grader is the real check.
 3. **Negative cases prove absence weakly.** A skill not firing on three runs is
@@ -216,32 +184,6 @@ measurement of it. Changing one without the other is how they drift.
 
 ## CI
 
-**Not wired as a required gate, on purpose.** `claude plugin eval` is early access on
-this account, and a run needs credentials, a judge model and real money — a per-push
-gate would be flaky and expensive.
+**Not wired as a required gate, on purpose.** Account access and external-suite support for `claude plugin eval` need a fresh check. A live run needs credentials and real money; automatic LLM grading also needs a judge model.
 
-When the command is generally available, the smallest useful wiring is a separate,
-manually dispatched job — not a step in the existing `hook-tests` / `plugin-validate`
-jobs:
-
-```yaml
-  eval:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-      - run: npm install -g @anthropic-ai/claude-code
-      - run: |
-          claude plugin eval ${{ env.PLUGIN_DIR }} \
-            --case 'trigger-*' --runs 1 --ablation with-without \
-            --judge-model sonnet --no-publish --threshold 0.8
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-```
-
-`--threshold 0.8` exits 1 when any case scores below 0.8. Add `on: workflow_dispatch`
-to the workflow's triggers for the `if:` above to be reachable. Treat a release as the
-natural cadence rather than a push.
+A future manually dispatched job can invoke `python3 evals/run-manual.py --case 'trigger-*' --runs 1 --arm both` with `ANTHROPIC_API_KEY` supplied by CI. It must leave LLM rubrics marked for human grading and must not claim them as scored. Live runs need credentials and cost money; no such CI job is added by this restructure.

@@ -1,5 +1,20 @@
 # Implementation Notes — plan deviation log
 
+## [2026-10-26] Portable package restructure — phases A, B, W, C
+
+**Observed**
+- **Situation found**: the original brief kept the HTML presentation template and two hooks, planned a 0.10.0 bump in Phase C, and installed the whole repository. The owner then changed Phase B to remove presentation pages and all shipped code, added a writing-for-models audit, and required Phase C to keep 0.9.2.
+- **Deviation from plan**: the generated package is now instructions only, with Markdown conversation deliverables and two Claude Code agent prompts; no hooks, renderer, or executable skill assets remain. The source/generated split, per-skill reference vendoring, OpenAI interfaces, and both reproducible zips remain as requested.
+- **Response chosen**: use `plugins/unknowns/` as the marketplace payload; use labeled in-skill passes where named agents are unavailable; log deviations at stage boundaries and before ending a turn; print complete Markdown records when files are unavailable. Keep the scout's tools read/search-only. The reviewer retains Bash for tests, lint, and builds, but its read-only rule is **prose only**, with no hook or permission mode enforcing it.
+- **Version record**: the early transition removed and recreated `plugin-release.json` to keep 0.9.2. Phase C replaces that workaround: a digest change at the same version is accepted only while CHANGELOG.md has a non-empty `## [Unreleased]` entry; otherwise it is refused. `--check` still rejects stale generated output and digest records. AGENTS.md no longer instructs record deletion.
+- **Audit record**: the independent writing-for-models check covered 29 source files: four findings found, three confirmed and fixed, one rejected on context. The fixed scope/execution-order clarifications remain unmeasured. The final independent diff check returned no findings; the detailed report and evidence are in the owner's local `kyu-review/wfm/report.md` audit record outside this repository.
+
+**Attributed**
+- **Reason for choice**: the owner's revised brief prioritizes the same method on hosts without hooks, shell tools, named agents, or durable files, while leaving versioning and release to the owner after verification.
+- **Alternatives considered**: retaining the HTML presenter or hooks would contradict the revised owner decision; bumping the version during this branch would contradict the release hold; asking for a second approval after plan change requests would change an existing permission without a writing rule requiring it.
+- **Risk/follow-up check**: a same-conversation review is not independent; the reviewer can still run Bash and its read-only contract is not a sandbox. Live behavior and routing, rebuilt archive uploads, mobile loading, cross-device sync, and the tag workflow have not been measured. Prior Windows hook tests were CI-only and those hooks and their matrix are removed.
+- **Todo for human**: loop's existing escalation sentence says "data", while notes' escalation criteria say "data loss/security"; this pre-existing wording difference was preserved rather than silently changing scope during the restructure.
+
 ## [2026-10-01] Unreleased — 런타임 토큰 정리 (Phase 1 + talk-source 이동)
 
 **Observed**

@@ -27,6 +27,7 @@ OPENAI_DIR = PACKAGING / "openai"
 MANIFEST = ROOT / "plugin-manifest.json"
 MARKETPLACE = ROOT / ".claude-plugin" / "marketplace.json"
 RELEASE = ROOT / "plugin-release.json"
+CHANGELOG = ROOT / "CHANGELOG.md"
 ZIP_NAME = "know-your-unknowns.zip"
 OPENAI_ZIP_NAME = "know-your-unknowns-openai.zip"
 README_MIN_WORDS = 40
@@ -343,7 +344,7 @@ def zip_bytes(files: dict[str, bytes]) -> bytes:
 
 def content_digest(files: dict[str, bytes]) -> str:
     """sha256 over the plugin files minus the manifest, plus the OpenAI listing and assets,
-    so a version bump alone leaves it unchanged and any shipped change needs one."""
+    so a version bump alone leaves it unchanged; unreleased notes permit a new baseline."""
     h = hashlib.sha256()
     extra = {}
     if OPENAI_DIR.is_dir():
@@ -366,7 +367,22 @@ def _release_state(files: dict[str, bytes]) -> tuple[str, str, dict]:
 
 
 def _bump_error(version: str) -> str:
-    return f"skill files changed since plugin {version}: bump version in plugin-manifest.json, then run tools/package.py"
+    return (f"shipped files changed since plugin {version}: bump version in plugin-manifest.json "
+            "or add non-empty ## [Unreleased] notes to CHANGELOG.md, then run tools/package.py")
+
+
+def has_unreleased_notes() -> bool:
+    """A real entry, not an empty heading or comments, permits unreleased rebuilds."""
+    try:
+        text = CHANGELOG.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return False
+    match = re.search(r"^## \[Unreleased\][ \t]*\n(.*?)(?=^##[ \t]|\Z)", text, re.M | re.S)
+    if not match:
+        return False
+    entry = re.sub(r"<!--.*?-->", "", match.group(1), flags=re.S)
+    entry = re.sub(r"^#{3,6}[ \t].*$", "", entry, flags=re.M)
+    return bool(entry.strip(" \t\r\n-*"))
 
 
 def check_release(files: dict[str, bytes]) -> list[str]:
@@ -374,6 +390,8 @@ def check_release(files: dict[str, bytes]) -> list[str]:
     if recorded.get("version") != version:
         return [f"plugin-release.json records {recorded.get('version')!r}, plugin-manifest.json says {version!r}: run tools/package.py"]
     if recorded.get("digest") != digest:
+        if has_unreleased_notes():
+            return ["plugin-release.json lags the unreleased source: run tools/package.py"]
         return [_bump_error(version)]
     expected = (json.dumps({"version": version, "digest": digest}, indent=2) + "\n").encode()
     if RELEASE.read_bytes() != expected:
@@ -383,7 +401,7 @@ def check_release(files: dict[str, bytes]) -> list[str]:
 
 def record_release(files: dict[str, bytes]) -> list[str]:
     version, digest, recorded = _release_state(files)
-    if recorded.get("version") == version and recorded.get("digest") != digest:
+    if recorded.get("version") == version and recorded.get("digest") != digest and not has_unreleased_notes():
         return [_bump_error(version)]
     RELEASE.write_bytes((json.dumps({"version": version, "digest": digest}, indent=2) + "\n").encode())
     return []

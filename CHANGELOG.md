@@ -1,5 +1,53 @@
 # Changelog
 
+## [Unreleased]
+
+Planned as **0.10.0**, not released. The owner will bump the version and publish only after all work and verification are complete; this branch's manifest remains **0.9.2**.
+
+### Changed
+
+- Split source from generated output: edit `skills/`, `claude-code/agents/`, `plugin-manifest.json`, and `packaging/`; only `plugins/unknowns/` is installed. The self-hosted marketplace points to that folder.
+- Vendor shared loop reference instructions transitively into every skill that uses them; tests compare the copies byte for byte. Every skill also has `agents/openai.yaml` for its OpenAI interface.
+- Commit two reproducible ZIP_STORED archives under `releases/`: `know-your-unknowns.zip` for the Claude plugin and `know-your-unknowns-openai.zip` for the OpenAI manifest, skills, and listing SVGs. Both have top folder `unknowns/` and carry the manifest version. The tag workflow checks and attaches them; this branch has not been tagged or released.
+- **Breaking: deliverables are Markdown in the conversation.** Removed the shared HTML presentation assets and renderer. Numbered reactions still assemble into a prompt, requirements list, decision summary, or review comment. Task-specific runnable prototypes may still be code written to files.
+- Removed both hooks, their launchers and tests, and their environment-variable settings. No executable code ships in either plugin archive. The Ubuntu/Windows hook matrix was replaced by a plain test job; package and strict manifest validation remain.
+- The scout has only Read, Grep, Glob, WebFetch, and WebSearch; it returns history questions needing command execution to its caller. The reviewer keeps Bash for tests, lint, and builds under a **prose-only read-only contract**: no edits, commits, dependency installs, or writes outside a temporary directory.
+- Replaced Claude-only argument substitution and question-tool names with request prose and conditional tool use. Missing named sub-agents become labeled passes performed by the assistant; same-conversation reviews are explicitly not independent. Missing file systems use complete Markdown records that the user can save.
+- Updated English and Korean install instructions, repository layout, development commands, and the eval runner's default `plugins/unknowns/` path. Existing invocation and scenario examples remain.
+- Replaced the transitional record-deletion workaround: `tools/package.py` may update `plugin-release.json` at an unchanged version only while a non-empty `## [Unreleased]` entry exists. Without one it requires a version bump; `--check` still fails on stale output or a stale digest.
+
+### Skill body changes
+
+| Skill | Portable behavior |
+|---|---|
+| blindspot | Plain request input, numbered prompt fixes, conditional scout with a read-only inline pass, baseline records without files, and question-tool fallback; seven procedure steps retained. |
+| teach-me | Markdown before/after descriptions and named presets replace live presentation controls; unverified sources stay labeled; request draft and closing checkpoint remain. |
+| interview | At most four questions per round across smaller tool calls or numbered chat replies; implementation prompt includes deviation logging; priority order and decision table remain. |
+| prototypes | Numbered steal/skip reactions, runnable code when files are available, and mockup-state fallbacks; contrast-pole, triad, saturation, and confirmation rules remain. |
+| brainstorm | Conditional read-only scout inventory, numbered candidates and impact/effort table, plus logging in implementation prompts; existing-code search and time horizons remain. |
+| reference | Supplied-source fallback, conversational sign-off, tests before implementation, and file/execution fallbacks; semantics map and correction gate remain. |
+| plan | Question and native-plan-mode fallbacks, Markdown alternatives, and explicit deviation logging; existing approval/change-request permission and decision ordering remain. |
+| notes | Skill-driven checks at stage boundaries and before turn end replace reminders; complete Markdown logs replace unavailable files; entry format, escalation, and fold-back remain. |
+| quiz | Conversation grading replaces page self-grading; six questions, 6/6 gate, private teach-back key, retry, and scorecard remain; deviation-question condition now precedes question composition. |
+| buy-in | Numbered sign-off replies, supplied-evidence fallback, and a labeled read-only review pass without a sub-agent; evidence, limitations, and rollback remain. |
+| loop | Ten stages and tracker fields remain; explicit logging and tracker reads replace automatic reminders; missing tools use labeled passes and complete Markdown records. |
+
+### Writing-for-models audit
+
+- Audited **29 source files** using separate read-only, ephemeral Codex checker processes. Four findings were reported and all four quoted passages verified; **three were confirmed and fixed**, and one was rejected after context review because it would have tightened the existing approval policy.
+- Fixes moved the quiz's deviation-question condition into question composition, made the scorecard's question heading unconditional while retaining conditional baseline comparison, and bound the no-file-system code/reporting fallback in reference, loop, and plan. The rule-required meaning clarifications are **unmeasured**; a supporting retry-step move was form-only.
+- The final independent diff checker returned no findings. The detailed report, per-file scope, adjudications, and inputs/outputs are in the owner's local `kyu-review/wfm/report.md` audit record, outside this repository.
+- Trigger phrases, skill descriptions, shared closing offers, and procedure step numbering were retained. This audit is a text review, not a behavior measurement.
+
+### Not measured
+
+- Fresh routing and behavior probes for the changed skills on Claude Code, Claude web/desktop/mobile, Codex CLI, and ChatGPT web/mobile/desktop.
+- Uploads of the rebuilt Claude archive to claude.ai or the rebuilt OpenAI archive to ChatGPT.
+- Mobile skill loading and cross-device/account synchronization.
+- Live A/B measurements of the writing-for-models fixes; prior trigger and behavior results describe older snapshots.
+- Windows execution of the rebuilt package: earlier hook coverage was CI-only, the hook matrix has been removed, and current CI runs Ubuntu.
+- The new tag-triggered release workflow against a real tag or published release.
+
 ## 0.9.2 — 2026-10-22
 
 Both agents, `independent-reviewer` and `unknowns-scout`, now run only when you name them
