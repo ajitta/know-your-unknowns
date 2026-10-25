@@ -15,7 +15,7 @@ permissions:
 env:
   # Plugin root, relative to the repo root. The only place the plugin path
   # appears — everything else derives from it.
-  PLUGIN_DIR: .
+  PLUGIN_DIR: plugins/unknowns
 
 jobs:
   hook-tests:
@@ -44,15 +44,20 @@ jobs:
           python --version
           claude --version
           pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
+      - name: Check generated packages
+        run: python tools/package.py --check
       - name: Run hook script tests
         env:
           UNKNOWNS_REQUIRE_CLAUDE: "1"
-        run: python -m unittest discover -s ${{ env.PLUGIN_DIR }}/tests -v
+        run: python -m unittest discover -s tests -v
 
   plugin-validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
       - uses: actions/setup-node@v4
         with:
           # The npm package requires Node.js 22 or later.
@@ -63,9 +68,11 @@ jobs:
         run: |
           node --version
           claude --version
+      - name: Check generated packages
+        run: python tools/package.py --check
       - name: Validate marketplace manifest
         run: claude plugin validate . --strict
       - name: Validate plugin (plugin.json, hooks.json, skills, agents)
         # The marketplace form above never opens the plugin's hook, skill or
         # agent files; the plugin form does.
-        run: claude plugin validate ${{ env.PLUGIN_DIR }}/.claude-plugin/plugin.json --strict
+        run: claude plugin validate --strict ${{ env.PLUGIN_DIR }}

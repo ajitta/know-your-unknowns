@@ -54,7 +54,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
 Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-teach-me-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 Reaction control: an "include in my request" checkbox per concept (plus live before/after sliders and presets); checked items assemble into the precise-request draft.
-Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: references/output-routing.md
 
 ## Limits — what this can and cannot deliver
 

@@ -19,8 +19,9 @@ import time
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCRIPT = os.path.join(ROOT, "hooks", "scripts", "impl_notes_reminder.py")
-HOOKS_JSON = os.path.join(ROOT, "hooks", "hooks.json")
+PLUGIN = os.path.join(ROOT, "plugins", "unknowns")
+SCRIPT = os.path.join(PLUGIN, "hooks", "scripts", "impl_notes_reminder.py")
+HOOKS_JSON = os.path.join(PLUGIN, "hooks", "hooks.json")
 POSIX_ONLY = unittest.skipUnless(hasattr(os, "getuid"), "POSIX permissions only")
 
 
@@ -740,7 +741,7 @@ class HooksJsonTest(unittest.TestCase):
                 match = re.search(r'/hooks/scripts/([A-Za-z_]+\.py)"', handler["command"])
                 self.assertIsNotNone(match, handler["command"])
                 self.assertTrue(os.path.exists(
-                    os.path.join(ROOT, "hooks", "scripts", match.group(1))))
+                    os.path.join(PLUGIN, "hooks", "scripts", match.group(1))))
 
     def test_post_tool_use_matcher_lists_exactly_the_edit_tools(self):
         entries = self.events["PostToolUse"]

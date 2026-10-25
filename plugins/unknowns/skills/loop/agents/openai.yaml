@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unknowns: Loop"
+  short_description: "Run the unknowns workflow from discovery to review"
+  default_prompt: "Use $unknowns:loop to run the operating loop for this task."
+policy:
+  allow_implicit_invocation: true

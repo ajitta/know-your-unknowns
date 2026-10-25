@@ -33,7 +33,7 @@ from test_trigger_containment import HANGUL, ROOT, readme_phrases  # noqa: E402
 
 DESC_MAX = 200
 SHORT_PATH = Path(ROOT) / "scripts" / "skill-descriptions.json"
-SKILLS_DIR = Path(ROOT) / "skills"
+SKILLS_DIR = Path(ROOT) / "plugins" / "unknowns" / "skills"
 
 
 def short_descriptions():
@@ -112,16 +112,12 @@ class SkillZipBuildTest(unittest.TestCase):
                     "%s keeps a plugin-only substitution" % archive.name,
                 )
 
-    def test_skill_bodies_anchor_cross_skill_paths_at_the_plugin_root(self):
-        # The model reads these paths from the user's project directory, so a
-        # bare `skills/loop/...` does not resolve; Claude Code substitutes
-        # ${CLAUDE_PLUGIN_ROOT} in plugin SKILL.md content.
-        bare = re.compile(r"(?<!\$\{CLAUDE_PLUGIN_ROOT\}/)skills/loop/references/")
-        for skill_md in sorted(Path(ROOT, "skills").glob("*/SKILL.md")):
+    def test_skill_bodies_use_skill_relative_resources(self):
+        for skill_md in sorted(SKILLS_DIR.glob("*/SKILL.md")):
             with self.subTest(skill=skill_md.parent.name):
                 text = skill_md.read_text(encoding="utf-8")
-                self.assertIsNone(bare.search(text), skill_md)
-
+                self.assertNotIn("CLAUDE_PLUGIN_ROOT", text)
+                self.assertNotIn("skills/loop/", text)
 
     def build(self, *extra):
         out = tempfile.mkdtemp()

@@ -93,7 +93,7 @@ def advertised_part(description):
 def descriptions():
     """skill name -> (full description, multi-word phrases it advertises)."""
     result = {}
-    skills_dir = os.path.join(ROOT, "skills")
+    skills_dir = os.path.join(ROOT, "plugins", "unknowns", "skills")
     for name in sorted(os.listdir(skills_dir)):
         path = os.path.join(skills_dir, name, "SKILL.md")
         if not os.path.exists(path):

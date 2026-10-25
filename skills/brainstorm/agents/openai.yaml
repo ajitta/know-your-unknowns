@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unknowns: Brainstorm"
+  short_description: "Map interventions from quick fixes to larger bets"
+  default_prompt: "Use $unknowns:brainstorm to map possible interventions for this problem."
+policy:
+  allow_implicit_invocation: true

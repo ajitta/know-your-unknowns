@@ -44,11 +44,11 @@ Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-buy-in-<slug>.h
 
 Reaction control: a sign-off checklist, one checkbox per approver item. The sign-off checklist assembles into a review-comment draft ("Reply with a ✓ on your piece").
 
-Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: references/output-routing.md
 
 ## Related
 
 - Run the **quiz** skill before writing this doc: work the user can't explain can't be defended in a buy-in doc either.
 - The `unknowns:independent-reviewer` agent (spawned with the Agent tool) produces the strongest evidence for objection responses, including its "verified" list.
 
-  No Agent tool → use the fresh-thread substitute in `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md` — and never present an unreviewed doc as reviewed.
+  No Agent tool → use the fresh-thread substitute in `references/surfaces.md` — and never present an unreviewed doc as reviewed.

@@ -49,7 +49,8 @@ import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-HOOKS_JSON = os.path.join(ROOT, "hooks", "hooks.json")
+PLUGIN = os.path.join(ROOT, "plugins", "unknowns")
+HOOKS_JSON = os.path.join(PLUGIN, "hooks", "hooks.json")
 WINDOWS = os.name == "nt"
 ACTIVE_MARKER = "[unknowns] hooks active"
 NO_PYTHON = "[unknowns] no working Python 3 found"
@@ -165,7 +166,7 @@ class LauncherTestCase(unittest.TestCase):
         if not self.shells:
             self.skipTest("no shell found")
 
-    def env(self, path=None, plugin_root=ROOT, **extra):
+    def env(self, path=None, plugin_root=PLUGIN, **extra):
         env = dict(os.environ)
         for name in ("UNKNOWNS_NOTES_THRESHOLD", "UNKNOWNS_NOTES_ALWAYS",
                      "UNKNOWNS_AGENT_GUARD", "CLAUDE_PLUGIN_DATA",
@@ -229,7 +230,7 @@ class HooksJsonLauncherTest(unittest.TestCase):
                     self.assertNotIn("onFailure", handler)
                 self.assertEqual(handler["command"], render(script, args))
                 self.assertTrue(os.path.isfile(
-                    os.path.join(ROOT, "hooks", "scripts", script)))
+                    os.path.join(PLUGIN, "hooks", "scripts", script)))
 
     def test_the_guard_matches_bash_only(self):
         # onFailure keeps a widened matcher safe too, but a change here should
@@ -283,7 +284,7 @@ class ShellsTest(LauncherTestCase):
 
     def test_plugin_root_with_spaces_and_dollar(self):
         root = os.path.join(self.tmp, "plug in $HOME")
-        shutil.copytree(os.path.join(ROOT, "hooks"), os.path.join(root, "hooks"))
+        shutil.copytree(os.path.join(PLUGIN, "hooks"), os.path.join(root, "hooks"))
         for name, kind, exe in self.shells:
             with self.subTest(shell=name):
                 env = self.env(plugin_root=root)
@@ -456,8 +457,8 @@ class ClaudeCodeTest(unittest.TestCase):
         # A space and a literal `$HOME` in the path: if Claude Code ever
         # substituted the placeholder as text in sh form, this would break.
         plugin = os.path.join(self.tmp, "plug in $HOME")
-        shutil.copytree(os.path.join(ROOT, "hooks"), os.path.join(plugin, "hooks"))
-        shutil.copytree(os.path.join(ROOT, ".claude-plugin"),
+        shutil.copytree(os.path.join(PLUGIN, "hooks"), os.path.join(plugin, "hooks"))
+        shutil.copytree(os.path.join(PLUGIN, ".claude-plugin"),
                         os.path.join(plugin, ".claude-plugin"))
         hooks_json = os.path.join(plugin, "hooks", "hooks.json")
         with open(hooks_json, encoding="utf-8") as fh:

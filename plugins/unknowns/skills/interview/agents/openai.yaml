@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unknowns: Interview"
+  short_description: "Turn missing requirements into explicit decisions"
+  default_prompt: "Use $unknowns:interview to interview me about requirements before implementing."
+policy:
+  allow_implicit_invocation: true

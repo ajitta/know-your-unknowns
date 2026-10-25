@@ -21,7 +21,7 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
   | No project root but file writes work (Desktop/web chat, Cowork without a folder) | The same file in the session workspace; hand it to the user at every wrap-up. |
   | Nothing writable (mobile) | The conversation; restate the log in full each time it grows. |
 
-  On every surface the entry format and the escalation rule are unchanged. Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md
+  On every surface the entry format and the escalation rule are unchanged. Details: references/surfaces.md
 
 - **Persistence**:
   - Once the file exists or `init` has been run, appending to the file is mandatory — a chat-only summary does not satisfy the rule, because the reminder hook, buy-in and quiz all read the file.

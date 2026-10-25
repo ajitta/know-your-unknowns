@@ -12,7 +12,7 @@ argument-hint: "<task description> | status | resume"
 
 Core principle: the bottleneck with strong models is not the model — it's the user's ability to keep the map (plan) matched to the territory (reality). That gap is **the unknowns**. Designing the explore → question → plan → implement → log deviations → verify loop matters more than one good prompt.
 
-Output: Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-loop-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat. Each stage's artifact keeps its own skill's reaction control; the loop's own control is the stage checkpoint, which assembles into the `.unknowns/loop.json` tracker. Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Output: Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-loop-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat. Each stage's artifact keeps its own skill's reaction control; the loop's own control is the stage checkpoint, which assembles into the `.unknowns/loop.json` tracker. Before writing HTML, read how to build the page from the template: references/output-routing.md
 
 ## Steps (10 — scale down by size)
 
@@ -87,7 +87,7 @@ c. **Never hand it the implementer's own summary.**
 
 A fork or `/subtask` inherits the implementer's context, which is the one thing this step exists to exclude.
 
-No Agent tool in this session (Desktop/web chat, mobile) → hand the user that same packet to paste into a **new conversation**, and say the review is standing in for the agent. Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md
+No Agent tool in this session (Desktop/web chat, mobile) → hand the user that same packet to paste into a **new conversation**, and say the review is standing in for the agent. Details: references/surfaces.md
 
 ### 9. Comprehension check & handoff → the **quiz** skill
 
@@ -107,7 +107,7 @@ a. Judge by real value, not code quality:
 
 b. Fix, with the user, **how the result will be checked in reality** (what to look at) and **when** (a date they choose — there is no default, it depends on the work).
 
-c. Close by capturing one scorecard row: ask the user whether this surfaced something they did not know and whether it changed a decision, then append the row to `.unknowns/scorecard.md`. Never answer those two questions for the user; write the row even when both answers are no. Details: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/scorecard.md
+c. Close by capturing one scorecard row: ask the user whether this surfaced something they did not know and whether it changed a decision, then append the row to `.unknowns/scorecard.md`. Never answer those two questions for the user; write the row even when both answers are no. Details: references/scorecard.md
 
 Building is easier, generating value is still hard.
 
@@ -149,7 +149,7 @@ Close each stage with one AskUserQuestion checkpoint (continue / skip ahead / st
 
 No AskUserQuestion tool → ask the checkpoint's three options (continue / skip ahead / stop) as a numbered question and wait for the answer.
 
-Nowhere durable to write the tracker (chat sessions, mobile) → restate the whole tracker as a fenced JSON block at each stage boundary, so the newest message always holds it; ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md has the rest.
+Nowhere durable to write the tracker (chat sessions, mobile) → restate the whole tracker as a fenced JSON block at each stage boundary, so the newest message always holds it; references/surfaces.md has the rest.
 
 ### Arguments
 

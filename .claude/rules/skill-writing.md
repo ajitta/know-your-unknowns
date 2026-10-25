@@ -1,7 +1,7 @@
 ---
 paths:
   - "skills/**/*.md"
-  - "agents/**/*.md"
+  - "claude-code/agents/**/*.md"
 ---
 # Writing skill and agent text
 
@@ -57,7 +57,7 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
 
 13. **Before editing, find text that tests quote.** Grep `tests/` for phrases from the file and keep them word for word: `tests/test_agent_readonly_guard.py` quotes the reviewer's Bash allowances. Grep `docs/` and `README*.md` too before renaming a heading or renumbering anything they cite.
 14. **After editing, prove behavior did not change.**
-    - Run `python -m unittest discover -s tests` and `claude plugin validate .`.
+    - Run `python -m unittest discover -s tests` and `claude plugin validate --strict plugins/unknowns` and `claude plugin validate --strict .`.
     - Read all of `git diff --word-diff=plain`, not just the start: every removed instruction must reappear somewhere.
     - That check says nothing about scope. In the 2026-10-10 rewrite, all five behavior changes passed it. For each moved or split sentence, compare what it covers before and after (rule 12).
     - Have someone who did not write the change make that comparison against `git show HEAD:<file>`, without the writer's explanation.

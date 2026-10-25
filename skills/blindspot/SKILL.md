@@ -59,7 +59,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    When the scout returns, map its rows onto the card kinds in step 3.
 
-   No Agent tool in this session → investigate directly with Read/Grep/Glob, and say the scope was narrowed to one pass (${CLAUDE_PLUGIN_ROOT}/skills/loop/references/surfaces.md).
+   No Agent tool in this session → investigate directly with Read/Grep/Glob, and say the scope was narrowed to one pass (references/surfaces.md).
 
 3. Compile the findings:
 
@@ -105,7 +105,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-blindspot-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
 Reaction control: a copyable **prompt fix** per card; selected fixes assemble into the improved prompt draft.
-Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Before writing HTML, read how to build the page from the template: references/output-routing.md
 
 ## Scope
 

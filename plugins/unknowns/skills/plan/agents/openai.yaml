@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unknowns: Plan"
+  short_description: "Review the decisions most likely to change first"
+  default_prompt: "Use $unknowns:plan to make a plan ordered by likelihood of change."
+policy:
+  allow_implicit_invocation: true

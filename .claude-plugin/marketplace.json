@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "unknowns",
-      "source": "./",
+      "source": "./plugins/unknowns",
       "description": "Know your unknowns — an operating loop for the gap between the map (your plan) and the territory (the actual code and domain). Eleven skills: blind-spot investigation, domain primers, interviews, divergent prototypes, brainstorming, reference analysis, tweak-likelihood-ordered planning, deviation notes, buy-in docs and comprehension quizzes — plus two agents and two hooks.",
       "category": "productivity"
     }

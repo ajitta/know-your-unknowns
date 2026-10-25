@@ -8,13 +8,18 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SCRIPT = ROOT / "skills" / "loop" / "scripts" / "render-page.py"
-ASSETS = ROOT / "skills" / "loop" / "assets"
-ROUTING = ROOT / "skills" / "loop" / "references" / "output-routing.md"
+SCRIPT = ROOT / "plugins" / "unknowns" / "skills" / "loop" / "scripts" / "render-page.py"
+ASSETS = ROOT / "plugins" / "unknowns" / "skills" / "loop" / "assets"
+ROUTING = ROOT / "plugins" / "unknowns" / "skills" / "loop" / "references" / "output-routing.md"
 
 spec = importlib.util.spec_from_file_location("render_page", SCRIPT)
 render_page = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(render_page)
+_bytecode = sys.dont_write_bytecode
+try:
+    sys.dont_write_bytecode = True
+    spec.loader.exec_module(render_page)
+finally:
+    sys.dont_write_bytecode = _bytecode
 
 FRAGMENT = """<title>Options</title>
 <style>.demo{color:var(--accent)}</style>

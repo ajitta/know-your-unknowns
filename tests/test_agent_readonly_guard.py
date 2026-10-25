@@ -15,7 +15,8 @@ import sys
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCRIPT = os.path.join(ROOT, "hooks", "scripts", "agent_readonly_guard.py")
+PLUGIN = os.path.join(ROOT, "plugins", "unknowns")
+SCRIPT = os.path.join(PLUGIN, "hooks", "scripts", "agent_readonly_guard.py")
 
 SCOUT = "unknowns:unknowns-scout"
 REVIEWER = "unknowns:independent-reviewer"
