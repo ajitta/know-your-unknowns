@@ -46,7 +46,7 @@ When requirements are incomplete, **you interview the user** before anything is 
 
    a. On answers, restate the decisions as an **updated spec summary**.
 
-   b. When unsettled items remain (items the user has neither decided nor left undecided), propose the next round.
+   b. When unsettled items remain (items the user has neither decided nor chosen to leave undecided), propose the next round.
 
    c. **Ladder once on the load-bearing answers**: a structure or harm answer that came without a reason gets one "why" follow-up at the top of the next round ("what would break for you if it went the other way?"), asked open with its why-it-matters line and no options, so the reason is the user's own. Follow-ups count toward the round's 4 questions. When no unsettled items remain, the follow-ups make up the next round on their own. The reason, not the choice, is what lets a later deviation be judged — the reason fills the decision table's rationale column.
 5. When the user wants a deep interview (e.g. "40-question level"), repeat rounds in the same order: structure → harm → compatibility → cost → taste.
