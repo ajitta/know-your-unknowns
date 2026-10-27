@@ -57,6 +57,14 @@ claude.ai Customize › Skills에 올리는 짧은 설명(`scripts/skill-descrip
 - 주의: `run-manual.py --verify --plugin-dir <변형>`은 JSON 따옴표 형식의 description을 읽지 못해 거짓 실패 11건을 낸다(실행 경로에는 영향 없음).
 - 결과는 "claude.ai 업로드 설명의 Claude Code 대리 측정"으로 기록하고, 통과하면 `scripts/skill-descriptions.json`의 `_comment` 배열에 측정 날짜와 결과를 한 줄 추가한다. claude.ai 자체의 라우팅은 이 측정이 보여 주지 않는다.
 
+### 검토 에이전트(independent-reviewer) 평가 케이스
+
+이 에이전트에는 평가 케이스가 없다. 완료 기준 2개 중 하나를 몰래 빠뜨린 작은 git 저장소(계획, 구현, 허용 가능한 이탈 하나를 적은 `IMPLEMENTATION_NOTES.md`, 빠진 기준을 다루지 않는 통과 테스트)로 손으로 두 번 돌렸을 때는 두 번 모두 빠진 기준을 Critical로 잡고 저장소를 바꾸지 않았다. 케이스로 만들려면 실행 전에 임시 작업 디렉터리에 고정 저장소를 깔아 두는 기능이 `evals/run-manual.py`(또는 다회차 러너)에 필요하다. 채점: 각 완료 기준 판정, 빠진 기준 적발, 주장 점검 절, `git status` 무변경. 부모 세션이 테스트 실행을 허용하는 경우와 허용하지 않는 경우를 따로 둔다.
+
+### plan 트리거의 "바뀔 가능성 순" 채점 항목
+
+`trigger-en-plan`·`trigger-ko-plan`의 `orders-by-tweak-likelihood`가 0.10.0과 다음 빌드 모두 40% 안팎이다(10회씩: 영어 5/10 대 5/10, 한국어 2/10 대 3/10). 실패 사유는 결정 하나에 대안이나 검증·롤백이 빠진 것이고, 채점 기준은 "대안 없는 결정이 하나라도 있으면 실패"다. 채점 기준이 계약보다 엄격한지, 본문이 모든 결정에 대안을 요구하는 규칙(Iron Rule 2)을 지키지 못하는지부터 가린다.
+
 ## 측정하지 않은 것 (0.10.0 기준, 다음 라운드에서 다룰 수 있으면 다룸)
 
 - claude.ai·ChatGPT·모바일에서의 라우팅과 동작(O1 이후).

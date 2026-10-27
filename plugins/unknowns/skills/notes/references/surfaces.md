@@ -31,6 +31,8 @@ Never give the reviewer the implementer's own summary. With no file system, supp
 
 Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run.
 
+The reviewer agent cannot set its own permission mode, so it can run tests, lint and builds only when this session allows those commands; otherwise it reviews by reading and lists the runs under **not verified**.
+
 For independent verification:
 
 No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns. Use the same read-only contract.

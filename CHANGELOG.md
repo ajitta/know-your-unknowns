@@ -19,7 +19,9 @@
 - teach-me: before/after comparisons are made per decision axis (the same subject at two contrasting settings), and the user picks from numbered terms.
 - loop (scorecard): the offer to add `.unknowns/` to `.gitignore` is made only when it is not already listed.
 - unknowns-scout: a caller-requested return shape keeps the **Needs checking** list.
-- independent-reviewer: marks each done criterion met, partial or missing, and its report opens with a conformance-and-deviations section (each criterion, or "conformance not judgeable", and a verdict per recorded deviation). Not measured with a model (no eval case).
+- independent-reviewer: marks each done criterion met, partial or missing, and its report opens with a conformance-and-deviations section (each criterion, or "conformance not judgeable", a verdict per recorded deviation, and unplanned decisions no log entry records), followed by a claim-checks section for the packet's claims. The task message is defined as the caller's packet, and a missing packet field is listed as not verified. Files are read with Read, Grep and Glob; "temporary directory" means `$TMPDIR`, or `/tmp` when it is unset; "a passing test does not confirm a claim" replaces an ambiguous sentence. Not measured with a model (no eval case); two hand-run sessions on a planted missed criterion, before the claim-checks and packet edits, caught it both times and left the repository unchanged.
+- loop and the shared reviewer reference: say that the reviewer agent can run tests only when the calling session allows those commands, otherwise it reviews by reading and lists the runs as not verified.
+- buy-in: names the reviewer's "verified OK" list by the agent's own name.
 
 ### Added
 
