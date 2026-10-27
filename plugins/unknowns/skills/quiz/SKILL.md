@@ -1,11 +1,12 @@
 ---
 name: quiz
 description: >
-  Post-work comprehension quiz — explain what was done, then quiz the user so they can
-  explain and defend the work themselves: a report, an analysis, a plan, a contract
-  review or a code change the model largely produced. Use when the user says "quiz me",
+  Post-work comprehension quiz — explain work the model largely produced (any
+  deliverable), then quiz the user so they can explain and defend it. Use on "quiz me",
   "test my understanding", or right before handing over, presenting, submitting or
-  merging work the model largely did. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
+  merging such work. Clear to both: do it without a skill, after a 2–3-line read-back
+  (request, assumptions, what done means) if weighty; a mismatch goes to teach-me,
+  interview or blindspot.
 ---
 
 # Quiz — Post-Work Comprehension Check (Stay in the Loop)

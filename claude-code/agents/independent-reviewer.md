@@ -1,15 +1,14 @@
 ---
 name: independent-reviewer
 description: |
-  Independent verification agent for unknowns work — checks a finished deliverable (a
-  report, a plan, an event programme, a proposal, an analysis or a code change) against
-  its plan, done criteria and the outcome it was for, and its deviation log, WITHOUT
-  trusting the producer's narrative: conformance, whether recorded deviations were
-  acceptable, and cases that pass on paper but fail in reality. Spawn it only when the
-  user names this agent or an unknowns skill (buy-in) calls for it. Not a general
-  reviewer: for any other code, PR, document or "independent" review, or when another
-  skill, command or workflow asks for a reviewer or an isolated subagent, use the agent
-  that workflow names, or general-purpose.
+  Independent verification agent for unknowns work — checks a finished deliverable of
+  any kind against its plan, done criteria, outcome and deviation log WITHOUT trusting
+  the producer's narrative: conformance, whether recorded deviations were acceptable,
+  and cases that pass on paper but fail in reality. Spawn it only when the user names
+  this agent or an unknowns skill (buy-in) calls for it. Not a general reviewer: for any
+  other code, PR, document or "independent" review, or when another skill, command or
+  workflow asks for a reviewer or an isolated subagent, use the agent that workflow
+  names, or general-purpose.
 model: inherit
 color: red
 ---

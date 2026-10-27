@@ -1,12 +1,13 @@
 ---
 name: brainstorm
 description: >
-  Brainstorm the intervention — spread ~10 candidate interventions for a named problem,
-  grounded in what already exists, from a fix for this afternoon to a quarter-long bet,
-  for the user to pick from. Any problem: falling sales, low turnout, a slow process,
-  churn in a product. Use on "brainstorm interventions", "show me options", or when a
-  problem is named with no approach chosen. NOT for variants of one design — use
-  prototypes. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
+  Brainstorm the intervention — for a named problem in any domain, spread ~10 candidate
+  interventions from a fix for this afternoon to a quarter-long bet without judging
+  them, then size the ones the user picks. Use on "brainstorm interventions", "show me
+  options", or when a problem is named with no approach chosen. NOT for variants of one
+  design — use prototypes. Clear to both: do it without a skill, after a 2–3-line
+  read-back (request, assumptions, what done means) if weighty; a mismatch goes to
+  teach-me, interview or blindspot.
 ---
 
 # Brainstorm — Solution-Space Map (Brainstorm the Intervention)

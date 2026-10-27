@@ -1,11 +1,12 @@
 ---
 name: prototypes
 description: >
-  Prototypes in the design-thinking sense — several versions of anything (a document, an
-  event, a plan, a policy, a screen, an API), each on a clearly different philosophy, for
-  the user to react to; ends with a confirmed requirements list. Use when the user says
-  "divergent prototypes", "design options", "versions to react to", or cannot say what
-  they want ("know it when I see it"). Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
+  Prototypes in the design-thinking sense — several versions of anything, each on a
+  clearly different philosophy, for the user to react to; ends with a confirmed
+  requirements list. Use on "divergent prototypes", "design options", "versions to react
+  to", or when the user cannot say what they want ("know it when I see it"). Clear to
+  both: do it without a skill, after a 2–3-line read-back (request, assumptions, what
+  done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Prototypes — Divergent Prototype Fan-out (Design Directions)

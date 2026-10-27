@@ -1,15 +1,14 @@
 ---
 name: unknowns-scout
 description: |
-  Blind-spot investigator for unknowns work — before work in an unfamiliar domain, rule
-  set, body of documents, dataset, library or code area, investigates the sources the
-  task has (documents, data, the web, a codebase, its history) and surfaces unknown
-  unknowns, risky assumptions, structural conflicts and fragile areas, then hands back an
-  improved prompt. Spawn it only when the user names this agent or an unknowns skill
-  (blindspot, brainstorm) calls for it. Not a general explorer: for any other codebase
-  search or research, or when another skill, command or workflow asks for an
-  exploring or research subagent, use the agent that workflow names, Explore, or
-  general-purpose.
+  Blind-spot investigator for unknowns work — before work in unfamiliar territory,
+  investigates the sources the task has (documents, data, the web, a codebase, its
+  history) and surfaces unknown unknowns, risky assumptions, structural conflicts and
+  fragile areas, then hands back an improved prompt. Spawn it only when the user names
+  this agent or an unknowns skill (blindspot, brainstorm) calls for it. Not a general
+  explorer: for any other codebase search or research, or when another skill, command or
+  workflow asks for an exploring or research subagent, use the agent that workflow
+  names, Explore, or general-purpose.
 model: inherit
 color: cyan
 ---

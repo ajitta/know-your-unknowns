@@ -1,11 +1,12 @@
 ---
 name: reference
 description: >
-  Point at a reference — treat a provided example as a map, not an answer: read it,
-  show the user your reading of it, and get it corrected before building on it. Any
-  example: another organisation's policy, a past proposal, a contract template, a
-  competitor's product, example code or a mockup. Use when the user says "use this as a
-  reference", "make it like this", or supplies an example to build from. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
+  Point at a reference — treat a provided example as a map, not an answer: read it, show
+  the user your reading, and get it corrected before building on it. Use on "use this as
+  a reference", "make it like this", or when the user supplies an example to build from.
+  Clear to both: do it without a skill, after a 2–3-line read-back (request,
+  assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or
+  blindspot.
 ---
 
 # Reference — A Reference Is Another Map

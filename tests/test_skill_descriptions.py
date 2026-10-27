@@ -1,7 +1,7 @@
 """Guard the short descriptions the Claude Desktop / web skill zips ship with.
 
 `scripts/skill-descriptions.json` exists because the Customize → Skills upload
-form documents a 200-character maximum and the SKILL.md descriptions run 248-383.
+form documents a 200-character maximum and the SKILL.md descriptions run 430-611.
 Two descriptions per skill is two things that can drift, so this file pins the
 part that matters: a short description is allowed to lose words, never a trigger
 phrase the README advertises.

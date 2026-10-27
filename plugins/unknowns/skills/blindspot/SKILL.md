@@ -1,13 +1,14 @@
 ---
 name: blindspot
 description: >
-  Blind-spot pass — before work on a plan, project or system, investigate the unknown
-  unknowns on both sides (what the user has not seen and what the AI does not know about
-  their situation) and turn them into a better prompt. Any domain: a grant, a policy, an
-  event, a study, a migration, a codebase. Use when the user says "blind spot pass",
-  "what am I missing", "unknown unknowns", or is about to start work whose territory
-  neither side has checked — run it even when you could answer directly, because the
-  deliverable is the improved prompt, not the answer. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
+  Blind-spot pass — before work on a plan or system in any domain, investigate the
+  unknown unknowns on both sides (what the user has not seen, what the AI does not know
+  about their situation) and turn them into a better prompt. Use on "blind spot pass",
+  "what am I missing", "unknown unknowns", or before work whose territory neither side
+  has checked; run it even when you could answer directly, because the deliverable is
+  the improved prompt. Clear to both: do it without a skill, after a 2–3-line read-back
+  (request, assumptions, what done means) if weighty; a mismatch goes to teach-me,
+  interview or blindspot.
 ---
 # Blindspot Pass — Blind-Spot Investigation
 
