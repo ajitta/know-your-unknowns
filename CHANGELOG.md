@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Changed — fixes from this build's own runs
+
+- blindspot: the opening reply's own lists hold what the AI does not know, assumes or cannot check about the user's situation; a risk it already sees is a finding and waits for the answer (Korean trigger runs had put the core risk into the AI's assumptions).
+- brainstorm: step 4 gives the reason the picks come first: they show the user's priorities, which the AI does not know yet, so a recommendation added after the list makes the pick for them.
+- interview: each question is tagged with its tier (structure, harm, compatibility, cost, taste), higher tiers first.
+- brainstorm, interview, quiz: "the model" becomes "you" in three body sentences, as everywhere else in the bodies.
+
 ## 0.12.0 — 2026-10-28
 
 Released 2026-10-28. The plugin is rescoped to three cells of what the user and the AI know, in any domain, judged by the outcome.

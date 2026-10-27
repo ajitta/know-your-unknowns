@@ -37,7 +37,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    | ⑤ What you are assuming | yours | Check it alongside ② (step 2). |
    | ⑥ What you cannot check from here | yours | It goes under **Needs checking**, with who or what could check it. |
 
-   If the user skips, run a full investigation; a skip never stops the pass. The three-list question and your own three lists are the whole opening reply: every finding, the most urgent included, follows the answer or the skip.
+   If the user skips, run a full investigation; a skip never stops the pass. The three-list question and your own three lists are the whole opening reply: every finding, the most urgent included, follows the answer or the skip. Your own lists hold what you do not know, assume or cannot check about the user's situation; a risk you already see is a finding and waits for the answer too.
 
    c. Restate the user's three lists verbatim in your reply before investigating, or say the user skipped them, and update your own lists with the answers. Step 4 marks findings against the user's lists, so they must exist before any finding does.
 

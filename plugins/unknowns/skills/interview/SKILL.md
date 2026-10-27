@@ -15,7 +15,7 @@ This skill serves what you do not know and the user does: before deciding, it as
 
 When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
-When requirements are incomplete, **the model interviews the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
+When requirements are incomplete, **you interview the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
 
 ## Question Priority (blast radius: what a wrong decision breaks, fixed)
 
@@ -34,7 +34,7 @@ When requirements are incomplete, **the model interviews the user** before anyth
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above). Each question asks one thing, in one sentence ending in a question mark. Every question in the reply counts toward the 4: a second question mark inside an item ("Also: …?"), one inside an option, a request for a fact (a file path, a date, a headcount), and a request that the user check something elsewhere; move a fifth to the next round. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
+   a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above): tag each question with its tier (structure, harm, compatibility, cost, taste) and put the higher tiers first. Each question asks one thing, in one sentence ending in a question mark. Every question in the reply counts toward the 4: a second question mark inside an item ("Also: …?"), one inside an option, a request for a fact (a file path, a date, a headcount), and a request that the user check something elsewhere; move a fifth to the next round. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
    b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
 

@@ -22,7 +22,7 @@ Before the quiz, explain concisely, anchoring each explained part with **Where:*
 1. **Overall structure** of the work (what was created or changed, where)
 2. **Top 3 design decisions** and why
 3. **Most likely failure points** (if something is wrong, where it surfaces first)
-4. What the **user must verify themselves** (what the model cannot guarantee)
+4. What the **user must verify themselves** (what you cannot guarantee)
 
 Without a tool, do the step in the conversation and say what could not be checked.
 
