@@ -42,7 +42,7 @@ People can't describe what they want but **can judge when they see it** (unknown
    c. Saturation call: if the last option shown still drew new reactions, the set was too small — offer 2 more along the axis still splitting opinion.
 
    Steal/skip only harvests constructs the user can already name; placing every option on the triad's construct makes it an axis the requirements can name instead of a one-off remark. Stop when no new constructs appear; a fixed N says nothing about whether the option space is covered.
-6. Convert reactions into an **explicit requirements list**: the taste the user couldn't verbalize (unknown knowns) becomes spec.
+6. Convert reactions into an **explicit requirements list**: the taste the user couldn't verbalize (unknown knowns) becomes spec. Ask the user to confirm the assembled list; the confirmed list is the input to the build.
 
 ## Output
 

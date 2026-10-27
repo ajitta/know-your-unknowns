@@ -28,7 +28,7 @@ When requirements are incomplete, **the model interviews the user** before anyon
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order, with 2–4 options each. Each question asks for one decision: a further decision tucked under it ("Also: …?") or into one of its options counts toward the 4, so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
+   a. Ask **max 4 questions per round**, in priority order, with 2–4 options each. Each question asks for one decision: a further decision tucked under it ("Also: …?") or into one of its options counts toward the 4, and so does a request for a fact (a repo path, the stack), so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
    b. Attach a **one-line reason why it matters** to each question.
    c. Give each option a short consequence (tradeoff) note.

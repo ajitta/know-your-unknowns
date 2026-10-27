@@ -29,7 +29,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
    | ② What the user is assuming | It is the **first** thing to check (step 2), not something to skip. |
    | ③ Where the user does not know how to judge | It points at the **teach-me** skill. |
 
-   If the user skips, run a full investigation; a skip never stops the pass.
+   If the user skips, run a full investigation; a skip never stops the pass. The question is the whole opening reply: every finding, the most urgent included, follows the answer or the skip.
 
    c. Restate the three lists verbatim in your reply before investigating, or say the user skipped them. Step 4 marks findings against them, so they must exist before any finding does.
 

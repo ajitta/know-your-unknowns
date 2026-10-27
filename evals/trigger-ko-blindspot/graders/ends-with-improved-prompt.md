@@ -12,8 +12,8 @@ the opening question or the whole pass. Both of these must hold:
 2. It is one of these two:
 
    A. **The opening question:** it asks for those three lists (sure of / assuming /
-      cannot judge), in any wording, and waits for the answer. A risk it flags while
-      asking is fine.
+      cannot judge), in any wording, and waits for the answer. It presents no finding
+      yet: a risk flagged alongside the question is a finding.
 
    B. **The whole pass:** it separates what the user asked for from what the task
       actually involves; it names specific risks -- regressions, unwritten conventions
@@ -24,5 +24,6 @@ the opening question or the whole pass. Both of these must hold:
       next prompt.
 
 Fail if the response starts implementing; if it answers with risks or advice but
-neither asks for the three lists nor ends with a rewritten prompt; or if it asks
+neither asks for the three lists nor ends with a rewritten prompt; if it presents a
+finding alongside the three-list question; or if it asks
 clarifying questions other than the three lists and stops there.
