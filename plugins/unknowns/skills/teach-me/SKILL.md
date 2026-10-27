@@ -32,9 +32,9 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    - one source (a doc, standard or reference text)
 
    Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently. No source access → use the supplied reference text and mark any source or usage you could not check as unverified. A precise term can make a wrong premise sound right.
-5. Show what each concept changes.
+5. Show what each decision axis changes.
 
-   a. Show a **before/after comparison** per concept — same subject with vs without the concept applied. Build it by domain:
+   a. Show a **before/after comparison** per decision axis — same subject at two contrasting settings on that axis. Build it by domain:
 
    | Domain | Comparison |
    |---|---|
@@ -56,7 +56,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 ## Output
 
 Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
-Reaction: number the concepts, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft.
+Reaction: number the terms, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft.
 
 For numbered reactions and reply assembly, read references/output-routing.md.
 

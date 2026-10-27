@@ -39,7 +39,7 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
 
   `init` steps:
 
-  a. Create the file: heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template.
+  a. When the file is missing, create it: heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template. When it exists, leave its entries unchanged and say so.
 
   b. Offer (never write silently) to append a 3–5 line deviation-log rule — log criteria, escalation, file path — to the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context for every later session, not only when this skill is invoked.
 

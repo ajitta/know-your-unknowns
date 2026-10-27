@@ -24,7 +24,7 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
    c. Take as inputs the plan/spec, the prototype, and IMPLEMENTATION_NOTES.md.
 
    No file access → use the records supplied in the conversation and ask for missing evidence; mark unsupported claims as limitations in step 5.
-2. **Demo first**: put the working result at the top of the doc: execution output, screenshot/GIF, or a link to a runnable demo when available. Target read time: 90 seconds. No access to the result → ask for the result or mark the demo unverified; never invent an execution result.
+2. **Demo first**: put the working result at the top of the doc: execution output, screenshot/GIF, or a link to a runnable demo when available. Keep the demo readable in 90 seconds, so a reviewer sees the work running before reading the rest. No access to the result → ask for the result or mark the demo unverified; never invent an execution result.
 3. **Preempt objections**:
 
    a. Anticipate ~5 questions/objections reviewers would raise.

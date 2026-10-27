@@ -18,7 +18,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
 ## Procedure
 
-1. Get the problem definition and constraints (timeline, people, cost) from the text the user gave with the request or after the skill name and the conversation. If they are empty or vague, ask back once for a measurable statement: which metric, how bad, since when, for whom. One round only.
+1. Get the problem definition and constraints (timeline, people, cost) from the text the user gave with the request or after the skill name and the conversation. If they are empty or vague, ask back once for a measurable statement: which metric, how bad, since when, for whom. One round only. If the answer is still vague or the user skips, generate the candidates anyway and state the assumed metric and constraints above them.
 
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 2. When a codebase is in scope, search it for machinery that already exists but sits disconnected, before generating candidates in step 3.
@@ -39,7 +39,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    - key risks
    - how to measure success
    - `Found in code — <path>`, when the candidate builds on machinery already in the repo
-5. Arrange the candidates by **impact × effort**, so quick wins and big bets stand out at a glance.
+5. After the cards, which stay in time-axis order, add an **impact × effort** table, so quick wins and big bets stand out at a glance.
 6. Collect selections and assemble the next steps:
 
    a. For numbered reactions and reply assembly, read references/output-routing.md.

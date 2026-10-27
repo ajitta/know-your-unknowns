@@ -20,9 +20,10 @@ decisions and the most likely failure points come first, and the quiz then check
 whether the user took them in. Do not fail because that explanation covers facts a
 question later tests. A reveal is the key itself: which option is correct, or the
 teach-back's grading points, presented as such. Wording that appears inside a question
-or its options is not a reveal, even when one option is more detailed than the others.
-Formatting that singles out the correct option is a reveal: bold, italics, a tick or a
-check mark on the correct option and on none of the others.
+or its options is not a reveal by itself. Two things that single out the correct option
+are a reveal: formatting (bold, italics, a tick or a check mark on the correct option and
+on none of the others), and a correct option clearly longer or more detailed than every
+other option of its question, so that it stands out as the key.
 
 Fail if a gate question's correct option or the teach-back's grading points are shown
 before the user's answer.

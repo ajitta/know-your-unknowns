@@ -288,7 +288,7 @@ Auto-triggers: "teach me", "make me an explainer", "가르쳐줘", "설명서 �
 
 **How it runs**: the domain's mental model as a 3–5 stage pipeline → 3–7 decision axes
 you'll face in this task → a vocabulary ladder per axis (everyday words → expert terms,
-with an example request per term) → before/after comparisons per concept, plus 2–3 named
+with an example request per term) → before/after comparisons per axis, plus 2–3 named
 presets so a whole look can be felt at once → 4–6 "what good looks like" criteria stated
 in the new vocabulary → and finally a **precise request draft: your original request
 rewritten in the new vocabulary**.
@@ -527,7 +527,7 @@ Run the unknowns independent-reviewer on this branch against its plan
 ```
 It treats the implementing session's explanation **as claims only** and verifies directly
 by reading code and running tests. Its five checks are deliberately the ones a general
-code review does not cover: **plan/spec conformance** (each requirement named met,
+code review does not cover: **plan/spec conformance** (each done criterion named met,
 partial or missing), **whether each recorded deviation was acceptable to decide alone**,
 **tests-pass-but-reality-fails** (mocks hiding real dependencies, tests that merely mirror
 the implementation), a **verified OK list** — because silence is indistinguishable

@@ -36,10 +36,8 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    c. Record the three lists verbatim, before investigating:
 
-   - When a loop runs, record them in `.unknowns/loop.json` as `baseline`.
+   - When run as a **loop** stage, record them in `.unknowns/loop.json` as `baseline`. No file system → print the record in the chat as Markdown and say to save it as the baseline for `.unknowns/loop.json`.
    - Otherwise, restate them in your reply right then.
-
-   No file system → print the record in the chat as Markdown and say to save it as the baseline for `.unknowns/loop.json`.
 
    The three lists are the before-picture the scorecard compares findings against, so they must exist before any finding does.
 

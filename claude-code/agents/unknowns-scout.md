@@ -28,7 +28,7 @@ When the packet lists the user's assumptions, check them first, then follow the 
 4. Find conventions and implicit rules: naming, error-handling patterns, similar existing implementations.
 5. For an unfamiliar library or domain, read the official docs/changelog for the *installed* version (deprecations, breaking changes, known pitfalls), not just local usage.
 
-**The packet can change the return shape.** If the caller asks for a different output (for example brainstorm's inventory of existing, unwired machinery), return exactly that instead of the table and the prompt draft below. The investigation rules still apply: evidence, status labels, never inventing.
+**The packet can change the return shape.** If the caller asks for a different output (for example brainstorm's inventory of existing, unwired machinery), return exactly that instead of the table and the prompt draft below. The investigation rules still apply: evidence, status labels, never inventing; keep the **Needs checking** list in any return shape.
 
 **Output**, sorted by likelihood × blast radius — how likely this task is to hit the finding, times how much breaks if it does:
 

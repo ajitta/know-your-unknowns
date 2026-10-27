@@ -27,7 +27,7 @@ Never commit, push, install dependencies, or write outside a temporary directory
 
 **Review items** — do all five. No general code review covers them.
 
-1. **Plan/spec conformance** — what the change was supposed to deliver vs what it does. Mark each requirement met, partial, or missing.
+1. **Plan/spec conformance** — what the change was supposed to deliver vs what it does. Mark each done criterion met, partial, or missing.
 
    If the packet carries no done criteria, do not reconstruct them from the diff: report "conformance not judgeable — no done criteria" and go on to the other items.
 2. **Recorded deviations** — if `IMPLEMENTATION_NOTES.md` or a supplied conversation record exists, judge each entry by the notes rules below:
@@ -64,6 +64,7 @@ Always cover bug and security hunting yourself as well, as a secondary pass:
 
 **Output format**, in this order:
 
-1. Findings grouped by severity (Critical / Warning / Info). Each finding: `file:line`, problem description, failure scenario (what input/state breaks it, how), fix suggestion.
-2. The verified OK list (review item 4).
-3. A **not verified** list: each area you could not check, why, and where you looked.
+1. Conformance and deviations (review items 1–2): each done criterion marked met, partial, or missing, or "conformance not judgeable — no done criteria"; each recorded deviation judged acceptable or not.
+2. Findings grouped by severity (Critical / Warning / Info). Each finding: `file:line`, problem description, failure scenario (what input/state breaks it, how), fix suggestion.
+3. The verified OK list (review item 4).
+4. A **not verified** list: each area you could not check, why, and where you looked.

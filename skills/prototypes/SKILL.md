@@ -35,7 +35,7 @@ People can't describe what they want but **can judge when they see it** (unknown
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 5. **Saturation check** before converting to spec:
 
-   a. When reactions stall ("they all look fine") or before the saturation call, run one **triad** — Kelly's own elicitation: show three options and ask which two feel alike and how the third differs.
+   a. Before the saturation call in 5c, run one **triad** — Kelly's own elicitation: show three options and ask which two feel alike and how the third differs. Run it whether reactions stall ("they all look fine") or keep coming; when they stall earlier, run it then.
 
    b. The triad's answer is a construct nobody volunteered (e.g. "calm vs. busy"). Have the user place **every** option on that construct (1–5).
 

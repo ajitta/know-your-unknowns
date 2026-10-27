@@ -39,7 +39,7 @@ No file access → use the supplied diff, code excerpts, and deviation log. Ask 
 
    If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in this conversation — include at least 1 quiz question on its recorded deviations.
 
-   a. Five are multiple choice. Keep answer keys hidden until the user has answered.
+   a. Five are multiple choice. Keep answer keys hidden until the user has answered: format every option the same way, with no bold, tick or other mark on the correct one. Give every option of a question similar length and detail, so the key cannot be read from the options' form.
 
    b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the change's riskiest decision>."
 
@@ -58,7 +58,7 @@ No file access → use the supplied diff, code excerpts, and deviation log. Ask 
 
    b. For each wrong or blank answer, name the **exact change site (file:line)** to re-read. If the change site is unavailable, mark it unverified instead of inventing a reference.
 
-4. For each wrong or blank answer, re-explain only those parts, then offer a retry.
+4. For each wrong or blank answer, re-explain only those parts, then offer a retry: one new question of the same type on each missed part only, prepared, asked and graded by the rules of steps 1–3, not a new six-question set. A retry that gets every missed part right brings the score to 6/6.
 5. Close the gate by score:
 
    | Score | What to do |
@@ -84,7 +84,7 @@ Answers per question type:
 | Multiple choice | numbered options | hidden until the user answers | in the conversation, with the change site to re-read for each wrong answer |
 | Teach-back | the user's own words | hidden until the user answers | in the conversation, against the preselected 2–3 points |
 
-After grading in step 3, assemble the answers + teach-back + score + missed-sections block as copyable text. Include the cleared-to-merge checklist only at 6/6; otherwise keep the "not yet" result and retry. Then run the wrap-up in the same reply; the assembled reply ends with the wrap-up.
+After grading in step 3, assemble the answers + teach-back + score + missed-sections block as copyable text. Include the cleared-to-merge checklist only at 6/6; otherwise keep the "not yet" result and offer the retry from step 4. Run the wrap-up in the reply that closes the quiz — at 6/6, or when the user declines the retry; that assembled reply ends with the wrap-up.
 
 For numbered reactions and reply assembly, read references/output-routing.md.
 

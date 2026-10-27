@@ -37,7 +37,7 @@ Value means surfacing something the user did not know **and** changing a decisio
 
    a. Append the row to `.unknowns/scorecard.md` in the current project, creating the file with the two header lines below if it does not exist. Write the row **even when both answers are no.** Recorded zeros keep the decision-change rate honest; omitting them silently protects a skill that is not earning its place.
 
-   b. Offer once to add `.unknowns/` to `.gitignore`.
+   b. When `.gitignore` does not already list `.unknowns/`, offer once to add it.
 
    No file system → print the record in the chat as Markdown and say to save it as `.unknowns/scorecard.md`. Include the header and all saved rows so the user can save the whole updated scorecard; see `surfaces.md` in this folder.
 

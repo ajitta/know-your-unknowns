@@ -9,6 +9,17 @@
 - loop: the first reply lists the tier's steps by their headings in run order and marks the current one, so "skip ahead" at a stage checkpoint is visible.
 - notes: when the context does not name the alternatives weighed, the entry names plausible ones, marked as inferred, instead of "not recorded".
 - Wording fixes from a per-file writing-for-models review (one name per concept, condition before action, pointer fixes); no step or rule changes.
+- interview: a further decision tucked under a question or into one of its options counts toward the round's four questions; when the user has not said what they are sure of and assuming, a list of what is still open no longer stands in for asking it first; a question asked but not answered is marked unanswered and its options and reasons stay out of the fixed decisions; when nothing else is undecided, the "why" follow-ups make up the next round on their own.
+- quiz: options are formatted alike with no mark on the correct one, and every option of a question has similar length and detail; a retry is a new question on each missed part, graded the same way, and a retry that gets every missed part right brings the score to 6/6; the wrap-up runs in the reply that closes the quiz (at 6/6, or when the user declines the retry), not after a grading reply that leaves a retry open.
+- prototypes: the triad is no longer read as stall-only: it runs before the saturation call even when reactions keep coming, and earlier if they stall.
+- notes: `init` creates the log only when it is missing; an existing log is left unchanged.
+- brainstorm: when the problem statement is still vague after the one follow-up, or the user skips it, the candidates are generated anyway with the assumed metric and constraints stated above them; the cards keep time-axis order and the impact × effort comparison is a table after them.
+- blindspot: the pre-investigation lists are recorded as the loop baseline only when blindspot runs as a loop stage, and only then is the user without a file system told to save them as that baseline; otherwise the lists are restated in the reply.
+- buy-in: the 90-second read target applies to the demo section.
+- teach-me: before/after comparisons are made per decision axis (the same subject at two contrasting settings), and the user picks from numbered terms.
+- loop (scorecard): the offer to add `.unknowns/` to `.gitignore` is made only when it is not already listed.
+- unknowns-scout: a caller-requested return shape keeps the **Needs checking** list.
+- independent-reviewer: marks each done criterion met, partial or missing, and its report opens with a conformance-and-deviations section (each criterion, or "conformance not judgeable", and a verdict per recorded deviation). Not measured with a model (no eval case).
 
 ### Added
 

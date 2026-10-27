@@ -48,6 +48,15 @@ Claude Code 2.1.309, claude-opus-5-5, `evals/run-manual.py` 케이스, `llm` 채
 
 - `docs/README.md` "두 HTML 리포트에 대한 결정" 절은 "설치가 저장소 전체를 캐시한다"는 0.10.0 이전 전제로 쓰였다. 지금은 `plugins/unknowns/`만 설치된다.
 
+### 업로드용 짧은 설명의 호출 측정
+
+claude.ai Customize › Skills에 올리는 짧은 설명(`scripts/skill-descriptions.json`)은 모델로 측정한 적이 없다. 테스트는 길이(200자 이하)와 README 문구 포함만 본다. 업로드 화면 자체는 headless로 돌릴 수 없으므로 Claude Code 대리 측정으로 한다.
+
+- 변형 만들기: `python3 scripts/build-skill-zips.py --out <절대 경로>/dist`, 새 디렉터리에 `plugins/unknowns/`의 `.claude-plugin`·`agents`·`LICENSE`·`NOTICE`·`README.md`를 복사하고 zip을 그 `skills/`에 푼다. `unknowns:` 이름공간이 유지되고 본문은 같으며 설명만 다르다. `claude plugin validate --strict`로 확인.
+- 실행: 긴 설명(`plugins/unknowns`) 대 짧은 설명 두 arm을 같은 날 병렬로, `trigger-*` 22케이스와 발동하면 안 되는 `neg-*` 4케이스, 케이스당 10회 이상(약 520회). 케이스별과 합산으로 Fisher 정확검정. 케이스당 10회로는 큰 하락만 보이므로 합산 비교가 핵심이다.
+- 주의: `run-manual.py --verify --plugin-dir <변형>`은 JSON 따옴표 형식의 description을 읽지 못해 거짓 실패 11건을 낸다(실행 경로에는 영향 없음).
+- 결과는 "claude.ai 업로드 설명의 Claude Code 대리 측정"으로 기록하고, 통과하면 `scripts/skill-descriptions.json`의 `_comment` 배열에 측정 날짜와 결과를 한 줄 추가한다. claude.ai 자체의 라우팅은 이 측정이 보여 주지 않는다.
+
 ## 측정하지 않은 것 (0.10.0 기준, 다음 라운드에서 다룰 수 있으면 다룸)
 
 - claude.ai·ChatGPT·모바일에서의 라우팅과 동작(O1 이후).
