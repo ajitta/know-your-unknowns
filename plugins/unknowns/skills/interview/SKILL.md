@@ -34,7 +34,7 @@ When requirements are incomplete, **you interview the user** before anything is 
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above), and tag each question with its radius (structure, harm, compatibility, cost or taste) so the user can check the order. Each question asks one thing, in one sentence ending in a question mark. Every question in the reply counts toward the 4: a second question mark inside an item ("Also: …?"), one inside an option, a request for a fact (a file path, a date, a headcount), and a request that the user check something elsewhere; move a fifth to the next round. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
+   a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above). Each question asks one thing, in one sentence ending in a question mark. Every question in the reply counts toward the 4: a second question mark inside an item ("Also: …?"), one inside an option, a request for a fact (a file path, a date, a headcount), and a request that the user check something elsewhere; move a fifth to the next round. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
    b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
 
@@ -46,9 +46,9 @@ When requirements are incomplete, **you interview the user** before anything is 
 
    a. On answers, restate the decisions as an **updated spec summary**.
 
-   b. When open items remain (items the user has neither decided nor left undecided), propose the next round.
+   b. When unsettled items remain (items the user has neither decided nor left undecided), propose the next round.
 
-   c. **Ladder once on the load-bearing answers**: a structure or harm answer that came without a reason gets one "why" follow-up at the top of the next round ("what would break for you if it went the other way?"), asked open with its why-it-matters line and no options, so the reason is the user's own. Follow-ups count toward the round's 4 questions. When no open items remain, the follow-ups make up the next round on their own. The reason, not the choice, is what lets a later deviation be judged — the reason fills the decision table's rationale column.
+   c. **Ladder once on the load-bearing answers**: a structure or harm answer that came without a reason gets one "why" follow-up at the top of the next round ("what would break for you if it went the other way?"), asked open with its why-it-matters line and no options, so the reason is the user's own. Follow-ups count toward the round's 4 questions. When no unsettled items remain, the follow-ups make up the next round on their own. The reason, not the choice, is what lets a later deviation be judged — the reason fills the decision table's rationale column.
 5. When the user wants a deep interview (e.g. "40-question level"), repeat rounds in the same order: structure → harm → compatibility → cost → taste.
 
 ## Final Deliverables
