@@ -95,7 +95,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    d. After the cards, list **Questions to answer**, **Needs checking** and **Information still needed**: what the pass could not settle, and who can settle it.
 
-5. End with an **improved prompt draft** that reflects the findings and the user's answers to the questions. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, rebuild the draft from the picked fixes.
+5. End with an **improved prompt draft** that reflects the findings and the user's answers to the questions. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft to apply the picked fixes, keeping the execution order and the checkpoint.
 
 6. Suggest the next skill:
 
