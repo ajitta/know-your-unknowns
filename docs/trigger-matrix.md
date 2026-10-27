@@ -54,7 +54,7 @@ for name in sorted(os.listdir("skills")):
 EOF
 ```
 
-출력에는 역트리거도 섞여 나온다(loop의 `"loop"` / `"루프 돌려줘"`). 표에서는 그 둘만
+출력에는 역트리거도 섞여 나온다(unknowns-loop의 `"loop"` / `"루프 돌려줘"`). 표에서는 그 둘만
 역트리거 열로 옮겼고, 그 밖에 옮기거나 뺀 문구는 없다.
 
 `tests/test_trigger_containment.py`는 **README가 광고하는 문구가 description에 실제로 있는지**를
@@ -69,8 +69,8 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 | brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | UI/디자인 변형은 prototypes로 | 275자 |
 | buy-in | buy-in doc · prep me for review | 설득 문서 만들어줘 · 리뷰 준비 | — | 270자 |
 | interview | interview me · ask me questions before implementing | 인터뷰해줘 · 스펙 질문 | — | 283자 |
-| loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 274자 |
-| notes | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 248자 |
+| unknowns-loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 274자 |
+| deviation-log | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 248자 |
 | plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | native plan mode가 아니라 검토용 사전 문서를 쓰는 스킬 | 259자 |
 | prototypes | divergent prototypes · design options · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 266자 |
 | quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 262자 |

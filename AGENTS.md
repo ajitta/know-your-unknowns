@@ -25,7 +25,7 @@ python3 scripts/build-skill-zips.py
 - At an unchanged plugin version, tools/package.py updates plugin-release.json for changed shipped content only while CHANGELOG.md has a non-empty ## [Unreleased] entry; otherwise bump the version before rebuilding, and always regenerate before running --check.
 - Follow .claude/rules/skill-writing.md for skill and agent prose. Preserve trigger phrases and method steps.
 - Text files use LF. Write UTF-8 bytes or explicitly request LF on Windows. Release zips use ZIP_STORED, fixed timestamps and modes, and Unix create_system for byte reproducibility.
-- CI runs ordinary package tests and strict plugin/marketplace validation. Keep build tools portable to Windows and quote paths containing spaces or dollar signs. Both agents inherit every tool; agent and skill text carries no tool lists, read-only contracts or other guard prose (.claude/rules/skill-writing.md rule 17).
+- CI runs ordinary package tests and strict plugin/marketplace validation. Keep build tools portable to Windows and quote paths containing spaces or dollar signs. Both agents inherit every tool; agent and skill text carries no tool lists, read-only contracts or other guard prose (.claude/rules/skill-writing.md rule 17). Rule 0 of that file is the plugin's purpose: the Blind, Hidden and Unknown cells of what the user and the AI know, in any domain, judged by the outcome rather than the output; every skill decision follows it.
 - Keep console messages ASCII; configure stdout and stderr with errors="replace" so legacy Windows consoles cannot crash the packager.
 
 ## Release

@@ -186,7 +186,7 @@ When a description changes, the case that used a dropped phrase must change with
 |---|---|---|
 | `neg-ui-options-does-not-fire-brainstorm` | `unknowns:brainstorm` | brainstorm advertises "show me options"; prototypes owns UI variants |
 | `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates code, teach-me teaches vocabulary |
-| `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
+| `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
 | `neg-one-file-plan-defers-to-plan-mode` | (behaviour, not trigger) | the plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
 
 **3 behaviour cases** — these grade the deliverable, not the trigger:
@@ -195,7 +195,7 @@ When a description changes, the case that used a dropped phrase must change with
 |---|---|
 | `behavior-blindspot-ends-with-improved-prompt` | the pass ends with a pasteable rewritten prompt that folds in the risks it found |
 | `behavior-interview-max-four-questions` | at most 4 questions reach the user in one round, on a prompt that dangles nine open decisions |
-| `behavior-notes-appends-to-file` | `IMPLEMENTATION_NOTES.md` is actually created, with the entry fields filled — not summarised in chat only |
+| `behavior-deviation-log-appends-to-file` | `IMPLEMENTATION_NOTES.md` is actually created, with the entry fields filled — not summarised in chat only |
 
 ## How the graders are meant to be read
 

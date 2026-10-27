@@ -23,8 +23,23 @@ Thariq Shihipar(Anthropic, Claude Code 팀)의 방법론을 패키징했습니�
 강연 **"Field Guide to Fable"**(AI Engineer World's Fair 2026 키노트)과 예시 모음
 **"Know your unknowns"**(11개 인터랙티브 예시) —
 https://thariqs.github.io/html-effectiveness/unknowns/. 스킬 11종이 원문 11개 예시를 모두
-커버합니다(prototypes가 2개를 커버, loop는 원문 대응이 없는 오케스트레이터). 사실검증
+커버합니다(prototypes가 2개를 커버, unknowns-loop는 원문 대응이 없는 오케스트레이터). 사실검증
 상세는 [`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md) 참조.
+
+---
+
+## 목적: 당신과 AI가 아는 것의 세 칸
+
+모든 작업에는 아는 쪽이 둘 있습니다. 당신과 AI입니다. 이 플러그인은 조하리의 창(Johari window)의 네 칸을 빌려(변형: "나"는 당신, "타인"은 AI, 아는 대상은 그 작업) 그중 세 칸을 다룹니다. 분야는 가리지 않습니다. 연구, 정책, 행사, 채용, 개인적 결정, 그리고 코드도 그중 하나입니다.
+
+| 당신 : AI | 칸 | 플러그인 없이 | 스킬이 하는 일 | 스킬 |
+|---|---|---|---|---|
+| 앎 : 앎 | 열린 칸 (Open) | 요청이 자명하고 AI가 그냥 잘 합니다. | 없음: 이런 요청은 방법 없이 바로 처리합니다. | — |
+| 모름 : 앎 | 보이지 않는 칸 (Blind) | AI가 제대로 만들어도 당신(또는 승인할 사람)이 판단하지 못합니다. | 당신이나 승인자가 모르는 것을 드러냅니다. | teach-me, quiz, buy-in |
+| 앎 : 모름 | 숨겨진 칸 (Hidden) | 당신이 계속 AI를 고쳐 가며 결과를 끌어냅니다. | 결정 전에 AI가 모르거나 판단할 수 없는 것을 묻거나 되읽어 확인합니다. | interview, reference |
+| 모름 : 모름 | 미지의 칸 (Unknown) | 산출물은 나와도 원하던 성과일 가능성은 낮습니다. 가장 넓은 칸입니다. | 양쪽의 미지를 드러냅니다: 당신의 것과 AI 자신의 것. | blindspot, brainstorm, prototypes, deviation-log, plan, unknowns-loop |
+
+**산출물(output)**은 AI가 만든 것이고, **성과(outcome)**는 당신이 실제로 이루려던 것입니다. 결과가 완료 조건을 모두 채워도 성과를 놓칠 수 있으므로, 루프는 성과를 이뤘는지 당신에게 묻는 것으로 끝납니다.
 
 ---
 
@@ -45,7 +60,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 스킬이 개선된 프롬프트로 끝나는 조사 절차로 응답하면 정상입니다. 그다음부터는:
 
-- 크고 낯선 작업 → `/unknowns:loop <작업 설명>` 하나면 됩니다. 나머지는 Claude가 단계별로
+- 크고 낯선 작업 → `/unknowns:unknowns-loop <작업 설명>` 하나면 됩니다. 나머지는 Claude가 단계별로
   끌고 갑니다.
 - 특정 기법만 필요 → 해당 스킬을 직접 호출하거나, 자연어로 말하면 자동 트리거됩니다.
 - 슬래시 없이도 동작: "사각지대 조사해줘", "인터뷰해줘", "시안 4개", "퀴즈" 같은 말이 곧
@@ -57,7 +72,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 ## 스킬 한눈에 보기
 
-원문 11개 예시 커버 — prototypes가 2개 커버, loop는 오케스트레이터.
+원문 11개 예시 커버 — prototypes가 2개 커버, unknowns-loop는 오케스트레이터.
 
 | 시점 | 스킬 | 하는 일 | 원문 예시 |
 |---|---|---|---|
@@ -68,10 +83,10 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 | 전 | `brainstorm` | 해법 공간 지도 → 개입 선택 | Brainstorm the Intervention |
 | 전 | `reference` | 레퍼런스 분석·이해 증명 | Point at a Reference |
 | 전 | `plan` | 수정확률순 계획서 | The Tweakable Plan |
-| 중 | `notes` | 계획 이탈 기록 | Implementation Notes |
+| 중 | `deviation-log` | 계획 이탈 기록 | Implementation Notes |
 | 후 | `quiz` | 이해도 퀴즈 | Quiz Me Before I Merge |
 | 후 | `buy-in` | 리뷰어 설득 문서 | The Buy-In Doc |
-| 전체 | `loop` | 위 전부를 꿰는 운영 루프 | — |
+| 전체 | `unknowns-loop` | 위 전부를 꿰는 운영 루프 | — |
 
 ---
 
@@ -192,32 +207,32 @@ python3 scripts/build-skill-zips.py
 /plugin install unknowns@know-your-unknowns
 ```
 
-옛 저장소 URL(`ajitta/field-guide`)은 리다이렉트됩니다. 스킬 대응은 `reference-map` → `reference`, `impl-notes` → `notes`이며 나머지 이름은 같습니다.
+옛 저장소 URL(`ajitta/field-guide`)은 리다이렉트됩니다. 스킬 대응은 `reference-map` → `reference`, `impl-notes` → `notes`(0.12.0에서 다시 이름 변경, 아래 참고)이며 나머지 이름은 같습니다.
 
 ---
 
 ## 스킬별 상세 사용법
 
-### 1. `/unknowns:loop` — 전체 운영 루프
+### 1. `/unknowns:unknowns-loop` — 전체 운영 루프
 
 **언제**: 크거나 낯선 기능 개발, 스펙이 흐릿한 작업, "제대로 각 잡고" 진행하고 싶을 때.
 
 **호출**:
 ```
-/unknowns:loop 결제 모듈에 구독 갱신 기능 추가
+/unknowns:unknowns-loop 결제 모듈에 구독 갱신 기능 추가
 ```
 자동 트리거 문구: "unknowns loop", "run the operating loop", "know your unknowns",
 "운영 루프로 진행", "풀 루프로 해줘"
 
 맨 `/loop`는 이 스킬이 아니라 Claude Code 내장 인터벌 러너입니다 — 항상
-`/unknowns:loop`로 부르세요. 대화 중의 맨 "loop"나 "루프 돌려줘"도 마찬가지입니다.
+`/unknowns:unknowns-loop`로 부르세요. 대화 중의 맨 "loop"나 "루프 돌려줘"도 마찬가지입니다.
 
 **진행 방식**: Claude가 완료 조건을 한 번의 주고받기로 합의하고 단계를 먼저 밝힙니다.
 구현 전: blindspot(분야 용어가 낯설면 teach-me 먼저) → interview → 필요하면
 brainstorm/prototypes/reference → 가장 위험한 기술 가정 하나만 검증하는 최소 프로브 →
-수정확률순 계획(plan). 구현 중에는 notes가 이탈을 기록합니다. 구현 뒤에는 결과를 완료 조건마다
+수정확률순 계획(plan). 구현 중에는 deviation-log가 이탈을 기록합니다. 구현 뒤에는 결과를 완료 조건마다
 근거와 함께 확인한 뒤 quiz, 리뷰어나 이해관계자의 승인이 필요하면 buy-in까지. 이미 답이 나온 단계는 건너뛰고 그렇다고 말합니다.
-작은 수정(파일 1–2개, 명확한 스펙)은 루프가 필요 없습니다. 구현하면서 notes 규칙만 적용하세요.
+작은 수정(파일 1–2개, 명확한 스펙)은 루프가 필요 없습니다. 구현하면서 deviation-log 규칙만 적용하세요.
 
 ---
 
@@ -376,13 +391,13 @@ vs 실제로 들어가는 곳, 종류별 집계와 함께. 그다음 발견 1건
 
 ---
 
-### 9. `/unknowns:notes` — 계획 이탈 기록
+### 9. `/unknowns:deviation-log` — 계획 이탈 기록
 
 **언제**: 구현 중 계획·스펙에 없던 상황을 만났을 때. 사실상 **항상 켜두는 규칙**에 가깝습니다.
 
 **호출**:
 ```
-/unknowns:notes 토큰 갱신을 lib 대신 직접 구현함 — 라이브러리가 PKCE 미지원
+/unknowns:deviation-log 토큰 갱신을 lib 대신 직접 구현함 — 라이브러리가 PKCE 미지원
 ```
 자동 트리거: "implementation notes", "record a deviation", "where did we diverge from
 the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?"
@@ -487,7 +502,7 @@ unknowns independent-reviewer로 이 브랜치를 계획 대비 검증해줘
 ## 추천 시나리오
 
 **시나리오 A — 작은 수정** (파일 1–2개, 명확한 스펙):
-루프 불필요. 그냥 구현하되 notes 규칙을 적용하고 턴 종료 전에 중요한 이탈을 기록합니다.
+루프 불필요. 그냥 구현하되 deviation-log 규칙을 적용하고 턴 종료 전에 중요한 이탈을 기록합니다.
 
 **시나리오 B — 중간 작업** (버그 원인 애매, 모듈 반쯤 아는 상태):
 ```
@@ -501,7 +516,7 @@ unknowns independent-reviewer로 이 브랜치를 계획 대비 검증해줘
 
 **시나리오 C — 크고 낯선 작업** (신규 기능, 처음 쓰는 라이브러리):
 ```
-/unknowns:loop 실시간 협업 편집 기능 추가. CRDT는 처음 써봄
+/unknowns:unknowns-loop 실시간 협업 편집 기능 추가. CRDT는 처음 써봄
 ```
 조사·인터뷰·위험 가정 프로브·계획·이탈 기록·퀴즈, 승인이 필요하면 buy-in까지 Claude가 순서대로 안내.
 
@@ -521,9 +536,9 @@ unknowns independent-reviewer로 이 브랜치를 계획 대비 검증해줘
 `/unknowns:blindspot`. 설치 직후라면 새 세션을 시작하거나 `/reload-plugins`. 스킬을 많이
 설치했다면 원인이 하나 더 있습니다: Claude Code는 스킬 목록에 예산(기본 컨텍스트 창의 1%)을
 두고, 넘치면 **많이 쓰는 스킬(최근성 가중)만** 설명을 남기고 나머지는 이름만 보여 줍니다.
-위험한 것은 내가 드물게 쓰는 unknowns 스킬이고, 스스로 떠야 하는 notes에서 특히 큽니다.
+위험한 것은 내가 드물게 쓰는 unknowns 스킬이고, 스스로 떠야 하는 deviation-log에서 특히 큽니다.
 unknowns 설명이 전부 빠진 조건(초과는 CLI 로그로 확인, 11개 모두 빠졌다는 것은 탐침 실행의
-자기 보고)에서 영어 트리거 11건 중 9건은 여전히 발화했고 notes와
+자기 보고)에서 영어 트리거 11건 중 9건은 여전히 발화했고 notes(현 deviation-log)와
 blindspot은 발화하지 않았습니다(1회 측정,
 [docs/trigger-eval-crowd-2026-09-30.md](docs/trigger-eval-crowd-2026-09-30.md)).
 `/doctor`로 목록 비용을 보고,
@@ -533,9 +548,9 @@ blindspot은 발화하지 않았습니다(1회 측정,
 
 **Q. `/unknowns:blindspot` 대신 `/blindspot`이라고 쳐도 되나요?**
 대부분은 됩니다. 플러그인 스킬은 스코프 이름으로도, 맨 이름으로도 호출됩니다 — 같은 이름을
-쓰는 다른 명령이 없는 한. 그래서 `/blindspot`, `/quiz`는 그냥 동작합니다. 예외는 `loop`로,
-Claude Code가 자체 `loop` 스킬(반복 인터벌 러너)을 싣고 있어 맨 `/loop`는 그쪽으로 가고 이
-플러그인의 루프는 항상 `/unknowns:loop`가 필요합니다. 스코프 형식은 절대 모호하지 않아서
+쓰는 다른 명령이 없는 한. 그래서 `/blindspot`, `/quiz`는 그냥 동작합니다. Claude Code는
+자체 `loop` 스킬(반복 인터벌 러너)을 싣고 있어 맨 `/loop`는 그쪽으로 갑니다. 이 플러그인의
+루프는 `unknowns-loop`라서 `/unknowns-loop`로 부를 수 있습니다. 스코프 형식은 절대 모호하지 않아서
 이 README는 그쪽을 씁니다.
 
 **Q. 예전에 field-guide로 설치했는데요.**

@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+Targets 0.12.0; the version stays 0.11.0 until the release is approved.
+
+**Breaking:** two skills are renamed. `loop` is now `unknowns-loop` (Claude Code's built-in `loop` owns the bare name; `/unknowns-loop` now works without the plugin prefix) and `notes` is now `deviation-log` (the name says what it logs). Use `/unknowns:unknowns-loop` and `/unknowns:deviation-log` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`); re-upload the skill zips on claude.ai and desktop. The trigger phrases stay: "unknowns loop", "run the operating loop", "implementation notes", "record a deviation", and the Korean "운영 루프로 진행", "이탈 기록", "임플 노트".
+
+### Changed — purpose
+
+- `.claude/rules/skill-writing.md` opens with rule 0, the plugin's purpose: of the four cells of what the user and the AI know about a task (the Johari window's panes, adapted), the plugin serves Blind (the user does not know, the AI does), Hidden (the user knows, the AI does not) and Unknown (neither knows, the widest cell), in any domain. Open (both know; the request is self-evident) is out of scope and done directly. Work is judged by the outcome (the achievement that matches the user's intent), not only by the output (the artifact). Rule 9 adds the vocabulary (output/outcome, 산출물/성과, the cell names) and one form per skill name per file; rule 17 lists both sides' unknowns and the outcome check among the method's moves.
+
+### Renamed
+
+- Skill folders, `name:`, `agents/openai.yaml`, `scripts/skill-descriptions.json`, sibling references, both READMEs, the trigger matrix and the eval cases (`trigger-{en,ko}-unknowns-loop`, `trigger-{en,ko}-deviation-log`, `behavior-deviation-log-appends-to-file`) follow the new names. `tests/test_renamed_skills.py` fails if an old name returns outside CHANGELOG, IMPLEMENTATION_NOTES.md and dated docs.
+
 ## 0.11.0 — 2026-10-27
 
 **Breaking:** the plugin is compacted to its method. The loop tracker (`.unknowns/loop.json`, `status`/`resume`, tiers), the scorecard (`.unknowns/scorecard.md` and its end-of-session questions), notes `init`/`show`, the reviewer stage of loop, and the per-host fallback branches are gone. Skills and agents carry no guard prose, tool allow-lists or identity lines; both agents inherit every tool. Installed text is about a third of 0.10.0's.

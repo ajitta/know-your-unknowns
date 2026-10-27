@@ -1,6 +1,0 @@
-interface:
-  display_name: "Unknowns: Notes"
-  short_description: "Record meaningful deviations from the plan"
-  default_prompt: "Use $unknowns:notes to record deviations from the implementation plan."
-policy:
-  allow_implicit_invocation: true

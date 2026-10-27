@@ -37,7 +37,7 @@ What it does and does not do:
 Usage:
 
     python3 evals/run-manual.py --case 'trigger-*' --runs 1
-    python3 evals/run-manual.py --case 'behavior-notes-*' --arm both
+    python3 evals/run-manual.py --case 'behavior-deviation-log-*' --arm both
     python3 evals/run-manual.py --case 'trigger-*' --crowd 60 --budget-fraction 0.002
     python3 evals/run-manual.py --list
 

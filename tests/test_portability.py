@@ -60,7 +60,7 @@ class PortabilityTest(unittest.TestCase):
         self.assertIn("exact change site (file:line)", text)
 
     def test_deviations_are_logged_in_one_named_file(self):
-        for name in ("notes", "interview"):
+        for name in ("deviation-log", "interview"):
             self.assertIn("IMPLEMENTATION_NOTES.md", skill(name), name)
 
 

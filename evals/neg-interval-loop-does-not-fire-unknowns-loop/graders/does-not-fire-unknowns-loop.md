@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: unknowns:loop
+input_match: unknowns:unknowns-loop
 min: 0
 max: 0
 arm: both

@@ -105,7 +105,7 @@ class SkillZipBuildTest(unittest.TestCase):
                     self.assertFalse(any("/assets/" in n or "/scripts/" in n for n in names))
                     body = zf.read("%s/SKILL.md" % archive.stem).decode("utf-8")
                 self.assertNotIn(
-                    "skills/loop/references/", body,
+                    "/references/", body,
                     "%s still points at a path that only exists inside the plugin"
                     % archive.name,
                 )
@@ -120,7 +120,7 @@ class SkillZipBuildTest(unittest.TestCase):
             with self.subTest(skill=skill_md.parent.name):
                 text = skill_md.read_text(encoding="utf-8")
                 self.assertNotIn("CLAUDE_PLUGIN_ROOT", text)
-                self.assertNotIn("skills/loop/", text)
+                self.assertNotIn("/references/", text)
 
     def build(self, *extra):
         out = tempfile.mkdtemp()

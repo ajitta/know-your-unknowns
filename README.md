@@ -25,9 +25,24 @@ It packages the methodology of Thariq Shihipar (Anthropic, Claude Code team). Tw
 are the origin: the talk **"Field Guide to Fable"** (AI Engineer World's Fair 2026
 keynote) and the example collection **"Know your unknowns"** (11 interactive examples) —
 https://thariqs.github.io/html-effectiveness/unknowns/. The 11 skills cover all 11
-original examples (prototypes covers two of them; loop is the orchestrator with no
+original examples (prototypes covers two of them; unknowns-loop is the orchestrator with no
 original counterpart). For fact-checking details, see
 [`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md).
+
+---
+
+## Purpose: three cells of what you and the AI know
+
+Every task has two knowers: you and the AI. The plugin borrows the four panes of the Johari window (adapted: "self" is you, "others" is the AI, and the knowledge is about the task) and serves three of them, in any domain: research, policy, events, hiring, a personal decision, or code.
+
+| You : AI | Pane | Without the plugin | What the skills do | Skills |
+|---|---|---|---|---|
+| known : known | Open | The request is self-evident; the AI just does it well. | Nothing: such requests are done directly, without the method. | — |
+| unknown : known | Blind | The AI may get it right, but you (or the people who approve it) cannot judge it. | Surface your gaps or your approvers' gaps. | teach-me, quiz, buy-in |
+| known : unknown | Hidden | You keep correcting the AI until the result comes out. | Ask or read back what the AI does not know or cannot judge, before deciding. | interview, reference |
+| unknown : unknown | Unknown | Output appears, but it is unlikely to be what you were after. The widest cell. | Surface both sides' unknowns: yours and the AI's own. | blindspot, brainstorm, prototypes, deviation-log, plan, unknowns-loop |
+
+**Output** is what the AI produces; the **outcome** is the achievement you were actually after. A result can meet every done criterion and still miss the outcome, so the loop ends by asking you whether it achieved the outcome.
 
 ---
 
@@ -49,7 +64,7 @@ Then start a new session (or run `/reload-plugins`) and check it loaded:
 If the skill answers with an investigation procedure that ends at an improved prompt,
 you are set. From there:
 
-- Big or unfamiliar task → `/unknowns:loop <task description>` is all you need; Claude
+- Big or unfamiliar task → `/unknowns:unknowns-loop <task description>` is all you need; Claude
   drives the rest stage by stage.
 - Only need one technique → invoke that skill directly, or just say it in natural
   language and it auto-triggers.
@@ -63,7 +78,7 @@ Other install paths (clone, copy-a-skill, Desktop) are under
 
 ## Skills at a glance
 
-Covering the original 11 examples — prototypes covers two, loop orchestrates.
+Covering the original 11 examples — prototypes covers two, unknowns-loop orchestrates.
 
 | Phase | Skill | What it does | Original example |
 |---|---|---|---|
@@ -74,10 +89,10 @@ Covering the original 11 examples — prototypes covers two, loop orchestrates.
 | Before | `brainstorm` | Map of the solution space → pick an intervention | Brainstorm the Intervention |
 | Before | `reference` | Reference analysis + proof of understanding | Point at a Reference |
 | Before | `plan` | Plan ordered by likelihood-of-change | The Tweakable Plan |
-| During | `notes` | Record deviations from the plan | Implementation Notes |
+| During | `deviation-log` | Record deviations from the plan | Implementation Notes |
 | After | `quiz` | Comprehension quiz | Quiz Me Before I Merge |
 | After | `buy-in` | Reviewer persuasion doc | The Buy-In Doc |
-| All | `loop` | The operating loop that threads all of the above | — |
+| All | `unknowns-loop` | The operating loop that threads all of the above | — |
 
 ---
 
@@ -198,34 +213,34 @@ The old plugin was named `field-guide`. Remove that install and add `unknowns`:
 /plugin install unknowns@know-your-unknowns
 ```
 
-The repository's old URL (`ajitta/field-guide`) redirects. Skill mapping: `reference-map` → `reference`, `impl-notes` → `notes`; the other names stay the same.
+The repository's old URL (`ajitta/field-guide`) redirects. Skill mapping: `reference-map` → `reference`, `impl-notes` → `notes` (renamed again in 0.12.0, see below); the other names stay the same.
 
 ---
 
 ## Skill-by-skill usage
 
-### 1. `/unknowns:loop` — the full operating loop
+### 1. `/unknowns:unknowns-loop` — the full operating loop
 
 **When**: Large or unfamiliar feature work, tasks with fuzzy specs, or whenever you want
 to proceed "properly, by the book".
 
 **Invoke**:
 ```
-/unknowns:loop Add subscription renewal to the billing module
+/unknowns:unknowns-loop Add subscription renewal to the billing module
 ```
 Auto-trigger phrases: "unknowns loop", "run the operating loop", "know your unknowns",
 "운영 루프로 진행", "풀 루프로 해줘"
 
 A bare `/loop` is Claude Code's built-in interval runner, not this skill — always type
-`/unknowns:loop`. The same goes for a bare "loop" or "루프 돌려줘" in prose.
+`/unknowns:unknowns-loop`. The same goes for a bare "loop" or "루프 돌려줘" in prose.
 
 **How it runs**: Claude agrees the done criteria with you in one exchange and names the
 stages up front. Before the build: blindspot (teach-me first if the field's terms are new)
 → interview → brainstorm/prototypes/reference as needed → a minimal probe that verifies
 only the riskiest technical assumption → a plan ordered by likelihood-of-change (plan).
-During the build, notes records deviations. After it, the result is checked against each
+During the build, deviation-log records deviations. After it, the result is checked against each
 done criterion with evidence, then quiz, plus buy-in when reviewers or stakeholders must approve. A stage whose question is already answered is skipped, and
-the loop says so. For a small fix (1–2 files, clear spec) you need no loop: apply the notes
+the loop says so. For a small fix (1–2 files, clear spec) you need no loop: apply the deviation-log
 rule while you implement.
 
 ---
@@ -407,14 +422,14 @@ send.
 
 ---
 
-### 9. `/unknowns:notes` — recording deviations from the plan
+### 9. `/unknowns:deviation-log` — recording deviations from the plan
 
 **When**: When implementation hits something the plan or spec didn't cover. In practice
 this is close to an **always-on rule**.
 
 **Invoke**:
 ```
-/unknowns:notes Implemented token refresh by hand instead of the lib — the library doesn't support PKCE
+/unknowns:deviation-log Implemented token refresh by hand instead of the lib — the library doesn't support PKCE
 ```
 Auto-triggers: "implementation notes", "record a deviation", "where did we diverge from
 the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?"
@@ -531,7 +546,7 @@ general agent instead.
 ## Recommended scenarios
 
 **Scenario A — small fix** (1–2 files, clear spec):
-No loop needed. Just implement; apply the notes rule and record significant deviations before ending the turn.
+No loop needed. Just implement; apply the deviation-log rule and record significant deviations before ending the turn.
 
 **Scenario B — medium task** (unclear bug cause, half-familiar module):
 ```
@@ -545,7 +560,7 @@ No loop needed. Just implement; apply the notes rule and record significant devi
 
 **Scenario C — big, unfamiliar task** (new feature, first time using a library):
 ```
-/unknowns:loop Add real-time collaborative editing. First time using CRDTs
+/unknowns:unknowns-loop Add real-time collaborative editing. First time using CRDTs
 ```
 Claude walks you through investigation, interview, a probe of the riskiest assumption,
 plan, deviation notes and the quiz, and buy-in when approval is needed.
@@ -568,9 +583,9 @@ session or run `/reload-plugins`. With many skills installed there is a second c
 Claude Code gives the skill listing a budget (1% of the context window by default) and,
 when it overflows, keeps descriptions only for the skills you use most (recency-weighted)
 and lists the rest by name alone. Whichever unknowns skills you rarely use are the ones at
-risk, and it matters most for notes, which is meant to fire on its own. In one measured
+risk, and it matters most for deviation-log, which is meant to fire on its own. In one measured
 run with every unknowns description dropped, 9 of 11 English trigger cases still fired;
-notes and blindspot did not. The CLI logged the overflow; that all eleven lost their
+notes (now deviation-log) and blindspot did not. The CLI logged the overflow; that all eleven lost their
 descriptions is a probe run's self-report
 ([docs/trigger-eval-crowd-2026-09-30.md](docs/trigger-eval-crowd-2026-09-30.md)).
 `/doctor` shows the listing's cost; raise the budget with the
@@ -581,9 +596,8 @@ rather than protecting these). The eval suite's `--crowd N` option measures this
 **Q. Can I type `/blindspot` instead of `/unknowns:blindspot`?**
 Yes for most of them. A plugin skill is reachable both by its scoped name and by its bare
 name, as long as no other command already uses that name — so `/blindspot` and `/quiz`
-work out of the box. The exception is `loop`: Claude Code ships its own `loop` skill (the
-recurring-interval runner), so a bare `/loop` goes there and this plugin's loop always
-needs `/unknowns:loop`. The scoped form is never ambiguous, which is why this README uses
+work out of the box. Claude Code ships its own `loop` skill (the recurring-interval runner), so a bare `/loop`
+goes there; this plugin's loop is `unknowns-loop`, so `/unknowns-loop` reaches it. The scoped form is never ambiguous, which is why this README uses
 it throughout.
 
 **Q. I installed this as field-guide before.**
