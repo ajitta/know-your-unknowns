@@ -11,7 +11,7 @@
 
 ### Added
 
-- Claude plugin listing icon: `packaging/icon.png` (1024 px square PNG rendered from the OpenAI listing SVG) ships as `.claude-plugin/icon.png` in the Claude plugin and zip only; `tools/package.py` checks it is a square PNG of 512 to 2,048 px under 2 MB. Clears the `ICON_MISSING` warning from `claude plugin validate --strict plugins/unknowns`.
+- Claude plugin listing icon: `packaging/icon.png` (512 px square PNG rendered from the OpenAI listing SVG) ships as `.claude-plugin/icon.png` in the Claude plugin and zip only; `tools/package.py` checks it is a square PNG of 512 to 2,048 px under 2 MB. Clears the `ICON_MISSING` warning from `claude plugin validate --strict plugins/unknowns`.
 
 ### Evals (developer-only; not in the shipped payload)
 
