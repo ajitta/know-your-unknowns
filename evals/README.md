@@ -35,7 +35,7 @@ evals/
 ```
 
 `prompt.md` frontmatter keys used here: `description`, `tags`, `runs`, `max_turns`,
-`timeout_seconds`, `allowed_tools`. Grader types used here: `tool_used`, `regex`,
+`timeout_seconds`, `allowed_tools`, `append_system_prompt`. Grader types used here: `tool_used`, `regex`,
 `file_exists`, `llm`. The grader's name is its filename; an `llm` or `regex` grader's
 body is its rubric or pattern. `claude plugin eval --help` is the authority on the
 format — this README does not restate it.
@@ -195,14 +195,19 @@ the `surfaces-both-sides-unknowns` grader passes a reply that labels what it can
 know, asks for what only the user knows, and gives no confident answer it cannot
 back. The routing indicator accepts any unknowns skill.
 
-**7 Open-cell negatives** — `neg-open-*`: requests both sides already understand. None
+**8 Open-cell negatives** — `neg-open-*`: requests both sides already understand. None
 may fire an unknowns skill (`input_match: "unknowns:"`, `min: 0`, `max: 0`, `arm: both`).
 Five are trivial (a rename, typo fixes, a polite rewrite, an errand "plan", "quiz me" on
-trivia) and must be done directly, with no read-back. Two carry weight
-(`neg-open-weighty-code-en`, a migration going to production tonight;
-`neg-open-weighty-text-ko`, a notice to all 80 staff) and must get a 2-3-line read-back
-of the request, the assumptions and what counts as done, then wait for confirmation,
-with no method run.
+trivia) and must be done directly, with no read-back. Three carry weight and must get a
+2-3-line read-back of the request, the assumptions and what counts as done, then wait
+for confirmation, with no method run. Two of them (`neg-open-weighty-code-en`, a
+migration going to production tonight; `neg-open-weighty-text-ko`, a notice to all 80
+staff) are tagged `informative`: they measure the gap the plugin leaves without a
+`CLAUDE.md` line (the read-back lives in the skill bodies, and no skill loads for a clear
+request), so they do not block a release. The third, `neg-open-weighty-memory-line-en`,
+runs the migration with the README's `CLAUDE.md` line passed as `append_system_prompt`,
+which `run-manual.py` hands to `claude -p --append-system-prompt`; the harness has no
+project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 
 **4 negative cases** — the collisions the trigger matrix admits are unresolved:
 

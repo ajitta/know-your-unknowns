@@ -4,10 +4,8 @@ description: >
   Teach me my unknowns — an interactive explainer for a field's vocabulary and mental
   model, in any field, so vague requests become precise. Use on "teach me", "make me an
   explainer", or when the user cannot name what they want or judge the result. Blindspot
-  investigates a specific situation; teach-me teaches a field's vocabulary. Clear to
-  both: no skill or method; if weighty (ships, is sent, hard to undo), first read back
-  request, assumptions and what done means in 2–3 lines; a mismatch goes to teach-me,
-  interview or blindspot.
+  investigates a specific situation; teach-me teaches a field's vocabulary. Clear to both
+  sides: no skill or method.
 ---
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)

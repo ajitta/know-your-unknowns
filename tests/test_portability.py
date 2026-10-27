@@ -67,9 +67,7 @@ class PortabilityTest(unittest.TestCase):
                      "first read back in 2–3 lines")
         routes = ("route by who does not know: the user → the **teach-me** skill; you → the **interview** "
                   "skill; neither of you → the **blindspot** skill.")
-        description_line = ("Clear to both: no skill or method; if weighty (ships, is sent, hard to "
-                            "undo), first read back request, assumptions and what done means in 2–3 "
-                            "lines; a mismatch goes to teach-me, interview or blindspot.")
+        description_line = "Clear to both sides: no skill or method."
         for path in (PLUGIN / "skills").glob("*/SKILL.md"):
             text = path.read_text(encoding="utf-8")
             self.assertIn(read_back, text, path)
@@ -81,6 +79,13 @@ class PortabilityTest(unittest.TestCase):
             self.assertIn(description_line, " ".join(fm.split()), path)
         loop = skill("unknowns-loop")
         self.assertLess(loop.index(read_back), loop.index("**Done criteria"))
+
+    def test_readme_memory_line_is_the_one_measured(self):
+        # The README tip's CLAUDE.md line is the line neg-open-weighty-memory-line-en runs with.
+        case = (ROOT / "evals/neg-open-weighty-memory-line-en/prompt.md").read_text(encoding="utf-8")
+        line = re.search(r'^append_system_prompt: "(.*)"$', case, re.M).group(1)
+        for readme in ("README.md", "README.ko.md"):
+            self.assertIn("\n" + line + "\n", (ROOT / readme).read_text(encoding="utf-8"), readme)
 
     def test_shipped_text_says_the_cells_in_plain_words(self):
         # Rule 0: the Johari pane names stay in developer documents and the README credit.

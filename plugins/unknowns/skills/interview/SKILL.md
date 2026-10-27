@@ -4,11 +4,9 @@ description: >
   The interview — before deciding, the model asks the user, in rounds of at most four,
   what it cannot know or judge about their situation: open questions first, then options
   for each decision, biggest blast radius first; ends with a decision table and a ready
-  prompt. Any domain. Use on "interview me", "ask me questions before implementing",
-  "ask me before you decide", or when requirements are incomplete and the work has not
-  started. Clear to both: no skill or method; if weighty (ships, is sent, hard to undo),
-  first read back request, assumptions and what done means in 2–3 lines; a mismatch goes
-  to teach-me, interview or blindspot.
+  prompt. Any domain. Use on "interview me", "ask me questions before implementing", "ask
+  me before you decide", or when requirements are incomplete and the work has not started.
+  Clear to both sides: no skill or method.
 ---
 
 # Interview — Before-Deciding Interview

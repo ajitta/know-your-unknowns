@@ -16,7 +16,7 @@ What that buys you, concretely:
 
 - You and the AI find out what you didn't know **before** the work starts, not after it is handed over.
 - The work is judged by the outcome you were after, not only by the artifact: the loop ends by asking you whether the result achieved it.
-- A request you and the AI both understand gets no method. When the result carries weight, the AI first reads back in 2–3 lines the request, its assumptions and what counts as done, and does it once you confirm; a trivial request is just done. A mismatch goes to teach-me (you don't know), interview (the AI doesn't) or blindspot (neither).
+- A request you and the AI both understand gets no method. Inside a skill or the loop, a request whose result carries weight is first read back in 2–3 lines (the request, the assumptions, what counts as done) and done once you confirm; a trivial request is just done. A mismatch goes to teach-me (you don't know), interview (the AI doesn't) or blindspot (neither). For that read-back on every request, see Scenario A.
 - Reactable deliverables are **Markdown in the conversation**, with numbered items and an assembled reply you can copy. Select the item numbers or describe the changes you want.
 - Plan deviations are recorded by the skill instructions at stage boundaries and before the turn ends; no automatic reminder runs.
 
@@ -596,10 +596,14 @@ review" goes to your other review tools or a general agent instead.
 ## Recommended scenarios
 
 **Scenario A — a request both of you understand** (fix the typos, rename a variable, a
-clear one-step task): no skill and no loop. Claude does it directly; when the result
-carries weight (a migration going to production tonight), it first reads back the
-request, its assumptions and what counts as done in 2–3 lines and starts on your
-confirmation.
+clear one-step task): no skill and no loop. Claude does it directly. Inside a skill or the
+loop, a request whose result carries weight (a migration going to production tonight) is
+first read back in 2–3 lines; with no skill running, Claude tends to just do it. **Tip:** to
+get that read-back on every weighty request, put this line in your own `CLAUDE.md`:
+
+```
+Before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests.
+```
 
 **Scenario B — medium code task** (unclear bug cause, half-familiar module):
 ```

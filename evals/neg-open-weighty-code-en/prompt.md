@@ -1,6 +1,6 @@
 ---
-description: "Open cell, weighty: a clear production migration gets a short read-back and no method"
-tags: [negative, open-cell, en]
+description: "Open cell, weighty, no CLAUDE.md line (informative, not release-blocking): measures whether a clear production migration gets a read-back from the plugin alone"
+tags: [negative, open-cell, informative, en]
 runs: 3
 max_turns: 6
 timeout_seconds: 300

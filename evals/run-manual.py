@@ -183,6 +183,7 @@ def load_case(case_dir):
         "timeout_seconds": int(front.get("timeout_seconds", 300)),
         "allowed_tools": front.get("allowed_tools", []),
         "model": front.get("model"),
+        "append_system_prompt": front.get("append_system_prompt"),
         "graders": graders,
     }
 
@@ -306,6 +307,8 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
                "--max-turns", str(case["max_turns"])]
         if case["model"]:
             cmd += ["--model", case["model"]]
+        if case["append_system_prompt"]:
+            cmd += ["--append-system-prompt", case["append_system_prompt"]]
         if crowd_root:
             # first, so listing-order ties go to the fillers, not to this plugin
             cmd += ["--plugin-dir", crowd_root]

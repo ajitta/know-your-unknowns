@@ -5,10 +5,8 @@ description: >
   unknown unknowns on both sides (what the user has not seen, what the AI does not know
   about their situation) and turn them into a better prompt. Use on "blind spot pass",
   "what am I missing", "unknown unknowns", or before work whose territory neither side
-  has checked; run it even when you could answer directly, because the deliverable is
-  the improved prompt. Clear to both: no skill or method; if weighty (ships, is sent,
-  hard to undo), first read back request, assumptions and what done means in 2–3 lines;
-  a mismatch goes to teach-me, interview or blindspot.
+  has checked; run it even when you could answer directly, because the deliverable is the
+  improved prompt. Clear to both sides: no skill or method.
 ---
 # Blindspot Pass — Blind-Spot Investigation
 

@@ -1,6 +1,6 @@
 ---
-description: "Open cell, weighty (ko): a clear all-staff notice gets a short read-back and no method"
-tags: [negative, open-cell, ko]
+description: "Open cell, weighty, no CLAUDE.md line (informative, not release-blocking): measures whether a clear all-staff notice (ko) gets a read-back from the plugin alone"
+tags: [negative, open-cell, informative, ko]
 runs: 3
 max_turns: 6
 timeout_seconds: 300
