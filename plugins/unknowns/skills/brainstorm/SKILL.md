@@ -48,11 +48,11 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
    c. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
 
-   Each implementation prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
+   Each execution prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Layout: numbered cards on a time axis (ship this afternoon → quarter-long bet), followed by an impact × effort table.
 

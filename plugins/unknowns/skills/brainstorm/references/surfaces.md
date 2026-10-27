@@ -29,7 +29,7 @@ Never give the reviewer the implementer's own summary. With no file system, supp
 
 Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run.
 
-No scout sub-agent → do the scout pass yourself as a separate step and label it "Scout pass performed by the assistant". Use the same packet and read-only contract.
+No scout sub-agent → do the scout pass yourself as a separate step and label it "Scout pass performed by the assistant". Use the packet the calling skill would hand the scout and the scout read-only contract above.
 
 For independent verification:
 

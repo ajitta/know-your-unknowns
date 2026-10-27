@@ -23,7 +23,7 @@ When requirements are incomplete, don't implement yet: **the model interviews th
 
 1. Find the gaps.
 
-   a. From the text the user gave with the request or after the skill name and conversation context, list spec gaps (known unknowns). No arguments → use the spec under discussion; no spec under discussion either → ask once what to interview about.
+   a. Investigate the conversation and codebase before listing gaps. From the text the user gave with the request or after the skill name and conversation context, list spec gaps (known unknowns), leaving out any gap the conversation or codebase already answers. No arguments → use the spec under discussion; no spec under discussion either → ask once what to interview about.
 
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1: settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
@@ -48,7 +48,7 @@ When requirements are incomplete, don't implement yet: **the model interviews th
 
 When the interview ends, present two things:
 
-1. **Decision table** with the columns radius (architecture / data / ux / polish), question, decision, rationale, left undecided.
+1. **Decision table** with the columns radius (architecture / data / compatibility / performance / taste), question, decision, rationale, left undecided.
 2. **Ready-to-use implementation prompt**: a complete instruction with all decisions applied. In the prompt:
 
    - Mark skipped questions "(unanswered — use your judgment)".
@@ -64,6 +64,6 @@ Use the question tool when one exists. No question tool → present a numbered l
 
 ## Iron Rules
 
-- Never ask questions already answered in the conversation or codebase: investigate the conversation and codebase before asking.
+- Never ask questions already answered in the conversation or codebase.
 - Never start from priority 5 (taste).
 - Never start implementing on guesses without the interview.

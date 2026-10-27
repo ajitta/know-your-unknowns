@@ -75,12 +75,28 @@ Reproduced and fixed the review's seven findings plus the owner's Windows CI rul
 - Add Ubuntu/Windows developer-tooling CI coverage: package build/check, unit tests, and both individual-skill helper targets. The new Windows job is configured, not observed passing.
 - The independent review, reproduction evidence and findings-to-fix table are in the owner's local `kyu-review/review/` records outside the repository. The fresh writing-for-models diff check uses `4bb7d86` as its base; prompt scope/order changes remain unmeasured. It returned one quote-verified suggestion to narrow data; rejected because it contradicts the owner's explicit broader-data ruling. No confirmed finding remains.
 
+### Writing-for-models Claude-checked round — Phase WC
+
+The model-read files were last written by Codex, so this round used Claude as the checker: one `claude -p --tools ''` process per file on frozen `d07db74`, 17 files. They reported 118 findings. One had a wrong quote and was dropped; the other 117 were adjudicated in context. The diff check went back to Codex.
+
+| Audit scope | Found | Confirmed | Fixed | Rejected |
+|---|---:|---:|---:|---:|
+| Combined through Phase R | 47 | 40 | 40 | 7 |
+| WC Claude per-file findings (quote ok) | 117 | 35 | 34 | 82 |
+| WC Codex diff review, two rounds | 0 | 0 | 0 | 0 |
+| **Combined** | **164** | **75** | **74** | **89** |
+
+- Of the 35 confirmed, 25 came from this branch and 10 were already on `main`. Nine of the branch findings are one defect: the shared output sentence still said "with the same structure" after Phase B removed the HTML page it pointed at. It is fixed once in all nine copies and in its test guard.
+- One confirmed finding is not fixed. The reviewer cannot see whether `/code-review` and `/security-review` are available, so the condition on its secondary pass cannot be checked with its tools. It is logged as a Todo for human because any fix decides when that pass runs.
+- 25 fixes are form only (names, antecedents, list names in the scout output). Nine change meaning and are **unmeasured**: blindspot opens its output with the three lists before the contrast; interview investigates before it lists gaps and uses step 5's radius names; loop writes the tracker once the tier is known and records the tier there; notes always appends (creating the file if missing) and drops the chat-summary permission when there is no file system; buy-in hands the reviewer the surfaces packet; quiz runs the wrap-up in the same reply.
+- 82 findings were rejected because the text was already right in context, the fix would change a method step, number, shared block or owner ruling, or it only restyled. Owner rulings, frontmatter, trigger phrases, step numbering and shared blocks are unchanged. Per-item adjudications are in the owner's local `kyu-review/wfm-claude/report.md`.
+
 ### Not measured
 
 - Fresh routing and behavior probes for the changed skills on Claude Code, Claude web/desktop/mobile, Codex CLI, and ChatGPT web/mobile/desktop.
 - Uploads of the rebuilt Claude archive to claude.ai or the rebuilt OpenAI archive to ChatGPT.
 - Mobile skill loading and cross-device/account synchronization.
-- Live A/B measurements of the Phase W and W2 writing-for-models fixes; prior trigger and behavior results describe older snapshots. W2 scope and execution-order clarifications are not measured improvements. An optional W2 behavior smoke was stopped after repeated 60-second timeouts; its no-plugin arm also loaded an installed unknowns skill, so it supplies no valid baseline.
+- Live A/B measurements of the Phase W and W2 writing-for-models fixes; prior trigger and behavior results describe older snapshots. W2 scope and execution-order clarifications, and the nine WC meaning changes, are not measured improvements. An optional W2 behavior smoke was stopped after repeated 60-second timeouts; its no-plugin arm also loaded an installed unknowns skill, so it supplies no valid baseline.
 - Native Windows execution of the rebuilt developer tools: the new Ubuntu/Windows CI matrix is configured but has not been observed running; earlier hook checks were CI-only and those hooks are removed.
 - The new tag-triggered release workflow against a real tag or published release.
 

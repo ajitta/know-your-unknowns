@@ -55,7 +55,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 Reaction: number the concepts, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft.
 
 For numbered reactions and reply assembly, read references/output-routing.md.

@@ -53,7 +53,7 @@ The best way to give a model a map: **give it another map**.
 
    a. The user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, the map is revised before any code.
 
-   b. Offer the same choice once: implement now / revise the map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+   b. Offer this choice once: implement now / revise the map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
 
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
@@ -63,15 +63,15 @@ The best way to give a model a map: **give it another map**.
 
    a. **Port the reference's existing tests first**, before implementing.
 
-   b. Implement within those limits.
+   b. Implement within the logging and stop-and-ask limits at the start of step 6.
 
    No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and keep their results unverified until the user supplies evidence.
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
-Numbered mapping rows (reference excerpt ↔ counterpart plan) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
+Numbered mapping rows (key reference excerpt ↔ new-environment counterpart) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
 
 For numbered reactions and reply assembly, read references/output-routing.md.
 

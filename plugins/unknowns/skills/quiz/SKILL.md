@@ -20,7 +20,7 @@ Before the quiz, explain concisely, anchoring each explained behavior with **Whe
 3. **Most likely failure points** (if something is wrong, where it surfaces first)
 4. What the **user must verify themselves** (what the model cannot guarantee)
 
-No file access → use the supplied diff, code excerpts, and deviation record. Ask for missing material before quizzing on it, and mark unavailable change locations unverified rather than inventing `file:line` references.
+No file access → use the supplied diff, code excerpts, and deviation log. Ask for missing material before quizzing on it, and mark unavailable change locations unverified rather than inventing `file:line` references.
 
 ## Procedure — Part 2: Six-Question Gate
 
@@ -54,7 +54,7 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 3. Grade answers.
 
-   a. Grade the teach-back against those points, and quote the key file when grading. No file system → grade anyway, and say in the grading message that the points were not committed to a file in advance. Print the key as Markdown only after the answer and say to save it as `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md`.
+   a. Grade the teach-back against those points, and quote the key file when grading. No file system → grade anyway, say in the grading message that the points were not committed to a file in advance, and print the key as Markdown only after the answer, saying to save it as `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md`.
 
    b. For each wrong or blank answer, name the **exact change site (file:line)** to re-read. If the change location is unavailable, mark it unverified instead of inventing a reference.
 
@@ -64,7 +64,7 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
    | Score | What to do |
    |---|---|
    | 6/6 | Emit the **cleared to merge** checklist below. |
-   | Below 6/6 | The doc stays "not yet" — list the sections to re-read. |
+   | Below 6/6 | The result stays "not yet" — list the sections to re-read. |
 
    The cleared-to-merge checklist:
    - quiz passed (6/6, graded in the conversation)
@@ -75,7 +75,7 @@ No file access → use the supplied diff, code excerpts, and deviation record. A
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Answers per question type:
 
@@ -84,7 +84,7 @@ Answers per question type:
 | Multiple choice | numbered options | hidden until the user answers | in the conversation, with the change site to re-read for each wrong answer |
 | Teach-back | the user's own words | hidden until the user answers | in the conversation, against the preselected 2–3 points |
 
-After grading in step 3, assemble the answers + teach-back + score + missed-sections block as copyable text. Include the cleared-to-merge checklist only at 6/6; otherwise keep the "not yet" result and retry. Then run the wrap-up.
+After grading in step 3, assemble the answers + teach-back + score + missed-sections block as copyable text. Include the cleared-to-merge checklist only at 6/6; otherwise keep the "not yet" result and retry. Then run the wrap-up in the same reply; the assembled reply ends with the wrap-up.
 
 For numbered reactions and reply assembly, read references/output-routing.md.
 

@@ -1,5 +1,17 @@
 # Implementation Notes — plan deviation log
 
+## [2026-10-27] Writing-for-models Claude-checked round — Phase WC
+
+**Observed**
+- **Situation found**: per-file Claude checkers on d07db74 (the model-read files were last written by Codex) returned 118 findings: 117 quote ok, one wrong quote, which was dropped. 35 were confirmed, 34 fixed and 82 rejected in context. One "the same structure" sentence, shared by nine skills, had lost its antecedent when Phase B removed the HTML page; it accounts for nine of the confirmed findings.
+- **Deviation from plan**: none in scope. Owner rulings (no HTML pages, no shipped code, scout without Bash, prose-only reviewer contract, the architecture / user-visible behavior / data / security escalation set, new-conversation review with the stage pending, Markdown deliverables) were kept, and so were frontmatter, trigger phrases, method step numbers and shared blocks.
+- **Response chosen**: fix the confirmed wording in place; edit the shared output sentence in every copy and in its test guard; update both README notes-persistence summaries.
+
+**Attributed**
+- **Reason for choice**: a checker from a different engine than the writer finds defects the writer's own engine accepts; the per-item record is in the owner's local `kyu-review/wfm-claude/report.md`.
+- **Risk/follow-up check**: nine fixes change meaning (blindspot output order, interview radius names and investigate-first placement, loop tier/tracker order, notes persistence, buy-in packet pointer, quiz wrap-up turn end) and are unmeasured.
+- **Todo for human**: independent-reviewer's secondary pass runs "Where `/code-review` and `/security-review` are unavailable", a condition the agent cannot see with its tools. Decide whether the packet (loop step 8, surfaces.md, buy-in) gains a field saying those reviews run on the diff, or whether the reviewer always runs the secondary pass. Text unchanged until then.
+
 ## [2026-10-26] Independent review corrections — Phase R
 
 **Observed**

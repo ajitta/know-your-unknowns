@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PLUGIN = ROOT / "plugins" / "unknowns"
 QUESTION = "Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit."
-OUTPUT = "Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation."
+OUTPUT = "Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation."
 SCOUT_CONTRACT = "Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings."
 REVIEW_CONTRACT = "Keep the review read-only: never edit or commit repository files or write outside a temporary directory."
 
@@ -82,7 +82,7 @@ class PortabilityTest(unittest.TestCase):
         self.assertIn("Five are multiple choice.", text)
         self.assertIn("sixth is a **teach-back**", text)
         self.assertIn("Keep the key out of the questions and reply until the user has answered.", text)
-        self.assertIn("Print the key as Markdown only after the answer", text)
+        self.assertIn("print the key as Markdown only after the answer", text)
         self.assertIn("not committed to a file in advance", text)
         self.assertIn("exact change site (file:line)", text)
 

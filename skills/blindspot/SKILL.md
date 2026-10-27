@@ -41,7 +41,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    No file system → print the record in the chat as Markdown and say to save it as the baseline for `.unknowns/loop.json`.
 
-   The output's first section copies the three lists later. They are the before-picture the scorecard compares findings against, so they must exist before any finding does.
+   The three lists are the before-picture the scorecard compares findings against, so they must exist before any finding does.
 
 2. Choose how to investigate by scope:
 
@@ -89,7 +89,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 4. Present the findings:
 
-   a. Lead with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
+   a. Open the output with the three lists from step 1c. Then lead the findings with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
 
    b. After the contrast, show the cards. Each card holds: kind, finding, why it bites, evidence, status, recommended action.
 
@@ -108,7 +108,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 Reaction: a numbered, copyable **prompt fix** per finding card; the user's selected numbers assemble into the improved prompt draft.
 
 For numbered reactions and reply assembly, read references/output-routing.md.

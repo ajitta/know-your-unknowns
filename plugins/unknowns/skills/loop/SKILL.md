@@ -11,7 +11,7 @@ description: >
 
 Core principle: the bottleneck with strong models is not the model — it's the user's ability to keep the map (plan) matched to the territory (reality). That gap is **the unknowns**. Designing the explore → question → plan → implement → log deviations → verify loop matters more than one good prompt.
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Each stage keeps its own skill's numbered reactions; the loop's own reaction is the stage checkpoint, whose answer updates the `.unknowns/loop.json` tracker. For numbered reactions and reply assembly, read references/output-routing.md.
 
@@ -37,7 +37,7 @@ Investigate only, no implementation.
 
 a. Find unknown unknowns, conflict points and regression risks; produce an improved prompt.
 
-b. If the domain itself is unfamiliar (requests are vague because the terms are unknown), run the **teach-me** skill before the blindspot pass; otherwise hand blindspot's ③ list to teach-me afterwards.
+b. If the domain itself is unfamiliar (requests are vague because the terms are unknown), run the **teach-me** skill before the blindspot pass; otherwise hand blindspot's ③ list (where the user does not know how to judge) to teach-me afterwards.
 
 ### 3. Interview → the **interview** skill
 
@@ -130,7 +130,7 @@ Building is easier, generating value is still hard.
 
 Step 1 runs in every tier — for a small fix as that one line.
 
-Unsure which tier → ask the user, then record the choice.
+Unsure which tier → ask the user before step 1's exchange, then record the choice as the tracker's `tier` (small fixes have no tracker).
 
 ## Loop status (survives compaction, /resume, new sessions)
 
@@ -138,7 +138,7 @@ For medium and large work, apply the tracker and checkpoint rules in this sectio
 
 Keep `.unknowns/loop.json` — `{task, tier, stage, status, baseline, decisions[], artifacts[]}` — and rewrite it at every stage boundary. Keep every field on each rewrite.
 
-**Write it first when the loop starts**, with `status: "active"`, before step 1's exchange — a compaction inside the first stage should still find it.
+**Write it first when the loop starts**, once the tier is known, with `status: "active"`, before step 1's exchange — a compaction inside the first stage should still find it.
 
 | `status` | Set when |
 |---|---|
@@ -178,8 +178,8 @@ No argument:
 
 ### On every start
 
-On every start, read `.unknowns/scorecard.md` if it exists. Any row whose recheck date has passed and whose reality check is still empty is raised **before** the new task: ask the user what they saw and fill the cell.
+On every start, read `.unknowns/scorecard.md` if it exists. Any row whose **Recheck on** date has passed and whose **Reality check** cell is still empty is raised **before** the new task: ask the user what they saw and fill the cell.
 
 No file system → read the scorecard record supplied in the conversation and print the updated record as Markdown for the user to save as `.unknowns/scorecard.md`. No supplied tracker or scorecard → ask for the saved record when status, resume, or a reality check depends on it; never invent the missing history.
 
-This is the only thing that reads that column; without it the date is a promise nobody keeps.
+This is the only thing that reads the Recheck on column; without it the date is a promise nobody keeps.

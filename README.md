@@ -443,7 +443,7 @@ same file: **Discovery** (reality differs from what the plan assumed, no decisio
 yet) and **Todo for human** (a judgment call that is yours but blocks nothing and touches
 no architecture, user-visible behavior, data or security — anything that does escalates).
 
-**Persistence**: when a file system is available, append to the notes file once it exists or `init` has been run; buy-in and quiz use that record. With no file system, print the complete updated log as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Before ending a turn, at stage boundaries, and before commits, check for deviations yourself.
+**Persistence**: when a file system is available, append to the notes file, creating it if it is missing; buy-in and quiz use that record. With no file system, print the complete updated log as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Before ending a turn, at stage boundaries, and before commits, check for deviations yourself.
 
 **Escalation**: decisions touching architecture, user-visible behavior, data, or security must be recorded and then **work stops and the question goes to you**. At
 wrap-up the skill writes a **fold back into the plan** block — three copyable bullets on

@@ -23,8 +23,8 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
   On every surface the entry format and the escalation rule are unchanged. Details: references/surfaces.md
 
 - **Persistence**:
-  - When a file system is available, append to the notes file once it exists or `init` has been run; buy-in and quiz read that record.
-  - With no file system, a chat summary is allowed, but the final message must then say there is no notes file, and where it lives instead.
+  - When a file system is available, append to the notes file, creating it at the Location table's path if it is missing; buy-in and quiz read that record.
+  - With no file system, the final message must say there is no notes file, and where the log lives instead.
 
 - **Record deviations while working**: re-read the logging criteria at each stage boundary, before a commit, and before handing work back. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
 

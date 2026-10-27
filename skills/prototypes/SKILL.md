@@ -49,7 +49,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
 - Number every option and element inside it; ask for **steal / skip** by number.
 - On skip, ask **"would steal if…"** (step 4).

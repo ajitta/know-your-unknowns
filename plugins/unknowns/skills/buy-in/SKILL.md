@@ -35,7 +35,7 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
    d. No unsupported rebuttals: when an answer has no evidence, move it to the known limitations (step 5).
 
-   e. Use `unknowns:independent-reviewer` when the host can start a sub-agent of that name to check evidence for objection responses, including its "verified" list.
+   e. Use `unknowns:independent-reviewer` when the host can start a sub-agent of that name to check evidence for objection responses, including its "verified" list. Hand it the reviewer packet from references/surfaces.md.
 
    Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run. No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns. Details: references/surfaces.md
 4. **Spec at a glance**: an area / decision / ref table, one row per settled decision.
@@ -45,7 +45,7 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
 ## Output
 
-Deliver Markdown in the conversation with the same structure. End the turn with the assembled reply as Markdown in the conversation.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Reaction: a numbered sign-off checklist, one item per approver. Ask for the item numbers approved or needing changes; assemble the answers into a review-comment draft ("Reply with a ✓ on your piece").
 

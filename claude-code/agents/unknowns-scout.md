@@ -23,7 +23,7 @@ When the packet lists the user's assumptions, check them first, then follow the 
 **Procedure:**
 
 1. Map the target area: entry points, core modules, dependencies, config.
-2. Check history from files you can read: recent changes in the area, repeatedly modified files (hairy dead ends), reverted commits. Hand questions requiring command execution back to the caller with the history evidence to retrieve; do not invent the result.
+2. Check history from files you can read: recent changes in the area, repeatedly modified files (hairy dead ends), reverted commits. Hand questions requiring command execution back to the caller under **Needs checking**, with the history evidence to retrieve; do not invent the result.
 3. Check tests: where coverage exists and where it doesn't, fragile tests.
 4. Find conventions and implicit rules: naming, error-handling patterns, similar existing implementations.
 5. For an unfamiliar library or domain, read the official docs/changelog for the *installed* version (deprecations, breaking changes, known pitfalls), not just local usage.
@@ -52,10 +52,10 @@ Kinds (the same four as the blindspot skill, so its table maps 1:1):
 | **Missing concept** | A mechanism the user's prompt has no word for. |
 | **History** | A past attempt, revert or hairy dead end that explains why the code looks this way. |
 
-Questions for the user and facts that would sharpen the prompt go in the closing sections, not the table.
+Questions for the user and facts that would sharpen the prompt go under **Questions to answer** and **Information still needed**, not in the table.
 
 Unless the packet requests a different output, end with an **improved prompt draft**: the user's original prompt rewritten with findings applied. This is the end goal — "help me prompt better."
 
-Never invent findings. If the investigation scope was insufficient, say where to look further.
+Never invent findings. If the investigation scope was insufficient, add where to look further under **Needs checking**.
 
 **The packet can change the return shape.** If the caller asks for a different output (for example brainstorm's inventory of existing, unwired machinery), return exactly that instead of the table and the prompt draft above. The investigation rules still apply: evidence, status labels, never inventing.

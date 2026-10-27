@@ -19,7 +19,7 @@ Use the question tool when one exists. No question tool → present a numbered l
 
 ## 3. Assemble the reply
 
-Apply the user's selections to the skill's deliverable: an improved prompt, precise request, requirements list, decision summary, correction list, or review-comment draft. Preserve unresolved items and the skill's approval gate. For a quiz, wait for answers, grade in the conversation, then assemble the score and sections to re-read; never show the teach-back key before the answer.
+Apply the user's selections to the skill's deliverable: an improved prompt, precise request, requirements list, decision summary, correction list, or review-comment draft. Preserve unresolved items and the skill's approval gate. For a quiz, wait for answers, grade in the conversation, then assemble the score and sections to re-read; never show the quiz key before the answer.
 
 End the turn with the assembled reply as Markdown in the conversation.
 
@@ -27,6 +27,6 @@ When the skill is a loop stage, fold its closing offer into the loop's single st
 
 ## 4. Save records
 
-When a skill writes a tracker, scorecard, or deviation log, use its named file in the project. A writable session workspace can hold the same file; tell the user it is session-local and provide it at wrap-up.
+When a skill writes a tracker, scorecard, or deviation log, use its named file in the project. With a writable session workspace but no project root, keep the same file there; tell the user it is session-local and provide it at wrap-up.
 
 No file system → print the record in the chat as Markdown, say which named file the user should save it as, and restate the whole updated record whenever it changes. The quiz key is the exception to printing a record immediately: keep it hidden until the user answers, then print it when grading. See `surfaces.md` in this folder for the tool fallbacks.
