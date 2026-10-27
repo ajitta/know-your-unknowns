@@ -393,9 +393,11 @@ for what already exists but is not used for the problem — resources, programme
 people in reach, or, in a codebase, machinery that sits disconnected — since the cheapest
 candidates are usually connecting what exists; those carry an `Already exists — <where>`
 marker. It then lays out roughly 10 candidate interventions along a **time axis from
-this afternoon to a quarter-long bet**, each annotated with expected impact / effort
-size / key risks / how to see that it moved the problem. The item numbers you mark
-**resonate** are assembled into a copyable "proceed with these, in this order", where it stops.
+this afternoon to a quarter-long bet**, generated before any judging: a name and one
+line each, the unlikely ones included. You mark the numbers that **resonate**; only then
+does each pick get expected impact / effort size / key risks / how to see that it moved
+the problem, and the picks are assembled into a copyable "proceed with these, in this
+order", where it stops.
 
 ---
 

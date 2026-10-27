@@ -36,16 +36,20 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    Without a tool, do the step in the conversation and say what could not be checked.
 
    The cheapest candidates are usually connecting what exists, not building.
-3. Generate **~10** candidate interventions, spread across the time axis: this afternoon / short-term (1–2 weeks) / mid-term (quarter) / quarter-long bets.
-4. Attach these fields to each candidate:
+3. Generate **~10** candidate interventions with judgment deferred, spread across the time axis (this afternoon / short-term (1–2 weeks) / mid-term (quarter) / quarter-long bets) and across approaches, the unlikely ones included. Give each only:
    - name
-   - one-line description
+   - one-line description: what it would change
+   - `Already exists — <where>`, when the candidate builds on something step 2 found
+
+   Ranking, scoring and pruning wait for step 5. Judging while generating keeps the first safe ideas and stops the list before the unexpected ones (Osborn: defer judgment, go for quantity).
+4. Ask which candidate numbers **resonate**.
+5. At selection, attach these fields to each picked candidate:
    - expected impact: what improves, by how much
    - effort size: S/M/L/XL
    - key risks
    - how to measure success: the sign that it moved the stated problem, not only that it was done
-   - `Already exists — <where>`, when the candidate builds on something step 2 found
-5. Ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order"; a missing pick is undecided.
+
+   The picked numbers assemble into a copyable "proceed with these, in this order"; a missing pick is undecided.
 
 ## Output
 
