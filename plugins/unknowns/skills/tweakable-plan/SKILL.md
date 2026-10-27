@@ -5,12 +5,14 @@ description: >
   the decisions the user is most likely to change get reviewed first, each with its
   alternatives. Any work: an event, a study, a campaign, a move, a migration, a feature.
   Use on "plan this", "make a plan", "tweakable plan". Not native plan mode: writes a
-  reviewable document before the work starts. Self-evident requests are done directly.
+  reviewable document before the work starts. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Tweakable Plan — sorted by tweak likelihood
 
-This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 A plan's purpose is to **pull the points where the user would intervene forward**, not to list steps in execution order. Even if the user stops reading partway down, they have already seen every decision that matters. The plan ends at the user's approval or change requests; the work starts from the approved plan.
 
@@ -26,7 +28,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
    a. With no argument, that context is the whole input.
 
    b. When the spec has big gaps, suggest the **interview** skill before planning.
-2. **Done criteria first**: the document opens with one line stating the purpose (the outcome the user is after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 1 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
+2. **Done criteria first**: the document opens with one line stating the purpose (the outcome the user is after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 2 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
 3. **Size gate**: when the work holds no decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget), say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the done-criteria line, its questions from step 2, and the steps in execution order, one line each: work this small has no decision worth a review document, and a shortened copy of the document is still the document.

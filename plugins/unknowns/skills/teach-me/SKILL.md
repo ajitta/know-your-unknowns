@@ -5,12 +5,14 @@ description: >
   model, so vague requests become precise, in any field (video, law, finance, research
   methods, a new technology). Use on "teach me", "make me an explainer", or when the user
   cannot name what they want or cannot judge the result. Blindspot investigates a
-  specific plan or situation; teach-me teaches a field's vocabulary. Self-evident requests are done directly.
+  specific plan or situation; teach-me teaches a field's vocabulary. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)
 
-This skill serves what the user does not know and you do, and surfaces the user's gaps. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what the user does not know and you do, and surfaces the user's gaps.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste. This skill fills the **concept/terminology gap** among unknown unknowns.
 

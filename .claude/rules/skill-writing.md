@@ -13,7 +13,7 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 
    | Cell (user : AI) | Pane | Plain words in shipped text | What happens without the method | What the skills do | Skills |
    |---|---|---|---|---|---|
-   | known : known | **Open** | what both of you know | The request is self-evident and the AI does it well. | Out of scope: do the request directly, without the method. | — |
+   | known : known | **Open** | what both of you know | The request is self-evident and the AI does it well. | Out of scope: no method. When the result carries weight, read back the request, the assumptions and what outcome counts as done in 2–3 lines, then do it on the user's confirmation; a self-evident request needs no read-back. A mismatch routes by who does not know: the user → teach-me, the AI → interview, neither → blindspot. | — |
    | unknown : known | **Blind** | what the user does not know and you do | The AI may build it right, but the user (or an approver) cannot judge it. | Surface the user's or the approvers' gaps. | teach-me, quiz, buy-in |
    | known : unknown | **Hidden** | what you do not know and the user does | The user keeps correcting the AI until the result comes out. | Ask or read back what the AI does not know or cannot judge, before deciding. | interview, reference |
    | unknown : unknown | **Unknown** | what neither the user nor you know yet | Output appears, but it is unlikely to achieve the outcome. The widest cell. | Surface both sides' unknowns: the user's and the AI's own. | blindspot, brainstorm, prototypes, deviation-log, tweakable-plan, unknowns-loop |
@@ -22,7 +22,7 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 
    Every skill decision follows this rule. Write methods, examples, triggers and deliverables for any domain (research, policy, events, hiring, personal decisions, code), with code as one example among several. A step earns its place when it moves the unknowns of the cell its skill serves toward the outcome.
 
-   Reason: an AI-assisted task goes wrong where one side does not know what the other knows, or neither knows yet. The open cell needs no method, and every method sentence read there competes with the request.
+   Reason: an AI-assisted task goes wrong where one side does not know what the other knows, or neither knows yet. The open cell needs no method, and every method sentence read there competes with the request; a short read-back is how both sides find out whether a weighty request really is in the open cell.
 
 ## Steps
 
@@ -57,7 +57,7 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 11. **A sentence shared across skills is copied word for word.** Each skill loads alone, so repeating it is fine, but the copies must match so one grep finds and fixes them all. Known shared blocks:
     - the four finding kinds and the status labels (unknowns-scout, blindspot)
     - the independent-reviewer packet fields (buy-in, independent-reviewer)
-    - the cell line and the Open line at the top of every skill body ("This skill serves <the cell in plain words>, …"; "A self-evident request, where both of you already know what to do, is done directly, without this method."), and "Self-evident requests are done directly." at the end of every skill description
+    - the cell line and the read-back line at the top of every skill body ("This skill serves <the cell in plain words>, …"; "When you and the user both seem to understand the request, do it without this method: …"), the same read-back line as the unknowns-loop skill's step 1, and "Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot." at the end of every skill description
     - the **Your own unknowns** sentence (brainstorm, prototypes, tweakable-plan, unknowns-loop)
     - the deviation log's default file ("the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work)")
     - the missing-tool line ("Without a tool, do the step in the conversation and say what could not be checked.")

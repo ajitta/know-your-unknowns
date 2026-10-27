@@ -7,11 +7,13 @@ description: >
   event, a study, a migration, a codebase. Use when the user says "blind spot pass",
   "what am I missing", "unknown unknowns", or is about to start work whose territory
   neither side has checked — run it even when you could answer directly, because the
-  deliverable is the improved prompt, not the answer. Self-evident requests are done directly.
+  deliverable is the improved prompt, not the answer. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 # Blindspot Pass — Blind-Spot Investigation
 
-This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 Before the work starts, find the gap between the **map** (the plan or prompt) and the **territory** (the actual situation: its documents, rules, people, data, or codebase).
 

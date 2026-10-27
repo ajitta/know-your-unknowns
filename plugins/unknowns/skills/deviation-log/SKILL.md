@@ -6,12 +6,14 @@ description: >
   a log beside the deliverable. Any work that follows a plan: an event, a study, a
   report, a renovation, a code change. Use automatically when the work hits an unknown
   the plan did not cover, and on "implementation notes", "record a deviation", "where
-  did we diverge from the plan?". Self-evident requests are done directly.
+  did we diverge from the plan?". Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Deviation Log
 
-This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 When work hits a situation the plan or spec does not cover (an unknown neither side saw), **pick the conservative option, log it, and keep going**. The log is where the user sees where the territory departed from the map, and why.
 

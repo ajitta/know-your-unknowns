@@ -7,12 +7,14 @@ description: >
   and ends with a decision table and a ready prompt. Any domain: a study design, an
   event, a policy, a hire, a feature. Use when the user says "interview me", "ask me
   questions before implementing", "ask me before you decide", or requirements are
-  incomplete and the work has not started. Self-evident requests are done directly.
+  incomplete and the work has not started. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Interview — Before-Deciding Interview
 
-This skill serves what you do not know and the user does: before deciding, it asks what you cannot know or judge about the user's situation. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what you do not know and the user does: before deciding, it asks what you cannot know or judge about the user's situation.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 When requirements are incomplete, **the model interviews the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
 

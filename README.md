@@ -16,7 +16,7 @@ What that buys you, concretely:
 
 - You and the AI find out what you didn't know **before** the work starts, not after it is handed over.
 - The work is judged by the outcome you were after, not only by the artifact: the loop ends by asking you whether the result achieved it.
-- Self-evident requests stay self-evident: the skills do them directly, without the method.
+- A request you and the AI both understand gets no method. When the result carries weight, the AI first reads back in 2–3 lines the request, its assumptions and what counts as done, and does it once you confirm; a trivial request is just done. A mismatch goes to teach-me (you don't know), interview (the AI doesn't) or blindspot (neither).
 - Reactable deliverables are **Markdown in the conversation**, with numbered items and an assembled reply you can copy. Select the item numbers or describe the changes you want.
 - Plan deviations are recorded by the skill instructions at stage boundaries and before the turn ends; no automatic reminder runs.
 
@@ -42,7 +42,7 @@ Every task has two knowers: you and the AI. The plugin borrows the four panes of
 
 | You : AI | Without the plugin | What the skills do | Skills |
 |---|---|---|---|
-| known : known — both of you know | The request is self-evident; the AI just does it well. | Nothing: such requests are done directly, without the method. | — |
+| known : known — both of you know | The request is self-evident; the AI just does it well. | No method. When the result carries weight, a 2–3-line read-back (the request, the assumptions, what counts as done), then the work on your confirmation; a trivial request is just done. A mismatch goes to teach-me, interview or blindspot. | — |
 | unknown : known — you don't know, the AI does | The AI may get it right, but you (or the people who approve it) cannot judge it. | Surface your gaps or your approvers' gaps. | teach-me, quiz, buy-in |
 | known : unknown — the AI doesn't know, you do | You keep correcting the AI until the result comes out. | Ask or read back what the AI does not know or cannot judge, before deciding. | interview, reference |
 | unknown : unknown — neither of you knows yet | Output appears, but it is unlikely to be what you were after. The widest cell. | Surface both sides' unknowns: yours and the AI's own. | blindspot, brainstorm, prototypes, deviation-log, tweakable-plan, unknowns-loop |
@@ -242,12 +242,14 @@ A bare `/loop` is Claude Code's built-in interval runner, not this skill; `/unkn
 or `/unknowns:unknowns-loop` reaches this one. The same goes for a bare "loop" or
 "루프 돌려줘" in prose.
 
-**How it runs**: Claude agrees the outcome you are after and the done criteria with you
+**How it runs**: When the request is already clear to both of you, Claude reads it back in
+2–3 lines and, once you confirm, does it without the loop (a mismatch goes to teach-me,
+interview or blindspot). Otherwise Claude agrees the outcome you are after and the done criteria with you
 in one exchange, says what it does not know about your situation, and names the stages up
 front. Before the work: blindspot (teach-me first if the field's terms are new) →
 interview → brainstorm/prototypes/reference as needed → the cheapest probe of the riskiest
 assumption (a phone call, a pilot, a spike) → a plan ordered by likelihood-of-change
-(plan). During the work, deviation-log records deviations. After it, the result is
+(tweakable-plan). During the work, deviation-log records deviations. After it, the result is
 checked against each done criterion with evidence, then quiz, plus buy-in when reviewers
 or stakeholders must approve, and finally an **outcome check**: Claude asks you whether
 the result achieved what you were after, not only whether it meets the criteria. A stage
@@ -593,9 +595,11 @@ review" goes to your other review tools or a general agent instead.
 
 ## Recommended scenarios
 
-**Scenario A — self-evident request** (fix the typos, rename a variable, a clear one-step
-task): no skill and no loop. Claude does it directly; record a significant deviation if
-one comes up.
+**Scenario A — a request both of you understand** (fix the typos, rename a variable, a
+clear one-step task): no skill and no loop. Claude does it directly; when the result
+carries weight (a migration going to production tonight), it first reads back the
+request, its assumptions and what counts as done in 2–3 lines and starts on your
+confirmation.
 
 **Scenario B — medium code task** (unclear bug cause, half-familiar module):
 ```

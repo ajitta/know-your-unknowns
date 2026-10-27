@@ -59,18 +59,27 @@ class PortabilityTest(unittest.TestCase):
         self.assertIn("Keep the key out of the questions and reply until the user has answered.", text)
         self.assertIn("exact change site", text)
 
-    def test_skills_name_their_cell_and_do_open_requests_directly(self):
-        # Rule 0: each skill names the cell it serves; a self-evident request skips the method.
-        open_line = ("A self-evident request, where both of you already know what to do, "
-                     "is done directly, without this method.")
+    def test_skills_name_their_cell_and_read_back_clear_requests(self):
+        # Rule 0: each skill names the cell it serves; a request clear to both sides skips the
+        # method after a read-back when it carries weight, and a mismatch routes by cell.
+        read_back = ("When you and the user both seem to understand the request, do it without this method: "
+                     "if its result carries weight, first read back in 2–3 lines")
+        routes = ("route by who does not know: the user → the **teach-me** skill; you → the **interview** "
+                  "skill; neither of you → the **blindspot** skill.")
+        description_line = ("Clear to both: do it without a skill, after a 2–3-line read-back "
+                            "(request, assumptions, what done means) if weighty; a mismatch goes to "
+                            "teach-me, interview or blindspot.")
         for path in (PLUGIN / "skills").glob("*/SKILL.md"):
             text = path.read_text(encoding="utf-8")
-            self.assertIn(open_line, text, path)
+            self.assertIn(read_back, text, path)
+            self.assertIn(routes, text, path)
             self.assertRegex(text, r"This skill serves (what the user does not know and you do"
                                    r"|what you do not know and the user does"
                                    r"|what neither the user nor you know yet)", path)
             fm = re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1)
-            self.assertIn("Self-evident requests are done directly.", fm, path)
+            self.assertIn(description_line, " ".join(fm.split()), path)
+        loop = skill("unknowns-loop")
+        self.assertLess(loop.index(read_back), loop.index("**Done criteria"))
 
     def test_shipped_text_says_the_cells_in_plain_words(self):
         # Rule 0: the Johari pane names stay in developer documents and the README credit.

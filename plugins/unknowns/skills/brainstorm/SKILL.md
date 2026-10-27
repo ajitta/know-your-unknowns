@@ -6,12 +6,14 @@ description: >
   for the user to pick from. Any problem: falling sales, low turnout, a slow process,
   churn in a product. Use on "brainstorm interventions", "show me options", or when a
   problem is named with no approach chosen. NOT for variants of one design — use
-  prototypes. Self-evident requests are done directly.
+  prototypes. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Brainstorm — Solution-Space Map (Brainstorm the Intervention)
 
-This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 Jumping on the first solution leaves the rest of the solution space unknown. The user picks; the model draws the space.
 

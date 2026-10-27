@@ -5,12 +5,14 @@ description: >
   show the user your reading of it, and get it corrected before building on it. Any
   example: another organisation's policy, a past proposal, a contract template, a
   competitor's product, example code or a mockup. Use when the user says "use this as a
-  reference", "make it like this", or supplies an example to build from. Self-evident requests are done directly.
+  reference", "make it like this", or supplies an example to build from. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Reference — A Reference Is Another Map
 
-This skill serves what you do not know and the user does: before building on a reference, it reads back your reading of it for the user to correct. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what you do not know and the user does: before building on a reference, it reads back your reading of it for the user to correct.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 ## Iron Rules
 

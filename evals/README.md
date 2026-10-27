@@ -195,10 +195,14 @@ the `surfaces-both-sides-unknowns` grader passes a reply that labels what it can
 know, asks for what only the user knows, and gives no confident answer it cannot
 back. The routing indicator accepts any unknowns skill.
 
-**5 Open-cell negatives** — `neg-open-*`: self-evident requests (a rename, typo fixes,
-a polite rewrite, an errand "plan", "quiz me" on trivia) that must fire no unknowns
-skill (`input_match: "unknowns:"`, `min: 0`, `max: 0`, `arm: both`) and be done
-directly.
+**7 Open-cell negatives** — `neg-open-*`: requests both sides already understand. None
+may fire an unknowns skill (`input_match: "unknowns:"`, `min: 0`, `max: 0`, `arm: both`).
+Five are trivial (a rename, typo fixes, a polite rewrite, an errand "plan", "quiz me" on
+trivia) and must be done directly, with no read-back. Two carry weight
+(`neg-open-weighty-code-en`, a migration going to production tonight;
+`neg-open-weighty-text-ko`, a notice to all 80 staff) and must get a 2-3-line read-back
+of the request, the assumptions and what counts as done, then wait for confirmation,
+with no method run.
 
 **4 negative cases** — the collisions the trigger matrix admits are unresolved:
 

@@ -5,12 +5,14 @@ description: >
   do not know and will object to, answer each point with evidence, state the limitations,
   and name who signs off. Any approval: a director signing a policy, a funder, a client,
   a committee, a code reviewer. Use when the user says "buy-in doc", "prep me for review",
-  "get sign-off", or before requesting review, approval or merge. Self-evident requests are done directly.
+  "get sign-off", or before requesting review, approval or merge. Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Buy-in — The Buy-In Doc
 
-This skill serves what the user does not know and you do, and surfaces the approvers' gaps. A self-evident request, where both of you already know what to do, is done directly, without this method.
+This skill serves what the user does not know and you do, and surfaces the approvers' gaps.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 The work is done, but the approvers have not seen what the user has, and the user does not yet know how they will react. Approval turns on what the approvers do not know, so the doc finds those unknowns and answers them with evidence before the meeting, not in it.
 
