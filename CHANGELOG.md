@@ -6,7 +6,7 @@
 
 - blindspot: a risk the AI already sees is a finding, not one of its own assumptions, and waits for the user's answer or skip like every other finding (Korean trigger runs had put the core risk into the AI's ⑤ list); "context sources" and "kinds" each keep one name.
 - brainstorm: step 4 gives the reason the picks come first: they show the user's priorities, which the AI does not know yet, so a recommendation added after the list makes the pick for them.
-- interview: each question is tagged with its radius (structure, harm, compatibility, cost or taste) so the user can check the order; a further round is proposed only for items the user has neither decided nor left undecided.
+- interview: each question is tagged with its radius (structure, harm, compatibility, cost or taste) so the user can check the order; a further round is proposed only for open items (neither decided nor left undecided by the user), and the why follow-ups make up a round of their own when no open items remain.
 - brainstorm: the Output layout says "candidates" ("cards" are the scout's blindspot cards) and step 5 starts "once the user names the picks".
 - quiz: the teach-back is graded against "the 2–3 points in the key file from step 1c".
 - brainstorm, interview, quiz: "the model" becomes "you" in three body sentences, as everywhere else in the bodies.
