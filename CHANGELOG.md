@@ -2,6 +2,28 @@
 
 ## [Unreleased]
 
+### Changed — compacted to the method
+
+Every skill and agent now keeps only the text that makes the model surface or resolve the user's unknowns. Skill and agent source text is 44% smaller than in 0.10.0 (19,054 → 10,647 cl100k tokens), and the installed payload's text 66% smaller now that no references are vendored. Skill descriptions are unchanged; two agent descriptions change, as noted below.
+
+- All skills: the shared reference files (host surfaces, output routing, scorecard) are gone, and each skill folder is self-contained. The repeated Markdown-delivery sentence, question-tool fallbacks, no-file-system branches and read-only contracts are removed. A skill that needs a tool says once: "Without a tool, do the step in the conversation and say what could not be checked." Reaction lines end with "a missing pick is undecided."
+- loop: a short sequence card. Done criteria in one exchange; before the build blindspot (teach-me first when the terms are missing), interview, brainstorm/prototypes/reference as needed, a minimal probe of the riskiest assumption, and plan; during the build notes; after it quiz, plus buy-in when others must approve. The first reply still names the stages and states the done criteria. Tiers, the `.unknowns/loop.json` tracker, `status`/`resume`, stage checkpoints, the value review, the scorecard and the reviewer stage are removed.
+- blindspot: marks each finding that none of the user's three lists mentioned as "new to you". The lists are restated in the reply; the loop baseline and scorecard lines are removed. The pass ends at the improved prompt, without a closing offer.
+- teach-me: the Limits section and closing offer are removed; the hand-off to interview when revisions stop converging stays in Related.
+- interview: the Iron Rules (covered by the steps) and the closing offer are removed. The implementation prompt says "Log deviations from the plan in IMPLEMENTATION_NOTES.md." instead of the stop-and-ask clause.
+- prototypes: ends at the confirmed requirements list; the implementation step and deviation clause are removed. The method's history is cut and its reasons kept.
+- brainstorm: the impact × effort table and the execution prompts are removed; it ends at the assembled selection.
+- reference: ends at sign-off; the application plan ports the reference's existing tests first. The implementation step is removed.
+- plan: done criteria are one line at the top, with "not set" for any part the context does not give. Each decision item carries its verification and what breaks if it is wrong; mechanical items carry their verification. The size gate is one sentence with the same reply (the done-criteria line and the steps in execution order). The implementation step and the reviewer-packet sentence are removed.
+- notes: picks the conservative option, logs it and keeps going; at wrap-up, entries touching architecture, user-visible behavior, data or security are listed first. The entry format, inferred alternatives, the Discovery line, the logging criteria and the fold-back block stay. The location table, `init`/`show`, the CLAUDE.md rule offer, Todo-for-human entries, the plan-revision escalation and stop-and-ask are removed.
+- quiz: ends at the score. 6/6 passes and suggests buy-in when reviewers must approve; below 6/6 stays "not yet" with sections to re-read and a retry. The cleared-to-merge checklist, the handoff summary and PR body, and the scorecard are removed.
+- buy-in: leads with what the change does (a demo when available), answers objections with followable evidence checked by independent-reviewer, moves unsupported answers to limitations, pulls limitations from the log, and names who signs off and what each will check. The quiz prerequisite, spec table, rollback paragraph and sign-off checklist are removed.
+- unknowns-scout: no tool list, bans or identity line; it reads git history itself. Its description drops "Read-only" (routing not re-measured).
+- independent-reviewer: no tool list, identity line, read-only contract or general bug and security pass; it points to `/code-review` and `/security-review` for those. Deviations are judged by whether the conservative option was chosen and risky ones were listed first. Its description names buy-in as its only calling skill (routing not re-measured).
+- Not measured with a model beyond a one-run smoke of five cases; routing for the two changed agent descriptions is not re-measured.
+
+The entries below were written before this compaction. Those about the loop tracker, tiers and stage checkpoints, the scorecard, notes `init`, brainstorm's impact × effort table, blindspot's loop baseline, buy-in's demo read target, the quiz wrap-up, and the reviewer's temporary directory, read tools and permission note describe text that no longer ships.
+
 ### Changed
 
 - plan: below the size gate, the reply is the one-line done criteria plus the implementation steps in execution order; the Iron Rules, steps 4–8 and the Output section of the full document no longer apply there.

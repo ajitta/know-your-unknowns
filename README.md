@@ -18,9 +18,8 @@ What that buys you, concretely:
 > **Measurement status: unmeasured.** The value contract
 > ([`docs/value-contract.md`](docs/value-contract.md)) holds that this plugin earns its
 > place only when it surfaces something you did not already know **and** that changes a
-> decision. Its metric needs a 10-row rolling window; the scorecard has 2 rows
-> (2026-07-11, 2026-09-20), and the gap between them tripped the contract's own 60-day
-> boundary. So the three claims above are design intent, not measured outcomes.
+> decision. The plugin ships no in-session measurement of that, so the three claims above
+> are design intent, not measured outcomes.
 
 It packages the methodology of Thariq Shihipar (Anthropic, Claude Code team). Two sources
 are the origin: the talk **"Field Guide to Fable"** (AI Engineer World's Fair 2026
@@ -47,8 +46,8 @@ Then start a new session (or run `/reload-plugins`) and check it loaded:
 /unknowns:blindspot test
 ```
 
-If the skill answers with the "do not implement yet" principle and an investigation
-procedure, you are set. From there:
+If the skill answers with an investigation procedure that ends at an improved prompt,
+you are set. From there:
 
 - Big or unfamiliar task → `/unknowns:loop <task description>` is all you need; Claude
   drives the rest stage by stage.
@@ -76,7 +75,7 @@ Covering the original 11 examples — prototypes covers two, loop orchestrates.
 | Before | `reference` | Reference analysis + proof of understanding | Point at a Reference |
 | Before | `plan` | Plan ordered by likelihood-of-change | The Tweakable Plan |
 | During | `notes` | Record deviations from the plan | Implementation Notes |
-| After | `quiz` | Comprehension quiz + handoff | Quiz Me Before I Merge |
+| After | `quiz` | Comprehension quiz | Quiz Me Before I Merge |
 | After | `buy-in` | Reviewer persuasion doc | The Buy-In Doc |
 | All | `loop` | The operating loop that threads all of the above | — |
 
@@ -124,7 +123,7 @@ Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin wi
    ```
 
 2. Ask with a scoped skill name, for example `$unknowns:plan`, followed by the task.
-3. Check the procedure and tool fallbacks; this route is expected and not yet checked by the owner.
+3. Check the procedure; this route is expected and not yet checked by the owner.
 
 ### ChatGPT desktop (with Codex) and mobile
 
@@ -141,10 +140,10 @@ Behavior on these two routes is **not yet checked by the owner for this plugin**
 
 ### What works where
 
-- All eleven skills deliver Markdown in the conversation, with numbered reactions and an assembled reply. Missing question, file, search, or execution tools have explicit fallbacks.
-- The two named agents run only in Claude Code. Elsewhere the assistant performs the scout pass itself; for independent verification it gives you the same packet to paste into a new conversation, whose review stands in for the agent. That stage stays pending until the review returns.
+- All eleven skills deliver Markdown in the conversation, with numbered reactions and an assembled reply. Where a step needs a tool the host lacks, the skill does the step in the conversation and says what could not be checked.
+- The two named agents run only in Claude Code. Elsewhere the assistant does the scout's investigation itself, and buy-in's independent evidence check is not available.
 - The installed package has no hooks or scripts on any surface. A runnable prototype requested during a task can still be code written to files when the host supports it.
-- Trackers, scorecards, and deviation logs use files when available; otherwise the assistant prints the complete record in Markdown and says what the user should save.
+- The deviation log is `IMPLEMENTATION_NOTES.md` when files are available; otherwise the record stays in the conversation.
 
 ### Run straight from a clone
 
@@ -159,7 +158,7 @@ The committed generated output is ready to load. After editing source files, reg
 
 ### Copy individual skills
 
-Copy complete folders from `plugins/unknowns/skills/<name>/`, including their `references/` and `agents/openai.yaml`. Source folders in `skills/` may still depend on shared loop references that the build vendors.
+Copy complete folders from `plugins/unknowns/skills/<name>/`, including their `agents/openai.yaml`. Each skill folder is self-contained.
 
 For a Claude Code `.claude/skills/` copy with bare agent names, run:
 
@@ -220,26 +219,14 @@ Auto-trigger phrases: "unknowns loop", "run the operating loop", "know your unkn
 A bare `/loop` is Claude Code's built-in interval runner, not this skill — always type
 `/unknowns:loop`. The same goes for a bare "loop" or "루프 돌려줘" in prose.
 
-**How it runs**: Claude drives 10 stages in order —
-1. Define value and completion criteria (agreed with you) → 2. blindspot investigation
-(+ teach-me if needed) → 3. interview → 4. explore solutions and shape
-(brainstorm/prototypes/reference, as needed) → 5. minimally verify the riskiest
-assumptions → 6. plan ordered by likelihood-of-change (plan) → 7. implement + record
-deviations (notes) → 8. independent verification → 9. quiz + handoff (+ buy-in if
-needed) → 10. value review.
-
-**Three tiers**: a small fix (1–2 files, clear spec) needs no loop at all — only the
-notes rule from stage 7. Medium work runs stages 1 → 2 → 3 → 6 → 7 → 9. Large or
-unfamiliar work runs everything, with stages 4 and 5 only as needed. Stage 1 runs in
-every tier. Tell it the size and it picks:
-```
-/unknowns:loop This is medium-sized. Bug fix, but the root cause is unclear
-```
-
-**Staying oriented**: the loop keeps a `.unknowns/loop.json` tracker (task, tier, stage,
-decisions, artifacts) and rewrites it at every stage boundary, so it survives compaction,
-`/resume` and new sessions. `/unknowns:loop status` reports the tier, the current stage
-and what is left; `/unknowns:loop resume` picks up where it stopped. The skill reads the tracker after compaction or on resume; there is no automatic reminder. With no file system it restates the complete tracker in Markdown for you to save and supply in the next conversation.
+**How it runs**: Claude agrees the done criteria with you in one exchange and names the
+stages up front. Before the build: blindspot (teach-me first if the field's terms are new)
+→ interview → brainstorm/prototypes/reference as needed → a minimal probe that verifies
+only the riskiest technical assumption → a plan ordered by likelihood-of-change (plan).
+During the build, notes records deviations. After it, quiz, plus buy-in when reviewers or
+stakeholders must approve. A stage whose question is already answered is skipped, and
+the loop says so. For a small fix (1–2 files, clear spec) you need no loop: apply the notes
+rule while you implement.
 
 ---
 
@@ -255,8 +242,10 @@ in the "I don't know what I don't know" state.
 Auto-triggers: "blind spot pass", "what am I missing", "unknown unknowns",
 "사각지대 조사해줘", "내가 놓친 게 뭐지"
 
-**How it runs**: It investigates **without modifying any code**. For codebase-wide or
-large scopes it uses `unknowns:unknowns-scout` when the host can start that agent; otherwise it performs a labeled scout pass itself. It leads with the
+**How it runs**: It first asks what you are sure of, what you are assuming and where you
+cannot judge, then investigates, checking your assumptions first; it changes no code. For
+codebase-wide or large scopes it uses the `unknowns:unknowns-scout` agent in Claude Code.
+It marks each finding none of your three lists mentioned as **new to you**, and leads with the
 contrast — what you asked for versus what you are actually walking into, with a tally —
 then one card per finding, sorted by likelihood × blast radius and tagged by kind:
 **Landmine** (touching this breaks something non-obvious), **Convention** (an unwritten
@@ -307,11 +296,11 @@ investigation.
 Auto-triggers: "interview me", "ask me questions before implementing", "인터뷰해줘",
 "스펙 질문"
 
-**How it runs**: **At most 4** questions per round, with 2–4 options each, in a fixed priority order (architecture → data loss & security → compatibility → performance & cost → taste). It uses a question tool when available, splitting calls if the tool accepts fewer questions; otherwise it asks numbered questions in the conversation.
+**How it runs**: **At most 4** questions per round, with 2–4 options each, in a fixed priority order (architecture → data loss & security → compatibility → performance & cost → taste). A question tool that takes fewer questions gets the round split across calls.
 Each question comes with a one-line "why this matters" and each option with its
 tradeoff. At the end it presents a **decision table plus a ready-to-use implementation
-prompt** that marks skipped questions and declares the architecture and data decisions
-fixed.
+prompt** that marks skipped questions, declares the architecture and data decisions
+fixed, and asks for deviations to be logged in IMPLEMENTATION_NOTES.md.
 
 **Tip**: Want a deep interview? Say `"grill me, 40-question level"` — it repeats rounds
 while keeping the priority order.
@@ -337,12 +326,12 @@ one-line philosophy + pros/cons + when-it-fits conditions. Numbered Markdown com
 
 **How to react**: Say a combination like
 `"layout from #2 + colors from #4 + the filter from #1"` and it converts that into an
-**explicit requirements list** before starting the real implementation.
+**explicit requirements list**. The skill ends there; the build starts from that list.
 
 **Tip**: Say `"go wild"` to push the philosophies further apart. Works for code
 architecture comparisons too: `"event-driven vs polling vs push, side by side as
 skeletons"`. If the interaction itself is the contested question (toolbar placement,
-etc.), it builds a clickable mockup with A/B choice buttons when file tools are available, states that everything is fake data, and names where real wiring would go. Without file or execution tools it shows proposed code or mockup states and says what was not run.
+etc.), it builds a clickable mockup with A/B choice buttons, states that everything is fake data, and names where real wiring would go.
 
 ---
 
@@ -362,8 +351,8 @@ Auto-triggers: "brainstorm interventions", "show me options", "브레인스토�
 candidates are usually wiring up machinery that already exists, and those carry a
 `Found in code — <path>` marker. It then lays out roughly 10 candidate interventions
 along a **time axis from ship-this-afternoon to quarter-long bet**, each annotated with
-expected impact / effort size / key risks / how to measure. An impact × effort table separates quick wins from big bets, and the item numbers you mark **resonate** get assembled
-into structured next steps down to each one's first execution prompt.
+expected impact / effort size / key risks / how to measure. The item numbers you mark
+**resonate** are assembled into a copyable "proceed with these, in this order", where it stops.
 
 ---
 
@@ -383,9 +372,9 @@ Auto-triggers: "use this as a reference", "make it like this", "레퍼런스로 
 analysis — **behavior that must be preserved / parts to adapt to the current environment
 / parts that are unnecessary or dangerous / parts that can be improved**. Before implementation, it also produces a **proof of understanding (semantics map)** — numbered reference
 excerpts matched against the corresponding plan, gotcha notes, and an edge-case table
-with a Match column. Nothing is implemented until you sign off: reply `semantics
-confirmed`, or correct any row by its number. On sign-off it ports the reference's
-existing tests first, then implements.
+with a Match column. It stops for your sign-off: reply `semantics confirmed`, or correct
+any row by its number. Its application plan ports the reference's existing tests first;
+the build starts from the signed-off map.
 
 **Tip**: The reference doesn't have to be code — an HTML mockup, test code, a
 screenshot, a real example of the desired output all serve as the "map".
@@ -403,14 +392,17 @@ screenshot, a real example of the desired output all serve as the "map".
 Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
 
-**How it runs**: There is a size gate first: a planned implementation creating or modifying ≤2 files with no schema,
-interface or UX-contract decision is handed back to native plan mode instead of getting a
-document. Otherwise items are presented **in order of how likely they are to change**,
+**How it runs**: The plan opens with the done criteria in one line, saying "not set" where
+you gave none. There is a size gate: a change creating or modifying ≤2 files with no
+schema, interface or UX-contract decision gets that line and its steps in execution order
+instead of a document. Otherwise items are presented **in order of how likely they are to change**,
 not execution order. Decision items such as schemas, interfaces and UX contracts go at
-the top, each with the alternatives considered and its blast radius, and every new or
-changed public type is rendered as annotated code. Mechanical work appears after the decision items, with a summary and details. Approve/request-change selections assemble into your reply. The plan includes
-verification method, risks and rollback, flags its own weakest part, and closes with 2–3
-pre-written reply lines you can copy and send.
+the top, each with the alternatives considered, its blast radius, how it will be
+verified and what breaks if it is wrong, and every new or changed public type is rendered
+as annotated code. Mechanical work appears after the decision items, each with a summary
+and its verification. Approve/request-change selections assemble into your reply. The plan
+flags its own weakest part and closes with 2–3 pre-written reply lines you can copy and
+send.
 
 ---
 
@@ -421,31 +413,25 @@ this is close to an **always-on rule**.
 
 **Invoke**:
 ```
-/unknowns:notes init     ← create the IMPLEMENTATION_NOTES.md template in the project
-/unknowns:notes show     ← summarize the deviations recorded so far
 /unknowns:notes Implemented token refresh by hand instead of the lib — the library doesn't support PKCE
 ```
 Auto-triggers: "implementation notes", "record a deviation", "where did we diverge from
 the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?"
 
 Claude also records deviations on its own when it detects them mid-implementation.
-`init` additionally offers — never silently — to append a short deviation-log rule to
-the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context in
-every later session rather than only when the skill is invoked.
 
 **What gets recorded**: only decisions that affect design, behavior, or compatibility
 (syntax, formatting, and variable naming are excluded). A full entry captures: the
 situation found / how it deviates from the plan / the response chosen / the reason /
-alternatives discarded / risk and follow-up check. Two lighter one-line kinds share the
-same file: **Discovery** (reality differs from what the plan assumed, no decision needed
-yet) and **Todo for human** (a judgment call that is yours but blocks nothing and touches
-no architecture, user-visible behavior, data or security — anything that does escalates).
+alternatives discarded / risk and follow-up check. A lighter one-line **Discovery** shares
+the same file: reality differs from what the plan assumed, and no decision is needed yet.
 
-**Persistence**: when a file system is available, append to the notes file, creating it if it is missing; buy-in and quiz use that record. With no file system, print the complete updated log as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Before ending a turn, at stage boundaries, and before commits, check for deviations yourself.
+**Persistence**: entries are appended to IMPLEMENTATION_NOTES.md at the project root, which is created if it is missing; buy-in and quiz use that record.
 
-**Escalation**: decisions touching architecture, user-visible behavior, data, or security must be recorded and then **work stops and the question goes to you**. At
-wrap-up the skill writes a **fold back into the plan** block — three copyable bullets on
-what this changes for attempt #2 — beside any open Todo for human items.
+**Keep going, review at wrap-up**: where the plan is silent, Claude picks the conservative
+option, logs it and keeps going. At wrap-up, entries touching architecture, user-visible
+behavior, data or security are listed first for you to review, followed by a **fold back
+into the plan** block — three copyable bullets on what this changes for attempt #2.
 
 ---
 
@@ -467,10 +453,9 @@ behavior anchored with a `file:line` → 2. **6 questions, and the pass mark is 
 incident response > design rationale > behavior prediction and avoiding rote recall; if
 IMPLEMENTATION_NOTES.md exists, at least 1 question covers a recorded deviation →
 3. Grading — each wrong or blank answer names the exact change site to re-read, and you
-get a retry. Grading happens in the conversation; the teach-back key stays hidden until the answer, and lack of an advance key file is disclosed → 4. At 6/6 a **cleared to merge** checklist (quiz passed 6/6, CI
-green, migration/rollout reviewed, merge style, what to watch after deploy); below 6/6 it
-stays "not yet" and lists the sections to re-read. It closes with a handoff summary
-written as if another developer takes over tomorrow, convertible into a PR body draft.
+get a retry. Grading happens in the conversation; the teach-back key stays hidden until the
+answer → 4. 6/6 passes, and buy-in is suggested when reviewers must approve; below 6/6 it
+stays "not yet" and lists the sections to re-read.
 
 ---
 
@@ -485,13 +470,13 @@ reviewers or stakeholders.
 ```
 Auto-triggers: "buy-in doc", "prep me for review", "설득 문서 만들어줘", "리뷰 준비"
 
-**How it runs**: Demo first, at the very top, targeting a 90-second read → preemptive
+**How it runs**: What the change does, led by a working demo when one exists → preemptive
 answers to roughly 5 anticipated reviewer objections, each backed by a reference the
 reviewer can follow (spec §, IMPLEMENTATION_NOTES.md entry date, metric, test run,
-`file:line`) — an answer with no evidence gets moved to limitations instead → a spec-at-a-
-glance table → known limitations and unresolved unknowns, pulled from
-IMPLEMENTATION_NOTES.md → the people and teams whose sign-off is needed and what each
-must check → a rollback plan. Where quiz verifies your own understanding, buy-in prepares
+`file:line`) and checked by the independent-reviewer agent in Claude Code — an answer with
+no evidence gets moved to limitations instead → known limitations and unresolved unknowns,
+pulled from IMPLEMENTATION_NOTES.md → the people and teams whose sign-off is needed and
+what each will check. Where quiz verifies your own understanding, buy-in prepares
 other people's trust.
 
 ---
@@ -504,9 +489,9 @@ address them by their plugin-scoped id — `unknowns:unknowns-scout` and
 `@agent-unknowns:unknowns-scout` mention form both expect. A bare `unknowns-scout` is
 rejected as `subagent_type`.
 
-The named agents run only in Claude Code. An agent's **effective** toolset is its declared list narrowed to what the host session exposes. The scout has Read, Grep, Glob, WebFetch, and WebSearch, with no Bash or write tools. It reads available history records and hands questions needing command execution back to the caller. Other hosts use the labeled scout pass; independent verification hands the packet to you for a new conversation and waits for its review.
+The named agents run only in Claude Code. Both declare no tool list, so they inherit every tool your session allows, and their prompts carry no read-only rules. If you want them confined, use your own permission settings or sandbox.
 
-**unknowns-scout** (read-only reconnaissance):
+**unknowns-scout** (reconnaissance):
 ```
 Use the unknowns-scout agent — investigate what I'm missing in the migration plan
 Scout the auth module with the unknowns-scout agent
@@ -514,11 +499,11 @@ Scout the auth module with the unknowns-scout agent
 The blindspot skill also calls this agent automatically for large investigations, and the
 brainstorm skill may use it to inventory existing code. Otherwise it runs only when you
 name it: other workflows asking for an exploring or research subagent get their own
-agent, Explore or a general agent. It maps the target area, reads available history records for hairy dead ends and reverted commits, and checks
-test coverage and unwritten conventions. For an unfamiliar library it also reads the
-official docs and changelog for the *installed* version, which is why it holds WebFetch
-and WebSearch alongside the read tools. It returns an investigation table sorted by
-likelihood × blast radius plus an improved prompt draft. Its tool list permits only reading and searching; the prompt also forbids file changes and invented findings.
+agent, Explore or a general agent. It maps the target area, reads git history for hairy
+dead ends and reverted commits, and checks test coverage and unwritten conventions. For an
+unfamiliar library it also reads the official docs and changelog for the *installed*
+version. It returns an investigation table sorted by likelihood × blast radius plus an
+improved prompt draft, reports only what it found, and lists what still needs checking.
 
 **independent-reviewer** (independent verification):
 ```
@@ -535,8 +520,8 @@ from not reviewed — and **checks by claim type**: a factual claim is checked a
 source, a reasoning claim for its premises and a counterexample. With no done criteria in
 its packet it reports conformance as not judgeable instead of guessing, and it ends with
 what it could not verify. General bug and security hunting belongs to `/code-review` and
-`/security-review` on the same diff; run those alongside. The
-agent also always covers error handling, security, performance and needless complexity itself as a secondary pass. It keeps Bash for tests, lint, and builds, with no edits, commits, dependency installs, or writes outside a temporary directory. This read-only contract is prose only: no hook or permission mode enforces it. Stage 8 of the loop skill calls it automatically. Otherwise it runs only
+`/security-review` on the same diff; run those alongside. The buy-in skill calls it to
+check the evidence behind its objection answers. Otherwise it runs only
 when you name it: an unnamed "independent review" goes to your other review tools or a
 general agent instead.
 
@@ -561,8 +546,8 @@ No loop needed. Just implement; apply the notes rule and record significant devi
 ```
 /unknowns:loop Add real-time collaborative editing. First time using CRDTs
 ```
-All 10 stages — Claude walks you through investigation, interview, plan, independent
-verification, all the way to buy-in.
+Claude walks you through investigation, interview, a probe of the riskiest assumption,
+plan, deviation notes and the quiz, and buy-in when approval is needed.
 
 **Scenario D — non-coding** (design, documents, new fields):
 ```
@@ -616,8 +601,7 @@ the source" from "extended during authoring".
 ## Repository layout
 
 ```
-skills/<name>/                 source: SKILL.md, references/, agents/openai.yaml
-skills/loop/references/         shared references, vendored transitively by the build
+skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
 plugin-manifest.json           source manifest, currently 0.10.0
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
