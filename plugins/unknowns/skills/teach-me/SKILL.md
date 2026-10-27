@@ -48,7 +48,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step in a short explainer too. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 7. Close with the payoff.
 
-   a. Ask which numbered terms, comparisons and presets to **include in the request** and which settings to change.
+   a. End the reply by asking which numbered terms, comparisons and presets to **include in the request** and which settings to change; the draft waits for the answers.
 
    b. From the answers, write the **precise-request draft**: the user's original request rewritten in the new vocabulary with the picks applied. Mark every detail the user did not give (their taste, their numbers, their situation) as an assumption to confirm, so the draft does not decide for them. The draft is the precise request the work starts from.
 
