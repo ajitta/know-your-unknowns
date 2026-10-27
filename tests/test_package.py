@@ -43,28 +43,12 @@ class PackageTest(unittest.TestCase):
                 extra[skill.name] = sorted(set(fields) - pkg.ALLOWED_KEYS)
         self.assertEqual(extra, {})
 
-    def test_vendored_shared_files_are_identical(self):
-        # Check every copy independently of the build's vendored_paths selection.
-        shared = list((ROOT / "skills" / "loop" / "references").glob("*.md"))
-        copies = 0
+    def test_generated_skills_copy_their_source_folders(self):
+        # No shared references are vendored: each generated skill is its source folder.
         for skill in self.skills:
-            body = (skill / "SKILL.md").read_text(encoding="utf-8")
-            target = ROOT / "plugins" / "unknowns" / "skills" / skill.name
-            for source in shared:
-                rel = source.relative_to(ROOT / "skills" / "loop")
-                dest = target / rel
-                if rel.as_posix() in body:
-                    self.assertTrue(dest.is_file(), dest)
-                if dest.is_file():
-                    copies += 1
-                    self.assertEqual(dest.read_bytes(), source.read_bytes(), dest)
-            if (target / "references" / "output-routing.md").exists():
-                self.assertTrue((target / "references/surfaces.md").is_file(), skill.name)
-            if (target / "references" / "scorecard.md").exists():
-                self.assertTrue((target / "references" / "surfaces.md").is_file())
-        self.assertGreater(copies, len(shared))
-        # A skill with no shared references remains small.
-        self.assertFalse((ROOT / "plugins/unknowns/skills/interview/assets").exists())
+            own = pkg.source_files(skill)
+            prefix = "skills/" + skill.name + "/"
+            self.assertEqual(own, {k[len(prefix):]: v for k, v in self.files.items() if k.startswith(prefix)})
 
     def test_source_and_generated_skill_bodies_are_identical(self):
         for skill in self.skills:
@@ -89,8 +73,24 @@ class PackageTest(unittest.TestCase):
                 files = {name.split("/", 1)[1]: archive.read(name) for name in archive.namelist()}
                 self.assertEqual(pkg.shipped_violations(files), [], filename)
         for rel in ("hooks/hooks.json", "skills/plan/scripts/run.md", "skills/plan/assets/icon.svg",
-                    "skills/plan/run.py", "run.sh", "page.js", "main.ts", "image.png"):
+                    "skills/plan/run.py", "run.sh", "page.js", "main.ts", "image.png",
+                    "skills/plan/icon.png", ".claude-plugin/logo.png"):
             self.assertTrue(pkg.shipped_violations({rel: b"example"}), rel)
+        self.assertEqual(pkg.shipped_violations({pkg.CLAUDE_ICON_PATH: b"example"}), [])
+
+    def test_claude_listing_icon(self):
+        data = self.files[pkg.CLAUDE_ICON_PATH]
+        self.assertEqual(data, pkg.CLAUDE_ICON.read_bytes())
+        self.assertEqual(pkg.validate_png_icon(data), [])
+        header = b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\x0dIHDR"
+        size = lambda w, h: header + w.to_bytes(4, "big") + h.to_bytes(4, "big")
+        self.assertTrue(pkg.validate_png_icon(size(512, 256)))
+        self.assertTrue(pkg.validate_png_icon(size(256, 256)))
+        self.assertTrue(pkg.validate_png_icon(size(4096, 4096)))
+        self.assertTrue(pkg.validate_png_icon(b"<svg/>"))
+        self.assertEqual(pkg.validate_png_icon(size(1024, 1024)), [])
+        with zipfile.ZipFile(ROOT / "releases" / pkg.OPENAI_ZIP_NAME) as archive:
+            self.assertNotIn("unknowns/" + pkg.CLAUDE_ICON_PATH, archive.namelist())
 
     def test_openai_interfaces(self):
         for skill in self.skills:
@@ -105,7 +105,8 @@ class PackageTest(unittest.TestCase):
 
     def test_generated_files_use_lf(self):
         for name, data in self.files.items():
-            self.assertNotIn(b"\r", data, name)
+            if name != pkg.CLAUDE_ICON_PATH:
+                self.assertNotIn(b"\r", data, name)
 
     def test_zips_reproducible_and_versioned(self):
         version = json.loads(pkg.MANIFEST.read_text(encoding="utf-8"))["version"]
@@ -234,7 +235,7 @@ class PackageTest(unittest.TestCase):
         changed = dict(self.files)
         changed[resource] = b"Read `guide.md`, `docs/guide.md` and `../SKILL.md`.\n"
         changed[resource] += b"Also read `docs/guide file$.md`.\n"
-        changed[resource] += b"Use `.unknowns/loop.json`, `IMPLEMENTATION_NOTES.md`, `CHANGELOG.md`, `CLAUDE.md`, `.claude/rules/unknowns.md` and `.gitignore` for project records.\n"
+        changed[resource] += b"Use `.unknowns/2026-01-01-quiz-x-key.md`, `IMPLEMENTATION_NOTES.md`, `CHANGELOG.md`, `CLAUDE.md`, `.claude/rules/unknowns.md` and `.gitignore` for project records.\n"
         changed["skills/plan/references/guide.md"] = b"Guide.\n"
         changed["skills/plan/docs/guide.md"] = b"Guide.\n"
         changed["skills/plan/docs/guide file$.md"] = b"Guide.\n"

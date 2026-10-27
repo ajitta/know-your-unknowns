@@ -1,5 +1,17 @@
 # Implementation Notes — plan deviation log
 
+## [2026-10-27] Compact the plugin to its method
+
+**Observed**
+- **Situation found**: the approved compaction removes guard prose, the scorecard, the loop tracker and tiers, host fallbacks and the shared reference files, and ends the discovery skills at their deliverables.
+- **Deviation from plan**: (1) the two agent descriptions changed: unknowns-scout drops "Read-only" and independent-reviewer names buy-in as its only calling skill, because both claims became false; the routing guard phrases are unchanged. (2) prototypes' implementation step and deviation clause were removed together with its boilerplate in the shared-layer commit, not in the later per-skill commit. (3) interview gained no reaction line: its rounds already are the reaction, and "unanswered stays unanswered" covers a missing pick. (4) docs/value-contract.md gained a status note, since the scorecard, value review and teach-me Limits it cites no longer ship.
+- **Response chosen**: keep every skill description and trigger phrase; rewrite tests to check packaging, self-contained skill folders, the shared missing-tool line, agents without tool lists, the reviewer packet fields and the quiz gate; edit the plan done-criteria and quiz gate graders to judge by function.
+
+**Attributed**
+- **Reason for choice**: a description that says "Read-only" or names a removed caller misleads routing and readers more than a two-word edit risks.
+- **Alternatives considered**: keep both agent descriptions verbatim *(inferred, not stated)* — avoids a routing re-measure but ships false claims; add a reaction line to interview *(inferred, not stated)* — costs tokens for a reaction its rounds already give.
+- **Risk/follow-up check**: routing for both agents (docs/features/agent-collision/) and every behaviour case need a measured batch; this round ran only a one-run smoke of five cases.
+
 ## [2026-10-27] Writing-for-models Claude-checked round — Phase WC
 
 **Observed**

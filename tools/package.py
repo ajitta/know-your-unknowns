@@ -25,6 +25,8 @@ DIST = ROOT / "releases"
 PACKAGING = ROOT / "packaging"
 PLUGIN_README = PACKAGING / "plugin-README.md"
 OPENAI_DIR = PACKAGING / "openai"
+CLAUDE_ICON = PACKAGING / "icon.png"
+CLAUDE_ICON_PATH = ".claude-plugin/icon.png"
 MANIFEST = ROOT / "plugin-manifest.json"
 MARKETPLACE = ROOT / ".claude-plugin" / "marketplace.json"
 RELEASE = ROOT / "plugin-release.json"
@@ -128,49 +130,17 @@ def source_files(folder):
     }
 
 
-def sibling_refs(text):
-    known = {p.stem for p in (SKILLS / "loop" / "references").glob("*.md")}
-    return set(re.findall(r"(?<![\w/.-])([a-z][a-z-]*)\.md\b", text)) & known
-
-
-def ref_closure(start):
-    seen, queue = set(), sorted(start)
-    while queue:
-        name = queue.pop()
-        if name in seen:
-            continue
-        seen.add(name)
-        source = SKILLS / "loop" / "references" / (name + ".md")
-        if not source.is_file():
-            raise ValueError("missing shared reference: " + name)
-        queue.extend(sorted(sibling_refs(source.read_text(encoding="utf-8")) - seen))
-    return seen
-
-
-def vendored_paths(body):
-    refs = set(re.findall(r"(?<![\w/.-])references/([a-z-]+)\.md\b", body))
-    shared = {p.stem for p in (SKILLS / "loop" / "references").glob("*.md")}
-    refs = ref_closure(refs & shared)
-    return {"references/" + name + ".md" for name in refs}
-
-
 def plugin_files(skills):
     files = {
         ".claude-plugin/plugin.json": _normalized(MANIFEST),
         "README.md": _normalized(PLUGIN_README),
         "LICENSE": _normalized(ROOT / "LICENSE"),
         "NOTICE": _normalized(ROOT / "NOTICE"),
+        CLAUDE_ICON_PATH: CLAUDE_ICON.read_bytes(),  # binary: no line-ending normalization
     }
     for skill in skills:
         prefix = "skills/" + skill.name + "/"
-        own = source_files(skill)
-        body = frontmatter(own["SKILL.md"].decode("utf-8"))[2]
-        for rel in sorted(vendored_paths(body)):
-            data = _normalized(SKILLS / "loop" / rel)
-            if rel in own and own[rel] != data:
-                raise ValueError(skill.name + ": source conflicts with shared " + rel)
-            own[rel] = data
-        files.update({prefix + rel: data for rel, data in own.items()})
+        files.update({prefix + rel: data for rel, data in source_files(skill).items()})
     files.update({"agents/" + rel: data
                   for rel, data in source_files(ROOT / "claude-code" / "agents").items()})
     return files
@@ -264,18 +234,34 @@ def collect_errors(skills, files):
     if len(re.sub(r"```.*?```", "", files["README.md"].decode("utf-8"), flags=re.S).split()) < README_MIN_WORDS:
         errors.append("packaging/plugin-README.md needs at least 40 words")
     errors.extend(validate_openai_interface(*openai_parts()))
+    errors.extend("packaging/icon.png: " + x for x in validate_png_icon(files[CLAUDE_ICON_PATH]))
     errors.extend(shipped_violations(files))
     errors.extend(shipped_violations(openai_files(files)))
     return errors
 
 
+def validate_png_icon(data: bytes) -> list[str]:
+    """The Claude plugin directory's listing icon: a square PNG, 512 to 2,048 px, under 2 MB."""
+    if data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
+        return ["must be a PNG file"]
+    width, height = int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+    e = []
+    if width != height or not 512 <= width <= 2048:
+        e.append(f"must be square, 512 to 2,048 px on each side (found {width}x{height})")
+    if len(data) >= 2 * 1024 * 1024:
+        e.append("must be under 2 MB")
+    return e
+
+
 def shipped_violations(files):
-    """Only instructions, manifests, listing SVGs and license notices are shipped."""
+    """Only instructions, manifests, listing images and license notices are shipped."""
     errors = []
     for rel in files:
         parts = Path(rel).parts
-        if rel not in ("LICENSE", "NOTICE") and Path(rel).suffix not in SHIPPED_SUFFIXES:
-            errors.append(rel + ": only Markdown, YAML, JSON and listing SVG assets may ship")
+        if rel in ("LICENSE", "NOTICE", CLAUDE_ICON_PATH):
+            pass
+        elif Path(rel).suffix not in SHIPPED_SUFFIXES:
+            errors.append(rel + ": only Markdown, YAML, JSON and listing image assets may ship")
         if "hooks" in parts or "scripts" in parts or (parts[0] == "skills" and "assets" in parts):
             errors.append(rel + ": hooks, scripts and skill assets must not ship")
         if Path(rel).suffix == ".svg" and not rel.startswith("assets/"):

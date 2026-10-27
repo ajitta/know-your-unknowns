@@ -2,6 +2,91 @@
 
 ## [Unreleased]
 
+## 0.11.0 — 2026-10-27
+
+**Breaking:** the plugin is compacted to its method. The loop tracker (`.unknowns/loop.json`, `status`/`resume`, tiers), the scorecard (`.unknowns/scorecard.md` and its end-of-session questions), notes `init`/`show`, the reviewer stage of loop, and the per-host fallback branches are gone. Skills and agents carry no guard prose, tool allow-lists or identity lines; both agents inherit every tool. Installed text is about a third of 0.10.0's.
+
+### Changed — compacted to the method
+
+Every skill and agent now keeps only the text that makes the model surface or resolve the user's unknowns. Skill and agent source text is 43% smaller than in 0.10.0 (19,054 → 10,796 cl100k tokens), and the installed payload's text 65% smaller now that no references are vendored. Skill descriptions are unchanged; two agent descriptions change, as noted below.
+
+- All skills: the shared reference files (host surfaces, output routing, scorecard) are gone, and each skill folder is self-contained. The repeated Markdown-delivery sentence, question-tool fallbacks, no-file-system branches and read-only contracts are removed. A skill that needs a tool says once: "Without a tool, do the step in the conversation and say what could not be checked." Reaction lines end with "a missing pick is undecided."
+- loop: a short sequence card. Done criteria in one exchange; before the build blindspot (teach-me first when the terms are missing), interview, brainstorm/prototypes/reference as needed, a minimal probe of the riskiest assumption, and plan; during the build notes; after it a check of the result against each done criterion with evidence, then quiz, plus buy-in when others must approve. The interview stage runs whenever the requirements leave decisions open, not only architecture decisions. The first reply still names the stages and states the done criteria. Tiers, the `.unknowns/loop.json` tracker, `status`/`resume`, stage checkpoints, the value review, the scorecard and the reviewer stage are removed.
+- blindspot: marks each finding that none of the user's three lists mentioned as "new to you". The lists are restated in the reply, or the reply says the user skipped them; the loop baseline and scorecard lines are removed. The pass ends at the improved prompt, without a closing offer.
+- teach-me: the Limits section and closing offer are removed, and so is a leftover "without inventing an image" clause; the hand-off to interview when revisions stop converging stays in Related.
+- interview: the Iron Rules (covered by the steps) and the closing offer are removed. The implementation prompt declares the architecture and data decisions fixed and says that where the plan leaves a choice open or the code conflicts with a fixed decision, the implementer picks the conservative option and logs the deviation in IMPLEMENTATION_NOTES.md, instead of flagging conflicts before writing code.
+- prototypes: ends at the confirmed requirements list; the implementation step and deviation clause are removed. The method's history is cut and its reasons kept.
+- brainstorm: the impact × effort table and the execution prompts are removed; it ends at the assembled selection.
+- reference: ends at sign-off; the application plan ports the reference's existing tests first. The implementation step is removed.
+- plan: done criteria are one line at the top, with "not set" for any part the context does not give, asked for in the same reply. Each decision item carries its verification and what breaks if it is wrong; mechanical items carry their verification. The size gate is one sentence: it says the change suits native plan mode and replies with the done-criteria line, its questions, and the steps in execution order. The implementation step and the reviewer-packet sentence are removed.
+- notes: picks the conservative option, logs it and keeps going; the check before a commit or hand-back appends what it finds, and a plan decision a deviation invalidates is marked superseded in the plan; at wrap-up, entries touching architecture, user-visible behavior, data or security are listed first. The entry format, inferred alternatives, the Discovery line, the logging criteria and the fold-back block stay. The location table, `init`/`show`, the CLAUDE.md rule offer, Todo-for-human entries, the plan-revision escalation and stop-and-ask are removed.
+- quiz: ends at the score. 6/6 passes and suggests buy-in when reviewers must approve; below 6/6 stays "not yet" with sections to re-read and a retry. The cleared-to-merge checklist, the handoff summary and PR body, and the scorecard are removed.
+- buy-in: leads with the working demo (when none exists, it says so and lists that as a limitation), answers objections with followable evidence checked by independent-reviewer, moves answers without evidence, or whose evidence the reviewer could not confirm, to limitations, pulls limitations from the log, and names who signs off and what each will check. The quiz prerequisite, spec table, rollback paragraph and sign-off checklist are removed.
+- unknowns-scout: no tool list, bans or identity line; it reads git history itself. Its description drops "Read-only".
+- independent-reviewer: no tool list, identity line, read-only contract or general bug and security pass. Deviations are judged by whether the conservative option was chosen, and the reviewer lists risky ones first for the user. Its description names buy-in as its only calling skill.
+
+### Changed — fixes from the compacted plugin's own runs
+
+- blindspot: the scout is chosen by the task's scope, not the repo's size: a task that spans the codebase or many modules uses the `unknowns:unknowns-scout` agent even in a small repo. The improved prompt draft is presented as the prompt to paste next; the user's prompt-fix picks edit it. The opening reply is the three-list question alone; every finding, the most urgent included, follows the answer or a skip. The two Iron Rules are merged into one.
+- plan: every decision item, the last as fully as the first, carries the five labeled lines (chosen option, alternatives and why rejected, scope affected, verification, what breaks if wrong), and each annotated-code note names the alternative it beat.
+- interview: the "why" follow-up is asked open, with its why-it-matters line and no options, so the reason is the user's own. A request for a fact (a repo path, the stack) counts toward the round's four questions.
+- prototypes: the user scores every option on the triad's construct; the model does not pre-fill scores for the user to confirm. The model asks the user to confirm the assembled requirements list.
+- quiz: when the correct option carries a cause, a consequence or a remedy, each distractor carries one too. The Output table is folded into step 1a.
+- Sentences the method does not need are cut: buy-in's quiz contrast line, reference's slogan line, interview's purpose line after the prompt, and the reviewer's pointer to `/code-review` and `/security-review`. The cuts (−192 tokens) roughly pay for the fixes (+202): skill and agent source text is 10,806 cl100k tokens, from 10,796. Skill and agent descriptions are unchanged.
+- Evals: the interview grader checks that conflicts with fixed decisions are logged as deviations (the current contract), not flagged before code; the single-turn blindspot trigger graders accept the opening three-list question with no finding beside it, which the multi-turn case requires.
+
+The entries below were made earlier in this cycle, before the compaction. Those about the loop tracker, tiers and stage checkpoints, the scorecard, notes `init`, brainstorm's impact × effort table, blindspot's loop baseline, buy-in's demo read target, the quiz wrap-up, and the reviewer's temporary directory, read tools and permission note describe text that no longer ships.
+
+### Changed
+
+- plan: below the size gate, the reply is the one-line done criteria plus the implementation steps in execution order; the Iron Rules, steps 4–8 and the Output section of the full document no longer apply there.
+- prototypes: the first reply says the option set can grow, and how (step 5c), instead of presenting the fixed number of options as sufficient.
+- loop: the first reply lists the tier's steps by their headings in run order and marks the current one, so "skip ahead" at a stage checkpoint is visible.
+- notes: when the context does not name the alternatives weighed, the entry names plausible ones, marked as inferred, instead of "not recorded".
+- Wording fixes from a per-file writing-for-models review (one name per concept, condition before action, pointer fixes); no step or rule changes.
+- interview: a further decision tucked under a question or into one of its options counts toward the round's four questions; when the user has not said what they are sure of and assuming, a list of what is still open no longer stands in for asking it first; a question asked but not answered is marked unanswered and its options and reasons stay out of the fixed decisions; when nothing else is undecided, the "why" follow-ups make up the next round on their own.
+- quiz: options are formatted alike with no mark on the correct one, and every option of a question has similar length and detail; a retry is a new question on each missed part, graded the same way, and a retry that gets every missed part right brings the score to 6/6; the wrap-up runs in the reply that closes the quiz (at 6/6, or when the user declines the retry), not after a grading reply that leaves a retry open.
+- prototypes: the triad is no longer read as stall-only: it runs before the saturation call even when reactions keep coming, and earlier if they stall.
+- notes: `init` creates the log only when it is missing; an existing log is left unchanged.
+- brainstorm: when the problem statement is still vague after the one follow-up, or the user skips it, the candidates are generated anyway with the assumed metric and constraints stated above them; the cards keep time-axis order and the impact × effort comparison is a table after them.
+- blindspot: the pre-investigation lists are recorded as the loop baseline only when blindspot runs as a loop stage, and only then is the user without a file system told to save them as that baseline; otherwise the lists are restated in the reply.
+- buy-in: the 90-second read target applies to the demo section.
+- teach-me: before/after comparisons are made per decision axis (the same subject at two contrasting settings), and the user picks from numbered terms.
+- loop (scorecard): the offer to add `.unknowns/` to `.gitignore` is made only when it is not already listed.
+- unknowns-scout: a caller-requested return shape keeps the **Needs checking** list.
+- independent-reviewer: marks each done criterion met, partial or missing, and its report opens with a conformance-and-deviations section (each criterion, or "conformance not judgeable", a verdict per recorded deviation, and unplanned decisions no log entry records), followed by a claim-checks section for the packet's claims. The task message is defined as the caller's packet, and a missing packet field is listed as not verified. Files are read with Read, Grep and Glob; "temporary directory" means `$TMPDIR`, or `/tmp` when it is unset; "a passing test does not confirm a claim" replaces an ambiguous sentence. Not measured with a model (no eval case); two hand-run sessions on a planted missed criterion, before the claim-checks and packet edits, caught it both times and left the repository unchanged.
+- loop and the shared reviewer reference: say that the reviewer agent can run tests only when the calling session allows those commands, otherwise it reviews by reading and lists the runs as not verified.
+- buy-in: names the reviewer's "verified OK" list by the agent's own name.
+
+### Added
+
+- Claude plugin listing icon: `packaging/icon.png` (512 px square PNG rendered from the OpenAI listing SVG) ships as `.claude-plugin/icon.png` in the Claude plugin and zip only; `tools/package.py` checks it is a square PNG of 512 to 2,048 px under 2 MB. Clears the `ICON_MISSING` warning from `claude plugin validate --strict plugins/unknowns`.
+
+### Evals (developer-only; not in the shipped payload)
+
+- Multi-turn eval cases for blindspot, interview, quiz, and prototypes, run by `evals/run-multiturn.py`: a simulated user answers the questions each skill asks, and a separate judge grades the whole conversation.
+- The two single-turn blindspot cases now tell the skill to skip its up-front questions, so they grade the full pass; the asking path is graded by the multi-turn blindspot case. The exact-wording `labels-the-prompt-draft` regex was removed (the llm grader already checks the draft) and a finding-card marker regex added.
+- Method-marker regex graders for notes (Observed/Attributed blocks) and plan (weakest part / allowed cost), so a skill that loads and then declines no longer passes those cases on the load alone.
+- The one-file plan grader names the document parts it forbids (likelihood-ordered decisions, rollback or blast-radius notes, a weakest-part section) and allows a short list of choices and approval lines.
+
+### Checked
+
+Claude Code 2.1.309, claude-opus-5-5, `evals/run-manual.py` and `evals/run-multiturn.py`, `llm` graders judged by a separate `claude -p`.
+
+- Before the compaction, against 0.10.0 at 10 runs per case per arm, same day, in parallel (Fisher exact): plan size gate 0/10 → 9/10 (p < 0.001); prototypes first reply says the set can grow 3/10 → 10/10 (p = 0.003); loop first reply names its stages 1/10 → 10/10 (en, p < 0.001) and 2/10 → 10/10 (ko, p = 0.001); notes entry fields 0/10 → 10/10 (p < 0.001). A second pair (review fixes vs wording-only build, 10 runs, multi-turn): quiz key hidden 0/10 → 6/10 (p = 0.01); interview four questions per round 4/10 → 9/10 (p = 0.06) and reasons in priority order 1/10 → 5/10 (p = 0.14), not significant.
+- The compacted build on its own runs (no comparison arm, by owner decision): the full single-turn suite and the four multi-turn cases at 3 runs each, the failing cells fixed and re-run at 3 runs, then the whole suite once (single-turn 45/49, multi-turn 12/14 before the last fixes).
+- Agent routing with the changed descriptions, 36 runs: named calls 12/12, buy-in → independent-reviewer 3/3, generic review and explore requests (English and Korean) 0/18 to an unknowns agent.
+- Per-file writing-for-models checks by Claude and Codex on the compacted text, adjudicated against the owner's rules, and Codex diff checks of every edit round.
+- `tools/package.py --check`, unit tests, both eval `--verify` runs, and strict plugin and marketplace validation; CI on Ubuntu and Windows.
+
+### Not measured
+
+- The compacted build was not compared with 0.10.0 or with the pre-compaction build; the improvements above were measured on the earlier text and are carried over in substance, re-checked only at 3 runs.
+- claude.ai, ChatGPT and mobile behaviour; Codex runs of this build; real Windows use.
+- independent-reviewer has no eval case (two hand-run sessions before the compaction).
+- The claude.ai upload short descriptions in `scripts/skill-descriptions.json` have never been measured for triggering.
+- Known weak cells at release: the Korean blindspot trigger sometimes answers without the skill (3 of 10 runs); interview sometimes asks a no-reason taste question before a higher-radius one, and once let a declined option into the fixed decisions.
+
 ## 0.10.0 — 2026-10-27
 
 **Breaking:** deliverables are Markdown in the conversation (no HTML pages), and the plugin ships no hooks. Installed payload: 49 files, about 157 KB (0.9.2 installed the whole repository, 2.0 MB).

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Build standalone skill uploads from the generated plugins/unknowns/skills/.
 
-Run tools/package.py first. Shared reference instructions are already vendored
-by that build, so this script copies them without path rewriting. Upload zips
+Run tools/package.py first. Each skill folder is self-contained. Upload zips
 use the trigger-preserving short descriptions and name/description frontmatter
 only. --target local keeps full frontmatter and removes agent plugin namespaces.
 Neither target contains hooks, presentation assets, or executable files.
@@ -113,14 +112,13 @@ def build(out_dir: Path, target: str = "upload") -> int:
                 for path in sorted(skill_dir.rglob("*")):
                     if path.is_file():
                         zf.write(path, path.relative_to(staging).as_posix())
-        built.append((archive, len(list((skill_dir / "references").glob("*.md")))))
+        built.append(archive)
 
     shutil.rmtree(staging)
-    for archive, refs in built:
+    for archive in built:
         size = (sum(f.stat().st_size for f in archive.rglob("*") if f.is_file())
                 if archive.is_dir() else archive.stat().st_size)
-        print(f"  {archive.name:<18} {size:>6} bytes  "
-              f"{refs} reference file{'s' if refs != 1 else ''}")
+        print(f"  {archive.name:<18} {size:>6} bytes")
     kind = "skill folders" if local else "skill zips"
     print(f"built {len(built)} {kind} in {out_dir}/")
     if problems:

@@ -1,5 +1,7 @@
 # unknowns 플러그인 가치 계약
 
+> **Status (2026-10-27):** the shipped plugin no longer carries the scorecard, the loop's value review (step 10) or teach-me's "Limits" section that this contract cites; they were removed when the skills were compacted to the method (CHANGELOG, Unreleased). The contract below is kept as a record and has no in-product data source.
+
 작성: 2026-07-11 · 개정: 2026-09-06(강등·제거 조건을 릴리스 계수에서 달력으로 교체).
 v0.3.0 사각지대 보고서 항목 "loop step 10 미적용" 대응.
 loop 10단계(가치 리뷰: 지표 + 제거 조건)를 플러그인 자신에게 적용한 문서.
