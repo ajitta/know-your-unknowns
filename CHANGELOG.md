@@ -31,7 +31,7 @@ Every skill body opens by naming the cell it serves and with the read-back rule 
   - unknowns-loop: the purpose is the outcome the user is after; the probe is the cheapest test of the riskiest assumption (a spike, a call, a pilot); after verify and quiz/buy-in, a short **outcome check** with the user asks whether the result achieved the outcome, not only whether it met the done criteria (no score or stored record).
 - independent-reviewer: checks any deliverable (a report, plan, event programme, proposal, analysis or code change) against its plan, done criteria and outcome, treating the producer's account as claims. Its packet adds the outcome and names the deliverable (for code, the diff range and how to run the tests); item 1 adds an outcome judgement ("outcome not judgeable — no outcome stated" when missing); "passes on paper, fails in reality" covers figures, sources and ownerless steps as well as mocks and mirrored tests; findings carry a `file:line`, section, page or row. Its scoping sentences are unchanged.
 - unknowns-scout: investigates whatever sources the task has (documents, data, the web, a codebase, history); each step names its code and non-code form.
-- Descriptions, short descriptions, `agents/openai.yaml`, the plugin and marketplace descriptions and the OpenAI listing are domain-neutral with code as one example. Every trigger phrase is kept; new English phrases: interview "ask me before you decide", buy-in "get sign-off", prototypes "versions to react to". Skill descriptions grow from 3,057 to 5,167 characters.
+- Descriptions, short descriptions, `agents/openai.yaml`, the plugin and marketplace descriptions and the OpenAI listing are domain-neutral with code as one example. Every trigger phrase is kept; new English phrases: interview "ask me before you decide", buy-in "get sign-off", prototypes "versions to react to". Skill descriptions grow from 3,057 to 5,888 characters, 1,859 of them the read-back line (see below).
 
 ### Changed — follow-up rulings
 
@@ -40,7 +40,8 @@ Every skill body opens by naming the cell it serves and with the read-back rule 
 - interview: round 1 asks open questions, without options, about what the AI cannot know or judge about the user's situation; option questions for the decisions come from round 2 on. Four per round, sure-of/assuming first and unanswered-stays-unanswered are unchanged.
 - brainstorm: candidates are generated before any judging (Osborn: defer judgment, go for quantity), each with only a name, one line and the Already-exists marker; impact, effort, risks and the success measure are attached to the picks.
 - prototypes: the description says prototypes in the design-thinking sense, several versions of anything for the user to react to; the trigger phrases are unchanged.
-- Descriptions compacted: the example-domain lists and repeated wording are cut from every skill and agent description; every declared trigger phrase and the agents' scoping sentences stay.
+- Descriptions compacted: the example-domain lists and repeated wording are cut from every skill and agent description; every declared trigger phrase and the agents' scoping sentences stay. Always-on frontmatter (cl100k): skill descriptions without their closing line 1,143 → 884 tokens; the read-back line costs 51 tokens per description against 9 for the old line, so skills total 1,341 → 1,571; agents 357 → 311.
+- Read-back wording, from the own-run check: "no skill or method" and what makes a request weighty (it ships, is sent or is hard to undo); the read-back is the whole reply.
 
 ### Changed — fixes from the new build's own runs and checks
 
@@ -68,6 +69,10 @@ Claude Code 2.1.309, claude-opus-5-5, the new build on its own runs (no comparis
 - Multi-turn cases once: 14/14 graders.
 - Routing, 2 runs each: every skill named in English and Korean 44/44 to the named skill; the old names `loop` and `notes` (informative) 8/8 to the renamed skills; a bare "loop … every 5 minutes" 2/2 to the built-in. The intended skill loaded in 66/66 non-coding runs.
 - Per-file writing-for-models checks by Claude (71 findings) and Codex (16) on every changed skill and agent and the plugin README, adjudicated against the owner's rules, and Codex diff checks of the fixes.
+
+- Follow-up rulings, on the new build only: tweakable-plan named in English and Korean 4/4 runs to the skill, the old name `plan` 1/1 to tweakable-plan; every non-coding, Unknown-cell and Open-cell case once (non-coding 17/22 runs fully passing, intended skill loaded 22/22; Unknown cell 4/4; trivial Open cell 4/5); interview, brainstorm, prototypes, tweakable-plan and blindspot behaviour cases 3× each, 21/24; multi-turn interview and prototypes 3× each. After two fix iterations the failing cells pass except: the weighty Open-cell cases (0/9: with no skill loaded the model does a clear request directly instead of reading it back, under three description wordings), the multi-turn interview's four-per-round and reason checks (1/3 and 2/3 in iteration 2), and brainstorm's deferral of judgment in 1 of 3 runs.
+- Agents, one run each on non-code material: buy-in called independent-reviewer on a pilot report, which found the report's three figures contradicted by the records and an undisclosed deviation; blindspot called unknowns-scout over 20 documents, which found the planted landmines (a standing board ban, an 18+ insurance limit, a grant clause).
+- Per-file writing-for-models checks by Claude on every changed skill and agent (83 findings, 8 confirmed and fixed) and a diff check of the fixes (1 more fixed).
 
 ### Evals (developer-only; not in the shipped payload)
 
