@@ -44,7 +44,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
    Ranking, pruning, sizing and any recommendation wait for the user's picks (steps 4–5). Judging while generating keeps the first safe ideas and stops the list before the unexpected ones (Osborn: defer judgment, go for quantity).
 4. End the reply by asking which candidate numbers **resonate**; those are the picks. The picks show the user's priorities, which you do not know yet; a recommendation added after the list makes the pick for them.
-5. At selection, attach these fields to each picked candidate:
+5. Once the user names the picks, attach these fields to each picked candidate:
    - expected impact: what improves, by how much
    - effort size: S/M/L/XL
    - key risks
@@ -54,7 +54,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
 ## Output
 
-Layout: numbered cards on a time axis (this afternoon → quarter-long bet).
+Layout: numbered candidates on a time axis (this afternoon → quarter-long bet).
 
 ## Related
 

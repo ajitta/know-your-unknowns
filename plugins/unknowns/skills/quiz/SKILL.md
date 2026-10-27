@@ -54,7 +54,7 @@ Without a tool, do the step in the conversation and say what could not be checke
 2. Ask the prepared questions. Ask the five multiple-choice questions as 4 + 1, splitting a batch across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text.
 3. Grade answers.
 
-   a. Grade the teach-back against those points, and quote the key file when grading.
+   a. Grade the teach-back against the 2–3 points in the key file from step 1c, and quote that file when grading.
 
    b. For each wrong or blank answer, name the **exact change site** to re-read (`file:line`, section or page). If the change site is unavailable, mark it unverified.
 
