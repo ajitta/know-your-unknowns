@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Added multi-turn eval cases for blindspot, interview, quiz, and prototypes, run by `evals/run-multiturn.py`: a simulated user answers the questions each skill asks, and a separate judge grades the whole conversation. Developer-only; the shipped plugin payload is unchanged.
+
 ## 0.10.0 — 2026-10-27
 
 **Breaking:** deliverables are Markdown in the conversation (no HTML pages), and the plugin ships no hooks. Installed payload: 49 files, about 157 KB (0.9.2 installed the whole repository, 2.0 MB).
