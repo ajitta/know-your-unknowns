@@ -141,7 +141,7 @@ Behavior on these two routes is **not yet checked by the owner for this plugin**
 ### What works where
 
 - All eleven skills deliver Markdown in the conversation, with numbered reactions and an assembled reply. Where a step needs a tool the host lacks, the skill does the step in the conversation and says what could not be checked.
-- The two named agents run only in Claude Code. Elsewhere the assistant does the scout's investigation itself, and buy-in's independent evidence check is not available.
+- The two named agents run only in Claude Code. Elsewhere the steps that call them follow the missing-tool rule above, and buy-in's independent evidence check is not available.
 - The installed package has no hooks or scripts on any surface. A runnable prototype requested during a task can still be code written to files when the host supports it.
 - The deviation log is `IMPLEMENTATION_NOTES.md` when files are available; otherwise the record stays in the conversation.
 
@@ -223,8 +223,8 @@ A bare `/loop` is Claude Code's built-in interval runner, not this skill — alw
 stages up front. Before the build: blindspot (teach-me first if the field's terms are new)
 → interview → brainstorm/prototypes/reference as needed → a minimal probe that verifies
 only the riskiest technical assumption → a plan ordered by likelihood-of-change (plan).
-During the build, notes records deviations. After it, quiz, plus buy-in when reviewers or
-stakeholders must approve. A stage whose question is already answered is skipped, and
+During the build, notes records deviations. After it, the result is checked against each
+done criterion with evidence, then quiz, plus buy-in when reviewers or stakeholders must approve. A stage whose question is already answered is skipped, and
 the loop says so. For a small fix (1–2 files, clear spec) you need no loop: apply the notes
 rule while you implement.
 
@@ -394,8 +394,8 @@ Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘",
 
 **How it runs**: The plan opens with the done criteria in one line, saying "not set" where
 you gave none. There is a size gate: a change creating or modifying ≤2 files with no
-schema, interface or UX-contract decision gets that line and its steps in execution order
-instead of a document. Otherwise items are presented **in order of how likely they are to change**,
+schema, interface or UX-contract decision is pointed at native plan mode and gets that line,
+any questions for missing done criteria, and its steps in execution order instead of a document. Otherwise items are presented **in order of how likely they are to change**,
 not execution order. Decision items such as schemas, interfaces and UX contracts go at
 the top, each with the alternatives considered, its blast radius, how it will be
 verified and what breaks if it is wrong, and every new or changed public type is rendered
@@ -429,7 +429,7 @@ the same file: reality differs from what the plan assumed, and no decision is ne
 **Persistence**: entries are appended to IMPLEMENTATION_NOTES.md at the project root, which is created if it is missing; buy-in and quiz use that record.
 
 **Keep going, review at wrap-up**: where the plan is silent, Claude picks the conservative
-option, logs it and keeps going. At wrap-up, entries touching architecture, user-visible
+option, logs it and keeps going; a plan decision the deviation invalidates is marked superseded in the plan. At wrap-up, entries touching architecture, user-visible
 behavior, data or security are listed first for you to review, followed by a **fold back
 into the plan** block — three copyable bullets on what this changes for attempt #2.
 
@@ -470,7 +470,7 @@ reviewers or stakeholders.
 ```
 Auto-triggers: "buy-in doc", "prep me for review", "설득 문서 만들어줘", "리뷰 준비"
 
-**How it runs**: What the change does, led by a working demo when one exists → preemptive
+**How it runs**: What the change does, led by a working demo (when none exists, the doc says so and lists it as a limitation) → preemptive
 answers to roughly 5 anticipated reviewer objections, each backed by a reference the
 reviewer can follow (spec §, IMPLEMENTATION_NOTES.md entry date, metric, test run,
 `file:line`) and checked by the independent-reviewer agent in Claude Code — an answer with

@@ -22,7 +22,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
    | Stage | Run | When |
    |---|---|---|
    | a. Investigate | the **blindspot** skill; the **teach-me** skill first when the user cannot yet name the domain's terms | always |
-   | b. Decide | the **interview** skill | decisions that could change the architecture are open |
+   | b. Decide | the **interview** skill | requirements leave decisions open (architecture, data, compatibility, performance, taste) |
    | c. Shape | the **brainstorm** skill / the **prototypes** skill / the **reference** skill | the approach is undecided / the user will know the form when they see it / there is an example to emulate |
    | d. Test the riskiest assumption | state the most uncertain technical assumption with its success and failure criteria, then build a **minimal probe that verifies only that assumption** | the plan rests on an unproven technical assumption |
    | e. Plan | the **plan** skill, quoting step 1's done criteria | always |
@@ -33,4 +33,8 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
 3. **During the build**: the **notes** skill logs each deviation from the plan in `IMPLEMENTATION_NOTES.md`.
 
-4. **After the build**: the **quiz** skill, so the user can explain the work in a PR or handoff; also the **buy-in** skill when reviewers or stakeholders must approve it.
+4. **After the build**:
+
+   a. **Verify**: check the result against step 1's done criteria, marking each met, partial or missing with its evidence (test run, output, `file:line`). Mark a criterion met when its evidence shows the required outcome.
+
+   b. The **quiz** skill, so the user can explain the work in a PR or handoff; also the **buy-in** skill when reviewers or stakeholders must approve it.

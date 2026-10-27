@@ -50,8 +50,8 @@ When the interview ends, present two things:
 2. **Ready-to-use implementation prompt**: a complete instruction with all decisions applied. In the prompt:
 
    - Mark skipped questions "(unanswered — use your judgment)". A question that was asked but not answered is a skipped question: its options and any reason for it stay out of the fixed decisions.
-   - Declare the architecture and data decisions **fixed**, with "if anything later conflicts with them, flag it before writing code".
+   - Declare the architecture and data decisions **fixed**.
    - Close with "start with a short plan, then implement".
-   - Include: "Log deviations from the plan in IMPLEMENTATION_NOTES.md."
+   - Include: "Where the plan leaves a choice open or the code conflicts with a fixed decision, pick the conservative option and log the deviation in IMPLEMENTATION_NOTES.md."
 
    The skill's purpose is that the user copies this prompt to start implementation.

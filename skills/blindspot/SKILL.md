@@ -32,7 +32,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    If the user skips, run a full investigation; a skip never stops the pass.
 
-   c. Restate the three lists verbatim in your reply before investigating. Step 4 marks findings against them, so they must exist before any finding does.
+   c. Restate the three lists verbatim in your reply before investigating, or say the user skipped them. Step 4 marks findings against them, so they must exist before any finding does.
 
 2. Choose how to investigate by scope:
 

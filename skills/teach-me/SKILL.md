@@ -36,7 +36,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
    | Domain | Comparison |
    |---|---|
-   | Visual | Numbered Markdown before/after descriptions of the same subject, naming the visible differences. If a real photo is essential, ask the user for a file and refer to its visible regions without inventing an image. |
+   | Visual | Numbered Markdown before/after descriptions of the same subject, naming the visible differences. If a real photo is essential, ask the user for a file and refer to its visible regions. |
    | Code/writing | Comparison examples. |
 
    b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each whole look and its settings.

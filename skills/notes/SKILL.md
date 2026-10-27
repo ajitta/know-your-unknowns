@@ -14,7 +14,8 @@ When work hits a situation the plan/spec does not cover (an unknown), **pick the
 
 1. Take the entry from the request: text given with the skill name is the **Situation found**, and the rest of the entry is filled from context. With no text, log the most recent unplanned decision of this session, or say there is none.
 2. Append the entry to `IMPLEMENTATION_NOTES.md` at the project root before ending the turn, creating the file with the heading `# Implementation Notes — plan deviation log` if it is missing. buy-in and quiz read that record. Without a tool, do the step in the conversation and say what could not be checked.
-3. While working, check for deviations before a commit and before handing work back.
+3. While working, check for unlogged deviations before a commit and before handing work back, and append each one as in step 2.
+4. When a deviation invalidates a decision in the plan document, mark that decision in the plan as superseded by the entry's date, so the plan stays the map the work follows.
 
 ## Entry Format
 

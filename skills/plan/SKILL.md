@@ -23,8 +23,8 @@ A plan's purpose is to **pull the points where the user would intervene forward*
    a. With no argument, that context is the whole input.
 
    b. When the spec has big gaps, suggest the **interview** skill before planning.
-2. **Done criteria first**: the document opens with one line stating the purpose, the done criteria, the existing behavior that must not break, and the allowed cost and change scope, filled from context (quote the **loop** skill's step 1 when it ran). Write "not set" for any part the context does not give, and ask for it in the reply lines of step 7. Without done criteria, nobody can judge whether the build conforms.
-3. **Size gate**: when the change creates or modifies ≤2 files and carries no schema, interface, or UX-contract decision, say it needs no tweakable plan and reply with only the done-criteria line and the implementation steps in execution order, one line each: a change this small has no decision worth a review document, and a shortened copy of the document is still the document.
+2. **Done criteria first**: the document opens with one line stating the purpose, the done criteria, the existing behavior that must not break, and the allowed cost and change scope, filled from context (quote the **loop** skill's step 1 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the build conforms.
+3. **Size gate**: when the change creates or modifies ≤2 files and carries no schema, interface, or UX-contract decision, say it needs no tweakable plan and suits native plan mode, and reply with only the done-criteria line, its questions from step 2, and the implementation steps in execution order, one line each: a change this small has no decision worth a review document, and a shortened copy of the document is still the document.
 4. Split work into items of two kinds:
 
    | Item type | Covers | Trait |

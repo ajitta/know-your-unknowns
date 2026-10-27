@@ -22,7 +22,7 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
    b. Take as inputs the plan/spec, the prototype, and IMPLEMENTATION_NOTES.md.
 
    Without a tool, do the step in the conversation and say what could not be checked.
-2. **Lead with the result**: open with what the change does, with a working demo when one is available (execution output, screenshot/GIF, or a link to a runnable demo), so a reviewer sees the work running before reading the rest.
+2. **Lead with the working demo**: open with what the change does, shown running (execution output, screenshot/GIF, or a link to a runnable demo), so a reviewer sees the work running before reading the rest. When no demo exists, say so and list it under the known limitations (step 4).
 3. **Preempt objections**:
 
    a. Anticipate ~5 questions/objections reviewers would raise.
@@ -31,7 +31,7 @@ The **quiz** skill validates my understanding; buy-in prepares others' trust.
 
    c. Use the `unknowns:independent-reviewer` agent to check the evidence, including its "verified OK" list. Hand it the done criteria, the approved plan, the `IMPLEMENTATION_NOTES.md` path, the diff range or touched files, how to run the tests, and the claims the work rests on; leave out the implementer's own summary, so the review checks the work rather than the narrative.
 
-   d. Move every answer that has no evidence to the known limitations (step 4).
+   d. Move every answer that has no evidence, or whose evidence the reviewer could not confirm, to the known limitations (step 4).
 4. **Known limitations and unresolved unknowns**: if a deviation log exists (file or in-conversation), pull its recorded deviations and unresolved risks here. Not hiding is the basis of trust.
 5. **Who signs off**: name the people/teams who must approve, with roles, and what each will check.
 

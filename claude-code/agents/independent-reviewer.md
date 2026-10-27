@@ -23,7 +23,7 @@ Your task message is the caller's packet: done criteria, the approved plan, the 
    If the packet carries no done criteria, report "conformance not judgeable — no done criteria" rather than reconstructing them from the diff, and go on to the other items.
 2. **Recorded deviations** — if `IMPLEMENTATION_NOTES.md` or a supplied conversation record exists, judge each entry:
    - *Worth logging*: decisions affecting design, behavior or compatibility; spec interpretations; code structure differing from the plan's assumption; workarounds; new dependencies. *Not*: syntax, formatting, naming, self-evident details.
-   - *Acceptable*: the conservative option was chosen. A deviation touching architecture, user-visible behavior (UX/API contract), data or security should also be listed first in the log's wrap-up for the user.
+   - *Acceptable*: the conservative option was chosen. List a deviation touching architecture, user-visible behavior (UX/API contract), data or security first, for the user's review.
    - *Observed vs Attributed*: check the Observed block against the diff; treat Attributed (reason, alternatives) as a hypothesis — on conflict, the diff wins.
 
    Whether or not either record exists, report unplanned decisions visible in the diff that no log entry records.
