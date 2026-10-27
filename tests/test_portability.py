@@ -38,6 +38,19 @@ class PortabilityTest(unittest.TestCase):
         for name in ("blindspot", "brainstorm", "buy-in", "plan", "prototypes", "reference", "teach-me"):
             self.assertIn(MISSING_PICK, skill(name), name)
 
+    def test_agents_inherit_every_tool(self):
+        for path in (PLUGIN / "agents").glob("*.md"):
+            fm = re.match(r"^---\n(.*?)\n---\n", path.read_text(encoding="utf-8"), re.S).group(1)
+            for key in ("tools:", "disallowedTools:", "permissionMode:", "hooks:", "isolation:"):
+                self.assertNotIn(key, fm, path)
+
+    def test_reviewer_packet_matches_its_caller(self):
+        # Rule 11: buy-in hands the reviewer the fields the reviewer expects.
+        fields = ("the approved plan, the `IMPLEMENTATION_NOTES.md` path, the diff range or touched files, "
+                  "how to run the tests, and the claims the work rests on")
+        self.assertIn(fields, skill("buy-in"))
+        self.assertIn(fields, (PLUGIN / "agents/independent-reviewer.md").read_text(encoding="utf-8"))
+
     def test_quiz_keeps_six_question_gate_and_hidden_key(self):
         text = skill("quiz")
         self.assertIn("Prepare **6 questions**; pass = **all 6 correct**.", text)

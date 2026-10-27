@@ -53,7 +53,7 @@ The best way to give a model a map: **give it another map**.
 
    a. The user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, the semantics map is revised before any code.
 
-   b. Offer this choice once: implement now / revise the semantics map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+   b. Offer this choice once: implement now / revise the semantics map / stop.
 
 6. On sign-off:
 

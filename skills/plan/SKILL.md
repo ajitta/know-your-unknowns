@@ -25,7 +25,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
    b. When the spec has big gaps, suggest the **interview** skill before planning.
 2. **Done criteria first**: the document opens with a fixed four-field done-criteria section: **purpose / done criteria / existing behavior that must never break / allowed cost & change scope**.
 
-   a. Fill the section from context. When the loop's step 1 already fixed these fields, quote them instead of asking again.
+   a. Fill the section from context. When the **loop** skill's step 1 already fixed them, quote them instead of asking again.
 
    b. When any field is still empty, ask one question round.
 
@@ -65,7 +65,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
    b. Close with **2–3 pre-written reply lines**: the highest-leverage tweaks, ready to copy, edit, and send.
 9. Gate implementation on the user's response.
 
-   a. Proceed to implementation only after the user's approval or change requests have updated the plan. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries the approval.
+   a. Proceed to implementation only after the user's approval or change requests have updated the plan.
 
    b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security.
 

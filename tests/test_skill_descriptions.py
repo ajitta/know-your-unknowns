@@ -144,9 +144,9 @@ class SkillZipBuildTest(unittest.TestCase):
         self.assertEqual(body.split("\n---\n", 1)[0], original.split("\n---\n", 1)[0])
         self.assertNotIn("${CLAUDE_PLUGIN_ROOT}", body)
         self.assertEqual({p.name for p in (out / "blindspot").iterdir()}, {"SKILL.md", "agents"})
-        loop = (out / "loop" / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("independent-reviewer", loop)
-        self.assertNotIn("unknowns:independent-reviewer", loop)
+        buy_in = (out / "buy-in" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("independent-reviewer", buy_in)
+        self.assertNotIn("unknowns:independent-reviewer", buy_in)
         self.assertNotIn("unknowns:unknowns-scout",
                          (out / "blindspot" / "SKILL.md").read_text(encoding="utf-8"))
 
