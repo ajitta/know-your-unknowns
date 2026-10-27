@@ -205,17 +205,11 @@ def discover(case_glob, tag):
 
 
 def plugin_root():
-    """Walk up from evals/ to the directory holding .claude-plugin/plugin.json.
-
-    Written as a search rather than a constant so it keeps working after the
-    plugin payload moves under plugins/unknowns/.
-    """
-    current = HERE
-    for _ in range(6):
-        current = os.path.dirname(current)
-        if os.path.exists(os.path.join(current, ".claude-plugin", "plugin.json")):
-            return current
-    raise SystemExit("could not find .claude-plugin/plugin.json above %s" % HERE)
+    """Return the generated plugin beside the repository's evals/ directory."""
+    root = os.path.join(os.path.dirname(HERE), "plugins", "unknowns")
+    if os.path.isfile(os.path.join(root, ".claude-plugin", "plugin.json")):
+        return root
+    raise SystemExit("generated plugin not found at %s; run python3 tools/package.py" % root)
 
 
 # ------------------------------------------------------------------- execution
@@ -706,7 +700,7 @@ def main():
                              "wall time up and a timeout is not a result")
     parser.add_argument("--arm", choices=["with", "without", "both"], default="with",
                         help="'both' is the manual equivalent of --ablation with-without")
-    parser.add_argument("--plugin-dir", help="plugin root (default: found above evals/)")
+    parser.add_argument("--plugin-dir", help="plugin root (default: repository plugins/unknowns/)")
     parser.add_argument("--crowd", type=int, default=0, metavar="N",
                         help="also load a generated plugin of N filler skills, to test "
                              "triggering when the skill listing overflows its budget; "
@@ -722,7 +716,7 @@ def main():
     args = parser.parse_args()
 
     if args.verify:
-        return verify(args.plugin_dir or plugin_root())
+        return verify(os.path.abspath(args.plugin_dir or plugin_root()))
 
     cases = discover(args.case, args.tag)
     if not cases:
@@ -735,7 +729,7 @@ def main():
         print("\n%d case(s)" % len(cases))
         return 0
 
-    root = args.plugin_dir or plugin_root()
+    root = os.path.abspath(args.plugin_dir or plugin_root())
     if shutil.which(args.claude) is None and not os.path.exists(args.claude):
         raise SystemExit("claude binary not found: %s" % args.claude)
 

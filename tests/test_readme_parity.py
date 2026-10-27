@@ -8,7 +8,8 @@ side.
 
 Asserted:
   * equal counts of headings, fenced-code-block delimiters and table rows
-  * identical sets of URLs, `/unknowns:<skill>` commands and `UNKNOWNS_*` names
+  * identical sets of URLs and `/unknowns:<skill>` commands
+  * removed hook environment variables do not return in either README
 
 Deliberately not asserted: heading text, ordering, or word counts — those are
 translation, not structure.
@@ -29,7 +30,7 @@ FENCE = re.compile(r"^\s*```")
 TABLE_ROW = re.compile(r"^\s*\|")
 URL = re.compile(r"https?://[^\s<>()\[\]\"'`]+")
 COMMAND = re.compile(r"/unknowns:[a-z][a-z-]*")
-ENV_NAME = re.compile(r"\bUNKNOWNS_[A-Z0-9_]+")
+ENV_NAME = re.compile(r"\b(?:UNKNOWNS_[A-Z0-9_]+|FIELD_GUIDE_NOTES_THRESHOLD)\b")
 
 
 def read(filename):
@@ -100,14 +101,11 @@ class ReadmeParityTest(unittest.TestCase):
             % sorted(en ^ ko),
         )
 
-    def test_env_var_names_match(self):
+    def test_removed_hook_environment_variables_are_absent(self):
         en = set(ENV_NAME.findall(self.en))
         ko = set(ENV_NAME.findall(self.ko))
-        self.assertTrue(en, "no UNKNOWNS_* env names found in %s" % EN)
-        self.assertEqual(
-            en, ko,
-            "UNKNOWNS_* names present in only one README: %s" % sorted(en ^ ko),
-        )
+        self.assertEqual(en, set(), "%s still documents removed hook variables" % EN)
+        self.assertEqual(ko, set(), "%s still documents removed hook variables" % KO)
 
     def test_twins_link_to_each_other(self):
         self.assertIn(KO, self.en)

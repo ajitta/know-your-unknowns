@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Know Your Unknowns</title>
+  <rect width="512" height="512" rx="96" fill="#142D3A"/>
+  <circle cx="256" cy="256" r="156" fill="none" stroke="#B8E4E0" stroke-width="32"/>
+  <path d="M214 203 C214 144 310 144 310 202 C310 238 256 239 256 283" fill="none" stroke="#F4B860" stroke-width="32" stroke-linecap="round"/>
+  <circle cx="256" cy="333" r="18" fill="#F4B860"/>
+</svg>

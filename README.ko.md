@@ -6,18 +6,13 @@
 
 **강한 모델의 병목은 모델이 아니라, 지도(계획)와 영토(실제 코드·도메인·제약)를 일치시키는
 당신의 능력이다.** 이 플러그인은 그 간극을 구현 전·중·후에 걸쳐 찾고 관리하는 운영 루프를
-제공합니다 — 스킬 11종, 에이전트 2종, 훅 2종.
+제공합니다 — 스킬 11종과 Claude Code 에이전트 2종.
 
 구체적으로 얻는 것:
 
 - 몰랐던 것을 PR 이후가 아니라 **프롬프트를 쓰기 전에** 발견합니다.
-- 보고 반응해야 하는 산출물은 **반응을 구조화된 답변으로 조립해 주는 단일 파일 인터랙티브
-  페이지**로 나옵니다 — 문단을 쓰는 것보다 칩을 누르는 편이 빠릅니다. 뷰어가 없는
-  환경에서는 마크다운으로 폴백합니다. 페이지의 테마·접근성·회신 복사 코드는 공용 템플릿
-  (`skills/loop/assets/`, 조립은 `skills/loop/scripts/render-page.py`)에서 오므로 모델은
-  내용만 씁니다. 스크립트는 Python 3이 필요합니다. Windows에서 `python3`이 없으면 스킬이
-  `py -3`을 쓰라고 안내하고, Python이 아예 없으면 모델이 템플릿을 직접 인라인합니다.
-- 계획 이탈은 아직 값이 쌀 때 기록되고, 세션이 표류하면 훅이 찔러 줍니다.
+- 보고 반응해야 하는 산출물은 **대화의 마크다운**으로 나오며, 번호가 붙은 항목과 복사할 수 있는 조립된 회신을 담습니다. 항목 번호를 고르거나 원하는 수정을 말하면 됩니다.
+- 스킬 지시가 단계 경계와 턴을 끝내기 전에 계획 이탈을 기록합니다. 자동 리마인더는 실행되지 않습니다.
 
 > **측정 상태: 미측정(unmeasured).** 가치 계약([`docs/value-contract.md`](docs/value-contract.md))은
 > 이 플러그인이 "사용자가 몰랐던 것을 드러내고 **그것이 결정을 바꿀 때**"만 제 값을 한다고
@@ -83,114 +78,122 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 ## 설치
 
-플러그인 이름은 `unknowns`입니다 (호출: `/unknowns:<스킬>`).
+플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름이나 트리거 문구로 부릅니다.
 
-### 마켓플레이스 (권장)
+**ChatGPT와 Codex 동작: 예상이며 소유자가 아직 확인하지 않았습니다.** 재구성한 패키지의 업로드·모바일 로딩·기기 간 동작도 미측정입니다.
 
-위 [빠른 시작](#빠른-시작)의 두 줄은 이 저장소에서 직접 설치합니다. 저장소가 자체
-마켓플레이스 매니페스트를 갖고 있어서, 중간 카탈로그 없이 여기 `plugin.json`이 선언한
-버전 그대로 받습니다. 이 프로젝트가 실제로 검증하는 유일한 경로입니다. 카탈로그 저장소
-[ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)에도 이 플러그인이
-등록되어 있고 여전히 동작합니다 (`/plugin marketplace add ajitta/claude-plugins` 후
-`/plugin install unknowns@ajitta`). 카탈로그는 ajitta의 플러그인들을 함께 보여주는 곳입니다.
+### claude.ai 웹과 Claude 데스크톱
+
+1. Customize › Plugins › Add › Add marketplace에서 `ajitta/know-your-unknowns`를 입력합니다.
+2. Discover에서 `unknowns` 플러그인을 선택하고 Add를 누릅니다. 마켓플레이스만 추가하면 플러그인은 설치되지 않습니다.
+3. "blind spot pass"처럼 스킬 이름이나 문구로 요청합니다.
+
+1·2단계 대신 Customize › Plugins › Add › Upload plugin에서 [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip)을 올려도 됩니다. Skills가 아니라 Plugins 업로드를 쓰세요. [Claude 공식 설치 안내](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)는 웹·데스크톱 플러그인이 계정에 저장되고 지원 표면에 따라온다고 설명합니다. 이 플러그인의 모바일·데스크톱 동기화는 소유자가 아직 확인하지 않았습니다.
+
+### Claude 모바일
+
+1. 위 절차대로 claude.ai 웹에 플러그인을 설치합니다.
+2. 같은 계정의 모바일 앱을 열고 스킬 이름이나 트리거 문구로 요청합니다.
+3. 스킬 절차를 따르는지 확인합니다. 재구성한 패키지의 로딩과 계정 동기화는 소유자 확인이 아직 필요합니다.
+
+### Claude Code
+
+1. Claude Code 세션 안에서 실행합니다:
+
+   ```
+   /plugin marketplace add ajitta/know-your-unknowns
+   /plugin install unknowns@know-your-unknowns
+   ```
+
+2. 새 세션을 시작하거나 `/reload-plugins`를 실행합니다.
+3. `/unknowns:blindspot 테스트`를 호출해 구현 전에 조사하는지 확인합니다.
+
+### Codex CLI
+
+1. 마켓플레이스와 플러그인을 추가합니다:
+
+   ```
+   codex plugin marketplace add ajitta/know-your-unknowns
+   codex plugin add unknowns@know-your-unknowns
+   ```
+
+2. `$unknowns:plan`처럼 스코프가 있는 스킬 이름 뒤에 작업을 적어 요청합니다.
+3. 절차와 도구 폴백을 확인합니다. 이 경로는 예상이며 소유자가 아직 확인하지 않았습니다.
+
+### ChatGPT 데스크톱(Codex 포함)과 모바일
+
+두 경로에서의 동작은 **이 플러그인에서는 소유자가 아직 확인하지 않았습니다**.
+
+1. **웹에서 zip 업로드(웹·모바일).** [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip)을 내려받아 chatgpt.com의 플러그인 zip 업로드로 올립니다. 플러그인은 계정에 저장되어 ChatGPT 웹·모바일에서 사용합니다. 이 zip에는 OpenAI 매니페스트·스킬·목록용 자산이 들어 있습니다. 업로드는 자동으로 갱신되지 않으므로 새 릴리스마다 다시 올립니다.
+2. **데스크톱 앱에서 마켓플레이스 추가.** 앱의 Codex 플러그인 화면에서 GitHub 마켓플레이스 `ajitta/know-your-unknowns` 또는 로컬 클론을 추가하고 `unknowns`를 선택해 설치합니다. 이 경로는 데스크톱 앱의 로컬 Codex 폴더에 설치하며 웹·모바일용 계정에 저장되지 않습니다. 업데이트는 마켓플레이스로 받습니다.
+
+### Windows
+
+1. 위에서 사용하는 호스트의 경로를 같은 패키지로 따릅니다.
+2. 설치된 플러그인은 지시문과 목록용 자산만 싣기 때문에 Python이나 셸이 필요 없습니다.
+3. 소스에서 빌드하는 개발자에게는 Python이 필요합니다. 아래 개발 명령의 `python3` 대신 `py -3`을 쓰세요. 재구성한 패키지는 Windows에서 로컬 실행하지 않았으며, 이전 Windows 훅 검사는 CI에서만 했고 이제 훅은 삭제되었습니다.
+
+### 표면별 지원
+
+- 스킬 11종은 모두 대화에 마크다운을 내고 번호로 반응을 받아 회신을 조립합니다. 질문·파일·검색·실행 도구가 없을 때의 폴백이 명시되어 있습니다.
+- 이름 있는 에이전트 2종은 Claude Code에서만 실행됩니다. 다른 표면에서는 어시스턴트가 스카우트 패스를 직접 수행하고, 독립 검증은 같은 패킷을 새 대화에 붙여 넣도록 전달하여 그 리뷰가 에이전트를 대신합니다. 리뷰가 돌아올 때까지 해당 단계는 미완료로 둡니다.
+- 어떤 표면에서도 설치된 패키지에 훅이나 스크립트는 없습니다. 작업 중 요청한 실행 가능한 프로토타입은 호스트가 지원하면 여전히 코드 파일로 쓸 수 있습니다.
+- 트래커·스코어카드·이탈 로그는 파일을 쓸 수 있으면 파일에 저장합니다. 그렇지 않으면 전체 기록을 마크다운으로 출력하고 사용자가 무엇을 저장해야 하는지 말합니다.
 
 ### 클론에서 바로 실행
 
-릴리스 전 브랜치를 시험하거나 플러그인 자체를 손볼 때:
+생성된 플러그인 폴더를 사용합니다:
 
 ```bash
 git clone https://github.com/ajitta/know-your-unknowns.git
-claude --plugin-dir ./know-your-unknowns
+claude --plugin-dir ./know-your-unknowns/plugins/unknowns
 ```
 
-해당 세션에만 로드됩니다. 세션 안에서 `/unknowns:loop` 등이 보이면 성공입니다.
-(`--plugin-dir`는 `.zip` 아카이브도 받습니다.)
+커밋된 생성물은 바로 로드할 수 있습니다. 소스를 고친 뒤에는 개발 절의 명령으로 다시 생성하세요.
 
-### 스킬만 골라서 복사 (플러그인 없이)
+### 개별 스킬 복사
 
-특정 스킬만 원하면 `skills/<이름>`을 그대로 복사하지 마세요. SKILL.md가
-`${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`를 가리키는데, Claude Code는 이 값을
-플러그인 스킬에만 채워 넣으므로 복사한 폴더에서는 모델에게 자리표시자가 글자 그대로
-보입니다. `python3 scripts/build-skill-zips.py --target local`을 돌려 `dist/local/`에서
-원하는 폴더를 볼트나 프로젝트의 `.claude/skills/`에 복사하세요 — 각 스킬은 자기
-`references/` 폴더와 `assets/`·`scripts/`의 페이지 템플릿을 품은 독립 폴더이고,
-전체 description과 `argument-hint`, `$ARGUMENTS`를
-그대로 유지합니다(업로드용 zip은 이것들을 줄이거나 바꿉니다). `agents/*.md`는 `.claude/agents/`에 복사합니다. 이 경우 호출명은
-네임스페이스 없이 `/blindspot`, `/quiz`처럼 짧아집니다. 훅은 플러그인 형태일 때만 자동 활성화되므로,
-수동 설정은 [훅 동작과 설정](#훅-동작과-설정)을 참고하세요.
+`plugins/unknowns/skills/<name>/`의 폴더 전체를 `references/`와 `agents/openai.yaml`까지 복사합니다. `skills/`의 소스 폴더는 빌드가 복사해 넣는 공용 loop 참조에 의존할 수 있습니다.
 
-### Claude Desktop, Claude 웹, Cowork
-
-경로는 둘이고, 어느 쪽을 쓸 수 있는지는 플랜에 달려 있습니다.
-
-**플러그인 통째로, 업로드 한 번** — Customize → Plugins → 플러그인 파일 업로드. 스킬과
-에이전트, 훅이 함께 따라오고 업데이트는 새 파일을 다시 올리면 됩니다. 먼저 파일을
-만드세요. 채팅으로 `unknowns` 플러그인 카드를 받았다면 그 설치 버튼이 같은 일을 합니다:
+Claude Code의 `.claude/skills/`에 복사하면서 에이전트 이름의 네임스페이스를 빼려면:
 
 ```bash
-scripts/build-plugin.sh HEAD      # 태그 없이, 설치 테스트용
-scripts/build-plugin.sh           # 릴리스 태그에서, 버전을 말할 수 있는 파일
+python3 scripts/build-skill-zips.py --target local
 ```
 
-이렇게 추가한 플러그인은 내 컴퓨터에 로컬로 저장되고 유료 플랜이 필요합니다. 훅과
-서브에이전트는 [Cowork에서만 돕니다](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) —
-Chat 탭에서는 비활성으로 보이고, 스킬은 단계가 실행된 척하는 대신
-`skills/loop/references/surfaces.md`의 대체 절차로 내려갑니다.
+`dist/local/`에서 원하는 폴더를 복사합니다. 선택적으로 에이전트 프롬프트를 `claude-code/agents/*.md`에서 `.claude/agents/`로 복사할 수 있습니다. 호출은 `/blindspot`, `/quiz`처럼 짧아집니다.
 
-**스킬 하나당 zip 하나** — Customize → Skills. 무료 플랜이거나 조직이 플러그인 설치를
-막아둔 경우의 경로입니다:
+Customize › Skills에서 스킬을 하나씩 받는 호스트용으로는:
 
 ```bash
-python3 scripts/build-skill-zips.py    # -> dist/<스킬>.zip, 열한 개
+python3 scripts/build-skill-zips.py
 ```
 
-원하는 것만 올리면 됩니다. `loop`이 진행하면서 나머지를 이름으로 부르므로 시작점으로
-적당합니다. 이 zip은 같은 스킬을 단독 업로드용으로 이식한 것입니다 — 짧아진 설명(업로드
-폼이 200자 제한을 문서화합니다), 스킬 폴더 안으로 복사된 참조 파일, `$ARGUMENTS` 제거.
-차이는 스크립트 헤더에 전부 적혀 있고, 이식 과정에서 트리거 문구가 빠지면
-`tests/test_skill_descriptions.py`가 실패합니다.
-
-**표면별로 무엇이 있는가**
-
-| | Claude Code | Cowork | 데스크톱 / 웹 채팅 | 모바일 |
-|---|---|---|---|---|
-| 스킬 | 있음 | 있음 | 있음 | 문서 없음 |
-| 서브에이전트 | 있음 | 있음 | 없음 — 새 스레드로 대체 | 없음 |
-| 훅 | 있음 | 있음 | 없음 — 스킬이 스스로 지킴 | 없음 |
-| 남는 파일 | 레포 | 연결된 폴더 | 세션 동안만 | 없음 |
-| 호출 | `/unknowns:` 접두사 | 이름이나 트리거 문구 | 이름이나 트리거 문구 | 이름이나 트리거 문구 |
-
-모바일이 솔직한 공백입니다. Anthropic 문서는 스킬을 받는 표면으로 웹, 데스크톱, Cowork,
-Claude Code를 이름으로 들고 휴대폰 앱은 언급하지 않습니다. 스킬은 설계상 거기서 평범한
-마크다운으로 내려가지만, 애초에 로드되는지는 이 레포가 약속할 수 없습니다 — 하나 올려서
-확인해 보세요. 리마인더 훅은 실행되는 쪽 머신에 Python 3이 있어야 합니다(`python3`; Windows에서는 `python`이나 `py -3`도 됩니다).
+원하는 `dist/<skill>.zip`을 올리세요. `scripts/skill-descriptions.json`의 짧은 설명을 쓰며, 트리거 포함 테스트가 그 설명도 확인합니다.
 
 ### 업데이트
 
+자체 마켓플레이스용 명령입니다:
+
 ```
-/plugin marketplace update ajitta
-/plugin update unknowns@ajitta
+/plugin marketplace update know-your-unknowns
+/plugin update unknowns@know-your-unknowns
 /reload-plugins
 ```
 
-업데이트는 플러그인 버전 번호가 바뀔 때만 도착합니다. 서드파티 마켓플레이스는 자동
-업데이트가 기본 꺼짐이므로, 손으로 돌리기 싫다면 `/plugin` → Marketplaces에서 `ajitta`에
-대해 켜 두세요.
+설치본 업데이트에는 플러그인 버전 변경이 필요합니다. 업로드 설치본은 새 아카이브로 교체해야 합니다. 카탈로그 [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)도 대안 마켓플레이스이며, 그쪽 설치명은 계속 `unknowns@ajitta`입니다.
 
 ### 0.1.x(field-guide)에서 업그레이드
 
-0.1.x는 `field-guide`라는 이름으로 배포되었습니다. 이름이 바뀌었으므로 제거 후 재설치합니다:
+옛 플러그인 이름은 `field-guide`였습니다. 해당 설치본을 지우고 `unknowns`를 추가합니다:
 
 ```
 /plugin uninstall field-guide@ajitta
-/plugin marketplace update ajitta
-/plugin install unknowns@ajitta
+/plugin marketplace add ajitta/know-your-unknowns
+/plugin install unknowns@know-your-unknowns
 ```
 
-GitHub 레포 리네임으로 옛 URL(`ajitta/field-guide`)은 자동 리다이렉트됩니다. 스킬 대응:
-`reference-map`→`reference`, `impl-notes`→`notes`, 나머지는 이름 동일. 환경변수
-`FIELD_GUIDE_NOTES_THRESHOLD`는 계속 인식하지만 `UNKNOWNS_NOTES_THRESHOLD` 사용을
-권장합니다.
+옛 저장소 URL(`ajitta/field-guide`)은 리다이렉트됩니다. 스킬 대응은 `reference-map` → `reference`, `impl-notes` → `notes`이며 나머지 이름은 같습니다.
 
 ---
 
@@ -226,9 +229,7 @@ GitHub 레포 리네임으로 옛 URL(`ajitta/field-guide`)은 자동 리다이�
 **진행 상태 유지**: 루프는 `.unknowns/loop.json` 트래커(작업·규모·단계·결정·산출물)를
 단계 경계마다 다시 씁니다. 그래서 컴팩션, `/resume`, 새 세션을 넘어 살아남습니다.
 `/unknowns:loop status`는 규모·현재 단계·남은 단계를 보고하고,
-`/unknowns:loop resume`은 멈춘 지점에서 이어갑니다. 트래커의 `status`가 `active`인 동안에는
-컴팩션 때 이 트래커를 가리키는 한 줄도 Claude 컨텍스트에 들어갑니다 — 컴팩션이 가장 먼저
-떨어뜨리는 것이 loop 스킬 자신이기 때문입니다(가장 먼저 호출됐고, 재첨부는 최근 호출 순).
+`/unknowns:loop resume`은 멈춘 지점에서 이어갑니다. 스킬이 컴팩션 후나 재개 시 트래커를 읽으며 자동 리마인더는 없습니다. 파일 시스템이 없으면 전체 트래커를 마크다운으로 다시 출력하므로 저장해 두었다가 다음 대화에 제공하세요.
 
 ---
 
@@ -244,7 +245,7 @@ GitHub 레포 리네임으로 옛 URL(`ajitta/field-guide`)은 자동 리다이�
 "사각지대 조사해줘", "내가 놓친 게 뭐지"
 
 **진행 방식**: 코드를 **수정하지 않고** 조사만 합니다. 범위가 코드베이스 전체거나 크면
-`unknowns:unknowns-scout` 에이전트에 위임합니다. 먼저 대비를 보여줍니다 — 내가 요청한 것
+호스트가 시작할 수 있으면 `unknowns:unknowns-scout`에 위임하고, 아니면 직접 구분된 scout 패스를 수행합니다. 먼저 대비를 보여줍니다 — 내가 요청한 것
 vs 실제로 들어가는 곳, 종류별 집계와 함께. 그다음 발견 1건 = 카드 1장을 밟을 가능성×피해 범위
 순으로, 종류를 달아서: **지뢰**(건드리면 티 안 나게 뭔가 깨짐), **관례**(코드베이스가
 강제하는 암묵 규칙), **없는 개념**(내 프롬프트에 단어가 없는 메커니즘),
@@ -288,9 +289,7 @@ vs 실제로 들어가는 곳, 종류별 집계와 함께. 그다음 발견 1건
 자동 트리거: "interview me", "ask me questions before implementing", "인터뷰해줘",
 "스펙 질문"
 
-**진행 방식**: 라운드당 **4개 이하** 질문 — AskUserQuestion 다이얼로그 정확히 한 번이며,
-그 하드 캡이 질문 1–4개·선택지 2–4개입니다 — 고정 우선순위(아키텍처 → 데이터 손실·보안 →
-호환성 → 성능·비용 → 취향)로 묻습니다. 각 질문에 "왜 중요한지" 한 줄, 각 선택지에
+**진행 방식**: 라운드당 **4개 이하** 질문에 선택지 2–4개를 붙여 고정 우선순위(아키텍처 → 데이터 손실·보안 → 호환성 → 성능·비용 → 취향)로 묻습니다. 질문 도구가 있으면 쓰되 도구가 더 적게 받으면 호출을 나누고, 없으면 대화에 번호를 붙여 묻습니다. 각 질문에 "왜 중요한지" 한 줄, 각 선택지에
 트레이드오프가 붙습니다. 종료 시 **결정 테이블 + 바로 쓸 구현 프롬프트**를 제시하는데,
 건너뛴 질문은 표시하고 아키텍처·데이터 결정은 확정으로 선언합니다.
 
@@ -312,17 +311,14 @@ vs 실제로 들어가는 곳, 종류별 집계와 함께. 그다음 발견 1건
 
 **진행 방식**: 잔변형이 아니라 **설계 철학이 다른** 안 4개(개수 조정 가능)를 만듭니다.
 정보 구조·사용자 흐름·시각 밀도·상호작용·복잡도가 서로 다르고, 각 안에
-이름 + 철학 한 줄 + 장단점 + 적합 조건이 붙습니다. HTML이면 한 파일에서 전환하며
-비교하고, 각 요소에 **채택(steal)/제외(skip) 칩**을 눌러 반응하면 그 선택이 요구사항 목록 초안으로
-자동 조립됩니다.
+이름 + 철학 한 줄 + 장단점 + 적합 조건이 붙습니다. 번호를 붙인 마크다운 비교에서 각 요소에 **채택(steal)/제외(skip)**로 반응하면 선택이 요구사항 목록 초안으로 조립됩니다. 호스트가 지원하면 실행 가능한 프로토타입을 파일로 쓰되 비교 자체는 대화에 남깁니다.
 
 **반응하는 법**: `"2안의 레이아웃 + 4안의 색 + 1안의 필터"` 처럼 조합을 말하면
 그것을 **명시적 요구사항 목록**으로 변환한 뒤에야 본 구현을 시작합니다.
 
 **팁**: `"wild하게"` 라고 하면 철학 간 거리를 더 벌립니다. 코드 아키텍처 비교에도
 사용 가능: `"이벤트 기반 vs 폴링 vs 푸시, 스켈레톤으로 나란히"`. 인터랙션 자체가
-쟁점이면(툴바 위치 등) 클릭 가능한 목업 + A/B 선택 버튼으로 만들어 주고, 페이지에 전부
-가짜 데이터라는 사실과 실제 배선이 들어갈 자리를 명시합니다.
+쟁점이면(툴바 위치 등) 파일 도구가 있을 때 클릭 가능한 목업과 A/B 선택 버튼을 만들고, 전부 가짜 데이터라는 사실과 실제 배선이 들어갈 자리를 명시합니다. 파일이나 실행 도구가 없으면 제안 코드나 목업 상태를 보여 주고 실행하지 못한 것을 밝힙니다.
 
 ---
 
@@ -341,8 +337,7 @@ vs 실제로 들어가는 곳, 종류별 집계와 함께. 그다음 발견 1건
 만드는 게 아니라 이미 있는 장치를 배선하는 것이고, 그런 후보에는
 `Found in code — <경로>` 표시가 붙습니다. 그다음 후보 개입 10개 내외를 **즉시 적용~장기
 베팅의 시간축**에 펼치고, 각각 기대 효과/노력 크기/핵심 리스크/측정법을 붙입니다.
-효과×노력 토글로 quick win과 big bet을 구분하고, **공감(resonate) 체크**한 항목이 각
-개입의 첫 실행 프롬프트까지 내려간 구조화된 다음 단계로 조립됩니다.
+효과×노력 표로 quick win과 big bet을 구분하고, **공감(resonate)**한 항목 번호가 각 개입의 첫 실행 프롬프트까지 내려간 구조화된 다음 단계로 조립됩니다.
 
 ---
 
@@ -359,7 +354,7 @@ vs 실제로 들어가는 곳, 종류별 집계와 함께. 그다음 발견 1건
 
 **진행 방식**: 레퍼런스를 그대로 복사하지 않고 4분류 분석부터 제시합니다 —
 **반드시 보존할 동작 / 현재 환경에 맞게 변환할 부분 / 불필요·위험한 부분 / 개선 가능한
-부분**. 이식 작업이면 **이해 증명(semantics map)** — 번호가 붙은 레퍼런스 발췌 ↔ 대응
+부분**. 구현 전에는 **이해 증명(semantics map)** — 번호가 붙은 레퍼런스 발췌 ↔ 대응
 계획 대조, gotcha 노트, Match 열이 있는 엣지케이스 표 — 를 함께 냅니다. 사용자가 승인하기
 전에는 아무것도 구현하지 않습니다: `semantics confirmed`라고 답하거나 번호로 행을
 정정하세요. 승인 후에는 레퍼런스의 기존 테스트부터 이식하고 구현합니다.
@@ -380,11 +375,11 @@ vs 실제로 들어가는 곳, 종류별 집계와 함께. 그다음 발견 1건
 자동 트리거: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
 
-**진행 방식**: 먼저 규모 게이트가 있습니다 — 파일 2개 이하에 스키마·인터페이스·UX 계약
+**진행 방식**: 먼저 규모 게이트가 있습니다 — 계획된 구현이 파일 2개 이하를 만들거나 수정하고 스키마·인터페이스·UX 계약
 결정이 없는 작업은 문서를 만들지 않고 네이티브 플랜 모드로 넘깁니다. 그 외에는 실행
 순서가 아니라 **수정될 확률 순**으로 제시합니다: 스키마·인터페이스·UX 계약 같은 결정
 항목이 맨 위, 각 항목에 고려한 대안과 파급 범위가 붙고, 새로 생기거나 바뀌는 공개
-타입·스키마는 주석 달린 코드로 렌더링되며, 기계적 작업은 접어서 뒤로. 승인/변경 요청
+타입·스키마는 주석 달린 코드로 제시하며, 기계적 작업은 결정 항목 뒤에 요약과 상세로 둡니다. 승인/변경 요청
 선택이 회신으로 조립됩니다. 검증 방법·위험·롤백을 포함하고, **이 계획에서 가장 약한
 부분**을 표시하며, 복사해 보낼 수 있는 회신 문구 2–3개로 마칩니다.
 
@@ -415,10 +410,7 @@ the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌�
 막지 않고 아키텍처·사용자에게 보이는 동작·데이터·보안을 건드리지 않는 판단 — 건드리면 멈추고
 묻습니다).
 
-**지속성**: 파일이 존재하거나 `init`을 돌린 뒤에는 파일에 append하는 것이 의무입니다 —
-채팅 요약만으로는 규칙을 만족하지 않습니다(훅·buy-in·quiz가 모두 이 파일을 읽습니다).
-파일이 없으면 채팅 요약도 허용되지만, 그때는 마지막 메시지에 노트 파일이 없다고 밝혀야
-합니다.
+**지속성**: 파일 시스템을 쓸 수 있으면 노트 파일에 덧붙이고, 파일이 없으면 만듭니다. buy-in과 quiz가 그 기록을 씁니다. 파일 시스템이 없으면 전체 갱신 로그를 마크다운으로 출력하고 IMPLEMENTATION_NOTES.md로 저장하라고 안내합니다. 턴 종료 전, 단계 경계, 커밋 전에 직접 이탈 여부를 확인합니다.
 
 **에스컬레이션**: 아키텍처·사용자 가시 동작·데이터·보안에 닿는 결정은 기록 후
 **작업을 멈추고 질문**하게 되어 있습니다. 마무리 단계에서는 **계획에 되먹이기** 블록 —
@@ -439,10 +431,9 @@ the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌�
 
 **진행 방식**: ① 먼저 설명(변경 구조 / 핵심 설계 결정 3개 / 실패 가능성 높은 곳 / 직접
 확인해야 할 곳), 설명한 동작마다 `file:line` 앵커 → ② **질문 6개, 합격선은 6개 전부
-정답**(객관식 5개는 AskUserQuestion이 한 번에 최대 4개라 4 + 1로 나눠 진행, 1개는 자기 말로
-설명하는 티치백), 장애 대응 > 설계 이유 >
+정답**(객관식 5개는 4 + 1로 나누되 도구 제한이 더 작으면 호출을 더 나누고, 1개는 자기 말로 설명하는 티치백), 장애 대응 > 설계 이유 >
 동작 예측 순이며 암기는 지양; IMPLEMENTATION_NOTES.md가 있으면 기록된 이탈 지점 최소 1개
-포함 → ③ 채점 — 오답·무응답은 다시 읽을 변경 지점을 정확히 가리키고 재시도를 줍니다 →
+포함 → ③ 채점 — 오답·무응답은 다시 읽을 변경 지점을 정확히 가리키고 재시도를 줍니다. 채점은 대화에서 하며, 티치백 키는 답변 전까지 숨기고 사전 키 파일이 없으면 이를 밝힙니다 →
 ④ 6/6이면 **머지 가능(cleared to merge)** 체크리스트(퀴즈 6/6 통과, CI 그린,
 마이그레이션·롤아웃 검토, 머지 방식, 배포 후 관찰 대상), 6/6 미만이면 "아직"으로 두고 다시
 읽을 절을 나열합니다. 마지막은 다른 개발자가 내일 인수받는다고 가정한 인수인계 요약이며,
@@ -476,9 +467,7 @@ id — `unknowns:unknowns-scout`, `unknowns:independent-reviewer` — 로 부르
 Agent 도구의 `subagent_type`과 `@agent-unknowns:unknowns-scout` 멘션 형식이 요구하는 것이
 이 id입니다. `subagent_type`에 스코프 없는 `unknowns-scout`을 주면 거부됩니다.
 
-에이전트의 **실효** 도구 집합은 선언된 목록을 호스트 세션이 실제로 노출하는 도구로 좁힌
-결과입니다. 예컨대 Grep·Glob이 없는 환경에서는 두 에이전트 모두 Bash `grep`/`find`로
-폴백합니다.
+이름 있는 에이전트는 Claude Code에서만 실행됩니다. **실효** 도구 집합은 선언된 목록을 호스트가 노출하는 도구로 좁힌 결과입니다. scout은 Read·Grep·Glob·WebFetch·WebSearch만 가지며 Bash나 쓰기 도구는 없습니다. 읽을 수 있는 이력 기록을 보고 명령 실행이 필요한 질문은 호출자에게 돌려줍니다. 다른 호스트에서는 구분된 스카우트 패스를 사용하고, 독립 검증은 패킷을 새 대화에 붙여 넣도록 사용자에게 전달한 뒤 그 리뷰를 기다립니다.
 
 **unknowns-scout** (읽기 전용 정찰):
 ```
@@ -488,12 +477,10 @@ unknowns-scout 에이전트로 인증 모듈 정찰해줘
 blindspot 스킬이 큰 조사에서 자동으로 이 에이전트를 부르고, brainstorm 스킬이 기존 코드
 목록을 만들 때 쓰기도 합니다. 그 밖에는 이름으로 부를 때만 돕니다 — 다른 워크플로가 조사용
 서브에이전트를 찾으면 그 워크플로의 에이전트, Explore 또는 일반 에이전트로 갑니다. 대상 영역 구조를
-훑고, git 히스토리에서 지저분한 막다른 길과 되돌려진 커밋을 보고, 테스트 커버리지와 암묵
+훑고, 읽을 수 있는 이력 기록에서 지저분한 막다른 길과 되돌려진 커밋을 보고, 테스트 커버리지와 암묵
 관례를 확인하며, 낯선 라이브러리라면 *설치된* 버전의 공식 문서·체인지로그까지 봅니다
 (그래서 읽기 도구와 함께 WebFetch·WebSearch를 가집니다). 밟을 가능성×피해 범위 순 조사 테이블과
-개선된 프롬프트 초안을 돌려줍니다. 파일을 수정하지 않도록 지시되어 있고, 도구 목록에서
-Edit/Write가 빠져 있으며, 번들된 PreToolUse 훅이 변경성 Bash 명령을 거부합니다 — 다만
-Bash는 읽기 전용 조회용으로 남아 있어 샌드박스 수준의 보장은 아닙니다.
+개선된 프롬프트 초안을 돌려줍니다. 도구 목록이 읽기와 검색만 허용하고, 프롬프트도 파일 수정과 발견 사항의 날조를 금지합니다.
 
 **independent-reviewer** (독립 검증):
 ```
@@ -508,100 +495,17 @@ unknowns independent-reviewer로 이 브랜치를 계획 대비 검증해줘
 때문), 그리고 **주장 유형별 검증**(사실 주장은 원출처와 대조하고, 추론은 전제와 반례를
 검사). 패킷에 완료 조건이 없으면 추측하지 않고 "부합 판정 불가"로 보고하고, 확인하지 못한
 영역을 끝에 따로 적습니다. 일반적인 버그·보안 사냥은 같은 diff에 대한 `/code-review`와
-`/security-review`의 몫이니 함께 돌리세요. 그 둘을 쓸 수 없는 환경에서는 에이전트가 에러
-처리·보안·성능·불필요한 복잡도를 2차 패스로 직접 커버합니다. loop 스킬 8단계에서 자동
+`/security-review`의 몫이니 함께 돌리세요. 에이전트도 늘 에러
+처리·보안·성능·불필요한 복잡도를 2차 패스로 직접 커버합니다. 테스트·린트·빌드용 Bash는 유지하되 편집·커밋·의존성 설치·임시 디렉터리 밖 쓰기를 금지합니다. 이 읽기 전용 계약은 지시문뿐이며 훅이나 permission mode가 강제하지 않습니다. loop 스킬 8단계에서 자동
 호출됩니다. 그 밖에는 이름으로 부를 때만 돕니다 — 이름 없는 "독립 리뷰" 요청은 다른 리뷰
 도구나 일반 에이전트로 갑니다.
-
----
-
-## 훅 동작과 설정
-
-플러그인은 훅 2종을 싣고 있고, 둘 다 순수 표준 라이브러리 파이썬입니다.
-
-**노트 리마인더**는 한 세션의 파일 수정(Edit / Write / NotebookEdit)을 세다가
-**10회에 도달하면 1회만**, "계획 이탈이 있었다면 IMPLEMENTATION_NOTES.md에 기록하라"를
-사용자 화면과 Claude 컨텍스트 양쪽에 전달합니다 — 실제로 기록하는 주체인 Claude도 받도록.
-아무것도 차단하지 않습니다. 컴팩션이 리마인더를 요약해 없애면 한 번 다시 말해 주고,
-임계값을 넘겼는데 노트 파일을 끝내 건드리지 않았으면 Stop에서 한 번 더 말합니다(Bash의
-`cat >>`나 다른 편집기로 쓴 것도 칩니다 — 훅이 세션의 첫 편집 때 노트 파일 상태를 적어 두고,
-그 자리에 파일이 새로 생겼거나 수정 시각이 바뀌었으면 건드린 것으로 봅니다).
-IMPLEMENTATION_NOTES.md 자체를 수정한 것은 카운트에 들어가지 않고, 서브에이전트의 수정은
-리마인더를 소비하지 않습니다 — 서브에이전트 컨텍스트는 반환과 함께 버려지기 때문입니다.
-세션 시작 시에는 리마인더가 실제로 울릴 곳에서만 `[unknowns] hooks active` 한 줄을 Claude
-컨텍스트에 넣습니다. 모델은 훅이 도는지 볼 수 없으므로, notes 스킬은 이 줄이 없으면
-"여기서는 리마인더가 없다"로 읽고 기록 규율을 스스로 지킵니다.
-
-**프로젝트별 옵트인입니다**: 그 프로젝트가 이미 이 방법론을 쓰고 있어야 울립니다 —
-`IMPLEMENTATION_NOTES.md`가 있거나, 스킬들이 산출물을 쓰는 `.unknowns/` 디렉터리가 있거나
-(프로젝트 디렉터리 → Claude의 cwd 순으로, 레포 루트까지 거슬러 올라가며 탐색). 옵트인은
-됐는데 노트 파일이 아직 없으면 리마인더에 `/unknowns:notes init`을 돌리라는 힌트가 붙습니다.
-`UNKNOWNS_NOTES_ALWAYS=1`이면 어디서나 울립니다.
-
-**Bash로 한 수정은 카운트되지 않습니다.** `sed`, 히어독, `python -c`는 PostToolUse
-Edit/Write 이벤트 없이 파일을 고치므로, 그렇게 작업한 세션은 카운터가 0에 가까운 채로
-끝납니다. 리마인더가 안 뜨는 가장 흔한 이유입니다.
-
-**서브에이전트 읽기 전용 가드**는 모든 Bash 호출에서 돌지만 호출 주체가 `unknowns-scout`
-또는 `independent-reviewer`가 아니면 즉시 빠지고, 사용자 트리를 바꾸는 명령(`rm`, `mv`,
-트리 안으로의 `cp`/`touch`, 쓰기성 `git` 서브커맨드, 패키지 설치 등)을 거부합니다.
-`xargs`, `sh -c`, `env`, `find -exec`로 감싸도 안쪽 명령을 검사합니다. 두 에이전트 모두 읽기
-명령의 쓰기 옵션(`sort -o`, `sed w`, `awk print >`, `yq -i`, `git --output` 등)도 거부됩니다.
-scout은 읽기 명령 화이트리스트로 묶이고, reviewer는 테스트·린트·빌드를 유지하며 임시
-디렉터리(`/tmp`, `$TMPDIR`, 같은 명령에서 `$(mktemp)`로 받은 변수) 아래에는 스크래치 파일을
-쓸 수 있습니다. 파싱하지 못한 것은 통과시키고, 에이전트가 실행하는 스크립트(`python3 -c`,
-테스트 파일)의 내용은 검사하지 않습니다 — 샌드박스가 아니라 가드레일입니다.
-
-**설정**:
-
-| 하고 싶은 것 | 방법 |
-|---|---|
-| 임계값 변경 (예: 20회) | `UNKNOWNS_NOTES_THRESHOLD=20` |
-| 리마인더 끄기 | `UNKNOWNS_NOTES_THRESHOLD=0` — `hooks active` 표식도 사라집니다. 컴팩션 후 loop 안내 한 줄은 남습니다 — `.unknowns/loop.json`이 `active`일 때만 나오기 때문입니다 |
-| 임계값 배수마다 반복 리마인드 | `UNKNOWNS_NOTES_REPEAT=1` |
-| 아직 플러그인을 쓰지 않는 프로젝트에서도 울리기 | `UNKNOWNS_NOTES_ALWAYS=1` |
-| 서브에이전트 Bash 가드 끄기 | `UNKNOWNS_AGENT_GUARD=0` |
-| 위 값을 프로젝트 단위로 지정 | `.claude/settings.json` → `{"env": {"UNKNOWNS_NOTES_THRESHOLD": "20"}}`, 팀과 커밋 (각자 폴더를 신뢰해야 적용) |
-| 위 값을 나만 지정 | `.claude/settings.local.json`, 같은 `env` 블록, git 무시 |
-| 구버전 변수 | `FIELD_GUIDE_NOTES_THRESHOLD`도 계속 인식 (새 변수가 우선) |
-| 요구사항 | Python 3 (표준 라이브러리만, 외부 의존성 없음): Linux·macOS는 `python3`, Windows는 `python3`, `python`, `py -3` 중 먼저 찾은 Python 3 |
-| 검증 환경 | Claude Code 2.1.281 + Opus 5.5, Linux arm64 (2026-09-25): eval 31케이스 실행, 기계 채점 전부 통과 · Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` 통과, 리마인더는 실제 PostToolUse 파이프라인 경유 확인, 두 스크립트 모두 `tests/`로 커버 |
-| 플랫폼 | CI가 ubuntu-latest와 windows-latest에서 테스트를, ubuntu-latest에서 플러그인 검증을 돌립니다. macOS는 로컬 실행으로만 커버됩니다. 각 훅은 `sh`(Linux·macOS), Git Bash(Git for Windows가 있는 Windows), PowerShell(없는 Windows)에서 모두 도는 셸 문자열 하나입니다. Windows에서는 없는 `python3`나 Microsoft Store 스텁을 건너뛰고 `python`, 그다음 `py -3`로 넘어가므로 alias가 필요 없습니다. `tests/test_hook_launcher.py`가 각 훅을 그 셸들로 직접 실행하고, 두 CI 시스템에서 SessionStart를 `claude --init-only`로 실행합니다 |
-
-**플러그인 없이 수동 설치** (스킬만 복사한 사용자): `hooks/scripts/impl_notes_reminder.py`를
-프로젝트에 복사하고 아래를 `.claude/settings.json`에 추가합니다 — 이미 `hooks` 객체가
-있다면 최상위 `hooks` 키를 하나 더 붙이지 말고 그 안에 합치세요:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write|NotebookEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3",
-            "args": ["<스크립트 경로>/impl_notes_reminder.py"],
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-플러그인은 같은 스크립트를 SessionStart·Stop·SessionEnd에도 등록합니다. `hooks active` 표식과
-컴팩션 후 재진술, 세션 종료 점검, 상태 파일 정리가 필요하면 같은 방식으로 항목을 추가하세요.
-`python3`가 없는 Windows에서는 `"command": "py"`로 두고 `args`의 첫 원소에 `"-3"`을 넣으세요.
 
 ---
 
 ## 추천 시나리오
 
 **시나리오 A — 작은 수정** (파일 1–2개, 명확한 스펙):
-루프 불필요. 그냥 구현하되 notes 규칙만 적용됩니다. 훅이 안전망.
+루프 불필요. 그냥 구현하되 notes 규칙을 적용하고 턴 종료 전에 중요한 이탈을 기록합니다.
 
 **시나리오 B — 중간 작업** (버그 원인 애매, 모듈 반쯤 아는 상태):
 ```
@@ -655,41 +559,56 @@ Claude Code가 자체 `loop` 스킬(반복 인터벌 러너)을 싣고 있어 �
 **Q. 예전에 field-guide로 설치했는데요.**
 0.1.x의 옛 이름입니다. 위 "0.1.x(field-guide)에서 업그레이드"를 따라 제거 후 재설치하세요.
 
-**Q. 훅이 안 울립니다.**
-순서대로 확인하세요. (1) 프로젝트에 `IMPLEMENTATION_NOTES.md`나 `.unknowns/` 디렉터리가
-있나요? 둘 다 없으면 설계상 꺼져 있습니다 — `/unknowns:notes init`을 돌리거나
-`UNKNOWNS_NOTES_ALWAYS=1`을 켜세요.
-(2) 수정을 Bash(`sed`, 히어독, `python -c`)로 했나요? 그건 PostToolUse Edit/Write 이벤트를
-발생시키지 않아 카운터가 올라가지 않습니다. (3) 기본값이 정말 세션당 1회·수정 10회입니다 —
-`UNKNOWNS_NOTES_THRESHOLD`와 `python3 --version`을 확인하세요. (4) `/hooks`를 실행해
-PostToolUse 아래에 항목이 보이는지 확인하세요. (5) 스크립트를 직접 스모크 테스트하세요:
-
-```bash
-echo '{"session_id":"x","tool_name":"Edit","cwd":"'$PWD'"}' \
-  | UNKNOWNS_NOTES_THRESHOLD=1 UNKNOWNS_NOTES_ALWAYS=1 \
-    python3 hooks/scripts/impl_notes_reminder.py
-```
-`systemMessage`가 든 JSON 객체를 출력하고 exit 0이면 정상입니다. (6) `claude --debug`로
-실행한 뒤 `~/.claude/debug/<session-id>.txt`를 읽으세요. 스크립트는
-`[unknowns] state persist failed` 같은 경고를 stderr로만 쓰고, 그건 디버그 로그에만
-남습니다. 거기에 `[unknowns] no working Python 3 found`가 있으면 훅이 `python3`, `python`,
-`py -3` 중 어느 것도 실행하지 못한 것입니다.
-
-**Q. 카운트가 이상하거나 리마인더가 두 번 떴습니다.**
-세션별 상태는 작은 JSON 파일 하나에 있습니다. `$CLAUDE_PLUGIN_DATA`가 설정되어 있으면
-`$CLAUDE_PLUGIN_DATA/state/` 아래, 아니면 임시 디렉터리의 `0700` 사용자 전용 디렉터리
-(`unknowns-notes-<user>/<session-id>.json`)입니다. 지우면 카운트가 초기화됩니다. "1회만"이
-두 번 울리는 경우는 둘입니다. 세션 도중 임시 디렉터리가 청소되면 카운트가 다시 시작되고,
-설계상 SessionStart(compact)가 리마인더를 다시 무장하므로 컴팩션 때마다 한 번 더
-울립니다. SessionEnd가 알아서 파일을 지웁니다.
-
-**Q. 훅이 거슬립니다.**
-`UNKNOWNS_NOTES_THRESHOLD=0` 또는 임계값을 30 정도로 올리세요 — `.claude/settings.json`의
-`env` 블록으로 프로젝트 단위로 지정하면 전역을 건드리지 않아도 됩니다.
+**Q. 인터랙티브 페이지는 어디 있나요?**
+이제 산출물은 대화의 마크다운입니다. 항목 번호나 원하는 수정을 답하면 어시스턴트가 다음 프롬프트나 요구사항 목록을 조립합니다. 작업용 실행 프로토타입은 여전히 파일로 쓸 수 있지만, 공용 프레젠테이션 페이지를 생성하지는 않습니다.
 
 **Q. 원문과 플러그인이 다른 부분은?**
 [`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md)에 "원문에서 직접 검증된 부분"과
 "제작 시 확장한 부분"이 표로 구분되어 있습니다.
+
+---
+
+## 저장소 구조
+
+```
+skills/<name>/                 소스: SKILL.md, references/, agents/openai.yaml
+skills/loop/references/         빌드가 전이적으로 복사하는 공용 참조
+claude-code/agents/             소스: Claude Code 에이전트 프롬프트
+plugin-manifest.json           소스 매니페스트, 현재 0.10.0
+packaging/                     배포 README, OpenAI 인터페이스, SVG 목록 자산
+.claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
+plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드
+releases/know-your-unknowns.zip 생성된 Claude 아카이브, 최상위 unknowns/
+releases/know-your-unknowns-openai.zip
+                               생성된 OpenAI 아카이브, 스킬과 목록 자산만 포함
+plugin-release.json            생성된 버전과 콘텐츠 다이제스트
+tools/package.py               검증, 재생성, 커밋된 생성물 검사
+scripts/build-skill-zips.py     선택적인 개별 스킬 업로드/로컬 복사
+tests/                         개발용 검사
+evals/                         모델 eval 케이스와 수동 러너
+docs/                          과거 측정과 방법론 기록
+```
+
+## 개발
+
+소스를 고친 뒤 다시 생성하세요. `plugins/unknowns/`나 아카이브를 직접 고치지 않습니다:
+
+```bash
+python3 tools/package.py
+python3 tools/package.py --check
+python3 -m unittest discover -s tests -v
+claude plugin validate --strict plugins/unknowns
+claude plugin validate --strict .
+python3 evals/run-manual.py --verify
+```
+
+CHANGELOG.md에 내용이 있는 `## [Unreleased]` 항목이 있으면 배포 콘텐츠가 바뀌어도 같은 버전으로 빌드하고 `plugin-release.json`을 갱신할 수 있습니다. 해당 항목이 없으면 콘텐츠 변경에 버전 올림이 필요합니다. `--check`는 언제나 오래된 생성 파일·아카이브·다이제스트 기록을 거부하므로 먼저 다시 빌드하세요.
+
+릴리스: `plugin-manifest.json`의 버전을 올리고, Unreleased 항목을 새 버전 아래로 옮기고, 다시 빌드한 뒤 CI가 통과하면 머지합니다. 그다음 주석 태그 `unknowns--vX.Y.Z`가 릴리스 워크플로를 실행해 커밋된 zip 둘을 검증하고 첨부합니다. 로컬 빌드로 릴리스가 생성되지는 않습니다.
+
+텍스트는 UTF-8과 LF를 씁니다. 릴리스 아카이브는 바이트 재현성을 위해 ZIP_STORED와 고정 시각·모드를 사용합니다. 패키저는 표준 라이브러리만 사용하고 Python 3.7+를 지원하며, 선택적인 개별 스킬 도우미는 Python 3.9+를 사용합니다.
+
+현재 CI 개발 도구 테스트는 Ubuntu와 Windows를 대상으로 하며, 엄격한 플러그인 검증은 Ubuntu에서 실행됩니다. 새 Windows CI 작업의 실행 결과는 아직 확인하지 않았습니다. 이전 Windows 근거는 삭제된 훅을 CI에서만 검사한 것이며, 재구성한 패키지의 Windows 동작은 미측정입니다. `docs/`의 과거 라우팅 결과는 각 문서가 명시한 버전의 것입니다. 구조 검사는 갱신된 스킬의 동작·로딩·업로드를 측정하지 않습니다.
 
 ---
 

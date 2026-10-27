@@ -15,10 +15,11 @@ import unittest
 from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PLUGIN = os.path.join(ROOT, "plugins", "unknowns")
 
 
 def description(agent):
-    text = Path(ROOT, "agents", agent + ".md").read_text(encoding="utf-8")
+    text = Path(PLUGIN, "agents", agent + ".md").read_text(encoding="utf-8")
     fm = re.match(r"^---\n(.*?)\n---\n", text, re.DOTALL).group(1)
     m = re.search(r"^description: \|\n((?:  .*\n?)+)", fm, re.MULTILINE)
     return " ".join(m.group(1).split())

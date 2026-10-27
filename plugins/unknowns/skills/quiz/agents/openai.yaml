@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unknowns: Quiz"
+  short_description: "Explain changes and check your understanding"
+  default_prompt: "Use $unknowns:quiz to quiz me on the completed work."
+policy:
+  allow_implicit_invocation: true

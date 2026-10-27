@@ -1,5 +1,45 @@
 # Implementation Notes — plan deviation log
 
+## [2026-10-27] Writing-for-models Claude-checked round — Phase WC
+
+**Observed**
+- **Situation found**: per-file Claude checkers on d07db74 (the model-read files were last written by Codex) returned 118 findings: 117 quote ok, one wrong quote, which was dropped. 35 were confirmed, 34 fixed and 82 rejected in context. One "the same structure" sentence, shared by nine skills, had lost its antecedent when Phase B removed the HTML page; it accounts for nine of the confirmed findings.
+- **Deviation from plan**: none in scope. Owner rulings (no HTML pages, no shipped code, scout without Bash, prose-only reviewer contract, the architecture / user-visible behavior / data / security escalation set, new-conversation review with the stage pending, Markdown deliverables) were kept, and so were frontmatter, trigger phrases, method step numbers and shared blocks.
+- **Response chosen**: fix the confirmed wording in place; edit the shared output sentence in every copy and in its test guard; update both README notes-persistence summaries.
+
+**Attributed**
+- **Reason for choice**: a checker from a different engine than the writer finds defects the writer's own engine accepts; the per-item record is in the owner's local `kyu-review/wfm-claude/report.md`.
+- **Risk/follow-up check**: nine fixes change meaning (blindspot output order, interview radius names and investigate-first placement, loop tier/tracker order, notes persistence, buy-in packet pointer, quiz wrap-up turn end) and are unmeasured.
+- **Todo for human**: independent-reviewer's secondary pass runs "Where `/code-review` and `/security-review` are unavailable", a condition the agent cannot see with its tools. Decide whether the packet (loop step 8, surfaces.md, buy-in) gains a field saying those reviews run on the diff, or whether the reviewer always runs the secondary pass. → **Resolved (2026-10-27) by owner ruling (a)**: the reviewer always runs its secondary pass; the condition is removed and the packet gains no field. The skills' packet text never named those commands, so only the agent and both README summaries changed.
+
+## [2026-10-26] Independent review corrections — Phase R
+
+**Observed**
+- **Situation found**: independent review reproduced lost fresh-conversation review handoff, narrowed data escalation, an unshipped scorecard dependency, a manifest-only version-record bypass, unsupported install/sync claims, fallback ordering issues, and missing Windows tooling coverage.
+- **Deviation from plan**: W2 accepted data loss as the common escalation scope. The owner reversed that choice and requires main loop's broader architecture, user-visible behavior, data, or security set everywhere.
+- **Response chosen**: restore the new-conversation reviewer packet and keep the stage pending; restore broad data escalation; make scorecard guidance self-contained; validate every generated skill Markdown resource and digest every manifest field except version; align both README routes with the owner's rulings and official Claude guidance; add the Windows CI matrix.
+
+**Attributed**
+- **Reason for choice**: the owner's Phase R rulings preserve independence and main's permission boundaries while closing reproducible packaging holes. Historical W2 counts now exclude the reversed item from accepted fixes.
+- **Alternatives considered**: a same-conversation review cannot discharge independent verification; keeping data loss would preserve the narrowed boundary; shipping the whole repository to resolve one pointer would undo the source/generated split.
+- **Risk/follow-up check**: restored scope and new-conversation handoff are meaning-changing and unmeasured. New Windows CI is configured but not yet observed; mobile/desktop sync and ChatGPT routes are not owner-checked for this plugin. The writing-for-models diff review and local structural/build checks are recorded in the external Phase R fixes report.
+
+## [2026-10-26] Portable package restructure — phases A, B, W, C
+
+**Observed**
+- **Situation found**: the original brief kept the HTML presentation template and two hooks, planned a 0.10.0 bump in Phase C, and installed the whole repository. The owner then changed Phase B to remove presentation pages and all shipped code, added a writing-for-models audit, and required Phase C to keep 0.9.2.
+- **Deviation from plan**: the generated package is now instructions only, with Markdown conversation deliverables and two Claude Code agent prompts; no hooks, renderer, or executable skill assets remain. The source/generated split, per-skill reference vendoring, OpenAI interfaces, and both reproducible zips remain as requested.
+- **Response chosen**: use `plugins/unknowns/` as the marketplace payload; use labeled in-skill passes where named agents are unavailable; log deviations at stage boundaries and before ending a turn; print complete Markdown records when files are unavailable. Keep the scout's tools read/search-only. The reviewer retains Bash for tests, lint, and builds, but its read-only rule is **prose only**, with no hook or permission mode enforcing it.
+- **Version record**: the early transition removed and recreated `plugin-release.json` to keep 0.9.2. Phase C replaces that workaround: a digest change at the same version is accepted only while CHANGELOG.md has a non-empty `## [Unreleased]` entry; otherwise it is refused. `--check` still rejects stale generated output and digest records. AGENTS.md no longer instructs record deletion.
+- **Audit record**: the independent writing-for-models check covered 29 source files: four findings found, three confirmed and fixed, one rejected on context. The fixed scope/execution-order clarifications remain unmeasured. The final independent diff check returned no findings; the detailed report and evidence are in the owner's local `kyu-review/wfm/report.md` audit record outside this repository.
+
+**Attributed**
+- **Reason for choice**: the owner's revised brief prioritizes the same method on hosts without hooks, shell tools, named agents, or durable files, while leaving versioning and release to the owner after verification.
+- **Alternatives considered**: retaining the HTML presenter or hooks would contradict the revised owner decision; bumping the version during this branch would contradict the release hold; asking for a second approval after plan change requests would change an existing permission without a writing rule requiring it.
+- **Risk/follow-up check**: a same-conversation review is not independent; the reviewer can still run Bash and its read-only contract is not a sandbox. Live behavior and routing, rebuilt archive uploads, mobile loading, cross-device sync, and the tag workflow have not been measured. Prior Windows hook tests were CI-only and those hooks and their matrix are removed.
+- **W2 audit record**: the supplied 16 per-file checker outputs contain 30 findings, despite the brief's count of 32; 27 were confirmed and fixed, and three were rejected in context. The owner-added escalation item was also fixed. Diff review found two confirmed regressions (fixed) and one rejected objection (repeated in its final round). Phase W plus W2 totals, counting unique diff findings, are 38 found, 33 confirmed/fixed, and five rejected. All W2 scope and execution-order clarifications are unmeasured; the per-item record is in the owner's local `kyu-review/wfm2/report.md` outside the repository.
+- **W2 resolution**: the owner authorized resolving the escalation wording difference under writing-for-models rule 4. Loop and notes now use architecture, user-visible behavior, data loss, or security, matching the existing escalation criteria, implementation prompts, and README. The notes Todo criteria and both README summaries use the same scope. This scope change is meaning-changing and unmeasured; the open todo is removed.
+
 ## [2026-10-01] Unreleased — 런타임 토큰 정리 (Phase 1 + talk-source 이동)
 
 **Observed**

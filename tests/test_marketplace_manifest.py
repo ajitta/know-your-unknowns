@@ -6,7 +6,7 @@ walked it — 21 unique cloners of the catalog against 355 of this repository in
 the same fortnight — so this repository now carries its own marketplace.json and
 serves itself, the way every comparable plugin does.
 
-That makes two manifests in .claude-plugin/ that have to agree. The failure is
+The marketplace and generated plugin manifests have to agree. The failure is
 quiet: bump `name` or `version` in plugin.json, leave marketplace.json pointing
 at the old name, and `/plugin install` resolves to nothing while local
 validation still passes.
@@ -14,8 +14,7 @@ validation still passes.
 Asserted:
   * marketplace.json exists, parses, and lists exactly one plugin
   * that entry's name matches plugin.json's name (the install target)
-  * its source is the repository root, "./" — not a URL that could point at a
-    fork, and not a subdirectory that does not exist
+  * its source is the generated plugin, "./plugins/unknowns"
   * the entry description fits the same 500-character upload limit as the
     manifest one (see test_manifest_limits)
 
@@ -30,8 +29,8 @@ import unittest
 from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PLUGIN_DIR = Path(ROOT) / ".claude-plugin"
-MARKETPLACE = PLUGIN_DIR / "marketplace.json"
+PLUGIN_DIR = Path(ROOT) / "plugins" / "unknowns" / ".claude-plugin"
+MARKETPLACE = Path(ROOT) / ".claude-plugin" / "marketplace.json"
 MANIFEST = PLUGIN_DIR / "plugin.json"
 
 # Same limit as the plugin.json description; see test_manifest_limits.
@@ -68,13 +67,11 @@ class MarketplaceManifestTest(unittest.TestCase):
             "resolve to nothing." % (entry.get("name"), self.manifest["name"]),
         )
 
-    def test_source_is_this_repository_root(self):
+    def test_source_is_generated_plugin(self):
         entry = self.marketplace["plugins"][0]
         self.assertEqual(
-            entry["source"], "./",
-            "the plugin lives at the repository root, so the source must be "
-            "'./'. A URL here would pin installs to whatever that URL serves, "
-            "defeating the point of self-hosting.",
+            entry["source"], "./plugins/unknowns",
+            "only the generated plugin folder is installed.",
         )
 
     def test_owner_is_declared(self):

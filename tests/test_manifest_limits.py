@@ -18,7 +18,7 @@ import unittest
 from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MANIFEST = Path(ROOT) / ".claude-plugin" / "plugin.json"
+MANIFEST = Path(ROOT) / "plugins" / "unknowns" / ".claude-plugin" / "plugin.json"
 
 # Observed 2026-09-15, uploading unknowns 0.7.0 to Customize → Plugins.
 MANIFEST_DESCRIPTION_MAX = 500

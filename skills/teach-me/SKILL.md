@@ -5,7 +5,6 @@ description: >
   model, so vague requests become precise. Use on "teach me", "make me an explainer",
   or when the user cannot name
   what they want. Blindspot investigates a codebase; teach-me teaches vocabulary.
-argument-hint: "<domain/task to learn> [current level]"
 ---
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)
@@ -21,46 +20,50 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
 1. Parse the input.
 
-   a. Parse the domain, goal and current level from `$ARGUMENTS`.
+   a. Parse the domain, goal and current level from the text the user gave with the request or after the skill name.
 
-   b. When `$ARGUMENTS` is empty, take the domain of the work under discussion; if the domain is still unclear, ask once, briefly.
+   b. With no request text, take the domain of the work under discussion; if the domain is still unclear, ask once, briefly.
+
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 2. Open with the **mental model**: the domain's pipeline in 3–5 ordered stages (color grading: ingest → correct → grade → match). The pipeline is there so the user knows what comes before what — correction first, then the creative look.
 3. Pick 3–7 **decision axes** the user will decide on in this task (e.g. color grading: exposure / white balance / contrast curve / saturation vs naturalness / look).
 4. Build a **vocabulary ladder**: per axis, everyday word → expert term. Give each term:
    - 1 example sentence of "what you can request with this term"
    - one source (a doc, standard or reference text)
 
-   Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently. A precise term can make a wrong premise sound right.
+   Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently. No source access → use the supplied reference text and mark any source or usage you could not check as unverified. A precise term can make a wrong premise sound right.
 5. Show what each concept changes.
 
    a. Show a **before/after comparison** per concept — same subject with vs without the concept applied. Build it by domain:
 
    | Domain | Comparison |
    |---|---|
-   | Visual | Synthetic inline comparisons (SVG/canvas, or CSS filters over two rendered states), never external image URLs. If a real photo is essential, ask the user for a file and embed it as a `data:` URI. |
+   | Visual | Numbered Markdown before/after descriptions of the same subject, naming the visible differences. If a real photo is essential, ask the user for a file and refer to its visible regions without inventing an image. |
    | Code/writing | Comparison examples. |
 
-   b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), so a whole look can be felt at once, not only single sliders.
-6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed").
+   b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each whole look and its settings.
+6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step even when trimming for size. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 7. Close with the payoff.
 
    a. Write a **precise-request draft**: the user's original request rewritten in the new vocabulary.
 
    b. The user picks items and adjusts values/direction; the result becomes the next prompt.
 
-   c. Offer with one AskUserQuestion: use this request now / edit it first / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+   c. Offer once: use this request now / edit it first / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
 ## Output
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-teach-me-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
-Reaction control: an "include in my request" checkbox per concept (plus live before/after sliders and presets); checked items assemble into the precise-request draft.
-Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
+Reaction: number the concepts, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft.
+
+For numbered reactions and reply assembly, read references/output-routing.md.
 
 ## Limits — what this can and cannot deliver
 
 - Vocabulary hands over a **request**, not fluency: expect the user's *next* request to be markedly more precise, not the terms wielded unaided across revision rounds 2–4. Success is convergence across those rounds, not the quality of the first rewritten request.
 - When revisions stop converging, hand off to the **interview** skill to lock decisions rather than teaching more vocabulary. Revisions that stop converging mark this skill's ceiling, not the user's mistake.
-- Keep step 6 even when trimming for size. Step 6 is what buys those later rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 
 ## Related
 

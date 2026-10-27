@@ -1,50 +1,13 @@
 #!/usr/bin/env python3
-"""Build one uploadable .zip per skill for Claude Desktop / web (Customize → Skills).
+"""Build standalone skill uploads from the generated plugins/unknowns/skills/.
 
-The plugin form (`scripts/build-plugin.sh`) is the better install where it is
-available: one upload, plus the agents and hooks. This script exists for the
-surfaces that take a *skill* but not a plugin — a free plan, or an org that has
-plugin installs turned off — where each skill is uploaded on its own.
+Run tools/package.py first. Shared reference instructions are already vendored
+by that build, so this script copies them without path rewriting. Upload zips
+use the trigger-preserving short descriptions and name/description frontmatter
+only. --target local keeps full frontmatter and removes agent plugin namespaces.
+Neither target contains hooks, presentation assets, or executable files.
 
-A skill uploaded on its own is not the same file as a skill inside the plugin,
-so this script ports it. Every difference is listed here and nowhere else:
-
-  1. The description. The upload form documents a 200-character maximum and the
-     SKILL.md descriptions run 248-383, so the short ones in
-     `scripts/skill-descriptions.json` are substituted. Those are shortened rather
-     than replaced: every trigger phrase the README advertises survives, and
-     `tests/test_skill_descriptions.py` fails if one does not.
-  2. Cross-skill reference paths. Inside the plugin, SKILL.md bodies write
-     `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/x.md`, which Claude Code
-     substitutes with the installed plugin root (the model's working directory is
-     the user's project, so a bare relative path would not resolve). A lone skill
-     folder has no plugin root, so the operational references are copied into the
-     skill and the paths are rewritten to `references/x.md`. A skill that uses
-     `output-routing.md` also gets the page template it builds pages from
-     (`assets/page.css`, `assets/page.js`, `scripts/render-page.py`).
-     `output-routing.md` finds them relative to its own `references/` folder, so
-     the same text works in the plugin and in a lone skill folder.
-  3. `$ARGUMENTS` is a Claude Code substitution. Nothing substitutes it elsewhere,
-     so it becomes plain words.
-  4. `argument-hint` is dropped: it describes a slash invocation these surfaces
-     do not have.
-
-Nothing else changes — same body, same triggers, same procedure.
-
-References are bundled transitively: a reference file that names a sibling
-("`surfaces.md` in this folder") brings that sibling along.
-
-`--target local` builds for a Claude Code `.claude/skills/` copy instead of an
-upload: plain folders, not zips, and only difference 2 applies — the
-full description, `argument-hint` and `$ARGUMENTS` stay, since Claude Code
-reads all three natively and the 200-character limit belongs to the upload form.
-One local-only rewrite: agent names lose the plugin namespace
-(`unknowns:unknowns-scout` -> `unknowns-scout`), matching agents copied into
-`.claude/agents/`.
-
-Usage:  python3 scripts/build-skill-zips.py [--out dist] [--target upload|local]
-Output: upload -> dist/<skill>.zip  (each holding <skill>/SKILL.md [+ references/ assets/ scripts/])
-        local  -> dist/local/<skill>/SKILL.md [+ references/ assets/ scripts/]
+Usage: python3 scripts/build-skill-zips.py [--out dist] [--target upload|local]
 """
 import argparse
 import json
@@ -55,12 +18,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKILLS = ROOT / "skills"
-REFS = SKILLS / "loop" / "references"
-# The page template that output-routing.md builds every page from.
-PAGE_FILES = [SKILLS / "loop" / "assets" / "page.css", SKILLS / "loop" / "assets" / "page.js",
-              SKILLS / "loop" / "scripts" / "render-page.py"]
-
+SKILLS = ROOT / "plugins" / "unknowns" / "skills"
 # Limits: `name` 64 and `description` 1024 are the Agent Skills spec
 # (platform.claude.com, agent-skills/overview). The Claude help centre states 200
 # for a description uploaded through Customize → Skills, which is the tighter of
@@ -69,53 +27,12 @@ NAME_MAX = 64
 DESC_MAX = 200
 SHORT = json.loads((ROOT / "scripts" / "skill-descriptions.json").read_text(encoding="utf-8"))
 
-ARGUMENTS_PROSE = "the request that invoked this skill"
-AGENTS = sorted(path.stem for path in (ROOT / "agents").glob("*.md"))
+AGENTS = sorted(path.stem for path in (ROOT / "plugins" / "unknowns" / "agents").glob("*.md"))
 
 
-def port(body: str, keep_arguments: bool = False) -> tuple[str, set[str]]:
-    """Rewrite a SKILL.md body for a standalone skill. Returns (text, refs used)."""
-    used = set()
-    def ref(match):
-        used.add(match.group(1))
-        return f"references/{match.group(1)}.md"
-
-    root = r"(?:\$\{CLAUDE_PLUGIN_ROOT\}/)?"
-    body = re.sub(root + r"skills/loop/references/([a-z-]+)\.md", ref, body)
-    body = re.sub(root + r"skills/loop/(assets|scripts)/", r"\1/", body)
-    if not keep_arguments:
-        body = body.replace("`$ARGUMENTS`", ARGUMENTS_PROSE).replace("$ARGUMENTS", ARGUMENTS_PROSE)
-    else:
-        # local copies go next to agents copied into .claude/agents/, where the
-        # plugin namespace is gone: `unknowns:unknowns-scout` -> `unknowns-scout`
-        body = re.sub(r"\bunknowns:(%s)\b" % "|".join(map(re.escape, AGENTS)), r"\1", body)
-    return body, used
-
-
-def sibling_refs(text: str) -> set[str]:
-    """Reference files a reference names by bare file name (e.g. `surfaces.md`).
-
-    A name that is part of a path (`.unknowns/scorecard.md`) is a data file the
-    skill writes, not a sibling to bundle, so anything after `/` or `.` is skipped.
-    """
-    known = {path.stem for path in REFS.glob("*.md")}
-    return {name for name in re.findall(r"(?<![\w/.-])([a-z][a-z-]*)\.md\b", text) if name in known}
-
-
-def ref_closure(start: set[str]) -> set[str]:
-    """`start` plus every reference those files name, transitively."""
-    seen, queue = set(), sorted(start)
-    while queue:
-        name = queue.pop()
-        if name in seen:
-            continue
-        seen.add(name)
-        source = REFS / f"{name}.md"
-        if source.exists():
-            text = source.read_text(encoding="utf-8")
-            # siblings named bare ("`surfaces.md`") and by full plugin path alike
-            queue.extend(sorted((sibling_refs(text) | port(text)[1]) - seen))
-    return seen
+def local_body(body: str) -> str:
+    """Copied Claude Code agents have no plugin namespace."""
+    return re.sub(r"\bunknowns:(%s)\b" % "|".join(map(re.escape, AGENTS)), r"\1", body)
 
 
 def split_frontmatter(text: str) -> tuple[str, str]:
@@ -148,6 +65,9 @@ def emit_frontmatter(fields: dict) -> str:
 
 
 def build(out_dir: Path, target: str = "upload") -> int:
+    if not any(SKILLS.glob("*/SKILL.md")):
+        print("Run python tools/package.py before building skill uploads.", file=sys.stderr)
+        return 1
     local = target == "local"
     if local:
         out_dir = out_dir / "local"
@@ -177,28 +97,11 @@ def build(out_dir: Path, target: str = "upload") -> int:
             problems.append(f"{folder}: description is {len(description)} chars — the "
                             f"upload form documents a {DESC_MAX}-char maximum")
 
-        ported, used = port(body, keep_arguments=local)
-        used = ref_closure(used)
+        ported = local_body(body) if local else body
         skill_dir = staging / folder
-        (skill_dir).mkdir(parents=True)
+        shutil.copytree(skill_md.parent, skill_dir)
         header = f"---\n{raw}\n---\n" if local else emit_frontmatter(fields)
-        (skill_dir / "SKILL.md").write_text(header + ported, encoding="utf-8")
-        for ref_name in sorted(used):
-            source = REFS / f"{ref_name}.md"
-            if not source.exists():
-                problems.append(f"{folder}: references missing {source.name}")
-                continue
-            target = skill_dir / "references"
-            target.mkdir(exist_ok=True)
-            ported_ref, _ = port(source.read_text(encoding="utf-8"),
-                                 keep_arguments=local)
-            (target / source.name).write_text(ported_ref, encoding="utf-8")
-        if "output-routing" in used:
-            for source in PAGE_FILES:
-                target = skill_dir / source.parent.name
-                target.mkdir(exist_ok=True)
-                shutil.copy2(source, target / source.name)
-
+        (skill_dir / "SKILL.md").write_bytes((header + ported).encode("utf-8"))
         if local:
             archive = out_dir / folder
             if archive.exists():
@@ -210,7 +113,7 @@ def build(out_dir: Path, target: str = "upload") -> int:
                 for path in sorted(skill_dir.rglob("*")):
                     if path.is_file():
                         zf.write(path, path.relative_to(staging).as_posix())
-        built.append((archive, len(used)))
+        built.append((archive, len(list((skill_dir / "references").glob("*.md")))))
 
     shutil.rmtree(staging)
     for archive, refs in built:

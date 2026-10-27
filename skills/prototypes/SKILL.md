@@ -5,7 +5,6 @@ description: >
   design philosophies to react to. Use when the user says "divergent prototypes",
   "design options", or cannot say what they want
   ("know it when I see it") for a UI, dashboard, or API design.
-argument-hint: "<thing to build> [count, default 4]"
 ---
 
 # Prototypes — Divergent Prototype Fan-out (Design Directions)
@@ -14,12 +13,12 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Iron Rules
 
-1. **Never start final implementation.** Prototypes are tools to elicit reactions.
+1. **Start final implementation only after the combined option is confirmed.** Prototypes are tools to elicit reactions.
 2. Options must have **clearly different design philosophies — not small variations**.
 
 ## Procedure
 
-1. Parse the target and count (default 4) from `$ARGUMENTS`. If `$ARGUMENTS` is empty, the target is the thing last discussed and the count is 4.
+1. Parse the target and count (default 4) from the text the user gave with the request or after the skill name. With no request text, the target is the thing last discussed and the count is 4.
 2. Make options differ along these axes:
    - Information structure (what shows first)
    - User flow (operation order)
@@ -27,9 +26,13 @@ People can't describe what they want but **can judge when they see it** (unknown
    - Interaction mode (click/drag/keyboard/automatic)
    - Implementation complexity (simple-robust vs rich-complex)
 3. Attach to each option: **name + one-line design philosophy + pros/cons + when it fits**.
+
+   When a runnable prototype is needed and the host can write files, write the prototype code to files and give the user the run instructions. Keep the comparison and requirements in Markdown in the conversation. Record prototype decisions that depart from the plan in `IMPLEMENTATION_NOTES.md` before ending the turn; apply the **notes** skill's logging criteria and escalation rules. No file system → show the prototype code or a labeled mockup description and the deviation record as Markdown for the user to save, naming each intended file. No execution tool → say the prototype has not been run and ask for the user's execution result before treating it as verified.
 4. Collect reactions on **both poles**: on every skip, ask what *would* have made it a steal.
 
    A skip is not the inverse of a steal. Kelly's repertory grid (1955) elicits a construct as a **bipolar pair**; the contrast pole carries as much information as the pole users volunteer, and it is the one they volunteer least.
+
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 5. **Saturation check** before converting to spec:
 
    a. When reactions stall ("they all look fine") or before the saturation call, run one **triad** — Kelly's own elicitation: show three options and ask which two feel alike and how the third differs.
@@ -42,22 +45,24 @@ People can't describe what they want but **can judge when they see it** (unknown
 6. Convert reactions into an **explicit requirements list**: the taste the user couldn't verbalize (unknown knowns) becomes spec.
 7. Proceed to real implementation only after the combined option is confirmed.
 
+   When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
+
 ## Output
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-prototypes-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
-Use markdown also when HTML is unnatural (static document, API design).
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
-- Each option — and each element inside it — carries **steal / skip chips**.
-- On skip, a one-tap **"would steal if…"** field is revealed (step 4).
+- Number every option and element inside it; ask for **steal / skip** by number.
+- On skip, ask **"would steal if…"** (step 4).
 - Selections assemble into a **requirements list** ("option 2's layout + option 4's colors…").
 
-Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+For numbered reactions and reply assembly, read references/output-routing.md.
 
 ## Variants
 
 - **Mock before you wire** — when the interaction itself is the question (toolbar position, click flow):
-  - No real code: build a **clickable mockup** with layout toggles and A/B choice buttons.
-  - State in the page that everything is **fake data and nothing reads from the real app**, and name the file and flag where real wiring would live.
-  - Add an "open questions I'd rather not guess" list, one A/B(/C) chip row per question, feeding the same self-filling copyable reply template.
+
+  1. Build a **clickable mockup** using fake data when the host can write prototype code, with layout toggles and A/B choice buttons; do not wire it to the real app. No file system → show the states and transitions as numbered Markdown mockups. No execution tool → say the click flow has not been run and ask the user to run it before claiming it works.
+  2. State in the mockup and its Markdown description that everything is **fake data and nothing reads from the real app**, and name the file and flag where real wiring would live.
+  3. Add an "open questions I'd rather not guess" list, with numbered questions and A/B(/C) options; assemble the answers into the same copyable requirements list.
 - When the thing to build is code architecture, present approaches to the same feature (e.g. event-driven vs polling vs push) side by side as minimal skeletons.
 - If the user asks for "wild", widen the distance between philosophies.

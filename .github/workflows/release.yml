@@ -1,0 +1,64 @@
+name: Release
+
+# Push an annotated unknowns--vX.Y.Z tag after merging a verified build.
+# The exact tag must match plugin-manifest.json. Release notes come from the tag.
+# Existing release assets are replaced; versions with a suffix are prereleases.
+
+on:
+  push:
+    tags: ["unknowns--v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Validate skills and committed output
+        run: python tools/package.py --check
+      - name: Unit tests
+        run: |
+          python -m unittest discover -s tests
+      - name: Validate plugin and marketplace
+        run: |
+          claude plugin validate --strict plugins/unknowns
+          claude plugin validate --strict .
+      - name: Tag matches the plugin version in both zips
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          version="$(python -c 'import json; print(json.load(open("plugin-manifest.json"))["version"])')"
+          case "$tag" in
+            "unknowns--v$version") ;;
+            *) echo "::error::tag $tag does not match plugin version $version"; exit 1 ;;
+          esac
+          for pair in "know-your-unknowns.zip unknowns/.claude-plugin/plugin.json" "know-your-unknowns-openai.zip unknowns/.codex-plugin/plugin.json"; do
+            set -- $pair
+            got="$(unzip -p "releases/$1" "$2" | python -c 'import json,sys; print(json.load(sys.stdin)["version"])')"
+            [ "$got" = "$version" ] || { echo "::error::releases/$1 carries $got, expected $version"; exit 1; }
+          done
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          assets="releases/know-your-unknowns.zip releases/know-your-unknowns-openai.zip"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" $assets --clobber
+          else
+            version="${tag#unknowns--v}"
+            case "$version" in *-*) pre="--prerelease" ;; *) pre="--latest" ;; esac
+            gh release create "$tag" $assets --verify-tag --notes-from-tag --title "unknowns ${tag#unknowns--v}" $pre
+          fi
+          gh release view "$tag" --json assets --jq '.assets[] | "\(.name) \(.size)"'

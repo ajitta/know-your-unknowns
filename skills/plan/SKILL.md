@@ -5,7 +5,6 @@ description: >
   so the most changeable decisions get reviewed first. Use on "plan this", "make a plan",
   "tweakable plan".
   Not native plan mode: writes a reviewable pre-implementation document.
-argument-hint: "<task description or confirmed spec>"
 ---
 
 # Plan — The Tweakable Plan (sorted by tweak likelihood)
@@ -19,7 +18,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
 ## Procedure
 
-1. Confirm the spec from `$ARGUMENTS` plus the conversation context (blindspot findings, interview decisions).
+1. Confirm the spec from the text the user gave with the request or after the skill name plus the conversation context (blindspot findings, interview decisions).
 
    a. With no argument, that context is the whole input.
 
@@ -28,16 +27,20 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. Fill the section from context. When the loop's step 1 already fixed these fields, quote them instead of asking again.
 
-   b. When any field is still empty, ask one AskUserQuestion round.
+   b. When any field is still empty, ask one question round.
 
    c. If the user skips, write "done criteria not set — the reviewer cannot judge conformance" in the section; never drop it silently.
 
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
+
    The independent reviewer's packet starts from this section.
-3. **Size gate**: when the task touches ≤2 files and carries no schema, interface, or UX-contract decision:
+3. **Size gate**: when the planned implementation creates or modifies ≤2 files and carries no schema, interface, or UX-contract decision:
 
    a. Say so and defer to native plan mode instead of writing this document.
 
    b. State the done criteria in one line even when deferring.
+
+   No native plan mode → give a short plan in the conversation with the done criteria; keep the same implementation approval gate.
 4. Split work into items of two kinds:
 
    | Item type | Covers | Trait |
@@ -51,8 +54,8 @@ A plan's purpose is to **pull the points where the user would intervene forward*
    b. Give each decision item: chosen option / alternatives considered + why rejected / scope affected if this decision changes / verification method.
 
    c. Render every new or changed public type or schema as **annotated code**: the declaration itself, plus numbered notes, one per field choice worth arguing with.
-6. Fold mechanical items at the back (1-line summary + expand).
-7. Required for every step: **verification method** / **expected risks** / **rollback method**.
+6. Put mechanical items at the back with a 1-line summary and the details below it.
+7. Required for every plan item: **verification method** / **expected risks** / **rollback method**.
 8. Flag the weakest part, then close.
 
    a. Flag the **weakest part of this plan** (the decision resting on the thinnest evidence).
@@ -62,12 +65,12 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. Proceed to implementation only after the user's approval or change requests have updated the plan. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries the approval.
 
-   b. Record mid-implementation deviations per the **notes** skill rules.
+   b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
 
 ## Output
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-plan-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
-Each decision card carries an **alternative toggle** and an **approve / request-change** control; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work collapsed.
+Each numbered decision card lists lettered alternatives and asks for **approve / request-change**; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work after the decisions.
 
-Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+For numbered reactions and reply assembly, read references/output-routing.md.

@@ -1,5 +1,115 @@
 # Changelog
 
+## [Unreleased]
+
+## 0.10.0 — 2026-10-27
+
+**Breaking:** deliverables are Markdown in the conversation (no HTML pages), and the plugin ships no hooks. Installed payload: 49 files, about 157 KB (0.9.2 installed the whole repository, 2.0 MB).
+
+### Changed
+
+- Split source from generated output: edit `skills/`, `claude-code/agents/`, `plugin-manifest.json`, and `packaging/`; only `plugins/unknowns/` is installed. The self-hosted marketplace points to that folder.
+- Vendor shared loop reference instructions transitively into every skill that uses them; tests compare the copies byte for byte. Every skill also has `agents/openai.yaml` for its OpenAI interface.
+- Commit two reproducible ZIP_STORED archives under `releases/`: `know-your-unknowns.zip` for the Claude plugin and `know-your-unknowns-openai.zip` for the OpenAI manifest, skills, and listing SVGs. Both have top folder `unknowns/` and carry the manifest version. The tag workflow checks and attaches them; this branch has not been tagged or released.
+- **Breaking: deliverables are Markdown in the conversation.** Removed the shared HTML presentation assets and renderer. Numbered reactions still assemble into a prompt, requirements list, decision summary, or review comment. Task-specific runnable prototypes may still be code written to files.
+- Removed both hooks, their launchers and tests, and their environment-variable settings. No executable code ships in either plugin archive. The Ubuntu/Windows hook matrix was replaced by a plain test job; package and strict manifest validation remain.
+- The scout has only Read, Grep, Glob, WebFetch, and WebSearch; it returns history questions needing command execution to its caller. The reviewer keeps Bash for tests, lint, and builds under a **prose-only read-only contract**: no edits, commits, dependency installs, or writes outside a temporary directory.
+- Replaced Claude-only argument substitution and question-tool names with request prose and conditional tool use. Missing scout sub-agents become labeled passes performed by the assistant; missing independent reviewers use the same packet pasted by the user into a new conversation, and the stage waits for that review. Missing file systems use complete Markdown records that the user can save.
+- Updated English and Korean install instructions, repository layout, development commands, and the eval runner's default `plugins/unknowns/` path. Existing invocation and scenario examples remain.
+- Replaced the transitional record-deletion workaround: `tools/package.py` may update `plugin-release.json` at an unchanged version only while a non-empty `## [Unreleased]` entry exists. Without one it requires a version bump; `--check` still fails on stale output or a stale digest.
+
+### Skill body changes
+
+| Skill | Portable behavior |
+|---|---|
+| blindspot | Plain request input, numbered prompt fixes, conditional scout with a read-only inline pass, baseline records without files, and question-tool fallback; seven procedure steps retained. |
+| teach-me | Markdown before/after descriptions and named presets replace live presentation controls; unverified sources stay labeled; request draft and closing checkpoint remain. |
+| interview | At most four questions per round across smaller tool calls or numbered chat replies; implementation prompt includes deviation logging; priority order and decision table remain. |
+| prototypes | Numbered steal/skip reactions, runnable code when files are available, and mockup-state fallbacks; contrast-pole, triad, saturation, and confirmation rules remain. |
+| brainstorm | Conditional read-only scout inventory, numbered candidates and impact/effort table, plus logging in implementation prompts; existing-code search and time horizons remain. |
+| reference | Supplied-source fallback, conversational sign-off, tests before implementation, and file/execution fallbacks; semantics map and correction gate remain. |
+| plan | Question and native-plan-mode fallbacks, Markdown alternatives, and explicit deviation logging; existing approval/change-request permission and decision ordering remain. |
+| notes | Skill-driven checks at stage boundaries and before turn end replace reminders; complete Markdown logs replace unavailable files; entry format, escalation, and fold-back remain. |
+| quiz | Conversation grading replaces page self-grading; six questions, 6/6 gate, private teach-back key, retry, and scorecard remain; deviation-question condition now precedes question composition. |
+| buy-in | Numbered sign-off replies, supplied-evidence fallback, and a labeled read-only review pass without a sub-agent; evidence, limitations, and rollback remain. |
+| loop | Ten stages and tracker fields remain; explicit logging and tracker reads replace automatic reminders; missing tools use labeled passes and complete Markdown records. |
+
+### Writing-for-models audit
+
+- Audited **29 source files** using separate read-only, ephemeral Codex checker processes. Four findings were reported and all four quoted passages verified; **three were confirmed and fixed**, and one was rejected after context review because it would have tightened the existing approval policy.
+- Fixes moved the quiz's deviation-question condition into question composition, made the scorecard's question heading unconditional while retaining conditional baseline comparison, and bound the no-file-system code/reporting fallback in reference, loop, and plan. The rule-required meaning clarifications are **unmeasured**; a supporting retry-step move was form-only.
+- The final independent diff checker returned no findings. The detailed report, per-file scope, adjudications, and inputs/outputs are in the owner's local `kyu-review/wfm/report.md` audit record, outside this repository.
+- Trigger phrases, skill descriptions, shared closing offers, and procedure step numbering were retained. This audit is a text review, not a behavior measurement.
+
+The Phase W2 per-file re-audit covers the same 16 instruction sources individually. The brief says 32 findings, but the 16 supplied JSON outputs contain **30 findings**, all verified against frozen commit `e1652fa`; Phase C changed no skill or agent bodies. All supplied findings were adjudicated. None repeats an already-fixed Phase W finding.
+
+| Audit | Found | Confirmed | Fixed | Rejected |
+|---|---:|---:|---:|---:|
+| Phase W | 4 | 3 | 3 | 1 |
+| Phase W2 supplied checker findings | 30 | 27 | 27 | 3 |
+| Phase W2 owner-added escalation wording (reversed in R) | 1 | 0 | 0 | 1 |
+| Phase W2 diff review, unique findings | 3 | 2 | 2 | 1 |
+| **W + W2 after the R ruling** | **38** | **32** | **32** | **6** |
+
+- W2 binds investigation constraints, interview option notes, review execution limits, scout output overrides, quiz preparation/grading conditions, scorecard eligibility/answer rules, and judging criteria to their actions. It numbers the existing brainstorm selection, buy-in prerequisites/review, and mockup procedures. Shared reply instructions consistently say Markdown in the conversation.
+- W2 clarifies that small fixes have no tracker/checkpoints, the plan size gate counts files created or modified, verification/risk/rollback applies to plan items, final implementation of prototypes requires the combined-option confirmation, and read-only records use complete Markdown updates. Reference keeps its semantics map for port/transform work and also requires it before any reference-based implementation, matching its Iron Rule.
+- W2 initially narrowed the escalation scope to data loss. Phase R reverses that item under the owner's final ruling: all escalation instructions now use **architecture, user-visible behavior, data, or security**, preserving main loop's broader permission boundary. The rejected column above includes this one owner-reversed W2 item; the remaining five rejections retain their original adjudications.
+- The retained scope and execution-order clarifications in W2 are **meaning-changing and unmeasured**; the escalation decision has been reversed. The report classifies every fix; naming, duplicate removal and mockup numbering are form-only. Existing explicit approval rules and stage-specific question/logging reminders were preserved when three initial checker suggestions would have changed them without a rule requiring it.
+- The fresh diff review against `0ac7d82` found two confirmed regressions, both fixed. The second and final round reported only a repeat of the rejected prototype-permission objection; no confirmed finding remains. This repeat is not double-counted in the totals. Per-file findings, quote verification, adjudications, and classifications are recorded in the owner's local `kyu-review/wfm2/report.md` audit record, outside this repository.
+
+### Independent review fixes — Phase R
+
+Reproduced and fixed the review's seven findings plus the owner's Windows CI ruling. The W2 escalation item is reversed rather than counted as a retained audit fix.
+
+| Audit scope | Found | Confirmed | Fixed | Rejected |
+|---|---:|---:|---:|---:|
+| W + W2 after reversal | 38 | 32 | 32 | 6 |
+| R review findings and CI ruling | 8 | 8 | 8 | 0 |
+| R writing-for-models diff review | 1 | 0 | 0 | 1 |
+| **Combined** | **47** | **40** | **40** | **7** |
+
+- Restore the no-sub-agent independent review substitute: hand the same packet to the user for a new conversation and keep the stage pending until that review returns. Scout fallbacks still run a labeled pass locally.
+- Restore escalation for architecture, user-visible behavior, **data**, or security in every implementation prompt, notes Todo/exclusion/escalation rule, reviewer contract and README summary. This owner-authorized reversal restores main's broader scope; it is meaning-changing and unmeasured.
+- Replace both unshipped value-contract pointers in the scorecard with the required value signal, provisional thresholds and baseline/ratio interpretation. Validate file paths in every generated skill Markdown file, with an explicit allow-list for user-project records; negative tests cover missing vendored-reference paths.
+- Include the entire canonical plugin manifest in the content digest except `version`. A manifest-only mutation without Unreleased notes is rejected; version/JSON-format-only changes keep the same digest.
+- Cite official Claude guidance for account-based installation while keeping this plugin's mobile/desktop sync unverified. Document the ChatGPT zip/account/local-desktop routes, labeled not yet owner-checked for this plugin; uploads need to be replaced for updates.
+- Move missing-tool fallbacks after the affected instructions and reasons after the fallbacks in blindspot, plan and reference; inspect all eleven skill bodies for the same ordering pattern.
+- Add Ubuntu/Windows developer-tooling CI coverage: package build/check, unit tests, and both individual-skill helper targets. The new Windows job is configured, not observed passing.
+- The independent review, reproduction evidence and findings-to-fix table are in the owner's local `kyu-review/review/` records outside the repository. The fresh writing-for-models diff check uses `4bb7d86` as its base; prompt scope/order changes remain unmeasured. It returned one quote-verified suggestion to narrow data; rejected because it contradicts the owner's explicit broader-data ruling. No confirmed finding remains.
+
+### Writing-for-models Claude-checked round — Phase WC
+
+The model-read files were last written by Codex, so this round used Claude as the checker: one `claude -p --tools ''` process per file on frozen `d07db74`, 17 files. They reported 118 findings. One had a wrong quote and was dropped; the other 117 were adjudicated in context. The diff check went back to Codex.
+
+| Audit scope | Found | Confirmed | Fixed | Rejected |
+|---|---:|---:|---:|---:|
+| Combined through Phase R | 47 | 40 | 40 | 7 |
+| WC Claude per-file findings (quote ok) | 117 | 35 | 34 | 82 |
+| WC Codex diff review, two rounds | 0 | 0 | 0 | 0 |
+| **Combined** | **164** | **75** | **74** | **89** |
+
+- Of the 35 confirmed, 25 came from this branch and 10 were already on `main`. Nine of the branch findings are one defect: the shared output sentence still said "with the same structure" after Phase B removed the HTML page it pointed at. It is fixed once in all nine copies and in its test guard.
+- One confirmed finding is not fixed. The reviewer cannot see whether `/code-review` and `/security-review` are available, so the condition on its secondary pass cannot be checked with its tools. It is logged as a Todo for human because any fix decides when that pass runs.
+- Owner ruling (a) resolves that finding: the reviewer always runs its own secondary pass (error handling, security, performance, needless complexity), with no condition on `/code-review` or `/security-review` and no new packet field. Meaning-changing and unmeasured.
+- 25 fixes are form only (names, antecedents, list names in the scout output). Nine change meaning and are **unmeasured**: blindspot opens its output with the three lists before the contrast; interview investigates before it lists gaps and uses step 5's radius names; loop writes the tracker once the tier is known and records the tier there; notes always appends (creating the file if missing) and drops the chat-summary permission when there is no file system; buy-in hands the reviewer the surfaces packet; quiz runs the wrap-up in the same reply.
+- 82 findings were rejected because the text was already right in context, the fix would change a method step, number, shared block or owner ruling, or it only restyled. Owner rulings, frontmatter, trigger phrases, step numbering and shared blocks are unchanged. Per-item adjudications are in the owner's local `kyu-review/wfm-claude/report.md`.
+
+### Checked
+
+- **Claude Code** 2.1.309, claude-opus-5-5, isolated config with the account's synced plugins disabled; cases from `evals/` run with `evals/run-manual.py`, `llm` graders judged by a separate arm-blind `claude -p`. 3–6 runs per cell, so these rule out large regressions only; no improvement is claimed.
+  - Triggers: all 22 cases fired the intended skill (a single-run Korean blindspot miss fired 6/6 on 0.9.2 and on this build when rerun).
+  - Negatives: the how-to, interval-loop, UI-options and vocabulary cases fired no wrong unknowns skill and passed their outcome graders (12/12). The one-file plan case loads `unknowns:plan`; it defers to plan mode 1/3 (0.9.2: 0/3).
+  - Behaviour, 0.9.2 vs this build run side by side: prototypes contrast pole 6/6 vs 6/6, saturation offer 1/6 vs 1/6; blindspot status labels 2/3 vs 3/3, nothing-confirmed-unseen 1/3 vs 2/3; notes required fields 1/3 vs 1/3; loop stages 0/3 vs 0/3 (en), 0/3 vs 1/3 (ko). An earlier batch on the pre-WC build: plan done criteria first 2/3 vs 3/3, interview at most four questions 2/3 vs 3/3.
+- **Codex CLI** 0.164.0, isolated HOME: all 11 skills listed; 22/22 trigger cases loaded the intended skill (each run stopped at the first skill read); the plan behaviour case delivered its done criteria in the chat where 0.9.2 linked an HTML file.
+- **CI** on the release branch: unit tests on ubuntu-latest and windows-latest, strict plugin and marketplace validation.
+
+### Not measured
+
+- Routing and behaviour on Claude web/desktop/mobile and ChatGPT web/mobile/desktop; multi-turn behaviour on any surface (the eval cases are single-turn); the reviewer's always-on secondary pass.
+- Uploads of the rebuilt Claude archive to claude.ai or the rebuilt OpenAI archive to ChatGPT.
+- Mobile skill loading and cross-device/account synchronization.
+- Live A/B measurements of the Phase W and W2 writing-for-models fixes; prior trigger and behavior results describe older snapshots. W2 scope and execution-order clarifications, and the nine WC meaning changes, are not measured improvements. An optional W2 behavior smoke was stopped after repeated 60-second timeouts; its no-plugin arm also loaded an installed unknowns skill, so it supplies no valid baseline.
+
 ## 0.9.2 — 2026-10-22
 
 Both agents, `independent-reviewer` and `unknowns-scout`, now run only when you name them

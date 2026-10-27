@@ -33,7 +33,7 @@ from test_trigger_containment import HANGUL, ROOT, readme_phrases  # noqa: E402
 
 DESC_MAX = 200
 SHORT_PATH = Path(ROOT) / "scripts" / "skill-descriptions.json"
-SKILLS_DIR = Path(ROOT) / "skills"
+SKILLS_DIR = Path(ROOT) / "plugins" / "unknowns" / "skills"
 
 
 def short_descriptions():
@@ -100,6 +100,9 @@ class SkillZipBuildTest(unittest.TestCase):
                         "%s must hold exactly one top-level folder" % archive.name,
                     )
                     self.assertIn("%s/SKILL.md" % archive.stem, names)
+                    for name in names:
+                        self.assertIn(Path(name).suffix, {".md", ".yaml", ".yml", ".json"})
+                    self.assertFalse(any("/assets/" in n or "/scripts/" in n for n in names))
                     body = zf.read("%s/SKILL.md" % archive.stem).decode("utf-8")
                 self.assertNotIn(
                     "skills/loop/references/", body,
@@ -112,16 +115,12 @@ class SkillZipBuildTest(unittest.TestCase):
                     "%s keeps a plugin-only substitution" % archive.name,
                 )
 
-    def test_skill_bodies_anchor_cross_skill_paths_at_the_plugin_root(self):
-        # The model reads these paths from the user's project directory, so a
-        # bare `skills/loop/...` does not resolve; Claude Code substitutes
-        # ${CLAUDE_PLUGIN_ROOT} in plugin SKILL.md content.
-        bare = re.compile(r"(?<!\$\{CLAUDE_PLUGIN_ROOT\}/)skills/loop/references/")
-        for skill_md in sorted(Path(ROOT, "skills").glob("*/SKILL.md")):
+    def test_skill_bodies_use_skill_relative_resources(self):
+        for skill_md in sorted(SKILLS_DIR.glob("*/SKILL.md")):
             with self.subTest(skill=skill_md.parent.name):
                 text = skill_md.read_text(encoding="utf-8")
-                self.assertIsNone(bare.search(text), skill_md)
-
+                self.assertNotIn("CLAUDE_PLUGIN_ROOT", text)
+                self.assertNotIn("skills/loop/", text)
 
     def build(self, *extra):
         out = tempfile.mkdtemp()
@@ -149,13 +148,13 @@ class SkillZipBuildTest(unittest.TestCase):
                             self.assertIn("%s/references/%s.md" % (archive.stem, ref),
                                           names)
 
-    def test_local_target_keeps_what_claude_code_reads_natively(self):
+    def test_local_target_keeps_full_frontmatter_and_standalone_instructions(self):
         out = self.build("--target", "local") / "local"
         self.assertEqual({p.name for p in out.iterdir()}, skill_names())
         body = (out / "blindspot" / "SKILL.md").read_text(encoding="utf-8")
         original = (SKILLS_DIR / "blindspot" / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("$ARGUMENTS", body)
-        self.assertIn("argument-hint:", body)
+        self.assertNotIn("$ARGUMENTS", body)
+        self.assertNotIn("argument-hint:", body)
         # full description, frontmatter byte-for-byte
         self.assertEqual(body.split("\n---\n", 1)[0], original.split("\n---\n", 1)[0])
         self.assertNotIn("${CLAUDE_PLUGIN_ROOT}", body)

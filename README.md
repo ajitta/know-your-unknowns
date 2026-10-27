@@ -7,21 +7,13 @@
 **The bottleneck of a strong model is not the model — it is your ability to keep the map
 (the plan) aligned with the territory (the actual code, domain and constraints).** This
 plugin gives you an operating loop for finding and managing that gap before, during and
-after implementation: 11 skills, 2 agents and 2 hooks.
+after implementation: 11 skills and 2 Claude Code agents.
 
 What that buys you, concretely:
 
 - You find out what you didn't know **before** you write the prompt, not after the PR.
-- Anything you have to look at and react to arrives as a **single-file interactive page
-  that assembles your reactions back into a structured answer** — clicking chips beats
-  writing paragraphs. It falls back to Markdown where there is no viewer. The page's
-  theme, accessibility and copy-back code come from a shared template
-  (`skills/loop/assets/`, assembled by `skills/loop/scripts/render-page.py`), so the
-  model writes only the content. The script needs Python 3; on Windows the skills say
-  to use `py -3` when there is no `python3`, and with no Python at all the model inlines
-  the template itself.
-- Plan deviations get logged while they are still cheap, and a hook nudges you when a
-  session drifts.
+- Reactable deliverables are **Markdown in the conversation**, with numbered items and an assembled reply you can copy. Select the item numbers or describe the changes you want.
+- Plan deviations are recorded by the skill instructions at stage boundaries and before the turn ends; no automatic reminder runs.
 
 > **Measurement status: unmeasured.** The value contract
 > ([`docs/value-contract.md`](docs/value-contract.md)) holds that this plugin earns its
@@ -66,7 +58,7 @@ procedure, you are set. From there:
   options", "quiz me" are themselves triggers.
 
 Other install paths (clone, copy-a-skill, Desktop) are under
-[Installation](#installation) below.
+[Install](#install) below.
 
 ---
 
@@ -90,120 +82,124 @@ Covering the original 11 examples — prototypes covers two, loop orchestrates.
 
 ---
 
-## Installation
+## Install
 
-The plugin name is `unknowns` (invocation: `/unknowns:<skill>`).
+The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
 
-### Marketplace (recommended)
+**ChatGPT and Codex behavior: expected; not yet checked by the owner.** The rebuilt package's uploads, mobile loading, and cross-device behavior are also unmeasured.
 
-The two commands in [Quick start](#quick-start) above install straight from this
-repository, which carries its own marketplace manifest — so the version you get is the
-one `plugin.json` declares here, with no catalog in between. This is the only path this
-project actually verifies. The catalog repository
-[ajitta/claude-plugins](https://github.com/ajitta/claude-plugins) also lists this plugin
-and still works (`/plugin marketplace add ajitta/claude-plugins` then
-`/plugin install unknowns@ajitta`); it exists to show ajitta's plugins side by side.
+### claude.ai web and Claude desktop
+
+1. Open Customize › Plugins › Add › Add marketplace and enter `ajitta/know-your-unknowns`.
+2. Open Discover, select the `unknowns` plugin, and select Add. Adding the marketplace alone does not install the plugin.
+3. Ask for a skill by name or phrase, for example "blind spot pass".
+
+Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin with [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip). Use the Plugins upload, not the Skills upload. [Claude's official installation guidance](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) says web/Desktop plugins are saved to your account and follow you across supported surfaces. Mobile/desktop sync for this plugin is not yet checked by the owner.
+
+### Claude mobile
+
+1. Install the plugin on claude.ai web as above.
+2. Open the mobile app with the same account and ask for the skill by name or trigger phrase.
+3. Check that it follows the skill's procedure. Loading and account sync for this rebuilt package still need an owner check.
+
+### Claude Code
+
+1. Run inside a Claude Code session:
+
+   ```
+   /plugin marketplace add ajitta/know-your-unknowns
+   /plugin install unknowns@know-your-unknowns
+   ```
+
+2. Start a new session or run `/reload-plugins`.
+3. Invoke `/unknowns:blindspot test` and check that it investigates before implementation.
+
+### Codex CLI
+
+1. Add the marketplace and plugin:
+
+   ```
+   codex plugin marketplace add ajitta/know-your-unknowns
+   codex plugin add unknowns@know-your-unknowns
+   ```
+
+2. Ask with a scoped skill name, for example `$unknowns:plan`, followed by the task.
+3. Check the procedure and tool fallbacks; this route is expected and not yet checked by the owner.
+
+### ChatGPT desktop (with Codex) and mobile
+
+Behavior on these two routes is **not yet checked by the owner for this plugin**.
+
+1. **Upload the zip on the web (web and mobile).** Download [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip) and upload it on chatgpt.com with the plugin zip upload. The plugin is saved to your account for ChatGPT web and mobile. This zip carries the OpenAI manifest, skills, and listing assets. Uploads do not update themselves; upload each new release again.
+2. **Add the marketplace in the desktop app.** In the app's Codex plugin interface, add the GitHub marketplace `ajitta/know-your-unknowns` or a local clone, then select and add `unknowns`. This route installs into the desktop app's local Codex folder; it is not saved to your account for web/mobile access. Updates arrive through the marketplace.
+
+### Windows
+
+1. Use the route for your host above with the same package.
+2. No Python or shell is required by the installed plugin: it ships instructions and listing assets only.
+3. Developers building from source need Python; use `py -3` where the development commands below say `python3`. The rebuilt package has not been exercised locally on Windows; earlier Windows hook checks were CI-only and the hooks are now removed.
+
+### What works where
+
+- All eleven skills deliver Markdown in the conversation, with numbered reactions and an assembled reply. Missing question, file, search, or execution tools have explicit fallbacks.
+- The two named agents run only in Claude Code. Elsewhere the assistant performs the scout pass itself; for independent verification it gives you the same packet to paste into a new conversation, whose review stands in for the agent. That stage stays pending until the review returns.
+- The installed package has no hooks or scripts on any surface. A runnable prototype requested during a task can still be code written to files when the host supports it.
+- Trackers, scorecards, and deviation logs use files when available; otherwise the assistant prints the complete record in Markdown and says what the user should save.
 
 ### Run straight from a clone
 
-For trying an unreleased branch, or for hacking on the plugin itself:
+Use the generated plugin folder:
 
 ```bash
 git clone https://github.com/ajitta/know-your-unknowns.git
-claude --plugin-dir ./know-your-unknowns
+claude --plugin-dir ./know-your-unknowns/plugins/unknowns
 ```
 
-The plugin is loaded for that session only. If `/unknowns:loop` and friends show up
-inside the session, it worked. (`--plugin-dir` also accepts a `.zip` archive.)
+The committed generated output is ready to load. After editing source files, regenerate it with the commands in Develop.
 
-### Copy individual skills (no plugin)
+### Copy individual skills
 
-If you only want specific skills, do not copy `skills/<name>` as is. Its SKILL.md points
-at `${CLAUDE_PLUGIN_ROOT}/skills/loop/references/...`, which Claude Code fills in only for
-plugin skills, so a copied folder shows the model a literal placeholder. Instead, run
-`python3 scripts/build-skill-zips.py --target local` and copy the folders you want from
-`dist/local/` into your vault's or project's `.claude/skills/`. Each folder is
-self-contained: its references sit in its own `references/` folder, the page template in
-`assets/` and `scripts/`, and it keeps the full
-description, `argument-hint` and `$ARGUMENTS` (the upload zips shorten and rewrite those).
-Copy `agents/*.md` into `.claude/agents/`. Invocations then lose the namespace and get
-short: `/blindspot`, `/quiz`. The hooks activate automatically only in plugin form; see
-[Hook behavior and configuration](#hook-behavior-and-configuration) for the manual setup.
+Copy complete folders from `plugins/unknowns/skills/<name>/`, including their `references/` and `agents/openai.yaml`. Source folders in `skills/` may still depend on shared loop references that the build vendors.
 
-### Claude Desktop, Claude web and Cowork
-
-Two routes. Which one you can use depends on your plan.
-
-**The whole plugin, one upload** — Customize → Plugins → upload a plugin file. Skills,
-agents and hooks all come along, and updating means uploading a newer file. Build it
-first; if you received an `unknowns` plugin card in chat, its Install button does the
-same job:
+For a Claude Code `.claude/skills/` copy with bare agent names, run:
 
 ```bash
-scripts/build-plugin.sh HEAD      # untagged, for testing an install
-scripts/build-plugin.sh           # from the release tag, for a version you can name
+python3 scripts/build-skill-zips.py --target local
 ```
 
-Plugins added this way are stored locally on your computer and need a paid plan. Hooks
-and sub-agents [run only in Cowork](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) —
-in the Chat tab they are greyed out, and the skills fall back to the substitutes in
-`skills/loop/references/surfaces.md` instead of pretending the step ran.
+Copy the desired folders from `dist/local/`; optional agent prompts come from `claude-code/agents/*.md` into `.claude/agents/`. Invocations become `/blindspot` or `/quiz`.
 
-**One zip per skill** — Customize → Skills. This is the route for a free plan, or an
-organization that has plugin installs turned off:
+For hosts accepting one skill at a time through Customize › Skills:
 
 ```bash
-python3 scripts/build-skill-zips.py    # -> dist/<skill>.zip, eleven of them
+python3 scripts/build-skill-zips.py
 ```
 
-Upload the ones you want; `loop` names the others as it goes, so it is the one to start
-with. These zips hold the same skills ported for standalone upload — shortened
-descriptions (the upload form documents a 200-character maximum), references copied into
-the skill folder, no `$ARGUMENTS`. The script header lists every difference, and
-`tests/test_skill_descriptions.py` fails if a port drops a trigger phrase.
-
-**What each surface gives you**
-
-| | Claude Code | Cowork | Desktop / web chat | Mobile |
-|---|---|---|---|---|
-| Skills | yes | yes | yes | undocumented |
-| Sub-agents | yes | yes | no — fresh-thread stand-in | no |
-| Hooks | yes | yes | no — the skill self-enforces | no |
-| Files that persist | the repo | connected folder | the session only | none |
-| Invocation | `/unknowns:` prefix | name or trigger phrase | name or trigger phrase | name or trigger phrase |
-
-Mobile is the honest gap: Anthropic's documentation names web, Desktop, Cowork and
-Claude Code as the surfaces that take skills and does not mention the phone apps. The
-skills degrade to plain markdown there by design, but whether they load at all is not
-something this repo can promise — try one and see. The reminder hook additionally needs
-Python 3 on the machine that runs it (`python3`; on Windows `python` or `py -3` also works).
+Upload the desired `dist/<skill>.zip` files. They use the short descriptions in `scripts/skill-descriptions.json`; the trigger-containment tests check those descriptions too.
 
 ### Updating
 
+For the self-hosted marketplace:
+
 ```
-/plugin marketplace update ajitta
-/plugin update unknowns@ajitta
+/plugin marketplace update know-your-unknowns
+/plugin update unknowns@know-your-unknowns
 /reload-plugins
 ```
 
-An update only arrives when the plugin's version number changes. Auto-update is off by
-default for third-party marketplaces; turn it on for `ajitta` under `/plugin` →
-Marketplaces if you would rather not run these by hand.
+Installed updates require a plugin version change. Uploads must be replaced with a newer archive. The catalog [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins) is an alternative marketplace: its install name remains `unknowns@ajitta`.
 
 ### Upgrading from 0.1.x (field-guide)
 
-0.1.x shipped under the name `field-guide`. The name changed, so uninstall and reinstall:
+The old plugin was named `field-guide`. Remove that install and add `unknowns`:
 
 ```
 /plugin uninstall field-guide@ajitta
-/plugin marketplace update ajitta
-/plugin install unknowns@ajitta
+/plugin marketplace add ajitta/know-your-unknowns
+/plugin install unknowns@know-your-unknowns
 ```
 
-The GitHub repo was renamed, so the old URL (`ajitta/field-guide`) redirects
-automatically. Skill mapping: `reference-map`→`reference`, `impl-notes`→`notes`; the rest
-keep their names. The environment variable `FIELD_GUIDE_NOTES_THRESHOLD` is still
-recognized, but `UNKNOWNS_NOTES_THRESHOLD` is recommended.
+The repository's old URL (`ajitta/field-guide`) redirects. Skill mapping: `reference-map` → `reference`, `impl-notes` → `notes`; the other names stay the same.
 
 ---
 
@@ -243,10 +239,7 @@ every tier. Tell it the size and it picks:
 **Staying oriented**: the loop keeps a `.unknowns/loop.json` tracker (task, tier, stage,
 decisions, artifacts) and rewrites it at every stage boundary, so it survives compaction,
 `/resume` and new sessions. `/unknowns:loop status` reports the tier, the current stage
-and what is left; `/unknowns:loop resume` picks up where it stopped. While the tracker's
-`status` is `active`, a compaction also puts a one-line pointer back to it into Claude's
-context, because compaction is what most often drops the loop skill itself (it was
-invoked first, and re-attached skills are kept most-recent-first).
+and what is left; `/unknowns:loop resume` picks up where it stopped. The skill reads the tracker after compaction or on resume; there is no automatic reminder. With no file system it restates the complete tracker in Markdown for you to save and supply in the next conversation.
 
 ---
 
@@ -263,7 +256,7 @@ Auto-triggers: "blind spot pass", "what am I missing", "unknown unknowns",
 "사각지대 조사해줘", "내가 놓친 게 뭐지"
 
 **How it runs**: It investigates **without modifying any code**. For codebase-wide or
-large scopes it delegates to the `unknowns:unknowns-scout` agent. It leads with the
+large scopes it uses `unknowns:unknowns-scout` when the host can start that agent; otherwise it performs a labeled scout pass itself. It leads with the
 contrast — what you asked for versus what you are actually walking into, with a tally —
 then one card per finding, sorted by likelihood × blast radius and tagged by kind:
 **Landmine** (touching this breaks something non-obvious), **Convention** (an unwritten
@@ -314,9 +307,7 @@ investigation.
 Auto-triggers: "interview me", "ask me questions before implementing", "인터뷰해줘",
 "스펙 질문"
 
-**How it runs**: **At most 4** questions per round — exactly one AskUserQuestion dialog,
-whose hard cap is 1–4 questions with 2–4 options each — in a fixed priority order
-(architecture → data loss & security → compatibility → performance & cost → taste).
+**How it runs**: **At most 4** questions per round, with 2–4 options each, in a fixed priority order (architecture → data loss & security → compatibility → performance & cost → taste). It uses a question tool when available, splitting calls if the tool accepts fewer questions; otherwise it asks numbered questions in the conversation.
 Each question comes with a one-line "why this matters" and each option with its
 tradeoff. At the end it presents a **decision table plus a ready-to-use implementation
 prompt** that marks skipped questions and declares the architecture and data decisions
@@ -342,9 +333,7 @@ Auto-triggers: "divergent prototypes", "design options", "know it when I see it"
 **How it runs**: It produces 4 variants (count adjustable) that differ in **design
 philosophy**, not minor cosmetics. They diverge in information architecture, user flow,
 visual density, interaction, and complexity, and each variant carries a name + a
-one-line philosophy + pros/cons + when-it-fits conditions. In HTML you switch between
-them in one file to compare, and clicking **steal / skip chips** on individual elements
-auto-assembles your choices into a draft requirements list.
+one-line philosophy + pros/cons + when-it-fits conditions. Numbered Markdown comparisons collect **steal / skip** reactions on individual elements and assemble your choices into a draft requirements list. Runnable prototypes are written to files when the host supports it; the comparison stays in the conversation.
 
 **How to react**: Say a combination like
 `"layout from #2 + colors from #4 + the filter from #1"` and it converts that into an
@@ -353,8 +342,7 @@ auto-assembles your choices into a draft requirements list.
 **Tip**: Say `"go wild"` to push the philosophies further apart. Works for code
 architecture comparisons too: `"event-driven vs polling vs push, side by side as
 skeletons"`. If the interaction itself is the contested question (toolbar placement,
-etc.), it builds a clickable mockup with A/B choice buttons that states on the page that
-everything is fake data and names where real wiring would go.
+etc.), it builds a clickable mockup with A/B choice buttons when file tools are available, states that everything is fake data, and names where real wiring would go. Without file or execution tools it shows proposed code or mockup states and says what was not run.
 
 ---
 
@@ -374,8 +362,7 @@ Auto-triggers: "brainstorm interventions", "show me options", "브레인스토�
 candidates are usually wiring up machinery that already exists, and those carry a
 `Found in code — <path>` marker. It then lays out roughly 10 candidate interventions
 along a **time axis from ship-this-afternoon to quarter-long bet**, each annotated with
-expected impact / effort size / key risks / how to measure. An impact × effort toggle
-separates quick wins from big bets, and the items you mark **resonate** get assembled
+expected impact / effort size / key risks / how to measure. An impact × effort table separates quick wins from big bets, and the item numbers you mark **resonate** get assembled
 into structured next steps down to each one's first execution prompt.
 
 ---
@@ -394,8 +381,7 @@ Auto-triggers: "use this as a reference", "make it like this", "레퍼런스로 
 
 **How it runs**: Instead of copying the reference verbatim, it first presents a 4-way
 analysis — **behavior that must be preserved / parts to adapt to the current environment
-/ parts that are unnecessary or dangerous / parts that can be improved**. For porting
-work it also produces a **proof of understanding (semantics map)** — numbered reference
+/ parts that are unnecessary or dangerous / parts that can be improved**. Before implementation, it also produces a **proof of understanding (semantics map)** — numbered reference
 excerpts matched against the corresponding plan, gotcha notes, and an edge-case table
 with a Match column. Nothing is implemented until you sign off: reply `semantics
 confirmed`, or correct any row by its number. On sign-off it ports the reference's
@@ -417,13 +403,12 @@ screenshot, a real example of the desired output all serve as the "map".
 Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
 
-**How it runs**: There is a size gate first: a task touching ≤2 files with no schema,
+**How it runs**: There is a size gate first: a planned implementation creating or modifying ≤2 files with no schema,
 interface or UX-contract decision is handed back to native plan mode instead of getting a
 document. Otherwise items are presented **in order of how likely they are to change**,
 not execution order. Decision items such as schemas, interfaces and UX contracts go at
 the top, each with the alternatives considered and its blast radius, and every new or
-changed public type is rendered as annotated code. Mechanical work is folded away at the
-bottom. Approve/request-change selections assemble into your reply. The plan includes
+changed public type is rendered as annotated code. Mechanical work appears after the decision items, with a summary and details. Approve/request-change selections assemble into your reply. The plan includes
 verification method, risks and rollback, flags its own weakest part, and closes with 2–3
 pre-written reply lines you can copy and send.
 
@@ -456,13 +441,9 @@ same file: **Discovery** (reality differs from what the plan assumed, no decisio
 yet) and **Todo for human** (a judgment call that is yours but blocks nothing and touches
 no architecture, user-visible behavior, data or security — anything that does escalates).
 
-**Persistence**: once the file exists or `init` has been run, appending to the file is
-mandatory — a chat-only summary does not satisfy the rule, because the hook, buy-in and
-quiz all read the file. With no file a chat summary is allowed, but the final message
-must then say there is no notes file.
+**Persistence**: when a file system is available, append to the notes file, creating it if it is missing; buy-in and quiz use that record. With no file system, print the complete updated log as Markdown and say to save it as IMPLEMENTATION_NOTES.md. Before ending a turn, at stage boundaries, and before commits, check for deviations yourself.
 
-**Escalation**: decisions touching architecture, user-visible behavior, data, or
-security must be recorded and then **work stops and the question goes to you**. At
+**Escalation**: decisions touching architecture, user-visible behavior, data, or security must be recorded and then **work stops and the question goes to you**. At
 wrap-up the skill writes a **fold back into the plan** block — three copyable bullets on
 what this changes for attempt #2 — beside any open Todo for human items.
 
@@ -482,12 +463,11 @@ Auto-triggers: "quiz me", "test my understanding", "퀴즈", "내가 이해했�
 **How it runs**: 1. An explanation first (structure of the changes / 3 key design
 decisions / where it's most likely to fail / what you should verify yourself), each
 behavior anchored with a `file:line` → 2. **6 questions, and the pass mark is all 6**
-(five multiple choice, delivered as 4 + 1 because AskUserQuestion takes at most 4 per
-call, plus one teach-back the user explains in their own words), prioritising
+(five multiple choice, delivered as 4 + 1 with smaller tool batches when needed, plus one teach-back the user explains in their own words), prioritising
 incident response > design rationale > behavior prediction and avoiding rote recall; if
 IMPLEMENTATION_NOTES.md exists, at least 1 question covers a recorded deviation →
 3. Grading — each wrong or blank answer names the exact change site to re-read, and you
-get a retry → 4. At 6/6 a **cleared to merge** checklist (quiz passed 6/6, CI
+get a retry. Grading happens in the conversation; the teach-back key stays hidden until the answer, and lack of an advance key file is disclosed → 4. At 6/6 a **cleared to merge** checklist (quiz passed 6/6, CI
 green, migration/rollout reviewed, merge style, what to watch after deploy); below 6/6 it
 stays "not yet" and lists the sections to re-read. It closes with a handoff summary
 written as if another developer takes over tomorrow, convertible into a PR body draft.
@@ -524,9 +504,7 @@ address them by their plugin-scoped id — `unknowns:unknowns-scout` and
 `@agent-unknowns:unknowns-scout` mention form both expect. A bare `unknowns-scout` is
 rejected as `subagent_type`.
 
-An agent's **effective** toolset is its declared list narrowed to what the host session
-actually exposes. In an environment without Grep and Glob, for instance, both agents fall
-back to Bash `grep`/`find`.
+The named agents run only in Claude Code. An agent's **effective** toolset is its declared list narrowed to what the host session exposes. The scout has Read, Grep, Glob, WebFetch, and WebSearch, with no Bash or write tools. It reads available history records and hands questions needing command execution back to the caller. Other hosts use the labeled scout pass; independent verification hands the packet to you for a new conversation and waits for its review.
 
 **unknowns-scout** (read-only reconnaissance):
 ```
@@ -536,15 +514,11 @@ Scout the auth module with the unknowns-scout agent
 The blindspot skill also calls this agent automatically for large investigations, and the
 brainstorm skill may use it to inventory existing code. Otherwise it runs only when you
 name it: other workflows asking for an exploring or research subagent get their own
-agent, Explore or a general agent. It maps
-the target area, reads git history for hairy dead ends and reverted commits, and checks
+agent, Explore or a general agent. It maps the target area, reads available history records for hairy dead ends and reverted commits, and checks
 test coverage and unwritten conventions. For an unfamiliar library it also reads the
 official docs and changelog for the *installed* version, which is why it holds WebFetch
 and WebSearch alongside the read tools. It returns an investigation table sorted by
-likelihood × blast radius plus an improved prompt draft. Three things keep it read-only:
-it is instructed never to modify files, its toolset excludes Edit/Write, and a bundled
-PreToolUse hook denies mutating Bash commands. Bash stays available for read-only
-inspection, though, so this is a strong default, not a sandbox guarantee.
+likelihood × blast radius plus an improved prompt draft. Its tool list permits only reading and searching; the prompt also forbids file changes and invented findings.
 
 **independent-reviewer** (independent verification):
 ```
@@ -561,107 +535,17 @@ from not reviewed — and **checks by claim type**: a factual claim is checked a
 source, a reasoning claim for its premises and a counterexample. With no done criteria in
 its packet it reports conformance as not judgeable instead of guessing, and it ends with
 what it could not verify. General bug and security hunting belongs to `/code-review` and
-`/security-review` on the same diff; run those alongside. Where they are unavailable the
-agent covers error handling, security, performance and needless complexity itself as a
-secondary pass. Stage 8 of the loop skill calls it automatically. Otherwise it runs only
+`/security-review` on the same diff; run those alongside. The
+agent also always covers error handling, security, performance and needless complexity itself as a secondary pass. It keeps Bash for tests, lint, and builds, with no edits, commits, dependency installs, or writes outside a temporary directory. This read-only contract is prose only: no hook or permission mode enforces it. Stage 8 of the loop skill calls it automatically. Otherwise it runs only
 when you name it: an unnamed "independent review" goes to your other review tools or a
 general agent instead.
-
----
-
-## Hook behavior and configuration
-
-The plugin ships two hooks, both pure standard-library Python.
-
-**The notes reminder** counts file edits (Edit / Write / NotebookEdit) in a session. When
-they **reach 10, exactly once**, it delivers "if you deviated from the plan, record it in
-IMPLEMENTATION_NOTES.md" to both your screen and Claude's context, so that Claude, the one
-actually doing the recording, receives it too. It never blocks anything. It is restated
-once after a compaction summarizes it away, and once at Stop if the threshold was crossed
-and the notes file was never touched. A write made outside Edit/Write (`cat >>` in Bash,
-another editor) counts as touching it: the hook notes the file at the session's first
-counted edit and treats it as touched if it has since appeared there or its modification
-time changed. Editing IMPLEMENTATION_NOTES.md itself does not count as an edit, and a
-sub-agent's edits never spend the reminder, since a sub-agent's context is discarded when
-it returns. At session start it also puts one line, `[unknowns] hooks active`, into
-Claude's context, but only where the reminder will actually fire. A model cannot see
-whether hooks run, so the notes skill reads the absence of that line as "no reminder
-here" and keeps the discipline itself.
-
-**It is opt-in per project**: it stays silent unless the project already uses the
-methodology — either an `IMPLEMENTATION_NOTES.md`, or the `.unknowns/` directory the
-skills write their output into (searched from the project dir, then Claude's cwd, walking
-up to the repo root). Where a project has opted in but the notes file does not exist yet,
-the reminder carries the hint to run `/unknowns:notes init`. Set
-`UNKNOWNS_NOTES_ALWAYS=1` to make it fire everywhere.
-
-**Edits made through Bash do not count.** `sed`, heredocs and `python -c` rewrite files
-without a PostToolUse Edit/Write event, so a session that edits that way can finish with
-the counter near zero. That is the usual reason the reminder never appears.
-
-**The sub-agent read-only guard** runs on every Bash call, exits immediately unless the
-call belongs to `unknowns-scout` or `independent-reviewer`, and denies commands that
-would change your tree (`rm`, `mv`, `cp`/`touch` into the tree, writing `git` subcommands,
-package installs, …), including when wrapped in `xargs`, `sh -c`, `env` or `find -exec`.
-For both agents, the write options of reading commands (`sort -o`, `sed w`, `awk print >`,
-`yq -i`, `git --output`, …) are denied as well. The scout is held to an allowlist of read
-commands; the reviewer keeps tests, lint and build, and may write scratch files under a
-temp directory (`/tmp`, `$TMPDIR`, or a variable set from `$(mktemp)` in the same command).
-Anything it cannot parse is allowed through, and a script the agent runs (`python3 -c`, a
-test file) is not inspected — it is a guard rail, not a sandbox.
-
-**Configuration**:
-
-| What you want | How |
-|---|---|
-| Change the threshold (e.g. 20 edits) | `UNKNOWNS_NOTES_THRESHOLD=20` |
-| Turn the reminder off | `UNKNOWNS_NOTES_THRESHOLD=0` — also removes the `hooks active` marker; the one-line loop pointer after a compaction stays, because it appears only while a `.unknowns/loop.json` is `active` |
-| Repeat the reminder at every multiple of the threshold | `UNKNOWNS_NOTES_REPEAT=1` |
-| Fire in every project, not only ones already using the plugin | `UNKNOWNS_NOTES_ALWAYS=1` |
-| Turn the sub-agent Bash guard off | `UNKNOWNS_AGENT_GUARD=0` |
-| Set any of these per project | `.claude/settings.json` → `{"env": {"UNKNOWNS_NOTES_THRESHOLD": "20"}}`, committed for the team (each teammate must trust the folder first) |
-| Set any of these for yourself only | `.claude/settings.local.json`, same `env` block, git-ignored |
-| Legacy variable | `FIELD_GUIDE_NOTES_THRESHOLD` is still recognized (the new variable wins) |
-| Requirements | Python 3 (standard library only, no external dependencies): `python3` on Linux and macOS; on Windows the first of `python3`, `python` and `py -3` that is Python 3 |
-| Tested with | Claude Code 2.1.281 + Opus 5.5, Linux arm64 (2026-09-25): 31 eval cases run, all mechanical graders pass; Claude Code 2.1.261, macOS (2026-09-06): `claude plugin validate` passes; the reminder verified through the live PostToolUse pipeline; both scripts covered by `tests/` |
-| Platforms | CI runs the tests on ubuntu-latest and windows-latest and validates the plugin on ubuntu-latest; macOS is covered by local runs only. Each hook is one shell string that runs in `sh` (Linux, macOS), Git Bash (Windows with Git for Windows) and PowerShell (Windows without it). On Windows it skips a missing `python3` or the Microsoft Store stub and falls back to `python`, then `py -3`; no alias is needed. `tests/test_hook_launcher.py` runs each hook through those shells directly, and SessionStart through `claude --init-only` on both CI systems |
-
-**Manual install without the plugin** (for copied-skill users): copy
-`hooks/scripts/impl_notes_reminder.py` into your project and add this to
-`.claude/settings.json` — merge it into your existing `hooks` object if you already have
-one, rather than pasting a second top-level `hooks` key:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write|NotebookEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3",
-            "args": ["<script path>/impl_notes_reminder.py"],
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-The plugin registers the same script on SessionStart, Stop and SessionEnd as well; add
-those entries the same way if you want the `hooks active` marker and its restatement after
-compaction, the end-of-session check and the state-file cleanup. On Windows without
-`python3`, use `"command": "py"` with `"-3"` as the first `args` element.
 
 ---
 
 ## Recommended scenarios
 
 **Scenario A — small fix** (1–2 files, clear spec):
-No loop needed. Just implement; only the notes rule applies. The hook is the safety net.
+No loop needed. Just implement; apply the notes rule and record significant deviations before ending the turn.
 
 **Scenario B — medium task** (unclear bug cause, half-familiar module):
 ```
@@ -720,41 +604,56 @@ it throughout.
 That's the old 0.1.x name. Follow "Upgrading from 0.1.x" above: uninstall, then
 reinstall.
 
-**Q. The hook never fires.**
-Work down this list. (1) Does the project have an `IMPLEMENTATION_NOTES.md` or a
-`.unknowns/` directory? Without either, the reminder is off by design — run
-`/unknowns:notes init`, or set `UNKNOWNS_NOTES_ALWAYS=1`. (2) Were the edits made through Bash (`sed`, heredocs,
-`python -c`)? Those never fire a PostToolUse Edit/Write event and never advance the
-counter. (3) The default really is once per session at 10 edits — check
-`UNKNOWNS_NOTES_THRESHOLD` and `python3 --version`. (4) Run `/hooks` and confirm the
-entry appears under PostToolUse. (5) Smoke-test the script directly:
-
-```bash
-echo '{"session_id":"x","tool_name":"Edit","cwd":"'$PWD'"}' \
-  | UNKNOWNS_NOTES_THRESHOLD=1 UNKNOWNS_NOTES_ALWAYS=1 \
-    python3 hooks/scripts/impl_notes_reminder.py
-```
-It should print a JSON object containing `systemMessage` and exit 0. (6) Run
-`claude --debug` and read `~/.claude/debug/<session-id>.txt`; the script writes
-`[unknowns] state persist failed` and similar warnings to stderr, which only the debug
-log ever shows. `[unknowns] no working Python 3 found` there means the hook ran none of
-`python3`, `python` or `py -3`.
-
-**Q. The counter looks wrong, or the reminder fired twice.**
-Per-session state lives in one small JSON file, under `$CLAUDE_PLUGIN_DATA/state/` when
-that is set and otherwise in a `0700` per-user directory in your temp dir
-(`unknowns-notes-<user>/<session-id>.json`). Delete it to reset the count. Two things
-make "exactly once" fire more than once: if the temp dir is cleaned mid-session the count
-restarts, and by design SessionStart(compact) re-arms the reminder, so it fires again
-after every compaction. SessionEnd removes the file on its own.
-
-**Q. The hook is annoying.**
-Set `UNKNOWNS_NOTES_THRESHOLD=0`, or raise the threshold to around 30 — per project via
-the `env` block in `.claude/settings.json`, so you don't have to change it globally.
+**Q. Where are the interactive pages?**
+Deliverables are now Markdown in the conversation. Reply by item number or describe the changes; the assistant assembles the next prompt or requirements list. Runnable task prototypes can still be written to files, but there is no generated presentation page.
 
 **Q. Where does the plugin differ from the original material?**
 [`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md) has a table separating "verified directly from
 the source" from "extended during authoring".
+
+---
+
+## Repository layout
+
+```
+skills/<name>/                 source: SKILL.md, references/, agents/openai.yaml
+skills/loop/references/         shared references, vendored transitively by the build
+claude-code/agents/             source: Claude Code agent prompts
+plugin-manifest.json           source manifest, currently 0.10.0
+packaging/                     shipped README, OpenAI interface and SVG listing assets
+.claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
+plugins/unknowns/               generated Claude plugin; the installed payload
+releases/know-your-unknowns.zip generated Claude archive, top folder unknowns/
+releases/know-your-unknowns-openai.zip
+                               generated OpenAI archive, skills and listing assets only
+plugin-release.json            generated version and content digest
+tools/package.py               validate, regenerate, or check the committed output
+scripts/build-skill-zips.py     optional individual skill uploads/local copies
+tests/                         developer checks
+evals/                         model eval cases and manual runner
+docs/                          historical measurements and methodology records
+```
+
+## Develop
+
+Edit source files, then regenerate; never hand-edit `plugins/unknowns/` or the archives:
+
+```bash
+python3 tools/package.py
+python3 tools/package.py --check
+python3 -m unittest discover -s tests -v
+claude plugin validate --strict plugins/unknowns
+claude plugin validate --strict .
+python3 evals/run-manual.py --verify
+```
+
+A non-empty `## [Unreleased]` entry in CHANGELOG.md permits changed shipped content to be rebuilt at the same version and updates `plugin-release.json`. Without that entry, changed content requires a version bump. `--check` always rejects stale generated files, archives, or the digest record; rebuild first.
+
+Release: bump `plugin-manifest.json`, move the Unreleased entry under the new version, rebuild, and merge with green CI. An annotated `unknowns--vX.Y.Z` tag then triggers the release workflow, which validates and attaches both committed zips; no release is created by a local build.
+
+Text uses UTF-8 and LF. Release archives use ZIP_STORED with fixed timestamps and modes for byte reproducibility. The packager is standard-library-only and supports Python 3.7+; the optional individual-skill helper uses Python 3.9+.
+
+The developer tooling test matrix targets Ubuntu and Windows; strict plugin validation runs on Ubuntu. The new Windows CI job has not been observed running yet. Earlier Windows evidence covered the removed hooks through CI only; the rebuilt package's Windows behavior is not measured. Historical routing results in `docs/` refer to the versions they name. Structural checks do not measure the updated skills' behavior, loading, or uploads.
 
 ---
 

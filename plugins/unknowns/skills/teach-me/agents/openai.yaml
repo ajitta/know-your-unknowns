@@ -1,0 +1,6 @@
+interface:
+  display_name: "Unknowns: Teach Me"
+  short_description: "Learn the vocabulary needed to make precise requests"
+  default_prompt: "Use $unknowns:teach-me to teach me the vocabulary and mental model of this domain."
+policy:
+  allow_implicit_invocation: true

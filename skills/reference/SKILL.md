@@ -5,7 +5,6 @@ description: >
   comprehension before implementing. Use when the user says "use this as a reference",
   "make it like this", or
   supplies example code, a mockup, or a competitor's UX to build from.
-argument-hint: "<reference file/path/description>"
 ---
 
 # Reference — A Reference Is Another Map
@@ -25,6 +24,8 @@ The best way to give a model a map: **give it another map**.
 
    b. Summarize its **intent, core behavior, invariants**.
 
+   No file access or browsing tool → ask the user to paste the reference or its relevant excerpts; label any missing portions unverified before continuing.
+
 2. Present a 4-category analysis:
 
    | Category | What goes in it |
@@ -34,7 +35,7 @@ The best way to give a model a map: **give it another map**.
    | **Unnecessary or dangerous parts** | Must not be brought into this project. |
    | **Parts improvable beyond the reference** | Where we can do better. |
 
-3. For port/transform work, also present **proof of comprehension (semantics map)**. The map holds:
+3. For port/transform work or before implementing any reference-based work, present **proof of comprehension (semantics map)**. The map holds:
 
    - key reference excerpts ↔ new-environment counterparts, side by side
    - gotcha points where behavior subtly differs
@@ -52,23 +53,27 @@ The best way to give a model a map: **give it another map**.
 
    a. The user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, the map is revised before any code.
 
-   b. In-session, offer the same choice once with AskUserQuestion: implement now / revise the map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+   b. Offer this choice once: implement now / revise the map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+
+   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
 6. On sign-off:
 
+   Record intentional deviations from the reference per the **notes** skill. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security.
+
    a. **Port the reference's existing tests first**, before implementing.
 
-   b. Implement.
+   b. Implement within the logging and stop-and-ask limits at the start of step 6.
 
-   c. Record intentional deviations from the reference per the **notes** skill.
+   No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and keep their results unverified until the user supplies evidence.
 
 ## Output
 
-Artifact tool → publish the page; else `.unknowns/<YYYY-MM-DD>-reference-<slug>.html`; else markdown with the same structure. On every rung, end the turn with the assembled reply as plain text in chat.
+Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
-Numbered mapping rows (reference excerpt ↔ counterpart plan) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
+Numbered mapping rows (key reference excerpt ↔ new-environment counterpart) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
 
-Before writing HTML, read how to build the page from the template: ${CLAUDE_PLUGIN_ROOT}/skills/loop/references/output-routing.md
+For numbered reactions and reply assembly, read references/output-routing.md.
 
 ## What Can Be a Reference
 
