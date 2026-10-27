@@ -14,7 +14,7 @@ description: >
 
 This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
 
-When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
+When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 Jumping on the first solution leaves the rest of the solution space unknown. The user picks; the model draws the space.
 
@@ -44,8 +44,8 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    - one-line description: what it would change
    - `Already exists — <where>`, when the candidate builds on something step 2 found
 
-   Ranking, scoring and pruning wait for step 5. Judging while generating keeps the first safe ideas and stops the list before the unexpected ones (Osborn: defer judgment, go for quantity).
-4. Ask which candidate numbers **resonate**.
+   Sizing and choosing wait for the user's picks (steps 4–5). Judging while generating keeps the first safe ideas and stops the list before the unexpected ones (Osborn: defer judgment, go for quantity).
+4. Ask which candidate numbers **resonate**; those are the picks.
 5. At selection, attach these fields to each picked candidate:
    - expected impact: what improves, by how much
    - effort size: S/M/L/XL

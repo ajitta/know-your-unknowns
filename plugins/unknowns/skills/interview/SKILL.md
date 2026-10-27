@@ -15,7 +15,7 @@ description: >
 
 This skill serves what you do not know and the user does: before deciding, it asks what you cannot know or judge about the user's situation.
 
-When you and the user both seem to understand the request, do it without this method: if its result carries weight, first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
+When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
 When requirements are incomplete, **the model interviews the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
 
@@ -40,7 +40,7 @@ When requirements are incomplete, **the model interviews the user** before anyth
 
    b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
 
-   c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note.
+   c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note. A why follow-up from step 4c stays open, without options.
 
    d. Attach a **one-line reason why it matters** to each question.
 3. Collect the answers before updating the spec in step 4.

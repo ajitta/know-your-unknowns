@@ -63,7 +63,8 @@ class PortabilityTest(unittest.TestCase):
         # Rule 0: each skill names the cell it serves; a request clear to both sides skips the
         # method after a read-back when it carries weight, and a mismatch routes by cell.
         read_back = ("When you and the user both seem to understand the request, do it without this method: "
-                     "if its result carries weight, first read back in 2–3 lines")
+                     "if its result carries weight (it ships, is sent or is hard to undo), "
+                     "first read back in 2–3 lines")
         routes = ("route by who does not know: the user → the **teach-me** skill; you → the **interview** "
                   "skill; neither of you → the **blindspot** skill.")
         description_line = ("Clear to both: no skill or method; if weighty (ships, is sent, hard to "
