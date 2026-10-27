@@ -15,7 +15,7 @@ This skill serves what you do not know and the user does: before deciding, it as
 
 When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
-When requirements are incomplete, **the model interviews the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
+When requirements are incomplete, **you interview the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
 
 ## Question Priority (blast radius: what a wrong decision breaks, fixed)
 
@@ -46,9 +46,9 @@ When requirements are incomplete, **the model interviews the user** before anyth
 
    a. On answers, restate the decisions as an **updated spec summary**.
 
-   b. When undecided items remain, propose the next round.
+   b. When unsettled items remain (items the user has neither decided nor chosen to leave undecided), propose the next round.
 
-   c. **Ladder once on the load-bearing answers**: a structure or harm answer that came without a reason gets one "why" follow-up at the top of the next round ("what would break for you if it went the other way?"), asked open with its why-it-matters line and no options, so the reason is the user's own. Follow-ups count toward the round's 4 questions. When no undecided items remain, the follow-ups make up the next round on their own. The reason, not the choice, is what lets a later deviation be judged — the reason fills the decision table's rationale column.
+   c. **Ladder once on the load-bearing answers**: a structure or harm answer that came without a reason gets one "why" follow-up at the top of the next round ("what would break for you if it went the other way?"), asked open with its why-it-matters line and no options, so the reason is the user's own. Follow-ups count toward the round's 4 questions. When no unsettled items remain, the follow-ups make up the next round on their own. The reason, not the choice, is what lets a later deviation be judged — the reason fills the decision table's rationale column.
 5. When the user wants a deep interview (e.g. "40-question level"), repeat rounds in the same order: structure → harm → compatibility → cost → taste.
 
 ## Final Deliverables

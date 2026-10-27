@@ -14,7 +14,7 @@ This skill serves what neither the user nor you know yet, and surfaces both side
 
 When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
-Jumping on the first solution leaves the rest of the solution space unknown. The user picks; the model draws the space.
+Jumping on the first solution leaves the rest of the solution space unknown. The user picks; you draw the space.
 
 ## Iron Rules
 
@@ -43,8 +43,8 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    - `Already exists — <where>`, when the candidate builds on something step 2 found
 
    Ranking, pruning, sizing and any recommendation wait for the user's picks (steps 4–5). Judging while generating keeps the first safe ideas and stops the list before the unexpected ones (Osborn: defer judgment, go for quantity).
-4. End the reply by asking which candidate numbers **resonate**; those are the picks.
-5. At selection, attach these fields to each picked candidate:
+4. End the reply by asking which candidate numbers **resonate**; those are the picks. The picks show the user's priorities, which you do not know yet; a recommendation added after the list makes the pick for them.
+5. Once the user names the picks, attach these fields to each picked candidate:
    - expected impact: what improves, by how much
    - effort size: S/M/L/XL
    - key risks
@@ -54,7 +54,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
 ## Output
 
-Layout: numbered cards on a time axis (this afternoon → quarter-long bet).
+Layout: numbered candidates on a time axis (this afternoon → quarter-long bet).
 
 ## Related
 

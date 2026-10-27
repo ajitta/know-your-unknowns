@@ -2,6 +2,47 @@
 
 ## [Unreleased]
 
+## 0.12.1 — 2026-10-28
+
+Released 2026-10-28. Body fixes from this build's own runs (blindspot, brainstorm, interview, quiz); descriptions, skill names and always-on tokens unchanged. Eval coverage for the independent-reviewer agent and reference's correction rule, the thin cells re-measured on this build, a Codex run, and fixes from the build's own runs.
+
+### Changed — fixes from this build's own runs
+
+- blindspot: a risk the AI already sees is a finding, not one of its own assumptions, and waits for the user's answer or skip like every other finding. Korean trigger runs had put the core risk ("a 502 does not mean the processor did nothing") into the AI's ⑤ list in the opening reply. "Context sources" and "kinds" each keep one name.
+- brainstorm: step 4 gives the reason the picks come first: they show the user's priorities, which the AI does not know yet, so a recommendation added after the list makes the pick for them. The Output layout says "candidates" ("cards" are the scout's blindspot cards), and step 5 starts once the user names the picks.
+- interview: a further round is proposed only for unsettled items (neither decided nor deliberately left undecided by the user), and the why follow-ups make up a round of their own when none remain. A tag naming each question's radius was tried for the order slips and taken out again: in two iterations it did not fix the order and dropped the reasons from option questions.
+- quiz: the teach-back is graded against "the 2–3 points in the key file from step 1c".
+- brainstorm, interview, quiz: "the model" becomes "you" in three body sentences, as everywhere else in the bodies (from the skill-creator check).
+
+### Evals (developer-only; not in the shipped payload)
+
+- Input files through the CLI's own scaffold form: a case may carry `files/`, a `place-files.sh` and a `case.yaml` naming it under `context: scaffold_script:`; `run-manual.py` runs the script with bash in the run's fresh cwd before the run, as `claude plugin eval --scaffold` does, and `--verify` checks `case.yaml` and the script. A `fixture:` key in `prompt.md` was tried first and dropped: the CLI fails to load a case with a key it does not know.
+- `run-manual.py` keeps the report each spawned agent hands back as `agent_reports`, so a grader with `focus: trace` judges the agent's report, not the caller's retelling of it.
+- Two independent-reviewer cases call the agent by name: `behavior-independent-reviewer-code-change` (a git repository whose last commit silently misses one of five done criteria: an empty month prints no header) and `behavior-independent-reviewer-report-vs-records` (a pilot report whose members, loans and loss rate contradict the records beside it, with an undisclosed deviation). Graders: the agent is spawned; each done criterion judged met, partial or missing; the planted miss found; an outcome judgement; a claim-checks part.
+- Multi-turn `reference-correction-revises-plan`: the user corrects one semantics-map row by its number in turn 2 and says nothing about what else it changes; the grader checks that the reply revises the plan items built on that row.
+- Suite: 69 single-turn cases (157 graders), 5 multi-turn cases (21 graders).
+
+### Checked
+
+Claude Code 2.1.309, claude-opus-5-5, this build on its own runs (no comparison arm, by owner decision); `llm` graders judged by a separate `claude -p`, which for the reviewer cases also sees the agent's report.
+
+- independent-reviewer, 3 runs per case: the agent was spawned in 6/6 runs; 30/30 graders on the final case form. In the first form, the caller's retelling dropped the reviewer's outcome judgement in 3/3 code runs, although the agent's own report had it; the graders now judge the report.
+- reference multi-turn, 3 runs: 6/6 graders; every reply revised the corrected row and the rows and plan items built on it (form fields, documents, payment).
+- Thin cells, 3 runs each on the 0.12.0 bodies: prototypes single-turn 18/18 graders and multi-turn 9/9; blindspot evidence status 9/9 single-turn and multi-turn 12/12; brainstorm noncode-en 1/3 (a recommendation after the closing question), noncode-ko 3/3; multi-turn interview 11/12 (order 2/3). Korean blindspot trigger ×10: `unknowns:blindspot` loaded 10/10, method grader 6/10 (the ⑤ leak above).
+- After the fixes, failing cells and every changed skill's cases 3× (two iterations, then the final interview): Korean blindspot trigger 10/10 and 10/10; brainstorm's five cases 18/18 and noncode-en 3/3 again on the final wording; blindspot behaviour, trigger and non-coding cases 27/27 in each iteration; single-turn interview cases 17/18, 18/18 and 17/18 (each miss one non-coding run: reasons of two or three sentences, once with extra questions inside a reason); quiz 5/6 (one response cut off mid-stream), then 3/3. Multi-turn: blindspot 12/12 and 11/12; interview 10/12, 10/12 and, on the final wording, 11/12.
+- The intended skill loaded in every run: 153/153 single-turn and 30/30 multi-turn.
+- Codex (codex-cli 0.164.0, isolated HOME and CODEX_HOME, a `git archive` copy of this branch): the three renamed skills by `$unknowns:` name and by English and Korean trigger phrase, 2 runs each, 18/18 to the intended skill. Behaviour, 1 run each, judged by Claude: tweakable-plan 3/4 graders (it wrote "completion criteria", which the regex grader does not accept; the method held), interview 1/2 (round 1 asked four open questions with reasons but did not say more rounds follow). Both pass on Claude; the bodies are unchanged for them.
+- skill-creator check of the 11 skills and 2 agents: `quick_validate.py` 11/11 valid; 16 criteria adjudicated against the repository's rules (3 form fixes applied, the rest kept by rule or owner decision).
+- Writing-for-models, Claude only: per-file checks of the four changed skills before and after the fixes and four diff checks (65 findings; 14 confirmed, 11 edits, one later reverted with the radius tag; 51 rejected as guard prose, shared blocks, measured wording, the owner's read-back ruling, or form points with no failing run).
+- Tokens (cl100k): always-on frontmatter unchanged at 1,404; the 11 bodies 13,559 → 13,653; all shipped text 17,336 → 17,430.
+
+### Not measured
+
+- No comparison with 0.12.0 (owner decision); every figure above is from this build's own runs at 1–10 runs per cell, so small differences are within noise.
+- Cells still to watch: the multi-turn interview's order (2/3 in every batch this round, with or without the tried tag) and its four-per-reply count (one fact request tucked into an item in 1 of 3 runs in two batches); blindspot's multi-turn evidence status (an unchecked item kept in the cards in 1 of 9 runs).
+- The claude.ai upload descriptions (`scripts/skill-descriptions.json`): a 520-run Claude Code proxy measurement was approved and runs after this release; its result goes into the next entry.
+- claude.ai, ChatGPT and mobile behaviour; Codex beyond the three renamed skills and two behaviour cases; real Windows use (the scaffold tests that run bash are skipped on Windows).
+
 ## 0.12.0 — 2026-10-28
 
 Released 2026-10-28. The plugin is rescoped to three cells of what the user and the AI know, in any domain, judged by the outcome.

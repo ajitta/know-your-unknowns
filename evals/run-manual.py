@@ -15,6 +15,10 @@ What it does and does not do:
     directory, for a human to score by hand.
   * Each run happens in a fresh temporary working directory, so `file_exists` and
     `target: files` mean the same thing they mean under the real runner.
+  * A case whose `case.yaml` names a `context: scaffold_script:` gets that bash script
+    run in the directory before the run, as `claude plugin eval --scaffold` does, so a
+    case can hand the model real material: a repository to review, a report and its
+    records. The report each spawned agent hands back is kept beside the last message.
   * With `--arm both` it runs each case twice, with and without `--plugin-dir`, which
     is the manual equivalent of `--ablation with-without`.
   * With `--crowd N` it also loads a generated filler plugin of N ordinary-looking
@@ -145,11 +149,16 @@ TOP_KEYS = {"schema_version", "name", "description", "tags", "plugins", "runs",
             "expected_outcome"}
 EXEC_KEYS = {"model", "max_turns", "timeout_seconds", "allowed_tools",
              "artifact_publish", "growthbook_overrides", "append_system_prompt", "env"}
+# `case.yaml` keys this suite uses; the CLI reads the same file beside `prompt.md`.
+CASE_YAML_KEYS = {"schema_version", "name", "expected_outcome", "context"}
+CONTEXT_KEYS = {"scaffold_script"}
 
 
 def load_case(case_dir):
     prompt_path = os.path.join(case_dir, "prompt.md")
     front, body = split_frontmatter(read(prompt_path), prompt_path)
+    yaml_path = os.path.join(case_dir, "case.yaml")
+    case_yaml = parse_frontmatter(read(yaml_path), yaml_path) if os.path.exists(yaml_path) else {}
     unknown = set(front) - TOP_KEYS - EXEC_KEYS
     if unknown:
         raise ValueError("%s: unknown frontmatter key(s) %s" % (prompt_path, sorted(unknown)))
@@ -184,6 +193,9 @@ def load_case(case_dir):
         "allowed_tools": front.get("allowed_tools", []),
         "model": front.get("model"),
         "append_system_prompt": front.get("append_system_prompt"),
+        "case_yaml": case_yaml,
+        "scaffold_script": (case_yaml.get("context") or {}).get("scaffold_script")
+        if isinstance(case_yaml.get("context"), dict) else None,
         "graders": graders,
     }
 
@@ -217,10 +229,27 @@ def plugin_root():
 
 def snapshot(root):
     seen = set()
-    for base, _dirs, files in os.walk(root):
+    for base, dirs, files in os.walk(root):
+        # a scaffolded repository's git internals are not output the run created
+        dirs[:] = [name for name in dirs if name != ".git"]
         for name in files:
             seen.add(os.path.relpath(os.path.join(base, name), root).replace(os.sep, "/"))
     return seen
+
+
+def run_scaffold(case, sandbox):
+    """Run the case's scaffold script in the sandbox, as `claude plugin eval --scaffold` does."""
+    if not case.get("scaffold_script"):
+        return
+    script = os.path.join(case["dir"], str(case["scaffold_script"]))
+    bash = shutil.which("bash")
+    if bash is None:
+        raise SystemExit("%s: its scaffold script needs bash on PATH" % case["name"])
+    proc = subprocess.run([bash, os.path.abspath(script)], cwd=sandbox,
+                          capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise SystemExit("%s: scaffold script failed (exit %d): %s"
+                         % (case["name"], proc.returncode, proc.stderr.strip()[-500:]))
 
 
 # Filler skills for --crowd: plausible, unrelated work, some sharing trigger words
@@ -301,6 +330,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
     sandbox = tempfile.mkdtemp(prefix="unknowns-eval-")
     config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if crowd_root else None
     try:
+        run_scaffold(case, sandbox)
         before = snapshot(sandbox)
         cmd = [claude_bin, "-p", case["prompt"],
                "--output-format", "stream-json", "--verbose",
@@ -340,6 +370,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             timed_out = True
 
         events, tool_calls, last_message = [], [], ""
+        agent_ids, agent_reports = set(), []
         model_used = None
         result_error = False
         for line in stdout.splitlines():
@@ -370,6 +401,15 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
                         "name": block.get("name", ""),
                         "input": block.get("input", {}),
                     })
+                    if block.get("name") in ("Agent", "Task") and not event.get("parent_tool_use_id"):
+                        agent_ids.add(block.get("id"))
+                elif block.get("type") == "tool_result" and block.get("tool_use_id") in agent_ids:
+                    # what a spawned agent handed back, before the caller rewrote it
+                    content = block.get("content")
+                    if isinstance(content, list):
+                        content = "\n".join(part.get("text", "") for part in content
+                                            if isinstance(part, dict))
+                    agent_reports.append(str(content or ""))
                 elif block.get("type") == "text" and message.get("role") == "assistant":
                     last_message = block.get("text", "") or last_message
 
@@ -398,6 +438,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             "stderr": stderr[-2000:],
             "duration_seconds": round(time.time() - started, 1),
             "last_message": last_message,
+            "agent_reports": agent_reports,
             "tool_calls": tool_calls,
             "files_created": created,
             "file_text": file_text,
@@ -603,6 +644,31 @@ def verify(root):
             problems.append("%s: runs < 3 (the suite floor)" % name)
         if not [g for g in case["graders"] if not is_display_only(g)]:
             problems.append("%s: every grader is display-only; needs an outcome grader" % name)
+        if os.path.exists(os.path.join(case["dir"], "case.yaml")):
+            case_yaml = case["case_yaml"]
+            stray = set(case_yaml) - CASE_YAML_KEYS
+            if stray:
+                problems.append("%s: case.yaml has unknown key(s) %s" % (name, sorted(stray)))
+            if case_yaml.get("name") not in (None, name):
+                problems.append("%s: case.yaml name %r is not the folder name"
+                                % (name, case_yaml.get("name")))
+            context = case_yaml.get("context")
+            if context is not None and not isinstance(context, dict):
+                problems.append("%s: case.yaml context must be a mapping" % name)
+            elif context:
+                stray = set(context) - CONTEXT_KEYS
+                if stray:
+                    problems.append("%s: case.yaml context has unknown key(s) %s"
+                                    % (name, sorted(stray)))
+        if case["scaffold_script"]:
+            case_root = os.path.realpath(case["dir"])
+            script = os.path.realpath(os.path.join(case["dir"], str(case["scaffold_script"])))
+            if os.path.commonpath([case_root, script]) != case_root:
+                problems.append("%s: scaffold script %r is outside the case"
+                                % (name, case["scaffold_script"]))
+            elif not os.path.isfile(script):
+                problems.append("%s: scaffold script %r is missing"
+                                % (name, case["scaffold_script"]))
 
         for grader in case["graders"]:
             label = "%s/%s" % (name, grader["name"])
