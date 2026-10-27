@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## 0.11.0 — 2026-10-27
+
+**Breaking:** the plugin is compacted to its method. The loop tracker (`.unknowns/loop.json`, `status`/`resume`, tiers), the scorecard (`.unknowns/scorecard.md` and its end-of-session questions), notes `init`/`show`, the reviewer stage of loop, and the per-host fallback branches are gone. Skills and agents carry no guard prose, tool allow-lists or identity lines; both agents inherit every tool. Installed text is about a third of 0.10.0's.
+
 ### Changed — compacted to the method
 
 Every skill and agent now keeps only the text that makes the model surface or resolve the user's unknowns. Skill and agent source text is 43% smaller than in 0.10.0 (19,054 → 10,796 cl100k tokens), and the installed payload's text 65% smaller now that no references are vendored. Skill descriptions are unchanged; two agent descriptions change, as noted below.
@@ -18,9 +22,8 @@ Every skill and agent now keeps only the text that makes the model surface or re
 - notes: picks the conservative option, logs it and keeps going; the check before a commit or hand-back appends what it finds, and a plan decision a deviation invalidates is marked superseded in the plan; at wrap-up, entries touching architecture, user-visible behavior, data or security are listed first. The entry format, inferred alternatives, the Discovery line, the logging criteria and the fold-back block stay. The location table, `init`/`show`, the CLAUDE.md rule offer, Todo-for-human entries, the plan-revision escalation and stop-and-ask are removed.
 - quiz: ends at the score. 6/6 passes and suggests buy-in when reviewers must approve; below 6/6 stays "not yet" with sections to re-read and a retry. The cleared-to-merge checklist, the handoff summary and PR body, and the scorecard are removed.
 - buy-in: leads with the working demo (when none exists, it says so and lists that as a limitation), answers objections with followable evidence checked by independent-reviewer, moves answers without evidence, or whose evidence the reviewer could not confirm, to limitations, pulls limitations from the log, and names who signs off and what each will check. The quiz prerequisite, spec table, rollback paragraph and sign-off checklist are removed.
-- unknowns-scout: no tool list, bans or identity line; it reads git history itself. Its description drops "Read-only" (routing not re-measured).
-- independent-reviewer: no tool list, identity line, read-only contract or general bug and security pass. Deviations are judged by whether the conservative option was chosen, and the reviewer lists risky ones first for the user. Its description names buy-in as its only calling skill (routing not re-measured).
-- Measured on its own runs: the full single-turn suite and the four multi-turn cases, 3 runs each. Routing for both agents was re-checked (named, called by buy-in, and kept away from generic review and explore requests).
+- unknowns-scout: no tool list, bans or identity line; it reads git history itself. Its description drops "Read-only".
+- independent-reviewer: no tool list, identity line, read-only contract or general bug and security pass. Deviations are judged by whether the conservative option was chosen, and the reviewer lists risky ones first for the user. Its description names buy-in as its only calling skill.
 
 ### Changed — fixes from the compacted plugin's own runs
 
@@ -32,7 +35,7 @@ Every skill and agent now keeps only the text that makes the model surface or re
 - Sentences the method does not need are cut: buy-in's quiz contrast line, reference's slogan line, interview's purpose line after the prompt, and the reviewer's pointer to `/code-review` and `/security-review`. The cuts (−192 tokens) roughly pay for the fixes (+202): skill and agent source text is 10,806 cl100k tokens, from 10,796. Skill and agent descriptions are unchanged.
 - Evals: the interview grader checks that conflicts with fixed decisions are logged as deviations (the current contract), not flagged before code; the single-turn blindspot trigger graders accept the opening three-list question with no finding beside it, which the multi-turn case requires.
 
-The entries below were written before this compaction. Those about the loop tracker, tiers and stage checkpoints, the scorecard, notes `init`, brainstorm's impact × effort table, blindspot's loop baseline, buy-in's demo read target, the quiz wrap-up, and the reviewer's temporary directory, read tools and permission note describe text that no longer ships.
+The entries below were made earlier in this cycle, before the compaction. Those about the loop tracker, tiers and stage checkpoints, the scorecard, notes `init`, brainstorm's impact × effort table, blindspot's loop baseline, buy-in's demo read target, the quiz wrap-up, and the reviewer's temporary directory, read tools and permission note describe text that no longer ships.
 
 ### Changed
 
@@ -65,6 +68,24 @@ The entries below were written before this compaction. Those about the loop trac
 - The two single-turn blindspot cases now tell the skill to skip its up-front questions, so they grade the full pass; the asking path is graded by the multi-turn blindspot case. The exact-wording `labels-the-prompt-draft` regex was removed (the llm grader already checks the draft) and a finding-card marker regex added.
 - Method-marker regex graders for notes (Observed/Attributed blocks) and plan (weakest part / allowed cost), so a skill that loads and then declines no longer passes those cases on the load alone.
 - The one-file plan grader names the document parts it forbids (likelihood-ordered decisions, rollback or blast-radius notes, a weakest-part section) and allows a short list of choices and approval lines.
+
+### Checked
+
+Claude Code 2.1.309, claude-opus-5-5, `evals/run-manual.py` and `evals/run-multiturn.py`, `llm` graders judged by a separate `claude -p`.
+
+- Before the compaction, against 0.10.0 at 10 runs per case per arm, same day, in parallel (Fisher exact): plan size gate 0/10 → 9/10 (p < 0.001); prototypes first reply says the set can grow 3/10 → 10/10 (p = 0.003); loop first reply names its stages 1/10 → 10/10 (en, p < 0.001) and 2/10 → 10/10 (ko, p = 0.001); notes entry fields 0/10 → 10/10 (p < 0.001). A second pair (review fixes vs wording-only build, 10 runs, multi-turn): quiz key hidden 0/10 → 6/10 (p = 0.01); interview four questions per round 4/10 → 9/10 (p = 0.06) and reasons in priority order 1/10 → 5/10 (p = 0.14), not significant.
+- The compacted build on its own runs (no comparison arm, by owner decision): the full single-turn suite and the four multi-turn cases at 3 runs each, the failing cells fixed and re-run at 3 runs, then the whole suite once (single-turn 45/49, multi-turn 12/14 before the last fixes).
+- Agent routing with the changed descriptions, 36 runs: named calls 12/12, buy-in → independent-reviewer 3/3, generic review and explore requests (English and Korean) 0/18 to an unknowns agent.
+- Per-file writing-for-models checks by Claude and Codex on the compacted text, adjudicated against the owner's rules, and Codex diff checks of every edit round.
+- `tools/package.py --check`, unit tests, both eval `--verify` runs, and strict plugin and marketplace validation; CI on Ubuntu and Windows.
+
+### Not measured
+
+- The compacted build was not compared with 0.10.0 or with the pre-compaction build; the improvements above were measured on the earlier text and are carried over in substance, re-checked only at 3 runs.
+- claude.ai, ChatGPT and mobile behaviour; Codex runs of this build; real Windows use.
+- independent-reviewer has no eval case (two hand-run sessions before the compaction).
+- The claude.ai upload short descriptions in `scripts/skill-descriptions.json` have never been measured for triggering.
+- Known weak cells at release: the Korean blindspot trigger sometimes answers without the skill (3 of 10 runs); interview sometimes asks a no-reason taste question before a higher-radius one, and once let a declined option into the fixed decisions.
 
 ## 0.10.0 — 2026-10-27
 

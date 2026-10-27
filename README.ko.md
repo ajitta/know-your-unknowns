@@ -555,7 +555,7 @@ Claude Code가 자체 `loop` 스킬(반복 인터벌 러너)을 싣고 있어 �
 ```
 skills/<name>/                 소스: SKILL.md, agents/openai.yaml
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.10.0
+plugin-manifest.json           소스 매니페스트, 현재 0.11.0
 packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드
