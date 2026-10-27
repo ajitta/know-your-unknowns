@@ -15,6 +15,9 @@ What it does and does not do:
     directory, for a human to score by hand.
   * Each run happens in a fresh temporary working directory, so `file_exists` and
     `target: files` mean the same thing they mean under the real runner.
+  * A case's `fixture:` folder (or list of folders, committed one per layer into a
+    git repository) is copied into that directory before the run, so a case can hand
+    the model real material: a repository to review, a report and its records.
   * With `--arm both` it runs each case twice, with and without `--plugin-dir`, which
     is the manual equivalent of `--ablation with-without`.
   * With `--crowd N` it also loads a generated filler plugin of N ordinary-looking
@@ -144,7 +147,8 @@ BODY_KEY = {"llm": "criteria", "baseline": "criteria", "regex": "pattern"}
 TOP_KEYS = {"schema_version", "name", "description", "tags", "plugins", "runs",
             "expected_outcome"}
 EXEC_KEYS = {"model", "max_turns", "timeout_seconds", "allowed_tools",
-             "artifact_publish", "growthbook_overrides", "append_system_prompt", "env"}
+             "artifact_publish", "growthbook_overrides", "append_system_prompt", "env",
+             "fixture"}
 
 
 def load_case(case_dir):
@@ -184,6 +188,7 @@ def load_case(case_dir):
         "allowed_tools": front.get("allowed_tools", []),
         "model": front.get("model"),
         "append_system_prompt": front.get("append_system_prompt"),
+        "fixture": front.get("fixture"),
         "graders": graders,
     }
 
@@ -217,10 +222,55 @@ def plugin_root():
 
 def snapshot(root):
     seen = set()
-    for base, _dirs, files in os.walk(root):
+    for base, dirs, files in os.walk(root):
+        # a fixture's git internals are not output the run created
+        dirs[:] = [name for name in dirs if name != ".git"]
         for name in files:
             seen.add(os.path.relpath(os.path.join(base, name), root).replace(os.sep, "/"))
     return seen
+
+
+def fixture_layers(case):
+    """The case's fixture folders, in order: `fixture: dir` or `fixture: [dir, dir]`."""
+    value = case.get("fixture")
+    if not value:
+        return []
+    names = value if isinstance(value, list) else [value]
+    return [os.path.join(case["dir"], str(name)) for name in names]
+
+
+# Fixed identity and dates, so a fixture repository has the same history on every run.
+GIT_ENV = {"GIT_AUTHOR_NAME": "Eval Fixture", "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+           "GIT_COMMITTER_NAME": "Eval Fixture", "GIT_COMMITTER_EMAIL": "fixture@example.invalid",
+           "GIT_AUTHOR_DATE": "2026-01-01T00:00:00+0000",
+           "GIT_COMMITTER_DATE": "2026-01-01T00:00:00+0000"}
+
+
+def copy_fixture(case, sandbox, git="git"):
+    """Lay the case's fixture into the sandbox before the run.
+
+    One folder is copied as is. A list of folders becomes a git repository with one
+    commit per folder, each copied over the one before and committed under the folder's
+    name, so a case can hand the model a change to review (for example HEAD~1..HEAD).
+    """
+    layers = fixture_layers(case)
+    if not layers:
+        return
+    env = dict(os.environ, **GIT_ENV)
+
+    def run_git(*args):
+        subprocess.run([git, "-c", "core.autocrlf=false", "-c", "commit.gpgsign=false"]
+                       + list(args), cwd=sandbox, env=env, check=True,
+                       capture_output=True, text=True)
+
+    if len(layers) > 1:
+        run_git("init", "-q")
+        run_git("checkout", "-q", "-b", "main")
+    for layer in layers:
+        shutil.copytree(layer, sandbox, dirs_exist_ok=True)
+        if len(layers) > 1:
+            run_git("add", "-A")
+            run_git("commit", "-q", "-m", os.path.basename(os.path.normpath(layer)))
 
 
 # Filler skills for --crowd: plausible, unrelated work, some sharing trigger words
@@ -301,6 +351,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
     sandbox = tempfile.mkdtemp(prefix="unknowns-eval-")
     config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if crowd_root else None
     try:
+        copy_fixture(case, sandbox)
         before = snapshot(sandbox)
         cmd = [claude_bin, "-p", case["prompt"],
                "--output-format", "stream-json", "--verbose",
@@ -603,6 +654,15 @@ def verify(root):
             problems.append("%s: runs < 3 (the suite floor)" % name)
         if not [g for g in case["graders"] if not is_display_only(g)]:
             problems.append("%s: every grader is display-only; needs an outcome grader" % name)
+        case_root = os.path.realpath(case["dir"])
+        for layer in fixture_layers(case):
+            real = os.path.realpath(layer)
+            if os.path.commonpath([case_root, real]) != case_root or real == case_root:
+                problems.append("%s: fixture %r is not a folder inside the case"
+                                % (name, os.path.relpath(layer, case["dir"])))
+            elif not os.path.isdir(real):
+                problems.append("%s: fixture folder %r is missing"
+                                % (name, os.path.relpath(layer, case["dir"])))
 
         for grader in case["graders"]:
             label = "%s/%s" % (name, grader["name"])
