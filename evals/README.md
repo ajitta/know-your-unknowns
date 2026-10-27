@@ -35,7 +35,7 @@ evals/
 ```
 
 `prompt.md` frontmatter keys used here: `description`, `tags`, `runs`, `max_turns`,
-`timeout_seconds`, `allowed_tools`. Grader types used here: `tool_used`, `regex`,
+`timeout_seconds`, `allowed_tools`, `append_system_prompt`. Grader types used here: `tool_used`, `regex`,
 `file_exists`, `llm`. The grader's name is its filename; an `llm` or `regex` grader's
 body is its rubric or pattern. `claude plugin eval --help` is the authority on the
 format — this README does not restate it.
@@ -180,14 +180,43 @@ for an exact test, before claiming a difference.
 that skill's current `description` (see [docs/trigger-matrix.md](../docs/trigger-matrix.md)).
 When a description changes, the case that used a dropped phrase must change with it.
 
+**22 non-coding cases** — one per language for each of the 11 skills,
+`noncode-{en,ko}-<skill>`: a grant, a choir, a family reunion, a lease, a hiring
+decision, a parents' association. Each carries a display-only routing indicator and
+one `llm` grader, `moves-toward-the-outcome`, that asks whether the reply moves toward
+what the user is actually after (surfacing both sides' unknowns, clarifying intent)
+rather than only producing an artifact, and fails a reply that forces software
+concepts onto work that has none.
+
+**4 Unknown-cell cases** — `unknown-*`: a county permit nobody in the conversation
+knows, an organisation's unwritten politics, a three-month-old scheme with almost no
+sources, a personal job trade-off. Neither the user nor the model can know the answer;
+the `surfaces-both-sides-unknowns` grader passes a reply that labels what it cannot
+know, asks for what only the user knows, and gives no confident answer it cannot
+back. The routing indicator accepts any unknowns skill.
+
+**8 Open-cell negatives** — `neg-open-*`: requests both sides already understand. None
+may fire an unknowns skill (`input_match: "unknowns:"`, `min: 0`, `max: 0`, `arm: both`).
+Five are trivial (a rename, typo fixes, a polite rewrite, an errand "plan", "quiz me" on
+trivia) and must be done directly, with no read-back. Three carry weight and must get a
+2-3-line read-back of the request, the assumptions and what counts as done, then wait
+for confirmation, with no method run. Two of them (`neg-open-weighty-code-en`, a
+migration going to production tonight; `neg-open-weighty-text-ko`, a notice to all 80
+staff) are tagged `informative`: they measure the gap the plugin leaves without a
+`CLAUDE.md` line (the read-back lives in the skill bodies, and no skill loads for a clear
+request), so they do not block a release. The third, `neg-open-weighty-memory-line-en`,
+runs the migration with the README's `CLAUDE.md` line passed as `append_system_prompt`,
+which `run-manual.py` hands to `claude -p --append-system-prompt`; the harness has no
+project-memory fixture, so this stands in for the user's `CLAUDE.md`.
+
 **4 negative cases** — the collisions the trigger matrix admits are unresolved:
 
 | case | must not fire | why |
 |---|---|---|
 | `neg-ui-options-does-not-fire-brainstorm` | `unknowns:brainstorm` | brainstorm advertises "show me options"; prototypes owns UI variants |
-| `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates code, teach-me teaches vocabulary |
-| `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
-| `neg-one-file-plan-defers-to-plan-mode` | (behaviour, not trigger) | the plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
+| `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates a specific plan or situation, teach-me teaches vocabulary |
+| `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
+| `neg-one-file-tweakable-plan-defers-to-plan-mode` | (behaviour, not trigger) | the tweakable-plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
 
 **3 behaviour cases** — these grade the deliverable, not the trigger:
 
@@ -195,7 +224,7 @@ When a description changes, the case that used a dropped phrase must change with
 |---|---|
 | `behavior-blindspot-ends-with-improved-prompt` | the pass ends with a pasteable rewritten prompt that folds in the risks it found |
 | `behavior-interview-max-four-questions` | at most 4 questions reach the user in one round, on a prompt that dangles nine open decisions |
-| `behavior-notes-appends-to-file` | `IMPLEMENTATION_NOTES.md` is actually created, with the entry fields filled — not summarised in chat only |
+| `behavior-deviation-log-appends-to-file` | `IMPLEMENTATION_NOTES.md` is actually created, with the entry fields filled — not summarised in chat only |
 
 ## How the graders are meant to be read
 
@@ -224,7 +253,7 @@ When a description changes, the case that used a dropped phrase must change with
 4. **The sandbox has no repository.** Cases run in an empty temporary cwd, so every
    prompt carries its own material inline — the retrospective skills (`quiz`,
    `buy-in`, `reference`) paste the diff or the reference in, and `blindspot` and
-   `plan` describe the system they are about. This was not optional: the first draft
+   `tweakable-plan` describe the system they are about. This was not optional: the first draft
    of `trigger-en-quiz` said "you just rewrote our webhook receiver", and the run
    correctly refused ("this session has no prior turns, and the working directory is
    empty"), scoring 0 in both arms for a reason that had nothing to do with the

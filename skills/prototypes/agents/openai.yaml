@@ -1,6 +1,6 @@
 interface:
   display_name: "Unknowns: Prototypes"
-  short_description: "Compare prototypes with different design philosophies"
-  default_prompt: "Use $unknowns:prototypes to create contrasting prototypes for this idea."
+  short_description: "React to several versions of anything"
+  default_prompt: "Use $unknowns:prototypes to create contrasting versions of this idea to react to."
 policy:
   allow_implicit_invocation: true

@@ -2,6 +2,108 @@
 
 ## [Unreleased]
 
+## 0.12.0 — 2026-10-28
+
+Released 2026-10-28. The plugin is rescoped to three cells of what the user and the AI know, in any domain, judged by the outcome.
+
+**Breaking:** three skills are renamed. `loop` is now `unknowns-loop` (Claude Code's built-in `loop` owns the bare name; `/unknowns-loop` now works without the plugin prefix), `notes` is now `deviation-log` (the name says what it logs), and `plan` is now `tweakable-plan` (a bare `plan` collides with native plan mode and other plugins' plan skills). Use `/unknowns:unknowns-loop`, `/unknowns:deviation-log` and `/unknowns:tweakable-plan` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`, `$unknowns:tweakable-plan`); re-upload the skill zips on claude.ai and desktop. The trigger phrases stay: "unknowns loop", "run the operating loop", "implementation notes", "record a deviation", "plan this", "make a plan", "tweakable plan", and the Korean "운영 루프로 진행", "이탈 기록", "임플 노트", "계획 세워줘". Every skill and agent description is rewritten: domain-neutral, compacted, and each skill description ends with "Clear to both sides: no skill or method." instead of "Self-evident requests are done directly."
+
+### Changed — purpose
+
+- `.claude/rules/skill-writing.md` opens with rule 0, the plugin's purpose: of the four cells of what the user and the AI know about a task (the Johari window's panes, adapted), the plugin serves Blind (the user does not know, the AI does), Hidden (the user knows, the AI does not) and Unknown (neither knows, the widest cell), in any domain. Open (both know; the request is self-evident) is out of scope and done directly. Work is judged by the outcome (the achievement that matches the user's intent), not only by the output (the artifact). Rule 9 adds the vocabulary (output/outcome, 산출물/성과, the cell names) and one form per skill name per file; rule 17 lists both sides' unknowns and the outcome check among the method's moves.
+
+### Changed — each skill serves its cell, in any domain
+
+Every skill body opens by naming the cell it serves and with the read-back rule for requests both sides understand (see "Changed — follow-up rulings"); every description ends with "Clear to both sides: no skill or method."
+
+- **Blind** (the user's or approvers' gaps):
+  - teach-me: unchanged method; examples and the comparison table name text, code or process; the blindspot boundary is "a specific plan, system or situation".
+  - quiz: explains and quizzes any delegated work (a report, an analysis, a lease review, a code change) before it is handed over, presented, submitted or merged. Each explained part is anchored to its location (`file:line` for code; section, page or row otherwise); the top question type is "what to do when it goes wrong"; misses name the exact change site.
+  - buy-in: rewritten from a reviewer persuasion doc to the **approvers' unknowns doc**. Step 2 maps, per approver, what they do not know that their decision depends on and what they will object to, asks the user what they know about each approver (priorities, past objections, unwritten politics), and lists what neither knows as questions to find out. The result is shown first (a demo, sample, pilot result or budget table; when none, a limitation), each point is answered with followable evidence checked by independent-reviewer, unsupported answers become limitations, and the doc names who signs off.
+- **Hidden** (what the AI does not know or cannot judge):
+  - interview: before deciding, it asks in rounds of at most four what it cannot know or judge about the user's situation. The fixed order is by what a wrong decision breaks, in any domain: structure → irreversible harm → compatibility → cost → taste (architecture → data/security → APIs/existing code → performance → UI in code). The final prompt is "a ready-to-use prompt for the work", declares the structure and harm decisions fixed, closes with "start with a short plan, then do the work", and logs deviations in the deviation log (IMPLEMENTATION_NOTES.md for code work).
+  - reference: any example (another organisation's policy, a past proposal, a contract template, code, a mockup). Semantics-map rows that rest on a guess about the user's context are marked *assumed* for correction first; the application plan first carries over how the reference checks itself (tests, checklists or acceptance criteria).
+- **Unknown** (both sides):
+  - blindspot: the opening reply puts the AI's own three lists (④ what it does not know about the user's situation, ⑤ what it is assuming, ⑥ what it cannot check) next to the user's three; ⑤ is checked with ②, ④ becomes questions and ⑥ Needs checking. Kinds, evidence and scope are domain-neutral (a funding call, a policy, an event, a codebase); the scout is used when the task spans many sources.
+  - brainstorm, prototypes, tweakable-plan, unknowns-loop: a shared **Your own unknowns** sentence states what the AI does not know about the user's situation, what it assumes and what it cannot check, for the user to fill or correct.
+  - brainstorm: grounded in what already exists (in code, disconnected machinery; elsewhere resources, programmes, people), marked `Already exists — <where>`; success is the sign the problem moved.
+  - prototypes: axes fit the subject (a screen; a document, event, role or campaign; complexity for any); "versions to react to" is a trigger phrase.
+  - tweakable-plan: the size gate is domain-neutral (work with no decision the user might want to change; for code ≤2 files and no schema, interface or UX-contract decision, which suits native plan mode); decision and mechanical items and the annotated artifact have code and non-code examples.
+  - deviation-log: logs beside any deliverable — `IMPLEMENTATION_NOTES.md` for code, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable. Observed is auditable against the work as it stands; a choice resting on something only the user can know is named in Risk/follow-up and put to the user first at wrap-up.
+  - unknowns-loop: the purpose is the outcome the user is after; the probe is the cheapest test of the riskiest assumption (a spike, a call, a pilot); after verify and quiz/buy-in, a short **outcome check** with the user asks whether the result achieved the outcome, not only whether it met the done criteria (no score or stored record).
+- independent-reviewer: checks any deliverable (a report, plan, event programme, proposal, analysis or code change) against its plan, done criteria and outcome, treating the producer's account as claims. Its packet adds the outcome and names the deliverable (for code, the diff range and how to run the tests); item 1 adds an outcome judgement ("outcome not judgeable — no outcome stated" when missing); "passes on paper, fails in reality" covers figures, sources and ownerless steps as well as mocks and mirrored tests; findings carry a `file:line`, section, page or row. Its scoping sentences are unchanged.
+- unknowns-scout: investigates whatever sources the task has (documents, data, the web, a codebase, history); each step names its code and non-code form.
+- Descriptions, short descriptions, `agents/openai.yaml`, the plugin and marketplace descriptions and the OpenAI listing are domain-neutral with code as one example. Every trigger phrase is kept; new English phrases: interview "ask me before you decide", buy-in "get sign-off", prototypes "versions to react to". Skill descriptions grow from 3,057 to 4,179 characters.
+
+### Changed — follow-up rulings
+
+- Plain words for the cells: shipped text (skills, agents, descriptions, the plugin README) says "what the user does not know and you do", "what you do not know and the user does" and "what neither the user nor you know yet"; the Johari pane names stay in developer documents and appear once per README, where the source is credited. The READMEs' cell tables drop the pane column. A test fails if a pane name or "Johari" returns to the shipped plugin.
+- Read-back for requests both sides understand (replaces "done directly"): when the result carries weight, the AI first reads back in 2–3 lines the request, its assumptions and what outcome counts as done, and does it on the user's confirmation without a method; a truly self-evident request needs no read-back. A mismatch routes by who does not know: the user → teach-me, the AI → interview, neither → blindspot. The rule is a paragraph under every skill's cell line, the unknowns-loop skill's new step 1 (later steps renumbered), and, until round 3, a compact line at the end of every description (see below).
+- interview: round 1 asks open questions, without options, about what the AI cannot know or judge about the user's situation; option questions for the decisions come from round 2 on. Four per round, sure-of/assuming first and unanswered-stays-unanswered are unchanged.
+- brainstorm: candidates are generated before any judging (Osborn: defer judgment, go for quantity), each with only a name, one line and the Already-exists marker; impact, effort, risks and the success measure are attached to the picks.
+- prototypes: the description says prototypes in the design-thinking sense, several versions of anything for the user to react to; the trigger phrases are unchanged.
+- Descriptions compacted: the example-domain lists and repeated wording are cut from every skill and agent description; every declared trigger phrase and the agents' scoping sentences stay. Always-on frontmatter (cl100k): skill descriptions without their closing line 1,143 → 884 tokens; the read-back line costs 51 tokens per description against 9 for the old line, so skills total 1,341 → 1,571; agents 357 → 311.
+- Read-back wording, from the own-run check: "no skill or method" and what makes a request weighty (it ships, is sent or is hard to undo); the read-back is the whole reply.
+
+### Changed — round 3 rulings
+
+- Descriptions drop the read-back line: it showed no effect on weighty requests (0/21 runs) and cost about 460 always-on tokens. Each ends with "Clear to both sides: no skill or method." (10 tokens); the read-back stays in the bodies and as the unknowns-loop skill's step 1. Always-on frontmatter falls from 1,882 to 1,404 cl100k tokens (0.11.0: 1,094). Descriptions stay English-only.
+- README.md and README.ko.md: Scenario A gives one line to put in your own `CLAUDE.md` for a read-back on every weighty request: "Before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests."
+- interview: each question asks one thing in one sentence; every question in the reply counts toward the four (a second question mark in an item, one in an option, a fact request, a request to check something elsewhere); every question carries its reason; the deliverables come when every item is decided or left undecided and no why follow-up is pending, or the user ends the interview.
+- brainstorm: ranking, pruning, sizing and any recommendation wait for the picks, and the reply ends on asking which numbers resonate; horizons are this afternoon / up to a month / 1–3 months / longer.
+- tweakable-plan: the description says work with no decision the user might change gets plain steps; alternatives are lettered; the size-gate reply keeps the own-unknowns questions.
+- teach-me: the reply ends by asking which terms, comparisons and presets to include; the precise-request draft is written from the answers.
+- Fixes from the deferred writing-for-models findings of rounds 1 and 2 (113 re-checked: 52 confirmed, 56 rejected, 5 gone): blindspot cards carry a numbered prompt fix and the picks leave only the picked fixes in the draft; quiz assembles its block after the gate with the final score and names change sites; reference revises plan items that rest on a corrected entry; deviation-log's steps name the one-line Discovery and the Logging Criteria; buy-in's missing-tool line sits at the reviewer step; the loop's skip rule covers stages marked always and stage d tests the approach; the scout keeps Questions to answer and Information still needed in any return shape and reports checked assumptions; the reviewer's output carries the worth-logging judgement, the list-first order, item 3's findings and every claim it met.
+
+### Changed — fixes from the new build's own runs and checks
+
+- teach-me: the precise-request draft marks every detail the user did not give (their taste, numbers, situation) as an assumption to confirm.
+- buy-in: collects the done criteria and the outcome its reviewer packet needs; an answer whose evidence the independent-reviewer agent could not confirm becomes a limitation; one title, "The Buy-In Doc".
+- reference: the semantics map comes before building anything on the reference, a port or adaptation included (an "and" had narrowed it to ports).
+- brainstorm: its own unknowns go in the same round as its one ask-back.
+- interview: the non-code deviation log is the file the user names or `DEVIATIONS.md` beside the deliverable.
+- unknowns-loop step 1 fixes "the outcome"; deviation-log is titled "Deviation Log" and the other skills "read that log"; independent-reviewer says "the producer's explanations" throughout and points missing done criteria or outcome at item 1; the scout's territory includes the web.
+- Evals: three graders that judged form the cases do not test (an errand answer's length, a second rewrite variant, an unmarked example list) now judge the method.
+
+### Renamed
+
+- Skill folders, `name:`, `agents/openai.yaml`, `scripts/skill-descriptions.json`, sibling references, both READMEs, the trigger matrix and the eval cases (`trigger-{en,ko}-unknowns-loop`, `trigger-{en,ko}-deviation-log`, `trigger-{en,ko}-tweakable-plan`, `behavior-deviation-log-appends-to-file`, `behavior-tweakable-plan-opens-with-done-criteria`) follow the new names. `tests/test_renamed_skills.py` fails if an old name returns outside CHANGELOG, IMPLEMENTATION_NOTES.md and dated docs.
+
+### Docs
+
+- README.md and README.ko.md: a Purpose section (the three cells, output vs outcome), a pitch for any domain, a Cell column in "Skills at a glance", non-coding examples for every skill with code kept as one example among several, the agents described for any deliverable, scenarios from a self-evident request to a new field, and a note on the renames under Updating.
+
+### Checked
+
+Claude Code 2.1.309, claude-opus-5-5, the new build on its own runs (no comparison arm, by owner decision); `llm` graders judged by a separate `claude -p`.
+
+- Whole single-turn suite once, new cases 3× each: existing triggers 22/22 runs, behaviour 6/6, negatives 5/5; non-coding 62/66; Unknown cell 11/12; Open-cell negatives 9/15 (no skill fired in 15/15; the graders failed verbose direct answers). After the fixes above, the seven failing cells at 3 runs each: 21/21.
+- Multi-turn cases once: 14/14 graders.
+- Routing, 2 runs each: every skill named in English and Korean 44/44 to the named skill; the old names `loop` and `notes` (informative) 8/8 to the renamed skills; a bare "loop … every 5 minutes" 2/2 to the built-in. The intended skill loaded in 66/66 non-coding runs.
+- Per-file writing-for-models checks by Claude (71 findings) and Codex (16) on every changed skill and agent and the plugin README, adjudicated against the owner's rules, and Codex diff checks of the fixes.
+
+- Follow-up rulings, on the new build only: tweakable-plan named in English and Korean 4/4 runs to the skill, the old name `plan` 1/1 to tweakable-plan; every non-coding, Unknown-cell and Open-cell case once (non-coding 17/22 runs fully passing, intended skill loaded 22/22; Unknown cell 4/4; trivial Open cell 4/5); interview, brainstorm, prototypes, tweakable-plan and blindspot behaviour cases 3× each, 21/24; multi-turn interview and prototypes 3× each. After two fix iterations the failing cells pass except: the weighty Open-cell cases (0/9: with no skill loaded the model does a clear request directly instead of reading it back, under three description wordings), the multi-turn interview's four-per-round and reason checks (1/3 and 2/3 in iteration 2), and brainstorm's deferral of judgment in 1 of 3 runs.
+- Agents, one run each on non-code material: buy-in called independent-reviewer on a pilot report, which found the report's three figures contradicted by the records and an undisclosed deviation; blindspot called unknowns-scout over 20 documents, which found the planted landmines (a standing board ban, an 18+ insurance limit, a grant clause).
+- Per-file writing-for-models checks by Claude on every changed skill and agent (83 findings, 8 confirmed and fixed) and a diff check of the fixes (1 more fixed).
+- Round 3, new build only: the `CLAUDE.md` line gave a read-back that waited for confirmation on 9/9 weighty runs (6 as a real project `CLAUDE.md`, 3 as appended system prompt) and left 4/4 trivial requests done directly. The three left failures, two iterations each: the one-file "plan this" 3/3, the interview's four-per-reply count 3/3 (multi-turn and single-turn), reasons and order 3/3 then 2/3, brainstorm's deferral 2/3 in both iterations. After the deferred-finding fixes, every behaviour-changed skill's cases 3×: 182/189 graders, then teach-me 12/12 after its fix; multi-turn blindspot, interview and quiz 3/3 on every grader; buy-in called independent-reviewer and blindspot called unknowns-scout on non-code material. Full run on the final build: 67 single-turn cases once and trigger-ko-tweakable-plan 3×, 93/95 scored graders (the two failures are the informative weighty cases), every routing indicator to the intended skill; multi-turn 13/14 (blindspot's evidence-status grader failed, then 2/3 on a re-run: status-labelling slips in text this round did not change).
+- Writing-for-models, Claude only: the 113 deferred findings re-checked (52 confirmed, 56 rejected, 5 gone); fresh per-file checks of every changed skill and agent and two diff checks of the fixes (94 findings, 9 edits).
+
+### Not measured
+
+- No comparison with 0.11.0 (owner decision); every figure above is from this build's own runs, most at 1 or 3 runs per cell, so small differences are within noise.
+- prototypes' wording-only changes ran once, not 3×; its multi-turn case passed 3/3 graders.
+- independent-reviewer has no eval case of its own (one informative run through buy-in); reference's rule that a correction also revises the plan items built on it has no multi-turn case.
+- Cells to watch: blindspot's evidence-status labelling (3/4 on the final build) and brainstorm's deferral of judgment (1 of 3 runs in one cell).
+- claude.ai, ChatGPT and mobile behaviour; Codex runs of this build; real Windows use.
+
+### Evals (developer-only; not in the shipped payload)
+
+- 22 non-coding cases, `noncode-{en,ko}-<skill>`, each with a routing indicator and an outcome grader (`moves-toward-the-outcome`) that fails a reply forcing software concepts onto non-software work.
+- 4 Unknown-cell cases, `unknown-*` (a county permit, an organisation's unwritten politics, a three-month-old scheme, a personal job trade-off), graded on surfacing both sides' unknowns.
+- 8 Open-cell negatives, `neg-open-*`, which must fire no unknowns skill: five trivial ones (a rename, typo fixes, a polite rewrite, an errand "plan", "quiz me" on trivia) must be done directly with no read-back; two weighty ones (`neg-open-weighty-code-en`, a production migration; `neg-open-weighty-text-ko`, an all-staff notice) must get a 2–3-line read-back that waits for confirmation and runs no method; since round 3 they are tagged `informative` (the gap without a `CLAUDE.md` line), and `neg-open-weighty-memory-line-en` runs the migration with the README's line as `append_system_prompt`, which `run-manual.py` now passes to `claude -p`.
+- The interview graders check that round 1 asks open questions; the brainstorm graders check that the first reply does not rank, score or prune.
+- Updated graders: blindspot's opening question may carry the AI's own unknowns (not findings) and the multi-turn case checks them; buy-in grades the approvers' unknowns; the loop's first reply establishes the outcome; the interview prompt fixes structure and harm decisions.
+
 ## 0.11.0 — 2026-10-27
 
 **Breaking:** the plugin is compacted to its method. The loop tracker (`.unknowns/loop.json`, `status`/`resume`, tiers), the scorecard (`.unknowns/scorecard.md` and its end-of-session questions), notes `init`/`show`, the reviewer stage of loop, and the per-host fallback branches are gone. Skills and agents carry no guard prose, tool allow-lists or identity lines; both agents inherit every tool. Installed text is about a third of 0.10.0's.

@@ -72,9 +72,9 @@ class PackageTest(unittest.TestCase):
             with zipfile.ZipFile(ROOT / "releases" / filename) as archive:
                 files = {name.split("/", 1)[1]: archive.read(name) for name in archive.namelist()}
                 self.assertEqual(pkg.shipped_violations(files), [], filename)
-        for rel in ("hooks/hooks.json", "skills/plan/scripts/run.md", "skills/plan/assets/icon.svg",
-                    "skills/plan/run.py", "run.sh", "page.js", "main.ts", "image.png",
-                    "skills/plan/icon.png", ".claude-plugin/logo.png"):
+        for rel in ("hooks/hooks.json", "skills/tweakable-plan/scripts/run.md", "skills/tweakable-plan/assets/icon.svg",
+                    "skills/tweakable-plan/run.py", "run.sh", "page.js", "main.ts", "image.png",
+                    "skills/tweakable-plan/icon.png", ".claude-plugin/logo.png"):
             self.assertTrue(pkg.shipped_violations({rel: b"example"}), rel)
         self.assertEqual(pkg.shipped_violations({pkg.CLAUDE_ICON_PATH: b"example"}), [])
 
@@ -146,7 +146,7 @@ class PackageTest(unittest.TestCase):
                 self.assertEqual(pkg.record_release(self.files), [])
                 recorded = release.read_bytes()
                 changed = dict(self.files)
-                changed["skills/plan/SKILL.md"] += b"\nChanged content\n"
+                changed["skills/tweakable-plan/SKILL.md"] += b"\nChanged content\n"
                 self.assertTrue(pkg.record_release(changed))
                 self.assertEqual(release.read_bytes(), recorded)
                 self.assertTrue(pkg.check_release(changed))
@@ -161,7 +161,7 @@ class PackageTest(unittest.TestCase):
                 self.assertEqual(pkg.record_release(self.files), [])
                 recorded = json.loads(release.read_bytes())
                 changed = dict(self.files)
-                changed["skills/plan/SKILL.md"] += b"\nUnreleased change\n"
+                changed["skills/tweakable-plan/SKILL.md"] += b"\nUnreleased change\n"
                 self.assertTrue(pkg.check_release(changed), "--check must reject a stale record even during development")
                 self.assertEqual(pkg.record_release(changed), [])
                 updated = json.loads(release.read_bytes())
@@ -212,9 +212,9 @@ class PackageTest(unittest.TestCase):
 
     def test_missing_relative_paths_are_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
-            skill = Path(temp) / "plan"
+            skill = Path(temp) / "tweakable-plan"
             import shutil
-            shutil.copytree(ROOT / "skills" / "plan", skill)
+            shutil.copytree(ROOT / "skills" / "tweakable-plan", skill)
             body = skill / "SKILL.md"
             body.write_bytes(body.read_bytes() + b"\nRead references/missing.md and [guide](guide.md).\n")
             errors = pkg.validate_skill(skill, self.files)
@@ -222,8 +222,8 @@ class PackageTest(unittest.TestCase):
             self.assertTrue(any("guide.md" in e for e in errors), errors)
 
     def test_markdown_resources_validate_file_references(self):
-        skill = ROOT / "skills" / "plan"
-        resource = "skills/plan/references/check.md"
+        skill = ROOT / "skills" / "tweakable-plan"
+        resource = "skills/tweakable-plan/references/check.md"
         for pointer in ("`docs/missing.md`", "`missing.md`", "`references/missing.md`",
                         "[missing](missing.md)", "`../outside.md`", "`.unknowns/../missing.md`",
                         "`docs/missing file$.md`"):
@@ -236,11 +236,11 @@ class PackageTest(unittest.TestCase):
         changed[resource] = b"Read `guide.md`, `docs/guide.md` and `../SKILL.md`.\n"
         changed[resource] += b"Also read `docs/guide file$.md`.\n"
         changed[resource] += b"Use `.unknowns/2026-01-01-quiz-x-key.md`, `IMPLEMENTATION_NOTES.md`, `CHANGELOG.md`, `CLAUDE.md`, `.claude/rules/unknowns.md` and `.gitignore` for project records.\n"
-        changed["skills/plan/references/guide.md"] = b"Guide.\n"
-        changed["skills/plan/docs/guide.md"] = b"Guide.\n"
-        changed["skills/plan/docs/guide file$.md"] = b"Guide.\n"
+        changed["skills/tweakable-plan/references/guide.md"] = b"Guide.\n"
+        changed["skills/tweakable-plan/docs/guide.md"] = b"Guide.\n"
+        changed["skills/tweakable-plan/docs/guide file$.md"] = b"Guide.\n"
         self.assertEqual(pkg.validate_skill(skill, changed), [])
-        changed["skills/plan/SKILL.md"] += b"\nRead `docs/missing-in-body.md`.\n"
+        changed["skills/tweakable-plan/SKILL.md"] += b"\nRead `docs/missing-in-body.md`.\n"
         self.assertTrue(any("docs/missing-in-body.md" in e
                             for e in pkg.validate_skill(skill, changed)))
 

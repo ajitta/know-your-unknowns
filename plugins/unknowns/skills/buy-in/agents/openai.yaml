@@ -1,6 +1,6 @@
 interface:
   display_name: "Unknowns: Buy-in"
-  short_description: "Prepare an evidence-backed reviewer pitch"
-  default_prompt: "Use $unknowns:buy-in to prepare a reviewer pitch for the completed work."
+  short_description: "Surface what approvers don't know, with evidence"
+  default_prompt: "Use $unknowns:buy-in to prepare for approval of the finished work."
 policy:
   allow_implicit_invocation: true

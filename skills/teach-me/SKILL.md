@@ -1,15 +1,20 @@
 ---
 name: teach-me
 description: >
-  Teach me my unknowns — an interactive explainer for a domain's vocabulary and mental
-  model, so vague requests become precise. Use on "teach me", "make me an explainer",
-  or when the user cannot name
-  what they want. Blindspot investigates a codebase; teach-me teaches vocabulary.
+  Teach me my unknowns — an interactive explainer for a field's vocabulary and mental
+  model, in any field, so vague requests become precise. Use on "teach me", "make me an
+  explainer", or when the user cannot name what they want or judge the result. Blindspot
+  investigates a specific situation; teach-me teaches a field's vocabulary. Clear to both
+  sides: no skill or method.
 ---
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)
 
-Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste. This skill fills the **concept/terminology gap** among unknown unknowns.
+This skill serves what the user does not know and you do, and surfaces the user's gaps.
+
+When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
+
+Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste. This skill fills the **vocabulary gap**.
 
 ## Iron Rules
 
@@ -37,21 +42,21 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    | Domain | Comparison |
    |---|---|
    | Visual | Numbered Markdown before/after descriptions of the same subject, naming the visible differences. If a real photo is essential, ask the user for a file and refer to its visible regions. |
-   | Code/writing | Comparison examples. |
+   | Text, code or process | Comparison examples. |
 
    b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each whole look and its settings.
-6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step even when trimming for size. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
+6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step in a short explainer too. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 7. Close with the payoff.
 
-   a. Write a **precise-request draft**: the user's original request rewritten in the new vocabulary.
+   a. End the reply by asking which numbered terms, comparisons and presets to **include in the request** and which settings to change; the draft waits for the answers.
 
-   b. The user picks items and adjusts values/direction; the result becomes the next prompt.
+   b. From the answers, write the **precise-request draft**: the user's original request rewritten in the new vocabulary with the picks applied. Mark every detail the user did not give (their taste, their numbers, their situation) as an assumption to confirm, so the draft does not decide for them. The draft is the precise request the work starts from.
 
 ## Output
 
-Reaction: number the terms, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft; a missing pick is undecided.
+Reaction: number the terms, before/after comparisons, and presets; the user's picks assemble into the precise-request draft (step 7b); a missing pick is undecided.
 
 ## Related
 
-- Codebase blind spots: use the **blindspot** skill — teach-me covers blind spots in domain **concepts**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
+- Blind spots in a specific plan, system or situation: use the **blindspot** skill — this skill covers blind spots in a field's **concepts**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
 - If requirements still diverge after gaining vocabulary (revisions stop converging), lock decisions with the **interview** skill rather than teaching more vocabulary.

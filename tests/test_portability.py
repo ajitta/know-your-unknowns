@@ -35,7 +35,7 @@ class PortabilityTest(unittest.TestCase):
             self.assertNotIn("No question tool", text, path)
 
     def test_reacting_skills_say_a_missing_pick_is_undecided(self):
-        for name in ("blindspot", "brainstorm", "buy-in", "plan", "prototypes", "reference", "teach-me"):
+        for name in ("blindspot", "brainstorm", "buy-in", "prototypes", "reference", "teach-me", "tweakable-plan"):
             self.assertIn(MISSING_PICK, skill(name), name)
 
     def test_agents_inherit_every_tool(self):
@@ -46,8 +46,8 @@ class PortabilityTest(unittest.TestCase):
 
     def test_reviewer_packet_matches_its_caller(self):
         # Rule 11: buy-in hands the reviewer the fields the reviewer expects.
-        fields = ("the approved plan, the `IMPLEMENTATION_NOTES.md` path, the diff range or touched files, "
-                  "how to run the tests, and the claims the work rests on")
+        fields = ("the done criteria, the outcome, the approved plan, the deviation log, the deliverable "
+                  "(for code, the diff range or touched files and how to run the tests), and the claims the work rests on")
         self.assertIn(fields, skill("buy-in"))
         self.assertIn(fields, (PLUGIN / "agents/independent-reviewer.md").read_text(encoding="utf-8"))
 
@@ -57,10 +57,50 @@ class PortabilityTest(unittest.TestCase):
         self.assertIn("Five are multiple choice.", text)
         self.assertIn("sixth is a **teach-back**", text)
         self.assertIn("Keep the key out of the questions and reply until the user has answered.", text)
-        self.assertIn("exact change site (file:line)", text)
+        self.assertIn("exact change site", text)
+
+    def test_skills_name_their_cell_and_read_back_clear_requests(self):
+        # Rule 0: each skill names the cell it serves; a request clear to both sides skips the
+        # method after a read-back when it carries weight, and a mismatch routes by cell.
+        read_back = ("When you and the user both seem to understand the request, do it without this method: "
+                     "if its result carries weight (it ships, is sent or is hard to undo), "
+                     "first read back in 2–3 lines")
+        routes = ("route by who does not know: the user → the **teach-me** skill; you → the **interview** "
+                  "skill; neither of you → the **blindspot** skill.")
+        description_line = "Clear to both sides: no skill or method."
+        for path in (PLUGIN / "skills").glob("*/SKILL.md"):
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(read_back, text, path)
+            self.assertIn(routes, text, path)
+            self.assertRegex(text, r"This skill serves (what the user does not know and you do"
+                                   r"|what you do not know and the user does"
+                                   r"|what neither the user nor you know yet)", path)
+            fm = re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1)
+            self.assertIn(description_line, " ".join(fm.split()), path)
+        loop = skill("unknowns-loop")
+        self.assertLess(loop.index(read_back), loop.index("**Done criteria"))
+
+    def test_readme_memory_line_is_the_one_measured(self):
+        # The README tip's CLAUDE.md line is the line neg-open-weighty-memory-line-en runs with.
+        case = (ROOT / "evals/neg-open-weighty-memory-line-en/prompt.md").read_text(encoding="utf-8")
+        line = re.search(r'^append_system_prompt: "(.*)"$', case, re.M).group(1)
+        for readme in ("README.md", "README.ko.md"):
+            self.assertIn("\n" + line + "\n", (ROOT / readme).read_text(encoding="utf-8"), readme)
+
+    def test_shipped_text_says_the_cells_in_plain_words(self):
+        # Rule 0: the Johari pane names stay in developer documents and the README credit.
+        pane = re.compile(r"Johari|\b(?:Open|Blind|Hidden|Unknown)\b(?:\*\*)? (?:cell|pane)|\*\*(?:Open|Blind|Hidden|Unknown)\*\*")
+        for path in PLUGIN.rglob("*"):
+            if path.is_file() and path.suffix in {".md", ".json", ".yaml"}:
+                self.assertIsNone(pane.search(path.read_text(encoding="utf-8")), path)
+
+    def test_loop_ends_with_the_outcome_check(self):
+        text = skill("unknowns-loop")
+        self.assertIn("**Outcome check**", text)
+        self.assertGreater(text.index("**Outcome check**"), text.index("**Verify**"))
 
     def test_deviations_are_logged_in_one_named_file(self):
-        for name in ("notes", "interview"):
+        for name in ("deviation-log", "interview"):
             self.assertIn("IMPLEMENTATION_NOTES.md", skill(name), name)
 
 

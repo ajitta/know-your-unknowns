@@ -42,7 +42,7 @@ OPENAI_CATEGORIES = {
 ALLOWED_KEYS = {"name", "description", "license", "metadata", "compatibility", "allowed-tools"}
 SHIPPED_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".svg"}
 RESOURCE_RE = re.compile(r"(?<![\w/.-])((?:references|assets|scripts)/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+)\b")
-PROJECT_FILES = {"IMPLEMENTATION_NOTES.md", "CHANGELOG.md", "CLAUDE.md",
+PROJECT_FILES = {"IMPLEMENTATION_NOTES.md", "DEVIATIONS.md", "CHANGELOG.md", "CLAUDE.md",
                  "AGENTS.md", ".gitignore", ".claude/rules/unknowns.md"}
 PROJECT_PREFIXES = (".unknowns/",)
 FILE_PATH_RE = re.compile(r"(?!/)[\w .<>/$+-]+\.[A-Za-z0-9]+(?:#[\w-]+)?")

@@ -54,7 +54,7 @@ for name in sorted(os.listdir("skills")):
 EOF
 ```
 
-출력에는 역트리거도 섞여 나온다(loop의 `"loop"` / `"루프 돌려줘"`). 표에서는 그 둘만
+출력에는 역트리거도 섞여 나온다(unknowns-loop의 `"loop"` / `"루프 돌려줘"`). 표에서는 그 둘만
 역트리거 열로 옮겼고, 그 밖에 옮기거나 뺀 문구는 없다.
 
 `tests/test_trigger_containment.py`는 **README가 광고하는 문구가 description에 실제로 있는지**를
@@ -65,17 +65,19 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 
 | 스킬 | 영어 (description 내) | 한국어 (eval로 보증, README.ko.md 참조) | 역트리거·경계 | 길이 |
 |------|------|--------|--------------|------|
-| blindspot | blind spot pass · what am I missing · unknown unknowns | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | 일상적·이미 잘 아는 작업에는 쓰지 않음(따옴표 없는 문장) | 383자 |
-| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | UI/디자인 변형은 prototypes로 | 275자 |
-| buy-in | buy-in doc · prep me for review | 설득 문서 만들어줘 · 리뷰 준비 | — | 270자 |
-| interview | interview me · ask me questions before implementing | 인터뷰해줘 · 스펙 질문 | — | 283자 |
-| loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 274자 |
-| notes | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 248자 |
-| plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | native plan mode가 아니라 검토용 사전 문서를 쓰는 스킬 | 259자 |
-| prototypes | divergent prototypes · design options · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 266자 |
-| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 262자 |
-| reference | use this as a reference · make it like this | 레퍼런스로 써 · 이 코드처럼 만들어줘 · 이거 참고해서 | — | 260자 |
-| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | blindspot=코드베이스 조사, teach-me=도메인 어휘 | 277자 |
+| blindspot | blind spot pass · what am I missing · unknown unknowns | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | 일상적·이미 잘 아는 작업에는 쓰지 않음(따옴표 없는 문장) | 482자 |
+| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | UI/디자인 변형은 prototypes로 | 404자 |
+| buy-in | buy-in doc · prep me for review · get sign-off | 설득 문서 만들어줘 · 리뷰 준비 | — | 343자 |
+| interview | interview me · ask me questions before implementing · ask me before you decide | 인터뷰해줘 · 스펙 질문 | — | 475자 |
+| unknowns-loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 340자 |
+| deviation-log | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 386자 |
+| tweakable-plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | native plan mode가 아니라 검토용 사전 문서를 쓰는 스킬 | 413자 |
+| prototypes | divergent prototypes · design options · versions to react to · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 362자 |
+| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 302자 |
+| reference | use this as a reference · make it like this | 레퍼런스로 써 · 이 코드처럼 만들어줘 · 이거 참고해서 | — | 301자 |
+| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | blindspot=구체적 계획·상황 조사, teach-me=분야 어휘 | 371자 |
+
+0.12.0 (unreleased, 2026-10-27): the descriptions became domain-neutral; `plan` was renamed `tweakable-plan` with its phrases unchanged; the example-domain lists were cut again, and every description ends with "Clear to both sides: no skill or method." (2026-10-28: this replaced a 51-token read-back line that showed no effect on weighty requests in 21 runs; the read-back stays in the bodies and as the unknowns-loop skill's step 1); total 4,179 characters, lengths in the table above updated. The paragraph below records the 2026-10-09 measurement.
 
 합계 3,057자(2026-10-09 재측정). blindspot만 300자를 넘는데(383자), 넘긴 몫은 0.7.1에서 더한
 "run it even when you could answer directly" 문장이다 — Opus 5.5에서 발화를 3/8에서 6/6으로 올린
@@ -91,7 +93,7 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 |---|---------|-------------------|
 | 1 | brainstorm "show me options" vs prototypes "design options" | **유지.** 경계 문장은 brainstorm 쪽에만 한 방향으로 둔다("UI/디자인 변형은 prototypes"). prototypes에는 반대 방향 문장을 넣지 않았다 — 양쪽에 넣으면 두 description 모두 예산을 쓰면서 같은 경계를 두 번 말하게 된다 |
 | 2 | blindspot vs teach-me ("my unknowns" 계열) | **문구 충돌 해소.** blindspot에서 "find my unknowns"가 삭제됐다. teach-me의 구분 문장은 그대로 두었다 — description 첫머리가 여전히 "Teach me my unknowns"이기 때문 |
-| 3 | plan "plan this" · "계획 세워줘" (범용 문구) | **유지.** description의 경계 문장에 더해, 본문에 크기 게이트가 생겼다(2파일 이하 + 스키마·인터페이스·UX 계약 결정 없음 → 문서를 쓰지 않고 native plan mode로 넘긴다). 과발화 여부는 여전히 **미측정** — [open-questions.md](open-questions.md) B5 |
+| 3 | tweakable-plan "plan this" · "계획 세워줘" (범용 문구) | **유지.** description의 경계 문장에 더해, 본문에 크기 게이트가 생겼다(2파일 이하 + 스키마·인터페이스·UX 계약 결정 없음 → 문서를 쓰지 않고 native plan mode로 넘긴다). 과발화 여부는 여전히 **미측정** — [open-questions.md](open-questions.md) B5 |
 | 4 | loop "know your unknowns" = 플러그인 이름 | **유지.** 맥락 없는 "loop"/"루프 돌려줘"를 내장 인터벌 러너로 넘기는 역트리거로 완화. 0.4.0에서 legacy 별칭 "field guide"/"필드 가이드"가 삭제돼 표면이 더 좁아졌다 |
 | 5 | interview "질문해줘" vs quiz "퀴즈" | **해소.** "질문해줘"가 interview description에서 삭제됐다. 남은 한국어 문구는 "인터뷰해줘"·"스펙 질문"으로, quiz와 겹치지 않는다 |
 | 6 | 에이전트 independent-reviewer·unknowns-scout vs 다른 워크플로의 리뷰어·조사 에이전트(SuperClaude `/sc:review`의 `self-review`, 프로젝트 스킬의 "서브에이전트로 독립 검토", "서브에이전트로 먼저 조사") | **해소(0.9.2).** independent-reviewer는 실제 세션 두 건에서 가로챘고, scout는 실제 사례 없이 측정에서만 가로챘다. 두 description에서 "Use proactively"와 트리거 문구를 빼고 "이름으로 부르거나 unknowns 스킬이 부를 때만"으로 좁혔다. 이름 없는 리뷰 요청 30회 중 가로챔 21 → 0, 이름 없는 영어 조사 요청 20회 중 scout 가로챔 20 → 0(한국어·구조·라이브러리 조사 30회는 두 팔 모두 0), 이름 호출은 두 에이전트 모두 20/20 유지 — [features/agent-collision/](features/agent-collision/README.md) |
@@ -102,7 +104,7 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
   `evals/neg-generic-howto-does-not-fire-teach-me`(2026-09-06 신설): 답이 정해져 있고
   출력 형식까지 지정된 "teach me how to center a div"에서 teach-me는 뜨지 않고 답이 바로
   나왔다. 위험 항목으로 남기지 않는다.
-- **`plan`의 크기 게이트는 절반만 확인됐다.** 한 파일짜리 변경에서 계획 문서는 쓰지 않지만
+- **`tweakable-plan`의 크기 게이트는 절반만 확인됐다.** 한 파일짜리 변경에서 계획 문서는 쓰지 않지만
   (기계 판정 통과), 본문에 결정 카드·기각 대안·검증·롤백·가장 약한 부분을 인라인으로
   재현한다. 위반인지 아닌지는 판사 모델 대기.
   근거: [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md) "남은 단서".
