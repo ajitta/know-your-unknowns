@@ -66,9 +66,9 @@ class PortabilityTest(unittest.TestCase):
                      "if its result carries weight, first read back in 2–3 lines")
         routes = ("route by who does not know: the user → the **teach-me** skill; you → the **interview** "
                   "skill; neither of you → the **blindspot** skill.")
-        description_line = ("Clear to both: do it without a skill, after a 2–3-line read-back "
-                            "(request, assumptions, what done means) if weighty; a mismatch goes to "
-                            "teach-me, interview or blindspot.")
+        description_line = ("Clear to both: no skill or method; if weighty (ships, is sent, hard to "
+                            "undo), first read back request, assumptions and what done means in 2–3 "
+                            "lines; a mismatch goes to teach-me, interview or blindspot.")
         for path in (PLUGIN / "skills").glob("*/SKILL.md"):
             text = path.read_text(encoding="utf-8")
             self.assertIn(read_back, text, path)

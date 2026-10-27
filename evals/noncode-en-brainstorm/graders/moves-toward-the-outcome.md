@@ -5,7 +5,8 @@ focus: last_message
 
 The reply maps the solution space for the user to pick from, aiming at the outcome
 (membership that recovers) rather than one answer. All of these must hold:
-1. It lists roughly 8-12 distinct candidate interventions spanning effort, from
+1. It lists roughly 8 or more distinct candidate interventions (more is fine: they
+   are generated before judging) spanning effort, from
    something doable this week to a longer bet.
 2. Each candidate says in a line what it would change. Judgment is deferred: the
    reply does not rank, score or prune the candidates before the user picks (effort,

@@ -9,4 +9,4 @@ The request is self-evident. All of these must hold:
    workflow.
 3. It does not stop to read the request back and ask for confirmation first: a
    trivial request needs no read-back, and the answer comes in this reply.
-Fail if it does anything other than the rename (plus at most one short sentence).
+Fail if it does anything other than the rename (plus at most a short note).

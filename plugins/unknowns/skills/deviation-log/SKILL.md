@@ -5,9 +5,9 @@ description: >
   significant departure from the plan, why, and what the user still has to judge, beside
   the deliverable. Use automatically when the work hits an unknown the plan did not
   cover, and on "implementation notes", "record a deviation", "where did we diverge from
-  the plan?". Clear to both: do it without a skill, after a 2–3-line read-back (request,
-  assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or
-  blindspot.
+  the plan?". Clear to both: no skill or method; if weighty (ships, is sent, hard to
+  undo), first read back request, assumptions and what done means in 2–3 lines; a
+  mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Deviation Log

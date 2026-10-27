@@ -65,19 +65,19 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 
 | 스킬 | 영어 (description 내) | 한국어 (eval로 보증, README.ko.md 참조) | 역트리거·경계 | 길이 |
 |------|------|--------|--------------|------|
-| blindspot | blind spot pass · what am I missing · unknown unknowns | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | 일상적·이미 잘 아는 작업에는 쓰지 않음(따옴표 없는 문장) | 611자 |
-| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | UI/디자인 변형은 prototypes로 | 533자 |
-| buy-in | buy-in doc · prep me for review · get sign-off | 설득 문서 만들어줘 · 리뷰 준비 | — | 472자 |
-| interview | interview me · ask me questions before implementing · ask me before you decide | 인터뷰해줘 · 스펙 질문 | — | 604자 |
-| unknowns-loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 469자 |
-| deviation-log | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 515자 |
-| tweakable-plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | native plan mode가 아니라 검토용 사전 문서를 쓰는 스킬 | 480자 |
-| prototypes | divergent prototypes · design options · versions to react to · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 491자 |
-| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 431자 |
-| reference | use this as a reference · make it like this | 레퍼런스로 써 · 이 코드처럼 만들어줘 · 이거 참고해서 | — | 430자 |
-| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | blindspot=구체적 계획·상황 조사, teach-me=분야 어휘 | 500자 |
+| blindspot | blind spot pass · what am I missing · unknown unknowns | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | 일상적·이미 잘 아는 작업에는 쓰지 않음(따옴표 없는 문장) | 643자 |
+| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | UI/디자인 변형은 prototypes로 | 565자 |
+| buy-in | buy-in doc · prep me for review · get sign-off | 설득 문서 만들어줘 · 리뷰 준비 | — | 504자 |
+| interview | interview me · ask me questions before implementing · ask me before you decide | 인터뷰해줘 · 스펙 질문 | — | 636자 |
+| unknowns-loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop" · "루프 돌려줘"** — 맥락 없는 이 둘은 내장 인터벌 러너 | 501자 |
+| deviation-log | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 547자 |
+| tweakable-plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | native plan mode가 아니라 검토용 사전 문서를 쓰는 스킬 | 512자 |
+| prototypes | divergent prototypes · design options · versions to react to · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 523자 |
+| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 463자 |
+| reference | use this as a reference · make it like this | 레퍼런스로 써 · 이 코드처럼 만들어줘 · 이거 참고해서 | — | 462자 |
+| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | blindspot=구체적 계획·상황 조사, teach-me=분야 어휘 | 532자 |
 
-0.12.0 (unreleased, 2026-10-27): the descriptions became domain-neutral; `plan` was renamed `tweakable-plan` with its phrases unchanged; the example-domain lists were cut again, and every description ends with the read-back line "Clear to both: do it without a skill, after a 2–3-line read-back (request, assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or blindspot."; total 5,536 characters (of which 1,859 are the read-back line), lengths in the table above updated. The paragraph below records the 2026-10-09 measurement.
+0.12.0 (unreleased, 2026-10-27): the descriptions became domain-neutral; `plan` was renamed `tweakable-plan` with its phrases unchanged; the example-domain lists were cut again, and every description ends with the read-back line "Clear to both: no skill or method; if weighty (ships, is sent, hard to undo), first read back request, assumptions and what done means in 2–3 lines; a mismatch goes to teach-me, interview or blindspot."; total 5,888 characters (of which 2,211 are the read-back line), lengths in the table above updated. The paragraph below records the 2026-10-09 measurement.
 
 합계 3,057자(2026-10-09 재측정). blindspot만 300자를 넘는데(383자), 넘긴 몫은 0.7.1에서 더한
 "run it even when you could answer directly" 문장이다 — Opus 5.5에서 발화를 3/8에서 6/6으로 올린

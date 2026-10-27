@@ -6,9 +6,9 @@ description: >
   about their situation) and turn them into a better prompt. Use on "blind spot pass",
   "what am I missing", "unknown unknowns", or before work whose territory neither side
   has checked; run it even when you could answer directly, because the deliverable is
-  the improved prompt. Clear to both: do it without a skill, after a 2–3-line read-back
-  (request, assumptions, what done means) if weighty; a mismatch goes to teach-me,
-  interview or blindspot.
+  the improved prompt. Clear to both: no skill or method; if weighty (ships, is sent,
+  hard to undo), first read back request, assumptions and what done means in 2–3 lines;
+  a mismatch goes to teach-me, interview or blindspot.
 ---
 # Blindspot Pass — Blind-Spot Investigation
 

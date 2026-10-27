@@ -4,9 +4,9 @@ description: >
   Point at a reference — treat a provided example as a map, not an answer: read it, show
   the user your reading, and get it corrected before building on it. Use on "use this as
   a reference", "make it like this", or when the user supplies an example to build from.
-  Clear to both: do it without a skill, after a 2–3-line read-back (request,
-  assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or
-  blindspot.
+  Clear to both: no skill or method; if weighty (ships, is sent, hard to undo), first
+  read back request, assumptions and what done means in 2–3 lines; a mismatch goes to
+  teach-me, interview or blindspot.
 ---
 
 # Reference — A Reference Is Another Map

@@ -4,7 +4,7 @@
 
 Targets 0.12.0; the version stays 0.11.0 until the release is approved.
 
-**Breaking:** two skills are renamed. `loop` is now `unknowns-loop` (Claude Code's built-in `loop` owns the bare name; `/unknowns-loop` now works without the plugin prefix) and `notes` is now `deviation-log` (the name says what it logs). Use `/unknowns:unknowns-loop` and `/unknowns:deviation-log` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`); re-upload the skill zips on claude.ai and desktop. The trigger phrases stay: "unknowns loop", "run the operating loop", "implementation notes", "record a deviation", and the Korean "운영 루프로 진행", "이탈 기록", "임플 노트".
+**Breaking:** three skills are renamed. `loop` is now `unknowns-loop` (Claude Code's built-in `loop` owns the bare name; `/unknowns-loop` now works without the plugin prefix), `notes` is now `deviation-log` (the name says what it logs), and `plan` is now `tweakable-plan` (a bare `plan` collides with native plan mode and other plugins' plan skills). Use `/unknowns:unknowns-loop`, `/unknowns:deviation-log` and `/unknowns:tweakable-plan` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`, `$unknowns:tweakable-plan`); re-upload the skill zips on claude.ai and desktop. The trigger phrases stay: "unknowns loop", "run the operating loop", "implementation notes", "record a deviation", "plan this", "make a plan", "tweakable plan", and the Korean "운영 루프로 진행", "이탈 기록", "임플 노트", "계획 세워줘". Every description now ends with a read-back line instead of "Self-evident requests are done directly."
 
 ### Changed — purpose
 
@@ -12,7 +12,7 @@ Targets 0.12.0; the version stays 0.11.0 until the release is approved.
 
 ### Changed — each skill serves its cell, in any domain
 
-Every skill body opens by naming the cell it serves and with one line saying that a self-evident request (the Open cell) is done directly, without the method; every description ends with "Self-evident requests are done directly."
+Every skill body opens by naming the cell it serves and with the read-back rule for requests both sides understand (see "Changed — follow-up rulings"); every description ends with its compact form.
 
 - **Blind** (the user's or approvers' gaps):
   - teach-me: unchanged method; examples and the comparison table name text, code or process; the blindspot boundary is "a specific plan, system or situation".
@@ -23,15 +23,24 @@ Every skill body opens by naming the cell it serves and with one line saying tha
   - reference: any example (another organisation's policy, a past proposal, a contract template, code, a mockup). Semantics-map rows that rest on a guess about the user's context are marked *assumed* for correction first; the application plan first carries over how the reference checks itself (tests, checklists or acceptance criteria).
 - **Unknown** (both sides):
   - blindspot: the opening reply puts the AI's own three lists (④ what it does not know about the user's situation, ⑤ what it is assuming, ⑥ what it cannot check) next to the user's three; ⑤ is checked with ②, ④ becomes questions and ⑥ Needs checking. Kinds, evidence and scope are domain-neutral (a funding call, a policy, an event, a codebase); the scout is used when the task spans many sources.
-  - brainstorm, prototypes, plan, unknowns-loop: a shared **Your own unknowns** sentence states what the AI does not know about the user's situation, what it assumes and what it cannot check, for the user to fill or correct.
+  - brainstorm, prototypes, tweakable-plan, unknowns-loop: a shared **Your own unknowns** sentence states what the AI does not know about the user's situation, what it assumes and what it cannot check, for the user to fill or correct.
   - brainstorm: grounded in what already exists (in code, disconnected machinery; elsewhere resources, programmes, people), marked `Already exists — <where>`; success is the sign the problem moved.
   - prototypes: axes fit the subject (a screen; a document, event, role or campaign; complexity for any); "versions to react to" is a trigger phrase.
-  - plan: the size gate is domain-neutral (work with no decision the user might want to change; for code ≤2 files and no schema, interface or UX-contract decision, which suits native plan mode); decision and mechanical items and the annotated artifact have code and non-code examples.
+  - tweakable-plan: the size gate is domain-neutral (work with no decision the user might want to change; for code ≤2 files and no schema, interface or UX-contract decision, which suits native plan mode); decision and mechanical items and the annotated artifact have code and non-code examples.
   - deviation-log: logs beside any deliverable — `IMPLEMENTATION_NOTES.md` for code, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable. Observed is auditable against the work as it stands; a choice resting on something only the user can know is named in Risk/follow-up and put to the user first at wrap-up.
   - unknowns-loop: the purpose is the outcome the user is after; the probe is the cheapest test of the riskiest assumption (a spike, a call, a pilot); after verify and quiz/buy-in, a short **outcome check** with the user asks whether the result achieved the outcome, not only whether it met the done criteria (no score or stored record).
 - independent-reviewer: checks any deliverable (a report, plan, event programme, proposal, analysis or code change) against its plan, done criteria and outcome, treating the producer's account as claims. Its packet adds the outcome and names the deliverable (for code, the diff range and how to run the tests); item 1 adds an outcome judgement ("outcome not judgeable — no outcome stated" when missing); "passes on paper, fails in reality" covers figures, sources and ownerless steps as well as mocks and mirrored tests; findings carry a `file:line`, section, page or row. Its scoping sentences are unchanged.
 - unknowns-scout: investigates whatever sources the task has (documents, data, the web, a codebase, history); each step names its code and non-code form.
 - Descriptions, short descriptions, `agents/openai.yaml`, the plugin and marketplace descriptions and the OpenAI listing are domain-neutral with code as one example. Every trigger phrase is kept; new English phrases: interview "ask me before you decide", buy-in "get sign-off", prototypes "versions to react to". Skill descriptions grow from 3,057 to 5,167 characters.
+
+### Changed — follow-up rulings
+
+- Plain words for the cells: shipped text (skills, agents, descriptions, the plugin README) says "what the user does not know and you do", "what you do not know and the user does" and "what neither the user nor you know yet"; the Johari pane names stay in developer documents and appear once per README, where the source is credited. The READMEs' cell tables drop the pane column. A test fails if a pane name or "Johari" returns to the shipped plugin.
+- Read-back for requests both sides understand (replaces "done directly"): when the result carries weight, the AI first reads back in 2–3 lines the request, its assumptions and what outcome counts as done, and does it on the user's confirmation without a method; a truly self-evident request needs no read-back. A mismatch routes by who does not know: the user → teach-me, the AI → interview, neither → blindspot. The rule is a paragraph under every skill's cell line, the unknowns-loop skill's new step 1 (later steps renumbered), and one compact line at the end of every description.
+- interview: round 1 asks open questions, without options, about what the AI cannot know or judge about the user's situation; option questions for the decisions come from round 2 on. Four per round, sure-of/assuming first and unanswered-stays-unanswered are unchanged.
+- brainstorm: candidates are generated before any judging (Osborn: defer judgment, go for quantity), each with only a name, one line and the Already-exists marker; impact, effort, risks and the success measure are attached to the picks.
+- prototypes: the description says prototypes in the design-thinking sense, several versions of anything for the user to react to; the trigger phrases are unchanged.
+- Descriptions compacted: the example-domain lists and repeated wording are cut from every skill and agent description; every declared trigger phrase and the agents' scoping sentences stay.
 
 ### Changed — fixes from the new build's own runs and checks
 
@@ -45,7 +54,7 @@ Every skill body opens by naming the cell it serves and with one line saying tha
 
 ### Renamed
 
-- Skill folders, `name:`, `agents/openai.yaml`, `scripts/skill-descriptions.json`, sibling references, both READMEs, the trigger matrix and the eval cases (`trigger-{en,ko}-unknowns-loop`, `trigger-{en,ko}-deviation-log`, `behavior-deviation-log-appends-to-file`) follow the new names. `tests/test_renamed_skills.py` fails if an old name returns outside CHANGELOG, IMPLEMENTATION_NOTES.md and dated docs.
+- Skill folders, `name:`, `agents/openai.yaml`, `scripts/skill-descriptions.json`, sibling references, both READMEs, the trigger matrix and the eval cases (`trigger-{en,ko}-unknowns-loop`, `trigger-{en,ko}-deviation-log`, `trigger-{en,ko}-tweakable-plan`, `behavior-deviation-log-appends-to-file`, `behavior-tweakable-plan-opens-with-done-criteria`) follow the new names. `tests/test_renamed_skills.py` fails if an old name returns outside CHANGELOG, IMPLEMENTATION_NOTES.md and dated docs.
 
 ### Docs
 
@@ -64,7 +73,8 @@ Claude Code 2.1.309, claude-opus-5-5, the new build on its own runs (no comparis
 
 - 22 non-coding cases, `noncode-{en,ko}-<skill>`, each with a routing indicator and an outcome grader (`moves-toward-the-outcome`) that fails a reply forcing software concepts onto non-software work.
 - 4 Unknown-cell cases, `unknown-*` (a county permit, an organisation's unwritten politics, a three-month-old scheme, a personal job trade-off), graded on surfacing both sides' unknowns.
-- 5 Open-cell negatives, `neg-open-*` (a rename, typo fixes, a polite rewrite, an errand "plan", "quiz me" on trivia), which must fire no unknowns skill and be done directly.
+- 7 Open-cell negatives, `neg-open-*`, which must fire no unknowns skill: five trivial ones (a rename, typo fixes, a polite rewrite, an errand "plan", "quiz me" on trivia) must be done directly with no read-back; two weighty ones (`neg-open-weighty-code-en`, a production migration; `neg-open-weighty-text-ko`, an all-staff notice) must get a 2–3-line read-back that waits for confirmation and runs no method.
+- The interview graders check that round 1 asks open questions; the brainstorm graders check that the first reply does not rank, score or prune.
 - Updated graders: blindspot's opening question may carry the AI's own unknowns (not findings) and the multi-turn case checks them; buy-in grades the approvers' unknowns; the loop's first reply establishes the outcome; the interview prompt fixes structure and harm decisions.
 
 ## 0.11.0 — 2026-10-27

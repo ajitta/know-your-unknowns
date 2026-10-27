@@ -5,8 +5,9 @@ description: >
   model, in any field, so vague requests become precise. Use on "teach me", "make me an
   explainer", or when the user cannot name what they want or judge the result. Blindspot
   investigates a specific situation; teach-me teaches a field's vocabulary. Clear to
-  both: do it without a skill, after a 2–3-line read-back (request, assumptions, what
-  done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
+  both: no skill or method; if weighty (ships, is sent, hard to undo), first read back
+  request, assumptions and what done means in 2–3 lines; a mismatch goes to teach-me,
+  interview or blindspot.
 ---
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)

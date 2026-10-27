@@ -5,8 +5,9 @@ description: >
   clearly different philosophy, for the user to react to; ends with a confirmed
   requirements list. Use on "divergent prototypes", "design options", "versions to react
   to", or when the user cannot say what they want ("know it when I see it"). Clear to
-  both: do it without a skill, after a 2–3-line read-back (request, assumptions, what
-  done means) if weighty; a mismatch goes to teach-me, interview or blindspot.
+  both: no skill or method; if weighty (ships, is sent, hard to undo), first read back
+  request, assumptions and what done means in 2–3 lines; a mismatch goes to teach-me,
+  interview or blindspot.
 ---
 
 # Prototypes — Divergent Prototype Fan-out (Design Directions)

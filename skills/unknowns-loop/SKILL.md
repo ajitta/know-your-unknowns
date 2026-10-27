@@ -4,9 +4,9 @@ description: >
   Run the know-your-unknowns workflow end to end (explore → question → plan → work →
   verify → quiz → outcome check) on significant or ambiguous work in any domain. Use on
   "unknowns loop", "run the operating loop", "know your unknowns". A bare "loop" means
-  the built-in interval runner, not this skill. Clear to both: do it without a skill,
-  after a 2–3-line read-back (request, assumptions, what done means) if weighty; a
-  mismatch goes to teach-me, interview or blindspot.
+  the built-in interval runner, not this skill. Clear to both: no skill or method; if
+  weighty (ships, is sent, hard to undo), first read back request, assumptions and what
+  done means in 2–3 lines; a mismatch goes to teach-me, interview or blindspot.
 ---
 
 # Unknowns Loop — operating loop for working with strong models

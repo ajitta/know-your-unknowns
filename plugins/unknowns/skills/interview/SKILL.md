@@ -6,9 +6,9 @@ description: >
   for each decision, biggest blast radius first; ends with a decision table and a ready
   prompt. Any domain. Use on "interview me", "ask me questions before implementing",
   "ask me before you decide", or when requirements are incomplete and the work has not
-  started. Clear to both: do it without a skill, after a 2–3-line read-back (request,
-  assumptions, what done means) if weighty; a mismatch goes to teach-me, interview or
-  blindspot.
+  started. Clear to both: no skill or method; if weighty (ships, is sent, hard to undo),
+  first read back request, assumptions and what done means in 2–3 lines; a mismatch goes
+  to teach-me, interview or blindspot.
 ---
 
 # Interview — Before-Deciding Interview
@@ -36,9 +36,9 @@ When requirements are incomplete, **the model interviews the user** before anyth
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order. A further question tucked under another ("Also: …?") or into one of its options counts toward the 4, and so does a request for a fact (a file path, a date, a headcount), so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
+   a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above). A further question tucked under another ("Also: …?") or into one of its options counts toward the 4, and so does a request for a fact (a file path, a date, a headcount), so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
-   b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
+   b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
 
    c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note.
 
