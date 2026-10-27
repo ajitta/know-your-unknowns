@@ -676,7 +676,7 @@ the source" from "extended during authoring".
 ```
 skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.11.0
+plugin-manifest.json           source manifest, currently 0.12.0
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload

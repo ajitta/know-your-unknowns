@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-Targets 0.12.0; the version stays 0.11.0 until the release is approved.
+## 0.12.0 — 2026-10-28
+
+Released 2026-10-28. The plugin is rescoped to three cells of what the user and the AI know, in any domain, judged by the outcome.
 
 **Breaking:** three skills are renamed. `loop` is now `unknowns-loop` (Claude Code's built-in `loop` owns the bare name; `/unknowns-loop` now works without the plugin prefix), `notes` is now `deviation-log` (the name says what it logs), and `plan` is now `tweakable-plan` (a bare `plan` collides with native plan mode and other plugins' plan skills). Use `/unknowns:unknowns-loop`, `/unknowns:deviation-log` and `/unknowns:tweakable-plan` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`, `$unknowns:tweakable-plan`); re-upload the skill zips on claude.ai and desktop. The trigger phrases stay: "unknowns loop", "run the operating loop", "implementation notes", "record a deviation", "plan this", "make a plan", "tweakable plan", and the Korean "운영 루프로 진행", "이탈 기록", "임플 노트", "계획 세워줘". Every skill and agent description is rewritten: domain-neutral, compacted, and each skill description ends with "Clear to both sides: no skill or method." instead of "Self-evident requests are done directly."
 
@@ -85,6 +87,14 @@ Claude Code 2.1.309, claude-opus-5-5, the new build on its own runs (no comparis
 - Per-file writing-for-models checks by Claude on every changed skill and agent (83 findings, 8 confirmed and fixed) and a diff check of the fixes (1 more fixed).
 - Round 3, new build only: the `CLAUDE.md` line gave a read-back that waited for confirmation on 9/9 weighty runs (6 as a real project `CLAUDE.md`, 3 as appended system prompt) and left 4/4 trivial requests done directly. The three left failures, two iterations each: the one-file "plan this" 3/3, the interview's four-per-reply count 3/3 (multi-turn and single-turn), reasons and order 3/3 then 2/3, brainstorm's deferral 2/3 in both iterations. After the deferred-finding fixes, every behaviour-changed skill's cases 3×: 182/189 graders, then teach-me 12/12 after its fix; multi-turn blindspot, interview and quiz 3/3 on every grader; buy-in called independent-reviewer and blindspot called unknowns-scout on non-code material. Full run on the final build: 67 single-turn cases once and trigger-ko-tweakable-plan 3×, 93/95 scored graders (the two failures are the informative weighty cases), every routing indicator to the intended skill; multi-turn 13/14 (blindspot's evidence-status grader failed, then 2/3 on a re-run: status-labelling slips in text this round did not change).
 - Writing-for-models, Claude only: the 113 deferred findings re-checked (52 confirmed, 56 rejected, 5 gone); fresh per-file checks of every changed skill and agent and two diff checks of the fixes (94 findings, 9 edits).
+
+### Not measured
+
+- No comparison with 0.11.0 (owner decision); every figure above is from this build's own runs, most at 1 or 3 runs per cell, so small differences are within noise.
+- prototypes' wording-only changes ran once, not 3×; its multi-turn case passed 3/3 graders.
+- independent-reviewer has no eval case of its own (one informative run through buy-in); reference's rule that a correction also revises the plan items built on it has no multi-turn case.
+- Cells to watch: blindspot's evidence-status labelling (3/4 on the final build) and brainstorm's deferral of judgment (1 of 3 runs in one cell).
+- claude.ai, ChatGPT and mobile behaviour; Codex runs of this build; real Windows use.
 
 ### Evals (developer-only; not in the shipped payload)
 

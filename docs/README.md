@@ -36,7 +36,7 @@
 | 파일 | 무엇 | 언어 | 무엇이 만들었나 | 갱신·재생성 |
 |------|------|------|----------------|------------|
 | [README.md](README.md) | 이 색인 | 한국어 | 수기 | docs/에 파일이 늘거나 줄 때 |
-| [handoff.md](handoff.md) | 0.11.0 이후 다음 라운드 인계: 상태, 소유자 대기(O1), 남은 작업, 규칙 | 한국어 | 수기 | 라운드를 시작·마칠 때 상태 절을 git·태그와 대조해 갱신 |
+| [handoff.md](handoff.md) | 0.12.0 이후 다음 라운드 인계: 상태, 소유자 대기(O1), 남은 작업, 규칙 | 한국어 | 수기 | 라운드를 시작·마칠 때 상태 절을 git·태그와 대조해 갱신 |
 | [open-questions.md](open-questions.md) | 결정 기록(A)과 재검증 대기(B). 왜 그렇게 결정했는지가 본문 | 한국어 | 수기 | 결정이 날 때마다. 항목은 B→A로 옮기고 삭제하지 않는다 |
 | [features/agent-collision/](features/agent-collision/README.md) | 0.9.2 두 에이전트(independent-reviewer·unknowns-scout) 가로챔 수정의 라우팅 측정: 소유자 설치 조합(dia·design·SuperClaude)에서 main 대비 리뷰 7셀·scout 9셀 × 10회(Opus), 첫 scout 배치(Sonnet) 기록, 단발 스크린, 하네스 포함 | 한국어 | 수기 + `harness/tally.py` 출력 | 에이전트 description이나 다른 플러그인 조합이 바뀔 때 재측정 |
 | [features/html-page-template/](features/html-page-template/README.md) | 0.9.0 페이지 템플릿(`render-page.py`)의 출력 토큰 측정: main 대비 3케이스 × 6회, 하네스 포함 | 한국어 | 수기 + `harness/analyze.py` 출력 | 페이지 템플릿이나 output-routing.md §3–§4를 바꿀 때 재측정 |
