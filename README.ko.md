@@ -575,7 +575,7 @@ skills/<name>/                 소스: SKILL.md, references/, agents/openai.yaml
 skills/loop/references/         빌드가 전이적으로 복사하는 공용 참조
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
 plugin-manifest.json           소스 매니페스트, 현재 0.10.0
-packaging/                     배포 README, OpenAI 인터페이스, SVG 목록 자산
+packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드
 releases/know-your-unknowns.zip 생성된 Claude 아카이브, 최상위 unknowns/

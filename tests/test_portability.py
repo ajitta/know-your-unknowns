@@ -19,7 +19,7 @@ class PortabilityTest(unittest.TestCase):
     def test_no_host_substitutions_or_page_runtime(self):
         forbidden = re.compile(r"CLAUDE_PLUGIN_ROOT|\$ARGUMENTS|argument-hint|AskUserQuestion|render-page|\.html|UNKNOWNS_|hooks active")
         for path in PLUGIN.rglob("*"):
-            if path.is_file():
+            if path.is_file() and path.suffix != ".png":
                 self.assertIsNone(forbidden.search(path.read_text(encoding="utf-8")), path)
 
     def test_markdown_deliverables_keep_assembled_replies(self):

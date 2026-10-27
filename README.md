@@ -620,7 +620,7 @@ skills/<name>/                 source: SKILL.md, references/, agents/openai.yaml
 skills/loop/references/         shared references, vendored transitively by the build
 claude-code/agents/             source: Claude Code agent prompts
 plugin-manifest.json           source manifest, currently 0.10.0
-packaging/                     shipped README, OpenAI interface and SVG listing assets
+packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload
 releases/know-your-unknowns.zip generated Claude archive, top folder unknowns/

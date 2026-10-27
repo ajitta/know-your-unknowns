@@ -89,8 +89,24 @@ class PackageTest(unittest.TestCase):
                 files = {name.split("/", 1)[1]: archive.read(name) for name in archive.namelist()}
                 self.assertEqual(pkg.shipped_violations(files), [], filename)
         for rel in ("hooks/hooks.json", "skills/plan/scripts/run.md", "skills/plan/assets/icon.svg",
-                    "skills/plan/run.py", "run.sh", "page.js", "main.ts", "image.png"):
+                    "skills/plan/run.py", "run.sh", "page.js", "main.ts", "image.png",
+                    "skills/plan/icon.png", ".claude-plugin/logo.png"):
             self.assertTrue(pkg.shipped_violations({rel: b"example"}), rel)
+        self.assertEqual(pkg.shipped_violations({pkg.CLAUDE_ICON_PATH: b"example"}), [])
+
+    def test_claude_listing_icon(self):
+        data = self.files[pkg.CLAUDE_ICON_PATH]
+        self.assertEqual(data, pkg.CLAUDE_ICON.read_bytes())
+        self.assertEqual(pkg.validate_png_icon(data), [])
+        header = b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\x0dIHDR"
+        size = lambda w, h: header + w.to_bytes(4, "big") + h.to_bytes(4, "big")
+        self.assertTrue(pkg.validate_png_icon(size(512, 256)))
+        self.assertTrue(pkg.validate_png_icon(size(256, 256)))
+        self.assertTrue(pkg.validate_png_icon(size(4096, 4096)))
+        self.assertTrue(pkg.validate_png_icon(b"<svg/>"))
+        self.assertEqual(pkg.validate_png_icon(size(1024, 1024)), [])
+        with zipfile.ZipFile(ROOT / "releases" / pkg.OPENAI_ZIP_NAME) as archive:
+            self.assertNotIn("unknowns/" + pkg.CLAUDE_ICON_PATH, archive.namelist())
 
     def test_openai_interfaces(self):
         for skill in self.skills:
@@ -105,7 +121,8 @@ class PackageTest(unittest.TestCase):
 
     def test_generated_files_use_lf(self):
         for name, data in self.files.items():
-            self.assertNotIn(b"\r", data, name)
+            if name != pkg.CLAUDE_ICON_PATH:
+                self.assertNotIn(b"\r", data, name)
 
     def test_zips_reproducible_and_versioned(self):
         version = json.loads(pkg.MANIFEST.read_text(encoding="utf-8"))["version"]

@@ -15,7 +15,7 @@
 
 | 범위 | 언어 | 이유 |
 |------|------|------|
-| `skills/`, `agents/`, `hooks/`, `.claude-plugin/`, `NOTICE`, `LICENSE` | 영어 | 모델이 읽는 지시문이고, 설치자가 누구든 읽어야 한다 |
+| `skills/`, `claude-code/agents/`, `packaging/`, `.claude-plugin/`, `NOTICE`, `LICENSE` | 영어 | 모델이 읽는 지시문이고, 설치자가 누구든 읽어야 한다 |
 | `README.md`, `CHANGELOG.md`, `tests/`, `evals/` | 영어 | 설치자·기여자 대상 |
 | `README.ko.md` | 한국어 | README.md의 한국어 쌍둥이 |
 | `docs/**`, `IMPLEMENTATION_NOTES.md` | 한국어 | 작성자 자신의 작업 기록. 번역 대상이 아니다 |
@@ -55,34 +55,32 @@
 
 ## 두 HTML 리포트에 대한 결정
 
-**결정: 저장소에 그대로 둔다. 릴리스 zip에는 넣지 않는다. 대신 이 색인에서 링크한다.**
+**결정: 저장소에 그대로 둔다. 설치 페이로드와 릴리스 zip에는 넣지 않는다. 대신 이 색인에서 링크한다.**
 
-배경. 두 파일은 합쳐 약 200 KB이고, 마켓플레이스 설치는 저장소 전체를 캐시로 클론하므로
-**설치본에 그대로 따라 들어간다**. (0.5.0 전에는 이 저장소 자신의
-`.claude-plugin/marketplace.json`이 `"source": "./"`로 그렇게 만들었다. 0.5.0에서 그 파일은
-삭제됐고 카탈로그가 [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)로 옮겨갔지만,
-카탈로그의 소스가 이 저장소를 가리키는 git `url`이라 결과는 같다.)
-반면 `scripts/build-plugin.sh`가 만드는 zip은 `.claude-plugin skills agents hooks
-README.md README.ko.md CHANGELOG.md LICENSE NOTICE`만 담는다 — 즉 두 배포 경로의 파일 집합이
-애초에 다르고, `docs/`와 `tests/`는 마켓플레이스 경로에만 있다.
+배경. 두 파일은 합쳐 약 200 KB다. 0.10.0 전에는 마켓플레이스 설치가 저장소 전체를 플러그인
+캐시로 복사했으므로 이 리포트들도 설치본에 따라 들어갔다(0.9.2 설치본 2.0 MB). 0.10.0부터
+설치되는 플러그인은 생성물 `plugins/unknowns/`뿐이다(49파일, 약 157 KB). 자체 마켓플레이스
+`.claude-plugin/marketplace.json`은 `./plugins/unknowns`를, 카탈로그
+[ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)는 `git-subdir`
+`plugins/unknowns`를 가리킨다. 두 릴리스 zip(`releases/know-your-unknowns.zip`,
+`releases/know-your-unknowns-openai.zip`)도 같은 생성물에서 만든다. 그래서 `docs/`는 어느
+설치 경로의 플러그인에도 들어가지 않는다.
 
 왜 두는가.
 
 - 이 리포트들은 CHANGELOG 0.2.0·0.3.0 항목이 근거로 삼는 **검증 증거**다. 저장소 밖으로 옮기면
   릴리스 노트가 가리킬 곳이 없어진다.
-- 200 KB는 플러그인 설치 비용으로 무시할 만하다. 실제 문제는 용량이 아니라 **발견 불가능**이었고
+- 설치본에 들어가지 않으므로 설치 비용이 없다. 남은 문제는 **발견 불가능**이었고
   (어떤 `.md`도 이 둘을 링크하지 않았다), 그건 이 색인으로 해소된다.
 - 원문 그대로가 가치다. 다시 만들 수 없는 특정 시점의 실행 기록이므로 재생성 대상이 아니라 동결 대상이다.
 
-왜 릴리스 zip에는 안 넣는가. zip은 "플러그인이 동작하는 데 필요한 것"만 담는 경로다.
-유지보수 기록은 저장소에서 읽으면 된다.
-
-재검토 조건: `docs/`가 지금의 몇 배로 커져서 설치 캐시 크기가 실제로 문제가 되면,
-그때 리포트를 별도 브랜치나 GitHub Release 자산으로 옮기고 이 표의 링크를 그쪽으로 돌린다.
+재검토 조건: 저장소 클론 크기가 문제가 되면(자체 마켓플레이스를 추가하면 마켓플레이스 클론에는
+저장소 전체가 있다), 그때 리포트를 별도 브랜치나 GitHub Release 자산으로 옮기고 이 표의 링크를
+그쪽으로 돌린다.
 
 ## 알아둘 것
 
-- 마켓플레이스로 설치하면 이 디렉터리와 `tests/`, `.github/`까지 캐시에 복사된다.
-  설치본에서 이 문서들을 읽을 수 있다는 뜻이고, 반대로 여기 적는 내용은 설치자도 본다는 뜻이다.
+- 이 디렉터리는 공개 저장소에 있다. 0.10.0부터 플러그인 설치본에는 들어가지 않지만, 저장소를
+  보는 사람은 누구나 읽는다. 여기 적는 내용은 공개 문서로 쓴다.
 - 저장소 루트의 `IMPLEMENTATION_NOTES.md`는 이 플러그인이 자기 자신에게 적용한 이탈 로그다.
   `docs/`에 있지 않지만 성격은 같은 계열이고, 언어도 한국어다.
