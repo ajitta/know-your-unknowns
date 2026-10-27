@@ -65,6 +65,8 @@ Deviation entry — two blocks that do **not** carry equal weight. Fill Observed
 
 **Why the split.** A stated reason is a hypothesis: models and people both produce fluent rationales that omit what actually drove the choice. Observed earns trust only by being checkable against the diff; Attributed is a claim to test later. On conflict, the diff wins.
 
+When context does not say which alternatives were weighed, fill **Alternatives considered** with the plausible options you can name, each with why it loses here, marked *(inferred, not stated)*. If no other option was viable, say why. A bare "none" or "not recorded" leaves the field unfilled. Attributed is hypothesis already, so a marked inference stays honest, and a reviewer can challenge the choice only against named alternatives.
+
 Two lighter kinds, same file, one line each:
 
 | Entry | When | What to do |

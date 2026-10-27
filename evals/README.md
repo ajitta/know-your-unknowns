@@ -28,8 +28,10 @@ evals/
   <case-slug>/
     prompt.md            # frontmatter + the user prompt to send
     graders/<name>.md    # one grader per file; `type:` in the frontmatter
+  multiturn/<case>/      # multi-turn cases: case.md + graders/ (see below)
   results/               # run output; case discovery always skips this directory
   run-manual.py          # path B
+  run-multiturn.py       # multi-turn runner with a simulated user and a judge
 ```
 
 `prompt.md` frontmatter keys used here: `description`, `tags`, `runs`, `max_turns`,
@@ -107,6 +109,67 @@ claude -p "<prompt body from prompt.md>" --output-format stream-json --verbose \
 
 Output lands in `evals/results/manual-<timestamp>/` as `manual-result.json` plus a
 `summary.md` that already lists the rubrics still needing a human verdict.
+
+## Multi-turn cases — `run-multiturn.py`
+
+Every case above is single-turn, so a skill whose method is to ask and stop (blindspot's
+three lists, interview rounds, the quiz gate, prototype reactions) is graded on its
+question, never on what it does with the answer. The multi-turn cases play the rest of
+the conversation against a simulated user.
+
+```bash
+python3 evals/run-multiturn.py --verify                      # structural check, calls no model
+python3 evals/run-multiturn.py --list
+python3 evals/run-multiturn.py --case 'quiz-*' --runs 3 --judge --jobs 3
+python3 evals/run-multiturn.py --judge-dir evals/results/multiturn-<ts>   # judge later
+python3 evals/run-multiturn.py --tally evals/results/multiturn-<ts>
+```
+
+Layout (`run-manual.py` only discovers directories holding a `prompt.md`, so it never
+sees these):
+
+```
+evals/multiturn/<case>/
+  case.md              # frontmatter + "## Opening message" + "## Persona"
+  graders/<name>.md    # llm (focus: transcript), regex, question_count, tool_used
+```
+
+`case.md` frontmatter: `description`, `tags`, `runs`, `max_turns_per_reply` (agent
+turns per assistant reply), `user_turns` (most simulated replies after the opening),
+`timeout_seconds` (per reply), `allowed_tools`, optional `model`. The persona holds the
+facts the user knows, how they answer and concede, and when they stop ("stop once the
+assistant has delivered the decision table").
+
+How a run works: the opening message goes to `claude -p --output-format stream-json
+--verbose --plugin-dir <abs plugin>` in a fresh temporary cwd, with the same tool flags
+as `run-manual.py`. After each reply a separate `claude -p --tools ""` is given only the
+persona and the conversation so far and writes the user's next message, answering what
+the last reply actually asked, or `STOP`. That message goes back with `claude -p --resume
+<session>` in the same cwd. Every prompt is sent on STDIN. The run ends on `STOP`, at
+`user_turns`, or when a reply asks nothing of the user. Each run writes
+`<case>/<arm>-run-<n>/transcript.json` (every turn: text, tool calls with inputs, skills
+loaded, files written, cost) and `result.json` (grader verdicts, stop reason). A run
+that times out or cannot start is recorded as not graded, never as a FAIL.
+
+Graders: `regex` and `question_count` read the assistant replies chosen by `turn:`
+(`first`, `last`, `final_substantive` = the last reply of 800+ characters, `all`, `any`,
+or a reply number); `question_count` counts numbered question items per reply, outside
+code fences, quotes and tables. `tool_used` counts tool calls in the chosen replies; a
+`tool: Skill` grader without `arm:` is display-only, as in `run-manual.py`. `llm`
+graders are judged with `--judge` or `--judge-dir` by a separate `claude -p --tools ""`
+(prompt on STDIN) that sees the criteria and the conversation text only: user messages
+and every assistant reply, numbered. It does not see tool calls, file contents, skill or
+plugin names, or the arm. A verdict without an `OVERALL:` line is retried once and then
+recorded as unjudged, not as FAIL.
+
+Limits: the simulated user is a model. A result measures the skill's behaviour against
+that persona, played by that model, not against real users; a persona that drifts or
+answers a question nobody asked is a measurement error, so read the transcripts before
+quoting a number. Each run costs several model calls: in the first smoke runs a
+blindspot, interview or quiz conversation cost about $0.4-1.1 and a prototypes
+conversation, which writes runnable prototypes, $3-5. One run per case is a smoke check, not
+a measurement: compare arms run side by side on the same day, with enough runs per case
+for an exact test, before claiming a difference.
 
 ---
 

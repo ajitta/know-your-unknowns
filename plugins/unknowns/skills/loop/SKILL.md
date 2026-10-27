@@ -140,6 +140,8 @@ Keep `.unknowns/loop.json` — `{task, tier, stage, status, baseline, decisions[
 
 **Write it first when the loop starts**, once the tier is known, with `status: "active"`, before step 1's exchange — a compaction inside the first stage should still find it.
 
+When the loop starts, list the tier's steps by their headings in run order and mark the current one, e.g. for medium work: 1 Define value & done criteria (current) → 2 Blind-spot investigation → 3 Interview → 6 Plan → 7 Implement + deviation log → 9 Comprehension check & handoff. Without that list, the user cannot see what "skip ahead" at a stage checkpoint would skip.
+
 | `status` | Set when |
 |---|---|
 | `active` | The loop starts and while it runs; `resume`, or the user confirming an old tracker is unfinished, sets it back to `active` |

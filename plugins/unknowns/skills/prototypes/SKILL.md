@@ -53,6 +53,7 @@ Deliver Markdown in the conversation, keeping this skill's structure. End the tu
 
 - Number every option and element inside it; ask for **steal / skip** by number.
 - On skip, ask **"would steal if…"** (step 4).
+- Say the set can grow: if the last option shown still draws new reactions, you will offer 2 more along the axis still splitting opinion (step 5c).
 - Selections assemble into a **requirements list** ("option 2's layout + option 4's colors…").
 
 For numbered reactions and reply assembly, read references/output-routing.md.

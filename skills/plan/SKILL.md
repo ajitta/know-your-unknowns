@@ -40,7 +40,11 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    b. State the done criteria in one line even when deferring.
 
-   No native plan mode → give a short plan in the conversation with the done criteria; keep the same implementation approval gate.
+   c. Skip the Iron Rules, steps 4–8 and the Output section: they shape this document.
+
+   No native plan mode → after the done-criteria line, list the implementation steps in execution order, one line each; implement only after the user approves.
+
+   A change this small has no decision worth a review document, and a shortened copy of the document is still the document.
 4. Split work into items of two kinds:
 
    | Item type | Covers | Trait |

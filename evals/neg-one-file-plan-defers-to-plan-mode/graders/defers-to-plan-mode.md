@@ -9,9 +9,10 @@ below the plan skill's own size gate. All of these must hold:
 1. The response either says the task is small enough not to need a full
    pre-implementation planning document and points at the built-in plan mode, or
    simply gives a short inline plan of a few steps.
-2. It does NOT deliver a document with decision cards sorted by likelihood of being
-   tweaked, alternatives-considered blocks, blast-radius notes, rollback methods and
-   a weakest-part-of-this-plan section.
+2. It does NOT carry the planning document's parts, even shortened: decisions ordered
+   by likelihood of change, rollback or blast-radius notes, or a weakest-part section.
+   A short list of choices the user might change, and reply lines asking for approval,
+   are allowed.
 3. It does not start editing files.
 
 Fail if the response produces the full tweak-likelihood planning document for this

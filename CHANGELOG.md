@@ -2,9 +2,23 @@
 
 ## [Unreleased]
 
+### Changed
+
+- plan: below the size gate, the reply is the one-line done criteria plus the implementation steps in execution order; the Iron Rules, steps 4–8 and the Output section of the full document no longer apply there.
+- prototypes: the first reply says the option set can grow, and how (step 5c), instead of presenting the fixed number of options as sufficient.
+- loop: the first reply lists the tier's steps by their headings in run order and marks the current one, so "skip ahead" at a stage checkpoint is visible.
+- notes: when the context does not name the alternatives weighed, the entry names plausible ones, marked as inferred, instead of "not recorded".
+
 ### Added
 
 - Claude plugin listing icon: `packaging/icon.png` (1024 px square PNG rendered from the OpenAI listing SVG) ships as `.claude-plugin/icon.png` in the Claude plugin and zip only; `tools/package.py` checks it is a square PNG of 512 to 2,048 px under 2 MB. Clears the `ICON_MISSING` warning from `claude plugin validate --strict plugins/unknowns`.
+
+### Evals (developer-only; not in the shipped payload)
+
+- Multi-turn eval cases for blindspot, interview, quiz, and prototypes, run by `evals/run-multiturn.py`: a simulated user answers the questions each skill asks, and a separate judge grades the whole conversation.
+- The two single-turn blindspot cases now tell the skill to skip its up-front questions, so they grade the full pass; the asking path is graded by the multi-turn blindspot case. The exact-wording `labels-the-prompt-draft` regex was removed (the llm grader already checks the draft) and a finding-card marker regex added.
+- Method-marker regex graders for notes (Observed/Attributed blocks) and plan (weakest part / allowed cost), so a skill that loads and then declines no longer passes those cases on the load alone.
+- The one-file plan grader names the document parts it forbids (likelihood-ordered decisions, rollback or blast-radius notes, a weakest-part section) and allows a short list of choices and approval lines.
 
 ## 0.10.0 — 2026-10-27
 
