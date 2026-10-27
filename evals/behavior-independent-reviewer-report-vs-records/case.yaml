@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: behavior-independent-reviewer-report-vs-records
+context:
+  scaffold_script: place-files.sh

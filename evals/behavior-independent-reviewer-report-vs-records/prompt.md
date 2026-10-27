@@ -5,7 +5,6 @@ runs: 3
 max_turns: 12
 timeout_seconds: 900
 allowed_tools: [Read, Glob, Grep, Bash, Agent, Task]
-fixture: fixture
 ---
 
 Use the independent-reviewer agent to check our pilot report before it goes to the

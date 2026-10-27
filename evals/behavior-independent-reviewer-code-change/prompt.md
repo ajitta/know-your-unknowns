@@ -5,7 +5,6 @@ runs: 3
 max_turns: 12
 timeout_seconds: 900
 allowed_tools: [Read, Glob, Grep, Bash, Agent, Task]
-fixture: [fixture/monthly-report-command, fixture/add-csv-export]
 ---
 
 Use the independent-reviewer agent to check the change in this repository before I merge

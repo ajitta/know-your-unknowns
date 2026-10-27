@@ -28,6 +28,9 @@ evals/
   <case-slug>/
     prompt.md            # frontmatter + the user prompt to send
     graders/<name>.md    # one grader per file; `type:` in the frontmatter
+    case.yaml            # optional: `context: scaffold_script:` names the script below
+    place-files.sh       # optional: lays files/ (input material) into the run's cwd
+    files/               # optional: the material the scaffold script copies
   multiturn/<case>/      # multi-turn cases: case.md + graders/ (see below)
   results/               # run output; case discovery always skips this directory
   run-manual.py          # path B
@@ -35,7 +38,7 @@ evals/
 ```
 
 `prompt.md` frontmatter keys used here: `description`, `tags`, `runs`, `max_turns`,
-`timeout_seconds`, `allowed_tools`, `append_system_prompt`. Grader types used here: `tool_used`, `regex`,
+`timeout_seconds`, `allowed_tools`, `append_system_prompt`; an unknown key makes the CLI fail to load the case. Grader types used here: `tool_used`, `regex`,
 `file_exists`, `llm`. The grader's name is its filename; an `llm` or `regex` grader's
 body is its rubric or pattern. `claude plugin eval --help` is the authority on the
 format — this README does not restate it.
@@ -106,6 +109,8 @@ The raw one-liner behind it, adapted to the generated payload path (run from the
 claude -p "<prompt body from prompt.md>" --output-format stream-json --verbose \
   --max-turns 6 --plugin-dir ./plugins/unknowns --disallowedTools Edit Write Bash
 ```
+
+**Input material.** A case that needs real files (a repository to review, a report and its records) carries them in `files/` and a `place-files.sh` named in `case.yaml` under `context: scaffold_script:`, the CLI's own form (`claude plugin eval --scaffold` runs it). `run-manual.py` runs that script with bash in the run's fresh cwd before the run; the script may build a git history (the independent-reviewer code case commits the change under review as `HEAD~1..HEAD`). Each agent the run spawns has its report kept as `agent_reports` beside `last_message`, so a grader with `focus: trace` can judge what the agent found, not the caller's retelling of it.
 
 Output lands in `evals/results/manual-<timestamp>/` as `manual-result.json` plus a
 `summary.md` that already lists the rubrics still needing a human verdict.
@@ -218,6 +223,8 @@ project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 | `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
 | `neg-one-file-tweakable-plan-defers-to-plan-mode` | (behaviour, not trigger) | the tweakable-plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
 
+**2 independent-reviewer cases** — the agent called by name on real material laid into the run by the case's scaffold script: `behavior-independent-reviewer-code-change` (a git repository whose last commit silently misses one of five done criteria) and `behavior-independent-reviewer-report-vs-records` (a pilot report whose figures contradict the records beside it). Graders: the agent is spawned; each done criterion judged met, partial or missing; the planted miss found; an outcome judgement (or "outcome not judgeable"); a claim-checks part.
+
 **3 behaviour cases** — these grade the deliverable, not the trigger:
 
 | case | checks |
@@ -250,8 +257,8 @@ project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 3. **Negative cases prove absence weakly.** A skill not firing on three runs is
    evidence, not proof. Trigger selection is a contextual judgement, and the without-arm
    result for a negative case is structurally uninformative.
-4. **The sandbox has no repository.** Cases run in an empty temporary cwd, so every
-   prompt carries its own material inline — the retrospective skills (`quiz`,
+4. **The sandbox has no repository** unless the case scaffolds one. Cases run in an empty temporary cwd, so every
+   prompt without a scaffold script carries its own material inline — the retrospective skills (`quiz`,
    `buy-in`, `reference`) paste the diff or the reference in, and `blindspot` and
    `tweakable-plan` describe the system they are about. This was not optional: the first draft
    of `trigger-en-quiz` said "you just rewrote our webhook receiver", and the run
