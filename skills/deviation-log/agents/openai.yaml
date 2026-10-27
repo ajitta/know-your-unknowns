@@ -1,6 +1,6 @@
 interface:
   display_name: "Unknowns: Deviation Log"
   short_description: "Record meaningful deviations from the plan"
-  default_prompt: "Use $unknowns:deviation-log to record deviations from the implementation plan."
+  default_prompt: "Use $unknowns:deviation-log to record deviations from the plan."
 policy:
   allow_implicit_invocation: true

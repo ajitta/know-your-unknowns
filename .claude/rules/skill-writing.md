@@ -57,6 +57,9 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 11. **A sentence shared across skills is copied word for word.** Each skill loads alone, so repeating it is fine, but the copies must match so one grep finds and fixes them all. Known shared blocks:
     - the four finding kinds and the status labels (unknowns-scout, blindspot)
     - the independent-reviewer packet fields (buy-in, independent-reviewer)
+    - the cell line and the Open line at the top of every skill body ("This skill serves the **<Cell>** cell (Johari window, adapted: …)"; "A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method."), and "Self-evident requests are done directly." at the end of every skill description
+    - the **Your own unknowns** sentence (brainstorm, prototypes, plan, unknowns-loop)
+    - the deviation log's default file ("the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work)")
     - the missing-tool line ("Without a tool, do the step in the conversation and say what could not be checked.")
     - the reaction sentence's ending ("; a missing pick is undecided.") — each skill names its own items and deliverable
     - the blindspot ↔ teach-me order sentence (blindspot Scope, teach-me Related)

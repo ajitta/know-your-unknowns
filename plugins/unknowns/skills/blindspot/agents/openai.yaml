@@ -1,6 +1,6 @@
 interface:
   display_name: "Unknowns: Blindspot"
-  short_description: "Investigate blind spots before implementation"
-  default_prompt: "Use $unknowns:blindspot to investigate blind spots before implementing."
+  short_description: "Find both sides' blind spots before the work"
+  default_prompt: "Use $unknowns:blindspot to find what we are both missing before this work starts."
 policy:
   allow_implicit_invocation: true

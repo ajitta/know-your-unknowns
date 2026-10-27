@@ -88,7 +88,7 @@ class RenamedSkillsTest(unittest.TestCase):
     def test_trigger_words_survive_the_rename(self):
         def description(name):
             text = (ROOT / "skills" / name / "SKILL.md").read_text(encoding="utf-8")
-            return re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1).lower()
+            return " ".join(re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1).lower().split())
         self.assertIn('"unknowns loop"', description("unknowns-loop"))
         self.assertIn('"implementation notes"', description("deviation-log"))
 

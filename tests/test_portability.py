@@ -46,8 +46,8 @@ class PortabilityTest(unittest.TestCase):
 
     def test_reviewer_packet_matches_its_caller(self):
         # Rule 11: buy-in hands the reviewer the fields the reviewer expects.
-        fields = ("the approved plan, the `IMPLEMENTATION_NOTES.md` path, the diff range or touched files, "
-                  "how to run the tests, and the claims the work rests on")
+        fields = ("the done criteria, the outcome, the approved plan, the deviation log, the deliverable "
+                  "(for code, the diff range or touched files and how to run the tests), and the claims the work rests on")
         self.assertIn(fields, skill("buy-in"))
         self.assertIn(fields, (PLUGIN / "agents/independent-reviewer.md").read_text(encoding="utf-8"))
 
@@ -57,7 +57,23 @@ class PortabilityTest(unittest.TestCase):
         self.assertIn("Five are multiple choice.", text)
         self.assertIn("sixth is a **teach-back**", text)
         self.assertIn("Keep the key out of the questions and reply until the user has answered.", text)
-        self.assertIn("exact change site (file:line)", text)
+        self.assertIn("exact change site", text)
+
+    def test_skills_name_their_cell_and_do_open_requests_directly(self):
+        # Rule 0: each skill names the cell it serves; a self-evident request skips the method.
+        open_line = ("A self-evident request, where both of you already know what to do "
+                     "(the **Open** cell), is done directly, without this method.")
+        for path in (PLUGIN / "skills").glob("*/SKILL.md"):
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(open_line, text, path)
+            self.assertRegex(text, r"This skill serves the \*\*(Blind|Hidden|Unknown)\*\* cell", path)
+            fm = re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1)
+            self.assertIn("Self-evident requests are done directly.", fm, path)
+
+    def test_loop_ends_with_the_outcome_check(self):
+        text = skill("unknowns-loop")
+        self.assertIn("**Outcome check**", text)
+        self.assertGreater(text.index("**Outcome check**"), text.index("**Verify**"))
 
     def test_deviations_are_logged_in_one_named_file(self):
         for name in ("deviation-log", "interview"):

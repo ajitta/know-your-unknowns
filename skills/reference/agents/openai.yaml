@@ -1,6 +1,6 @@
 interface:
   display_name: "Unknowns: Reference"
-  short_description: "Analyze a reference before adapting its behavior"
-  default_prompt: "Use $unknowns:reference to analyze this reference before implementing."
+  short_description: "Read back a reference before building on it"
+  default_prompt: "Use $unknowns:reference to analyze this reference before building on it."
 policy:
   allow_implicit_invocation: true
