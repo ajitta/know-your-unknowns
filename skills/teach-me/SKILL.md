@@ -10,7 +10,7 @@ description: >
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)
 
-This skill serves the **Blind** cell (Johari window, adapted: the user does not know what you know), and surfaces the user's gaps. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what the user does not know and you do, and surfaces the user's gaps. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 Vague requests ("make it better") usually stem from **missing vocabulary**, not missing taste. This skill fills the **concept/terminology gap** among unknown unknowns.
 

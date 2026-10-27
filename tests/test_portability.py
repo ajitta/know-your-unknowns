@@ -61,14 +61,23 @@ class PortabilityTest(unittest.TestCase):
 
     def test_skills_name_their_cell_and_do_open_requests_directly(self):
         # Rule 0: each skill names the cell it serves; a self-evident request skips the method.
-        open_line = ("A self-evident request, where both of you already know what to do "
-                     "(the **Open** cell), is done directly, without this method.")
+        open_line = ("A self-evident request, where both of you already know what to do, "
+                     "is done directly, without this method.")
         for path in (PLUGIN / "skills").glob("*/SKILL.md"):
             text = path.read_text(encoding="utf-8")
             self.assertIn(open_line, text, path)
-            self.assertRegex(text, r"This skill serves the \*\*(Blind|Hidden|Unknown)\*\* cell", path)
+            self.assertRegex(text, r"This skill serves (what the user does not know and you do"
+                                   r"|what you do not know and the user does"
+                                   r"|what neither the user nor you know yet)", path)
             fm = re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1)
             self.assertIn("Self-evident requests are done directly.", fm, path)
+
+    def test_shipped_text_says_the_cells_in_plain_words(self):
+        # Rule 0: the Johari pane names stay in developer documents and the README credit.
+        pane = re.compile(r"Johari|\b(?:Open|Blind|Hidden|Unknown)\b(?:\*\*)? (?:cell|pane)|\*\*(?:Open|Blind|Hidden|Unknown)\*\*")
+        for path in PLUGIN.rglob("*"):
+            if path.is_file() and path.suffix in {".md", ".json", ".yaml"}:
+                self.assertIsNone(pane.search(path.read_text(encoding="utf-8")), path)
 
     def test_loop_ends_with_the_outcome_check(self):
         text = skill("unknowns-loop")

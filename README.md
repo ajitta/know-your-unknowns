@@ -38,14 +38,14 @@ original counterpart). For fact-checking details, see
 
 ## Purpose: three cells of what you and the AI know
 
-Every task has two knowers: you and the AI. The plugin borrows the four panes of the Johari window (adapted: "self" is you, "others" is the AI, and the knowledge is about the task) and serves three of them, in any domain: research, policy, events, hiring, a personal decision, or code.
+Every task has two knowers: you and the AI. The plugin borrows the four panes of the Johari window (Open, Blind, Hidden, Unknown), adapted: "self" is you, "others" is the AI, and the knowledge is about the task. It serves three of the four cells, in any domain: research, policy, events, hiring, a personal decision, or code.
 
-| You : AI | Pane | Without the plugin | What the skills do | Skills |
-|---|---|---|---|---|
-| known : known | Open | The request is self-evident; the AI just does it well. | Nothing: such requests are done directly, without the method. | — |
-| unknown : known | Blind | The AI may get it right, but you (or the people who approve it) cannot judge it. | Surface your gaps or your approvers' gaps. | teach-me, quiz, buy-in |
-| known : unknown | Hidden | You keep correcting the AI until the result comes out. | Ask or read back what the AI does not know or cannot judge, before deciding. | interview, reference |
-| unknown : unknown | Unknown | Output appears, but it is unlikely to be what you were after. The widest cell. | Surface both sides' unknowns: yours and the AI's own. | blindspot, brainstorm, prototypes, deviation-log, plan, unknowns-loop |
+| You : AI | Without the plugin | What the skills do | Skills |
+|---|---|---|---|
+| known : known — both of you know | The request is self-evident; the AI just does it well. | Nothing: such requests are done directly, without the method. | — |
+| unknown : known — you don't know, the AI does | The AI may get it right, but you (or the people who approve it) cannot judge it. | Surface your gaps or your approvers' gaps. | teach-me, quiz, buy-in |
+| known : unknown — the AI doesn't know, you do | You keep correcting the AI until the result comes out. | Ask or read back what the AI does not know or cannot judge, before deciding. | interview, reference |
+| unknown : unknown — neither of you knows yet | Output appears, but it is unlikely to be what you were after. The widest cell. | Surface both sides' unknowns: yours and the AI's own. | blindspot, brainstorm, prototypes, deviation-log, tweakable-plan, unknowns-loop |
 
 **Output** is what the AI produces; the **outcome** is the achievement you were actually after. A result can meet every done criterion and still miss the outcome, so the loop ends by asking you whether it achieved the outcome.
 
@@ -87,17 +87,17 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 
 | Phase | Skill | Cell | What it does | Original example |
 |---|---|---|---|---|
-| Before | `blindspot` | Unknown | Blind-spot investigation → improved prompt | Blindspot Pass |
-| Before | `teach-me` | Blind | Domain vocabulary explainer → precise requests | Teach Me My Unknowns |
-| Before | `interview` | Hidden | The model asks what it cannot know → decision table | The Interview |
-| Before | `prototypes` | Unknown | N variants with different philosophies → assembled requirements | Four Design Directions / Mock |
-| Before | `brainstorm` | Unknown | Map of the solution space → pick an intervention | Brainstorm the Intervention |
-| Before | `reference` | Hidden | Reference analysis + proof of understanding | Point at a Reference |
-| Before | `tweakable-plan` | Unknown | Plan ordered by likelihood-of-change | The Tweakable Plan |
-| During | `deviation-log` | Unknown | Record deviations from the plan | Implementation Notes |
-| After | `quiz` | Blind | Comprehension quiz | Quiz Me Before I Merge |
-| After | `buy-in` | Blind | What approvers don't know, answered with evidence | The Buy-In Doc |
-| All | `unknowns-loop` | Unknown | The operating loop that threads all of the above | — |
+| Before | `blindspot` | neither knows | Blind-spot investigation → improved prompt | Blindspot Pass |
+| Before | `teach-me` | you don't know | Domain vocabulary explainer → precise requests | Teach Me My Unknowns |
+| Before | `interview` | AI doesn't know | The model asks what it cannot know → decision table | The Interview |
+| Before | `prototypes` | neither knows | N variants with different philosophies → assembled requirements | Four Design Directions / Mock |
+| Before | `brainstorm` | neither knows | Map of the solution space → pick an intervention | Brainstorm the Intervention |
+| Before | `reference` | AI doesn't know | Reference analysis + proof of understanding | Point at a Reference |
+| Before | `tweakable-plan` | neither knows | Plan ordered by likelihood-of-change | The Tweakable Plan |
+| During | `deviation-log` | neither knows | Record deviations from the plan | Implementation Notes |
+| After | `quiz` | you don't know | Comprehension quiz | Quiz Me Before I Merge |
+| After | `buy-in` | you don't know | What approvers don't know, answered with evidence | The Buy-In Doc |
+| All | `unknowns-loop` | neither knows | The operating loop that threads all of the above | — |
 
 ---
 

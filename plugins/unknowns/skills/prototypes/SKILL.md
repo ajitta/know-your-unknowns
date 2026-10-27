@@ -10,7 +10,7 @@ description: >
 
 # Prototypes — Divergent Prototype Fan-out (Design Directions)
 
-This skill serves the **Unknown** cell (Johari window, adapted: neither the user nor you know yet), and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 People can't describe what they want but **can judge when they see it** (unknown knowns), and you do not know it either until they react.
 

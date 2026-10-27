@@ -34,14 +34,14 @@ https://thariqs.github.io/html-effectiveness/unknowns/. 스킬 11종이 원문 1
 
 ## 목적: 당신과 AI가 아는 것의 세 칸
 
-모든 작업에는 아는 쪽이 둘 있습니다. 당신과 AI입니다. 이 플러그인은 조하리의 창(Johari window)의 네 칸을 빌려(변형: "나"는 당신, "타인"은 AI, 아는 대상은 그 작업) 그중 세 칸을 다룹니다. 분야는 가리지 않습니다. 연구, 정책, 행사, 채용, 개인적 결정, 그리고 코드도 그중 하나입니다.
+모든 작업에는 아는 쪽이 둘 있습니다. 당신과 AI입니다. 이 플러그인은 조하리의 창(Johari window)의 네 칸(열린 칸, 보이지 않는 칸, 숨겨진 칸, 미지의 칸)을 빌려 옵니다. 변형해서 "나"는 당신, "타인"은 AI, 아는 대상은 그 작업입니다. 그중 세 칸을 다룹니다. 분야는 가리지 않습니다. 연구, 정책, 행사, 채용, 개인적 결정, 그리고 코드도 그중 하나입니다.
 
-| 당신 : AI | 칸 | 플러그인 없이 | 스킬이 하는 일 | 스킬 |
-|---|---|---|---|---|
-| 앎 : 앎 | 열린 칸 (Open) | 요청이 자명하고 AI가 그냥 잘 합니다. | 없음: 이런 요청은 방법 없이 바로 처리합니다. | — |
-| 모름 : 앎 | 보이지 않는 칸 (Blind) | AI가 제대로 만들어도 당신(또는 승인할 사람)이 판단하지 못합니다. | 당신이나 승인자가 모르는 것을 드러냅니다. | teach-me, quiz, buy-in |
-| 앎 : 모름 | 숨겨진 칸 (Hidden) | 당신이 계속 AI를 고쳐 가며 결과를 끌어냅니다. | 결정 전에 AI가 모르거나 판단할 수 없는 것을 묻거나 되읽어 확인합니다. | interview, reference |
-| 모름 : 모름 | 미지의 칸 (Unknown) | 산출물은 나와도 원하던 성과일 가능성은 낮습니다. 가장 넓은 칸입니다. | 양쪽의 미지를 드러냅니다: 당신의 것과 AI 자신의 것. | blindspot, brainstorm, prototypes, deviation-log, plan, unknowns-loop |
+| 당신 : AI | 플러그인 없이 | 스킬이 하는 일 | 스킬 |
+|---|---|---|---|
+| 앎 : 앎 — 둘 다 앎 | 요청이 자명하고 AI가 그냥 잘 합니다. | 없음: 이런 요청은 방법 없이 바로 처리합니다. | — |
+| 모름 : 앎 — 당신은 모르고 AI는 앎 | AI가 제대로 만들어도 당신(또는 승인할 사람)이 판단하지 못합니다. | 당신이나 승인자가 모르는 것을 드러냅니다. | teach-me, quiz, buy-in |
+| 앎 : 모름 — AI는 모르고 당신은 앎 | 당신이 계속 AI를 고쳐 가며 결과를 끌어냅니다. | 결정 전에 AI가 모르거나 판단할 수 없는 것을 묻거나 되읽어 확인합니다. | interview, reference |
+| 모름 : 모름 — 둘 다 아직 모름 | 산출물은 나와도 원하던 성과일 가능성은 낮습니다. 가장 넓은 칸입니다. | 양쪽의 미지를 드러냅니다: 당신의 것과 AI 자신의 것. | blindspot, brainstorm, prototypes, deviation-log, tweakable-plan, unknowns-loop |
 
 **산출물(output)**은 AI가 만든 것이고, **성과(outcome)**는 당신이 실제로 이루려던 것입니다. 결과가 완료 조건을 모두 채워도 성과를 놓칠 수 있으므로, 루프는 성과를 이뤘는지 당신에게 묻는 것으로 끝납니다.
 
@@ -80,17 +80,17 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 | 시점 | 스킬 | 칸 | 하는 일 | 원문 예시 |
 |---|---|---|---|---|
-| 전 | `blindspot` | 미지 | 사각지대 조사 → 개선된 프롬프트 | Blindspot Pass |
-| 전 | `teach-me` | 보이지 않는 | 도메인 어휘 설명서 → 정밀한 요청 | Teach Me My Unknowns |
-| 전 | `interview` | 숨겨진 | 모델이 자신이 알 수 없는 것을 물음 → 결정 테이블 | The Interview |
-| 전 | `prototypes` | 미지 | 철학이 다른 시안 N개 → 요구사항 조립 | Four Design Directions / Mock |
-| 전 | `brainstorm` | 미지 | 해법 공간 지도 → 개입 선택 | Brainstorm the Intervention |
-| 전 | `reference` | 숨겨진 | 레퍼런스 분석·이해 증명 | Point at a Reference |
-| 전 | `tweakable-plan` | 미지 | 수정확률순 계획서 | The Tweakable Plan |
-| 중 | `deviation-log` | 미지 | 계획 이탈 기록 | Implementation Notes |
-| 후 | `quiz` | 보이지 않는 | 이해도 퀴즈 | Quiz Me Before I Merge |
-| 후 | `buy-in` | 보이지 않는 | 승인자가 모르는 것을 근거로 답하는 문서 | The Buy-In Doc |
-| 전체 | `unknowns-loop` | 미지 | 위 전부를 꿰는 운영 루프 | — |
+| 전 | `blindspot` | 둘 다 모름 | 사각지대 조사 → 개선된 프롬프트 | Blindspot Pass |
+| 전 | `teach-me` | 당신이 모름 | 도메인 어휘 설명서 → 정밀한 요청 | Teach Me My Unknowns |
+| 전 | `interview` | AI가 모름 | 모델이 자신이 알 수 없는 것을 물음 → 결정 테이블 | The Interview |
+| 전 | `prototypes` | 둘 다 모름 | 철학이 다른 시안 N개 → 요구사항 조립 | Four Design Directions / Mock |
+| 전 | `brainstorm` | 둘 다 모름 | 해법 공간 지도 → 개입 선택 | Brainstorm the Intervention |
+| 전 | `reference` | AI가 모름 | 레퍼런스 분석·이해 증명 | Point at a Reference |
+| 전 | `tweakable-plan` | 둘 다 모름 | 수정확률순 계획서 | The Tweakable Plan |
+| 중 | `deviation-log` | 둘 다 모름 | 계획 이탈 기록 | Implementation Notes |
+| 후 | `quiz` | 당신이 모름 | 이해도 퀴즈 | Quiz Me Before I Merge |
+| 후 | `buy-in` | 당신이 모름 | 승인자가 모르는 것을 근거로 답하는 문서 | The Buy-In Doc |
+| 전체 | `unknowns-loop` | 둘 다 모름 | 위 전부를 꿰는 운영 루프 | — |
 
 ---
 

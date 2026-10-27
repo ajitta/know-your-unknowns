@@ -10,7 +10,7 @@ description: >
 
 # Tweakable Plan — sorted by tweak likelihood
 
-This skill serves the **Unknown** cell (Johari window, adapted: neither the user nor you know yet), and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 A plan's purpose is to **pull the points where the user would intervene forward**, not to list steps in execution order. Even if the user stops reading partway down, they have already seen every decision that matters. The plan ends at the user's approval or change requests; the work starts from the approved plan.
 

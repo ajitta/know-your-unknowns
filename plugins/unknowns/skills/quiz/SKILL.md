@@ -10,7 +10,7 @@ description: >
 
 # Quiz — Post-Work Comprehension Check (Stay in the Loop)
 
-This skill serves the **Blind** cell (Johari window, adapted: the user does not know what you know), and surfaces the user's gaps. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what the user does not know and you do, and surfaces the user's gaps. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 Even when the work was delegated, **the user must be able to explain the result**: they are the one who presents it, answers for it and acts on it.
 

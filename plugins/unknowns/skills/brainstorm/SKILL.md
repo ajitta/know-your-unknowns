@@ -11,7 +11,7 @@ description: >
 
 # Brainstorm — Solution-Space Map (Brainstorm the Intervention)
 
-This skill serves the **Unknown** cell (Johari window, adapted: neither the user nor you know yet), and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 Jumping on the first solution leaves the rest of the solution space unknown. The user picks; the model draws the space.
 

@@ -11,7 +11,7 @@ description: >
 ---
 # Blindspot Pass — Blind-Spot Investigation
 
-This skill serves the **Unknown** cell (Johari window, adapted: neither the user nor you know yet), and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 Before the work starts, find the gap between the **map** (the plan or prompt) and the **territory** (the actual situation: its documents, rules, people, data, or codebase).
 

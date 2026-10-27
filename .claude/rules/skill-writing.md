@@ -9,14 +9,14 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 
 ## Purpose
 
-0. **The plugin serves three of the four cells of what the user and the AI know about a task, in any domain.** The cells are the Johari window's panes, adapted: self = the user, others = the AI, and the knowledge is about the task at hand, not about oneself.
+0. **The plugin serves three of the four cells of what the user and the AI know about a task, in any domain.** The cells are the Johari window's panes, adapted: self = the user, others = the AI, and the knowledge is about the task at hand, not about oneself. The pane names below are for developer documents; shipped text (skills, agents, descriptions, the plugin README) describes each cell in plain words, and each README names the panes once, where it credits the source.
 
-   | Cell (user : AI) | Pane | What happens without the method | What the skills do | Skills |
-   |---|---|---|---|---|
-   | known : known | **Open** | The request is self-evident and the AI does it well. | Out of scope: do the request directly, without the method. | — |
-   | unknown : known | **Blind** | The AI may build it right, but the user (or an approver) cannot judge it. | Surface the user's or the approvers' gaps. | teach-me, quiz, buy-in |
-   | known : unknown | **Hidden** | The user keeps correcting the AI until the result comes out. | Ask or read back what the AI does not know or cannot judge, before deciding. | interview, reference |
-   | unknown : unknown | **Unknown** | Output appears, but it is unlikely to achieve the outcome. The widest cell. | Surface both sides' unknowns: the user's and the AI's own. | blindspot, brainstorm, prototypes, deviation-log, plan, unknowns-loop |
+   | Cell (user : AI) | Pane | Plain words in shipped text | What happens without the method | What the skills do | Skills |
+   |---|---|---|---|---|---|
+   | known : known | **Open** | what both of you know | The request is self-evident and the AI does it well. | Out of scope: do the request directly, without the method. | — |
+   | unknown : known | **Blind** | what the user does not know and you do | The AI may build it right, but the user (or an approver) cannot judge it. | Surface the user's or the approvers' gaps. | teach-me, quiz, buy-in |
+   | known : unknown | **Hidden** | what you do not know and the user does | The user keeps correcting the AI until the result comes out. | Ask or read back what the AI does not know or cannot judge, before deciding. | interview, reference |
+   | unknown : unknown | **Unknown** | what neither the user nor you know yet | Output appears, but it is unlikely to achieve the outcome. The widest cell. | Surface both sides' unknowns: the user's and the AI's own. | blindspot, brainstorm, prototypes, deviation-log, tweakable-plan, unknowns-loop |
 
    **Output** is the artifact the AI produces; the **outcome** is the achievement that matches the user's ultimate intent. A result can meet every done criterion and still miss the outcome, so the last check, made with the user, is "did it achieve the outcome".
 
@@ -48,17 +48,17 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 ## Wording
 
 8. **Allow only one reading.** Spell out what happens when the user skips or declines ("If the user skips, run a full investigation; a skip never stops the pass"), not a phrase like "never block on it".
-9. **One name per concept across all skills and agents.** Decided names: *kind* (blindspot cards and the scout's `Kind` column map 1:1), *done criteria*, *deviation* (an entry in the deviation log, `IMPLEMENTATION_NOTES.md` by default), *output* and *outcome* (Korean 산출물 and 성과; plain "outcome", with no qualifier), the cell names *Open*, *Blind*, *Hidden* and *Unknown* (labelled once per file as adapted from the Johari window), "did it achieve the outcome" for the final check, `## Iron Rules`, `## Related` for a section pointing at other skills.
+9. **One name per concept across all skills and agents.** Decided names: *kind* (blindspot cards and the scout's `Kind` column map 1:1), *done criteria*, *deviation* (an entry in the deviation log, `IMPLEMENTATION_NOTES.md` by default), *output* and *outcome* (Korean 산출물 and 성과; plain "outcome", with no qualifier), the cells in the plain words of rule 0's table (the pane names *Open*, *Blind*, *Hidden* and *Unknown* only in developer documents and once per README, credited as adapted from the Johari window), "did it achieve the outcome" for the final check, `## Iron Rules`, `## Related` for a section pointing at other skills.
 
    Refer to another skill only as the **name** skill (bold name, then "skill"), and write a skill's own name only in its frontmatter and title. A file then holds each skill name in one form, so a later rename is one search and replace.
 
-   A shared term needs the same definition too, not only the same name. Do not reuse a defined term as a generic table header: `| Kind |` in deviation-log and plan collided with blindspot's *kind*, so those tables use `Entry` and `Item type`.
+   A shared term needs the same definition too, not only the same name. Do not reuse a defined term as a generic table header: `| Kind |` in deviation-log and tweakable-plan collided with blindspot's *kind*, so those tables use `Entry` and `Item type`.
 10. **Bold marks a term the reader must find again**, not a whole sentence. A short rule the whole skill turns on may stay bold as a whole (**Execution order ≠ presentation order.**). A line with four bold phrases has no emphasis left.
 11. **A sentence shared across skills is copied word for word.** Each skill loads alone, so repeating it is fine, but the copies must match so one grep finds and fixes them all. Known shared blocks:
     - the four finding kinds and the status labels (unknowns-scout, blindspot)
     - the independent-reviewer packet fields (buy-in, independent-reviewer)
-    - the cell line and the Open line at the top of every skill body ("This skill serves the **<Cell>** cell (Johari window, adapted: …)"; "A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method."), and "Self-evident requests are done directly." at the end of every skill description
-    - the **Your own unknowns** sentence (brainstorm, prototypes, plan, unknowns-loop)
+    - the cell line and the Open line at the top of every skill body ("This skill serves <the cell in plain words>, …"; "A self-evident request, where both of you already know what to do, is done directly, without this method."), and "Self-evident requests are done directly." at the end of every skill description
+    - the **Your own unknowns** sentence (brainstorm, prototypes, tweakable-plan, unknowns-loop)
     - the deviation log's default file ("the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work)")
     - the missing-tool line ("Without a tool, do the step in the conversation and say what could not be checked.")
     - the reaction sentence's ending ("; a missing pick is undecided.") — each skill names its own items and deliverable

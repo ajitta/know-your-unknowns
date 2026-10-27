@@ -10,7 +10,7 @@ description: >
 
 # Reference — A Reference Is Another Map
 
-This skill serves the **Hidden** cell (Johari window, adapted: the user knows what you do not), and reads back what you do not know or cannot judge before deciding. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what you do not know and the user does: before building on a reference, it reads back your reading of it for the user to correct. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 ## Iron Rules
 

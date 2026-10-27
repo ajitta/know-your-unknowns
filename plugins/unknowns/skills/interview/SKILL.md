@@ -12,7 +12,7 @@ description: >
 
 # Interview — Before-Deciding Interview
 
-This skill serves the **Hidden** cell (Johari window, adapted: the user knows what you do not), and asks what you do not know or cannot judge before deciding. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what you do not know and the user does: before deciding, it asks what you cannot know or judge about the user's situation. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 When requirements are incomplete, **the model interviews the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
 

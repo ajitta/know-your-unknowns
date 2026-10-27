@@ -11,7 +11,7 @@ description: >
 
 # Deviation Log
 
-This skill serves the **Unknown** cell (Johari window, adapted: neither the user nor you know yet), and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 When work hits a situation the plan or spec does not cover (an unknown neither side saw), **pick the conservative option, log it, and keep going**. The log is where the user sees where the territory departed from the map, and why.
 

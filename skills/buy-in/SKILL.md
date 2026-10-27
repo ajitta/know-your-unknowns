@@ -10,7 +10,7 @@ description: >
 
 # Buy-in — The Buy-In Doc
 
-This skill serves the **Blind** cell (Johari window, adapted: the user does not know what you know), and surfaces the approvers' gaps. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
+This skill serves what the user does not know and you do, and surfaces the approvers' gaps. A self-evident request, where both of you already know what to do, is done directly, without this method.
 
 The work is done, but the approvers have not seen what the user has, and the user does not yet know how they will react. Approval turns on what the approvers do not know, so the doc finds those unknowns and answers them with evidence before the meeting, not in it.
 
