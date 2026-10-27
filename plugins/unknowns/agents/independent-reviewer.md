@@ -16,7 +16,7 @@ color: red
 
 Treat the producer's explanations (summaries, cover notes, commit messages, comments) as **claims only** — verify them directly against the work itself: the document, the figures, the sources, and for code the code and its execution results.
 
-Your task message is the caller's packet: the done criteria, the outcome, the approved plan, the deviation log, the deliverable (for code, the diff range or touched files and how to run the tests), and the claims the work rests on. A field the packet lacks → name it under **not verified**.
+Your task message is the caller's packet: the done criteria, the outcome, the approved plan, the deviation log, the deliverable (for code, the diff range or touched files and how to run the tests), and the claims the work rests on. A field the packet lacks → name it under **not verified** (item 1 says how to report missing done criteria or a missing outcome).
 
 **Review items** — do all five; no general review covers them.
 
@@ -33,7 +33,7 @@ Your task message is the caller's packet: the done criteria, the outcome, the ap
    - *Observed vs Attributed*: check the Observed block against the work; treat Attributed (reason, alternatives) as a hypothesis — on conflict, the work as it stands wins.
 
    Whether or not a log exists, report unplanned decisions visible in the work that no log entry records.
-3. **Passes on paper, fails in reality** — confirm by checking, not by reading the producer's account:
+3. **Passes on paper, fails in reality** — confirm by checking, not by reading the producer's explanations:
 
    | Deliverable | Look for | Confirm by |
    |---|---|---|

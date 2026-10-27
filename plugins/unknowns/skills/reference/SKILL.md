@@ -36,7 +36,7 @@ This skill serves the **Hidden** cell (Johari window, adapted: the user knows wh
    | **Unnecessary or dangerous parts** | Left out of this work, with the reason. |
    | **Parts improvable beyond the reference** | Where we can do better. |
 
-3. For port or adaptation work, and before building anything on the reference, present **proof of comprehension (semantics map)**. The semantics map holds:
+3. Before building anything on the reference, a port or adaptation included, present **proof of comprehension (semantics map)**. The semantics map holds:
 
    - key reference excerpts ↔ new-environment counterparts, side by side
    - gotcha notes where behavior subtly differs

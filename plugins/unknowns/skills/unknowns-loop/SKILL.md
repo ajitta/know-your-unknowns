@@ -16,7 +16,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
 ## Sequence
 
-1. **Done criteria, in one exchange.** Fix the purpose (the outcome the user is ultimately after), the done criteria, what already works and must not break, and the allowed cost and change scope. Without done criteria, the volume of output gets mistaken for progress.
+1. **Done criteria, in one exchange.** Fix the outcome (what the user is ultimately after), the done criteria, what already works and must not break, and the allowed cost and change scope. Without done criteria, the volume of output gets mistaken for progress.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
 

@@ -25,6 +25,8 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 1. Get the problem definition and constraints (timeline, people, cost) from the text the user gave with the request or after the skill name and the conversation. If they are empty or vague, ask back once for a measurable statement: which metric, how bad, since when, for whom. One round only. If the answer is still vague or the user skips, generate the candidates anyway and state the assumed metric and constraints above them.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
+
+   When you ask back for the problem statement, put these in the same round.
 2. Before generating candidates in step 3, look for what already exists but is not used for this problem: in a codebase, machinery that sits disconnected; elsewhere, resources, programs, people or partnerships already in reach.
 
    a. Search the material yourself or use the `unknowns:unknowns-scout` agent.

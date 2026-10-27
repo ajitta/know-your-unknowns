@@ -9,7 +9,7 @@ description: >
   did we diverge from the plan?". Self-evident requests are done directly.
 ---
 
-# Deviation Log — Plan Deviation Log (Implementation Notes)
+# Deviation Log
 
 This skill serves the **Unknown** cell (Johari window, adapted: neither the user nor you know yet), and surfaces both sides' unknowns. A self-evident request, where both of you already know what to do (the **Open** cell), is done directly, without this method.
 
@@ -25,8 +25,8 @@ When work hits a situation the plan or spec does not cover (an unknown neither s
    | Code | `IMPLEMENTATION_NOTES.md` at the project root | `# Implementation Notes — plan deviation log` |
    | Anything else | the file the user names, or `DEVIATIONS.md` beside the deliverable | `# Deviation log — <deliverable>` |
 
-   The **buy-in** and **quiz** skills read that record. Without a tool, do the step in the conversation and say what could not be checked.
-3. While working, check for unlogged deviations at each checkpoint (a commit, a shared draft) and before handing work back, and append each one as in step 2.
+   The **buy-in** and **quiz** skills read that log. Without a tool, do the step in the conversation and say what could not be checked.
+3. While working, check for unlogged deviations at each checkpoint (a commit, a shared draft) and before handing the work over, and append each one as in step 2.
 4. When a deviation invalidates a decision in the plan document, mark that decision in the plan as superseded by the entry's date, so the plan stays the map the work follows.
 
 ## Entry Format

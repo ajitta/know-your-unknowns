@@ -57,4 +57,4 @@ When the interview ends, present two things:
    - Mark skipped questions "(unanswered — use your judgment)". A question that was asked but not answered is a skipped question: its options and any reason for it stay out of the fixed decisions.
    - Declare the structure and harm decisions **fixed**.
    - Close with "start with a short plan, then do the work".
-   - Include: "Where the plan leaves a choice open or the work conflicts with a fixed decision, pick the conservative option and log the deviation in the deviation log (IMPLEMENTATION_NOTES.md for code work)."
+   - Include: "Where the plan leaves a choice open or the work conflicts with a fixed decision, pick the conservative option and log the deviation in the deviation log (IMPLEMENTATION_NOTES.md for code work, otherwise DEVIATIONS.md beside the deliverable)."

@@ -14,7 +14,7 @@ model: inherit
 color: cyan
 ---
 
-Before the work starts, find the gaps between the map (the user's plan or prompt) and the territory (the actual sources and constraints: documents, rules, data, people's records, a codebase).
+Before the work starts, find the gaps between the map (the user's plan or prompt) and the territory (the actual sources and constraints: documents, rules, data, people's records, the web, a codebase).
 
 When the packet lists assumptions (the user's, the caller's), check them first, then follow the procedure.
 
