@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-Planned as **0.10.0**, not released. The owner will bump the version and publish only after all work and verification are complete; this branch's manifest remains **0.9.2**.
+## 0.10.0 — 2026-10-27
+
+**Breaking:** deliverables are Markdown in the conversation (no HTML pages), and the plugin ships no hooks. Installed payload: 49 files, about 157 KB (0.9.2 installed the whole repository, 2.0 MB).
 
 ### Changed
 
@@ -92,14 +94,21 @@ The model-read files were last written by Codex, so this round used Claude as th
 - 25 fixes are form only (names, antecedents, list names in the scout output). Nine change meaning and are **unmeasured**: blindspot opens its output with the three lists before the contrast; interview investigates before it lists gaps and uses step 5's radius names; loop writes the tracker once the tier is known and records the tier there; notes always appends (creating the file if missing) and drops the chat-summary permission when there is no file system; buy-in hands the reviewer the surfaces packet; quiz runs the wrap-up in the same reply.
 - 82 findings were rejected because the text was already right in context, the fix would change a method step, number, shared block or owner ruling, or it only restyled. Owner rulings, frontmatter, trigger phrases, step numbering and shared blocks are unchanged. Per-item adjudications are in the owner's local `kyu-review/wfm-claude/report.md`.
 
+### Checked
+
+- **Claude Code** 2.1.309, claude-opus-5-5, isolated config with the account's synced plugins disabled; cases from `evals/` run with `evals/run-manual.py`, `llm` graders judged by a separate arm-blind `claude -p`. 3–6 runs per cell, so these rule out large regressions only; no improvement is claimed.
+  - Triggers: all 22 cases fired the intended skill (a single-run Korean blindspot miss fired 6/6 on 0.9.2 and on this build when rerun).
+  - Negatives: the how-to, interval-loop, UI-options and vocabulary cases fired no wrong unknowns skill and passed their outcome graders (12/12). The one-file plan case loads `unknowns:plan`; it defers to plan mode 1/3 (0.9.2: 0/3).
+  - Behaviour, 0.9.2 vs this build run side by side: prototypes contrast pole 6/6 vs 6/6, saturation offer 1/6 vs 1/6; blindspot status labels 2/3 vs 3/3, nothing-confirmed-unseen 1/3 vs 2/3; notes required fields 1/3 vs 1/3; loop stages 0/3 vs 0/3 (en), 0/3 vs 1/3 (ko). An earlier batch on the pre-WC build: plan done criteria first 2/3 vs 3/3, interview at most four questions 2/3 vs 3/3.
+- **Codex CLI** 0.164.0, isolated HOME: all 11 skills listed; 22/22 trigger cases loaded the intended skill (each run stopped at the first skill read); the plan behaviour case delivered its done criteria in the chat where 0.9.2 linked an HTML file.
+- **CI** on the release branch: unit tests on ubuntu-latest and windows-latest, strict plugin and marketplace validation.
+
 ### Not measured
 
-- Fresh routing and behavior probes for the changed skills on Claude Code, Claude web/desktop/mobile, Codex CLI, and ChatGPT web/mobile/desktop.
+- Routing and behaviour on Claude web/desktop/mobile and ChatGPT web/mobile/desktop; multi-turn behaviour on any surface (the eval cases are single-turn); the reviewer's always-on secondary pass.
 - Uploads of the rebuilt Claude archive to claude.ai or the rebuilt OpenAI archive to ChatGPT.
 - Mobile skill loading and cross-device/account synchronization.
 - Live A/B measurements of the Phase W and W2 writing-for-models fixes; prior trigger and behavior results describe older snapshots. W2 scope and execution-order clarifications, and the nine WC meaning changes, are not measured improvements. An optional W2 behavior smoke was stopped after repeated 60-second timeouts; its no-plugin arm also loaded an installed unknowns skill, so it supplies no valid baseline.
-- Native Windows execution of the rebuilt developer tools: the new Ubuntu/Windows CI matrix is configured but has not been observed running; earlier hook checks were CI-only and those hooks are removed.
-- The new tag-triggered release workflow against a real tag or published release.
 
 ## 0.9.2 — 2026-10-22
 

@@ -86,8 +86,6 @@ Covering the original 11 examples — prototypes covers two, loop orchestrates.
 
 The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
 
-**Unreleased package:** this branch stays at 0.9.2 until the owner finishes verification and releases it. The download links below name the planned release assets; until they are published, use the committed files in `releases/` on this branch.
-
 **ChatGPT and Codex behavior: expected; not yet checked by the owner.** The rebuilt package's uploads, mobile loading, and cross-device behavior are also unmeasured.
 
 ### claude.ai web and Claude desktop
@@ -621,7 +619,7 @@ the source" from "extended during authoring".
 skills/<name>/                 source: SKILL.md, references/, agents/openai.yaml
 skills/loop/references/         shared references, vendored transitively by the build
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.9.2
+plugin-manifest.json           source manifest, currently 0.10.0
 packaging/                     shipped README, OpenAI interface and SVG listing assets
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload
@@ -651,7 +649,7 @@ python3 evals/run-manual.py --verify
 
 A non-empty `## [Unreleased]` entry in CHANGELOG.md permits changed shipped content to be rebuilt at the same version and updates `plugin-release.json`. Without that entry, changed content requires a version bump. `--check` always rejects stale generated files, archives, or the digest record; rebuild first.
 
-The owner bumps and releases only after all work and verification are complete. This branch retains 0.9.2 and records the planned 0.10.0 work under Unreleased. A later annotated `unknowns--vX.Y.Z` tag triggers the release workflow to validate and attach both committed zips; no release is created by a local build.
+Release: bump `plugin-manifest.json`, move the Unreleased entry under the new version, rebuild, and merge with green CI. An annotated `unknowns--vX.Y.Z` tag then triggers the release workflow, which validates and attaches both committed zips; no release is created by a local build.
 
 Text uses UTF-8 and LF. Release archives use ZIP_STORED with fixed timestamps and modes for byte reproducibility. The packager is standard-library-only and supports Python 3.7+; the optional individual-skill helper uses Python 3.9+.
 

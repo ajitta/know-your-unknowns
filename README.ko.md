@@ -80,8 +80,6 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름이나 트리거 문구로 부릅니다.
 
-**미릴리스 패키지:** 이 브랜치는 소유자가 검증을 마치고 릴리스할 때까지 0.9.2를 유지합니다. 아래 다운로드 링크는 다음 릴리스 자산의 이름입니다. 공개 전에는 이 브랜치의 `releases/`에 커밋된 파일을 쓰세요.
-
 **ChatGPT와 Codex 동작: 예상이며 소유자가 아직 확인하지 않았습니다.** 재구성한 패키지의 업로드·모바일 로딩·기기 간 동작도 미측정입니다.
 
 ### claude.ai 웹과 Claude 데스크톱
@@ -576,7 +574,7 @@ Claude Code가 자체 `loop` 스킬(반복 인터벌 러너)을 싣고 있어 �
 skills/<name>/                 소스: SKILL.md, references/, agents/openai.yaml
 skills/loop/references/         빌드가 전이적으로 복사하는 공용 참조
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.9.2
+plugin-manifest.json           소스 매니페스트, 현재 0.10.0
 packaging/                     배포 README, OpenAI 인터페이스, SVG 목록 자산
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드
@@ -606,7 +604,7 @@ python3 evals/run-manual.py --verify
 
 CHANGELOG.md에 내용이 있는 `## [Unreleased]` 항목이 있으면 배포 콘텐츠가 바뀌어도 같은 버전으로 빌드하고 `plugin-release.json`을 갱신할 수 있습니다. 해당 항목이 없으면 콘텐츠 변경에 버전 올림이 필요합니다. `--check`는 언제나 오래된 생성 파일·아카이브·다이제스트 기록을 거부하므로 먼저 다시 빌드하세요.
 
-소유자는 작업과 검증을 모두 마친 뒤에만 버전을 올리고 릴리스합니다. 이 브랜치는 0.9.2를 유지하고 예정된 0.10.0 작업을 Unreleased에 기록합니다. 이후 주석 태그 `unknowns--vX.Y.Z`가 릴리스 워크플로를 실행해 커밋된 zip 둘을 검증하고 첨부합니다. 로컬 빌드로 릴리스가 생성되지는 않습니다.
+릴리스: `plugin-manifest.json`의 버전을 올리고, Unreleased 항목을 새 버전 아래로 옮기고, 다시 빌드한 뒤 CI가 통과하면 머지합니다. 그다음 주석 태그 `unknowns--vX.Y.Z`가 릴리스 워크플로를 실행해 커밋된 zip 둘을 검증하고 첨부합니다. 로컬 빌드로 릴리스가 생성되지는 않습니다.
 
 텍스트는 UTF-8과 LF를 씁니다. 릴리스 아카이브는 바이트 재현성을 위해 ZIP_STORED와 고정 시각·모드를 사용합니다. 패키저는 표준 라이브러리만 사용하고 Python 3.7+를 지원하며, 선택적인 개별 스킬 도우미는 Python 3.9+를 사용합니다.
 
