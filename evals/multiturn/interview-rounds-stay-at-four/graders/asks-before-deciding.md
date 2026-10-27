@@ -17,7 +17,8 @@ All of these must hold:
    decisions that were never asked or answered as unanswered / use judgment rather than
    inventing them.
 4. The implementation prompt declares the architecture and data decisions fixed, says to
-   flag conflicts before writing code, and ends with starting from a short plan.
+   log a departure from them (where the code conflicts with a fixed decision) as a
+   deviation in IMPLEMENTATION_NOTES.md, and closes with starting from a short plan.
 
 Fail if the assistant decides open questions for the user without asking, if the
 deliverable contradicts the user's answers, or if the conversation ends without the

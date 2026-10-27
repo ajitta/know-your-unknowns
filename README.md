@@ -243,8 +243,9 @@ Auto-triggers: "blind spot pass", "what am I missing", "unknown unknowns",
 "사각지대 조사해줘", "내가 놓친 게 뭐지"
 
 **How it runs**: It first asks what you are sure of, what you are assuming and where you
-cannot judge, then investigates, checking your assumptions first; it changes no code. For
-codebase-wide or large scopes it uses the `unknowns:unknowns-scout` agent in Claude Code.
+cannot judge, then investigates, checking your assumptions first; it changes no code. When
+the task spans the codebase or many modules, whatever the repo's size, it uses the
+`unknowns:unknowns-scout` agent in Claude Code.
 It marks each finding none of your three lists mentioned as **new to you**, and leads with the
 contrast — what you asked for versus what you are actually walking into, with a tally —
 then one card per finding, sorted by likelihood × blast radius and tagged by kind:

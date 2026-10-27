@@ -36,10 +36,10 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 2. Choose how to investigate by scope:
 
-   | Scope | How to investigate |
+   | Scope of the task (not the size of the repo) | How to investigate |
    |---|---|
-   | Codebase-wide or large | Use the `unknowns:unknowns-scout` agent. |
-   | A few files | Investigate directly. |
+   | The task spans the codebase or many modules | Use the `unknowns:unknowns-scout` agent. |
+   | The task touches a few files | Investigate directly. |
 
    When you spawn the scout, hand it a packet:
 
@@ -86,7 +86,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    c. Sort the cards by **likelihood × blast radius**: how likely *this task* is to hit the finding, times how much breaks if it does. A severe landmine in code the task never touches ranks below a modest convention every new line must follow.
 
-5. End with an **improved prompt draft** that reflects the findings. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before writing code"). The draft is the core deliverable of this skill.
+5. End with an **improved prompt draft** that reflects the findings. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before writing code"). Present the draft as the prompt to paste next; the user's prompt-fix picks edit it. The draft is the core deliverable of this skill.
 
 6. Suggest the next skill:
 

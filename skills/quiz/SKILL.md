@@ -39,7 +39,7 @@ Without a tool, do the step in the conversation and say what could not be checke
 
    If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in this conversation — include at least 1 quiz question on its recorded deviations.
 
-   a. Five are multiple choice. Keep answer keys hidden until the user has answered: format every option the same way, with no bold, tick or other mark on the correct one. Give every option of a question similar length and detail, so the key cannot be read from the options' form.
+   a. Five are multiple choice. Keep answer keys hidden until the user has answered: format every option the same way, with no bold, tick or other mark on the correct one. Give every option of a question similar length and detail, so the key cannot be read from the options' form: when the correct option carries a cause, a consequence or a remedy, give each distractor one too.
 
    b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the change's riskiest decision>."
 

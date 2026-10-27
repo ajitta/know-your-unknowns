@@ -37,7 +37,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 
    a. Before the saturation call in 5c, run one **triad**: show three options and ask which two feel alike and how the third differs. Run it whether reactions stall ("they all look fine") or keep coming; when they stall earlier, run it then.
 
-   b. The triad's answer is a construct nobody volunteered (e.g. "calm vs. busy"). Have the user place **every** option on that construct (1–5).
+   b. The triad's answer is a construct nobody volunteered (e.g. "calm vs. busy"). Have the user place **every** option on that construct (1–5), leaving the scores to the user: a score you suggest gets confirmed, not judged.
 
    c. Saturation call: if the last option shown still drew new reactions, the set was too small — offer 2 more along the axis still splitting opinion.
 

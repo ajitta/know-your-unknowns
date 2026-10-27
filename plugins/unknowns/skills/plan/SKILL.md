@@ -35,7 +35,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. **Sort decision items by tweak likelihood × blast radius** and place them first, ahead of the mechanical items.
 
-   b. Give each decision item: chosen option / alternatives considered + why rejected / scope affected if this decision changes / **verification method** / **what breaks if this is wrong**.
+   b. Give every decision item, the last as fully as the first, these labeled lines: chosen option / alternatives considered + why rejected / scope affected if this decision changes / **verification method** / **what breaks if this is wrong**. A decision missing a line cannot be reviewed on that line.
 
    c. Render every new or changed public type or schema as **annotated code**: the declaration itself, plus numbered notes, one per field choice worth arguing with.
 6. Put mechanical items at the back, each with a 1-line summary and its verification, and the details below them.
