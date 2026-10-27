@@ -18,14 +18,14 @@ Value means surfacing something the user did not know **and** changing a decisio
 
    a. When blindspot recorded the user's pre-investigation lists (sure of / assuming / cannot judge — in `.unknowns/loop.json` `baseline` or the blindspot output), show the findings next to those lists before asking the questions in step 1c, marking each finding that no list mentioned. The question is then about that marked set, not a recollection.
 
-   b. Record in **Baseline** whether this row was `compared` or had `none`.
+   b. Record in **Baseline** `compared` when step 1a showed the findings next to the lists, otherwise `none`.
 
-   c. **Never answer these for the user.** Only they can say whether they already knew something. A row you invented is worse than no row: it corrupts the one signal the plugin has about its own value.
-
-   Ask the user these two questions in one round, splitting tool calls only if the tool requires it:
+   c. Ask the user these two questions in one round, splitting tool calls only if the tool requires it:
 
    - "Did this surface something you did not already know?" — options: yes / no.
    - "Did it change a decision?" — options: yes / no.
+
+   **Never answer these for the user.** Only they can say whether they already knew something. A row you invented is worse than no row: it corrupts the one signal the plugin has about its own value.
 
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 

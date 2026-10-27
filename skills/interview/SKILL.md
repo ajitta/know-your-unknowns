@@ -14,7 +14,7 @@ When requirements are incomplete, don't implement yet: **the model interviews th
 ## Question Priority (blast radius, fixed)
 
 1. Questions whose answer **changes the whole architecture**
-2. Questions that could cause **data loss / security problems**
+2. Questions that could cause **data loss / security problems** (the *data* tier below)
 3. **Compatibility with external APIs / existing code**
 4. Questions affecting **performance / operating cost**
 5. UI taste, minor implementation details (last)
@@ -23,7 +23,7 @@ When requirements are incomplete, don't implement yet: **the model interviews th
 
 1. Find the gaps.
 
-   a. Investigate the conversation and codebase before listing gaps. From the text the user gave with the request or after the skill name and conversation context, list spec gaps (known unknowns), leaving out any gap the conversation or codebase already answers. No arguments → use the spec under discussion; no spec under discussion either → ask once what to interview about.
+   a. Investigate the conversation and codebase before listing gaps. From the text the user gave with the request or after the skill name and conversation context, list spec gaps (known unknowns), leaving out any gap the conversation or codebase already answers. With no request text, use the spec under discussion; with no spec under discussion either, ask once what to interview about.
 
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1: settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.

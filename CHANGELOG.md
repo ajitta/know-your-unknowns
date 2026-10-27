@@ -8,6 +8,7 @@
 - prototypes: the first reply says the option set can grow, and how (step 5c), instead of presenting the fixed number of options as sufficient.
 - loop: the first reply lists the tier's steps by their headings in run order and marks the current one, so "skip ahead" at a stage checkpoint is visible.
 - notes: when the context does not name the alternatives weighed, the entry names plausible ones, marked as inferred, instead of "not recorded".
+- Wording fixes from a per-file writing-for-models review (one name per concept, condition before action, pointer fixes); no step or rule changes.
 
 ### Added
 

@@ -53,7 +53,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
    When you spawn the scout, hand it a packet:
 
    - the user's original prompt, verbatim
-   - ② what the user is assuming, to check first (step 2)
+   - ② what the user is assuming, to check first
    - the context sources
    - the target area and its entry points
    - what to return: a finding table and an improved prompt draft

@@ -83,8 +83,8 @@ a. Use `unknowns:independent-reviewer` when the host can start a sub-agent of th
 
 b. Hand the agent this packet:
 
-- done criteria (step 1 / the plan's done-criteria section)
-- the approved plan (step 6)
+- done criteria (**loop** step 1 / the plan's done-criteria section)
+- the approved plan (**loop** step 6)
 - the `IMPLEMENTATION_NOTES.md` path
 - the diff range / touched files
 - how to run the tests
@@ -150,7 +150,7 @@ When the loop starts, list the tier's steps by their headings in run order and m
 
 At each stage boundary, state the task, tier, stage, and status in the conversation. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. After compaction or on resume, read the tracker before continuing; no automatic reminder restores the loop for you.
 
-Close each stage with one question-tool checkpoint (continue / skip ahead / stop) and record the answer there.
+Close each stage with one question-tool checkpoint (continue / skip ahead / stop) and record the answer in the tracker.
 
 **One stop per boundary.** When a stage skill runs as a **loop** stage, do not ask its own closing offer separately: fold its options into this stage checkpoint as a single question, e.g. "continue with this prompt / edit it first / skip ahead / stop". The stage skills' own closing offers:
 
@@ -158,7 +158,7 @@ Close each stage with one question-tool checkpoint (continue / skip ahead / stop
 |---|---|
 | blindspot, interview, teach-me | proceed / edit / stop |
 | plan | approve / revise |
-| reference | implement now / revise the map / stop |
+| reference | implement now / revise the semantics map / stop |
 
 Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 

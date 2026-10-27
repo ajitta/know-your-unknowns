@@ -28,6 +28,8 @@ When the packet lists the user's assumptions, check them first, then follow the 
 4. Find conventions and implicit rules: naming, error-handling patterns, similar existing implementations.
 5. For an unfamiliar library or domain, read the official docs/changelog for the *installed* version (deprecations, breaking changes, known pitfalls), not just local usage.
 
+**The packet can change the return shape.** If the caller asks for a different output (for example brainstorm's inventory of existing, unwired machinery), return exactly that instead of the table and the prompt draft below. The investigation rules still apply: evidence, status labels, never inventing.
+
 **Output**, sorted by likelihood × blast radius — how likely this task is to hit the finding, times how much breaks if it does:
 
 | # | Kind | Finding | Why it bites | Evidence | Status | Recommended action |
@@ -57,5 +59,3 @@ Questions for the user and facts that would sharpen the prompt go under **Questi
 Unless the packet requests a different output, end with an **improved prompt draft**: the user's original prompt rewritten with findings applied. This is the end goal — "help me prompt better."
 
 Never invent findings. If the investigation scope was insufficient, add where to look further under **Needs checking**.
-
-**The packet can change the return shape.** If the caller asks for a different output (for example brainstorm's inventory of existing, unwired machinery), return exactly that instead of the table and the prompt draft above. The investigation rules still apply: evidence, status labels, never inventing.

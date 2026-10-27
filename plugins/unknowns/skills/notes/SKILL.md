@@ -89,7 +89,7 @@ When a deviation invalidates a **decision item** of the approved plan (schema, p
 2. Mark it *revised — needs re-approval*.
 3. Get the user's approval before building on it.
 
-Deviations from mechanical items need only the log entry.
+Deviations from mechanical items need only the log entry, not a plan revision; the stop-and-ask cases below still apply.
 
 When a decision does any of the following, do more than log — **stop work and ask the user**:
 - Decision changes architecture

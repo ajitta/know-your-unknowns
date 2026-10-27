@@ -6,7 +6,7 @@ Every skill delivers Markdown in the conversation. A presentation page, viewer, 
 
 1. Keep the skill's structure and fields: finding cards, option comparisons, decision tables, questions, or a review checklist.
 2. Number every item the user can react to. Give alternatives within an item stable labels or numbers.
-3. State what a reply changes: include a prompt fix, choose an intervention, steal or skip an element, approve a decision, correct a semantics row, or approve a sign-off item.
+3. State what a reaction changes: include a prompt fix, choose an intervention, steal or skip an element, approve a decision, correct a semantics row, or approve a sign-off item.
 4. Write user-facing prose in the language the user is writing in. Keep file names, record field keys, and code identifiers fixed.
 
 Use Markdown tables for parallel comparisons and lists for sequential instructions. Put a short summary before long supporting details. Runnable prototypes remain task outputs in files when the host can write them; the comparison itself stays in the conversation.
@@ -19,7 +19,7 @@ Use the question tool when one exists. No question tool → present a numbered l
 
 ## 3. Assemble the reply
 
-Apply the user's selections to the skill's deliverable: an improved prompt, precise request, requirements list, decision summary, correction list, or review-comment draft. Preserve unresolved items and the skill's approval gate. For a quiz, wait for answers, grade in the conversation, then assemble the score and sections to re-read; never show the quiz key before the answer.
+Apply the user's reactions to the skill's deliverable: an improved prompt, precise request, requirements list, decision summary, correction list, or review-comment draft. Preserve unresolved items and the skill's approval gate. For a quiz, wait for answers, grade in the conversation, then assemble the score and sections to re-read; never show the quiz key before the answer.
 
 End the turn with the assembled reply as Markdown in the conversation.
 

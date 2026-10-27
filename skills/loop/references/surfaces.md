@@ -16,10 +16,12 @@ Use `unknowns:unknowns-scout` or `unknowns:independent-reviewer` when the host c
 
 Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. Return evidence and status for each finding, and list what could not be checked.
 
+No scout sub-agent → do the scout pass yourself as a separate step and label it "Scout pass performed by the assistant". Use the packet the calling skill would hand the scout and the scout read-only contract above.
+
 The reviewer receives this packet:
 
-- done criteria (step 1 / the plan's done-criteria section)
-- the approved plan (step 6)
+- done criteria (**loop** step 1 / the plan's done-criteria section)
+- the approved plan (**loop** step 6)
 - the `IMPLEMENTATION_NOTES.md` path
 - the diff range / touched files
 - how to run the tests
@@ -28,8 +30,6 @@ The reviewer receives this packet:
 Never give the reviewer the implementer's own summary. With no file system, supply the conversation's saved plan, deviation record, and code excerpts in place of file paths.
 
 Keep the review read-only: never edit or commit repository files or write outside a temporary directory. Check plan/spec conformance, recorded deviations, tests-pass-but-reality-fails cases, verified OK areas, and factual and reasoning claims against their evidence. Run available tests, lint and builds only when they can obey that read-only contract; report checks you cannot run.
-
-No scout sub-agent → do the scout pass yourself as a separate step and label it "Scout pass performed by the assistant". Use the packet the calling skill would hand the scout and the scout read-only contract above.
 
 For independent verification:
 

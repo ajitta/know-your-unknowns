@@ -35,10 +35,10 @@ The best way to give a model a map: **give it another map**.
    | **Unnecessary or dangerous parts** | Must not be brought into this project. |
    | **Parts improvable beyond the reference** | Where we can do better. |
 
-3. For port/transform work or before implementing any reference-based work, present **proof of comprehension (semantics map)**. The map holds:
+3. For port/transform work or before implementing any reference-based work, present **proof of comprehension (semantics map)**. The semantics map holds:
 
    - key reference excerpts ↔ new-environment counterparts, side by side
-   - gotcha points where behavior subtly differs
+   - gotcha notes where behavior subtly differs
    - an edge-case table with a **Match** column: identical / equivalent / changed ("equivalent" = same decision, different surface)
 
    Number every note and row so a correction can name one. Give each row the reference location it came from (`file:line`, section, or timestamp) so the user can check the reading against the source.
@@ -51,9 +51,9 @@ The best way to give a model a map: **give it another map**.
 
 5. **Sign-off gate — nothing is implemented until the user signs off.**
 
-   a. The user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, the map is revised before any code.
+   a. The user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, the semantics map is revised before any code.
 
-   b. Offer this choice once: implement now / revise the map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
+   b. Offer this choice once: implement now / revise the semantics map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
 
    Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 

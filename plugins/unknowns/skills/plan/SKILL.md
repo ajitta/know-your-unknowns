@@ -75,6 +75,6 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
 Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
-Each numbered decision card lists lettered alternatives and asks for **approve / request-change**; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work after the decisions.
+Each numbered decision item lists lettered alternatives and asks for **approve / request-change**; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work after the decisions.
 
 For numbered reactions and reply assembly, read references/output-routing.md.
