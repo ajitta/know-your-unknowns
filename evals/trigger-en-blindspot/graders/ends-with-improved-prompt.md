@@ -13,7 +13,9 @@ the opening question or the whole pass. Both of these must hold:
 
    A. **The opening question:** it asks for those three lists (sure of / assuming /
       cannot judge), in any wording, and waits for the answer. It presents no finding
-      yet: a risk flagged alongside the question is a finding.
+      yet: a risk flagged alongside the question is a finding. Beside the question it
+      may list its own unknowns (what it does not know about the user's situation,
+      what it is assuming, what it cannot check); those are not findings.
 
    B. **The whole pass:** it separates what the user asked for from what the task
       actually involves; it names specific risks -- regressions, unwritten conventions

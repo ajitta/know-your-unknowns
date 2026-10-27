@@ -10,9 +10,43 @@ Targets 0.12.0; the version stays 0.11.0 until the release is approved.
 
 - `.claude/rules/skill-writing.md` opens with rule 0, the plugin's purpose: of the four cells of what the user and the AI know about a task (the Johari window's panes, adapted), the plugin serves Blind (the user does not know, the AI does), Hidden (the user knows, the AI does not) and Unknown (neither knows, the widest cell), in any domain. Open (both know; the request is self-evident) is out of scope and done directly. Work is judged by the outcome (the achievement that matches the user's intent), not only by the output (the artifact). Rule 9 adds the vocabulary (output/outcome, 산출물/성과, the cell names) and one form per skill name per file; rule 17 lists both sides' unknowns and the outcome check among the method's moves.
 
+### Changed — each skill serves its cell, in any domain
+
+Every skill body opens by naming the cell it serves and with one line saying that a self-evident request (the Open cell) is done directly, without the method; every description ends with "Self-evident requests are done directly."
+
+- **Blind** (the user's or approvers' gaps):
+  - teach-me: unchanged method; examples and the comparison table name text, code or process; the blindspot boundary is "a specific plan, system or situation".
+  - quiz: explains and quizzes any delegated work (a report, an analysis, a lease review, a code change) before it is handed over, presented, submitted or merged. Each explained part is anchored to its location (`file:line` for code; section, page or row otherwise); the top question type is "what to do when it goes wrong"; misses name the exact change site.
+  - buy-in: rewritten from a reviewer persuasion doc to the **approvers' unknowns doc**. Step 2 maps, per approver, what they do not know that their decision depends on and what they will object to, asks the user what they know about each approver (priorities, past objections, unwritten politics), and lists what neither knows as questions to find out. The result is shown first (a demo, sample, pilot result or budget table; when none, a limitation), each point is answered with followable evidence checked by independent-reviewer, unsupported answers become limitations, and the doc names who signs off.
+- **Hidden** (what the AI does not know or cannot judge):
+  - interview: before deciding, it asks in rounds of at most four what it cannot know or judge about the user's situation. The fixed order is by what a wrong decision breaks, in any domain: structure → irreversible harm → compatibility → cost → taste (architecture → data/security → APIs/existing code → performance → UI in code). The final prompt is "a ready-to-use prompt for the work", declares the structure and harm decisions fixed, closes with "start with a short plan, then do the work", and logs deviations in the deviation log (IMPLEMENTATION_NOTES.md for code work).
+  - reference: any example (another organisation's policy, a past proposal, a contract template, code, a mockup). Semantics-map rows that rest on a guess about the user's context are marked *assumed* for correction first; the application plan first carries over how the reference checks itself (tests, checklists or acceptance criteria).
+- **Unknown** (both sides):
+  - blindspot: the opening reply puts the AI's own three lists (④ what it does not know about the user's situation, ⑤ what it is assuming, ⑥ what it cannot check) next to the user's three; ⑤ is checked with ②, ④ becomes questions and ⑥ Needs checking. Kinds, evidence and scope are domain-neutral (a funding call, a policy, an event, a codebase); the scout is used when the task spans many sources.
+  - brainstorm, prototypes, plan, unknowns-loop: a shared **Your own unknowns** sentence states what the AI does not know about the user's situation, what it assumes and what it cannot check, for the user to fill or correct.
+  - brainstorm: grounded in what already exists (in code, disconnected machinery; elsewhere resources, programmes, people), marked `Already exists — <where>`; success is the sign the problem moved.
+  - prototypes: axes fit the subject (a screen; a document, event, role or campaign; complexity for any); "versions to react to" is a trigger phrase.
+  - plan: the size gate is domain-neutral (work with no decision the user might want to change; for code ≤2 files and no schema, interface or UX-contract decision, which suits native plan mode); decision and mechanical items and the annotated artifact have code and non-code examples.
+  - deviation-log: logs beside any deliverable — `IMPLEMENTATION_NOTES.md` for code, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable. Observed is auditable against the work as it stands; a choice resting on something only the user can know is named in Risk/follow-up and put to the user first at wrap-up.
+  - unknowns-loop: the purpose is the outcome the user is after; the probe is the cheapest test of the riskiest assumption (a spike, a call, a pilot); after verify and quiz/buy-in, a short **outcome check** with the user asks whether the result achieved the outcome, not only whether it met the done criteria (no score or stored record).
+- independent-reviewer: checks any deliverable (a report, plan, event programme, proposal, analysis or code change) against its plan, done criteria and outcome, treating the producer's account as claims. Its packet adds the outcome and names the deliverable (for code, the diff range and how to run the tests); item 1 adds an outcome judgement ("outcome not judgeable — no outcome stated" when missing); "passes on paper, fails in reality" covers figures, sources and ownerless steps as well as mocks and mirrored tests; findings carry a `file:line`, section, page or row. Its scoping sentences are unchanged.
+- unknowns-scout: investigates whatever sources the task has (documents, data, the web, a codebase, history); each step names its code and non-code form.
+- Descriptions, short descriptions, `agents/openai.yaml`, the plugin and marketplace descriptions and the OpenAI listing are domain-neutral with code as one example. Every trigger phrase is kept; new English phrases: interview "ask me before you decide", buy-in "get sign-off", prototypes "versions to react to". Skill descriptions grow from 3,057 to 5,167 characters.
+
 ### Renamed
 
 - Skill folders, `name:`, `agents/openai.yaml`, `scripts/skill-descriptions.json`, sibling references, both READMEs, the trigger matrix and the eval cases (`trigger-{en,ko}-unknowns-loop`, `trigger-{en,ko}-deviation-log`, `behavior-deviation-log-appends-to-file`) follow the new names. `tests/test_renamed_skills.py` fails if an old name returns outside CHANGELOG, IMPLEMENTATION_NOTES.md and dated docs.
+
+### Docs
+
+- README.md and README.ko.md: a Purpose section (the three cells, output vs outcome), a pitch for any domain, a Cell column in "Skills at a glance", non-coding examples for every skill with code kept as one example among several, the agents described for any deliverable, scenarios from a self-evident request to a new field, and a note on the renames under Updating.
+
+### Evals (developer-only; not in the shipped payload)
+
+- 22 non-coding cases, `noncode-{en,ko}-<skill>`, each with a routing indicator and an outcome grader (`moves-toward-the-outcome`) that fails a reply forcing software concepts onto non-software work.
+- 4 Unknown-cell cases, `unknown-*` (a county permit, an organisation's unwritten politics, a three-month-old scheme, a personal job trade-off), graded on surfacing both sides' unknowns.
+- 5 Open-cell negatives, `neg-open-*` (a rename, typo fixes, a polite rewrite, an errand "plan", "quiz me" on trivia), which must fire no unknowns skill and be done directly.
+- Updated graders: blindspot's opening question may carry the AI's own unknowns (not findings) and the multi-turn case checks them; buy-in grades the approvers' unknowns; the loop's first reply establishes the outcome; the interview prompt fixes structure and harm decisions.
 
 ## 0.11.0 — 2026-10-27
 

@@ -180,12 +180,32 @@ for an exact test, before claiming a difference.
 that skill's current `description` (see [docs/trigger-matrix.md](../docs/trigger-matrix.md)).
 When a description changes, the case that used a dropped phrase must change with it.
 
+**22 non-coding cases** — one per language for each of the 11 skills,
+`noncode-{en,ko}-<skill>`: a grant, a choir, a family reunion, a lease, a hiring
+decision, a parents' association. Each carries a display-only routing indicator and
+one `llm` grader, `moves-toward-the-outcome`, that asks whether the reply moves toward
+what the user is actually after (surfacing both sides' unknowns, clarifying intent)
+rather than only producing an artifact, and fails a reply that forces software
+concepts onto work that has none.
+
+**4 Unknown-cell cases** — `unknown-*`: a county permit nobody in the conversation
+knows, an organisation's unwritten politics, a three-month-old scheme with almost no
+sources, a personal job trade-off. Neither the user nor the model can know the answer;
+the `surfaces-both-sides-unknowns` grader passes a reply that labels what it cannot
+know, asks for what only the user knows, and gives no confident answer it cannot
+back. The routing indicator accepts any unknowns skill.
+
+**5 Open-cell negatives** — `neg-open-*`: self-evident requests (a rename, typo fixes,
+a polite rewrite, an errand "plan", "quiz me" on trivia) that must fire no unknowns
+skill (`input_match: "unknowns:"`, `min: 0`, `max: 0`, `arm: both`) and be done
+directly.
+
 **4 negative cases** — the collisions the trigger matrix admits are unresolved:
 
 | case | must not fire | why |
 |---|---|---|
 | `neg-ui-options-does-not-fire-brainstorm` | `unknowns:brainstorm` | brainstorm advertises "show me options"; prototypes owns UI variants |
-| `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates code, teach-me teaches vocabulary |
+| `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates a specific plan or situation, teach-me teaches vocabulary |
 | `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
 | `neg-one-file-plan-defers-to-plan-mode` | (behaviour, not trigger) | the plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
 
