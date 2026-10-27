@@ -25,10 +25,10 @@ When requirements are incomplete, **the model interviews the user** before anyon
 
    a. Investigate the conversation and codebase before listing gaps. From the text the user gave with the request or after the skill name and conversation context, list spec gaps (known unknowns), leaving out any gap the conversation or codebase already answers. With no request text, use the spec under discussion; with no spec under discussion either, ask once what to interview about.
 
-   b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own, counted in the round's four.
+   b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order, ranking each question by what its answer decides, with 2–4 options each. Each question asks for one decision: a further decision tucked under it ("Also: …?") or into one of its options counts toward the 4, so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
+   a. Ask **max 4 questions per round**, in priority order, with 2–4 options each. Each question asks for one decision: a further decision tucked under it ("Also: …?") or into one of its options counts toward the 4, so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
    b. Attach a **one-line reason why it matters** to each question.
    c. Give each option a short consequence (tradeoff) note.
@@ -53,5 +53,3 @@ When the interview ends, present two things:
    - Declare the architecture and data decisions **fixed**.
    - Close with "start with a short plan, then implement".
    - Include: "Where the plan leaves a choice open or the code conflicts with a fixed decision, pick the conservative option and log the deviation in IMPLEMENTATION_NOTES.md."
-
-   The skill's purpose is that the user copies this prompt to start implementation.

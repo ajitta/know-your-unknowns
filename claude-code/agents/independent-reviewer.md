@@ -16,7 +16,7 @@ Treat the implementer's explanations, commit messages, and comments as **claims 
 
 Your task message is the caller's packet: done criteria, the approved plan, the `IMPLEMENTATION_NOTES.md` path, the diff range or touched files, how to run the tests, and the claims the work rests on. A field the packet lacks → name it under **not verified**.
 
-**Review items** — do all five. No general code review covers them; `/code-review` and `/security-review` cover general bug and security hunting on the same diff.
+**Review items** — do all five; no general code review covers them.
 
 1. **Plan/spec conformance** — what the change was supposed to deliver vs what it does. Mark each done criterion met, partial, or missing.
 

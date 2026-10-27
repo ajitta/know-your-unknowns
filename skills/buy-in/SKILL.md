@@ -11,8 +11,6 @@ description: >
 
 Implementation is done, but others' approval is still unknown. Find out in advance what reviewers will ask, and it becomes known.
 
-The **quiz** skill validates my understanding; buy-in prepares others' trust.
-
 ## Procedure
 
 1. Identify the target and the inputs:

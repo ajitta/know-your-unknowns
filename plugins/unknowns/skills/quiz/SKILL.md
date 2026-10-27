@@ -39,7 +39,7 @@ Without a tool, do the step in the conversation and say what could not be checke
 
    If a deviation log exists — the `IMPLEMENTATION_NOTES.md` file, or the log restated in this conversation — include at least 1 quiz question on its recorded deviations.
 
-   a. Five are multiple choice. Keep answer keys hidden until the user has answered: format every option the same way, with no bold, tick or other mark on the correct one. Give every option of a question similar length and detail, so the key cannot be read from the options' form: when the correct option carries a cause, a consequence or a remedy, give each distractor one too.
+   a. Five are multiple choice. Number their options, and keep answer keys hidden until the user has answered: format every option the same way, with no bold, tick or other mark on the correct one. Give every option of a question similar length and detail, so the key cannot be read from the options' form: when the correct option carries a cause, a consequence or a remedy, give each distractor one too.
 
    b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the change's riskiest decision>."
 
@@ -63,12 +63,5 @@ Without a tool, do the step in the conversation and say what could not be checke
    | Below 6/6 | The result stays "not yet" — list the sections to re-read and offer the retry from step 4. |
 
 ## Output
-
-Answers per question type:
-
-| Question | Reply | Key | Graded |
-|---|---|---|---|
-| Multiple choice | numbered options | hidden until the user answers | in the conversation, with the change site to re-read for each wrong answer |
-| Teach-back | the user's own words | hidden until the user answers | in the conversation, against the preselected 2–3 points |
 
 After grading in step 3, assemble the answers + teach-back + score + missed-sections block as copyable text.

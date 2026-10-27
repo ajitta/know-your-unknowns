@@ -13,8 +13,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 ## Iron Rules
 
-1. **The pass ends at the improved prompt.** Implementation starts from the user's next prompt.
-2. End goal of the investigation: help the user **write a better prompt**.
+1. **The pass ends at the improved prompt**: the investigation exists to help the user write a better prompt, and implementation starts from the user's next prompt.
 
 ## Procedure
 
@@ -86,7 +85,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    c. Sort the cards by **likelihood × blast radius**: how likely *this task* is to hit the finding, times how much breaks if it does. A severe landmine in code the task never touches ranks below a modest convention every new line must follow.
 
-5. End with an **improved prompt draft** that reflects the findings. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before writing code"). Present the draft as the prompt to paste next; the user's prompt-fix picks edit it. The draft is the core deliverable of this skill.
+5. End with an **improved prompt draft** that reflects the findings. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before writing code"). Present the draft as the prompt to paste next; the user's prompt-fix picks edit it.
 
 6. Suggest the next skill:
 

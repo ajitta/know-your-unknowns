@@ -9,8 +9,6 @@ description: >
 
 # Reference — A Reference Is Another Map
 
-The best way to give a model a map: **give it another map**.
-
 ## Iron Rules
 
 1. A reference is **not an answer to copy verbatim**; it is material for understanding intent and behavior.
