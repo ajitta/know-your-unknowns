@@ -537,8 +537,8 @@ from not reviewed — and **checks by claim type**: a factual claim is checked a
 source, a reasoning claim for its premises and a counterexample. With no done criteria in
 its packet it reports conformance as not judgeable instead of guessing, and it ends with
 what it could not verify. General bug and security hunting belongs to `/code-review` and
-`/security-review` on the same diff; run those alongside. Where they are unavailable the
-agent covers error handling, security, performance and needless complexity itself as a secondary pass. It keeps Bash for tests, lint, and builds, with no edits, commits, dependency installs, or writes outside a temporary directory. This read-only contract is prose only: no hook or permission mode enforces it. Stage 8 of the loop skill calls it automatically. Otherwise it runs only
+`/security-review` on the same diff; run those alongside. The
+agent also always covers error handling, security, performance and needless complexity itself as a secondary pass. It keeps Bash for tests, lint, and builds, with no edits, commits, dependency installs, or writes outside a temporary directory. This read-only contract is prose only: no hook or permission mode enforces it. Stage 8 of the loop skill calls it automatically. Otherwise it runs only
 when you name it: an unnamed "independent review" goes to your other review tools or a
 general agent instead.
 

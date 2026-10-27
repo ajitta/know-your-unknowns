@@ -10,7 +10,7 @@
 **Attributed**
 - **Reason for choice**: a checker from a different engine than the writer finds defects the writer's own engine accepts; the per-item record is in the owner's local `kyu-review/wfm-claude/report.md`.
 - **Risk/follow-up check**: nine fixes change meaning (blindspot output order, interview radius names and investigate-first placement, loop tier/tracker order, notes persistence, buy-in packet pointer, quiz wrap-up turn end) and are unmeasured.
-- **Todo for human**: independent-reviewer's secondary pass runs "Where `/code-review` and `/security-review` are unavailable", a condition the agent cannot see with its tools. Decide whether the packet (loop step 8, surfaces.md, buy-in) gains a field saying those reviews run on the diff, or whether the reviewer always runs the secondary pass. Text unchanged until then.
+- **Todo for human**: independent-reviewer's secondary pass runs "Where `/code-review` and `/security-review` are unavailable", a condition the agent cannot see with its tools. Decide whether the packet (loop step 8, surfaces.md, buy-in) gains a field saying those reviews run on the diff, or whether the reviewer always runs the secondary pass. → **Resolved (2026-10-27) by owner ruling (a)**: the reviewer always runs its secondary pass; the condition is removed and the packet gains no field. The skills' packet text never named those commands, so only the agent and both README summaries changed.
 
 ## [2026-10-26] Independent review corrections — Phase R
 

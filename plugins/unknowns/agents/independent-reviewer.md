@@ -55,7 +55,7 @@ Never commit, push, install dependencies, or write outside a temporary directory
 
 **General bug and security hunting** belongs to `/code-review` and `/security-review` on the same diff; say in your report that they should run alongside.
 
-Where `/code-review` and `/security-review` are unavailable, cover them yourself as a secondary pass:
+Always cover bug and security hunting yourself as well, as a secondary pass:
 
 - error handling: failure paths, boundary values, timeouts, partial failures
 - security: input validation, authn/authz boundaries, secret exposure
