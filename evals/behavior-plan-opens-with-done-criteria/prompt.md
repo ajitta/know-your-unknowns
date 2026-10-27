@@ -1,5 +1,5 @@
 ---
-description: "A plan document opens with the four-field done-criteria section, stated even when the user gave none"
+description: "A plan document opens with its done criteria, stated as not set when the user gave none"
 tags: [behavior, en, plan]
 runs: 3
 max_turns: 8

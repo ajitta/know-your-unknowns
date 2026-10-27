@@ -13,7 +13,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
 ## Iron Rules
 
-1. **Implement nothing yet.** Output is a map of solutions, not a solution.
+1. **The output is a map of solutions, not a solution.** It ends at the user's assembled selection.
 2. Spread candidates **across time horizons and approaches**, not 10 near-duplicates.
 
 ## Procedure
@@ -37,18 +37,11 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    - key risks
    - how to measure success
    - `Found in code — <path>`, when the candidate builds on machinery already in the repo
-5. After the cards, which stay in time-axis order, add an **impact × effort** table, so quick wins and big bets stand out at a glance.
-6. Collect selections and assemble the next steps:
-
-   a. Ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order"; a missing pick is undecided.
-
-   b. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
-
-   Each execution prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security."
+5. Ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order"; a missing pick is undecided.
 
 ## Output
 
-Layout: numbered cards on a time axis (ship this afternoon → quarter-long bet), followed by an impact × effort table.
+Layout: numbered cards on a time axis (ship this afternoon → quarter-long bet).
 
 ## Related
 

@@ -47,21 +47,9 @@ The best way to give a model a map: **give it another map**.
 
    a. Contrast it with the current project's conventions (code style, dependencies, test approach).
 
-   b. Present an **application plan**.
+   b. Present an **application plan** that ports the reference's existing tests first, so the port is checked against the reference's own behavior.
 
-5. **Sign-off gate — nothing is implemented until the user signs off.**
-
-   a. The user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, the semantics map is revised before any code.
-
-   b. Offer this choice once: implement now / revise the semantics map / stop.
-
-6. On sign-off:
-
-   Record intentional deviations from the reference per the **notes** skill. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security.
-
-   a. **Port the reference's existing tests first**, before implementing.
-
-   b. Implement within the logging and stop-and-ask limits at the start of step 6.
+5. **Sign-off gate**: the user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, revise the semantics map and show it again. The skill ends at sign-off; the signed-off map and application plan are the input to the build.
 
 ## Output
 

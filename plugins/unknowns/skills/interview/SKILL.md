@@ -52,6 +52,6 @@ When the interview ends, present two things:
    - Mark skipped questions "(unanswered — use your judgment)". A question that was asked but not answered is a skipped question: its options and any reason for it stay out of the fixed decisions.
    - Declare the architecture and data decisions **fixed**, with "if anything later conflicts with them, flag it before writing code".
    - Close with "start with a short plan, then implement".
-   - Include: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security."
+   - Include: "Log deviations from the plan in IMPLEMENTATION_NOTES.md."
 
    The skill's purpose is that the user copies this prompt to start implementation.
