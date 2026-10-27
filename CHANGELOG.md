@@ -33,6 +33,16 @@ Every skill body opens by naming the cell it serves and with one line saying tha
 - unknowns-scout: investigates whatever sources the task has (documents, data, the web, a codebase, history); each step names its code and non-code form.
 - Descriptions, short descriptions, `agents/openai.yaml`, the plugin and marketplace descriptions and the OpenAI listing are domain-neutral with code as one example. Every trigger phrase is kept; new English phrases: interview "ask me before you decide", buy-in "get sign-off", prototypes "versions to react to". Skill descriptions grow from 3,057 to 5,167 characters.
 
+### Changed — fixes from the new build's own runs and checks
+
+- teach-me: the precise-request draft marks every detail the user did not give (their taste, numbers, situation) as an assumption to confirm.
+- buy-in: collects the done criteria and the outcome its reviewer packet needs; an answer whose evidence the independent-reviewer agent could not confirm becomes a limitation; one title, "The Buy-In Doc".
+- reference: the semantics map comes before building anything on the reference, a port or adaptation included (an "and" had narrowed it to ports).
+- brainstorm: its own unknowns go in the same round as its one ask-back.
+- interview: the non-code deviation log is the file the user names or `DEVIATIONS.md` beside the deliverable.
+- unknowns-loop step 1 fixes "the outcome"; deviation-log is titled "Deviation Log" and the other skills "read that log"; independent-reviewer says "the producer's explanations" throughout and points missing done criteria or outcome at item 1; the scout's territory includes the web.
+- Evals: three graders that judged form the cases do not test (an errand answer's length, a second rewrite variant, an unmarked example list) now judge the method.
+
 ### Renamed
 
 - Skill folders, `name:`, `agents/openai.yaml`, `scripts/skill-descriptions.json`, sibling references, both READMEs, the trigger matrix and the eval cases (`trigger-{en,ko}-unknowns-loop`, `trigger-{en,ko}-deviation-log`, `behavior-deviation-log-appends-to-file`) follow the new names. `tests/test_renamed_skills.py` fails if an old name returns outside CHANGELOG, IMPLEMENTATION_NOTES.md and dated docs.
@@ -40,6 +50,15 @@ Every skill body opens by naming the cell it serves and with one line saying tha
 ### Docs
 
 - README.md and README.ko.md: a Purpose section (the three cells, output vs outcome), a pitch for any domain, a Cell column in "Skills at a glance", non-coding examples for every skill with code kept as one example among several, the agents described for any deliverable, scenarios from a self-evident request to a new field, and a note on the renames under Updating.
+
+### Checked
+
+Claude Code 2.1.309, claude-opus-5-5, the new build on its own runs (no comparison arm, by owner decision); `llm` graders judged by a separate `claude -p`.
+
+- Whole single-turn suite once, new cases 3× each: existing triggers 22/22 runs, behaviour 6/6, negatives 5/5; non-coding 62/66; Unknown cell 11/12; Open-cell negatives 9/15 (no skill fired in 15/15; the graders failed verbose direct answers). After the fixes above, the seven failing cells at 3 runs each: 21/21.
+- Multi-turn cases once: 14/14 graders.
+- Routing, 2 runs each: every skill named in English and Korean 44/44 to the named skill; the old names `loop` and `notes` (informative) 8/8 to the renamed skills; a bare "loop … every 5 minutes" 2/2 to the built-in. The intended skill loaded in 66/66 non-coding runs.
+- Per-file writing-for-models checks by Claude (71 findings) and Codex (16) on every changed skill and agent and the plugin README, adjudicated against the owner's rules, and Codex diff checks of the fixes.
 
 ### Evals (developer-only; not in the shipped payload)
 
