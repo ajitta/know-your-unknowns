@@ -328,8 +328,9 @@ Auto-triggers: "interview me", "ask me questions before implementing", "ask me b
 decide", "인터뷰해줘", "스펙 질문"
 
 **How it runs**: Before deciding anything, it asks what it cannot know or judge about your
-situation, **at most 4** questions per round with 2–4 options each, in a fixed order of
-what a wrong decision breaks (structure → irreversible harm → compatibility with what
+situation, **at most 4** questions per round: round 1 asks open questions about your
+situation, and from round 2 on each decision gets 2–4 options. Questions follow a fixed
+order of what a wrong decision breaks (structure → irreversible harm → compatibility with what
 exists → cost → taste). A question tool that takes fewer questions gets the round split
 across calls. Each question comes with a one-line "why this matters" and each option with
 its tradeoff. At the end it presents a **decision table plus a ready-to-use prompt for the

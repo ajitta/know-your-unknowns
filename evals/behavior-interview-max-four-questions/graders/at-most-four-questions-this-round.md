@@ -14,7 +14,10 @@ All of these must hold:
 2. The response says or implies that further rounds follow, rather than silently
    dropping the decisions it did not ask about.
 3. Each question carries a one-line reason why the answer matters.
-4. The four it chose are the highest-blast-radius ones -- architecture, data model,
-   or external contract -- not formatting, wording or timezone display.
+4. The questions go after the highest-blast-radius unknowns -- architecture, data, or
+   external contract -- not formatting, wording or timezone display.
+5. This is round 1, so its questions are open questions about the user's situation
+   (what the assistant cannot know or judge from here), without multiple-choice options
+   for the decisions; those come in later rounds.
 
 Fail if five or more decisions are put to the user at once.
