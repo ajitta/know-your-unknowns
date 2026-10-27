@@ -1,11 +1,11 @@
 ---
 name: prototypes
 description: >
-  Divergent prototype fan-out — N (default 4) versions with clearly different design
-  philosophies for the user to react to, then a confirmed requirements list. Any form: a
-  screen or dashboard, an API, a job description, an event format, a campaign, a report
-  layout. Use when the user says "divergent prototypes", "design options", "versions to
-  react to", or cannot say what they want ("know it when I see it"). Self-evident requests are done directly.
+  Prototypes in the design-thinking sense — several versions of anything (a document, an
+  event, a plan, a policy, a screen, an API), each on a clearly different philosophy, for
+  the user to react to; ends with a confirmed requirements list. Use when the user says
+  "divergent prototypes", "design options", "versions to react to", or cannot say what
+  they want ("know it when I see it"). Self-evident requests are done directly.
 ---
 
 # Prototypes — Divergent Prototype Fan-out (Design Directions)
@@ -27,7 +27,7 @@ People can't describe what they want but **can judge when they see it** (unknown
    | Subject | Axes, e.g. |
    |---|---|
    | A screen, dashboard or tool | Information structure (what shows first), user flow (operation order), visual density (dense vs whitespace), interaction mode (click/drag/keyboard/automatic) |
-   | A document, event, role, campaign or process | Structure (what comes first), scope (narrow vs broad), tone or register, audience, format |
+   | A document, plan, policy, event, role, campaign or process | Structure (what comes first), scope (narrow vs broad), tone or register, audience, format |
    | Any | Complexity (simple-robust vs rich-complex) |
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.

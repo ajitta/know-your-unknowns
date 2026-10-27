@@ -345,8 +345,10 @@ architecture questions first"`.
 
 ### 5. `/unknowns:prototypes` — divergent prototype fan-out
 
-**When**: When you can't describe what you want in words ("I'll know it when I see it"):
-a job description, an event format, a campaign, a report layout, a dashboard, an API.
+**When**: When you can't describe what you want in words ("I'll know it when I see it")
+and several versions to react to would show it, in the design-thinking sense of a
+prototype: a job description, an event format, a campaign, a plan, a report layout, a
+dashboard, an API.
 
 **Invoke**:
 ```
