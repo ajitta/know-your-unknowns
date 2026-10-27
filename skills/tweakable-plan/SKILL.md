@@ -4,7 +4,8 @@ description: >
   The tweakable plan — for any work, a plan sorted by likelihood of change, not execution
   order, so the decisions the user is most likely to change are reviewed first, each with
   alternatives. Use on "plan this", "make a plan", "tweakable plan". Not native plan mode:
-  a reviewable document before the work starts. Clear to both sides: no skill or method.
+  a reviewable document before the work starts; work with no decision the user might
+  change gets plain steps. Clear to both sides: no skill or method.
 ---
 
 # Tweakable Plan — sorted by tweak likelihood

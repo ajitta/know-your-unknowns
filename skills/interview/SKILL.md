@@ -34,13 +34,13 @@ When requirements are incomplete, **the model interviews the user** before anyth
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above). A further question tucked under another ("Also: …?") or into one of its options counts toward the 4, and so does a request for a fact (a file path, a date, a headcount), so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
+   a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above). Each question asks one thing, in one sentence ending in a question mark. Every question in the reply counts toward the 4: a second question mark inside an item ("Also: …?"), one inside an option, a request for a fact (a file path, a date, a headcount), and one left for the user to check elsewhere; move a fifth to the next round. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
    b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
 
    c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note. A why follow-up from step 4c stays open, without options.
 
-   d. Attach a **one-line reason why it matters** to each question.
+   d. Attach a **one-line reason why it matters** to every question, follow-ups and requests for facts included.
 3. Collect the answers before updating the spec in step 4.
 4. After the answers:
 

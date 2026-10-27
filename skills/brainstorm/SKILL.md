@@ -42,8 +42,8 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    - one-line description: what it would change
    - `Already exists — <where>`, when the candidate builds on something step 2 found
 
-   Ranking, pruning and sizing wait for the user's picks (steps 4–5). Judging while generating keeps the first safe ideas and stops the list before the unexpected ones (Osborn: defer judgment, go for quantity).
-4. Ask which candidate numbers **resonate**; those are the picks.
+   Ranking, pruning, sizing and any recommendation wait for the user's picks (steps 4–5). Judging while generating keeps the first safe ideas and stops the list before the unexpected ones (Osborn: defer judgment, go for quantity).
+4. End the reply by asking which candidate numbers **resonate**; those are the picks.
 5. At selection, attach these fields to each picked candidate:
    - expected impact: what improves, by how much
    - effort size: S/M/L/XL
