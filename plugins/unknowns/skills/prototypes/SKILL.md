@@ -41,7 +41,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 4. Collect reactions on **both poles**: on every skip, ask what *would* have made it a steal.
 
    A skip is not the inverse of a steal: a construct is a **bipolar pair**, the contrast pole carries as much information as the pole users volunteer, and it is the one they volunteer least.
-5. **Saturation check** before converting to spec:
+5. **Saturation check** before building the requirements list:
 
    a. Before the saturation call in 5c, run one **triad**: show three options and ask which two feel alike and how the third differs. Run it whether reactions stall ("they all look fine") or keep coming; when they stall earlier, run it then.
 
@@ -50,7 +50,7 @@ People can't describe what they want but **can judge when they see it** (unknown
    c. Saturation call: if the last option shown still drew new reactions, the set was too small — offer 2 more along the axis still splitting opinion.
 
    Steal/skip only harvests constructs the user can already name; placing every option on the triad's construct makes it an axis the requirements can name instead of a one-off remark. Stop when no new constructs appear; a fixed N says nothing about whether the option space is covered.
-6. Convert reactions into an **explicit requirements list**: the taste the user couldn't verbalize (unknown knowns) becomes spec. Ask the user to confirm the assembled list; the confirmed list is the input to the work.
+6. Convert reactions into an **explicit requirements list**: the taste the user couldn't verbalize (unknown knowns) becomes requirements. Ask the user to confirm the assembled list; the confirmed list is the input to the work.
 
 ## Output
 

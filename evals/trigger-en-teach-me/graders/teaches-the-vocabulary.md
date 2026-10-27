@@ -8,5 +8,6 @@ The response teaches the domain's vocabulary so the user can state a precise req
 1. It defines the specific terms the user quoted, in plain language, each tied to what it means for the thing the user is building.
 2. It gives a mental model of how those terms relate -- an ordering, a pipeline, or a decision tree -- not a glossary of independent definitions.
 3. It names the decisions the user now has to make, stated in the domain's own vocabulary.
+4. It ends by asking which terms or presets to include in the request, before writing the rewritten request.
 
 Fail if it investigates a codebase for risks instead, or if it jumps straight to building the feature.

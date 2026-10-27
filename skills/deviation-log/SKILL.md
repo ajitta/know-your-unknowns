@@ -18,8 +18,8 @@ When work hits a situation the plan or spec does not cover (an unknown neither s
 
 ## Procedure
 
-1. Take the entry from the request: text given with the skill name is the **Situation found**, and the rest of the entry is filled from context. With no text, log the most recent unplanned decision of this session, or say there is none.
-2. Append the entry to the deviation log before ending the turn, creating the file if it is missing:
+1. Take the entry from the request: text given with the skill name is the **Situation found**, and the rest of the entry is filled from context. With no text, log the most recent deviation of this session that meets the Logging Criteria below, or say there is none.
+2. Append the entry (a one-line **Discovery** when no decision is needed yet; see Entry Format) to the deviation log before ending the turn, creating the file if it is missing:
 
    | Work | Log file | Heading when created |
    |---|---|---|
@@ -27,7 +27,7 @@ When work hits a situation the plan or spec does not cover (an unknown neither s
    | Anything else | the file the user names, or `DEVIATIONS.md` beside the deliverable | `# Deviation log — <deliverable>` |
 
    The **buy-in** and **quiz** skills read that log. Without a tool, do the step in the conversation and say what could not be checked.
-3. While working, check for unlogged deviations at each checkpoint (a commit, a shared draft) and before handing the work over, and append each one as in step 2.
+3. While working, check for unlogged deviations (as the Logging Criteria define them) at each checkpoint (a commit, a shared draft) and before handing the work over, and append each one as in step 2.
 4. When a deviation invalidates a decision in the plan document, mark that decision in the plan as superseded by the entry's date, so the plan stays the map the work follows.
 
 ## Entry Format

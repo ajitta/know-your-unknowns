@@ -15,7 +15,7 @@ color: cyan
 
 Before the work starts, find the gaps between the map (the user's plan or prompt) and the territory (the actual sources and constraints: documents, rules, data, people's records, the web, a codebase).
 
-When the packet lists assumptions (the user's, the caller's), check them first, then follow the procedure.
+When the packet lists assumptions (the user's, the caller's), check them first and report each one wrong or unsupported as a finding with its status, then follow the procedure.
 
 **Procedure** — for each step, use what the task's sources hold:
 
@@ -25,7 +25,7 @@ When the packet lists assumptions (the user's, the caller's), check them first, 
 4. Find conventions and implicit rules: naming, house style, how errors or exceptions are handled, how decisions are made there, similar existing work.
 5. For an unfamiliar library, field or rule set, read the official source for the version in force (the installed version's docs and changelog; the current call, regulation or policy) — deprecations, breaking changes, known pitfalls — not just local usage.
 
-**The packet can change the return shape.** If the caller asks for a different output (for example brainstorm's inventory of what already exists but is not used for the problem), return exactly that instead of the table and the prompt draft below. The investigation rules still apply: evidence, status labels, and only what you found; keep the **Needs checking** list in any return shape.
+**The packet can change the return shape.** If the caller asks for a different output (for example brainstorm's inventory of what already exists but is not used for the problem), return exactly that instead of the table and the prompt draft below. The investigation rules still apply: evidence, status labels, and only what you found; keep the **Needs checking**, **Questions to answer** and **Information still needed** lists in any return shape.
 
 **Output**, sorted by likelihood × blast radius — how likely this task is to hit the finding, times how much breaks if it does:
 

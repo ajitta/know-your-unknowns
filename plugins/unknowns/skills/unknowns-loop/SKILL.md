@@ -33,9 +33,9 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
    | d. Test the riskiest assumption | state the most uncertain assumption the plan rests on, with its success and failure criteria, then run the **cheapest probe that tests only that assumption** (a spike, a phone call, a pilot, a sample) | the plan rests on an unproven assumption |
    | e. Plan | the **tweakable-plan** skill, quoting step 2's done criteria | always |
 
-   Each stage's deliverable (improved prompt, decisions, requirements, probe result) is the next stage's input. Skip a stage whose question is already answered, and say so.
+   Each stage's deliverable (improved prompt, decisions, requirements, probe result) is the next stage's input. Skip any stage whose question is already answered, the ones marked always included, and say so.
 
-   A probe costs minutes; the same assumption found wrong after the work costs the work built on it. Without a tool, do the step in the conversation and say what could not be checked.
+   Stage d: a probe costs minutes; the same assumption found wrong after the work costs the work built on it. Without a tool, do the step in the conversation and say what could not be checked.
 
 4. **During the work**: the **deviation-log** skill logs each deviation from the plan in the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work).
 

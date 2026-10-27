@@ -37,7 +37,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    Without a tool, do the step in the conversation and say what could not be checked.
 
    The cheapest candidates are usually connecting what exists, not building.
-3. Generate **~10** candidate interventions with judgment deferred, spread across the time axis (this afternoon / short-term (1–2 weeks) / mid-term (quarter) / quarter-long bets) and across approaches, the unlikely ones included. Give each only:
+3. Generate **~10** candidate interventions with judgment deferred, spread across the time axis (this afternoon / short-term (1–2 weeks) / mid-term (1–3 months) / quarter-long bets (a quarter or more)) and across approaches, the unlikely ones included. Give each only:
    - name
    - one-line description: what it would change
    - `Already exists — <where>`, when the candidate builds on something step 2 found

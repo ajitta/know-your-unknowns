@@ -51,7 +51,7 @@ When you and the user both seem to understand the request, do it without this me
 
    b. Present an **application plan** that first carries over how the reference checks itself (its tests, checklists or acceptance criteria), so the new version is checked against the reference's own behavior.
 
-5. **Sign-off gate**: the user replies `semantics confirmed`, or corrects any row by its number ("note 5", "budget exhaustion row"). On a correction, revise the semantics map and show it again. The skill ends at sign-off; the signed-off map and application plan are the input to the build.
+5. **Sign-off gate**: the user replies `semantics confirmed`, or corrects any note or row by its number ("note 5", "row 3"). On a correction, revise the semantics map and every application-plan item that rests on the corrected entry, and show them again. The skill ends at sign-off; the signed-off map and application plan are the input to the build.
 
 ## Output
 

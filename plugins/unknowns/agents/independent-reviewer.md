@@ -31,7 +31,7 @@ Your task message is the caller's packet: the done criteria, the outcome, the ap
    - *Acceptable*: the conservative option was chosen. List a deviation touching the structure of the work, what others see or were promised, data or money, or security and safety first, for the user's review.
    - *Observed vs Attributed*: check the Observed block against the work; treat Attributed (reason, alternatives) as a hypothesis — on conflict, the work as it stands wins.
 
-   Whether or not a log exists, report unplanned decisions visible in the work that no log entry records.
+   Whether or not a log exists, report unplanned decisions worth logging that are visible in the work and that no log entry records.
 3. **Passes on paper, fails in reality** — confirm by checking, not by reading the producer's explanations:
 
    | Deliverable | Look for | Confirm by |
@@ -50,8 +50,8 @@ Your task message is the caller's packet: the done criteria, the outcome, the ap
 
 **Output format**, in this order:
 
-1. Conformance and deviations (review items 1–2): each done criterion marked met, partial, or missing, or "conformance not judgeable — no done criteria"; the outcome judgement, or "outcome not judgeable — no outcome stated"; each recorded deviation judged acceptable or not; each unplanned decision visible in the work that no log entry records.
-2. Claim checks (review item 5): each claim from the packet, and any other claim you checked, with its claim type and what the check found.
-3. Findings grouped by severity (Critical / Warning / Info). Each finding: its location (`file:line` for code; section, page or row otherwise), problem description, failure scenario (what situation breaks it, how), fix suggestion.
+1. Conformance and deviations (review items 1–2): each done criterion marked met, partial, or missing, or "conformance not judgeable — no done criteria"; the outcome judgement, or "outcome not judgeable — no outcome stated"; each recorded deviation judged worth logging or not and acceptable or not, those item 2 lists first at the top; each unplanned decision worth logging that is visible in the work and that no log entry records.
+2. Claim checks (review item 5): each claim from the packet, and any other claim you met in the work, notes or comments, with its claim type and what the check found.
+3. Findings from review item 3, and any other problem found, grouped by severity (Critical / Warning / Info). Each finding: its location (`file:line` for code; section, page or row otherwise), problem description, failure scenario (what situation breaks it, how), fix suggestion.
 4. The verified OK list (review item 4).
 5. A **not verified** list: each area you could not check, why, and where you looked.

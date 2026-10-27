@@ -64,8 +64,8 @@ Without a tool, do the step in the conversation and say what could not be checke
    | Score | What to do |
    |---|---|
    | 6/6 | Passed. When the work needs reviewer approval, suggest the **buy-in** skill. |
-   | Below 6/6 | The result stays "not yet" — list the sections to re-read and offer the retry from step 4. |
+   | Below 6/6 | The result stays "not yet" — list the change sites to re-read and offer the retry from step 4. |
 
 ## Output
 
-After grading in step 3, assemble the answers + teach-back + score + missed-sections block as copyable text.
+After closing the gate in step 5, assemble the answers + teach-back + final score + change sites to re-read as copyable text.

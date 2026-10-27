@@ -31,7 +31,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 2. **Done criteria first**: the document opens with one line stating the purpose (the outcome the user is after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 2 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
-3. **Size gate**: when the work holds no decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget), say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the done-criteria line, its questions from step 2, and the steps in execution order, one line each: work this small has no decision worth a review document, and a shortened copy of the document is still the document.
+3. **Size gate**: when the work holds no decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget), say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the done-criteria line, the questions from step 2 (your own unknowns included), and the steps in execution order, one line each: work this small has no decision worth a review document, and a shortened copy of the document is still the document.
 4. Split work into items of two kinds:
 
    | Item type | Covers | Trait |
@@ -42,7 +42,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. **Sort decision items by tweak likelihood × blast radius** and place them first, ahead of the mechanical items.
 
-   b. Give every decision item, the last as fully as the first, these labeled lines: chosen option / alternatives considered + why rejected / scope affected if this decision changes / **verification method** / **what breaks if this is wrong**. A decision missing a line cannot be reviewed on that line.
+   b. Give every decision item, the last as fully as the first, these labeled lines: chosen option / alternatives considered, lettered A, B, …, + why rejected / scope affected if this decision changes / **verification method** / **what breaks if this is wrong**. A decision missing a line cannot be reviewed on that line.
 
    c. Render the central artifact others build on as an **annotated artifact**: every new or changed public type or schema as annotated code in code work; otherwise the budget table, run sheet, survey instrument or outline itself. Add numbered notes, one per choice worth arguing with, each naming the alternative it beat.
 6. Put mechanical items at the back, each with a 1-line summary and its verification, and the details below them.

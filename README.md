@@ -311,8 +311,9 @@ Auto-triggers: "teach me", "make me an explainer", "가르쳐줘", "설명서 �
 you'll face in this task → a vocabulary ladder per axis (everyday words → expert terms,
 with an example request per term, and terms it could not check marked *unverified*) →
 before/after comparisons per axis, plus 2–3 named presets so a whole look can be felt at
-once → 4–6 "what good looks like" criteria stated in the new vocabulary → and finally a
-**precise request draft: your original request rewritten in the new vocabulary**. The
+once → 4–6 "what good looks like" criteria stated in the new vocabulary → you pick the
+terms and presets to use → and finally a **precise request draft: your original request
+rewritten in the new vocabulary**. The
 same works for a lease, a research method or a coffee roaster's jargon.
 
 ---

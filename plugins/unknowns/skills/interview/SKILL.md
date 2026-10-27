@@ -53,7 +53,7 @@ When requirements are incomplete, **the model interviews the user** before anyth
 
 ## Final Deliverables
 
-When the interview ends, present two things:
+When no undecided items remain or the user ends the interview, present two things:
 
 1. **Decision table** with the columns radius (structure / harm / compatibility / cost / taste), question, decision, rationale, left undecided.
 2. **Ready-to-use prompt for the work**: a complete instruction with all decisions applied. In the prompt:
