@@ -1,6 +1,6 @@
 {
   "name": "unknowns",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "homepage": "https://github.com/ajitta/know-your-unknowns",
   "repository": "https://github.com/ajitta/know-your-unknowns",
   "description": "Know your unknowns — skills for the gap between your plan and the actual situation, in any domain: what you don't know, what the AI doesn't, and what neither knows yet. Eleven skills: blind-spot passes, field primers, interviews, divergent prototypes, brainstorming, reference read-backs, tweakable plans, a deviation log, buy-in docs and quizzes — plus two Claude Code agents. From Thariq Shihipar's (Anthropic) 'Field Guide to Fable' talk and its 'Know your unknowns' examples.",

@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-Not released; the version stays 0.12.0. Eval coverage for the independent-reviewer agent and reference's correction rule, the thin cells re-measured on this build, a Codex run, and fixes from the build's own runs.
+## 0.12.1 — 2026-10-28
+
+Released 2026-10-28. Body fixes from this build's own runs (blindspot, brainstorm, interview, quiz); descriptions, skill names and always-on tokens unchanged. Eval coverage for the independent-reviewer agent and reference's correction rule, the thin cells re-measured on this build, a Codex run, and fixes from the build's own runs.
 
 ### Changed — fixes from this build's own runs
 
@@ -38,7 +40,7 @@ Claude Code 2.1.309, claude-opus-5-5, this build on its own runs (no comparison 
 
 - No comparison with 0.12.0 (owner decision); every figure above is from this build's own runs at 1–10 runs per cell, so small differences are within noise.
 - Cells still to watch: the multi-turn interview's order (2/3 in every batch this round, with or without the tried tag) and its four-per-reply count (one fact request tucked into an item in 1 of 3 runs in two batches); blindspot's multi-turn evidence status (an unchecked item kept in the cards in 1 of 9 runs).
-- The claude.ai upload descriptions (`scripts/skill-descriptions.json`): a variant plugin and a 520-run job plan are prepared, not run.
+- The claude.ai upload descriptions (`scripts/skill-descriptions.json`): a 520-run Claude Code proxy measurement was approved and runs after this release; its result goes into the next entry.
 - claude.ai, ChatGPT and mobile behaviour; Codex beyond the three renamed skills and two behaviour cases; real Windows use (the scaffold tests that run bash are skipped on Windows).
 
 ## 0.12.0 — 2026-10-28
