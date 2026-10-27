@@ -11,9 +11,7 @@ description: >
 
 Core principle: the bottleneck with strong models is not the model — it's the user's ability to keep the map (plan) matched to the territory (reality). That gap is **the unknowns**. Designing the explore → question → plan → implement → log deviations → verify loop matters more than one good prompt.
 
-Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
-
-Each stage keeps its own skill's numbered reactions; the loop's own reaction is the stage checkpoint, whose answer updates the `.unknowns/loop.json` tracker. For numbered reactions and reply assembly, read references/output-routing.md.
+Each stage keeps its own skill's numbered reactions; the loop's own reaction is the stage checkpoint, whose answer updates the `.unknowns/loop.json` tracker.
 
 ## Steps (10 — scale down by size)
 
@@ -28,8 +26,6 @@ Fix these with the user before starting:
 - allowed cost & change scope
 
 Without done criteria, implementation volume gets mistaken for progress.
-
-Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
 ### 2. Blind-spot investigation → the **blindspot** skill
 
@@ -57,8 +53,6 @@ a. State the most uncertain technical assumption and the prototype's success/fai
 
 b. Before full implementation, build a **minimal prototype that verifies only that assumption**.
 
-No file system → show the prototype code and success/failure criteria in Markdown for the user to save and run. No execution tool → ask the user to run the probe and supply its output; keep the assumption unverified until evidence arrives.
-
 ### 6. Plan → the **plan** skill
 
 - Write a tweakable plan sorted by **probability of revision**, not execution order.
@@ -75,7 +69,7 @@ c. Everything else inside this stage: keep going. Put status notes in the same m
 
 d. If the conversation was compacted, re-invoke the **notes** skill (and this skill for the step list) before continuing implementation.
 
-No skill-loading tool → apply the logging criteria and escalation rules stated here: log design, behavior, or compatibility decisions and differences from the plan; skip trivial syntax, formatting, and naming changes. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
+No skill-loading tool → apply the logging criteria and escalation rules stated here: log design, behavior, or compatibility decisions and differences from the plan; skip trivial syntax, formatting, and naming changes. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
 
 ### 8. Independent verification → `unknowns:independent-reviewer` agent
 
@@ -96,7 +90,7 @@ Keep the review read-only: never edit or commit repository files or write outsid
 
 The agent cannot set its own permission mode, so it can run tests, lint and builds only when this session allows those commands; otherwise it reviews by reading and lists the runs under **not verified**.
 
-No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns. Use the same read-only contract. Details: references/surfaces.md
+No sub-agent → hand the user the same packet to paste into a new conversation, and say that review stands in for the agent. The independent verification stage stays pending until that review returns.
 
 ### 9. Comprehension check & handoff → the **quiz** skill
 
@@ -116,10 +110,6 @@ a. Judge by real value, not code quality:
 
 b. Fix, with the user, **how the result will be checked in reality** (what to look at) and **when** (a date they choose — there is no default, it depends on the work).
 
-c. Close by capturing one scorecard row: ask the user whether this surfaced something they did not know and whether it changed a decision, then append the row to `.unknowns/scorecard.md`. Never answer those two questions for the user; write the row even when both answers are no. Details: references/scorecard.md
-
-No file system → print the record in the chat as Markdown and say to save it as `.unknowns/scorecard.md`.
-
 Building is easier, generating value is still hard.
 
 ## Scale-down criteria
@@ -138,7 +128,7 @@ Unsure which tier → ask the user before step 1's exchange, then record the cho
 
 For medium and large work, apply the tracker and checkpoint rules in this section; small fixes have neither.
 
-Keep `.unknowns/loop.json` — `{task, tier, stage, status, baseline, decisions[], artifacts[]}` — and rewrite it at every stage boundary. Keep every field on each rewrite.
+Keep `.unknowns/loop.json` — `{task, tier, stage, status, decisions[], artifacts[]}` — and rewrite it at every stage boundary. Keep every field on each rewrite.
 
 **Write it first when the loop starts**, once the tier is known, with `status: "active"`, before step 1's exchange — a compaction inside the first stage should still find it.
 
@@ -162,10 +152,6 @@ Close each stage with one question-tool checkpoint (continue / skip ahead / stop
 | plan | approve / revise |
 | reference | implement now / revise the semantics map / stop |
 
-Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-
-No file system → print the record in the chat as Markdown and say to save it as `.unknowns/loop.json`. Include every tracker field, restate the whole tracker at each stage boundary, and use that record for status and resume; references/surfaces.md has the rest.
-
 ### Arguments
 
 | Argument | What to do |
@@ -179,11 +165,3 @@ No argument:
 
 - `.unknowns/loop.json` is `active` → name its task and stage in one line and confirm before resuming. An abandoned loop stays `active` until someone says stop, and a confirmed "no" sets it to `stopped`.
 - Otherwise (no file, `done`, `stopped`, or an older file without `status`) → ask for the task first, offering to resume the old one only if the user says it is unfinished.
-
-### On every start
-
-On every start, read `.unknowns/scorecard.md` if it exists. Any row whose **Recheck on** date has passed and whose **Reality check** cell is still empty is raised **before** the new task: ask the user what they saw and fill the cell.
-
-No file system → read the scorecard record supplied in the conversation and print the updated record as Markdown for the user to save as `.unknowns/scorecard.md`. No supplied tracker or scorecard → ask for the saved record when status, resume, or a reality check depends on it; never invent the missing history.
-
-This is the only thing that reads the Recheck on column; without it the date is a promise nobody keeps.

@@ -13,7 +13,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
 ## Iron Rules
 
-1. **Do not implement yet.** Make no code changes while this skill is active.
+1. **The pass ends at the improved prompt.** Implementation starts from the user's next prompt.
 2. End goal of the investigation: help the user **write a better prompt**.
 
 ## Procedure
@@ -32,21 +32,14 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    If the user skips, run a full investigation; a skip never stops the pass.
 
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-
-   c. Record the three lists verbatim, before investigating:
-
-   - When run as a **loop** stage, record them in `.unknowns/loop.json` as `baseline`. No file system → print the record in the chat as Markdown and say to save it as the baseline for `.unknowns/loop.json`.
-   - Otherwise, restate them in your reply right then.
-
-   The three lists are the before-picture the scorecard compares findings against, so they must exist before any finding does.
+   c. Restate the three lists verbatim in your reply before investigating. Step 4 marks findings against them, so they must exist before any finding does.
 
 2. Choose how to investigate by scope:
 
    | Scope | How to investigate |
    |---|---|
-   | Codebase-wide or large | Use `unknowns:unknowns-scout` when the host can start a sub-agent of that name. |
-   | A few files | Investigate directly with the available read and search tools. |
+   | Codebase-wide or large | Use the `unknowns:unknowns-scout` agent. |
+   | A few files | Investigate directly. |
 
    When you spawn the scout, hand it a packet:
 
@@ -60,7 +53,7 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    Investigate in this order: ②'s assumptions, then any given sources (git history, docs, specific modules), then the rest. Look for each assumption in the given sources first.
 
-   Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant"; say what one pass could not cover. No file access or search tools → investigate the supplied material and list missing sources under **Needs checking**. Details: references/surfaces.md
+   Without a tool, do the step in the conversation and say what could not be checked.
 
 3. Compile the findings:
 
@@ -89,27 +82,20 @@ Before implementation, find the gap between the **map** (plan/prompt) and the **
 
    a. Open the output with the three lists from step 1c. Then lead the findings with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
 
-   b. After the contrast, show the cards. Each card holds: kind, finding, why it bites, evidence, status, recommended action.
+   b. After the contrast, show the cards. Each card holds: kind, finding, why it bites, evidence, status, recommended action. Mark each finding that none of the user's three lists mentioned as **new to you**, so the user sees what the pass taught them rather than recalling it afterwards.
 
    c. Sort the cards by **likelihood × blast radius**: how likely *this task* is to hit the finding, times how much breaks if it does. A severe landmine in code the task never touches ranks below a modest convention every new line must follow.
 
 5. End with an **improved prompt draft** that reflects the findings. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before writing code"). The draft is the core deliverable of this skill.
 
-6. Offer once: proceed with this prompt now / edit it first / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
-
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-
-7. Suggest the next skill:
+6. Suggest the next skill:
 
    - When undecided items that could change the architecture surface, suggest the **interview** skill next.
    - When ③ has items and teach-me has not run for this task yet, or the user lacks the unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
 
 ## Output
 
-Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
-Reaction: a numbered, copyable **prompt fix** per finding card; the user's selected numbers assemble into the improved prompt draft.
-
-For numbered reactions and reply assembly, read references/output-routing.md.
+Reaction: a numbered, copyable **prompt fix** per finding card; the user's selected numbers assemble into the improved prompt draft; a missing pick is undecided.
 
 ## Scope
 

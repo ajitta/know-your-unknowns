@@ -130,32 +130,6 @@ def source_files(folder):
     }
 
 
-def sibling_refs(text):
-    known = {p.stem for p in (SKILLS / "loop" / "references").glob("*.md")}
-    return set(re.findall(r"(?<![\w/.-])([a-z][a-z-]*)\.md\b", text)) & known
-
-
-def ref_closure(start):
-    seen, queue = set(), sorted(start)
-    while queue:
-        name = queue.pop()
-        if name in seen:
-            continue
-        seen.add(name)
-        source = SKILLS / "loop" / "references" / (name + ".md")
-        if not source.is_file():
-            raise ValueError("missing shared reference: " + name)
-        queue.extend(sorted(sibling_refs(source.read_text(encoding="utf-8")) - seen))
-    return seen
-
-
-def vendored_paths(body):
-    refs = set(re.findall(r"(?<![\w/.-])references/([a-z-]+)\.md\b", body))
-    shared = {p.stem for p in (SKILLS / "loop" / "references").glob("*.md")}
-    refs = ref_closure(refs & shared)
-    return {"references/" + name + ".md" for name in refs}
-
-
 def plugin_files(skills):
     files = {
         ".claude-plugin/plugin.json": _normalized(MANIFEST),
@@ -166,14 +140,7 @@ def plugin_files(skills):
     }
     for skill in skills:
         prefix = "skills/" + skill.name + "/"
-        own = source_files(skill)
-        body = frontmatter(own["SKILL.md"].decode("utf-8"))[2]
-        for rel in sorted(vendored_paths(body)):
-            data = _normalized(SKILLS / "loop" / rel)
-            if rel in own and own[rel] != data:
-                raise ValueError(skill.name + ": source conflicts with shared " + rel)
-            own[rel] = data
-        files.update({prefix + rel: data for rel, data in own.items()})
+        files.update({prefix + rel: data for rel, data in source_files(skill).items()})
     files.update({"agents/" + rel: data
                   for rel, data in source_files(ROOT / "claude-code" / "agents").items()})
     return files

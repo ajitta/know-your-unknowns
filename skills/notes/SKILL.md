@@ -12,21 +12,9 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
 
 ## File Rules
 
-- **Location**: where the log lives depends on the surface.
+- **Location**: `IMPLEMENTATION_NOTES.md` at the project root; append to it, creating it if missing. buy-in and quiz read that record. Without a tool, do the step in the conversation and say what could not be checked.
 
-  | Surface | Where the log lives |
-  |---|---|
-  | Project root available | `IMPLEMENTATION_NOTES.md` at project root (create if missing). |
-  | File system available without a project root | The same file in the session workspace; hand it to the user at every wrap-up. |
-  | No file system | The conversation; restate the log in full each time it grows. |
-
-  On every surface the entry format and the escalation rule are unchanged. Details: references/surfaces.md
-
-- **Persistence**:
-  - When a file system is available, append to the notes file, creating it at the Location table's path if it is missing; buy-in and quiz read that record.
-  - With no file system, the final message must say there is no notes file, and where the log lives instead.
-
-- **Record deviations while working**: re-read the logging criteria at each stage boundary, before a commit, and before handing work back. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md.
+- **Record deviations while working**: re-read the logging criteria at each stage boundary, before a commit, and before handing work back. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn.
 
 - **Arguments**:
 
@@ -42,8 +30,6 @@ When work hits a situation the plan/spec does not cover (an unknown), **do not d
   a. When the file is missing, create it: heading `# Implementation Notes — plan deviation log`, then a commented-out copy of Entry Format as the template. When it exists, leave its entries unchanged and say so.
 
   b. Offer (never write silently) to append a 3–5 line deviation-log rule — log criteria, escalation, file path — to the project's `CLAUDE.md` or `.claude/rules/unknowns.md`, so the rule is in context for every later session, not only when this skill is invoked.
-
-  No file system → print the initial log and proposed deviation-log rule as Markdown, say which file each belongs in, and ask the user to save the rule only if they want it.
 
 ## Entry Format
 
@@ -95,8 +81,6 @@ When a decision does any of the following, do more than log — **stop work and 
 - Decision changes architecture
 - Decision changes user-visible behavior (UX/API contract)
 - Decision touches data or security
-
-Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 
 ## Wrap-up
 

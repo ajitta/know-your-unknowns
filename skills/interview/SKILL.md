@@ -9,7 +9,7 @@ description: >
 
 # Interview — Pre-Implementation Interview
 
-When requirements are incomplete, don't implement yet: **the model interviews the user**.
+When requirements are incomplete, **the model interviews the user** before anyone implements.
 
 ## Question Priority (blast radius, fixed)
 
@@ -28,12 +28,10 @@ When requirements are incomplete, don't implement yet: **the model interviews th
    b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
 2. Ask the round.
 
-   a. Ask **max 4 questions per round**, in priority order, with 2–4 options each. Each question asks for one decision: a further decision tucked under it ("Also: …?") or into one of its options counts toward the 4, so move it to the next round when the round is full. If the question tool accepts fewer questions or options, split the round across calls while keeping the four-question total.
+   a. Ask **max 4 questions per round**, in priority order, with 2–4 options each. Each question asks for one decision: a further decision tucked under it ("Also: …?") or into one of its options counts toward the 4, so move it to the next round when the round is full. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
    b. Attach a **one-line reason why it matters** to each question.
    c. Give each option a short consequence (tradeoff) note.
-
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 3. Collect the answers before updating the spec in step 4.
 4. After the answers:
 
@@ -54,16 +52,6 @@ When the interview ends, present two things:
    - Mark skipped questions "(unanswered — use your judgment)". A question that was asked but not answered is a skipped question: its options and any reason for it stay out of the fixed decisions.
    - Declare the architecture and data decisions **fixed**, with "if anything later conflicts with them, flag it before writing code".
    - Close with "start with a short plan, then implement".
-   - Include: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
+   - Include: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security."
 
    The skill's purpose is that the user copies this prompt to start implementation.
-
-Then offer once: proceed with this prompt now / let me edit it / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
-
-Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-
-## Iron Rules
-
-- Never ask questions already answered in the conversation or codebase.
-- Never start from priority 5 (taste).
-- Never start implementing on guesses without the interview.

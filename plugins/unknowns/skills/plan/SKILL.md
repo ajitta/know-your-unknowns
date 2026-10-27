@@ -31,8 +31,6 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    c. If the user skips, write "done criteria not set — the reviewer cannot judge conformance" in the section; never drop it silently.
 
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-
    The independent reviewer's packet starts from this section.
 3. **Size gate**: when the planned implementation creates or modifies ≤2 files and carries no schema, interface, or UX-contract decision:
 
@@ -69,12 +67,8 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. Proceed to implementation only after the user's approval or change requests have updated the plan. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries the approval.
 
-   b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and mark the result unverified until the user supplies evidence.
+   b. Record mid-implementation deviations per the **notes** skill rules. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security.
 
 ## Output
 
-Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
-
-Each numbered decision item lists lettered alternatives and asks for **approve / request-change**; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work after the decisions.
-
-For numbered reactions and reply assembly, read references/output-routing.md.
+Each numbered decision item lists lettered alternatives and asks for **approve / request-change**; selections assemble into a reply like "item 3 → alternative B, rest approved", with mechanical work after the decisions; a missing pick is undecided.

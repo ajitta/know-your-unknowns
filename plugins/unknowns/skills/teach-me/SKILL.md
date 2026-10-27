@@ -13,7 +13,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
 ## Iron Rules
 
-1. **Do not start the work yet.** Teach first, so the user can make the request precise.
+1. **Teach first; the work starts from the precise request.** The user needs the words before the request can be precise.
 2. Teach **only vocabulary needed for decisions**, not an encyclopedia — start from the axes the user must choose on in this task.
 
 ## Procedure
@@ -23,15 +23,13 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    a. Parse the domain, goal and current level from the text the user gave with the request or after the skill name.
 
    b. With no request text, take the domain of the work under discussion; if the domain is still unclear, ask once, briefly.
-
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 2. Open with the **mental model**: the domain's pipeline in 3–5 ordered stages (color grading: ingest → correct → grade → match). The pipeline is there so the user knows what comes before what — correction first, then the creative look.
 3. Pick 3–7 **decision axes** the user will decide on in this task (e.g. color grading: exposure / white balance / contrast curve / saturation vs naturalness / look).
 4. Build a **vocabulary ladder**: per axis, everyday word → expert term. Give each term:
    - 1 example sentence of "what you can request with this term"
    - one source (a doc, standard or reference text)
 
-   Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently. No source access → use the supplied reference text and mark any source or usage you could not check as unverified. A precise term can make a wrong premise sound right.
+   Mark any term whose usage or source you could not check as *unverified* rather than defining it confidently. A precise term can make a wrong premise sound right.
 5. Show what each decision axis changes.
 
    a. Show a **before/after comparison** per decision axis — same subject at two contrasting settings on that axis. Build it by domain:
@@ -49,23 +47,11 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
 
    b. The user picks items and adjusts values/direction; the result becomes the next prompt.
 
-   c. Offer once: use this request now / edit it first / stop here. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
-
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-
 ## Output
 
-Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
-Reaction: number the terms, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft.
-
-For numbered reactions and reply assembly, read references/output-routing.md.
-
-## Limits — what this can and cannot deliver
-
-- Vocabulary hands over a **request**, not fluency: expect the user's *next* request to be markedly more precise, not the terms wielded unaided across revision rounds 2–4. Success is convergence across those rounds, not the quality of the first rewritten request.
-- When revisions stop converging, hand off to the **interview** skill to lock decisions rather than teaching more vocabulary. Revisions that stop converging mark this skill's ceiling, not the user's mistake.
+Reaction: number the terms, before/after comparisons, and presets. Ask which numbers to **include in my request** and which settings to change; assemble the answers into the precise-request draft; a missing pick is undecided.
 
 ## Related
 
 - Codebase blind spots: use the **blindspot** skill — teach-me covers blind spots in domain **concepts**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
-- If requirements still diverge after gaining vocabulary, lock decisions with the **interview** skill.
+- If requirements still diverge after gaining vocabulary (revisions stop converging), lock decisions with the **interview** skill rather than teaching more vocabulary.

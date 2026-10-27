@@ -19,15 +19,13 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 ## Procedure
 
 1. Get the problem definition and constraints (timeline, people, cost) from the text the user gave with the request or after the skill name and the conversation. If they are empty or vague, ask back once for a measurable statement: which metric, how bad, since when, for whom. One round only. If the answer is still vague or the user skips, generate the candidates anyway and state the assumed metric and constraints above them.
-
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
 2. When a codebase is in scope, search it for machinery that already exists but sits disconnected, before generating candidates in step 3.
 
-   a. Search the codebase yourself or use `unknowns:unknowns-scout` when the host can start a sub-agent of that name.
+   a. Search the codebase yourself or use the `unknowns:unknowns-scout` agent.
 
    b. When you spawn the scout, the packet overrides the scout's default output (blindspot cards and an improved prompt). The packet asks the scout to return an **inventory**, one row per existing mechanism that bears on the problem, with the columns `path` / what it does today / what is missing to wire it in / evidence / status (confirmed / inferred). No cards, no prompt draft.
 
-   Keep the scout pass read-only: never create or modify files, run implementation commands, or invent findings. Read available history records; hand history questions that require unavailable tools back to the caller. No sub-agent → do the pass yourself as a separate step and label it "Scout pass performed by the assistant"; say what one pass could not cover. No file access or search tools → inventory the supplied material and list what could not be checked.
+   Without a tool, do the step in the conversation and say what could not be checked.
 
    The cheapest candidates are usually wiring, not building.
 3. Generate **~10** candidate interventions, spread across the time axis: ship this afternoon / short-term (1–2 weeks) / mid-term (quarter) / quarter-long bets.
@@ -42,17 +40,13 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 5. After the cards, which stay in time-axis order, add an **impact × effort** table, so quick wins and big bets stand out at a glance.
 6. Collect selections and assemble the next steps:
 
-   a. For numbered reactions and reply assembly, read references/output-routing.md.
+   a. Ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order"; a missing pick is undecided.
 
-   b. Ask which candidate numbers **resonate**; the selected numbers assemble into a copyable "proceed with these, in this order".
+   b. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
 
-   c. After the user selects, turn the chosen interventions into **structured next steps**, down to each one's first execution prompt (or experiment design).
-
-   Each execution prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security. No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md."
+   Each execution prompt includes: "When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security."
 
 ## Output
-
-Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
 
 Layout: numbered cards on a time axis (ship this afternoon → quarter-long bet), followed by an impact × effort table.
 

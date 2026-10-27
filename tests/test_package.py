@@ -43,28 +43,12 @@ class PackageTest(unittest.TestCase):
                 extra[skill.name] = sorted(set(fields) - pkg.ALLOWED_KEYS)
         self.assertEqual(extra, {})
 
-    def test_vendored_shared_files_are_identical(self):
-        # Check every copy independently of the build's vendored_paths selection.
-        shared = list((ROOT / "skills" / "loop" / "references").glob("*.md"))
-        copies = 0
+    def test_generated_skills_copy_their_source_folders(self):
+        # No shared references are vendored: each generated skill is its source folder.
         for skill in self.skills:
-            body = (skill / "SKILL.md").read_text(encoding="utf-8")
-            target = ROOT / "plugins" / "unknowns" / "skills" / skill.name
-            for source in shared:
-                rel = source.relative_to(ROOT / "skills" / "loop")
-                dest = target / rel
-                if rel.as_posix() in body:
-                    self.assertTrue(dest.is_file(), dest)
-                if dest.is_file():
-                    copies += 1
-                    self.assertEqual(dest.read_bytes(), source.read_bytes(), dest)
-            if (target / "references" / "output-routing.md").exists():
-                self.assertTrue((target / "references/surfaces.md").is_file(), skill.name)
-            if (target / "references" / "scorecard.md").exists():
-                self.assertTrue((target / "references" / "surfaces.md").is_file())
-        self.assertGreater(copies, len(shared))
-        # A skill with no shared references remains small.
-        self.assertFalse((ROOT / "plugins/unknowns/skills/interview/assets").exists())
+            own = pkg.source_files(skill)
+            prefix = "skills/" + skill.name + "/"
+            self.assertEqual(own, {k[len(prefix):]: v for k, v in self.files.items() if k.startswith(prefix)})
 
     def test_source_and_generated_skill_bodies_are_identical(self):
         for skill in self.skills:
@@ -251,7 +235,7 @@ class PackageTest(unittest.TestCase):
         changed = dict(self.files)
         changed[resource] = b"Read `guide.md`, `docs/guide.md` and `../SKILL.md`.\n"
         changed[resource] += b"Also read `docs/guide file$.md`.\n"
-        changed[resource] += b"Use `.unknowns/loop.json`, `IMPLEMENTATION_NOTES.md`, `CHANGELOG.md`, `CLAUDE.md`, `.claude/rules/unknowns.md` and `.gitignore` for project records.\n"
+        changed[resource] += b"Use `.unknowns/2026-01-01-quiz-x-key.md`, `IMPLEMENTATION_NOTES.md`, `CHANGELOG.md`, `CLAUDE.md`, `.claude/rules/unknowns.md` and `.gitignore` for project records.\n"
         changed["skills/plan/references/guide.md"] = b"Guide.\n"
         changed["skills/plan/docs/guide.md"] = b"Guide.\n"
         changed["skills/plan/docs/guide file$.md"] = b"Guide.\n"

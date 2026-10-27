@@ -24,7 +24,7 @@ The best way to give a model a map: **give it another map**.
 
    b. Summarize its **intent, core behavior, invariants**.
 
-   No file access or browsing tool → ask the user to paste the reference or its relevant excerpts; label any missing portions unverified before continuing.
+   Without a tool, do the step in the conversation and say what could not be checked.
 
 2. Present a 4-category analysis:
 
@@ -55,8 +55,6 @@ The best way to give a model a map: **give it another map**.
 
    b. Offer this choice once: implement now / revise the semantics map / stop. When run as a **loop** stage, do not ask this separately: the loop's stage checkpoint carries these options.
 
-   Use the question tool when one exists. No question tool → present a numbered list the user can answer with a digit.
-
 6. On sign-off:
 
    Record intentional deviations from the reference per the **notes** skill. When work departs from the plan, append the deviation to IMPLEMENTATION_NOTES.md before ending the turn. Stop and ask before changes to architecture, user-visible behavior, data, or security.
@@ -65,15 +63,9 @@ The best way to give a model a map: **give it another map**.
 
    b. Implement within the logging and stop-and-ask limits at the start of step 6.
 
-   No file system → print the record in the chat as Markdown and say to save it as IMPLEMENTATION_NOTES.md; show proposed code as Markdown code blocks for the user to save and do not claim the code was applied. No execution tool → give verification commands and keep their results unverified until the user supplies evidence.
-
 ## Output
 
-Deliver Markdown in the conversation, keeping this skill's structure. End the turn with the assembled reply as Markdown in the conversation.
-
-Numbered mapping rows (key reference excerpt ↔ new-environment counterpart) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template.
-
-For numbered reactions and reply assembly, read references/output-routing.md.
+Numbered mapping rows (key reference excerpt ↔ new-environment counterpart) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template; a missing pick is undecided.
 
 ## What Can Be a Reference
 
