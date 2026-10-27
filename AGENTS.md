@@ -17,7 +17,7 @@ python3 scripts/build-skill-zips.py
 
 ## Layout and editing rules
 
-- Source skills live in skills/. Shared references live under skills/loop/references/ and are vendored transitively into generated skills. Deliverables are Markdown in the conversation.
+- Source skills live in skills/. Each SKILL.md is self-contained: there are no shared reference files. Deliverables are Markdown in the conversation.
 - Claude Code agent sources live in claude-code/agents/. The plugin ships no hooks or executable code. Only Markdown, YAML, JSON, SVG, LICENSE, and NOTICE files are allowed, plus one PNG: `.claude-plugin/icon.png`, the Claude listing icon. SVG assets are for the OpenAI listing.
 - plugin-manifest.json is the source manifest. packaging/ contains the shipped README, the Claude listing icon (icon.png), and OpenAI interface fields and SVG assets.
 - plugins/unknowns/, releases/know-your-unknowns.zip, releases/know-your-unknowns-openai.zip, and plugin-release.json are generated and committed. Edit sources and run tools/package.py; never edit generated output by hand.
@@ -25,7 +25,7 @@ python3 scripts/build-skill-zips.py
 - At an unchanged plugin version, tools/package.py updates plugin-release.json for changed shipped content only while CHANGELOG.md has a non-empty ## [Unreleased] entry; otherwise bump the version before rebuilding, and always regenerate before running --check.
 - Follow .claude/rules/skill-writing.md for skill and agent prose. Preserve trigger phrases and method steps.
 - Text files use LF. Write UTF-8 bytes or explicitly request LF on Windows. Release zips use ZIP_STORED, fixed timestamps and modes, and Unix create_system for byte reproducibility.
-- CI runs ordinary package tests and strict plugin/marketplace validation. Keep build tools portable to Windows and quote paths containing spaces or dollar signs. The scout has only read/search tools; the reviewer can run Bash under a prose-only read-only contract.
+- CI runs ordinary package tests and strict plugin/marketplace validation. Keep build tools portable to Windows and quote paths containing spaces or dollar signs. Both agents inherit every tool; agent and skill text carries no tool lists, read-only contracts or other guard prose (.claude/rules/skill-writing.md rule 17).
 - Keep console messages ASCII; configure stdout and stderr with errors="replace" so legacy Windows consoles cannot crash the packager.
 
 ## Release

@@ -5,7 +5,7 @@ paths:
 ---
 # Writing skill and agent text
 
-Skill and agent text is read by the model first and by maintainers second. Fix a hard-to-read passage by restructuring it, not by cutting words: a model that loses the reason for a step tends to skip the step.
+Skill and agent text is read by the model first and by maintainers second. Rule 17 decides what stays in the text; the other rules decide how it reads. Fix a hard-to-read passage that rule 17 keeps by restructuring it, not by cutting words: a model that loses the reason for a step tends to skip the step.
 
 ## Steps
 
@@ -15,14 +15,12 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
 
    A limit that covered the whole step ("Investigate only, no implementation") goes on its own line before `a.`, not inside `a.`.
 2. **Write steps in execution order.** A word like "first" or "before" must name what it comes before. Two sentences that each claim to go first are a defect. The order includes what happens after a delegate returns: what you send the scout comes before what you do with its rows.
-3. **Condition before action.** Write "When run as a **loop** stage, fold these options into the stage checkpoint", not "Run as a loop stage, this is not a separate question". A missing tool or surface goes last among the step's instructions, in one form: `No <tool or surface> → <what to do instead>`. The reason (rule 4) comes after it.
-
-   Keep the original wording when the arrow form would force one reading: "No A or B →" means neither is available, while "Where they are unavailable" may mean either. A chain of fallbacks (an output ladder) keeps its chain form.
+3. **Condition before action.** Write "When the scope is codebase-wide, use the scout", not "Use the scout; this applies to codebase-wide scope". A skill that needs a tool says what to do without it in one line, at most once per skill and worded the same everywhere (rule 11): "Without a tool, do the step in the conversation and say what could not be checked." Do not write per-host branches (no file system, no question tool, no sub-agent): the model already adapts to the tools it has, and a branch it never takes is read on every run.
 4. **Keep the reason, once, at the end of the step.** One sentence saying why the step exists, after the instructions. Background (a paper, a method's history) goes after the instructions too, or into a references file, never between two instructions.
 
 ## Structure
 
-5. **Tables for parallel items, cases and states.** When several items each get their own handling (① sure of / ② assuming / ③ can't judge), or a field moves through states (`active` → `done` / `stopped`), give each one a row: name, when, what to do. Do not list the items and then refer back to them by number in prose.
+5. **Tables for parallel items, cases and states.** When several items each get their own handling (① sure of / ② assuming / ③ can't judge), or a finding takes one of several statuses (*confirmed* / *inferred* / *unchecked*), give each one a row: name, when, what to do. Do not list the items and then refer back to them by number in prose.
 
    A cell states only what the prose stated. Write "—" rather than invent a definition the original never gave, and mark an example list "e.g." so the column does not read as complete.
 6. **No paragraph-sized bullet.** A bullet or sentence that carries several conditions in parentheses (when the hook runs, when it doesn't, what to do in each case) becomes a short list or a table.
@@ -33,18 +31,15 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
 ## Wording
 
 8. **Allow only one reading.** Spell out what happens when the user skips or declines ("If the user skips, run a full investigation; a skip never stops the pass"), not a phrase like "never block on it".
-9. **One name per concept across all skills and agents.** Decided names: *kind* (blindspot cards and the scout's `Kind` column map 1:1), *done criteria*, *stage checkpoint*, `## Iron Rules`, `## Related` for a section pointing at other skills.
+9. **One name per concept across all skills and agents.** Decided names: *kind* (blindspot cards and the scout's `Kind` column map 1:1), *done criteria*, *deviation* (an entry in `IMPLEMENTATION_NOTES.md`), `## Iron Rules`, `## Related` for a section pointing at other skills.
 
    A shared term needs the same definition too, not only the same name. Do not reuse a defined term as a generic table header: `| Kind |` in notes and plan collided with blindspot's *kind*, so those tables use `Entry` and `Item type`.
-10. **Bold marks a term the reader must find again**, not a whole sentence. A short hard prohibition may stay bold as a whole (**Never create or edit files in the repository.**). A line with four bold phrases has no emphasis left.
+10. **Bold marks a term the reader must find again**, not a whole sentence. A short rule the whole skill turns on may stay bold as a whole (**Execution order ≠ presentation order.**). A line with four bold phrases has no emphasis left.
 11. **A sentence shared across skills is copied word for word.** Each skill loads alone, so repeating it is fine, but the copies must match so one grep finds and fixes them all. Known shared blocks:
-    - the loop-stage sentence (blindspot, interview, reference, teach-me; plan's variant ends "carries the approval.")
-    - the scorecard-capture sentence (loop step 10, quiz wrap-up)
     - the four finding kinds and the status labels (unknowns-scout, blindspot)
-    - the independent-reviewer packet (loop step 8, `skills/loop/references/surfaces.md`)
-    - each skill's Markdown output sentence (`skills/loop/references/output-routing.md` defines numbered reactions and reply assembly)
-    - the output-routing pointer ("For numbered reactions and reply assembly, read references/output-routing.md.")
-    - the question-tool fallback and read-only pass contracts
+    - the independent-reviewer packet fields (buy-in, independent-reviewer)
+    - the missing-tool line ("Without a tool, do the step in the conversation and say what could not be checked.")
+    - the reaction sentence's ending ("; a missing pick is undecided.") — each skill names its own items and deliverable
     - the blindspot ↔ teach-me order sentence (blindspot Scope, teach-me Related)
 12. **Moving a sentence can change its meaning.**
     - Putting it under a sub-bullet or a condition, or taking it out, changes when it applies.
@@ -56,7 +51,7 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
 
 ## Verify
 
-13. **Before editing, find text that tests quote.** Grep `tests/` for phrases from the file and keep requirements that still apply word for word; update guards only when an authorized behavior change requires it. Grep `docs/` and `README*.md` too before renaming a heading or renumbering anything they cite.
+13. **Before editing, find text that tests quote.** Grep `tests/` for phrases from the file. Tests pin what the package depends on: packaging, a portable build, trigger phrases, and the method's measured steps. When an authorized change removes a sentence a test quotes, rewrite the test to check what still matters instead of keeping the sentence for the test's sake. Grep `docs/` and `README*.md` too before renaming a heading or renumbering anything they cite.
 14. **After editing, prove behavior did not change.**
     - Run `python -m unittest discover -s tests` and `claude plugin validate --strict plugins/unknowns` and `claude plugin validate --strict .`.
     - Read all of `git diff --word-diff=plain`, not just the start: every removed instruction must reappear somewhere.
@@ -68,3 +63,18 @@ Skill and agent text is read by the model first and by maintainers second. Fix a
 
 15. **Decide shared names and sentences before splitting the work.** Rules 9 and 11 cannot be applied one file at a time. Before handing files to separate writers, fix the names and the exact text of every shared block, and give them to each writer. After they finish, check the set as a whole.
 16. **A rewording pass fixes wording only.** An inconsistency that existed before the pass (two files giving opposite orders, a packet missing a field, two definitions of one kind) is a behavior decision. Log it as a **Todo for human** and leave the text as it was.
+
+## What the text is for
+
+17. **Every sentence makes the model do the method.** The plugin exists to surface and resolve the user's unknowns: investigate the gap between plan and code, teach the missing words, show alternatives to react to, ask the open decisions, label what is confirmed and what is assumed, log where the build departed from the plan, and check that the user can explain the result. Keep a sentence only when it makes the model do one of those moves, or when one of them needs it (input, hand-off to another skill, the user's reaction).
+
+    Cut guard prose:
+    - prohibitions and stop-and-ask fences ("Never …", "Stop and ask before …")
+    - read-only contracts, temporary-directory rules, never-commit and never-install lines
+    - `tools:` allow-lists on agents
+    - identity lines ("You are a …")
+    - git workflow (a branch per agent, automatic commits, `isolation: worktree`)
+
+    State the target behavior instead of the ban: "This pass ends at the improved prompt", not "Do not implement". Agents inherit every tool and may write code, tests and scripts and use git.
+
+    Reason: a sentence guarantees nothing. A user who needs enforcement builds it into their own harness (permission modes, hooks, sandboxes), which does the job a sentence cannot, while every guard sentence is read on every run and competes with the method for the model's attention.
