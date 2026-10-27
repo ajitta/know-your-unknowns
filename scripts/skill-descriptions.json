@@ -13,10 +13,10 @@
   "buy-in": "The buy-in doc — surface what approvers don't know and will object to, answer with evidence, state limits, name who signs. Use on \"buy-in doc\", \"prep me for review\", \"get sign-off\".",
   "deviation-log": "Deviation log — log departures from the plan as work hits unknowns, any domain. Use on \"implementation notes\", \"record a deviation\", \"where did we diverge from the plan?\".",
   "interview": "The interview — before deciding, ask in rounds of ≤4 what the AI cannot know or judge about your situation. Use on \"interview me\", \"ask me questions before implementing\", \"ask me before you decide\".",
-  "plan": "The tweakable plan — decisions most likely to change come first, with alternatives, for any work. Use on \"plan this\", \"make a plan\", \"tweakable plan\".",
   "prototypes": "Divergent prototypes — N versions with different philosophies, any form. Use on \"divergent prototypes\", \"design options\", \"versions to react to\", \"know it when I see it\".",
   "quiz": "Comprehension quiz — explain the work, then quiz you so you can explain and defend it at handover. Use on \"quiz me\", \"test my understanding\", or before handing over or merging.",
   "reference": "Point at a reference — read an example (a policy, proposal, product, code), show your reading for correction before building on it. Use on \"use this as a reference\", \"make it like this\".",
   "teach-me": "Teach me my unknowns — an explainer for a field's vocabulary and mental model, so vague requests become precise. Use on \"teach me\", \"make me an explainer\". Not a plan investigation.",
+  "tweakable-plan": "The tweakable plan — decisions most likely to change come first, with alternatives, for any work. Use on \"plan this\", \"make a plan\", \"tweakable plan\".",
   "unknowns-loop": "Run the know-your-unknowns workflow end to end, ending with an outcome check. Use on \"unknowns loop\", \"run the operating loop\", \"know your unknowns\". A bare \"loop\" is NOT this."
 }

@@ -59,4 +59,4 @@ After the user picks interventions, hand off by what is still open:
 |---|---|
 | The form is in question | **prototypes** |
 | Decisions only the user can make | **interview** |
-| The plan for the work | **plan** |
+| The plan for the work | **tweakable-plan** |

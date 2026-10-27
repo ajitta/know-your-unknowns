@@ -93,7 +93,7 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 | Before | `prototypes` | Unknown | N variants with different philosophies → assembled requirements | Four Design Directions / Mock |
 | Before | `brainstorm` | Unknown | Map of the solution space → pick an intervention | Brainstorm the Intervention |
 | Before | `reference` | Hidden | Reference analysis + proof of understanding | Point at a Reference |
-| Before | `plan` | Unknown | Plan ordered by likelihood-of-change | The Tweakable Plan |
+| Before | `tweakable-plan` | Unknown | Plan ordered by likelihood-of-change | The Tweakable Plan |
 | During | `deviation-log` | Unknown | Record deviations from the plan | Implementation Notes |
 | After | `quiz` | Blind | Comprehension quiz | Quiz Me Before I Merge |
 | After | `buy-in` | Blind | What approvers don't know, answered with evidence | The Buy-In Doc |
@@ -142,7 +142,7 @@ Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin wi
    codex plugin add unknowns@know-your-unknowns
    ```
 
-2. Ask with a scoped skill name, for example `$unknowns:plan`, followed by the task.
+2. Ask with a scoped skill name, for example `$unknowns:tweakable-plan`, followed by the task.
 3. Check the procedure; this route is expected and not yet checked by the owner.
 
 ### ChatGPT desktop (with Codex) and mobile
@@ -426,13 +426,13 @@ the "map".
 
 ---
 
-### 8. `/unknowns:plan` — plan ordered by likelihood-of-change
+### 8. `/unknowns:tweakable-plan` — plan ordered by likelihood-of-change
 
 **When**: Investigation and interview are done and you need a plan before the work.
 
 **Invoke**:
 ```
-/unknowns:plan Launch the community garden on the city lot: 20 beds, a shed, water, 50 households waiting
+/unknowns:tweakable-plan Launch the community garden on the city lot: 20 beds, a shed, water, 50 households waiting
 ```
 Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
@@ -597,7 +597,7 @@ one comes up.
 /unknowns:blindspot Cart totals are occasionally wrong. checkout/ module
 → (review the improved prompt from the investigation)
 /unknowns:interview
-/unknowns:plan
+/unknowns:tweakable-plan
 → implement
 /unknowns:quiz
 ```

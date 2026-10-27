@@ -30,7 +30,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
    | b. Decide | the **interview** skill | requirements leave decisions open (structure, harm, compatibility, cost, taste) |
    | c. Shape | the **brainstorm** skill / the **prototypes** skill / the **reference** skill | the approach is undecided / the user will know the form when they see it / there is an example to emulate |
    | d. Test the riskiest assumption | state the most uncertain assumption the plan rests on, with its success and failure criteria, then run the **cheapest probe that tests only that assumption** (a spike, a phone call, a pilot, a sample) | the plan rests on an unproven assumption |
-   | e. Plan | the **plan** skill, quoting step 1's done criteria | always |
+   | e. Plan | the **tweakable-plan** skill, quoting step 1's done criteria | always |
 
    Each stage's deliverable (improved prompt, decisions, requirements, probe result) is the next stage's input. Skip a stage whose question is already answered, and say so.
 

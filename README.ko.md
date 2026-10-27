@@ -86,7 +86,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 | 전 | `prototypes` | 미지 | 철학이 다른 시안 N개 → 요구사항 조립 | Four Design Directions / Mock |
 | 전 | `brainstorm` | 미지 | 해법 공간 지도 → 개입 선택 | Brainstorm the Intervention |
 | 전 | `reference` | 숨겨진 | 레퍼런스 분석·이해 증명 | Point at a Reference |
-| 전 | `plan` | 미지 | 수정확률순 계획서 | The Tweakable Plan |
+| 전 | `tweakable-plan` | 미지 | 수정확률순 계획서 | The Tweakable Plan |
 | 중 | `deviation-log` | 미지 | 계획 이탈 기록 | Implementation Notes |
 | 후 | `quiz` | 보이지 않는 | 이해도 퀴즈 | Quiz Me Before I Merge |
 | 후 | `buy-in` | 보이지 않는 | 승인자가 모르는 것을 근거로 답하는 문서 | The Buy-In Doc |
@@ -135,7 +135,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
    codex plugin add unknowns@know-your-unknowns
    ```
 
-2. `$unknowns:plan`처럼 스코프가 있는 스킬 이름 뒤에 작업을 적어 요청합니다.
+2. `$unknowns:tweakable-plan`처럼 스코프가 있는 스킬 이름 뒤에 작업을 적어 요청합니다.
 3. 절차를 확인합니다. 이 경로는 예상이며 소유자가 아직 확인하지 않았습니다.
 
 ### ChatGPT 데스크톱(Codex 포함)과 모바일
@@ -401,13 +401,13 @@ confirmed`라고 답하거나 행 번호로 고치면 됩니다. 적용 계획�
 
 ---
 
-### 8. `/unknowns:plan` — 수정확률순 계획
+### 8. `/unknowns:tweakable-plan` — 수정확률순 계획
 
 **언제**: 조사·인터뷰가 끝나고 작업 전 계획이 필요할 때.
 
 **호출**:
 ```
-/unknowns:plan 시 소유 공터에 공동체 텃밭 열기: 상자 텃밭 20개, 창고, 수도, 대기 50가구
+/unknowns:tweakable-plan 시 소유 공터에 공동체 텃밭 열기: 상자 텃밭 20개, 창고, 수도, 대기 50가구
 ```
 자동 트리거: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
@@ -555,7 +555,7 @@ independent-reviewer 에이전트로 이 갈라 행사 계획을 이사회 목�
 /unknowns:blindspot 장바구니 합계가 가끔 틀림. checkout/ 모듈
 → (조사에서 나온 개선된 프롬프트 검토)
 /unknowns:interview
-/unknowns:plan
+/unknowns:tweakable-plan
 → 구현
 /unknowns:quiz
 ```

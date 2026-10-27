@@ -35,7 +35,7 @@ class PortabilityTest(unittest.TestCase):
             self.assertNotIn("No question tool", text, path)
 
     def test_reacting_skills_say_a_missing_pick_is_undecided(self):
-        for name in ("blindspot", "brainstorm", "buy-in", "plan", "prototypes", "reference", "teach-me"):
+        for name in ("blindspot", "brainstorm", "buy-in", "prototypes", "reference", "teach-me", "tweakable-plan"):
             self.assertIn(MISSING_PICK, skill(name), name)
 
     def test_agents_inherit_every_tool(self):

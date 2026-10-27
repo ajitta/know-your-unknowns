@@ -1,7 +1,8 @@
-"""Guard the 0.12.0 skill renames: `loop` -> `unknowns-loop`, `notes` -> `deviation-log`.
+"""Guard the 0.12.0 skill renames: `loop` -> `unknowns-loop`, `notes` -> `deviation-log`,
+`plan` -> `tweakable-plan`.
 
-A bare `loop` belongs to Claude Code's built-in interval runner, and `notes` did not say
-what it logs. Once renamed, an old name that creeps back into a skill body, an eval, a
+A bare `loop` belongs to Claude Code's built-in interval runner, `notes` did not say
+what it logs, and a bare `plan` collides with native plan mode and other plugins' plan skills. Once renamed, an old name that creeps back into a skill body, an eval, a
 README or the packaging sends users and the model to a skill that no longer exists.
 
 Asserted:
@@ -10,7 +11,8 @@ Asserted:
     (`unknowns:loop`, `/unknowns:notes`, `**loop** skill`, `skills/notes/`,
     `trigger-en-loop`, a `"loop":` key ...)
   * the trigger words users actually say survive in the descriptions:
-    "loop" in unknowns-loop, "implementation notes" in deviation-log
+    "loop" in unknowns-loop, "implementation notes" in deviation-log, "plan this" in
+    tweakable-plan
 
 Exempt: CHANGELOG.md and IMPLEMENTATION_NOTES.md (dated records), and docs/ except
 the files that describe the current plugin (trigger-matrix.md, index.html), because the
@@ -25,7 +27,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-RENAMES = {"loop": "unknowns-loop", "notes": "deviation-log"}
+RENAMES = {"loop": "unknowns-loop", "notes": "deviation-log", "plan": "tweakable-plan"}
 CURRENT_DOCS = {"docs/trigger-matrix.md", "docs/index.html"}
 EXEMPT = {"CHANGELOG.md", "IMPLEMENTATION_NOTES.md", "tests/test_renamed_skills.py"}
 TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".py", ".html", ".txt", ""}
@@ -91,6 +93,7 @@ class RenamedSkillsTest(unittest.TestCase):
             return " ".join(re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1).lower().split())
         self.assertIn('"unknowns loop"', description("unknowns-loop"))
         self.assertIn('"implementation notes"', description("deviation-log"))
+        self.assertIn('"plan this"', description("tweakable-plan"))
 
 
 if __name__ == "__main__":

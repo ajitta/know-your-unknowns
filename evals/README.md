@@ -207,7 +207,7 @@ directly.
 | `neg-ui-options-does-not-fire-brainstorm` | `unknowns:brainstorm` | brainstorm advertises "show me options"; prototypes owns UI variants |
 | `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates a specific plan or situation, teach-me teaches vocabulary |
 | `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
-| `neg-one-file-plan-defers-to-plan-mode` | (behaviour, not trigger) | the plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
+| `neg-one-file-tweakable-plan-defers-to-plan-mode` | (behaviour, not trigger) | the tweakable-plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
 
 **3 behaviour cases** — these grade the deliverable, not the trigger:
 
@@ -244,7 +244,7 @@ directly.
 4. **The sandbox has no repository.** Cases run in an empty temporary cwd, so every
    prompt carries its own material inline — the retrospective skills (`quiz`,
    `buy-in`, `reference`) paste the diff or the reference in, and `blindspot` and
-   `plan` describe the system they are about. This was not optional: the first draft
+   `tweakable-plan` describe the system they are about. This was not optional: the first draft
    of `trigger-en-quiz` said "you just rewrote our webhook receiver", and the run
    correctly refused ("this session has no prior turns, and the working directory is
    empty"), scoring 0 in both arms for a reason that had nothing to do with the
