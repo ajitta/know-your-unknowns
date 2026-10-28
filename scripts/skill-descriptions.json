@@ -6,7 +6,8 @@
     "eval suite measured, so they are left alone and shortened here instead.",
     "This file ships in no plugin and costs no context. tests/test_skill_descriptions.py",
     "fails if a skill is missing, if a description is over 200 characters, or if it drops",
-    "a trigger phrase the README advertises."
+    "a trigger phrase the README advertises.",
+    "2026-10-28: Claude Code proxy measurement of these descriptions vs the SKILL.md ones on 26 routing cases x 10 runs: 259/260 vs 260/260 (CHANGELOG, Unreleased)."
   ],
   "blindspot": "Blind-spot pass — find both sides' unknown unknowns before work on a plan or system, in any domain, and turn them into a better prompt. Use on \"blind spot pass\", \"what am I missing\".",
   "brainstorm": "Brainstorm the intervention — ~10 candidates for a named problem in any domain, from today to a quarter-long bet. Use on \"brainstorm interventions\", \"show me options\". NOT for design variants.",

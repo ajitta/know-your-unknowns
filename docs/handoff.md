@@ -24,11 +24,11 @@
 
 ## 소유자 대기 (에이전트가 할 수 없음)
 
-- O1. claude.ai Customize › Plugins에 0.12.1 zip 재업로드(0.12.0에서 이름이 바뀐 세 스킬 때문에 기존 업로드를 교체), ChatGPT에 OpenAI zip 업로드, 모바일에서 스킬 하나 호출. 아래 짧은 설명 측정 결과를 본 뒤에 한다. 결과가 오면 README 두 언어의 확인 범위 문구를 확인된 범위로만 고친다.
+- O1. claude.ai Customize › Plugins에 0.12.1 zip 재업로드(0.12.0에서 이름이 바뀐 세 스킬 때문에 기존 업로드를 교체), ChatGPT에 OpenAI zip 업로드, 모바일에서 스킬 하나 호출. 짧은 설명의 대리 측정은 통과했다(259/260 대 260/260, 아래). 결과가 오면 README 두 언어의 확인 범위 문구를 확인된 범위로만 고친다.
 
 ## 소유자 판단 기록 (2026-10-28)
 
-- 업로드용 짧은 설명의 대리 측정(520회): 승인, 0.12.1 릴리스 뒤 실행. 방법은 아래 "업로드용 짧은 설명의 호출 측정".
+- 업로드용 짧은 설명의 대리 측정(520회): 승인, 0.12.1 릴리스 뒤 실행해 통과(아래 "업로드용 짧은 설명의 호출 측정").
 - 설명을 skill-creator 권고대로 더 적극적으로("pushy") 쓰지 않는다. 이 빌드의 라우팅은 이름 44/44(0.12.0), 한국어 blindspot 트리거 10/10, Codex 18/18이다.
 - teach-me의 예(색 보정 한 분야)는 유지한다. 비교 표가 글·코드·절차를 다루고 비코딩 케이스가 통과한다.
 - 본문의 되읽기 문장은 유지한다(아래 "측정이 얇은 곳" 마지막 항목).
@@ -53,7 +53,7 @@
 
 ### 업로드용 짧은 설명의 호출 측정
 
-claude.ai Customize › Skills에 올리는 짧은 설명(`scripts/skill-descriptions.json`)은 0.12.1까지 모델로 측정한 적이 없다. 0.12.1 뒤 소유자 승인으로 아래 방법대로 실행 중이다. 테스트는 길이(200자 이하)와 README 문구 포함만 본다. 업로드 화면 자체는 headless로 돌릴 수 없으므로 Claude Code 대리 측정으로 한다.
+claude.ai Customize › Skills에 올리는 짧은 설명(`scripts/skill-descriptions.json`)은 2026-10-28 아래 방법으로 Claude Code 대리 측정을 했다. 결과: 짧은 설명 259/260, 플러그인 설명 260/260(Fisher p = 1.0, Wilson 하한 97.9%), 충돌 케이스 40/40 대 40/40. 놓친 1회는 한국어 blindspot에서 스킬 없이 바로 답한 경우다. 기록은 CHANGELOG `[Unreleased]`. 같은 측정을 다시 할 때의 방법: 테스트는 길이(200자 이하)와 README 문구 포함만 본다. 업로드 화면 자체는 headless로 돌릴 수 없으므로 Claude Code 대리 측정으로 한다.
 
 - 변형 만들기: `python3 scripts/build-skill-zips.py --out <절대 경로>/dist`, 새 디렉터리에 `plugins/unknowns/`의 `.claude-plugin`·`agents`·`LICENSE`·`NOTICE`·`README.md`를 복사하고 zip을 그 `skills/`에 푼다. `unknowns:` 이름공간이 유지되고 본문은 같으며(11개 모두 바이트 단위로 같음을 확인) 설명만 다르다. `claude plugin validate --strict`로 확인(통과).
 - 실행: 긴 설명(`plugins/unknowns`) 대 짧은 설명 두 arm을 같은 날 병렬로, `trigger-*` 22케이스와 발동하면 안 되는 충돌 케이스 4개(`neg-generic-howto-does-not-fire-teach-me`, `neg-interval-loop-does-not-fire-unknowns-loop`, `neg-ui-options-does-not-fire-brainstorm`, `neg-vocabulary-does-not-fire-blindspot`), 케이스당 10회 = 520회. 원하면 `neg-open-*` 8케이스(160회)를 더한다. 케이스별과 합산으로 Fisher 정확검정. 케이스당 10회로는 큰 하락만 보이므로 합산 비교가 핵심이다.
