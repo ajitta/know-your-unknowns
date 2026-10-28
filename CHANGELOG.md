@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Checked — the claude.ai upload descriptions (developer-only; shipped payload unchanged)
+
+- Claude Code proxy measurement of the short upload descriptions (`scripts/skill-descriptions.json`, 200 characters or fewer) against the plugin's own descriptions, 2026-10-28, Claude Code 2.1.309, claude-opus-5-5. Two arms run side by side on the 0.12.1 bodies, which are byte-identical in both arms; only the `description` lines differ. 26 cases × 10 runs × 2 arms: the 22 `trigger-{en,ko}-*` cases and 4 must-not-fire collision cases. Measured by the routing graders (`tool_used` Skill).
+- Plugin descriptions 260/260, upload descriptions 259/260 (Fisher p = 1.0; 95% Wilson lower bound 97.9%). English triggers 110/110 in both arms, Korean 110/110 vs 109/110, collision cases 40/40 in both arms. The one miss: in one Korean blindspot run no skill loaded and the model answered the risk directly.
+- A first pass hit the account's session limit in 156 runs across 9 cases, in both arms. Those 9 cases were re-run in both arms and the void runs were dropped; none are counted.
+- Not shown by this: claude.ai's own routing and the upload screen. The outcome graders were not judged, because the bodies are identical and the arms can differ only in which skill loads.
+
 ## 0.12.1 — 2026-10-28
 
 Released 2026-10-28. Body fixes from this build's own runs (blindspot, brainstorm, interview, quiz); descriptions, skill names and always-on tokens unchanged. Eval coverage for the independent-reviewer agent and reference's correction rule, the thin cells re-measured on this build, a Codex run, and fixes from the build's own runs.
