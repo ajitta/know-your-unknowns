@@ -2,12 +2,44 @@
 
 ## [Unreleased]
 
+## 0.12.2 — 2026-10-28
+
+Released 2026-10-28. Two body fixes from this build's own runs (interview counts a question inside a reason line toward the four; blindspot puts an unchecked finding under Needs checking instead of a card); descriptions, skill names and always-on tokens unchanged. Also: a buy-in eval case that lets buy-in spawn the independent-reviewer, and the proxy measurement of the claude.ai upload descriptions.
+
 ### Checked — the claude.ai upload descriptions (developer-only; shipped payload unchanged)
 
 - Claude Code proxy measurement of the short upload descriptions (`scripts/skill-descriptions.json`, 200 characters or fewer) against the plugin's own descriptions, 2026-10-28, Claude Code 2.1.309, claude-opus-5-5. Two arms run side by side on the 0.12.1 bodies, which are byte-identical in both arms; only the `description` lines differ. 26 cases × 10 runs × 2 arms: the 22 `trigger-{en,ko}-*` cases and 4 must-not-fire collision cases. Measured by the routing graders (`tool_used` Skill).
 - Plugin descriptions 260/260, upload descriptions 259/260 (Fisher p = 1.0; 95% Wilson lower bound 97.9%). English triggers 110/110 in both arms, Korean 110/110 vs 109/110, collision cases 40/40 in both arms. The one miss: in one Korean blindspot run no skill loaded and the model answered the risk directly.
 - A first pass hit the account's session limit in 156 runs across 9 cases, in both arms. Those 9 cases were re-run in both arms and the void runs were dropped; none are counted.
 - Not shown by this: claude.ai's own routing and the upload screen. The outcome graders were not judged, because the bodies are identical and the arms can differ only in which skill loads.
+
+### Changed — fixes from this build's own runs
+
+- interview: step 2a also counts a question mark inside a question's reason line toward the four. One multi-turn run had asked a fifth decision inside a "why it matters" line ("should a dropped recipient ever be told?"); earlier runs had tucked a fact request or a second question into an item.
+- interview, tried and taken out: a sub-step that sorts each round's questions by the Question Priority before writing them, for the round-order slips (an empty-result question asked before a retry question). In step 4 it kept rounds 2 and 3 in order in 3 of 3 runs, but round 1 dropped its sure-of/assuming question in 2 of 3. Moved to the start of step 2 and naming that question, it kept round 1 in 3 of 3 but put a why follow-up under a harm question in 1 of 3. The order wording is back to 0.12.1's, which passed the order grader in 6 of 6 runs this round.
+- blindspot: step 4 says where an unchecked finding goes when the cards are written (a card's status is *confirmed* or *inferred*; an *unchecked* finding goes under **Needs checking**), and the tally counts the cards. The rule was already in step 3b; one multi-turn run kept an unchecked card in the cards and the tally (1 of 3, the same slip as 1 of 9 last round).
+
+### Evals (developer-only; not in the shipped payload)
+
+- `behavior-buy-in-relays-reviewer`: the pilot-report material from the independent-reviewer case, a buy-in request for a second year of funding, and the Agent tool allowed, so buy-in's step 4b spawns the independent-reviewer. Graders: the agent is spawned; the buy-in doc uses the records' figures and keeps the unbacked claims out of the evidence; the doc carries the reviewer's outcome judgement. The four earlier buy-in cases allow no Agent tool, so they could not show this.
+- Suite: 70 single-turn cases (161 graders), 5 multi-turn cases (21 graders).
+
+### Checked — interview, blindspot and buy-in on this build's own runs
+
+Claude Code 2.1.309, claude-opus-5-5, no comparison arm (owner decision); `llm` graders judged by a separate `claude -p`, which also sees spawned agents' reports and the files a run wrote.
+
+- interview, the two sort iterations: multi-turn 10/12 and 10/12 (order 1/3, then 2/3; four-per-reply 3/3, then 2/3); single-turn five cases 18/18 on the first. Final wording, multi-turn 6 runs: 24/24 (order 6/6, four-per-reply 6/6); single-turn five cases 3 runs: 18/18, and round 1 opened with the sure-of/assuming question in 15/15.
+- blindspot multi-turn on the 0.12.1 body: 11/12 (evidence status 2/3). After the fix, 6 runs: 24/24 (status 6/6); the six single-turn blindspot cases, 3 runs: 30/30.
+- buy-in, 3 runs each: the four earlier cases 12/12; the new reviewer case 9/9. The independent-reviewer was spawned in 3/3 runs, and in 3/3 the written buy-in doc carried its outcome judgement (nothing in the material measures whether residents bought fewer tools), the recomputed members and loans, the unbacked rota and thank-you claims as limitations, and the dropped deposit. The short chat reply that pointed to the doc named the outcome in 1 of 3; the doc is the deliverable, so no body change.
+- The intended skill loaded in every run: 63/63 single-turn and 21/21 multi-turn.
+- Writing-for-models, Claude only: per-file checks of interview and blindspot and a diff check of the round's fixes; 19 findings, all quotes verified, 0 confirmed (19 rejected: two repeat what the sort iterations tried, the rest restate the owner's read-back ruling, guard prose, shared blocks, or wording points with no failing run).
+- Tokens (cl100k): always-on frontmatter unchanged at 1,404; the 11 bodies 13,653 → 13,683; all shipped text 17,430 → 17,460.
+
+### Not measured
+
+- The interview order cell across runs: 2/3 per batch for two rounds, 6/6 this round on the same wording; 3–6 runs per batch cannot separate a fix from run-to-run variance.
+- The four-per-reply and blindspot evidence-status fixes were each seen at about 1 in 3 to 1 in 9 runs before; 6 clean runs each do not show the slips are gone.
+- The independent-reviewer called by name outside buy-in (the caller's retelling dropped the outcome judgement in round 4): not re-run; the bodies are unchanged for it.
 
 ## 0.12.1 — 2026-10-28
 

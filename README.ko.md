@@ -631,7 +631,7 @@ blindspot은 발화하지 않았습니다(1회 측정,
 ```
 skills/<name>/                 소스: SKILL.md, agents/openai.yaml
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.12.1
+plugin-manifest.json           소스 매니페스트, 현재 0.12.2
 packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드
