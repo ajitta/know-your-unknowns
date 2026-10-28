@@ -87,9 +87,9 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
 4. Present the findings:
 
-   a. Open the output with the user's three lists from step 1c and your own three lists as updated, each of your ⑤ assumptions marked confirmed, refuted or still unchecked. Then lead the findings with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
+   a. Open the output with the user's three lists from step 1c and your own three lists as updated, each of your ⑤ assumptions marked confirmed, refuted or still unchecked. Then lead the findings with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally of the cards by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
 
-   b. After the contrast, show the cards. Each card holds: kind, finding, why it bites, evidence, status, and the recommended action as a numbered, copyable **prompt fix**. Mark each finding that none of the user's three lists mentioned as **new to you**, so the user sees what the pass taught them rather than recalling it afterwards.
+   b. After the contrast, show the cards. Each card holds: kind, finding, why it bites, evidence, status (*confirmed* or *inferred*; an *unchecked* finding goes under **Needs checking** instead of a card), and the recommended action as a numbered, copyable **prompt fix**. Mark each finding that none of the user's three lists mentioned as **new to you**, so the user sees what the pass taught them rather than recalling it afterwards.
 
    c. Sort the cards by **likelihood × blast radius**: how likely *this task* is to hit the finding, times how much breaks if it does. A severe landmine in a part the task never touches ranks below a modest convention every new piece of the work must follow.
 
