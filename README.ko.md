@@ -98,7 +98,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름이나 트리거 문구로 부릅니다.
 
-**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치, ChatGPT zip 업로드, Claude 모바일 앱에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드, Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로.
+**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로.
 
 ### claude.ai 웹과 Claude 데스크톱
 
@@ -106,13 +106,13 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 2. Discover에서 `unknowns` 플러그인을 선택하고 Add를 누릅니다. 마켓플레이스만 추가하면 플러그인은 설치되지 않습니다.
 3. "blind spot pass"처럼 스킬 이름이나 문구로 요청합니다.
 
-1·2단계 대신 Customize › Plugins › Add › Upload plugin에서 [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip)을 올려도 됩니다. Skills가 아니라 Plugins 업로드를 쓰세요. [Claude 공식 설치 안내](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)는 웹·데스크톱 플러그인이 계정에 저장되고 지원 표면에 따라온다고 설명합니다. 이 플러그인에서 소유자는 0.12.2로 Add marketplace 경로와 모바일 앱을 확인했고, zip 업로드 경로와 데스크톱 동기화는 아직 확인하지 않았습니다.
+1·2단계 대신 Customize › Plugins › Add › Upload plugin에서 [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip)을 올려도 됩니다. Skills가 아니라 Plugins 업로드를 쓰세요. [Claude 공식 설치 안내](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)는 웹·데스크톱 플러그인이 계정에 저장되고 지원 표면에 따라온다고 설명합니다. 이 플러그인에서 소유자는 Add marketplace 경로를 쓰며 이 경로가 모바일 앱까지 이어지므로 zip 업로드는 필요 없습니다. zip 업로드 경로와 데스크톱 동기화는 아직 확인하지 않았습니다.
 
 ### Claude 모바일
 
 1. 위 절차대로 claude.ai 웹에 플러그인을 설치합니다.
 2. 같은 계정의 모바일 앱을 열고 스킬 이름이나 트리거 문구로 요청합니다.
-3. 스킬 절차를 따르는지 확인합니다. 소유자가 0.12.2에서 이 경로를 확인했습니다(2026-10-28).
+3. 스킬 절차를 따르는지 확인합니다. 소유자는 0.12.2의 Add marketplace 설치로 이 경로가 된다고 보고했습니다(2026-10-28). zip 업로드는 필요 없습니다.
 
 ### Claude Code
 
@@ -140,7 +140,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 ### ChatGPT 데스크톱(Codex 포함)과 모바일
 
-소유자가 0.12.2에서 zip 업로드를 확인했습니다(2026-10-28). 데스크톱 마켓플레이스 경로는 **이 플러그인에서는 소유자가 아직 확인하지 않았습니다**.
+소유자가 0.12.2에서 zip 업로드와 ChatGPT 모바일의 스킬 호출을 확인했습니다(2026-10-28). 데스크톱 마켓플레이스 경로는 **이 플러그인에서는 소유자가 아직 확인하지 않았습니다**.
 
 1. **웹에서 zip 업로드(웹·모바일).** [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip)을 내려받아 chatgpt.com의 플러그인 zip 업로드로 올립니다. 플러그인은 계정에 저장되어 ChatGPT 웹·모바일에서 사용합니다. 이 zip에는 OpenAI 매니페스트·스킬·목록용 자산이 들어 있습니다. 업로드는 자동으로 갱신되지 않으므로 새 릴리스마다 다시 올립니다.
 2. **데스크톱 앱에서 마켓플레이스 추가.** 앱의 Codex 플러그인 화면에서 GitHub 마켓플레이스 `ajitta/know-your-unknowns` 또는 로컬 클론을 추가하고 `unknowns`를 선택해 설치합니다. 이 경로는 데스크톱 앱의 로컬 Codex 폴더에 설치하며 웹·모바일용 계정에 저장되지 않습니다. 업데이트는 마켓플레이스로 받습니다.

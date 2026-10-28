@@ -105,7 +105,7 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 
 The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
 
-**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, the ChatGPT zip upload, and a skill called from the Claude mobile app. **Not yet checked by the owner:** the claude.ai zip upload, Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route.
+**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route.
 
 ### claude.ai web and Claude desktop
 
@@ -113,13 +113,13 @@ The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name t
 2. Open Discover, select the `unknowns` plugin, and select Add. Adding the marketplace alone does not install the plugin.
 3. Ask for a skill by name or phrase, for example "blind spot pass".
 
-Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin with [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip). Use the Plugins upload, not the Skills upload. [Claude's official installation guidance](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) says web/Desktop plugins are saved to your account and follow you across supported surfaces. For this plugin the owner checked the Add marketplace route and the mobile app on 0.12.2; the zip upload route and desktop sync are not yet checked.
+Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin with [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip). Use the Plugins upload, not the Skills upload. [Claude's official installation guidance](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) says web/Desktop plugins are saved to your account and follow you across supported surfaces. For this plugin the owner uses the Add marketplace route, which reaches the mobile app, so no zip upload is needed; the zip upload route and desktop sync are not yet checked.
 
 ### Claude mobile
 
 1. Install the plugin on claude.ai web as above.
 2. Open the mobile app with the same account and ask for the skill by name or trigger phrase.
-3. Check that it follows the skill's procedure. The owner checked this route on 0.12.2 (2026-10-28).
+3. Check that it follows the skill's procedure. The owner reports this route working with the Add marketplace install on 0.12.2 (2026-10-28); no zip upload is needed.
 
 ### Claude Code
 
@@ -147,7 +147,7 @@ Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin wi
 
 ### ChatGPT desktop (with Codex) and mobile
 
-The owner checked the zip upload on 0.12.2 (2026-10-28); the desktop marketplace route is **not yet checked by the owner for this plugin**.
+The owner checked the zip upload with a skill called from ChatGPT mobile on 0.12.2 (2026-10-28); the desktop marketplace route is **not yet checked by the owner for this plugin**.
 
 1. **Upload the zip on the web (web and mobile).** Download [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip) and upload it on chatgpt.com with the plugin zip upload. The plugin is saved to your account for ChatGPT web and mobile. This zip carries the OpenAI manifest, skills, and listing assets. Uploads do not update themselves; upload each new release again.
 2. **Add the marketplace in the desktop app.** In the app's Codex plugin interface, add the GitHub marketplace `ajitta/know-your-unknowns` or a local clone, then select and add `unknowns`. This route installs into the desktop app's local Codex folder; it is not saved to your account for web/mobile access. Updates arrive through the marketplace.
