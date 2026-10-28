@@ -32,7 +32,7 @@
 
 ## 소유자 대기 (에이전트가 할 수 없음)
 
-- O1. claude.ai Customize › Plugins에 0.12.2 zip 재업로드(0.12.0에서 이름이 바뀐 세 스킬 때문에 기존 업로드를 교체), ChatGPT에 OpenAI zip 업로드, 모바일에서 스킬 하나 호출. 짧은 설명의 대리 측정은 통과했다(259/260 대 260/260, 아래). 결과가 오면 README 두 언어의 확인 범위 문구를 확인된 범위로만 고친다.
+- O1 (해결, 2026-10-28, 0.12.2): 소유자가 확인했다고 보고. claude.ai 계정 설치는 Add marketplace 경로였다. 빌드 VM에 동기화된 계정 사본(마켓플레이스 `know-your-unknowns`, 버전 0.12.2)의 본문 13개가 `plugins/unknowns`와 바이트 단위로 같다(frontmatter는 동기화가 한 줄 문자열로 다시 씀). ChatGPT zip 업로드와 ChatGPT 모바일의 스킬 호출, 그리고 Add marketplace 설치가 Claude 모바일에 이어진다는 것은 소유자 보고이며 화면 증거는 기록하지 않았다. claude.ai zip 업로드는 마켓플레이스 경로가 모바일까지 이어지므로 하지 않는다(소유자 판단). README 두 언어의 확인 범위를 이에 맞췄다. 확인하지 않은 경로: claude.ai zip 업로드, Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스.
 
 ## 소유자 판단 기록 (2026-10-28)
 
