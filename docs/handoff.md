@@ -1,18 +1,17 @@
-# 다음 라운드 인계 — 0.12.1 이후
+# 다음 라운드 인계 — 0.12.2 이후
 
-작성 2026-10-28, 0.12.1 릴리스(PR #24) 뒤 갱신, 같은 날 브랜치 `next`(초안 PR #26) 라운드 결과 반영. 새 세션은 이 문서의 **상태**를 git·태그·릴리스·CI와 먼저 대조하고 시작한다. 이 문서는 작업 지시가 아니라 출발점이다. 소유자 판단이 필요한 항목은 그 번호로 묻는다.
+작성 2026-10-28, 0.12.2 릴리스(PR #26) 뒤 갱신. 새 세션은 이 문서의 **상태**를 git·태그·릴리스·CI와 먼저 대조하고 시작한다. 이 문서는 작업 지시가 아니라 출발점이다. 소유자 판단이 필요한 항목은 그 번호로 묻는다.
 
 ## 상태 (2026-10-28)
 
-- 배포: `unknowns--v0.12.1`, GitHub Release에 `know-your-unknowns.zip`·`know-your-unknowns-openai.zip`. 카탈로그 `ajitta/claude-plugins`는 `git-subdir` `plugins/unknowns`를 가리킨다.
-- 0.12.1은 본문 수정판이다(blindspot·brainstorm·interview·quiz). 설명·스킬 이름·항상 로드되는 토큰은 0.12.0과 같다.
-- 브랜치 `next`(초안 PR #26, 머지·태그 전, 버전 0.12.1 유지): interview·blindspot 본문 수정 두 개와 buy-in 평가 케이스 하나. 기록은 CHANGELOG `[Unreleased]`.
+- 배포: `unknowns--v0.12.2`, GitHub Release에 `know-your-unknowns.zip`·`know-your-unknowns-openai.zip`. 카탈로그 `ajitta/claude-plugins`는 `git-subdir` `plugins/unknowns`를 가리킨다.
+- 0.12.2와 0.12.1은 본문 수정판이다(0.12.2: interview·blindspot, 0.12.1: blindspot·brainstorm·interview·quiz). 설명·스킬 이름·항상 로드되는 토큰은 0.12.0과 같다.
 - 0.12.0은 범위 재정의 판이다. 플러그인은 사용자와 AI가 아는 것의 세 칸(사용자는 모르고 AI는 아는 것, AI가 모르는 것, 둘 다 모르는 것)을 어떤 분야에서든 다루고, 산출물이 아니라 성과로 판단한다(`.claude/rules/skill-writing.md` 0번). 둘 다 아는 요청은 범위 밖이고 바로 처리한다.
 - **Breaking(0.12.0):** `loop` → `unknowns-loop`, `notes` → `deviation-log`, `plan` → `tweakable-plan`. 설명 11개는 영어로만 쓰고, 끝 문장은 "Clear to both sides: no skill or method."
 - 요청 되읽기(read-back)는 각 스킬 본문과 unknowns-loop 1단계에 있다(소유자 판단으로 유지, 2026-10-28). 스킬이 뜨지 않는 무거운 요청에서도 되읽기를 원하는 사용자는 README가 안내하는 한 줄을 자기 `CLAUDE.md`에 넣는다(측정 9/9).
 - 구조: 원본 `skills/`(스킬마다 SKILL.md 하나, 공유 참조 파일 없음), `claude-code/agents/` → `tools/package.py`가 `plugins/unknowns/`와 두 zip을 생성(커밋됨). 코드 없음, 목록 아이콘 PNG 하나.
 - 작성 원칙: `.claude/rules/skill-writing.md` 0번(목적)과 17번 — 금지 문장·읽기 전용 약속·도구 허용 목록·정체성 문장("You are …")을 쓰지 않는다. 강제는 사용자 하네스의 몫이다. 두 에이전트는 모든 도구를 물려받고, 플러그인은 git 절차를 따로 두지 않는다.
-- 측정 기록: CHANGELOG 0.12.0과 0.12.1의 **Checked**·**Not measured** 절.
+- 측정 기록: CHANGELOG 0.12.0·0.12.1·0.12.2의 **Checked**·**Not measured** 절.
 - 평가: 단발 70케이스(`evals/run-manual.py`), 다회차 5케이스(`evals/run-multiturn.py`, 시뮬레이션 사용자와 2–5턴). 입력 자료가 필요한 케이스는 CLI 형식 그대로 `files/` + `place-files.sh` + `case.yaml`의 `context: scaffold_script:`를 쓰고(`claude plugin eval --scaffold`와 같음), 러너가 실행 전에 그 스크립트를 실행한다. 생성된 에이전트가 돌려준 보고서는 `agent_reports`로 남아 `focus: trace` 채점에 쓰인다.
 
 ## 0.12.1에서 끝난 일
@@ -23,7 +22,7 @@
 - Codex 실행 확인(격리 HOME+CODEX_HOME): 이름이 바뀐 세 스킬, 이름·영어·한국어 트리거 각 2회 18/18.
 - skill-creator 기준 점검: 16개 항목, 형식 수정 3개 반영.
 
-## 브랜치 next에서 끝난 일 (2026-10-28, 초안 PR #26)
+## 0.12.2에서 끝난 일 (2026-10-28, PR #26)
 
 - interview 다회차 순서 칸(소유자 판단: 다른 수정 하나, 3회): 라운드를 쓰기 전에 질문을 Question Priority 순으로 정렬하는 하위 단계를 두 번 시도했다. 4단계에 두면 2·3라운드 순서는 3/3이었지만 1라운드가 "확실한 것·가정한 것" 질문을 3회 중 2회 빠뜨렸다. 2단계 맨 앞으로 옮기고 그 질문을 이름으로 부르자 1라운드는 3/3이었지만 why 후속 질문이 해악 질문 아래로 내려갔다(3회 중 1회). 두 번 모두 3/3이 아니어서 0.12.1 문구로 되돌렸고, 되돌린 문구는 이번 6회에서 순서 6/6이었다.
 - interview 넷 이하 칸: "why it matters" 줄 안에 다섯 번째 결정 질문이 들어간 실행이 다시 나와(6회 중 1회) 2a에 "이유 줄 안의 물음표"도 넷에 센다고 넣었다. 다회차 6회 24/24, 단발 다섯 케이스 18/18.
@@ -33,7 +32,7 @@
 
 ## 소유자 대기 (에이전트가 할 수 없음)
 
-- O1. claude.ai Customize › Plugins에 0.12.1 zip 재업로드(0.12.0에서 이름이 바뀐 세 스킬 때문에 기존 업로드를 교체), ChatGPT에 OpenAI zip 업로드, 모바일에서 스킬 하나 호출. 짧은 설명의 대리 측정은 통과했다(259/260 대 260/260, 아래). 결과가 오면 README 두 언어의 확인 범위 문구를 확인된 범위로만 고친다.
+- O1. claude.ai Customize › Plugins에 0.12.2 zip 재업로드(0.12.0에서 이름이 바뀐 세 스킬 때문에 기존 업로드를 교체), ChatGPT에 OpenAI zip 업로드, 모바일에서 스킬 하나 호출. 짧은 설명의 대리 측정은 통과했다(259/260 대 260/260, 아래). 결과가 오면 README 두 언어의 확인 범위 문구를 확인된 범위로만 고친다.
 
 ## 소유자 판단 기록 (2026-10-28)
 
@@ -43,10 +42,11 @@
 - 본문의 되읽기 문장은 유지한다(아래 "측정이 얇은 곳" 마지막 항목).
 - interview 다회차 순서 칸은 이번 릴리스에서는 편차로 두고, 다음 라운드에 다른 수정 하나를 3회로 시도한다.
 - 검토 에이전트 보고서를 호출한 모델이 옮기면서 성과 판정을 빠뜨린 건: 본문은 고치지 않고 buy-in 실행에서 지켜본다.
+- (0.12.2 릴리스 때) 0.12.2를 O1 재업로드 전에 릴리스한다. interview 다회차 순서 칸은 더 고치지 않고 지켜보기만 한다(배치가 2/3 아래로 떨어지거나 실패 모양이 바뀔 때만 다시 다룬다). `behavior-buy-in-relays-reviewer`는 평가에 남긴다. buy-in 문서를 가리키는 짧은 채팅 답에 성과가 빠지는 것은 고치지 않는다(산출물은 문서).
 
 ## 다음 라운드 작업 (브랜치에서, main 직접 수정 금지)
 
-버전은 소유자가 릴리스를 승인할 때까지 0.12.1에 둔다(CHANGELOG `## [Unreleased]`에 기록 — `package.py`가 이 경우에만 같은 버전 재빌드를 허용).
+버전은 소유자가 릴리스를 승인할 때까지 0.12.2에 둔다(CHANGELOG `## [Unreleased]`에 기록 — `package.py`가 이 경우에만 같은 버전 재빌드를 허용).
 
 ### 지켜볼 칸
 

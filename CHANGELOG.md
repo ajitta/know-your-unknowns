@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## 0.12.2 — 2026-10-28
+
+Released 2026-10-28. Two body fixes from this build's own runs (interview counts a question inside a reason line toward the four; blindspot puts an unchecked finding under Needs checking instead of a card); descriptions, skill names and always-on tokens unchanged. Also: a buy-in eval case that lets buy-in spawn the independent-reviewer, and the proxy measurement of the claude.ai upload descriptions.
+
 ### Checked — the claude.ai upload descriptions (developer-only; shipped payload unchanged)
 
 - Claude Code proxy measurement of the short upload descriptions (`scripts/skill-descriptions.json`, 200 characters or fewer) against the plugin's own descriptions, 2026-10-28, Claude Code 2.1.309, claude-opus-5-5. Two arms run side by side on the 0.12.1 bodies, which are byte-identical in both arms; only the `description` lines differ. 26 cases × 10 runs × 2 arms: the 22 `trigger-{en,ko}-*` cases and 4 must-not-fire collision cases. Measured by the routing graders (`tool_used` Skill).
