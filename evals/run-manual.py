@@ -51,6 +51,7 @@ restricted to plain scalars, flow lists, and the one nested `focus:` mapping.
 
 import argparse
 import fnmatch
+import glob
 import json
 import os
 import re
@@ -326,6 +327,40 @@ def listing_report(debug_file):
     }
 
 
+HANDBACK_STUB = re.compile(r'delivered to you as a message from "([0-9a-f]+)" \(its SubagentHandback call\)')
+
+
+def handback_report(text, config_dir=None):
+    """Return the report a spawned agent handed back, when the tool result is only a stub.
+
+    Since Claude Code 2.1.31x an agent can hand its report back through a
+    SubagentHandback call; the caller's tool result then only points at it. The
+    report itself stays in the agent's transcript under the config dir's projects/.
+    """
+    match = HANDBACK_STUB.search(text or "")
+    if not match:
+        return text
+    base = config_dir or os.environ.get("CLAUDE_CONFIG_DIR") or os.path.join(
+        os.path.expanduser("~"), ".claude")
+    pattern = os.path.join(base, "projects", "*", "*", "subagents",
+                           "agent-%s.jsonl" % match.group(1))
+    report = None
+    for path in glob.glob(pattern):
+        for line in read(path).splitlines():
+            try:
+                event = json.loads(line)
+            except ValueError:
+                continue
+            message = event.get("message")
+            if not isinstance(message, dict) or not isinstance(message.get("content"), list):
+                continue
+            for block in message["content"]:
+                if (isinstance(block, dict) and block.get("type") == "tool_use"
+                        and block.get("name") == "SubagentHandback"):
+                    report = str((block.get("input") or {}).get("message") or "")
+    return report if report else text
+
+
 def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fraction=None):
     sandbox = tempfile.mkdtemp(prefix="unknowns-eval-")
     config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if crowd_root else None
@@ -411,7 +446,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
                     if isinstance(content, list):
                         content = "\n".join(part.get("text", "") for part in content
                                             if isinstance(part, dict))
-                    agent_reports.append(str(content or ""))
+                    agent_reports.append(handback_report(str(content or ""), config_dir))
                 elif block.get("type") == "text" and message.get("role") == "assistant":
                     last_message = block.get("text", "") or last_message
 
