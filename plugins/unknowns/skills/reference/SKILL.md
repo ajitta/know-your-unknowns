@@ -4,7 +4,8 @@ description: >
   Point at a reference — treat a provided example as a map, not an answer: read it, show
   the user your reading, and get it corrected before building on it. Use on "use this as a
   reference", "make it like this", or when the user supplies an example to build from.
-  Clear to both sides: no skill or method.
+  Runs even when the adaptation looks simple, because the deliverable is the reading the
+  user corrected. Clear to both sides: no skill or method.
 ---
 
 # Reference — A Reference Is Another Map
@@ -17,6 +18,7 @@ When you and the user both seem to understand the request, do it without this me
 
 1. A reference is **not an answer to copy verbatim**; it is material for understanding intent and behavior.
 2. Before building on it, **prove comprehension** with a semantics map: the user knows why they chose this reference, and your reading of it is the part they can correct.
+3. A supplied reference is never clear to both of you by itself, because the user's reason for choosing it is what the semantics map exposes, so run the Procedure even when the adaptation looks simple.
 
 ## Procedure
 
@@ -33,7 +35,7 @@ When you and the user both seem to understand the request, do it without this me
    | Category | What goes in it |
    |---|---|
    | **Behaviors to preserve** | The reference's reason to exist. |
-   | **Parts to transform for the current environment** | Differences of context, e.g. language, framework, scale, audience, jurisdiction, budget. |
+   | **Parts to transform for the new environment** | Differences of context, e.g. language, framework, scale, audience, jurisdiction, budget. |
    | **Unnecessary or dangerous parts** | Left out of this work, with the reason. |
    | **Parts improvable beyond the reference** | Where we can do better. |
 
@@ -47,7 +49,7 @@ When you and the user both seem to understand the request, do it without this me
 
 4. Contrast and plan:
 
-   a. Contrast it with the current work's conventions (e.g. house style, tools and dependencies, how the work is checked).
+   a. Contrast the reference with the current work's conventions (e.g. house style, tools and dependencies, how the work is checked).
 
    b. Present an **application plan** that first carries over how the reference checks itself (its tests, checklists or acceptance criteria), so the new version is checked against the reference's own behavior.
 

@@ -51,6 +51,7 @@ restricted to plain scalars, flow lists, and the one nested `focus:` mapping.
 
 import argparse
 import fnmatch
+import glob
 import json
 import os
 import re
@@ -326,6 +327,40 @@ def listing_report(debug_file):
     }
 
 
+HANDBACK_STUB = re.compile(r'delivered to you as a message from "([0-9a-f]+)" \(its SubagentHandback call\)')
+
+
+def handback_report(text, config_dir=None):
+    """Return the report a spawned agent handed back, when the tool result is only a stub.
+
+    Since Claude Code 2.1.31x an agent can hand its report back through a
+    SubagentHandback call; the caller's tool result then only points at it. The
+    report itself stays in the agent's transcript under the config dir's projects/.
+    """
+    match = HANDBACK_STUB.search(text or "")
+    if not match:
+        return text
+    base = config_dir or os.environ.get("CLAUDE_CONFIG_DIR") or os.path.join(
+        os.path.expanduser("~"), ".claude")
+    pattern = os.path.join(base, "projects", "*", "*", "subagents",
+                           "agent-%s.jsonl" % match.group(1))
+    report = None
+    for path in glob.glob(pattern):
+        for line in read(path).splitlines():
+            try:
+                event = json.loads(line)
+            except ValueError:
+                continue
+            message = event.get("message")
+            if not isinstance(message, dict) or not isinstance(message.get("content"), list):
+                continue
+            for block in message["content"]:
+                if (isinstance(block, dict) and block.get("type") == "tool_use"
+                        and block.get("name") == "SubagentHandback"):
+                    report = str((block.get("input") or {}).get("message") or "")
+    return report if report else text
+
+
 def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fraction=None):
     sandbox = tempfile.mkdtemp(prefix="unknowns-eval-")
     config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if crowd_root else None
@@ -337,6 +372,8 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
                "--max-turns", str(case["max_turns"])]
         if case["model"]:
             cmd += ["--model", case["model"]]
+        if case.get("effort"):
+            cmd += ["--effort", case["effort"]]
         if case["append_system_prompt"]:
             cmd += ["--append-system-prompt", case["append_system_prompt"]]
         if crowd_root:
@@ -409,7 +446,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
                     if isinstance(content, list):
                         content = "\n".join(part.get("text", "") for part in content
                                             if isinstance(part, dict))
-                    agent_reports.append(str(content or ""))
+                    agent_reports.append(handback_report(str(content or ""), config_dir))
                 elif block.get("type") == "text" and message.get("role") == "assistant":
                     last_message = block.get("text", "") or last_message
 
@@ -435,6 +472,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             "failed": failed,
             "listing": listing,
             "model": model_used,
+            "effort": case.get("effort"),
             "stderr": stderr[-2000:],
             "duration_seconds": round(time.time() - started, 1),
             "last_message": last_message,
@@ -777,6 +815,8 @@ def main():
     parser.add_argument("--budget-fraction", type=float, metavar="F",
                         help="skillListingBudgetFraction for the run (default budget is "
                              "0.01 of the context window); small values force overflow")
+    parser.add_argument("--effort", default="medium",
+                        help="effort level of the model under test (default: medium, the supported effort; 'default' leaves the CLI default)")
     parser.add_argument("--claude", default="claude", help="claude binary")
     parser.add_argument("--out", help="results directory (default: evals/results/manual-<ts>)")
     parser.add_argument("--list", action="store_true", help="list matching cases and exit")
@@ -815,12 +855,14 @@ def main():
               "plugin_dir": root, "arms": arms, "crowd_skills": args.crowd,
               "budget_fraction": args.budget_fraction,
               "isolated_config": bool(crowd_root),
+              "effort": None if args.effort == "default" else args.effort,
               "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
               "cases": []}
 
     for case in cases:
         if args.timeout:
             case["timeout_seconds"] = args.timeout
+        case["effort"] = None if args.effort == "default" else args.effort
         runs = args.runs or case["runs"]
         print("\n=== %s (%d run(s) x %d arm(s))" % (case["name"], runs, len(arms)))
         entry = {"name": case["name"], "description": case["description"],

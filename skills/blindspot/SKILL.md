@@ -101,6 +101,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    - When undecided items that could change the shape of the work surface, suggest the **interview** skill next.
    - When ③ has items and teach-me has not run for this task yet, or the user lacks the unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
+   - Otherwise, suggest no next skill.
 
 ## Output
 

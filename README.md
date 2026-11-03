@@ -107,6 +107,8 @@ The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name t
 
 **Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route.
 
+**Supported models:** Claude Opus 5.5 and GPT-6.1 Sol at medium effort. The evals run on these; other models and effort levels are not tested.
+
 ### claude.ai web and Claude desktop
 
 1. Open Customize › Plugins › Add › Add marketplace and enter `ajitta/know-your-unknowns`.
@@ -676,7 +678,7 @@ the source" from "extended during authoring".
 ```
 skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.12.2
+plugin-manifest.json           source manifest, currently 0.12.3
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload

@@ -465,6 +465,8 @@ def assistant_command(case, claude_bin, plugin_dir, session_id):
         cmd += ["--resume", session_id]
     if case["model"]:
         cmd += ["--model", case["model"]]
+    if case.get("effort"):
+        cmd += ["--effort", case["effort"]]
     if plugin_dir:
         cmd += ["--plugin-dir", plugin_dir]
     if case["allowed_tools"]:
@@ -534,6 +536,7 @@ def assistant_turn(case, claude_bin, plugin_dir, sandbox, message, session_id, t
                                 if before.get(rel) != mtime),
         "session_id": info["session_id"] or session_id,
         "model": info["model"],
+        "effort": case.get("effort"),
         "cost_usd": info["cost_usd"],
         "num_turns": info["num_turns"],
         "permission_denials": info["permission_denials"],
@@ -937,6 +940,8 @@ def main(argv=None):
     parser.add_argument("--timeout", type=int, help="override timeout_seconds (per reply)")
     parser.add_argument("--arm", choices=["with", "without", "both"], default="with")
     parser.add_argument("--plugin-dir", help="plugin root (default: repository plugins/unknowns/)")
+    parser.add_argument("--effort", default="medium",
+                        help="effort level of the model under test (default: medium, the supported effort; 'default' leaves the CLI default)")
     parser.add_argument("--claude", default="claude", help="claude binary")
     parser.add_argument("--user-model", help="model for the simulated user (default: CLI default)")
     parser.add_argument("--judge-model", help="model for the judge (default: CLI default)")
@@ -993,6 +998,8 @@ def main(argv=None):
     out_dir = os.path.abspath(args.out or os.path.join(
         HERE, "results", "multiturn-" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())))
     os.makedirs(out_dir, exist_ok=True)
+    for case in cases:
+        case["effort"] = None if args.effort == "default" else args.effort
     arms = ["with", "without"] if args.arm == "both" else [args.arm]
     jobs = [(case, arm, index, out_dir, args, plugin_dir)
             for case in cases for arm in arms

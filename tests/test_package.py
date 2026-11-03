@@ -244,6 +244,28 @@ class PackageTest(unittest.TestCase):
         self.assertTrue(any("docs/missing-in-body.md" in e
                             for e in pkg.validate_skill(skill, changed)))
 
+    def test_official_skill_limits_are_enforced(self):
+        import shutil
+        source = ROOT / "skills" / "tweakable-plan"
+        text = (source / "SKILL.md").read_text(encoding="utf-8")
+        cases = {
+            "claude-plan": ("reserved words", text.replace("name: tweakable-plan", "name: claude-plan", 1)),
+            "tweakable-plan": ("XML tags", text.replace("description: >\n", "description: >\n  <plan>\n", 1)),
+        }
+        for folder, (message, changed) in cases.items():
+            with self.subTest(message=message), tempfile.TemporaryDirectory() as temp:
+                skill = Path(temp) / folder
+                shutil.copytree(source, skill)
+                (skill / "SKILL.md").write_bytes(changed.encode("utf-8"))
+                errors = pkg.validate_skill(skill, self.files)
+                self.assertTrue(any(message in e for e in errors), errors)
+        with tempfile.TemporaryDirectory() as temp:
+            skill = Path(temp) / "tweakable-plan"
+            shutil.copytree(source, skill)
+            (skill / "SKILL.md").write_bytes((text + "line\n" * 500).encode("utf-8"))
+            errors = pkg.validate_skill(skill, self.files)
+            self.assertTrue(any("exceeds 500 lines" in e for e in errors), errors)
+
     def test_bad_frontmatter_is_rejected(self):
         for text in (
             "name: plan\n",
