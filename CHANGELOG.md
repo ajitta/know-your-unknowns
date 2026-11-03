@@ -2,12 +2,29 @@
 
 ## [Unreleased]
 
-Developer-only; the shipped payload is unchanged.
+Two text fixes from the first medium-effort runs (independent-reviewer states the outcome on its own line; quiz asks for answers without a sample answer line), an eval-runner fix for agents that hand their report back through a SubagentHandback call, and developer-only changes below. Descriptions and skill names unchanged.
+
+### Fixed
+
+- independent-reviewer: review item 1b names the outcome values (likely, unlikely, likely except a named gap, not judgeable and what would settle it) and says that met or missed done criteria do not answer it; the output opens with one `Outcome: …` line and its reason. One medium-effort run of three judged only the done criteria and left the outcome to the user.
+- quiz: step 2 asks for answers by question and option number with no sample answer line. One medium-effort run gave "like `2 1 1 1`" as the reply format, which was the answer key.
+- `evals/run-manual.py`: since Claude Code 2.1.31x a spawned agent can hand its report back through a SubagentHandback call, and the caller's tool result is then only a pointer. The runner now reads the report from the agent's transcript, so `focus: trace` graders judge the agent's own report again. The first medium-effort pass judged the independent-reviewer cases on the caller's relay alone and reported 0/3 for the outcome judgement; re-judged on the recovered reports it is 2/3.
+
+### Checked — medium-effort baseline (developer-only)
+
+Claude Code 2.1.317, claude-opus-5-5, `--effort medium`, on the 0.12.2 bodies; `llm` graders judged by a separate `claude -p` (Opus 5.5).
+
+- Single-turn, 70 cases × 3: mechanical graders 75/75, all scored graders 303/318, skill fired 161/165. Below 3/3: `noncode-ko-reference` 1/3 and `noncode-ko-quiz` 1/3 (the skill did not load in 2 and 1 runs), the informative `neg-open-weighty-*` cases 0/3 each (as before without the `CLAUDE.md` line), and 2/3 each for independent-reviewer outcome judgement, tweakable-plan lettered alternatives and plan-mode deferral, teach-me Korean, and trigger-en-quiz.
+- Multi-turn, 5 cases × 3: 12 of 16 graders 3/3; 2/3 for blindspot evidence status (two *inferred* cards without their basis), interview question order, prototypes contrast question on a bare skip, and quiz key hidden (the correct option longer than the rest).
+- Fix checks (owner: fewer runs; 2 runs of each failing case): independent-reviewer code case 2/2 with the report-vs-records case 1/1; trigger-en-quiz 2/2.
+- Korean routing re-check, 3 runs each: `noncode-ko-reference` fired 0/3 and `noncode-ko-quiz` 1/3. Descriptions not changed in this batch; open for an owner decision.
+
+### Changed (developer-only; the shipped payload is unchanged)
 
 - Supported models: Claude Opus 5.5 and GPT-6.1 Sol at medium effort (both READMEs). Other models and effort levels are not tested.
 - `evals/run-manual.py` and `evals/run-multiturn.py` pass `--effort medium` to the model under test by default and record the effort in each result; earlier results ran at the CLI default effort.
 - `tools/package.py` also rejects the reserved words `anthropic` and `claude` in a skill name, `<` or `>` in a description, and a `SKILL.md` body over 500 lines, per Anthropic's skill authoring best practices.
-- `docs/skill-authoring-guide.md`: the official best practices mapped onto this repository, with an audit of which `SKILL.md` content could move to reference files (none).
+- `docs/skill-authoring-guide.md`: the official best practices mapped onto this repository, with an audit of which `SKILL.md` content could move to reference files (none), and the run counts for fixes, routing checks, releases and text audits.
 
 ## 0.12.2 — 2026-10-28
 

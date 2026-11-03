@@ -43,6 +43,18 @@ Measurement rules:
 - Development and iteration run on Opus 5.5 at medium effort. GPT-6.1 Sol at medium effort runs once per release build.
 - Users on other models or efforts are not covered by any measurement. The READMEs say which models and effort the plugin was checked on.
 
+Run counts (owner, 2026-11-03: fewer runs; a run sizes a decision, it does not prove completeness). Write the decision rule before the run. Pass the count with `--runs`; the `runs: 3` in each case file is the structural minimum `--verify` checks, not the count to run.
+
+| Check | Runs |
+|---|---|
+| A fix | 2 runs of each case that failed. 2/2 keeps the fix, 0/2 reverts it, 1/2 gets one more run. |
+| Cases next to a fix (same skill or agent, not failing) | 1 run each |
+| Routing doubt (a skill did not fire) | 3 runs of that case; 2 or more misses opens the description |
+| A watch cell (a 1-in-3 slip) | No run of its own; read it in the next run that includes the case |
+| Release, Opus 5.5 | The whole suite once: 1 run per case, single-turn and multi-turn |
+| Release, GPT-6.1 Sol | 1 run per `trigger-*` case |
+| Text audit (writing-for-models) | One check of the diff, by one reader; no per-file audit |
+
 ## Practice-by-practice mapping
 
 Status values: **covered** (an existing rule or check already does it), **adopt** (new here), **n/a** (does not apply to an instruction-only plugin), **watch** (adopt when a failure shows the need).
@@ -108,7 +120,7 @@ Set freedom per step, not per skill. In this plugin:
 | Practice | Status | Note |
 |---|---|---|
 | Clear sequential steps | covered | Rules 1–3. |
-| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it with three runs. A checklist in a short skill is read on every run and repeats the steps. |
+| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it by the run-count table. No eval case runs the loop's stages yet, so the medium-effort baseline gave no evidence either way. A checklist in a short skill is read on every run and repeats the steps. |
 | Return to an earlier step when a check fails | covered where the check uses outside evidence | blindspot's evidence and status, the independent-reviewer agent. A loop that only re-reads the model's own output adds a pass with no new evidence and is not added. |
 | Plan-validate-execute with a script | n/a | No scripts. |
 
@@ -117,7 +129,7 @@ Set freedom per step, not per skill. In this plugin:
 | Practice | Status | Note |
 |---|---|---|
 | What the skill does and when to use it, with key terms | covered | Every description has a method clause and a "Use on …" clause. |
-| Third person | watch | Point of view is mixed today (imperative "Run …", third-person "the model asks", second-person "even when you could answer directly" in blindspot). The page's reason is discovery; routing measured 260/260 and 44/44 with these descriptions. Write a new or changed description in the third person and rerun the trigger and collision cases when it changes; do not rewrite unchanged ones. |
+| Third person | watch | Point of view is mixed today (imperative "Run …", third-person "the model asks", second-person "even when you could answer directly" in blindspot). The page's reason is discovery; routing measured 260/260 and 44/44 with these descriptions. Write a new or changed description in the third person and rerun the trigger and collision cases (1 run each) when it changes; do not rewrite unchanged ones. |
 | Specific over vague | covered | Owner ruling 2026-10-28: no "pushier" descriptions. |
 
 ### Content
@@ -152,5 +164,5 @@ Set freedom per step, not per skill. In this plugin:
 3. A new or changed description is third person, says what and when, and stays within 1,024 characters with no XML tags.
 4. Give each changed step the freedom it needs (table above) and its reason.
 5. Run `python3 tools/package.py`, `python3 tools/package.py --check`, the unit tests and both `claude plugin validate --strict` commands.
-6. Run the changed skill's eval cases on Opus 5.5 at medium effort, three runs each; for a description change also the trigger and collision cases.
-7. At release, run the suite once on GPT-6.1 Sol at medium effort.
+6. Run the changed skill's failing cases and its neighbours by the run-count table above; for a description change also the trigger and collision cases, 1 run each.
+7. At release, run the suite once on Opus 5.5 and the trigger cases once on GPT-6.1 Sol, both at medium effort.

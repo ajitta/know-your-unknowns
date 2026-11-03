@@ -1,5 +1,14 @@
 # 다음 라운드 인계 — 0.12.2 이후
 
+## 2026-11-03 라운드 (브랜치 `docs/skill-authoring-guide`, 미병합)
+
+- 지원 모델을 Opus 5.5·GPT-6.1 Sol의 medium effort로 정했다(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 릴리스는 전체 1회).
+- medium 기준 측정과 수정 두 건(independent-reviewer `Outcome:` 줄, quiz 예시 답 줄 금지)은 CHANGELOG `[Unreleased]`. 버전은 0.12.2에 둔다.
+- 러너 수정: Claude Code 2.1.31x부터 에이전트 보고가 SubagentHandback으로 오고 도구 결과는 안내문뿐이라, 이전 러너는 보고를 놓쳤다. 이제 에이전트 기록에서 읽는다.
+- 소유자 판단 대기: 한국어 비코딩 reference(0/3)·quiz(1/3) 케이스에서 medium일 때 스킬이 뜨지 않는다. 설명을 고칠지(영어 전용·"pushy" 금지 판단과 맞물림).
+- 지켜볼 칸 추가: prototypes skip 대비 질문, quiz 정답 보기 길이, blindspot *inferred* 근거(각 3회 중 1회).
+- 문구 점검(writing-for-models)은 이제 고친 diff 한 번, 점검자 한 명.
+
 작성 2026-10-28, 0.12.2 릴리스(PR #26) 뒤 갱신. 새 세션은 이 문서의 **상태**를 git·태그·릴리스·CI와 먼저 대조하고 시작한다. 이 문서는 작업 지시가 아니라 출발점이다. 소유자 판단이 필요한 항목은 그 번호로 묻는다.
 
 ## 상태 (2026-10-28)
