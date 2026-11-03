@@ -1,21 +1,41 @@
-# 다음 라운드 인계 — 0.12.2 이후
+# 다음 라운드 인계 — 0.12.3 이후
 
-## 2026-11-03 라운드 → 0.12.3 (2026-11-04)
+## 다음 세션: 여기서 시작
 
-- 릴리스 확인: Opus 5.5 medium 전체 1회(단발 156/161, 다회차 16/16; API 500으로 깨진 실행은 재실행), Sol medium trigger 22/22. 지켜볼 칸: `neg-open-text-en`(교정 뒤 긴 변경 목록), `trigger-ko-blindspot`(1회 직접 답, 재확인 3/3).
-- 릴리스 후 소유자 몫: ChatGPT zip 재업로드와 모바일 확인. claude.ai는 Add marketplace 경로가 자동 갱신한다.
+`unknowns--v0.12.3`이 릴리스되어 배포 중이다(2026-11-04, PR #28, main `77bd965`). 열린 브랜치·PR은 없다. 다음 버전은 브랜치에서 작업하고, 소유자 승인 뒤 PR → CI → 머지 → 태그 순으로 낸다.
 
-- 지원 모델을 Opus 5.5·GPT-6.1 Sol의 medium effort로 정했다(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 릴리스는 전체 1회).
-- medium 기준 측정과 수정 두 건(independent-reviewer `Outcome:` 줄, quiz 예시 답 줄 금지)은 CHANGELOG `[Unreleased]`. 버전은 0.12.2에 둔다.
-- 러너 수정: Claude Code 2.1.31x부터 에이전트 보고가 SubagentHandback으로 오고 도구 결과는 안내문뿐이라, 이전 러너는 보고를 놓쳤다. 이제 에이전트 기록에서 읽는다.
-- 한국어 비코딩 reference(0/3)·quiz(1/3)가 medium에서 스킬을 부르지 않던 문제: 설명에 "Runs even when …" 한 문장과 본문 이유 문장을 넣어 해결(2/2씩, trigger 22/22, 충돌 4/4). claude.ai 업로드용 짧은 설명(`scripts/skill-descriptions.json`)은 아직 그대로다.
-- 규칙 기반 문구 리뷰(조건은 그것이 거는 결과 옆에, 범위 단어, 이유 있는 적은 지시, 한 이름)를 전 스킬·에이전트에 적용. 보류: 지켜보는 칸(prototypes 포화, interview 건너뛴 질문)과 공용 문장(비코드 변경 기록 위치, *unchecked* 정의, quiz 도구 없음 줄 위치)에 걸린 지적.
-- 지켜볼 칸 추가: prototypes skip 대비 질문, quiz 정답 보기 길이, blindspot *inferred* 근거(각 3회 중 1회).
+| 무엇 | 누가 | 어디서 시작 |
+|---|---|---|
+| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드, 모바일에서 스킬 호출 확인 | 소유자 | GitHub Release `unknowns--v0.12.3` |
+| claude.ai(Add marketplace 경로)가 0.12.3을 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
+| unknowns-loop 단계를 실제로 돌리는 다회차 평가 케이스 추가(체크리스트 도입 판단의 근거) | 에이전트(추천 1순위) | `evals/multiturn/`의 기존 케이스 형식, `docs/skill-authoring-guide.md` 체크리스트 행 |
+| 보류한 리뷰 지적: 지켜보는 칸(prototypes 포화 5c, interview 건너뛴 질문)과 공용 문장 3건(비코드 변경 기록 위치, *unchecked* 정의, quiz 도구 없음 줄 위치) | 에이전트, 지켜보는 칸이 다시 떨어질 때 | CHANGELOG 0.12.3 Fixed의 Rejected/Deferred, 아래 "지켜볼 칸" |
+| 지켜볼 칸 읽기 | 다음 측정 때 | 아래 "지켜볼 칸" |
+
+릴리스 규칙: 지원 모델은 Opus 5.5·GPT-6.1 Sol, medium effort(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 이웃 1회, 릴리스는 Opus 전체 1회 + Sol trigger 1회). 배포 본문을 바꾸면 버전을 올리고, `[Unreleased]`가 비어 있지 않을 때만 같은 버전 재생성이 허용된다. 평가 보조 도구(판정 스크립트, 릴리스 실행 스크립트)는 저장소 밖 `C:/Users/ajitta/work/kyu-probes/`(README 있음), Sol 확인은 빌드 VM `~/work/kyu-review/rel0123/codex_rel.py`.
+
+## 0.12.3에서 끝난 일 (2026-11-03–04, PR #28)
+
+- 공식 스킬 작성 모범 사례를 이 저장소에 대응시킨 `docs/skill-authoring-guide.md`(참조 파일로 뺄 내용 점검: 없음, 실행 회수 표). 패키저가 예약어·설명의 XML 태그·본문 500줄을 검사한다.
+- medium 기준 측정(Opus 5.5): 단발 303/318, 다회차 16항목 중 12개 3/3. 수정: independent-reviewer `Outcome:` 줄, quiz 예시 답 줄 금지, reference·quiz 설명의 "Runs even when …"과 본문 이유 문장(한국어 비코딩 0/3·1/3 → 2/2).
+- 러너 수정: Claude Code 2.1.31x부터 에이전트 보고가 SubagentHandback으로 오고 도구 결과에는 안내문만 남는다. `run-manual.py`가 에이전트 기록에서 보고를 읽는다. 이전 0/3은 이 때문이었다(재판정 2/3).
+- 규칙 기반 문구 리뷰(조건은 그것이 거는 결과 옆에, 범위 단어, 이유 있는 적은 지시, 한 이름)를 전 스킬·에이전트에 적용: 이름 통일과 빠진 경로 보충.
+- 릴리스 확인: Opus medium 전체 1회 단발 156/161·다회차 16/16(API 500으로 깨진 20건 재실행), Sol medium trigger 22/22. 릴리스 zip sha256 일치, 빈 설정 설치 0.12.3(자체 마켓플레이스·`ajitta/claude-plugins`).
 - 문구 점검(writing-for-models)은 이제 고친 diff 한 번, 점검자 한 명.
+
+## 지켜볼 칸 (0.12.3 기준, 각 3회 중 1회 또는 1회 중 1회)
+
+- prototypes: 이유 없는 skip에 대비 질문을 하지 않음.
+- quiz: 정답 보기가 다른 보기보다 김.
+- blindspot: *inferred* 카드에 근거를 적지 않음.
+- interview: 3라운드 질문 순서.
+- tweakable-plan: 대안 문자 표기, plan mode로 넘기는 작은 작업.
+- buy-in: 근거 없는 수치를 근거로 사용(1회, 재확인 2/2).
+- `neg-open-text-en`: 교정 뒤 긴 변경 목록. `trigger-ko-blindspot`: 1회 스킬 없이 직접 답(재확인 3/3).
 
 작성 2026-10-28, 0.12.2 릴리스(PR #26) 뒤 갱신. 새 세션은 이 문서의 **상태**를 git·태그·릴리스·CI와 먼저 대조하고 시작한다. 이 문서는 작업 지시가 아니라 출발점이다. 소유자 판단이 필요한 항목은 그 번호로 묻는다.
 
-## 상태 (2026-10-28)
+## 상태 (2026-10-28, 0.12.2 기준 — 위 0.12.3 항목이 우선)
 
 - 배포: `unknowns--v0.12.2`, GitHub Release에 `know-your-unknowns.zip`·`know-your-unknowns-openai.zip`. 카탈로그 `ajitta/claude-plugins`는 `git-subdir` `plugins/unknowns`를 가리킨다.
 - 0.12.2와 0.12.1은 본문 수정판이다(0.12.2: interview·blindspot, 0.12.1: blindspot·brainstorm·interview·quiz). 설명·스킬 이름·항상 로드되는 토큰은 0.12.0과 같다.
