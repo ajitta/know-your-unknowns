@@ -39,6 +39,8 @@ OPENAI_CATEGORIES = {
     "Data & Analytics", "Communication", "Education & Research", "Security",
     "Finance", "Healthcare", "Travel", "Entertainment", "Other",
 }
+# Anthropic's skill authoring best practices: keep the SKILL.md body under 500 lines.
+SKILL_BODY_MAX_LINES = 500
 ALLOWED_KEYS = {"name", "description", "license", "metadata", "compatibility", "allowed-tools"}
 SHIPPED_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".svg"}
 RESOURCE_RE = re.compile(r"(?<![\w/.-])((?:references|assets|scripts)/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+)\b")
@@ -183,6 +185,13 @@ def validate_skill(skill, files):
         errors.append("unsupported frontmatter keys: " + repr(sorted(set(fields) - ALLOWED_KEYS)))
     if not 1 <= len(fields.get("description", "")) <= 1024:
         errors.append("description must have 1..1024 characters")
+    if re.search(r"anthropic|claude", name):
+        errors.append("name must not contain the reserved words anthropic or claude")
+    if re.search(r"[<>]", fields.get("description", "")):
+        errors.append("description must not contain XML tags")
+    if len(body.splitlines()) > SKILL_BODY_MAX_LINES:
+        errors.append("SKILL.md body exceeds %d lines; move detail to a file linked from SKILL.md"
+                      % SKILL_BODY_MAX_LINES)
     if "version" in metadata and metadata["version"] != json.loads(_normalized(MANIFEST))["version"]:
         errors.append("metadata.version differs from plugin-manifest.json")
     if "$" + "{CLAUDE_PLUGIN_ROOT}" in body:

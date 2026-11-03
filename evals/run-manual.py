@@ -337,6 +337,8 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
                "--max-turns", str(case["max_turns"])]
         if case["model"]:
             cmd += ["--model", case["model"]]
+        if case.get("effort"):
+            cmd += ["--effort", case["effort"]]
         if case["append_system_prompt"]:
             cmd += ["--append-system-prompt", case["append_system_prompt"]]
         if crowd_root:
@@ -435,6 +437,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             "failed": failed,
             "listing": listing,
             "model": model_used,
+            "effort": case.get("effort"),
             "stderr": stderr[-2000:],
             "duration_seconds": round(time.time() - started, 1),
             "last_message": last_message,
@@ -777,6 +780,8 @@ def main():
     parser.add_argument("--budget-fraction", type=float, metavar="F",
                         help="skillListingBudgetFraction for the run (default budget is "
                              "0.01 of the context window); small values force overflow")
+    parser.add_argument("--effort", default="medium",
+                        help="effort level of the model under test (default: medium, the supported effort; 'default' leaves the CLI default)")
     parser.add_argument("--claude", default="claude", help="claude binary")
     parser.add_argument("--out", help="results directory (default: evals/results/manual-<ts>)")
     parser.add_argument("--list", action="store_true", help="list matching cases and exit")
@@ -815,12 +820,14 @@ def main():
               "plugin_dir": root, "arms": arms, "crowd_skills": args.crowd,
               "budget_fraction": args.budget_fraction,
               "isolated_config": bool(crowd_root),
+              "effort": None if args.effort == "default" else args.effort,
               "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
               "cases": []}
 
     for case in cases:
         if args.timeout:
             case["timeout_seconds"] = args.timeout
+        case["effort"] = None if args.effort == "default" else args.effort
         runs = args.runs or case["runs"]
         print("\n=== %s (%d run(s) x %d arm(s))" % (case["name"], runs, len(arms)))
         entry = {"name": case["name"], "description": case["description"],

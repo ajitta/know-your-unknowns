@@ -100,6 +100,8 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 **소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로.
 
+**지원 모델:** Claude Opus 5.5와 GPT-6.1 Sol, medium effort. 평가는 이 조건에서 돌리며, 다른 모델과 effort 수준은 시험하지 않았습니다.
+
 ### claude.ai 웹과 Claude 데스크톱
 
 1. Customize › Plugins › Add › Add marketplace에서 `ajitta/know-your-unknowns`를 입력합니다.

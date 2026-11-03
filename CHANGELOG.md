@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+Developer-only; the shipped payload is unchanged.
+
+- Supported models: Claude Opus 5.5 and GPT-6.1 Sol at medium effort (both READMEs). Other models and effort levels are not tested.
+- `evals/run-manual.py` and `evals/run-multiturn.py` pass `--effort medium` to the model under test by default and record the effort in each result; earlier results ran at the CLI default effort.
+- `tools/package.py` also rejects the reserved words `anthropic` and `claude` in a skill name, `<` or `>` in a description, and a `SKILL.md` body over 500 lines, per Anthropic's skill authoring best practices.
+- `docs/skill-authoring-guide.md`: the official best practices mapped onto this repository, with an audit of which `SKILL.md` content could move to reference files (none).
+
 ## 0.12.2 — 2026-10-28
 
 Released 2026-10-28. Two body fixes from this build's own runs (interview counts a question inside a reason line toward the four; blindspot puts an unchecked finding under Needs checking instead of a card); descriptions, skill names and always-on tokens unchanged. Also: a buy-in eval case that lets buy-in spawn the independent-reviewer, and the proxy measurement of the claude.ai upload descriptions.
