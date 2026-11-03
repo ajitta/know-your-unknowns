@@ -14,6 +14,11 @@ Released 2026-11-04. Text fixes from the first medium-effort runs and from a rul
 - quiz: step 2 asks for answers by question and option number with no sample answer line. One medium-effort run gave "like `2 1 1 1`" as the reply format, which was the answer key.
 - `evals/run-manual.py`: since Claude Code 2.1.31x a spawned agent can hand its report back through a SubagentHandback call, and the caller's tool result is then only a pointer. The runner now reads the report from the agent's transcript, so `focus: trace` graders judge the agent's own report again. The first medium-effort pass judged the independent-reviewer cases on the caller's relay alone and reported 0/3 for the outcome judgement; re-judged on the recovered reports it is 2/3.
 
+### Checked — release runs (developer-only)
+
+- Claude Code 2.1.317, claude-opus-5-5, `--effort medium`, 1 run per case: single-turn scored graders 156/161 and multi-turn 16/16, after re-running the 17 single-turn and 3 multi-turn runs that an Anthropic API 500 error broke. Misses: the two informative `neg-open-weighty-*` cases (expected without the `CLAUDE.md` line), `neg-open-text-en` (a proofread answered directly but followed by an eight-item change list), and `trigger-ko-blindspot` answered directly without the skill once, then 3/3 on the routing re-check.
+- Codex CLI 0.166.0, gpt-6.1-sol, `model_reasoning_effort = "medium"`, the 22 `trigger-*` cases once each from a clean `CODEX_HOME` with the plugin added from this build's marketplace: the right skill loaded 22/22.
+
 ### Checked — medium-effort baseline (developer-only)
 
 Claude Code 2.1.317, claude-opus-5-5, `--effort medium`, on the 0.12.2 bodies; `llm` graders judged by a separate `claude -p` (Opus 5.5).

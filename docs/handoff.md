@@ -1,6 +1,9 @@
 # 다음 라운드 인계 — 0.12.2 이후
 
-## 2026-11-03 라운드 (브랜치 `docs/skill-authoring-guide`, 미병합)
+## 2026-11-03 라운드 → 0.12.3 (2026-11-04)
+
+- 릴리스 확인: Opus 5.5 medium 전체 1회(단발 156/161, 다회차 16/16; API 500으로 깨진 실행은 재실행), Sol medium trigger 22/22. 지켜볼 칸: `neg-open-text-en`(교정 뒤 긴 변경 목록), `trigger-ko-blindspot`(1회 직접 답, 재확인 3/3).
+- 릴리스 후 소유자 몫: ChatGPT zip 재업로드와 모바일 확인. claude.ai는 Add marketplace 경로가 자동 갱신한다.
 
 - 지원 모델을 Opus 5.5·GPT-6.1 Sol의 medium effort로 정했다(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 릴리스는 전체 1회).
 - medium 기준 측정과 수정 두 건(independent-reviewer `Outcome:` 줄, quiz 예시 답 줄 금지)은 CHANGELOG `[Unreleased]`. 버전은 0.12.2에 둔다.
