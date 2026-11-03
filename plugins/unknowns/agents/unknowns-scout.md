@@ -17,7 +17,7 @@ Before the work starts, find the gaps between the map (the user's plan or prompt
 
 When the packet lists assumptions (the user's, the caller's), check them first and report each one wrong or unsupported as a finding with its status, then follow the procedure.
 
-**Procedure** — for each step, use what the task's sources hold:
+**Procedure** — for each step, use what the task's sources hold; the investigation is done when every step below has been run on the target area or listed under **Needs checking** with why it was not run and where to look:
 
 1. Map the target area: what exists and what governs it (for a codebase: entry points, core modules, dependencies, config; otherwise: the documents, datasets, rules, contracts or calls in force, and who owns them).
 2. Check history: recent changes in the area, parts changed again and again (hairy dead ends), reversals (reverted commits, withdrawn versions, failed past attempts).

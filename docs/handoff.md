@@ -5,7 +5,8 @@
 - 지원 모델을 Opus 5.5·GPT-6.1 Sol의 medium effort로 정했다(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 릴리스는 전체 1회).
 - medium 기준 측정과 수정 두 건(independent-reviewer `Outcome:` 줄, quiz 예시 답 줄 금지)은 CHANGELOG `[Unreleased]`. 버전은 0.12.2에 둔다.
 - 러너 수정: Claude Code 2.1.31x부터 에이전트 보고가 SubagentHandback으로 오고 도구 결과는 안내문뿐이라, 이전 러너는 보고를 놓쳤다. 이제 에이전트 기록에서 읽는다.
-- 소유자 판단 대기: 한국어 비코딩 reference(0/3)·quiz(1/3) 케이스에서 medium일 때 스킬이 뜨지 않는다. 설명을 고칠지(영어 전용·"pushy" 금지 판단과 맞물림).
+- 한국어 비코딩 reference(0/3)·quiz(1/3)가 medium에서 스킬을 부르지 않던 문제: 설명에 "Runs even when …" 한 문장과 본문 이유 문장을 넣어 해결(2/2씩, trigger 22/22, 충돌 4/4). claude.ai 업로드용 짧은 설명(`scripts/skill-descriptions.json`)은 아직 그대로다.
+- 규칙 기반 문구 리뷰(조건은 그것이 거는 결과 옆에, 범위 단어, 이유 있는 적은 지시, 한 이름)를 전 스킬·에이전트에 적용. 보류: 지켜보는 칸(prototypes 포화, interview 건너뛴 질문)과 공용 문장(비코드 변경 기록 위치, *unchecked* 정의, quiz 도구 없음 줄 위치)에 걸린 지적.
 - 지켜볼 칸 추가: prototypes skip 대비 질문, quiz 정답 보기 길이, blindspot *inferred* 근거(각 3회 중 1회).
 - 문구 점검(writing-for-models)은 이제 고친 diff 한 번, 점검자 한 명.
 

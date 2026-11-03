@@ -14,7 +14,7 @@ This skill serves what neither the user nor you know yet, and surfaces both side
 
 When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
-A plan's purpose is to **pull the points where the user would intervene forward**, not to list steps in execution order. Even if the user stops reading partway down, they have already seen every decision that matters. The plan ends at the user's approval or change requests; the work starts from the approved plan.
+A plan's purpose is to **pull the points where the user would intervene forward**, not to list steps in execution order. Even if the user stops reading partway down, they have already seen every decision that matters. The plan ends at the user's approval; on change requests, revise the named items and every item that builds on them and show the plan again. The work starts from the approved plan.
 
 ## Iron Rules
 
@@ -27,7 +27,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. With no argument, that context is the whole input.
 
-   b. When the spec has big gaps, suggest the **interview** skill before planning.
+   b. When the spec has big gaps, suggest the **interview** skill before planning; if the user declines, plan anyway and list each gap under **Your own unknowns** in step 2.
 2. **Done criteria first**: the document opens with one line stating the purpose (the outcome the user is after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 2 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.

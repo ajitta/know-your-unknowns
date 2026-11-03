@@ -17,10 +17,10 @@ When you and the user both seem to understand the request, do it without this me
 
 When requirements are incomplete, **you interview the user** before anything is decided: the answers sit with the user, and a decision made without them is a guess about their situation.
 
-## Question Priority (blast radius: what a wrong decision breaks, fixed)
+## Question Priority (blast radius: what a wrong decision breaks; the order never changes)
 
 1. **Structure**: answers that change the shape of the whole work (the architecture of a system, the format of an event, the design of a study)
-2. **Irreversible harm**: answers that could cause loss or harm that cannot be undone (data loss or a security problem, money spent, legal exposure, people affected; the *harm* tier below)
+2. **Harm**: answers that could cause loss or harm that cannot be undone (data loss or a security problem, money spent, legal exposure, people affected)
 3. **Compatibility**: fit with what already exists and depends on it (external APIs and existing code, commitments, other people's plans, rules in force)
 4. **Cost**: ongoing cost and performance (operating cost, time, budget, effort)
 5. **Taste**: taste and minor details (last)
@@ -55,7 +55,7 @@ When requirements are incomplete, **you interview the user** before anything is 
 
 When every item is decided or left undecided by the user and no why follow-up from step 4c is pending, or when the user ends the interview, present two things:
 
-1. **Decision table** with the columns radius (structure / harm / compatibility / cost / taste), question, decision, rationale, left undecided.
+1. **Decision table** with the columns blast radius (structure / harm / compatibility / cost / taste), question, decision, rationale, left undecided.
 2. **Ready-to-use prompt for the work**: a complete instruction with all decisions applied. In the prompt:
 
    - Mark skipped questions "(unanswered — use your judgment)". A question that was asked but not answered is a skipped question: its options and any reason for it stay out of the fixed decisions.

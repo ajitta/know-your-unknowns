@@ -30,7 +30,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    b. With no request text, take the domain of the work under discussion; if the domain is still unclear, ask once, briefly.
 2. Open with the **mental model**: the domain's pipeline in 3–5 ordered stages (color grading: ingest → correct → grade → match). The pipeline is there so the user knows what comes before what — correction first, then the creative look.
 3. Pick 3–7 **decision axes** the user will decide on in this task (e.g. color grading: exposure / white balance / contrast curve / saturation vs naturalness / look).
-4. Build a **vocabulary ladder**: per axis, everyday word → expert term. Give each term:
+4. Build a **vocabulary ladder**: per axis, everyday word → expert term, numbering each term. Give each term:
    - 1 example sentence of "what you can request with this term"
    - one source (a doc, standard or reference text)
 
@@ -58,5 +58,5 @@ Reaction: number the terms, before/after comparisons, and presets; the user's pi
 
 ## Related
 
-- Blind spots in a specific plan, system or situation: use the **blindspot** skill — this skill covers blind spots in a field's **concepts**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
+- Blind spots in a specific plan, system or situation: use the **blindspot** skill — this skill covers blind spots in a field's **vocabulary**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
 - If requirements still diverge after gaining vocabulary (revisions stop converging), lock decisions with the **interview** skill rather than teaching more vocabulary.
