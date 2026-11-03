@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-Text fixes from the first medium-effort runs and from a rule-based review of every skill and agent, the reference and quiz descriptions, an eval-runner fix for agents that hand their report back through a SubagentHandback call, and developer-only changes below. Skill names unchanged.
+## 0.12.3 — 2026-11-04
+
+Released 2026-11-04. Text fixes from the first medium-effort runs and from a rule-based review of every skill and agent, the reference and quiz descriptions, an eval-runner fix for agents that hand their report back through a SubagentHandback call, and developer-only changes below. Skill names unchanged.
 
 ### Fixed
 
@@ -26,6 +28,7 @@ Claude Code 2.1.317, claude-opus-5-5, `--effort medium`, on the 0.12.2 bodies; `
 - Supported models: Claude Opus 5.5 and GPT-6.1 Sol at medium effort (both READMEs). Other models and effort levels are not tested.
 - `evals/run-manual.py` and `evals/run-multiturn.py` pass `--effort medium` to the model under test by default and record the effort in each result; earlier results ran at the CLI default effort.
 - `tools/package.py` also rejects the reserved words `anthropic` and `claude` in a skill name, `<` or `>` in a description, and a `SKILL.md` body over 500 lines, per Anthropic's skill authoring best practices.
+- `scripts/skill-descriptions.json`: the claude.ai upload descriptions of reference and quiz carry the same "runs even when" clause (188 and 194 characters).
 - `docs/skill-authoring-guide.md`: the official best practices mapped onto this repository, with an audit of which `SKILL.md` content could move to reference files (none), and the run counts for fixes, routing checks, releases and text audits.
 
 ## 0.12.2 — 2026-10-28
