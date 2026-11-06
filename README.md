@@ -632,6 +632,22 @@ plan, deviation notes, the quiz, buy-in when approval is needed, and the outcome
 /unknowns:brainstorm Channel growth has stalled. Things to try this month
 ```
 
+**Scenario E — aim higher than the task you typed** (you suspect the request is smaller
+than what it is for: the "goal beyond the goal" from Felix Rieseberg's
+[How to be more ambitious](https://felixrieseberg.com/how-to-be-more-ambitious-a-tutorial-for-humans-with-models/)):
+```
+/unknowns:brainstorm Building our quarterly review deck takes a week. What could we do instead, from this afternoon to a quarter-long bet?
+→ (pick the numbers that resonate)
+/unknowns:blindspot <the direction you picked>
+→ (review the improved prompt)
+```
+brainstorm spreads candidates from a fix for this afternoon to a quarter-long bet and leaves
+the choice to you, so a bigger goal is one you pick, not one the AI adopts for you.
+blindspot then checks the assumptions behind your pick and ends at an improved prompt. To
+run that prompt the way a field's best practitioners would (the rawest data, their methods,
+a check by something other than the AI and you), one option is `dia-techne` from
+[dialectic-skills](https://github.com/ajitta/dialectic-skills).
+
 ---
 
 ## Troubleshooting (FAQ)

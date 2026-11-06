@@ -590,6 +590,21 @@ buy-in, 그리고 성과 확인까지 단계별로 이끕니다.
 /unknowns:brainstorm 채널 성장이 멈췄어. 이번 달에 해볼 것들
 ```
 
+**시나리오 E — 입력한 작업보다 높게 겨냥하기** (요청이 그 목적보다 좁아 보일 때: Felix
+Rieseberg의 [How to be more ambitious](https://felixrieseberg.com/how-to-be-more-ambitious-a-tutorial-for-humans-with-models/)에 나오는 "목표 너머의 목표"):
+```
+/unknowns:brainstorm 분기 리뷰 덱 만드는 데 일주일이 걸려. 오늘 오후 할 수 있는 것부터 분기 단위 베팅까지, 대신 할 수 있는 것들
+→ (마음에 드는 번호 고르기)
+/unknowns:blindspot <고른 방향>
+→ (개선된 프롬프트 검토)
+```
+brainstorm은 오늘 오후의 수정부터 분기 단위 베팅까지 후보를 펼치고 선택은 사용자에게
+맡깁니다. 그래서 더 큰 목표는 AI가 대신 정하지 않고 사용자가 고릅니다. 이어서
+blindspot이 고른 방향의 가정을 검증하고 개선된 프롬프트로 끝납니다. 그 프롬프트를 그
+분야 최고 실무자처럼 실행하려면(가장 원천에 가까운 자료, 그들의 방법, AI와 사용자가
+아닌 것으로 하는 확인) [dialectic-skills](https://github.com/ajitta/dialectic-skills)의
+`dia-techne`를 쓰는 방법이 있습니다.
+
 ---
 
 ## 문제 해결 (FAQ)
