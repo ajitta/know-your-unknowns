@@ -59,7 +59,7 @@ Without a tool, do the step in the conversation and say what could not be checke
 
    b. For each wrong or blank answer, name the **exact change site** to re-read (`file:line`, section or page). If the change site is unavailable, mark it unverified.
 
-4. For each wrong or blank answer, re-explain only those parts, then offer a retry: one new question in the same format (multiple choice or teach-back) and of the same question type on each missed part only, prepared, asked and graded by the rules of steps 1–3, not a new six-question set. Each missed part the retry gets right adds one to the score, so a retry that gets every missed part right brings it to 6/6.
+4. For each wrong or blank answer, re-explain only the part of the work that answer missed, then offer a retry: one new question per wrong or blank answer only, in the same format (multiple choice or teach-back), of the same question type and on the same part of the work, prepared, asked and graded by the rules of steps 1–3, not a new six-question set. Each retry question answered correctly adds one to the score, so a retry that answers every question correctly brings it to 6/6.
 5. Close the gate by score:
 
    | Score | What to do |
