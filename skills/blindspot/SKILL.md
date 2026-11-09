@@ -46,7 +46,9 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    | Scope of the task (not the size of the material) | How to investigate |
    |---|---|
    | The task spans many sources (a whole codebase or many modules, a large body of documents or records) | Use the `unknowns:unknowns-scout` agent. |
-   | The task touches a few files or documents | Investigate directly. |
+   | Otherwise (the task touches a few files or documents, or nothing beyond the conversation) | Investigate directly. |
+
+   When you investigate directly, investigate in this order: ② and ⑤ (the assumptions on both sides), then any context sources (documents, data, history, a codebase), then the rest. Look for each assumption in the context sources first.
 
    When you spawn the scout, hand it a packet:
 
@@ -57,8 +59,6 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    - what to return: a finding table and an improved prompt draft
 
    When the scout returns, map its rows onto the kinds in step 3a.
-
-   Investigate in this order: ② and ⑤ (the assumptions on both sides), then any context sources (documents, data, history, a codebase), then the rest. Look for each assumption in the context sources first.
 
    Without a tool, do the step in the conversation and say what could not be checked.
 
@@ -95,7 +95,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    d. After the cards, list **Questions to answer**, **Needs checking** and **Information still needed**: what the pass could not settle, and who can settle it.
 
-5. End with an **improved prompt draft** that reflects the findings and the user's answers to the questions. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes, keeping the execution order and the checkpoint.
+5. End with an **improved prompt draft** that reflects the findings and the answers the user has given so far. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes, keeping the execution order and the checkpoint.
 
 6. Suggest the next skill:
 
