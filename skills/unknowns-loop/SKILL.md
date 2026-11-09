@@ -45,6 +45,6 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    a. **Verify**: check the result against step 2's done criteria, what already works and must not break, and the allowed cost and change scope, marking each met, partial or missing with its evidence (a test run, a command's printed result, `file:line`, a document section, a confirmation from the person responsible). Mark each of them met when its evidence shows the required result.
 
-   b. The **quiz** skill, so the user can explain the work in a handoff; also the **buy-in** skill when reviewers or stakeholders must approve it.
+   b. When you largely produced the work, the **quiz** skill, so the user can explain the work in a handoff; when reviewers or stakeholders must approve the work, the **buy-in** skill.
 
    c. **Outcome check**, with the user: ask whether the result achieved the outcome from step 2, not only whether it meets the done criteria. Name any gap between the result and the outcome, and what would close it, and let the user decide whether the work is finished. The check is a short exchange in the conversation; nothing is scored.
