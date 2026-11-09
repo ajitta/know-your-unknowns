@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## 0.12.4 — 2026-11-10
+
+Released 2026-11-10. A second rule-based review of the eleven skill bodies and both agents, the owner's decisions on its findings, a buy-in fix for limitations the user did not pick, deviation-log described as starting by name, by a trigger phrase or inside the loop rather than on its own, and 25 measuring eval cases (developer-only). Skill names unchanged.
+
 ### Fixed
 
 - Second rule-based review of the eleven skill bodies (four rules: a condition stays with what it gates, scope words, fewer instructions with reasons, one name per thing), repeated until a round confirmed no new defect. Each round, two independent reviewers per skill (three for a skill the previous round changed, one of them comparing the old and the new text) read the file without the reasons for any edit; an adjudicator per skill checked each finding's quote in the file and against `.claude/rules/skill-writing.md`, and each skill's edits are one commit per round. Rounds applied 37, 11, 2 and 0 edits: 50 in all, 24 of them meaning changes.
@@ -17,6 +21,7 @@
 
 ### Changed (developer-only)
 
+- `behavior-deviation-log-auto-on-mismatch`'s member list uses placeholder phone numbers (`010-0000-…`, `031-000-…`) in place of realistic ones; the case reads only which column is present.
 - 25 eval cases (18 single-turn, 7 multi-turn) and graders on six existing cases, written to measure the open decisions before changing text; each case was checked by a second agent. The multi-turn discovery test expects 12 cases. The decision rule, each case's result and decision, and the cases corrected after their first runs are in `IMPLEMENTATION_NOTES.md` (2026-11-10).
 
 ### Checked (developer-only)
