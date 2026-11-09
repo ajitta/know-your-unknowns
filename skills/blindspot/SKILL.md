@@ -30,7 +30,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    | List | Whose | What to do with it |
    |---|---|---|
-   | ① What the user is already sure of | the user's | It narrows the scope. Ask how recent that certainty is. |
+   | ① What the user is already sure of | the user's | It narrows the target area. Ask how recent that certainty is. |
    | ② What the user is assuming | the user's | It is the **first** thing to check (step 2), not something to skip. |
    | ③ Where the user does not know how to judge | the user's | It points at the **teach-me** skill. |
    | ④ What you do not know about the user's situation | yours | Each item is a question only the user can answer; it goes under **Questions to answer**. |
@@ -48,7 +48,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    | The task spans many sources (a whole codebase or many modules, a large body of documents or records) | Use the `unknowns:unknowns-scout` agent. |
    | Otherwise (the task touches a few files or documents, or nothing beyond the conversation) | Investigate directly. |
 
-   When you investigate directly, investigate in this order: ② and ⑤ (the assumptions on both sides), then any context sources (documents, data, history, a codebase), then the rest. Look for each assumption in the context sources first.
+   When you investigate directly, investigate in this order: ② and ⑤ (the assumptions on both sides), looking for each assumption in the context sources before anywhere else; then any context sources (documents, data, history, a codebase); then the rest.
 
    When you spawn the scout, hand it a packet:
 
