@@ -248,7 +248,7 @@ or `/unknowns:unknowns-loop` reaches this one. The same goes for a bare "loop" o
 2–3 lines and, once you confirm, does it without the loop (a mismatch goes to teach-me,
 interview or blindspot). Otherwise Claude agrees the outcome you are after and the done criteria with you
 in one exchange, says what it does not know about your situation, and names the stages up
-front. Before the work: blindspot (teach-me first if the field's terms are new) →
+front. Before the work: blindspot (teach-me first if you cannot yet describe the task) →
 interview → brainstorm/prototypes/reference as needed → the cheapest probe of the riskiest
 assumption (a phone call, a pilot, a spike) → a plan ordered by likelihood-of-change
 (tweakable-plan). During the work, deviation-log records deviations. After it, the result is
@@ -466,17 +466,19 @@ its own weakest part and closes with 2–3 pre-written reply lines you can copy 
 
 ### 9. `/unknowns:deviation-log` — recording deviations from the plan
 
-**When**: When the work hits something the plan or spec didn't cover. In practice this
-is close to an **always-on rule**.
+**When**: When the work hits something the plan or spec didn't cover. Call it by name or
+with a trigger phrase, or run the work inside the loop; it does not start on its own.
 
 **Invoke**:
 ```
 /unknowns:deviation-log The renovation closed the community hall, so the year-end event moves to the school gym (no elevator)
 ```
-Auto-triggers: "implementation notes", "record a deviation", "where did we diverge from
+Triggers: "implementation notes", "record a deviation", "where did we diverge from
 the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?"
 
-Claude also records deviations on its own when it detects them mid-work.
+Once called, Claude picks the conservative option, logs the deviation and keeps going. In
+five measured runs where the work met an unplanned difference and nobody named the log,
+the skill did not start by itself.
 
 **What gets recorded**: only decisions that affect design, behavior, or compatibility
 (wording, formatting, and naming are excluded). A full entry captures: the situation
@@ -511,7 +513,7 @@ Auto-triggers: "quiz me", "test my understanding", "퀴즈", "내가 이해했�
 **How it runs**: 1. An explanation first (structure of the work / 3 key decisions / where
 it's most likely to fail / what you should verify yourself), each part anchored to its
 location (`file:line` for code; section or page otherwise) → 2. **6 questions, and the pass
-mark is all 6** (five multiple choice, delivered as 4 + 1 with smaller tool batches when needed, plus one teach-back the user explains in their own words), prioritising
+mark is all 6** (five multiple choice, asked in one batch or in smaller tool batches when needed, plus one teach-back the user explains in their own words), prioritising
 what to do when something goes wrong > decision rationale > predicting outcomes and
 avoiding rote recall; if a deviation log exists, at least 1 question covers a recorded
 deviation → 3. Grading — each wrong or blank answer names the exact place to re-read,
@@ -659,7 +661,7 @@ session or run `/reload-plugins`. With many skills installed there is a second c
 Claude Code gives the skill listing a budget (1% of the context window by default) and,
 when it overflows, keeps descriptions only for the skills you use most (recency-weighted)
 and lists the rest by name alone. Whichever unknowns skills you rarely use are the ones at
-risk, and it matters most for deviation-log, which is meant to fire on its own. In one measured
+risk, and it matters most for deviation-log, whose trigger phrases come up mid-work. In one measured
 run with every unknowns description dropped, 9 of 11 English trigger cases still fired;
 notes (now deviation-log) and blindspot did not. The CLI logged the overflow; that all eleven lost their
 descriptions is a probe run's self-report
@@ -694,7 +696,7 @@ the source" from "extended during authoring".
 ```
 skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.12.3
+plugin-manifest.json           source manifest, currently 0.12.4
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload

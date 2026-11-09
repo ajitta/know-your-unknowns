@@ -241,7 +241,7 @@ python3 scripts/build-skill-zips.py
 확인하면 루프 없이 합니다(어긋나면 teach-me, interview, blindspot으로 갑니다). 그렇지
 않으면 Claude가 당신이 이루려는 성과와 완료 조건을 한 번의 주고받기로 합의하고,
 당신의 상황에 대해 자신이 모르는 것을 밝히고, 단계를 먼저 알려 줍니다. 작업 전:
-blindspot(분야 용어가 낯설면 teach-me 먼저) → interview → 필요하면
+blindspot(작업을 아직 설명하지 못하면 teach-me 먼저) → interview → 필요하면
 brainstorm/prototypes/reference → 가장 위험한 가정 하나만 시험하는 가장 싼 프로브(전화
 한 통, 시범 운영, 스파이크) → 수정확률순 계획(tweakable-plan). 작업 중에는 deviation-log가 이탈을
 기록합니다. 작업 뒤에는 결과를 완료 조건마다 근거와 함께 확인한 뒤 quiz, 리뷰어나
@@ -437,17 +437,19 @@ confirmed`라고 답하거나 행 번호로 고치면 됩니다. 적용 계획�
 
 ### 9. `/unknowns:deviation-log` — 계획 이탈 기록
 
-**언제**: 작업 중 계획·스펙에 없던 상황을 만났을 때. 사실상 **항상 켜두는 규칙**에
-가깝습니다.
+**언제**: 작업 중 계획·스펙에 없던 상황을 만났을 때. 이름이나 트리거 문구로 부르거나
+루프 안에서 작업하면 쓰이고, 저절로 시작되지는 않습니다.
 
 **호출**:
 ```
 /unknowns:deviation-log 구민회관 보수공사로 송년 행사를 초등학교 강당으로 옮김(엘리베이터 없음)
 ```
-자동 트리거: "implementation notes", "record a deviation", "where did we diverge from
+트리거: "implementation notes", "record a deviation", "where did we diverge from
 the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?"
 
-Claude는 작업 중 이탈을 감지하면 스스로도 기록합니다.
+부르면 Claude는 보수적인 쪽을 고르고, 이탈을 기록한 뒤 작업을 이어 갑니다. 작업이 계획에
+없던 차이를 만났는데 아무도 기록을 언급하지 않은 측정 5회에서는 스킬이 저절로 시작되지
+않았습니다.
 
 **기록되는 것**: 설계·동작·호환성에 영향을 주는 결정만 (문구·서식·이름은 제외). 전체
 항목은 마주친 상황 / 계획과 어떻게 다른지 / 택한 대응 / 이유 / 버린 대안 / 위험과 후속
@@ -479,7 +481,7 @@ Claude는 작업 중 이탈을 감지하면 스스로도 기록합니다.
 
 **진행 방식**: ① 먼저 설명(작업의 구조 / 핵심 결정 3개 / 실패 가능성 높은 곳 / 직접
 확인해야 할 것), 각 부분에 위치(코드면 `file:line`, 아니면 절이나 쪽)를 붙임 → ② **6문항,
-합격은 6개 모두**(객관식 5개를 4 + 1로 묻되 도구가 더 적게 받으면 나눠 묻고, 자기 말로
+합격은 6개 모두**(객관식 5개를 한 번에 묻되 도구가 더 적게 받으면 나눠 묻고, 자기 말로
 설명하는 teach-back 1개), 잘못됐을 때 할 일 > 결정 근거 > 결과 예측 순으로 우선하고 단순
 암기는 피함, 이탈 기록이 있으면 기록된 이탈에 대한 문항 최소 1개 → ③ 채점 — 틀리거나 빈
 답마다 다시 읽을 정확한 위치를 짚고 재도전 기회를 줌. 채점은 대화에서 하며, teach-back
@@ -614,7 +616,7 @@ blindspot이 고른 방향의 가정을 검증하고 개선된 프롬프트로 �
 `/unknowns:blindspot`. 설치 직후라면 새 세션을 시작하거나 `/reload-plugins`. 스킬을 많이
 설치했다면 원인이 하나 더 있습니다: Claude Code는 스킬 목록에 예산(기본 컨텍스트 창의 1%)을
 두고, 넘치면 **많이 쓰는 스킬(최근성 가중)만** 설명을 남기고 나머지는 이름만 보여 줍니다.
-위험한 것은 내가 드물게 쓰는 unknowns 스킬이고, 스스로 떠야 하는 deviation-log에서 특히 큽니다.
+위험한 것은 내가 드물게 쓰는 unknowns 스킬이고, 작업 도중에 트리거 문구가 나오는 deviation-log에서 특히 큽니다.
 unknowns 설명이 전부 빠진 조건(초과는 CLI 로그로 확인, 11개 모두 빠졌다는 것은 탐침 실행의
 자기 보고)에서 영어 트리거 11건 중 9건은 여전히 발화했고 notes(현 deviation-log)와
 blindspot은 발화하지 않았습니다(1회 측정,
@@ -648,7 +650,7 @@ blindspot은 발화하지 않았습니다(1회 측정,
 ```
 skills/<name>/                 소스: SKILL.md, agents/openai.yaml
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.12.3
+plugin-manifest.json           소스 매니페스트, 현재 0.12.4
 packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드

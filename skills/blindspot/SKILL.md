@@ -30,7 +30,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    | List | Whose | What to do with it |
    |---|---|---|
-   | ① What the user is already sure of | the user's | It narrows the scope. Ask how recent that certainty is. |
+   | ① What the user is already sure of | the user's | It narrows the target area. Ask how recent that certainty is. |
    | ② What the user is assuming | the user's | It is the **first** thing to check (step 2), not something to skip. |
    | ③ Where the user does not know how to judge | the user's | It points at the **teach-me** skill. |
    | ④ What you do not know about the user's situation | yours | Each item is a question only the user can answer; it goes under **Questions to answer**. |
@@ -46,7 +46,9 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    | Scope of the task (not the size of the material) | How to investigate |
    |---|---|
    | The task spans many sources (a whole codebase or many modules, a large body of documents or records) | Use the `unknowns:unknowns-scout` agent. |
-   | The task touches a few files or documents | Investigate directly. |
+   | Otherwise (the task touches a few files or documents, or nothing beyond the conversation) | Investigate directly. |
+
+   When you investigate directly, investigate in this order: ② and ⑤ (the assumptions on both sides), looking for each assumption in the context sources before anywhere else; then any context sources (documents, data, history, a codebase); then the rest.
 
    When you spawn the scout, hand it a packet:
 
@@ -57,8 +59,6 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    - what to return: a finding table and an improved prompt draft
 
    When the scout returns, map its rows onto the kinds in step 3a.
-
-   Investigate in this order: ② and ⑤ (the assumptions on both sides), then any context sources (documents, data, history, a codebase), then the rest. Look for each assumption in the context sources first.
 
    Without a tool, do the step in the conversation and say what could not be checked.
 
@@ -87,7 +87,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
 4. Present the findings:
 
-   a. Open the output with the user's three lists from step 1c and your own three lists as updated, each of your ⑤ assumptions marked confirmed, refuted or still unchecked. Then lead the findings with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally of the cards by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
+   a. Open the output with the user's three lists from step 1c and your own three lists as updated, each ② and ⑤ assumption marked held or wrong, with its evidence and status (*confirmed* or *inferred*), or still unchecked. Then lead the findings with the contrast: **What you asked for** (the task as the user framed it, and why it sounds small) vs **What you're actually walking into**, with a tally of the cards by kind ("4 landmines, 2 conventions, 1 missing concept, 1 history finding").
 
    b. After the contrast, show the cards. Each card holds: kind, finding, why it bites, evidence, status (*confirmed* or *inferred*; an *unchecked* finding goes under **Needs checking** instead of a card), and the recommended action as a numbered, copyable **prompt fix**. Mark each finding that none of the user's three lists mentioned as **new to you**, so the user sees what the pass taught them rather than recalling it afterwards.
 
@@ -95,12 +95,12 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    d. After the cards, list **Questions to answer**, **Needs checking** and **Information still needed**: what the pass could not settle, and who can settle it.
 
-5. End with an **improved prompt draft** that reflects the findings and the user's answers to the questions. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes, keeping the execution order and the checkpoint.
+5. End with an **improved prompt draft** that reflects the findings and the answers the user has given so far. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes and lists the unpicked ones as undecided below it, keeping the execution order and the checkpoint.
 
 6. Suggest the next skill:
 
    - When undecided items that could change the shape of the work surface, suggest the **interview** skill next.
-   - When ③ has items and teach-me has not run for this task yet, or the user lacks the unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
+   - When ③ has items and the **teach-me** skill has not run for this task yet, or the user lacks the unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
    - Otherwise, suggest no next skill.
 
 ## Output
@@ -109,4 +109,4 @@ Reaction: a numbered, copyable **prompt fix** per finding card; the user's selec
 
 ## Scope
 
-Not limited to code: a funding call, a policy, an event, a study, infrastructure and vendor integrations all have landmines and unwritten conventions. The subject is always a **specific plan, system or situation** and its blind spots. If the gap is the user's **vocabulary** for an unfamiliar field, use the **teach-me** skill instead. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
+Not limited to code: a funding call, a policy, an event, a study, infrastructure and vendor integrations all have landmines and unwritten conventions. The subject is always a **specific plan, system or situation** and its blind spots. If the gap is the user's **vocabulary** for an unfamiliar field, use the **teach-me** skill instead. Running both is fine: when the user cannot yet describe the task, run the **teach-me** skill first; otherwise run the **blindspot** skill first and hand its ③ list (where the user does not know how to judge) to the **teach-me** skill.

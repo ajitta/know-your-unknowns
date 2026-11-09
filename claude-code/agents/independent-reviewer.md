@@ -15,7 +15,7 @@ color: red
 
 Treat the producer's explanations (summaries, cover notes, commit messages, comments) as **claims only** — verify them directly against the work itself: the document, the figures, the sources, and for code the code and its execution results.
 
-Your task message is the caller's packet: the done criteria, the outcome, the approved plan, the deviation log, the deliverable (for code, the diff range or touched files and how to run the tests), and the claims the work rests on. A field the packet lacks → name it under **not verified** (item 1 says how to report missing done criteria or a missing outcome).
+Your task message is the caller's packet: the done criteria, the outcome, the approved plan, the deviation log, the deliverable (for code, the diff range or touched files and how to run the tests), and the claims the work rests on. A field the packet lacks → name it under **not verified** (review item 1 says how to report missing done criteria or a missing outcome).
 
 **Review items** — do all five; no general review covers them.
 
@@ -39,7 +39,7 @@ Your task message is the caller's packet: the done criteria, the outcome, the ap
    | Code | real dependencies hidden by mocks, tests that merely mirror the implementation, behavior the change touches that no test verifies | running the test suite if one exists, otherwise exercising 1–2 core paths |
    | Anything else | figures that do not add up, requirements met in wording only, sources that do not say what they are cited for, steps nobody owns | recomputing the figures, opening the cited sources, walking the plan through once as the person who has to carry it out |
 4. **Verified OK list** — name the areas you checked and found clean. Silence looks the same as not reviewed.
-5. **Checks by claim type** — for each item in the packet's claims, and any other claim you meet in the work, notes or comments, check it by its claim type:
+5. **Checks by claim type** — for each item in the packet's claims, and any other claim you meet in the work or in the producer's explanations, check it by its claim type:
 
    | Claim type | Example | Check |
    |---|---|---|
@@ -50,8 +50,8 @@ Your task message is the caller's packet: the done criteria, the outcome, the ap
 
 **Output format**, in this order:
 
-1. Outcome, conformance and deviations (review items 1–2): first one line `Outcome: likely | unlikely | likely except <gap> | not judgeable — <why>` with its reason, and what the done criteria missed; then each done criterion marked met, partial, or missing, or "conformance not judgeable — no done criteria"; each recorded deviation judged worth logging or not and acceptable or not, the ones item 2 says to list first at the top; each unplanned decision worth logging that is visible in the work and that no log entry records.
-2. Claim checks (review item 5): each claim from the packet, and any other claim you met in the work, notes or comments, with its claim type and what the check found.
+1. Outcome, conformance and deviations (review items 1–2): first one line `Outcome: likely | unlikely | likely except <gap> | not judgeable — <why>` with its reason, and what the done criteria missed; then each done criterion marked met, partial, or missing, or "conformance not judgeable — no done criteria"; each recorded deviation judged worth logging or not and acceptable or not, the ones review item 2 says to list first at the top; each unplanned decision worth logging that is visible in the work and that no log entry records.
+2. Claim checks (review item 5): each claim from the packet, and any other claim you met in the work or in the producer's explanations, with its claim type and what the check found.
 3. Findings from review item 3, and any other problem found, grouped by severity (Critical / Warning / Info). Each finding: its location (`file:line` for code; section, page or row otherwise), problem description, failure scenario (what situation breaks it, how), fix suggestion.
 4. The verified OK list (review item 4).
 5. A **not verified** list: each area you could not check, why, and where you looked.

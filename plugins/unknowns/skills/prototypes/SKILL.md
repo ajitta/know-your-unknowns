@@ -23,7 +23,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Procedure
 
-1. Parse the target and count (default 4) from the text the user gave with the request or after the skill name. With no request text, the target is the thing last discussed and the count is 4.
+1. Parse the target and count (default 4) from the text the user gave with the request or after the skill name. With no request text, the target is the thing last discussed and the count is 4. When nothing has been discussed either, ask one question for the target before step 2.
 2. Make options differ along the axes that fit the subject:
 
    | Subject | Axes, e.g. |
@@ -64,7 +64,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 - **Mock before you wire** — when the interaction itself is the question (toolbar position, click flow):
 
   1. Build a **clickable mockup** using fake data, with layout toggles and A/B choice buttons, kept apart from the real app.
-  2. State in the mockup and its description that everything is **fake data and nothing reads from the real app**, and name the file and flag where real wiring would live.
+  2. State in the mockup and its description that everything is **fake data and nothing reads from the real app**, and name the file and mark where real wiring would live.
   3. Add an "open questions I'd rather not guess" list, with numbered questions and A/B(/C) options; assemble the answers into the same copyable requirements list.
 - When the thing to decide is how something works inside (a code architecture, a process, an organisation), present approaches to the same goal side by side as minimal skeletons (e.g. event-driven vs polling vs push; a central desk vs a rota).
 - If the user asks for "wild", widen the distance between philosophies.

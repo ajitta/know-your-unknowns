@@ -11,7 +11,7 @@ description: >
 
 This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
 
-With strong models the bottleneck is keeping the **map** (the plan) matched to the **territory** (the situation itself: the domain, the people involved, the rules, the material, a codebase when there is one). The gap is **the unknowns**, on the user's side and on yours. This loop surfaces them cheaply before the work, logs them during it, and checks after it that the user can explain the result and that the result achieved the outcome.
+With strong models the bottleneck is keeping the **map** (the plan) matched to the **territory** (the situation itself: the domain, the people involved, the rules, the material, a codebase when there is one). The gap is **the unknowns**, on the user's side and on yours. This loop surfaces them cheaply before the work, logs them during it, and checks after it, when you largely produced the work, that the user can explain the result, and always that the result achieved the outcome.
 
 ## Sequence
 
@@ -21,13 +21,13 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
 
-   The loop's first reply after step 1 names the stages below in run order, marks the current one, and states the done criteria or asks for them.
+   The loop's first reply after step 1 names the stages below in run order, marks the current one, and states the outcome, the done criteria, what already works and must not break, and the allowed cost and change scope, or asks for them.
 
 3. **Before the work**, in this order:
 
    | Stage | Run | When |
    |---|---|---|
-   | a. Investigate | the **blindspot** skill; the **teach-me** skill first when the user cannot yet name the domain's terms | always, unless its question is already answered |
+   | a. Investigate | the **blindspot** skill; the **teach-me** skill first when the user cannot yet describe the task | always, unless its question is already answered |
    | b. Decide | the **interview** skill | requirements leave decisions open (structure, harm, compatibility, cost, taste) |
    | c. Shape | the **brainstorm** skill / the **prototypes** skill / the **reference** skill | the approach is undecided / the user will know the form when they see it / there is an example to emulate |
    | d. Test the riskiest assumption | state the most uncertain assumption the approach rests on, with its success and failure criteria, then run the **cheapest probe that tests only that assumption** (a spike, a phone call, a pilot, a sample) | the approach rests on an unproven assumption |
@@ -43,8 +43,8 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
 5. **After the work**:
 
-   a. **Verify**: check the result against step 2's done criteria, marking each met, partial or missing with its evidence (a test run, an output, `file:line`, a document section, a confirmation from the person responsible). Mark a criterion met when its evidence shows the required result.
+   a. **Verify**: check the result against step 2's done criteria, what already works and must not break, and the allowed cost and change scope, marking each met, partial or missing with its evidence (a test run, a command's printed result, `file:line`, a document section, a confirmation from the person responsible). Mark each of them met when its evidence shows the required result.
 
-   b. The **quiz** skill, so the user can explain the work in a handoff; also the **buy-in** skill when reviewers or stakeholders must approve it.
+   b. When you largely produced the work, the **quiz** skill, so the user can explain the work in a handoff; when reviewers or stakeholders must approve the work, the **buy-in** skill.
 
-   c. **Outcome check**, with the user: ask whether the result achieved the outcome from step 2, not only whether it meets the done criteria. Name any gap between the two and what would close it, and let the user decide whether the work is finished. The check is a short exchange in the conversation; nothing is scored.
+   c. **Outcome check**, with the user: ask whether the result achieved the outcome from step 2, not only whether it meets the done criteria. Name any gap between the result and the outcome, and what would close it, and let the user decide whether the work is finished. The check is a short exchange in the conversation; nothing is scored.

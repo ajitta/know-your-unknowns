@@ -48,23 +48,23 @@ Without a tool, do the step in the conversation and say what could not be checke
 
    b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the work's riskiest decision>."
 
-   c. Commit to the 2–3 points (and change sites) a correct teach-back explanation must mention **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
+   c. Commit to the 2–3 points a correct teach-back explanation must mention, each with its change site, **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
 
    Picking the right option only shows recognition; saying it unprompted is what the user will have to do in the handoff, the meeting or the PR. Writing the key file before asking and quoting it when grading makes the key provably predate the answer.
 
-2. Ask the prepared questions. Ask the five multiple-choice questions as 4 + 1, splitting a batch across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key.
+2. Ask the prepared questions. Ask the five multiple-choice questions in one batch, splitting it across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key.
 3. Grade answers.
 
-   a. Grade the teach-back against the 2–3 points in the key file from step 1c, and quote that file when grading.
+   a. Grade the teach-back against the 2–3 points in the key file written for it under step 1c, and quote that file when grading.
 
    b. For each wrong or blank answer, name the **exact change site** to re-read (`file:line`, section or page). If the change site is unavailable, mark it unverified.
 
-4. For each wrong or blank answer, re-explain only those parts, then offer a retry: one new question of the same type on each missed part only, prepared, asked and graded by the rules of steps 1–3, not a new six-question set. A retry that gets every missed part right brings the score to 6/6.
+4. For each wrong or blank answer, re-explain only the part of the work that answer missed, then offer a retry: one new question per wrong or blank answer only, in the same format (multiple choice or teach-back), of the same question type and on the same part of the work, prepared, asked and graded by the rules of steps 1–3, not a new six-question set. Each retry question answered correctly adds one to the score, so a retry that answers every question correctly brings it to 6/6.
 5. Close the gate by score:
 
    | Score | What to do |
    |---|---|
-   | 6/6 | Passed. When the work needs reviewer approval, suggest the **buy-in** skill. |
+   | 6/6 | Passed. When the work needs approval, suggest the **buy-in** skill. |
    | Below 6/6 | The result stays "not yet" — list the change sites to re-read and offer the retry from step 4. |
 
 ## Output

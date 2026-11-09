@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: behavior-quiz-on-submit
+context:
+  scaffold_script: place-files.sh

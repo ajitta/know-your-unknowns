@@ -34,7 +34,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    - 1 example sentence of "what you can request with this term"
    - one source (a doc, standard or reference text)
 
-   Mark any term whose usage or source you could not check as *unverified* rather than defining it confidently. A precise term can make a wrong premise sound right.
+   Above the ladder, say in one line which sources you opened in this session and which you cite from memory, so a source cited from memory does not read as one you opened. When you can name no source for a term, say so where its source would go rather than supplying one: an invented citation reads as evidence. Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently: a precise term can make a wrong premise sound right.
 5. Show what each decision axis changes.
 
    a. Show a **before/after comparison** per decision axis — same subject at two contrasting settings on that axis. Build it by domain:
@@ -42,9 +42,9 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    | Domain | Comparison |
    |---|---|
    | Visual | Numbered Markdown before/after descriptions of the same subject, naming the visible differences. If a real photo is essential, ask the user for a file and refer to its visible regions. |
-   | Text, code or process | Comparison examples. |
+   | Any other domain (e.g. text, code, process) | Comparison examples. |
 
-   b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each whole look and its settings.
+   b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each preset's overall result and its settings.
 6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step in a short explainer too. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 7. Close with the payoff.
 
@@ -58,5 +58,5 @@ Reaction: number the terms, before/after comparisons, and presets; the user's pi
 
 ## Related
 
-- Blind spots in a specific plan, system or situation: use the **blindspot** skill — this skill covers blind spots in a field's **vocabulary**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
+- Blind spots in a specific plan, system or situation: use the **blindspot** skill — this skill covers blind spots in a field's **vocabulary**. Running both is fine: when the user cannot yet describe the task, run the **teach-me** skill first; otherwise run the **blindspot** skill first and hand its ③ list (where the user does not know how to judge) to the **teach-me** skill.
 - If requirements still diverge after gaining vocabulary (revisions stop converging), lock decisions with the **interview** skill rather than teaching more vocabulary.
