@@ -1,5 +1,37 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-10] Owner decisions applied, agents reviewed, open decisions measured
+
+**Observed**
+- **Situation found**: the owner took every recommendation in the 2026-11-09 Todo list (nine changes now, eighteen to measure first, the rest kept) and asked for the same rule-based review of `claude-code/agents/`.
+- **Deviation from plan**: (1) Two edits beyond the nine fix defects the review found in those changes: teach-me says when it can name no source for a term (6b7e670), after *unverified* was narrowed to usage; the loop's quiz stage runs only when the AI largely produced the work (0a763fc), after deviation-log's quiz suggestion got that condition. (2) Review rounds 5–8 covered the five changed skills and both agents: independent-reviewer took three rounds of wording fixes, the scout was clean in its first round. (3) Four measuring cases were corrected after their first runs because they measured something other than the text: a scaffold whose pre-existing log hid the run's edits from the judge, a grader stricter than its sibling about facts the user stated, a persona line ("기준은 됐고") that also reads as accepting the criteria, and a probe whose skill did not load (7f67bd9, a80324f). (4) Commits 2961f13 to f13f952 failed one unit test: a scaffold file held a `"plan":` key that the renamed-skill test reads as the old skill name; 5d12a55 renames it.
+- **Response chosen**: each measure-first item got a case written from a behaviour spec and checked by a second agent for prompt leakage, grader validity and facts. The rule, written before the runs: run the current text twice; 2/2 keeps it; 0/2 applies the fix below and runs twice more (2/2 keeps the fix, 0/2 reverts it, 1/2 one more run); 1/2 runs once more and a failure applies the fix. Opus 5.5, medium effort; a run that fails to start is void.
+
+| Case | Current text | Decision |
+|---|---|---|
+| multiturn/buy-in-partial-picks | 0/2: unpicked limitations dropped from the final doc | fix applied (f13f952): 2/2 |
+| multiturn/unknowns-loop-criteria-unanswered | 2/2 after the persona fix (0/2 with the ambiguous line) | kept |
+| multiturn/interview-deep-grill | 1/2 (one first reply asked all 40 questions), then 1/1 | kept, under watch |
+| multiturn/interview-undecided-item, multiturn/reference-free-text-correction | 2/2 each | kept |
+| multiturn/teach-me-stops-at-draft | nothing built after the picks 2/2; the draft marked only some assumed details 0/2 | kept (the endpoint held); marking under watch |
+| behavior-brainstorm-scout-finds-unused | unused module found 2/2; one run titled a candidate "Measure honestly first", then 1/1 | kept |
+| behavior-deviation-log-reports-divergence, -wrapup-user-only, -logs-public-rename, -auto-on-mismatch; behavior-unknowns-loop-probe-fails, -keeps-investigation; behavior-teach-me-domain-only; behavior-buy-in-finds-noncode-log; behavior-reference-carries-own-checklist, -last-month-report | 2/2 each | kept |
+| behavior-blindspot-scout-assumption-verdicts | verdicts 2/2, but the model read the 22 documents itself in both runs | kept; the scout path is not measured |
+| behavior-prototypes-interaction-mockup | 0/2, prototypes did not load | not reached: a routing question |
+| behavior-quiz-on-submit | 0/3, quiz did not load | not reached: a routing question |
+| behavior-deviation-log-logs-unplanned-difference | capacity and the missing elevator logged 2/2 once the prompt names the log; the Wi-Fi password logged as a Discovery 2/2 | narrowing kept; Wi-Fi logging is a new item |
+
+Checks of the applied changes: the loop's first reply covers the four step 2 items 5/5; blindspot's assumption verdicts pass 2 of 3 runs on the new text against 1 of 5 on the old (same grader); unpicked prompt fixes stay undecided 2/2; quiz asked the five questions in one batch 2/2; teach-me's sources line 5 of 6 (the sixth did not load teach-me); deviation-log suggested the quiz 0 of 5; the loop's teach-me order 3/3. Fixes written for the cases that passed were not applied (the list is in `evals/results/regula-2026-11-09/measure-plan.md`, local).
+
+**Attributed**
+- **Reason for choice**: a fix goes in only when the current text fails its own case, so each change traces to a run; a case that measured the harness was corrected and run again rather than read as a skill failure.
+- **Risk/follow-up check**: two or three runs per case show that a behaviour happens, not how often. The scout path, the read-back on auto-loaded skills and routing for submissions and single mockups stay unmeasured.
+- **Todo for human**: prototypes did not load for "Before wiring anything up, make a single HTML file mocking the new toolbar…" (0/2), so the Variants section never ran. Recommendation: keep the description; the request names one file, which is close to a request both sides understand.
+- **Todo for human**: quiz did not load for "I'm submitting it this afternoon" on work the AI drafted (0/3), although its description lists submitting. Recommendation: keep; a quiz at submission is the gate the owner chose not to force, and the description edit would need the trigger and collision cases.
+- **Todo for human**: deviation-log logged a checklist item that matched the plan, the Wi-Fi password, as a Discovery in 2 of 2 runs, putting the password in a shared file. Recommendation: add to **Don't log** "an item the plan said to check that came back as planned", and run the same case twice.
+- **Todo for human**: deviation-log did not load on its own when a site visit contradicted the plan and the prompt did not name the log (0/2). Recommendation: keep; measure again with the auto-load case before touching the description.
+- **Todo for human**: from rounds 5–6: unknowns-scout step 5 says "unfamiliar" without saying to whom (recommendation: measure with a repository pinned to an older library version before choosing the version-based wording); independent-reviewer's *Worth logging* list differs in wording from deviation-log's Logging Criteria (recommendation: keep; the rename case logged 2/2); independent-reviewer item 3 "walking the plan through once" may mean the approved plan or a deliverable that is a plan (recommendation: keep; both reviewer cases pass); the unknowns-loop description lists the quiz without its condition (recommendation: keep; the body states it next to the stage).
+
 ## [2026-11-09] Second rule-based review of the skill bodies
 
 **Observed**
