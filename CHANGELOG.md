@@ -4,7 +4,16 @@
 
 ### Fixed
 
-- Second rule-based review of the eleven skill bodies (four rules: a condition stays with what it gates, scope words, fewer instructions with reasons, one name per thing), repeated by independent reviewers until a round confirmed no new defect. Each skill's fixes are a separate commit; the findings, rejections and checks are recorded here when the review ends.
+- Second rule-based review of the eleven skill bodies (four rules: a condition stays with what it gates, scope words, fewer instructions with reasons, one name per thing), repeated until a round confirmed no new defect. Each round, two independent reviewers per skill (three for a skill the previous round changed, one of them comparing the old and the new text) read the file without the reasons for any edit; an adjudicator per skill checked each finding's quote in the file and against `.claude/rules/skill-writing.md`, and each skill's edits are one commit per round. Rounds applied 37, 11, 2 and 0 edits: 50 in all, 24 of them meaning changes.
+  - Missing default branches: blindspot's scope table ("Otherwise", including a task with nothing beyond the conversation), and its investigation order now stated for direct investigation; prototypes asks one question for the target when nothing names one; teach-me's comparison table has an "Any other domain" row; brainstorm puts your own unknowns above the candidates when there is no ask-back; deviation-log with no text skips deviations already logged; quiz scores a partial retry one point per retry question answered correctly; reference's application plan says so when the reference has no checks of its own.
+  - Reasons added: buy-in step 1b (a missing input rebuilt from the work would measure the work against the producer's own reading of it) and reference Iron Rule 1.
+  - Names and scope: deviation-log hands buy-in "recorded deviations and unresolved risks", buy-in's own phrase; tweakable-plan sorts by "tweak likelihood × blast radius" in its title and Iron Rule 1 as step 5a does, and says "outcome" and "opening line" where it said "purpose" and "done criteria"; unknowns-loop's verify step checks what must not break and the allowed cost and change scope as well as the done criteria; reference numbers mapping and edge-case rows in one sequence and gives gotcha notes approve / request-change; quiz commits to each teach-back point with its change site and retries one question per wrong or blank answer in the same format; interview asks the next round by step 2 instead of proposing one; brainstorm suggests the next skill after step 5 and puts the scout's open lists above the candidates.
+  - Not edited: findings on shared sentences, descriptions, names across files and method decisions (93 after duplicates were removed). They are Todo for human in `IMPLEMENTATION_NOTES.md`.
+
+### Checked (developer-only)
+
+- Before each commit: `tools/package.py --check`, 91 unit tests (3 skipped), and `claude plugin validate --strict` for the plugin and the marketplace.
+- Model runs: not yet measured. The suite was started on the final text (Opus 5.5, medium effort), but every run failed at sign-in because the headless CLI was signed out, so no case was scored.
 
 ## 0.12.3 — 2026-11-04
 
