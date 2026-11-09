@@ -13,7 +13,9 @@
 ### Checked (developer-only)
 
 - Before each commit: `tools/package.py --check`, 91 unit tests (3 skipped), and `claude plugin validate --strict` for the plugin and the marketplace.
-- Model runs: not yet measured. The suite was started on the final text (Opus 5.5, medium effort), but every run failed at sign-in because the headless CLI was signed out, so no case was scored.
+- Model runs on the final text, Claude Code 2.1.319, claude-opus-5-5, `--effort medium`, 1 run per case: single-turn graders 157/161 (scored graders 102/106; the skill loaded or stayed unloaded as each case expects 70/70), multi-turn 16/16. A first attempt failed at sign-in for every run (the headless CLI was signed out) and was re-run in full.
+- Misses: the two informative `neg-open-weighty-*` cases (expected without the `CLAUDE.md` line, as in 0.12.3); `trigger-en-tweakable-plan`, where one decision had no check (the ordering held), and `neg-interval-loop-does-not-fire-unknowns-loop`, where the skill stayed unloaded but the model asked what counts as done. Each passed 2 of 2 on re-run and is under watch.
+- Not measured: the meaning changes no case reaches (brainstorm's scout lists, prototypes' question when nothing names a target, quiz's score after a partial retry).
 
 ## 0.12.3 — 2026-11-04
 
