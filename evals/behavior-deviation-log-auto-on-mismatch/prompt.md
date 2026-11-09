@@ -1,6 +1,6 @@
 ---
-description: "deviation-log unasked (ko): the plan names a 'phone' column the member file lacks; the list is made from the conservative column and the mismatch is logged, not read back and left waiting"
-tags: [behavior, ko, deviation-log, noncode]
+description: "deviation-log unasked (ko), informative: the plan names a 'phone' column the member file lacks; measures whether a deviation log gets written when nobody names it, which the plugin does not claim (0 of 5 runs loaded the skill)"
+tags: [behavior, ko, deviation-log, noncode, informative]
 runs: 3
 max_turns: 16
 timeout_seconds: 420
