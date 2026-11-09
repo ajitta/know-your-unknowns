@@ -10,7 +10,7 @@ def routes(users):
     def show(data):
         user = users.get(data["user_id"])
         return {"id": user.id, "name": user.name, "email": user.email, "role": user.role,
-                "plan": user.plan, "is_active": user.is_active}
+                "billing_plan": user.plan, "is_active": user.is_active}
 
     return {
         ("POST", "/users"): create,
