@@ -18,21 +18,21 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
 ## Iron Rules
 
-1. **Execution order ≠ presentation order.** Present by tweak likelihood; execution order appears only as a number on each item.
+1. **Execution order ≠ presentation order.** Present by tweak likelihood × blast radius; execution order appears only as a number on each item.
 2. Every decision carries **considered alternatives** — a decision without alternatives cannot be reviewed.
 
 ## Procedure
 
 1. Confirm the spec from the text the user gave with the request or after the skill name plus the conversation context (blindspot findings, interview decisions).
 
-   a. With no argument, that context is the whole input.
+   a. With no request text, that context is the whole input.
 
    b. When the spec has big gaps, suggest the **interview** skill before planning; if the user declines, plan anyway and list each gap under **Your own unknowns** in step 2.
-2. **Done criteria first**: the document opens with one line stating the purpose (the outcome the user is after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 2 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
+2. **Done criteria first**: the document opens with one line stating the outcome (what the user is ultimately after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 2 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
-3. **Size gate**: when the work holds no decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget), say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the done-criteria line, the questions from step 2 (your own unknowns included), and the steps in execution order, one line each: work this small has no decision worth a review document, and a shortened copy of the document is still the document.
-4. Split work into items of two kinds:
+3. **Size gate**: when the work holds no decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget), say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the opening line from step 2, the questions from step 2 (your own unknowns included), and the steps in execution order, one line each: work this small has no decision worth a review document, and a shortened copy of the document is still the document.
+4. Split work into items of two types:
 
    | Item type | Covers | Trait |
    |---|---|---|
