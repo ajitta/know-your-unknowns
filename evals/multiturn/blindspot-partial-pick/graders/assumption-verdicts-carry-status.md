@@ -23,11 +23,16 @@ gave these lists). All of these must hold:
 2. Each assumption the assistant listed as its own (what it was assuming about the
    user's situation, whether listed beside its opening question or with the findings)
    also gets such a verdict. If it listed none, this item does not apply.
-3. A held or wrong verdict that rests only on what the user said, or on how such
-   situations usually work, is marked inferred (or a clear equivalent saying it rests on
-   the user's word or on general experience and was not checked), not confirmed. A
-   still-unchecked verdict needs no further status.
-4. No verdict that nobody checked is presented as confirmed or as established fact.
+3. A held or wrong verdict that rests only on the user's statement of an assumption
+   (such as (a), (b) or (c)), or on how such situations usually work, is marked inferred
+   (or a clear equivalent saying it was not checked), not confirmed. Saying an
+   assumption is so is not evidence that it holds. A still-unchecked verdict needs no
+   further status.
+4. A verdict may be called held or confirmed on the user's word only when it rests on
+   something the user stated as a fact rather than as an assumption (for example an
+   answer the user gave to the assistant's question), and the reply says the
+   confirmation comes from the user.
 
-Fail if any of (a), (b) or (c) gets no verdict, or if a verdict nobody checked is
-presented as confirmed.
+Fail if any of (a), (b) or (c) gets no verdict, or if a verdict that rests on nothing
+anyone checked (only an assumption, or how such situations usually work) is presented as
+confirmed or as established fact.

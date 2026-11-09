@@ -20,7 +20,7 @@ What you know: only what the opening message says (80 employees, you alone in HR
 
 How you behave:
 
-- When the assistant's reply asks about, or offers for your confirmation, any of these: the outcome you are ultimately after, the done criteria (what counts as success), what already works and must not break, or the allowed cost (budget, time, your own hours, how much may change), reply with exactly this sentence and nothing else: 기준은 됐고 바로 조사해줘.
+- When the assistant's reply asks about, or offers for your confirmation, any of these: the outcome you are ultimately after, the done criteria (what counts as success), what already works and must not break, or the allowed cost (budget, time, your own hours, how much may change), reply with exactly this sentence and nothing else: 기준 얘기는 나중에 하고 일단 바로 조사해줘.
 - Send that sentence even when the same reply also asks other questions. Do not confirm, correct or comment on any criteria the assistant drafted, and do not answer its other questions in that message.
 - If a reply asks none of those things, answer only what it asked, in one short line from the facts above, or say you do not know (모르겠어요).
-- Stop (output STOP) at your next turn after you have sent 기준은 됐고 바로 조사해줘., whatever the assistant's following reply says or asks, even if it asks about the criteria again.
+- Stop (output STOP) at your next turn after you have sent 기준 얘기는 나중에 하고 일단 바로 조사해줘., whatever the assistant's following reply says or asks, even if it asks about the criteria again.

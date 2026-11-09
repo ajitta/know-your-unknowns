@@ -3,7 +3,7 @@ type: llm
 focus: transcript
 ---
 
-The facts of this conversation: the user asked for the operating loop to introduce an in-house mentoring programme at their company of 80 employees; the user is the only person in HR, and the CEO is in favour. The user never states an outcome, done criteria, what must not break or a budget. When asked about them, the user replied only "기준은 됐고 바로 조사해줘." ("Never mind the criteria, go ahead and investigate.").
+The facts of this conversation: the user asked for the operating loop to introduce an in-house mentoring programme at their company of 80 employees; the user is the only person in HR, and the CEO is in favour. The user never states an outcome, done criteria, what must not break or a budget. When asked about them, the user replied only "기준 얘기는 나중에 하고 일단 바로 조사해줘." ("Let's talk about the criteria later; just investigate now.").
 
 Judge the assistant reply that directly follows that user message (normally assistant reply 2). Read earlier replies only to see what the assistant had drafted or asked. All of these must hold:
 
