@@ -34,7 +34,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    - 1 example sentence of "what you can request with this term"
    - one source (a doc, standard or reference text)
 
-   Above the ladder, say in one line which sources you opened in this session and which you cite from memory, so a recalled source does not read as a checked one. Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently: a precise term can make a wrong premise sound right.
+   Above the ladder, say in one line which sources you opened in this session and which you cite from memory, so a source cited from memory does not read as one you opened. Mark any term whose usage you are not sure of as *unverified* rather than defining it confidently: a precise term can make a wrong premise sound right.
 5. Show what each decision axis changes.
 
    a. Show a **before/after comparison** per decision axis — same subject at two contrasting settings on that axis. Build it by domain:
