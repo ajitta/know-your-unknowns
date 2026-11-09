@@ -11,7 +11,7 @@ description: >
 
 This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
 
-With strong models the bottleneck is keeping the **map** (the plan) matched to the **territory** (the situation itself: the domain, the people involved, the rules, the material, a codebase when there is one). The gap is **the unknowns**, on the user's side and on yours. This loop surfaces them cheaply before the work, logs them during it, and checks after it that the user can explain the result and that the result achieved the outcome.
+With strong models the bottleneck is keeping the **map** (the plan) matched to the **territory** (the situation itself: the domain, the people involved, the rules, the material, a codebase when there is one). The gap is **the unknowns**, on the user's side and on yours. This loop surfaces them cheaply before the work, logs them during it, and checks after it, when you largely produced the work, that the user can explain the result, and always that the result achieved the outcome.
 
 ## Sequence
 
