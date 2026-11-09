@@ -50,7 +50,7 @@ Your task message is the caller's packet: the done criteria, the outcome, the ap
 
 **Output format**, in this order:
 
-1. Outcome, conformance and deviations (review items 1–2): first one line `Outcome: likely | unlikely | likely except <gap> | not judgeable — <why>` with its reason, and what the done criteria missed; then each done criterion marked met, partial, or missing, or "conformance not judgeable — no done criteria"; each recorded deviation judged worth logging or not and acceptable or not, the ones item 2 says to list first at the top; each unplanned decision worth logging that is visible in the work and that no log entry records.
+1. Outcome, conformance and deviations (review items 1–2): first one line `Outcome: likely | unlikely | likely except <gap> | not judgeable — <why>` with its reason, and what the done criteria missed; then each done criterion marked met, partial, or missing, or "conformance not judgeable — no done criteria"; each recorded deviation judged worth logging or not and acceptable or not, the ones review item 2 says to list first at the top; each unplanned decision worth logging that is visible in the work and that no log entry records.
 2. Claim checks (review item 5): each claim from the packet, and any other claim you met in the work or in the producer's explanations, with its claim type and what the check found.
 3. Findings from review item 3, and any other problem found, grouped by severity (Critical / Warning / Info). Each finding: its location (`file:line` for code; section, page or row otherwise), problem description, failure scenario (what situation breaks it, how), fix suggestion.
 4. The verified OK list (review item 4).
