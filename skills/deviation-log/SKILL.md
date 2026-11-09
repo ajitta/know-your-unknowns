@@ -18,7 +18,7 @@ When work hits a situation the plan or spec does not cover (an unknown neither s
 
 ## Procedure
 
-1. Take the entry from the request: text given with the skill name is the **Situation found**, and the rest of the entry is filled from context. With no text, log the most recent deviation of this session that meets the Logging Criteria below, or say there is none.
+1. Take the entry from the request: text given with the skill name is the **Situation found**, and the rest of the entry is filled from context. With no text, log the most recent deviation of this session that meets the Logging Criteria below and is not yet in the deviation log, or say there is none.
 2. Append the entry (a one-line **Discovery** when no decision is needed yet; see Entry Format) to the deviation log before ending the turn, creating the file if it is missing:
 
    | Work | Log file | Heading when created |
@@ -58,7 +58,7 @@ A **Discovery** is the lighter entry, one line in the same file: the territory d
 
 ## Logging Criteria
 
-- **Log**: decisions affecting design, behavior or compatibility; points where the spec's interpretation diverges; an existing structure (code, a venue, a dataset) differing from expectation; workarounds; new dependencies, suppliers or commitments.
+- **Log**: decisions affecting design, behavior or compatibility; points where the spec's interpretation diverges; an existing structure (code, a venue, a dataset) differing from what the plan assumed; workarounds; new dependencies, suppliers or commitments.
 - **Don't log**: trivial wording or syntax fixes, formatting, names, self-evident details.
 
 ## Wrap-up
@@ -69,4 +69,4 @@ Before ending the session or handing the work over (a PR, a submitted draft, a h
 2. Summarize the remaining entries.
 3. Write the **fold back into the plan** block: 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises.
 4. Suggest continuing with the **quiz** skill.
-5. If the work needs approval, carry this log's unresolved items into the **buy-in** skill doc as "known limitations".
+5. If the work needs approval, carry this log's recorded deviations and unresolved risks into the **buy-in** skill doc as "known limitations".
