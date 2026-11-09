@@ -1,5 +1,29 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-09] Second rule-based review of the skill bodies
+
+**Observed**
+- **Situation found**: four rounds of independent review of the eleven `SKILL.md` files against four rules (a condition stays with what it gates, scope words, fewer instructions with reasons, one name per thing). Round 1 ran two reviewers per skill and one cross-file reviewer; each later round re-reviewed every skill the previous round changed with three reviewers, one of them comparing the old and the new text. Reviewers got the file and the rules, not the reasons for any edit. An adjudicator per skill tried to refute each finding, checked its quote in the file, checked it against `.claude/rules/skill-writing.md` and earlier decisions, and wrote the edit. Edits applied per round: 37, 11, 2, 0; one commit per skill per round. Every skill ended with a round that confirmed nothing new.
+- **Deviation from plan**: 24 of the 50 applied edits change meaning: a default branch for a case the text left undefined, a narrowed scope word, an added reason, or one name aligned across a hand-off. One crosses files: deviation-log step 5 now carries "recorded deviations and unresolved risks", the phrase the buy-in skill's step 5 already takes.
+- **Response chosen**: apply a finding when its quote is in the file, a careful model could misread the text, and the fix stays inside one file. Findings on rule-11 shared sentences, on descriptions, across files, on text that tests or graders quote, or that need a method decision were not edited; they are the Todo items below.
+
+**Attributed**
+- **Reason for choice**: a shared sentence edited in one file breaks rule 11; a description edit changes routing and needs the trigger and collision cases; a method decision is the owner's (rule 16).
+- **Alternatives considered**: edit shared sentences and cross-file names in every copy in this pass *(inferred, not stated)* — fewer open items, but each is a decision across up to eleven files that no reviewer could measure.
+- **Risk/follow-up check**: the meaning changes are checked only by one run of the suite (CHANGELOG); no eval reaches some of them (brainstorm's scout lists, prototypes' question when nothing names a target, quiz's score after a partial retry). The per-finding record, with the 93 deferred findings after duplicates were removed, is local: `evals/results/regula-2026-11-09/review-record.md`.
+- **Todo for human**: accept or revert the 24 meaning changes (listed in the record; each skill's commit message names them).
+- **Todo for human**: shared sentences (rule 11), each to change in every copy or keep:
+  - the read-back paragraph does not say whether a request that names the skill counts as understood by both sides (raised in blindspot, brainstorm, deviation-log, reference, tweakable-plan);
+  - the missing-tool line sits after the step's last sub-step, away from the tool use it covers, and does not name the tool (blindspot, brainstorm, reference, unknowns-loop; quiz was already deferred);
+  - the **Your own unknowns** sentence does not say whether the step's output waits for the answers or what an unanswered item becomes (prototypes), nor where it sits in its step (tweakable-plan); blindspot's ④–⑥ are the same three things under another name;
+  - the status label *confirmed* reads "You read it." in blindspot and "Only what you actually read." in the scout (the *unchecked* definition was already deferred);
+  - the blindspot and teach-me order sentence ends with a bare "teach-me" instead of the **teach-me** skill;
+  - "a missing pick is undecided" does not say what an undecided item does to the deliverable (tweakable-plan, buy-in);
+  - the deviation log's default file is a bare `IMPLEMENTATION_NOTES.md` in four skills and "at the project root" only in deviation-log.
+- **Todo for human**: one name across files: the definition of map and territory (unknowns-loop, blindspot, scout); "done criteria" for the whole step 2 opening line (unknowns-loop, tweakable-plan); "high blast radius" (tweakable-plan, interview); *unverified* (teach-me, quiz) next to *unchecked*; "deliverable" for several things; deviation-log's "Don't log" list next to independent-reviewer item 2; buy-in's "approved plan or spec" and the reviewer packet; the verdict words blindspot asks the scout to return.
+- **Todo for human**: method decisions, by skill: blindspot (marks for ② assumptions, and a label set apart from the status labels); brainstorm (scout packet: assumed metric and the user's words as data; whether brainstorm uses blindspot's scope rule for the scout); buy-in (undecided entries in the final doc, wait or continue on step 2b, what the "~5 in total" cap counts, answers without evidence); deviation-log (a branch for "where did we diverge from the plan?", the reason to suggest the quiz skill, the wrap-up order); interview (content of the ready-to-use prompt, a plan conflict with a fixed decision, a stop point for the deep interview, the reason for four questions); prototypes (the triad branch in step 5c, which steps the variants run, the reason for different design philosophies); quiz (a `Where:` fallback, the reason for 4 + 1, the exception for hand-over requests); reference (number the analysis and the application plan items and gate them); teach-me (no request text, the draft as the endpoint, a missing real photo, what to mark *unverified*, and three more); tweakable-plan (one definition of a decision item, the scope of "mechanical work after the decisions"); unknowns-loop (where a failed check or a missed outcome loops back, a skipped done-criteria question, when a stage may be skipped, the teach-me condition).
+- **Todo for human**: description wording in ten skills (trigger scope, terms that differ from the bodies); each change needs the trigger and collision cases.
+
 ## [2026-10-27] Compact the plugin to its method
 
 **Observed**
