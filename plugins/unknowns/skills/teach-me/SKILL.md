@@ -42,9 +42,9 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    | Domain | Comparison |
    |---|---|
    | Visual | Numbered Markdown before/after descriptions of the same subject, naming the visible differences. If a real photo is essential, ask the user for a file and refer to its visible regions. |
-   | Text, code or process | Comparison examples. |
+   | Any other domain (e.g. text, code, process) | Comparison examples. |
 
-   b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each whole look and its settings.
+   b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each preset's overall result and its settings.
 6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step in a short explainer too. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 7. Close with the payoff.
 
