@@ -57,7 +57,7 @@ When you and the user both seem to understand the request, do it without this me
 
 ## Output
 
-Numbered gotcha notes, mapping rows (key reference excerpt ↔ new-environment counterpart) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template; a missing pick is undecided.
+Numbered gotcha notes, mapping rows and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template; a missing pick is undecided.
 
 ## What Can Be a Reference
 
