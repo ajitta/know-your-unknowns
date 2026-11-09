@@ -43,7 +43,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
 5. **After the work**:
 
-   a. **Verify**: check the result against step 2's done criteria, what already works and must not break, and the allowed cost and change scope, marking each met, partial or missing with its evidence (a test run, a command's printed result, `file:line`, a document section, a confirmation from the person responsible). Mark a criterion met when its evidence shows the required result.
+   a. **Verify**: check the result against step 2's done criteria, what already works and must not break, and the allowed cost and change scope, marking each met, partial or missing with its evidence (a test run, a command's printed result, `file:line`, a document section, a confirmation from the person responsible). Mark each of them met when its evidence shows the required result.
 
    b. The **quiz** skill, so the user can explain the work in a handoff; also the **buy-in** skill when reviewers or stakeholders must approve it.
 
