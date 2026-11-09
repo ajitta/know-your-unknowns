@@ -1,5 +1,17 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-10] Second batch of owner decisions
+
+**Observed**
+- **Situation found**: the owner took the recommendations on the items opened by the measuring runs and asked for a push.
+- **Deviation from plan**: none in the applied changes. The auto-load measurement was settled from runs already made instead of a new run: deviation-log did not load in any of the 3 runs of `behavior-deviation-log-auto-on-mismatch` (it created no log; its grader passes a deviation reported only in the reply) nor in the 2 site-visit runs that did not name the log, 0 of 5.
+- **Response chosen**: deviation-log's **Don't log** names an item the plan said to check that came back as planned (3221f7d): the site-visit case logged the Wi-Fi password in 2 of 2 runs before, 1 of 3 after (1/2, then 1/1, by the rule), capacity and the missing elevator in 3 of 3, and the nine other deviation-log cases 16/16 graders. unknowns-scout keeps "unfamiliar": the new case `behavior-scout-checks-pinned-version` passed 2/2, the scout flagging that requirements.txt pins pydantic 1.10 while the plan names 2.x APIs. Kept as recommended, with no run: prototypes and quiz descriptions, the reviewer's *Worth logging* list, its "walking the plan through", and the loop description's stage list.
+
+**Attributed**
+- **Reason for choice**: the guide's routing rule (2 or more misses in 3 runs opens the description) is met for deviation-log's automatic use, but how to open it is a description decision that needs the trigger and collision cases.
+- **Risk/follow-up check**: one of three runs still logged the checked password; under watch.
+- **Todo for human**: deviation-log's description says "Use automatically when the work hits an unknown the plan did not cover", and 0 of 5 runs loaded it that way. Options: (a) drop the automatic claim from the description and both READMEs, so the skill is described as it behaves: by name, by its trigger phrases and inside the loop; (b) reword the clause to make automatic loading more likely, which is the forceful wording the owner ruled out. Recommendation: (a), with the 22 trigger and 4 collision cases run once each before and after, and `behavior-deviation-log-auto-on-mismatch`'s grader tightened to require a written log.
+
 ## [2026-11-10] Owner decisions applied, agents reviewed, open decisions measured
 
 **Observed**
