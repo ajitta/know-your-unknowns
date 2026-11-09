@@ -42,4 +42,4 @@ The work is done, but the approvers have not seen what the user has, and the use
 
 ## Output
 
-Reaction: number the approvers' unknowns, objections, limitations and sign-off entries; the user picks keep or revise for each and answers the step 2b questions they can, and the kept entries and the user's answers assemble into the final doc; a missing pick is undecided.
+Reaction: number the approvers' unknowns, objections, limitations and sign-off entries; the user picks keep or revise for each and answers the step 2b questions they can, and the final doc holds the kept entries, each revised entry rewritten as the user directs, each entry with no pick as drafted, and the user's answers, with the reply naming the entries that had no pick, so a limitation the user did not pick stays in front of the approvers; a missing pick is undecided.
