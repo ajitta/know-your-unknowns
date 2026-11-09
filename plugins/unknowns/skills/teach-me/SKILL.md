@@ -58,5 +58,5 @@ Reaction: number the terms, before/after comparisons, and presets; the user's pi
 
 ## Related
 
-- Blind spots in a specific plan, system or situation: use the **blindspot** skill — this skill covers blind spots in a field's **vocabulary**. Running both is fine: when the user cannot yet describe the task, run **teach-me** first; otherwise run **blindspot** first and hand its ③ list (where the user does not know how to judge) to teach-me.
+- Blind spots in a specific plan, system or situation: use the **blindspot** skill — this skill covers blind spots in a field's **vocabulary**. Running both is fine: when the user cannot yet describe the task, run the **teach-me** skill first; otherwise run the **blindspot** skill first and hand its ③ list (where the user does not know how to judge) to the **teach-me** skill.
 - If requirements still diverge after gaining vocabulary (revisions stop converging), lock decisions with the **interview** skill rather than teaching more vocabulary.
