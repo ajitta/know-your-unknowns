@@ -59,7 +59,7 @@ A **Discovery** is the lighter entry, one line in the same file: the territory d
 ## Logging Criteria
 
 - **Log**: decisions affecting design, behavior or compatibility; points where the spec's interpretation diverges; an existing structure (code, a venue, a dataset) differing from what the plan assumed; workarounds; new dependencies, suppliers or commitments.
-- **Don't log**: trivial wording or syntax fixes, formatting, names, self-evident details.
+- **Don't log**: trivial wording or syntax fixes, formatting, names, self-evident details, and an item the plan said to check that came back as planned, since it departs from nothing and a value such as a password does not belong in a shared log.
 
 ## Wrap-up
 
