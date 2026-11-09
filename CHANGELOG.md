@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Second rule-based review of the eleven skill bodies (four rules: a condition stays with what it gates, scope words, fewer instructions with reasons, one name per thing), repeated by independent reviewers until a round confirmed no new defect. Each skill's fixes are a separate commit; the findings, rejections and checks are recorded here when the review ends.
+
 ## 0.12.3 — 2026-11-04
 
 Released 2026-11-04. Text fixes from the first medium-effort runs and from a rule-based review of every skill and agent, the reference and quiz descriptions, an eval-runner fix for agents that hand their report back through a SubagentHandback call, and developer-only changes below. Skill names unchanged.
