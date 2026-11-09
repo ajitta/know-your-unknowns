@@ -16,7 +16,7 @@ When you and the user both seem to understand the request, do it without this me
 
 ## Iron Rules
 
-1. A reference is **not an answer to copy verbatim**; it is material for understanding intent and behavior.
+1. A reference is **not an answer to copy verbatim**; it is material for understanding intent and behavior, because it was made for a context other than the user's.
 2. Before building on it, **prove comprehension** with a semantics map: the user knows why they chose this reference, and your reading of it is the part they can correct.
 3. A supplied reference is never clear to both of you by itself, because the user's reason for choosing it is what the semantics map exposes, so run the Procedure even when the adaptation looks simple.
 
@@ -45,19 +45,19 @@ When you and the user both seem to understand the request, do it without this me
    - gotcha notes where behavior subtly differs
    - an edge-case table with a **Match** column: identical / equivalent / changed ("equivalent" = same decision, different surface)
 
-   Number every note and row so a correction can name one. Give each row the reference location it came from (`file:line`, section, or timestamp) so the user can check the reading against the source. Mark each counterpart that rests on a guess about the user's context (which behaviors they want kept, the local facts the reference does not show) as *assumed*, so the user corrects those first.
+   Number every note and row so a correction can name one, with the mapping rows and the edge-case rows in one sequence. Give each row the reference location it came from (`file:line`, section, or timestamp) so the user can check the reading against the source. Mark each counterpart that rests on a guess about the user's context (which behaviors they want kept, the local facts the reference does not show) as *assumed*, so the user corrects those first.
 
 4. Contrast and plan:
 
    a. Contrast the reference with the current work's conventions (e.g. house style, tools and dependencies, how the work is checked).
 
-   b. Present an **application plan** that first carries over how the reference checks itself (its tests, checklists or acceptance criteria), so the new version is checked against the reference's own behavior.
+   b. Present an **application plan** whose first items carry over how the reference checks itself (its tests, checklists or acceptance criteria; when it has none, say so), so the new version is checked against the reference's own behavior.
 
 5. **Sign-off gate**: the user replies `semantics confirmed`, or corrects any note or row by its number ("note 5", "row 3"). On a correction, revise the semantics map and every application-plan item that rests on the corrected entry, and show them again. The skill ends at sign-off; the signed-off map and application plan are the input to the build.
 
 ## Output
 
-Numbered mapping rows (key reference excerpt ↔ new-environment counterpart) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template; a missing pick is undecided.
+Numbered gotcha notes, mapping rows (key reference excerpt ↔ new-environment counterpart) and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template; a missing pick is undecided.
 
 ## What Can Be a Reference
 
