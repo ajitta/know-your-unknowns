@@ -511,7 +511,7 @@ Auto-triggers: "quiz me", "test my understanding", "퀴즈", "내가 이해했�
 **How it runs**: 1. An explanation first (structure of the work / 3 key decisions / where
 it's most likely to fail / what you should verify yourself), each part anchored to its
 location (`file:line` for code; section or page otherwise) → 2. **6 questions, and the pass
-mark is all 6** (five multiple choice, delivered as 4 + 1 with smaller tool batches when needed, plus one teach-back the user explains in their own words), prioritising
+mark is all 6** (five multiple choice, asked in one batch or in smaller tool batches when needed, plus one teach-back the user explains in their own words), prioritising
 what to do when something goes wrong > decision rationale > predicting outcomes and
 avoiding rote recall; if a deviation log exists, at least 1 question covers a recorded
 deviation → 3. Grading — each wrong or blank answer names the exact place to re-read,

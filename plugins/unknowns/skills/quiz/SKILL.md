@@ -52,7 +52,7 @@ Without a tool, do the step in the conversation and say what could not be checke
 
    Picking the right option only shows recognition; saying it unprompted is what the user will have to do in the handoff, the meeting or the PR. Writing the key file before asking and quoting it when grading makes the key provably predate the answer.
 
-2. Ask the prepared questions. Ask the five multiple-choice questions as 4 + 1, splitting a batch across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key.
+2. Ask the prepared questions. Ask the five multiple-choice questions in one batch, splitting it across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key.
 3. Grade answers.
 
    a. Grade the teach-back against the 2–3 points in the key file written for it under step 1c, and quote that file when grading.
