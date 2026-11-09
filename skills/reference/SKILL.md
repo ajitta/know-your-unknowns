@@ -16,7 +16,7 @@ When you and the user both seem to understand the request, do it without this me
 
 ## Iron Rules
 
-1. A reference is **not an answer to copy verbatim**; it is material for understanding intent and behavior, because it was made for a context other than the user's.
+1. A reference is **not an answer to copy verbatim**; it is material for understanding intent and behavior, because it was made for a context other than the new environment.
 2. Before building on it, **prove comprehension** with a semantics map: the user knows why they chose this reference, and your reading of it is the part they can correct.
 3. A supplied reference is never clear to both of you by itself, because the user's reason for choosing it is what the semantics map exposes, so run the Procedure even when the adaptation looks simple.
 
@@ -41,11 +41,11 @@ When you and the user both seem to understand the request, do it without this me
 
 3. Before building anything on the reference, a port or adaptation included, present **proof of comprehension (semantics map)**. The semantics map holds:
 
-   - key reference excerpts ↔ new-environment counterparts, side by side
+   - mapping rows: key reference excerpts ↔ new-environment counterparts, side by side
    - gotcha notes where behavior subtly differs
    - an edge-case table with a **Match** column: identical / equivalent / changed ("equivalent" = same decision, different surface)
 
-   Number every note and row so a correction can name one, with the mapping rows and the edge-case rows in one sequence. Give each row the reference location it came from (`file:line`, section, or timestamp) so the user can check the reading against the source. Mark each counterpart that rests on a guess about the user's context (which behaviors they want kept, the local facts the reference does not show) as *assumed*, so the user corrects those first.
+   Number every note and row so a correction can name one, with the mapping rows and the edge-case rows in one sequence. Give each row the reference location it came from (`file:line`, section, or timestamp) so the user can check the reading against the source. Mark each counterpart that rests on a guess about the user's situation (which behaviors they want kept, the local facts the reference does not show) as *assumed*, so the user corrects those first.
 
 4. Contrast and plan:
 
