@@ -8,7 +8,7 @@ description: >
   change gets plain steps. Clear to both sides: no skill or method.
 ---
 
-# Tweakable Plan — sorted by tweak likelihood
+# Tweakable Plan — sorted by tweak likelihood × blast radius
 
 This skill serves what neither the user nor you know yet, and surfaces both sides' unknowns.
 
