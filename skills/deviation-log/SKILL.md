@@ -68,5 +68,5 @@ Before ending the session or handing the work over (a PR, a submitted draft, a h
 1. List first the entries whose decision touches the structure of the work, what others see or were promised (e.g. a UX/API contract, a published date), data or money, or security and safety: the user reviews those calls before anything else, starting with the ones that rest on something only the user can know.
 2. Summarize the remaining entries.
 3. Write the **fold back into the plan** block: 3 copyable bullets on what this changes about attempt #2, so the next run does not rediscover today's surprises.
-4. Suggest continuing with the **quiz** skill.
+4. When you largely produced the work being handed over, suggest continuing with the **quiz** skill, so the user can explain it, these deviations included, before the hand-over.
 5. If the work needs approval, carry this log's recorded deviations and unresolved risks into the **buy-in** skill doc as "known limitations".
