@@ -21,7 +21,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
 
-   The loop's first reply after step 1 names the stages below in run order, marks the current one, and states the done criteria or asks for them.
+   The loop's first reply after step 1 names the stages below in run order, marks the current one, and states the outcome, the done criteria, what already works and must not break, and the allowed cost and change scope, or asks for them.
 
 3. **Before the work**, in this order:
 
