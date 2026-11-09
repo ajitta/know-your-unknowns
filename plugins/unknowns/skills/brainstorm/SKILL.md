@@ -25,15 +25,12 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
 1. Get the problem statement and constraints (timeline, people, cost) from the text the user gave with the request or after the skill name and the conversation. If they are empty or vague, ask back once for a measurable statement: which metric, how bad, since when, for whom. One round only. If the answer is still vague or the user skips, generate the candidates anyway and state the assumed metric and constraints above them.
 
-   **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
-
-   When you ask back for the problem statement, put these in the same round; otherwise put them above the candidates in step 3 and go on without waiting for the answers.
+   **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them. When you ask back for the problem statement, put these in the same round; otherwise put them above the candidates in step 3 and go on without waiting for the answers.
 2. Before generating candidates in step 3, look for what already exists but is not used for this problem: in a codebase, machinery that sits disconnected; elsewhere, resources, programs, people or partnerships already in reach.
 
    a. Search the material yourself or use the `unknowns:unknowns-scout` agent.
 
-   b. When you spawn the scout, the packet overrides the scout's default output (its finding table and improved prompt draft). The packet gives the scout the problem statement, the constraints and where to search, and asks it to return an **inventory**, one row per existing mechanism that bears on the problem, with the columns where it is / what it does today / what is missing to put it to use / evidence / status (confirmed / inferred); the scout is done when its procedure is done and every mechanism it found has a row. No finding table, no prompt draft.
-
+   b. When you spawn the scout, the packet overrides the scout's default output (its finding table and improved prompt draft). The packet gives the scout the problem statement, the constraints and where to search, and asks it to return an **inventory**, one row per existing mechanism that bears on the problem, with the columns where it is / what it does today / what is missing to put it to use / evidence / status (confirmed / inferred); the scout is done when its procedure is done and every mechanism it found has a row.
    c. When the scout returns, put its **Questions to answer**, **Information still needed** and **Needs checking** lists above the candidates in step 3, for the user to answer or check.
 
    Without a tool, do the step in the conversation and say what could not be checked.
@@ -60,7 +57,7 @@ Layout: numbered candidates on a time axis (this afternoon → quarter-long bet)
 
 ## Related
 
-After step 5's list, suggest the next skill by what is still open:
+After step 5, suggest the next skill by what is still open:
 
 | Still open | Skill |
 |---|---|
