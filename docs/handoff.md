@@ -1,18 +1,28 @@
-# 다음 라운드 인계 — 0.12.3 이후
+# 다음 라운드 인계 — 0.12.4 이후
 
 ## 다음 세션: 여기서 시작
 
-`unknowns--v0.12.3`이 릴리스되어 배포 중이다(2026-11-04, PR #28, main `77bd965`). 열린 브랜치·PR은 없다. 다음 버전은 브랜치에서 작업하고, 소유자 승인 뒤 PR → CI → 머지 → 태그 순으로 낸다.
+`unknowns--v0.12.4`가 릴리스되어 배포 중이다(2026-11-10, PR #31, main `4988768`). 열린 PR은 없다. 0.12.4의 작업 브랜치는 `IMPLEMENTATION_NOTES.md`가 그 커밋 해시를 인용하므로 지우지 않고 남겨 둔다. 다음 버전은 브랜치에서 작업하고, 소유자 승인 뒤 PR → CI → 머지 → 태그 순으로 낸다.
 
 | 무엇 | 누가 | 어디서 시작 |
 |---|---|---|
-| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드, 모바일에서 스킬 호출 확인 | 소유자 | GitHub Release `unknowns--v0.12.3` |
-| claude.ai(Add marketplace 경로)가 0.12.3을 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
+| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드, 모바일에서 스킬 호출 확인 | 소유자 | GitHub Release `unknowns--v0.12.4` |
+| claude.ai(Add marketplace 경로)가 0.12.4를 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
+| 두 번째 규칙 기반 리뷰에서 보류한 항목: 공용 문장, 파일 사이 이름, 스킬별 방법 결정, 설명 문구 10개(설명은 trigger·collision 케이스와 함께) | 소유자 결정 | `IMPLEMENTATION_NOTES.md` 2026-11-09·11-10의 Todo for human |
+| 라우팅에서 닿지 않은 본문: prototypes(단일 HTML 목업 0/2), quiz("오늘 오후 제출" 0/3) | 소유자 결정(추천: 설명 유지) | 같은 문서 2026-11-10 |
 | unknowns-loop 단계를 실제로 돌리는 다회차 평가 케이스 추가(체크리스트 도입 판단의 근거) | 에이전트(추천 1순위) | `evals/multiturn/`의 기존 케이스 형식, `docs/skill-authoring-guide.md` 체크리스트 행 |
-| 보류한 리뷰 지적: 지켜보는 칸(prototypes 포화 5c, interview 건너뛴 질문)과 공용 문장 3건(비코드 변경 기록 위치, *unchecked* 정의, quiz 도구 없음 줄 위치) | 에이전트, 지켜보는 칸이 다시 떨어질 때 | CHANGELOG 0.12.3 Fixed의 Rejected/Deferred, 아래 "지켜볼 칸" |
 | 지켜볼 칸 읽기 | 다음 측정 때 | 아래 "지켜볼 칸" |
 
-릴리스 규칙: 지원 모델은 Opus 5.5·GPT-6.1 Sol, medium effort(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 이웃 1회, 릴리스는 Opus 전체 1회 + Sol trigger 1회). 배포 본문을 바꾸면 버전을 올리고, `[Unreleased]`가 비어 있지 않을 때만 같은 버전 재생성이 허용된다. 평가 보조 도구(판정 스크립트, 릴리스 실행 스크립트)는 저장소 밖 `C:/Users/ajitta/work/kyu-probes/`(README 있음), Sol 확인은 빌드 VM `~/work/kyu-review/rel0123/codex_rel.py`.
+릴리스 규칙: 지원 모델은 Opus 5.5·GPT-6.1 Sol, medium effort(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 이웃 1회, 릴리스는 Opus 전체 1회 + Sol trigger 1회). 배포 본문을 바꾸면 버전을 올리고, `[Unreleased]`가 비어 있지 않을 때만 같은 버전 재생성이 허용된다. 평가 보조 도구(판정 스크립트, 릴리스 실행 스크립트)는 저장소 밖 `C:/Users/ajitta/work/kyu-probes/`(README 있음), Sol 확인은 빌드 VM `~/work/kyu-review/rel0124/codex_rel.py`(0.12.3 때는 `rel0123`).
+
+## 0.12.4에서 끝난 일 (2026-11-09–10, PR #31)
+
+- 두 번째 규칙 기반 리뷰(네 규칙, 새 결함이 없는 라운드까지 반복): 11개 스킬 본문 수정 50건(의미 변경 24건), 두 에이전트 리뷰(independent-reviewer 문구 3라운드, scout 수정 없음).
+- 소유자 결정 반영: 루프 첫 답에 step 2 네 항목, blindspot ②·⑤ 가정 판정에 근거·상태, 고르지 않은 프롬프트 수정은 미정으로 남김, quiz 객관식 다섯 개 한 번에, teach-me 출처 줄, quiz 제안은 AI가 대부분 만든 작업에만.
+- buy-in: 사용자가 고르지 않은 한계도 최종 문서에 남김(0/2 → 2/2).
+- deviation-log: 설명에서 "자동으로 시작" 주장을 뺌(측정 5회 중 0회 자동 로드). 확인된 대로 나온 점검 항목은 기록하지 않음(Wi-Fi 비밀번호 2/2 → 1/3).
+- 측정용 eval 케이스 25개(단발 18, 다회차 7). 결정 규칙과 케이스별 결과는 `IMPLEMENTATION_NOTES.md` 2026-11-10.
+- 릴리스 확인: Opus medium 전체 1회(CHANGELOG 0.12.4 Checked), Sol medium trigger 22/22(릴리스 뒤 태그 커밋으로 1회). 릴리스 zip sha256 일치, 빈 설정 설치 0.12.4(자체 마켓플레이스·`ajitta/claude-plugins`, 스킬 폴더 11개).
 
 ## 0.12.3에서 끝난 일 (2026-11-03–04, PR #28)
 
@@ -22,6 +32,16 @@
 - 규칙 기반 문구 리뷰(조건은 그것이 거는 결과 옆에, 범위 단어, 이유 있는 적은 지시, 한 이름)를 전 스킬·에이전트에 적용: 이름 통일과 빠진 경로 보충.
 - 릴리스 확인: Opus medium 전체 1회 단발 156/161·다회차 16/16(API 500으로 깨진 20건 재실행), Sol medium trigger 22/22. 릴리스 zip sha256 일치, 빈 설정 설치 0.12.3(자체 마켓플레이스·`ajitta/claude-plugins`).
 - 문구 점검(writing-for-models)은 이제 고친 diff 한 번, 점검자 한 명.
+
+## 지켜볼 칸 (0.12.4에서 새로, 각 1회 또는 소수 회차의 실수)
+
+- brainstorm: 후보 제목을 "Fix the metric first"처럼 지시형으로(4회 중 2회).
+- teach-me: 와인 어휘를 말없이 구매 상황으로 틀 잡음(3회 중 2회 통과), 초안에 가정한 세부를 일부만 표시(0/2).
+- unknowns-loop(영어): 첫 답에 변경 범위 누락(9회 중 8회 통과).
+- quiz(한국어): 해설이 Q2의 수치를 그대로 풀어 줌.
+- blindspot: 부분 선택 뒤 가정 판정(4회 중 2회 통과).
+- deviation-log: 계획대로 확인된 비밀번호를 기록(3회 중 1회).
+- interview: 깊은 인터뷰 첫 답에 질문 40개(2회 중 1회).
 
 ## 지켜볼 칸 (0.12.3 기준, 각 3회 중 1회 또는 1회 중 1회)
 
