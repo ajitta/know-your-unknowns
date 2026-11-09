@@ -241,7 +241,7 @@ python3 scripts/build-skill-zips.py
 확인하면 루프 없이 합니다(어긋나면 teach-me, interview, blindspot으로 갑니다). 그렇지
 않으면 Claude가 당신이 이루려는 성과와 완료 조건을 한 번의 주고받기로 합의하고,
 당신의 상황에 대해 자신이 모르는 것을 밝히고, 단계를 먼저 알려 줍니다. 작업 전:
-blindspot(분야 용어가 낯설면 teach-me 먼저) → interview → 필요하면
+blindspot(작업을 아직 설명하지 못하면 teach-me 먼저) → interview → 필요하면
 brainstorm/prototypes/reference → 가장 위험한 가정 하나만 시험하는 가장 싼 프로브(전화
 한 통, 시범 운영, 스파이크) → 수정확률순 계획(tweakable-plan). 작업 중에는 deviation-log가 이탈을
 기록합니다. 작업 뒤에는 결과를 완료 조건마다 근거와 함께 확인한 뒤 quiz, 리뷰어나

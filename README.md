@@ -248,7 +248,7 @@ or `/unknowns:unknowns-loop` reaches this one. The same goes for a bare "loop" o
 2–3 lines and, once you confirm, does it without the loop (a mismatch goes to teach-me,
 interview or blindspot). Otherwise Claude agrees the outcome you are after and the done criteria with you
 in one exchange, says what it does not know about your situation, and names the stages up
-front. Before the work: blindspot (teach-me first if the field's terms are new) →
+front. Before the work: blindspot (teach-me first if you cannot yet describe the task) →
 interview → brainstorm/prototypes/reference as needed → the cheapest probe of the riskiest
 assumption (a phone call, a pilot, a spike) → a plan ordered by likelihood-of-change
 (tweakable-plan). During the work, deviation-log records deviations. After it, the result is

@@ -27,7 +27,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    | Stage | Run | When |
    |---|---|---|
-   | a. Investigate | the **blindspot** skill; the **teach-me** skill first when the user cannot yet name the domain's terms | always, unless its question is already answered |
+   | a. Investigate | the **blindspot** skill; the **teach-me** skill first when the user cannot yet describe the task | always, unless its question is already answered |
    | b. Decide | the **interview** skill | requirements leave decisions open (structure, harm, compatibility, cost, taste) |
    | c. Shape | the **brainstorm** skill / the **prototypes** skill / the **reference** skill | the approach is undecided / the user will know the form when they see it / there is an example to emulate |
    | d. Test the riskiest assumption | state the most uncertain assumption the approach rests on, with its success and failure criteria, then run the **cheapest probe that tests only that assumption** (a spike, a phone call, a pilot, a sample) | the approach rests on an unproven assumption |
