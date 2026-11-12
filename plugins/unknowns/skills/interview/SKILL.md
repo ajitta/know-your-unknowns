@@ -1,12 +1,9 @@
 ---
 name: interview
 description: >
-  The interview — before deciding, the model asks the user, in rounds of at most four,
-  what it cannot know or judge about their situation: open questions first, then options
-  for each decision, biggest blast radius first; ends with a decision table and a ready
-  prompt. Any domain. Use on "interview me", "ask me questions before implementing", "ask
-  me before you decide", or when requirements are incomplete and the work has not started.
-  Clear to both sides: no skill or method.
+  The interview — before deciding, ask in rounds of ≤4 what the AI cannot know or judge
+  about your situation. Use on "interview me", "ask me questions before implementing",
+  "ask me before you decide".
 ---
 
 # Interview — Before-Deciding Interview

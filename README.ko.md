@@ -189,7 +189,7 @@ Customize › Skills에서 스킬을 하나씩 받는 호스트용으로는:
 python3 scripts/build-skill-zips.py
 ```
 
-원하는 `dist/<skill>.zip`을 올리세요. `scripts/skill-descriptions.json`의 짧은 설명을 쓰며, 트리거 포함 테스트가 그 설명도 확인합니다.
+원하는 `dist/<skill>.zip`을 올리세요. 플러그인과 같은 설명을 씁니다. 설명은 각각 200자 이하이고 `scripts/skill-descriptions.json`에 있으며, 테스트가 두 사본이 같은지와 트리거 문구가 남아 있는지를 확인합니다.
 
 ### 업데이트
 
@@ -568,6 +568,23 @@ Claude가 그냥 하는 경향이 있습니다. **팁:** 무게 있는 요청마
 Before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests.
 ```
 
+한 대화에서만 받으려면, 대신 이 문장을 메시지로 붙여 넣으세요:
+
+```
+For this conversation: before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests. When that work is finished, mark each done criterion with its evidence and ask me whether the result achieved the outcome.
+```
+
+한국어로는 이렇게 쓸 수 있습니다. 측정은 위의 영어 문장으로 했습니다.
+
+> 이 대화에서는: 결과가 무게를 가지는 요청(배포되거나, 발송되거나, 되돌리기 어려운 것)을 하기 전에 2–3줄 되읽기(요청, 어떤 가정을 했는지, 무엇이 완료인지)만 답하고 내 확인을 기다려 주세요. 자명한 요청은 바로 하세요. 그 작업이 끝나면 완료 기준마다 근거를 붙여 표시하고, 결과가 성과를 달성했는지 나에게 물어 주세요.
+
+어느 쪽을 쓸지: `CLAUDE.md` 한 줄은 모든 대화에서 작동하므로, 무게 있는 요청을 늘 확인한 뒤
+진행하고 싶을 때 씁니다. 붙여 넣는 문장은 붙여 넣은 그 대화에서만 작동하므로, 중요한 작업
+하나에만 쓰고 싶을 때 맞습니다. 붙여 넣는 문장은 그 작업이 끝났을 때 결과가 당신이 바란 것을
+이뤘는지도 묻습니다. `CLAUDE.md` 한 줄은 그 질문을 하지 않습니다. 측정(Claude Code, Claude
+Opus, medium effort, 각 4세션)에서 둘 다 4세션 중 4세션에서 확인을 받기 전에는 아무것도
+고치지 않았고, 둘 다 쓰지 않았을 때는 4세션 중 0세션이었습니다.
+
 **시나리오 B — 중간 규모 코드 작업** (버그 원인 애매, 모듈 반쯤 아는 상태):
 ```
 /unknowns:blindspot 장바구니 합계가 가끔 틀림. checkout/ 모듈
@@ -650,7 +667,7 @@ blindspot은 발화하지 않았습니다(1회 측정,
 ```
 skills/<name>/                 소스: SKILL.md, agents/openai.yaml
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.12.4
+plugin-manifest.json           소스 매니페스트, 현재 0.13.0
 packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드

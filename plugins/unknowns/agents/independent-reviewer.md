@@ -32,7 +32,7 @@ Your task message is the caller's packet: the done criteria, the outcome, the ap
    - *Observed vs Attributed*: check the Observed block against the work; treat Attributed (reason, alternatives) as a hypothesis — on conflict, the work as it stands wins.
 
    Whether or not a log exists, report unplanned decisions worth logging that are visible in the work and that no log entry records.
-3. **Passes on paper, fails in reality** — confirm by checking, not by reading the producer's explanations:
+3. **Passes on paper, fails in reality**:
 
    | Deliverable | Look for | Confirm by |
    |---|---|---|

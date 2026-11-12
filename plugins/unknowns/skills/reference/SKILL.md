@@ -1,11 +1,9 @@
 ---
 name: reference
 description: >
-  Point at a reference — treat a provided example as a map, not an answer: read it, show
-  the user your reading, and get it corrected before building on it. Use on "use this as a
-  reference", "make it like this", or when the user supplies an example to build from.
-  Runs even when the adaptation looks simple, because the deliverable is the reading the
-  user corrected. Clear to both sides: no skill or method.
+  Point at a reference — read an example, show your reading for correction before building
+  on it; runs even when the adaptation looks simple. Use on "use this as a reference",
+  "make it like this".
 ---
 
 # Reference — A Reference Is Another Map

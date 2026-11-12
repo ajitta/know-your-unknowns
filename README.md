@@ -196,7 +196,7 @@ For hosts accepting one skill at a time through Customize › Skills:
 python3 scripts/build-skill-zips.py
 ```
 
-Upload the desired `dist/<skill>.zip` files. They use the short descriptions in `scripts/skill-descriptions.json`; the trigger-containment tests check those descriptions too.
+Upload the desired `dist/<skill>.zip` files. They carry the same descriptions as the plugin, each 200 characters or fewer and kept in `scripts/skill-descriptions.json`; the tests check that the two copies match and keep the trigger phrases.
 
 ### Updating
 
@@ -610,6 +610,20 @@ get that read-back on every weighty request, put this line in your own `CLAUDE.m
 Before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests.
 ```
 
+To get it in one conversation only, paste this sentence as a message instead:
+
+```
+For this conversation: before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests. When that work is finished, mark each done criterion with its evidence and ask me whether the result achieved the outcome.
+```
+
+Which one to use: the `CLAUDE.md` line works in every conversation, so use it when you
+always want to confirm weighty requests before they are done. The pasted sentence works
+only in the conversation you paste it into, so use it for one piece of work that matters.
+The pasted sentence also asks you, when that work is finished, whether the result achieved
+what you were after; the `CLAUDE.md` line does not ask that. In our runs (Claude Code,
+Claude Opus, medium effort, 4 sessions each) both waited for confirmation before editing
+anything in 4 of 4 sessions, against 0 of 4 with neither.
+
 **Scenario B — medium code task** (unclear bug cause, half-familiar module):
 ```
 /unknowns:blindspot Cart totals are occasionally wrong. checkout/ module
@@ -696,7 +710,7 @@ the source" from "extended during authoring".
 ```
 skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.12.4
+plugin-manifest.json           source manifest, currently 0.13.0
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload

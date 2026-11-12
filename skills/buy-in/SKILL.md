@@ -1,10 +1,9 @@
 ---
 name: buy-in
 description: >
-  The buy-in doc — before asking for approval of any work, surface what the approvers do
-  not know and will object to, answer each point with evidence, state the limitations, and
-  name who signs off. Use on "buy-in doc", "prep me for review", "get sign-off", or before
-  requesting review, approval or merge. Clear to both sides: no skill or method.
+  The buy-in doc — surface what approvers don't know and will object to, answer with
+  evidence, state limits, name who signs. Use on "buy-in doc", "prep me for review", "get
+  sign-off".
 ---
 
 # Buy-in — The Buy-In Doc

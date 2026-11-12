@@ -5,7 +5,7 @@ paths:
 ---
 # Writing skill and agent text
 
-Skill and agent text is read by the model first and by maintainers second. Rule 0 decides what the plugin is for, rule 17 decides what stays in the text, and the other rules decide how it reads. Fix a hard-to-read passage that rule 17 keeps by restructuring it, not by cutting words: a model that loses the reason for a step tends to skip the step.
+Skill and agent text is read by the model first and by maintainers second. Rule 0 decides what the plugin is for, rule 17 decides what stays in the text, rule 18 decides what a description holds, and the other rules decide how it reads. Fix a hard-to-read passage that rule 17 keeps by restructuring it, not by cutting words: a model that loses the reason for a step tends to skip the step.
 
 ## Purpose
 
@@ -57,7 +57,7 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 11. **A sentence shared across skills is copied word for word.** Each skill loads alone, so repeating it is fine, but the copies must match so one grep finds and fixes them all. Known shared blocks:
     - the four finding kinds and the status labels (unknowns-scout, blindspot): the names and how each status is handled match, while each file words a status's definition for its own reader (blindspot's *confirmed* is "You read it.", the scout's "Only what you actually read.")
     - the independent-reviewer packet fields (buy-in, independent-reviewer)
-    - the cell line and the read-back line at the top of every skill body ("This skill serves <the cell in plain words>, …"; "When you and the user both seem to understand the request, do it without this method: …"), the same read-back line as the unknowns-loop skill's step 1, and "Clear to both sides: no skill or method." at the end of every skill description (the read-back itself lives in the bodies; in the descriptions it showed no effect and cost about 460 always-on tokens)
+    - the cell line and the read-back line at the top of every skill body ("This skill serves <the cell in plain words>, …"; "When you and the user both seem to understand the request, do it without this method: …", which holds the routing sentence "When the read-back exposes a mismatch, route by who does not know: …"), and the same read-back line as the unknowns-loop skill's step 1. Owner ruling 2026-11-13: the three stay in every body. The run behind it gave a self-evident request ("sort the import lines") to a skill invoked by name (interview, brainstorm and blindspot, 2 runs each, on the shipped bodies and with the read-back paragraph removed from ten bodies). Without the paragraph the skill ran its method in 6 of 6 runs; the shipped text did the request directly in 4 of 6, below the 5 of 6 set before the run. Both misses were blindspot, which ran its method with and without the paragraph. In interview and brainstorm the shipped text did the request directly in 4 of 4, the text without the paragraph in 0 of 4. The descriptions carry no sentence about clear requests (rule 18).
     - the **Your own unknowns** sentence (brainstorm, prototypes, tweakable-plan, unknowns-loop)
     - the deviation log's default file ("the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work)")
     - the missing-tool line ("Without a tool, do the step in the conversation and say what could not be checked.")
@@ -100,3 +100,11 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
     State the target behavior instead of the ban: "This pass ends at the improved prompt", not "Do not implement". Agents inherit every tool and may write code, tests and scripts and use git.
 
     Reason: a sentence guarantees nothing. A user who needs enforcement builds it into their own harness (permission modes, hooks, sandboxes), which does the job a sentence cannot, while every guard sentence is read on every run and competes with the method for the model's attention.
+
+## Descriptions
+
+18. **A skill description is the short text: 200 characters or fewer.** It holds the skill's label, what the skill is for and its quoted trigger phrases ("Use on …"). It may also hold one border clause, where a sibling skill or a built-in takes a similar request (brainstorm, teach-me, unknowns-loop), and a "runs even when …" clause, where the request looks simple enough to answer without the skill (quiz, reference). The method's steps and deliverables live in the body, and so does the read-back for requests that are clear to both sides (rule 11): a description carries no method summary and no closing sentence about clear requests. The same text is the skill's entry in `scripts/skill-descriptions.json`, which the single-skill upload zips use; change both together.
+
+    Owner ruling 2026-11-12. Reason: every description is loaded in every conversation, whether or not a skill runs. The short set costs 475 tokens (cl100k) where the earlier descriptions cost 949, and on a build with the short set the intended skill loaded in 22 of 22 trigger cases and 22 of 22 non-coding cases (one run per case; `CHANGELOG.md`, 0.13.0). A description edit is a routing change: run the trigger, non-coding and negative cases after it.
+
+    A border may live in the body instead. tweakable-plan's description has no border to native plan mode, although native plan mode also takes "plan this": its body's size gate handles a one-file request, and in the 0.13.0 release run the judge grader `defers-to-plan-mode` of `neg-one-file-tweakable-plan-defers-to-plan-mode` passed 1 of 1.

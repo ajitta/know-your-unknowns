@@ -65,7 +65,7 @@ Status values: **covered** (an existing rule or check already does it), **adopt*
 |---|---|---|
 | `name` ≤ 64 characters, lowercase letters, digits and hyphens | covered | `tools/package.py` |
 | `name` without the reserved words `anthropic`, `claude` | covered | `tools/package.py` (added 2026-11-03); the name pattern already excludes XML tags |
-| `description` 1–1,024 characters | covered | `tools/package.py` |
+| `description` 1–1,024 characters | covered | `tools/package.py`. This repository's own limit is 200 characters (`skill-writing.md` rule 18, owner ruling 2026-11-12), checked by `tests/test_portability.py` and `tests/test_skill_descriptions.py`. |
 | `description` without XML tags | covered | `tools/package.py` rejects `<` and `>` (added 2026-11-03) |
 | `SKILL.md` body under 500 lines | covered | `tools/package.py` (added 2026-11-03); the longest body is 111 lines |
 | Claude Code truncates `description` plus `when_to_use` at 1,536 characters | covered | the 1,024 limit is stricter |
@@ -101,7 +101,7 @@ Verdict: move none. The largest move saves about 200 tokens per run, and each mo
 - **The conditional branch is where a link gets skipped.** The page itself lists "missed connections" (the model not following a reference) as a failure to watch. A skipped link fails silently in exactly the branch the content was for, and that failure is likelier at medium effort.
 - **Compaction keeps `SKILL.md`, not what was read later.** Claude Code re-attaches an invoked skill's `SKILL.md` (first 5,000 tokens) after compaction; a reference file read through a tool is summarized like any other tool result. deviation-log's Wrap-up runs at the end of a long session, after compaction is most likely.
 - **Some runs have no file tool.** The host delivers `SKILL.md` itself, but a reference file needs a tool to read it, and every skill must complete without one (the missing-tool line, rules 3 and 11).
-- **The read-back paragraph (118 words, in every skill) stays.** It decides on entry whether the method runs at all, so it is needed on every run, and it is a shared block (rule 11).
+- **The read-back paragraph (118 words, in every skill) stays.** It decides on entry whether the method runs at all, so it is needed on every run, and it is a shared block (rule 11). Owner ruling 2026-11-13, after a run that gave a self-evident request ("sort the import lines") to a skill invoked by name (interview, brainstorm and blindspot, 2 runs each, on the shipped bodies and with the paragraph removed from ten bodies): without the paragraph the skill ran its method in 6 of 6 runs; the shipped text did the request directly in 4 of 6, below the 5 of 6 set before the run. Both misses were blindspot, which ran its method with and without the paragraph. In interview and brainstorm the shipped text did the request directly in 4 of 4, the text without the paragraph in 0 of 4.
 
 Revisit when a body passes about 300 lines, or when one conditional part grows past about 500 words.
 
@@ -128,8 +128,8 @@ Set freedom per step, not per skill. In this plugin:
 
 | Practice | Status | Note |
 |---|---|---|
-| What the skill does and when to use it, with key terms | covered | Every description has a method clause and a "Use on …" clause. |
-| Third person | watch | Point of view is mixed today (imperative "Run …", third-person "the model asks", second-person "even when you could answer directly" in blindspot). The page's reason is discovery; routing measured 260/260 and 44/44 with these descriptions. Write a new or changed description in the third person and rerun the trigger and collision cases (1 run each) when it changes; do not rewrite unchanged ones. |
+| What the skill does and when to use it, with key terms | covered | Since 0.13.0 every description is the short text of `skill-writing.md` rule 18 (owner ruling 2026-11-12): a label, what the skill is for and a "Use on …" clause with the trigger phrases, in 200 characters or fewer; some also hold a border clause or a "runs even when …" clause. The method summary moved out; the body states the method. |
+| Third person | watch | The short set is not in the third person: it uses imperatives and the second person ("find both sides' unknown unknowns", "ask in rounds of ≤4", "quiz you"). The page's reason is discovery; routing measured 260/260 and 44/44 with the descriptions before 0.13.0, and 22/22 trigger and 22/22 non-coding loads with the short set (1 run each). Rerun the trigger, non-coding and negative cases (1 run each) when a description changes. |
 | Specific over vague | covered | Owner ruling 2026-10-28: no "pushier" descriptions. |
 
 ### Content
@@ -161,8 +161,8 @@ Set freedom per step, not per skill. In this plugin:
 
 1. Read `.claude/rules/skill-writing.md` and grep `tests/` for phrases the edit touches (rule 13).
 2. Keep the body under 500 lines and self-contained.
-3. A new or changed description is third person, says what and when, and stays within 1,024 characters with no XML tags.
+3. A new or changed description says what the skill is for and when to use it, stays within 200 characters with no XML tags and no method summary (`skill-writing.md` rule 18), and is changed in `scripts/skill-descriptions.json` too.
 4. Give each changed step the freedom it needs (table above) and its reason.
 5. Run `python3 tools/package.py`, `python3 tools/package.py --check`, the unit tests and both `claude plugin validate --strict` commands.
-6. Run the changed skill's failing cases and its neighbours by the run-count table above; for a description change also the trigger and collision cases, 1 run each.
+6. Run the changed skill's failing cases and its neighbours by the run-count table above; for a description change also the trigger, non-coding and negative cases, 1 run each.
 7. At release, run the suite once on Opus 5.5 and the trigger cases once on GPT-6.1 Sol, both at medium effort.
