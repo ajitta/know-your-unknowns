@@ -2,6 +2,53 @@
 
 ## [Unreleased]
 
+## 0.13.0 — 2026-11-13
+
+Owner rulings of 2026-11-12 and 2026-11-13. The eleven skill descriptions are now the short set (200 characters or fewer each), nine sentences that only repeated another sentence of the same file leave five skill bodies and one agent, and both READMEs gain a sentence to paste when the read-back is wanted in one conversation only. The read-back paragraph, the cell sentence and the routing sentence stay in every body. No skill was added; skill names are unchanged.
+
+### Changed
+
+- Descriptions (owner ruling 2026-11-12): each `SKILL.md` description is now the text `scripts/skill-descriptions.json` already held for the single-skill upload zips, character for character: a label, what the skill is for, its trigger phrases and, in three skills, a border. The method summaries and the closing sentence "Clear to both sides: no skill or method." are gone from all eleven. Loaded in every conversation: 949 → 475 tokens (cl100k), 4,318 → 1,997 characters. The plugin, both release zips and the upload zips now carry one description per skill.
+  - Every trigger phrase the READMEs advertise is still in its description; blindspot's "unknown unknowns" is there as plain words, no longer as a quoted phrase.
+  - Among the text that left: blindspot's "run it even when you could answer directly", tweakable-plan's "Not native plan mode" sentence (the size gate stays in its body), unknowns-loop's stage list, and the situation clauses ("or when …", "or before …") of blindspot, brainstorm, buy-in, interview, reference and teach-me. quiz and reference keep a short "runs even when …" clause, quiz keeps "or before merging", brainstorm keeps "NOT for design variants", teach-me's border is "Not a plan investigation." and unknowns-loop's is "A bare "loop" is NOT this."
+  - The OpenAI zip carries the same skill files, so its listing text changed: upload `know-your-unknowns-openai.zip` to ChatGPT again after the release. `skills/*/agents/openai.yaml` and `packaging/openai/interface.json` quote no description and are unchanged.
+- Kept in every body (owner ruling 2026-11-13): the read-back paragraph ("When you and the user both seem to understand the request, do it without this method: …"), the routing sentence inside it and the cell sentence ("This skill serves …"). The reason is the first run under **Checked** below.
+- Sentences removed because another sentence of the same file gives the same instruction with the same scope (owner ruling 2026-11-13). Each row names the sentence that still says it:
+
+  | File | Removed | Still said by |
+  |---|---|---|
+  | blindspot, Output | "Reaction: a numbered, copyable **prompt fix** per finding card; the user's selected numbers assemble into the improved prompt draft; a missing pick is undecided." (the section held only this line) | Step 4b: "the recommended action as a numbered, copyable **prompt fix**". Step 5: "when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes and lists the unpicked ones as undecided below it", which now carries the shared ending "; a missing pick is undecided." |
+  | blindspot, Scope | "Not limited to code: a funding call, a policy, an event, a study, infrastructure and vendor integrations all have landmines and unwritten conventions." | The opening paragraph: "the **territory** (the actual situation: its documents, rules, people, data, or codebase)"; the kind table: "a rule with penalties", "(a codebase, an organisation, a funder, a community)" |
+  | brainstorm, opening | "The user picks; you draw the space." | Iron Rule 1: "The output is a map of solutions, not a solution. It ends at the user's assembled selection." Step 4: "ask which candidate numbers **resonate**; those are the picks" |
+  | brainstorm, Iron Rule 2 | "Spread candidates **across time horizons and approaches**, not 10 near-duplicates." | Step 3: "spread across the time axis (this afternoon / short-term (up to a month) / mid-term (1–3 months) / quarter-long bets (longer)) and across approaches, the unlikely ones included" |
+  | deviation-log, step 2 | "The **buy-in** and **quiz** skills read that log." | Wrap-up 4: "suggest continuing with the **quiz** skill, so the user can explain it, these deviations included". Wrap-up 5: "carry this log's recorded deviations and unresolved risks into the **buy-in** skill doc" |
+  | teach-me, opening | "This skill fills the **vocabulary gap**." | The sentence before it: "Vague requests … usually stem from **missing vocabulary**, not missing taste." The cell sentence: "surfaces the user's gaps" |
+  | tweakable-plan, opening | "A plan's purpose is to **pull the points where the user would intervene forward**, not to list steps in execution order." | Iron Rule 1: "**Execution order ≠ presentation order.** Present by tweak likelihood × blast radius". Step 5a: "**Sort decision items by tweak likelihood × blast radius** and place them first". The reason that followed the removed sentence ("Even if the user stops reading partway down, they have already seen every decision that matters.") moved to the end of step 5a |
+  | tweakable-plan, Iron Rule 2 | "Every decision carries **considered alternatives** — a decision without alternatives cannot be reviewed." | Step 5b: "Give every decision item … alternatives considered, lettered A, B, …, + why rejected … A decision missing a line cannot be reviewed on that line." |
+  | independent-reviewer, review item 3 | "— confirm by checking, not by reading the producer's explanations" | The opening line: "Treat the producer's explanations … as **claims only** — verify them directly against the work itself". The item's table column "Confirm by" |
+
+  Nine more candidate sentences were left because their copies differ in scope, the audit that listed them was unsure, or a later sentence depends on them; `IMPLEMENTATION_NOTES.md` (2026-11-13) lists each with its reason.
+- READMEs (both languages), next to the existing `CLAUDE.md` tip in Scenario A: a sentence to paste as a message when the read-back is wanted in one conversation only. It also asks, when that work is finished, for each done criterion with its evidence and whether the result achieved the outcome. A short paragraph says when to use which. The Korean README prints the English sentence, a Korean version of it, and says the measurement used the English one.
+- No session-wide "mode" skill (owner ruling 2026-11-13). The reason is the last run under **Checked** below.
+
+### Changed (developer-only)
+
+- `.claude/rules/skill-writing.md`: rule 11 no longer lists a closing sentence for the descriptions and records the ruling that the read-back paragraph, the routing sentence and the cell sentence stay; new rule 18 says what a description holds (200 characters or fewer, no method summary, no sentence about clear requests, the same text as `scripts/skill-descriptions.json`).
+- Tests: `tests/test_portability.py` no longer requires the closing sentence in each description; it checks that each description is 200 characters or fewer and has a "Use on …" clause, still checks the read-back paragraph, the routing sentence and the cell sentence in every body, and checks that both READMEs print the pasted sentence word for word. `tests/test_skill_descriptions.py` checks that each `SKILL.md` description equals its entry in `scripts/skill-descriptions.json`. 94 tests (91 before).
+- `scripts/skill-descriptions.json`: the `_comment` says the `SKILL.md` descriptions are now the same texts; `scripts/build-skill-zips.py` still reads the file for the upload zips.
+- `docs/skill-authoring-guide.md`, `docs/trigger-matrix.md`, `AGENTS.md` and `docs/handoff.md` follow the new description rule; the trigger matrix lists the new lengths and the clauses that left.
+
+### Checked (developer-only)
+
+- Before the commit: `tools/package.py` and `tools/package.py --check`, 94 unit tests, `evals/run-manual.py --verify` (88 cases, 206 graders, 0 problems; structure only), `scripts/build-skill-zips.py` for both targets, and `claude plugin validate --strict` for the plugin and the marketplace (Claude Code 2.1.322).
+- Earlier record for the short descriptions (0.12.2 below, 2026-10-28): 259/260 against 260/260 for the longer descriptions on 26 routing cases × 10 runs.
+- Short descriptions, on a build with the short set as the `SKILL.md` descriptions (Claude Code 2.1.322, Claude Opus, `--effort medium`, `evals/run-manual.py`, 1 run per case, mechanical graders only): the intended skill loaded in 22/22 trigger cases and 22/22 non-coding cases, the unknown-cell cases 4/4, and the negative cases passed 13/13 (three of them load the sibling skill their case allows: tweakable-plan, prototypes, teach-me). Judge-graded items were not scored in that run.
+- Read-back paragraph (same engine): with the paragraph removed from ten bodies, a skill invoked by name with a self-evident request ("sort the import lines") ran its whole method 4 of 4 times in interview and brainstorm, where the shipped text did the request directly 4 of 4. blindspot ran its method in both arms, 2 of 2 each: a new observation, under watch in `docs/handoff.md`, not fixed.
+- Pasted sentence (same engine, an editable example project, 4 sessions per arm, a blind judge per turn). No edit before confirmation on a weighty request: nothing 0/4, the pasted sentence 4/4, the `CLAUDE.md` line 4/4. Outcome question after the work: nothing 0/4, the pasted sentence 4/4, the `CLAUDE.md` line 0/4. Read-backs with the pasted sentence were about 600 characters long. After a context compaction the pasted sentence still held 2/2.
+- Why no skill: a draft session-wide skill of about 800 tokens gave the same two behaviours (4/4 and 4/4) with read-backs about 1,100 characters long, which failed the repository's own read-back grader 0/4.
+- Release check (Opus full suite once, Sol trigger once): PENDING
+- Not measured: the nine removed sentences were chosen by reading and have not been run with a model; Codex, ChatGPT and claude.ai were not run with the short descriptions in this round; every cell above is 1 to 4 runs. Raw transcripts are on the build machine.
+
 ## 0.12.4 — 2026-11-10
 
 Released 2026-11-10. A second rule-based review of the eleven skill bodies and both agents, the owner's decisions on its findings, a buy-in fix for limitations the user did not pick, deviation-log described as starting by name, by a trigger phrase or inside the loop rather than on its own, and 25 measuring eval cases (developer-only). Skill names unchanged.

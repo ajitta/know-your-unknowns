@@ -1,5 +1,59 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-13] Short descriptions, duplicate sentences, a pasted sentence instead of a mode skill (0.13.0)
+
+**Observed**
+- **Situation found**: owner rulings of 2026-11-12 and 2026-11-13, made after a read-only audit of the eleven bodies, both agents and the descriptions (37 findings: text a model would follow anyway, duplicates, other dead weight) and after runs on four questions. (1) The descriptions become the short set of `scripts/skill-descriptions.json`. (2) The read-back paragraph, the routing sentence and the cell sentence stay in every body. (3) Pure duplicates leave: only the audit's duplicate rows in its per-skill and per-agent tables, and only where the same instruction with the same scope remains in the same file. (4) No session-wide mode skill; both READMEs gain a sentence to paste for one conversation.
+- **Deviation from plan**:
+  1. Of the 18 candidate rows (17 duplicate rows and one row the audit classed half duplicate), 9 were applied and 9 left; the tables below give each one.
+  2. Two applied rows move text as well as delete it. blindspot: the shared ending "; a missing pick is undecided." moved from the removed Output line to step 5, where the unpicked fixes are already listed as undecided; `tests/test_portability.py` pins that ending for the seven reacting skills. tweakable-plan: the reason sentence "Even if the user stops reading partway down, they have already seen every decision that matters." moved from the opening paragraph to the end of step 5a, the step it explains (rule 4), because the sentence it followed is the duplicate that left. Before, the reason stood beside the plan's purpose; after, beside the sort instruction. Both concern the same ordering.
+  3. Removing blindspot's Reaction line empties its `## Output` section, so the heading left too. Nothing in `tests/`, `evals/`, `docs/` or the READMEs cites that heading.
+  4. The CHANGELOG section is headed `## 0.13.0 — 2026-11-13`, the form every released section uses, not a bracketed version.
+  5. `docs/trigger-matrix.md` (lengths, quoted phrases, clauses that left) and `docs/skill-authoring-guide.md` (description rows, checklist) were updated because they state what a description holds. The matrix's collision table and risk list record earlier states and were not re-read against the short set.
+  6. `.claude/rules/skill-writing.md` gained rule 18 for descriptions instead of a longer rule 11 bullet, so the description rule has one place.
+  7. `skills/*/agents/openai.yaml` and `packaging/openai/interface.json` were read and left unchanged: neither quotes a description, and nothing in them contradicts the short set.
+- **Response chosen**: descriptions replaced by script, each parsed back and compared with its JSON entry (also with a YAML parser); the token figures recounted with cl100k: 949 → 475, 4,318 → 1,997 characters. Duplicate rows decided by reading each candidate against the rest of its file:
+
+  Applied (the sentence that still says it is quoted in `CHANGELOG.md`, 0.13.0):
+
+  | Row (0.12.4 line) | Still said by |
+  |---|---|
+  | blindspot:108, the Reaction line | steps 4b and 5; the ending moved to step 5 |
+  | blindspot:112, "Not limited to code: …" | the territory definition in the opening paragraph; the kind table's non-code examples |
+  | brainstorm:17, "The user picks; you draw the space." | Iron Rule 1; step 4 |
+  | brainstorm:22, Iron Rule 2 | step 3 |
+  | deviation-log:28, "The **buy-in** and **quiz** skills read that log." | Wrap-up 4 and 5 |
+  | teach-me:17, "This skill fills the **vocabulary gap**." | the sentence before it; the cell sentence |
+  | tweakable-plan:17, "A plan's purpose is …" | Iron Rule 1; step 5a (its reason sentence moved there) |
+  | tweakable-plan:22, Iron Rule 2 | step 5b, which gives the same reason |
+  | independent-reviewer:35, "— confirm by checking, …" | the agent's opening line; the "Confirm by" column |
+
+  Left as they were:
+
+  | Row (0.12.4 line) | Why it stays |
+  |---|---|
+  | brainstorm:57, "Layout: numbered candidates on a time axis …" | Scope differs: it is the only instruction to number the candidates and lay them out along the axis. Step 3 spreads them across the axis; step 4 only refers to "candidate numbers". |
+  | buy-in:16, the opening paragraph | Scope differs: it holds "before the meeting, not in it" and the method's reason ("Approval turns on what the approvers do not know"). The other copy of the timing was the earlier description's "before asking for approval", which the short description does not have. |
+  | deviation-log:50, "Observed earns trust only … the work as it stands wins." | "On conflict, the work as it stands wins" has no other copy in this file; the audit's copy is in the independent-reviewer agent, which is a different context. Removing only the sentence before it would leave "On conflict" without its two sides (rule 12). |
+  | interview:18, "When requirements are incomplete, **you interview the user** …" | Scope differs: the copy in the cell sentence has no "When requirements are incomplete", and the short description no longer states that condition. The cell sentence itself stays by ruling (2). |
+  | interview:44, "3. Collect the answers …" | The audit is unsure whether it also keeps a pre-filled summary out of the question reply, and deleting it renumbers steps 4 and 5, which the body cites as "step 4" and "step 4c". |
+  | prototypes:58, "On skip, ask **"would steal if…"** (step 4)." | The audit rates it medium, and the bare-skip cell is under watch. |
+  | reference:20, Iron Rule 2 | It introduces "semantics map", the term Iron Rule 3 uses, and Iron Rule 3 is the sentence added for a measured loading failure (0.12.3). The other half of the audit's row is the cell sentence, which stays by ruling (2). |
+  | teach-me:57, the Reaction line | Scope differs: it is the only instruction to number the presets and the non-visual comparisons, and it carries the pinned ending. |
+  | unknowns-scout:58, "Report only what you found. …" | A mixed row (its first sentence is in the class the ruling excludes), rated medium. |
+
+**Attributed**
+- **Reason for choice**: a row was applied only when another sentence of the same file gives the same instruction for the same cases and the audit's confidence was high or medium-high; a sentence that is a step's only reason was moved rather than lost (rule 4, rule 14). Everything else stays until a run shows it is not needed.
+- **Alternatives considered**: (a) apply all 18 rows as the audit listed them *(inferred, not stated)*: rejected, because five of them have no second copy with the same scope in the file once the descriptions are short, the audit is unsure of three more, and one introduces a term the next rule uses. (b) Rewrite the two reacting-skill tests so the Reaction lines could go without moving the ending: rejected, the ending is a rule 11 shared sentence and the ruling says to move it. (c) Drop `scripts/skill-descriptions.json` and let the zip script read `SKILL.md`: not done, the ruling keeps the file as the source for the upload zips; a test now holds the two copies equal.
+- **Risk/follow-up check**:
+  - The nine removals and the two moves were decided by reading and have not been run with a model. The release check (the whole suite once) is their first run.
+  - Rule 14's comparison by someone who did not write the change, and the single writing-for-models check of the diff, are still to do.
+  - Measured only in cells of 1 to 4 runs (the figures are in `CHANGELOG.md`, 0.13.0). Judge-graded items were not scored in the short-description run. Codex, ChatGPT and claude.ai were not run with the short descriptions in this round; the earlier Codex release runs used the longer descriptions.
+  - The short set no longer has blindspot's "run it even when you could answer directly" (added in 0.7.1 for a measured loading failure) or tweakable-plan's "Not native plan mode" sentence. Both skills' cases passed in the one run made (trigger 22/22, negative cases 13/13, with tweakable-plan loading in the case that allows it). Watch both.
+  - blindspot ran its whole method on a self-evident request when invoked by name, with and without the read-back paragraph (2 of 2 in each arm). Recorded as a watch cell in `docs/handoff.md`; not fixed.
+  - Raw transcripts are on the build machine.
+- **Todo for human**: run the release check and replace the `PENDING` line in `CHANGELOG.md`; have the diff reviewed independently; after the release, upload the OpenAI zip to ChatGPT again, because its listing text changed.
+
 ## [2026-11-10] Second batch of owner decisions
 
 **Observed**

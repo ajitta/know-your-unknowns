@@ -1,19 +1,34 @@
-# 다음 라운드 인계 — 0.12.4 이후
+# 다음 라운드 인계 — 0.13.0
 
 ## 다음 세션: 여기서 시작
 
-`unknowns--v0.12.4`가 릴리스되어 배포 중이다(2026-11-10, PR #31, main `4988768`). 열린 PR은 없다. 0.12.4의 작업 브랜치는 `IMPLEMENTATION_NOTES.md`가 그 커밋 해시를 인용하므로 지우지 않고 남겨 둔다. 다음 버전은 브랜치에서 작업하고, 소유자 승인 뒤 PR → CI → 머지 → 태그 순으로 낸다.
+배포 중인 버전은 `unknowns--v0.12.4`다(2026-11-10, PR #31, main `4988768`). 0.13.0은 브랜치 `short-descriptions`에서 준비했다. `unknowns--v0.13.0` 태그가 없으면 아직 릴리스 전이다. 아래 표의 릴리스 확인과 독립 리뷰가 끝나면 소유자 승인 뒤 PR → CI → 머지 → 태그 순으로 낸다. 0.12.4의 작업 브랜치는 `IMPLEMENTATION_NOTES.md`가 그 커밋 해시를 인용하므로 지우지 않고 남겨 둔다.
 
 | 무엇 | 누가 | 어디서 시작 |
 |---|---|---|
-| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드, 모바일에서 스킬 호출 확인 | 소유자 | GitHub Release `unknowns--v0.12.4` |
-| claude.ai(Add marketplace 경로)가 0.12.4를 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
-| 두 번째 규칙 기반 리뷰에서 보류한 항목: 공용 문장, 파일 사이 이름, 스킬별 방법 결정, 설명 문구 10개(설명은 trigger·collision 케이스와 함께) | 소유자 결정 | `IMPLEMENTATION_NOTES.md` 2026-11-09·11-10의 Todo for human |
-| 라우팅에서 닿지 않은 본문: prototypes(단일 HTML 목업 0/2), quiz("오늘 오후 제출" 0/3) | 소유자 결정(추천: 설명 유지) | 같은 문서 2026-11-10 |
+| 0.13.0 릴리스 확인: Opus 전체 1회 + Sol trigger 1회. 결과로 CHANGELOG 0.13.0의 `Release check (Opus full suite once, Sol trigger once): PENDING` 줄을 바꾼다 | 관리자 | CHANGELOG 0.13.0 **Checked**, 아래 릴리스 규칙 |
+| 0.13.0 독립 리뷰: 글쓴이가 아닌 검토자가 지운 문장 9개와 옮긴 문장 2개를 `git show main:<file>`과 비교(14번), 고친 diff의 writing-for-models 점검 1회 | 에이전트(검토자) | `git diff main -- skills claude-code`, `IMPLEMENTATION_NOTES.md` 2026-11-13의 두 표 |
+| 0.13.0 릴리스 뒤 ChatGPT에 `know-your-unknowns-openai.zip` 재업로드(스킬 설명이 바뀌어 목록 문구가 달라졌다), 모바일에서 스킬 호출 확인. 0.12.4 재업로드 여부는 이 문서에 기록이 없다 | 소유자 | GitHub Release `unknowns--v0.13.0` |
+| claude.ai(Add marketplace 경로)가 새 버전을 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
+| 두 번째 규칙 기반 리뷰에서 보류한 항목: 공용 문장, 파일 사이 이름, 스킬별 방법 결정. 설명 문구 10개에 대한 지적은 0.12.4의 긴 설명 기준이므로 짧은 설명에 맞춰 다시 읽어야 한다 | 소유자 결정 | `IMPLEMENTATION_NOTES.md` 2026-11-09·11-10의 Todo for human |
+| 라우팅에서 닿지 않은 본문: prototypes(단일 HTML 목업 0/2), quiz("오늘 오후 제출" 0/3). 둘 다 긴 설명으로 잰 값이고 짧은 설명으로는 다시 재지 않았다 | 소유자 결정 | 같은 문서 2026-11-10 |
+| 남겨 둔 중복 후보 9개(범위가 다르거나, 점검이 확신하지 못했거나, 뒤 문장이 기대는 문장) | 소유자 결정(추천: 실행으로 필요 없음이 보일 때까지 유지) | `IMPLEMENTATION_NOTES.md` 2026-11-13 "Left as they were" 표 |
 | unknowns-loop 단계를 실제로 돌리는 다회차 평가 케이스 추가(체크리스트 도입 판단의 근거) | 에이전트(추천 1순위) | `evals/multiturn/`의 기존 케이스 형식, `docs/skill-authoring-guide.md` 체크리스트 행 |
 | 지켜볼 칸 읽기 | 다음 측정 때 | 아래 "지켜볼 칸" |
 
-릴리스 규칙: 지원 모델은 Opus 5.5·GPT-6.1 Sol, medium effort(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 이웃 1회, 릴리스는 Opus 전체 1회 + Sol trigger 1회). 배포 본문을 바꾸면 버전을 올리고, `[Unreleased]`가 비어 있지 않을 때만 같은 버전 재생성이 허용된다. 평가 보조 도구(판정 스크립트, 릴리스 실행 스크립트)는 저장소 밖 `C:/Users/ajitta/work/kyu-probes/`(README 있음), Sol 확인은 빌드 VM `~/work/kyu-review/rel0124/codex_rel.py`(0.12.3 때는 `rel0123`).
+릴리스 규칙: 지원 모델은 Opus 5.5·GPT-6.1 Sol, medium effort(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 이웃 1회, 릴리스는 Opus 전체 1회 + Sol trigger 1회). 배포 본문을 바꾸면 버전을 올리고, `[Unreleased]`가 비어 있지 않을 때만 같은 버전 재생성이 허용된다. 평가 보조 도구(판정 스크립트, 릴리스 실행 스크립트)는 저장소 밖 `C:/Users/ajitta/work/kyu-probes/`(README 있음), Sol 확인은 빌드 VM `~/work/kyu-review/rel0124/codex_rel.py`(0.12.3 때는 `rel0123`). 0.13.0 측정의 원본 실행 기록은 빌드 머신에 있다.
+
+## 0.13.0에서 한 일 (2026-11-12–13, 브랜치 `short-descriptions`, 릴리스 전)
+
+소유자 판단(2026-11-12, 11-13) 네 가지를 한 버전에 담았다. 수치와 표는 CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md` 2026-11-13.
+
+- 설명 11개를 짧은 세트로 바꿨다. 각 `SKILL.md`의 설명은 `scripts/skill-descriptions.json`의 문구와 글자 단위로 같다(200자 이하). 방법 요약과 끝 문장 "Clear to both sides: no skill or method."는 없다. 모든 대화에 실리는 양이 949 → 475토큰(cl100k)이다. 플러그인, 두 릴리스 zip, 스킬별 업로드 zip이 같은 설명을 쓴다. 규칙은 `.claude/rules/skill-writing.md` 18번, 테스트가 길이와 두 사본의 일치를 본다.
+- 본문의 되읽기 문단, 라우팅 문장, 칸 문장은 모든 스킬에 남긴다. 근거: 되읽기 문단을 본문 10개에서 뺀 실행에서, 이름으로 부른 스킬에 자명한 요청("sort the import lines")을 주자 interview와 brainstorm이 방법 전체를 실행했다(4회 중 4회). 배포 문구는 요청을 바로 처리했다(4회 중 4회).
+- 같은 파일의 다른 문장이 같은 범위로 같은 지시를 하는 문장 9개를 지웠다(스킬 본문 5개, 에이전트 1개). 지운 문장마다 그 지시를 여전히 말하는 문장을 CHANGELOG 표에 적었다. blindspot의 "; a missing pick is undecided."는 5단계로, tweakable-plan의 이유 문장은 5a단계로 옮겼다. 후보 9개는 남겼다(위 표).
+- 세션 전체에 걸리는 "mode" 스킬은 더하지 않는다. 대신 두 README의 시나리오 A에, `CLAUDE.md` 한 줄 팁 옆에, 한 대화에서만 쓰는 붙여 넣기 문장을 넣었다. 측정(각 4세션): 무게 있는 요청에서 확인 전 수정 없음은 아무것도 없을 때 0/4, 붙여 넣기 문장 4/4, `CLAUDE.md` 한 줄 4/4. 작업 뒤 성과 질문은 0/4, 4/4, 0/4. 약 800토큰의 스킬 초안은 같은 행동(4/4, 4/4)을 냈지만 되읽기가 약 1,100자로 길어 저장소의 되읽기 채점을 0/4로 통과하지 못했다.
+- 짧은 설명 측정(Claude Code 2.1.322, Opus, medium, 케이스당 1회, 기계 판정만): trigger 22/22, 비코딩 22/22, unknown 칸 4/4, 네거티브 13/13(그중 셋은 케이스가 허용하는 이웃 스킬 tweakable-plan·prototypes·teach-me를 로드). 판사 채점 항목은 이 실행에서 채점하지 않았다.
+- 확인한 것: `tools/package.py`와 `--check`, 단위 테스트 94개, `evals/run-manual.py --verify`, `claude plugin validate --strict` 두 개. 모델을 부르는 평가는 이 브랜치의 최종 문구로 돌리지 않았다.
+- 재지 않은 것: 지운 문장 9개(읽어서 판단), 짧은 설명의 Codex·ChatGPT·claude.ai 실행, 1–4회짜리 칸의 빈도.
 
 ## 0.12.4에서 끝난 일 (2026-11-09–10, PR #31)
 
@@ -32,6 +47,11 @@
 - 규칙 기반 문구 리뷰(조건은 그것이 거는 결과 옆에, 범위 단어, 이유 있는 적은 지시, 한 이름)를 전 스킬·에이전트에 적용: 이름 통일과 빠진 경로 보충.
 - 릴리스 확인: Opus medium 전체 1회 단발 156/161·다회차 16/16(API 500으로 깨진 20건 재실행), Sol medium trigger 22/22. 릴리스 zip sha256 일치, 빈 설정 설치 0.12.3(자체 마켓플레이스·`ajitta/claude-plugins`).
 - 문구 점검(writing-for-models)은 이제 고친 diff 한 번, 점검자 한 명.
+
+## 지켜볼 칸 (0.13.0에서 새로, 관찰이며 고치지 않음)
+
+- blindspot: 이름으로 부르고 자명한 요청("sort the import lines")을 주면, 되읽기 문단이 있는 배포 문구에서도 없는 문구에서도 방법 전체를 실행했다(두 arm 모두 2회 중 2회). interview와 brainstorm은 배포 문구에서 요청을 바로 처리했다.
+- 짧은 설명에서 빠진 문장: blindspot의 "run it even when you could answer directly"(0.7.1에서 로드 실패를 고친 문장), tweakable-plan의 "Not native plan mode" 문장. 이번 1회 실행에서는 두 스킬의 케이스가 모두 통과했다.
 
 ## 지켜볼 칸 (0.12.4에서 새로, 각 1회 또는 소수 회차의 실수)
 
@@ -60,7 +80,7 @@
 - 배포: `unknowns--v0.12.2`, GitHub Release에 `know-your-unknowns.zip`·`know-your-unknowns-openai.zip`. 카탈로그 `ajitta/claude-plugins`는 `git-subdir` `plugins/unknowns`를 가리킨다.
 - 0.12.2와 0.12.1은 본문 수정판이다(0.12.2: interview·blindspot, 0.12.1: blindspot·brainstorm·interview·quiz). 설명·스킬 이름·항상 로드되는 토큰은 0.12.0과 같다.
 - 0.12.0은 범위 재정의 판이다. 플러그인은 사용자와 AI가 아는 것의 세 칸(사용자는 모르고 AI는 아는 것, AI가 모르는 것, 둘 다 모르는 것)을 어떤 분야에서든 다루고, 산출물이 아니라 성과로 판단한다(`.claude/rules/skill-writing.md` 0번). 둘 다 아는 요청은 범위 밖이고 바로 처리한다.
-- **Breaking(0.12.0):** `loop` → `unknowns-loop`, `notes` → `deviation-log`, `plan` → `tweakable-plan`. 설명 11개는 영어로만 쓰고, 끝 문장은 "Clear to both sides: no skill or method."
+- **Breaking(0.12.0):** `loop` → `unknowns-loop`, `notes` → `deviation-log`, `plan` → `tweakable-plan`. 설명 11개는 영어로만 쓰고, 끝 문장은 "Clear to both sides: no skill or method." (0.13.0에서 설명을 짧은 세트로 바꾸면서 이 끝 문장은 없어졌다.)
 - 요청 되읽기(read-back)는 각 스킬 본문과 unknowns-loop 1단계에 있다(소유자 판단으로 유지, 2026-10-28). 스킬이 뜨지 않는 무거운 요청에서도 되읽기를 원하는 사용자는 README가 안내하는 한 줄을 자기 `CLAUDE.md`에 넣는다(측정 9/9).
 - 구조: 원본 `skills/`(스킬마다 SKILL.md 하나, 공유 참조 파일 없음), `claude-code/agents/` → `tools/package.py`가 `plugins/unknowns/`와 두 zip을 생성(커밋됨). 코드 없음, 목록 아이콘 PNG 하나.
 - 작성 원칙: `.claude/rules/skill-writing.md` 0번(목적)과 17번 — 금지 문장·읽기 전용 약속·도구 허용 목록·정체성 문장("You are …")을 쓰지 않는다. 강제는 사용자 하네스의 몫이다. 두 에이전트는 모든 도구를 물려받고, 플러그인은 git 절차를 따로 두지 않는다.
@@ -89,7 +109,7 @@
 
 ## 소유자 판단 기록 (2026-10-28)
 
-- 업로드용 짧은 설명의 대리 측정(520회): 승인, 0.12.1 릴리스 뒤 실행해 통과(아래 "업로드용 짧은 설명의 호출 측정").
+- 업로드용 짧은 설명의 대리 측정(520회): 승인, 0.12.1 릴리스 뒤 실행해 통과(아래 "짧은 설명의 측정 기록과 다시 재는 방법"). 0.13.0부터 이 짧은 설명이 배포 설명이다.
 - 설명을 skill-creator 권고대로 더 적극적으로("pushy") 쓰지 않는다. 이 빌드의 라우팅은 이름 44/44(0.12.0), 한국어 blindspot 트리거 10/10, Codex 18/18이다.
 - teach-me의 예(색 보정 한 분야)는 유지한다. 비교 표가 글·코드·절차를 다루고 비코딩 케이스가 통과한다.
 - 본문의 되읽기 문장은 유지한다(아래 "측정이 얇은 곳" 마지막 항목).
@@ -112,18 +132,21 @@
 - Codex에서만 보인 것(Claude에서는 통과, 본문은 고치지 않음): interview 1라운드가 다음 라운드가 이어진다고 말하지 않았다(1회 중 1회). tweakable-plan은 완료 기준을 "completion criteria"로 써서 정규식 채점만 놓쳤다(방법은 지킴).
 - 본문의 "둘 다 이해한 요청이면 방법 없이" 문장을 스킬 산출물을 직접 요청한 경우("quiz me")까지 건너뛰라는 뜻으로 읽는 검사자 지적이 이번에도 나왔다(quiz). 실행에서 건너뛴 적은 없다. 건너뛰는 실행이 나오면 범위를 "이 스킬 자체의 산출물 요청이 아닌 경우"로 좁힌다.
 
-### 업로드용 짧은 설명의 호출 측정
+### 짧은 설명의 측정 기록과 다시 재는 방법
 
-claude.ai Customize › Skills에 올리는 짧은 설명(`scripts/skill-descriptions.json`)은 2026-10-28 아래 방법으로 Claude Code 대리 측정을 했다. 결과: 짧은 설명 259/260, 플러그인 설명 260/260(Fisher p = 1.0, Wilson 하한 97.9%), 충돌 케이스 40/40 대 40/40. 놓친 1회는 한국어 blindspot에서 스킬 없이 바로 답한 경우다. 기록은 CHANGELOG `[Unreleased]`. 같은 측정을 다시 할 때의 방법: 테스트는 길이(200자 이하)와 README 문구 포함만 본다. 업로드 화면 자체는 headless로 돌릴 수 없으므로 Claude Code 대리 측정으로 한다.
+0.13.0부터 `scripts/skill-descriptions.json`의 짧은 설명이 각 `SKILL.md`의 설명이다(소유자 판단 2026-11-12). 업로드용 설명이 따로 있지 않으므로 변형 플러그인을 만들어 대리 측정할 필요가 없고, `plugins/unknowns`를 그대로 재면 된다.
 
-- 변형 만들기: `python3 scripts/build-skill-zips.py --out <절대 경로>/dist`, 새 디렉터리에 `plugins/unknowns/`의 `.claude-plugin`·`agents`·`LICENSE`·`NOTICE`·`README.md`를 복사하고 zip을 그 `skills/`에 푼다. `unknowns:` 이름공간이 유지되고 본문은 같으며(11개 모두 바이트 단위로 같음을 확인) 설명만 다르다. `claude plugin validate --strict`로 확인(통과).
-- 실행: 긴 설명(`plugins/unknowns`) 대 짧은 설명 두 arm을 같은 날 병렬로, `trigger-*` 22케이스와 발동하면 안 되는 충돌 케이스 4개(`neg-generic-howto-does-not-fire-teach-me`, `neg-interval-loop-does-not-fire-unknowns-loop`, `neg-ui-options-does-not-fire-brainstorm`, `neg-vocabulary-does-not-fire-blindspot`), 케이스당 10회 = 520회. 원하면 `neg-open-*` 8케이스(160회)를 더한다. 케이스별과 합산으로 Fisher 정확검정. 케이스당 10회로는 큰 하락만 보이므로 합산 비교가 핵심이다.
-- 주의: `run-manual.py --verify --plugin-dir <변형>`은 JSON 따옴표 형식의 description을 읽지 못해 거짓 실패를 낸다(실행 경로에는 영향 없음).
-- 결과는 "claude.ai 업로드 설명의 Claude Code 대리 측정"으로 기록하고, 통과하면 `scripts/skill-descriptions.json`의 `_comment` 배열에 측정 날짜와 결과를 한 줄 추가한다. claude.ai 자체의 라우팅은 이 측정이 보여 주지 않는다.
+- 기록 1(2026-10-28, Claude Code 대리 측정, 케이스 26개 × 10회): 짧은 설명 259/260, 당시의 긴 설명 260/260(Fisher p = 1.0, Wilson 하한 97.9%), 충돌 케이스 40/40 대 40/40. 놓친 1회는 한국어 blindspot에서 스킬 없이 바로 답한 경우다. CHANGELOG 0.12.2.
+- 기록 2(0.13.0, 짧은 설명을 `SKILL.md` 설명으로 넣은 빌드, 케이스당 1회, 기계 판정만): trigger 22/22, 비코딩 22/22, unknown 칸 4/4, 네거티브 13/13. CHANGELOG 0.13.0.
+- 다시 잴 때: `evals/run-manual.py`로 `trigger-*` 22개, `noncode-*` 22개, `unknown-*` 4개, `neg-*` 13개를 케이스당 1회(설명을 고친 뒤의 확인) 또는 의심 가는 케이스만 3회(`docs/skill-authoring-guide.md`의 실행 회수 표). 설명을 고치면 `SKILL.md`와 `scripts/skill-descriptions.json`을 함께 고친다(테스트가 두 사본의 일치를 본다).
+- 스킬별 업로드 zip(`scripts/build-skill-zips.py`)은 frontmatter를 JSON 따옴표 형식으로 다시 쓴다. `run-manual.py --verify --plugin-dir <zip을 푼 디렉터리>`는 그 형식의 description을 읽지 못해 거짓 실패를 낸다(실행 경로에는 영향 없음).
+- claude.ai 자체의 라우팅과 업로드 화면은 headless로 돌릴 수 없어 어느 기록도 보여 주지 않는다.
 
 ## 규칙
 
 - 모든 판단은 `.claude/rules/skill-writing.md` 0번(세 칸, 어떤 분야든, 성과)을 따른다. 코딩은 여러 예 중 하나다.
+- 스킬 설명은 200자 이하이고 `scripts/skill-descriptions.json`과 같은 문구다(`.claude/rules/skill-writing.md` 18번). 설명을 고치는 것은 라우팅을 고치는 것이므로 trigger·비코딩·네거티브 케이스를 다시 돌린다.
+- 본문의 되읽기 문단, 라우팅 문장, 칸 문장은 모든 스킬에 남긴다(소유자 판단 2026-11-13).
 - 모델이 읽는 파일을 고치면 writing-for-models 점검: 파일당 검사자 하나, 고친 뒤 diff 점검. 이 플러그인은 소유자 판단으로 Claude 검사만 한다. 검사자가 금지 문장을 제안하면 할 일 문장으로 바꾸거나 버린다(17번).
 - 소유자는 버전 간 A/B 비교를 원하지 않는다. 플러그인 자체의 실행에서 실패를 읽고 고친다.
 - 공개 텍스트(커밋 메시지, PR 제목·본문, README, CHANGELOG, docs)에 소유자 개인 약칭이나 내부 작업 용어를 쓰지 않는다.

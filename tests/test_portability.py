@@ -110,6 +110,18 @@ class PortabilityTest(unittest.TestCase):
         for readme in ("README.md", "README.ko.md"):
             self.assertIn("\n" + line + "\n", (ROOT / readme).read_text(encoding="utf-8"), readme)
 
+    def test_readme_conversation_sentence_is_the_one_measured(self):
+        # The sentence a user pastes for one conversation: both READMEs print the English
+        # sentence the 0.13.0 runs used (CHANGELOG 0.13.0), word for word, in a code block.
+        sentence = ("For this conversation: before doing a request whose result carries weight "
+                    "(it ships, is sent or is hard to undo), reply with only a 2-3-line read-back "
+                    "(the request, your assumptions, what counts as done) and wait for my "
+                    "confirmation; just do self-evident requests. When that work is finished, mark "
+                    "each done criterion with its evidence and ask me whether the result achieved "
+                    "the outcome.")
+        for readme in ("README.md", "README.ko.md"):
+            self.assertIn("```\n" + sentence + "\n```", (ROOT / readme).read_text(encoding="utf-8"), readme)
+
     def test_shipped_text_says_the_cells_in_plain_words(self):
         # Rule 0: the Johari pane names stay in developer documents and the README credit.
         pane = re.compile(r"Johari|\b(?:Open|Blind|Hidden|Unknown)\b(?:\*\*)? (?:cell|pane)|\*\*(?:Open|Blind|Hidden|Unknown)\*\*")

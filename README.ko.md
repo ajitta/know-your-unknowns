@@ -568,6 +568,23 @@ Claude가 그냥 하는 경향이 있습니다. **팁:** 무게 있는 요청마
 Before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests.
 ```
 
+한 대화에서만 받으려면, 대신 이 문장을 메시지로 붙여 넣으세요:
+
+```
+For this conversation: before doing a request whose result carries weight (it ships, is sent or is hard to undo), reply with only a 2-3-line read-back (the request, your assumptions, what counts as done) and wait for my confirmation; just do self-evident requests. When that work is finished, mark each done criterion with its evidence and ask me whether the result achieved the outcome.
+```
+
+한국어로는 이렇게 쓸 수 있습니다. 측정은 위의 영어 문장으로 했습니다.
+
+> 이 대화에서는: 결과가 무게를 가지는 요청(배포되거나, 발송되거나, 되돌리기 어려운 것)을 하기 전에 2–3줄 되읽기(요청, 어떤 가정을 했는지, 무엇이 완료인지)만 답하고 내 확인을 기다려 주세요. 자명한 요청은 바로 하세요. 그 작업이 끝나면 완료 기준마다 근거를 붙여 표시하고, 결과가 성과를 달성했는지 나에게 물어 주세요.
+
+어느 쪽을 쓸지: `CLAUDE.md` 한 줄은 모든 대화에서 작동하므로, 무게 있는 요청을 늘 확인한 뒤
+진행하고 싶을 때 씁니다. 붙여 넣는 문장은 붙여 넣은 그 대화에서만 작동하므로, 중요한 작업
+하나에만 쓰고 싶을 때 맞습니다. 붙여 넣는 문장은 그 작업이 끝났을 때 결과가 당신이 바란 것을
+이뤘는지도 묻습니다. `CLAUDE.md` 한 줄은 그 질문을 하지 않습니다. 측정(Claude Code, Claude
+Opus, medium effort, 각 4세션)에서 둘 다 4세션 중 4세션에서 확인을 받기 전에는 아무것도
+고치지 않았고, 둘 다 쓰지 않았을 때는 4세션 중 0세션이었습니다.
+
 **시나리오 B — 중간 규모 코드 작업** (버그 원인 애매, 모듈 반쯤 아는 상태):
 ```
 /unknowns:blindspot 장바구니 합계가 가끔 틀림. checkout/ 모듈
