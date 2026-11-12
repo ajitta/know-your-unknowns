@@ -16,6 +16,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 ## Iron Rules
 
 1. **Execution order ≠ presentation order.** Present by tweak likelihood × blast radius; execution order appears only as a number on each item.
+2. Every decision carries **considered alternatives** — a decision without alternatives cannot be reviewed.
 
 ## Procedure
 

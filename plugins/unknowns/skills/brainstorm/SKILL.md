@@ -17,6 +17,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 ## Iron Rules
 
 1. **The output is a map of solutions, not a solution.** It ends at the user's assembled selection.
+2. Spread candidates **across time horizons and approaches**, not 10 near-duplicates.
 
 ## Procedure
 
