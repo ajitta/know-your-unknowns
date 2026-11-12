@@ -92,7 +92,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    d. After the cards, list **Questions to answer**, **Needs checking** and **Information still needed**: what the pass could not settle, and who can settle it.
 
-5. End with an **improved prompt draft** that reflects the findings and the answers the user has given so far. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes and lists the unpicked ones as undecided below it, keeping the execution order and the checkpoint.
+5. End with an **improved prompt draft** that reflects the findings and the answers the user has given so far. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes and lists the unpicked ones as undecided below it, keeping the execution order and the checkpoint; a missing pick is undecided.
 
 6. Suggest the next skill:
 
@@ -100,10 +100,6 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    - When ③ has items and the **teach-me** skill has not run for this task yet, or the user lacks the unfamiliar domain's vocabulary itself, suggest the **teach-me** skill.
    - Otherwise, suggest no next skill.
 
-## Output
-
-Reaction: a numbered, copyable **prompt fix** per finding card; the user's selected numbers assemble into the improved prompt draft; a missing pick is undecided.
-
 ## Scope
 
-Not limited to code: a funding call, a policy, an event, a study, infrastructure and vendor integrations all have landmines and unwritten conventions. The subject is always a **specific plan, system or situation** and its blind spots. If the gap is the user's **vocabulary** for an unfamiliar field, use the **teach-me** skill instead. Running both is fine: when the user cannot yet describe the task, run the **teach-me** skill first; otherwise run the **blindspot** skill first and hand its ③ list (where the user does not know how to judge) to the **teach-me** skill.
+The subject is always a **specific plan, system or situation** and its blind spots. If the gap is the user's **vocabulary** for an unfamiliar field, use the **teach-me** skill instead. Running both is fine: when the user cannot yet describe the task, run the **teach-me** skill first; otherwise run the **blindspot** skill first and hand its ③ list (where the user does not know how to judge) to the **teach-me** skill.

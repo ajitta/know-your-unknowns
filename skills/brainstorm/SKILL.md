@@ -12,12 +12,11 @@ This skill serves what neither the user nor you know yet, and surfaces both side
 
 When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
-Jumping on the first solution leaves the rest of the solution space unknown. The user picks; you draw the space.
+Jumping on the first solution leaves the rest of the solution space unknown.
 
 ## Iron Rules
 
 1. **The output is a map of solutions, not a solution.** It ends at the user's assembled selection.
-2. Spread candidates **across time horizons and approaches**, not 10 near-duplicates.
 
 ## Procedure
 
