@@ -1,10 +1,8 @@
 ---
 name: deviation-log
 description: >
-  Deviation log (implementation notes) — during planned work, logs each significant
-  departure from the plan, why, and what the user still has to judge, beside the
-  deliverable. Use on "implementation notes", "record a deviation", "where did we diverge
-  from the plan?". Clear to both sides: no skill or method.
+  Deviation log — log departures from the plan as work hits unknowns, any domain. Use on
+  "implementation notes", "record a deviation", "where did we diverge from the plan?".
 ---
 
 # Deviation Log

@@ -1,14 +1,17 @@
 """Guard the short descriptions the Claude Desktop / web skill zips ship with.
 
-`scripts/skill-descriptions.json` exists because the Customize → Skills upload
-form documents a 200-character maximum and the SKILL.md descriptions run 439-620.
-Two descriptions per skill is two things that can drift, so this file pins the
-part that matters: a short description is allowed to lose words, never a trigger
-phrase the README advertises.
+`scripts/skill-descriptions.json` holds one description per skill, within the
+200-character maximum the Customize → Skills upload form documents. Since 0.13.0
+the SKILL.md descriptions are the same texts (owner ruling 2026-11-12), and
+`scripts/build-skill-zips.py` still reads this file for the upload zips. Two
+copies of one text can drift, so this file pins them together, and pins the part
+that matters: a description may lose words, never a trigger phrase the README
+advertises.
 
 Asserted:
   * one entry per skill folder, and no entry without a skill
   * every short description is within the documented 200-character limit
+  * every SKILL.md description equals its entry in the file, character for character
   * every English trigger phrase the README advertises for a skill survives in
     that skill's short description (the Korean ones are covered by evals, exactly
     as in test_trigger_containment)
@@ -29,7 +32,7 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from test_trigger_containment import HANGUL, ROOT, readme_phrases  # noqa: E402
+from test_trigger_containment import HANGUL, ROOT, description_value, readme_phrases  # noqa: E402
 
 DESC_MAX = 200
 SHORT_PATH = Path(ROOT) / "scripts" / "skill-descriptions.json"
@@ -60,6 +63,18 @@ class ShortDescriptionTest(unittest.TestCase):
             "short descriptions over the %d-character upload limit: %s"
             % (DESC_MAX, too_long),
         )
+
+    def test_skill_md_descriptions_are_the_same_texts(self):
+        short = short_descriptions()
+        for folder in (Path(ROOT) / "skills", SKILLS_DIR):
+            for name, text in sorted(short.items()):
+                content = (folder / name / "SKILL.md").read_text(encoding="utf-8")
+                frontmatter = re.match(r"^---\n(.*?)\n---\n", content, re.DOTALL).group(1)
+                self.assertEqual(
+                    description_value(frontmatter), text,
+                    "%s/%s/SKILL.md and scripts/skill-descriptions.json differ"
+                    % (folder.name, name),
+                )
 
     def test_keeps_every_english_trigger_phrase(self):
         wanted = defaultdict(set)

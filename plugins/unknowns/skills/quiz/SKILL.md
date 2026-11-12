@@ -1,11 +1,9 @@
 ---
 name: quiz
 description: >
-  Post-work comprehension quiz — explain work the model largely produced (any
-  deliverable), then quiz the user so they can explain and defend it. Use on "quiz me",
-  "test my understanding", or right before handing over, presenting, submitting or merging
-  such work. Runs even when a quiz could be written directly, because the deliverable is
-  the user passing the six-question gate. Clear to both sides: no skill or method.
+  Comprehension quiz — explain the work, then quiz you so you can defend it at handover;
+  runs even when a quiz is easy to write. Use on "quiz me", "test my understanding", or
+  before merging.
 ---
 
 # Quiz — Post-Work Comprehension Check (Stay in the Loop)

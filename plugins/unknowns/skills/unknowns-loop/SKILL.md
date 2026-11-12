@@ -1,10 +1,9 @@
 ---
 name: unknowns-loop
 description: >
-  Run the know-your-unknowns workflow end to end (explore → question → plan → work →
-  verify → quiz → outcome check) on significant or ambiguous work in any domain. Use on
-  "unknowns loop", "run the operating loop", "know your unknowns". A bare "loop" means
-  the built-in interval runner, not this skill. Clear to both sides: no skill or method.
+  Run the know-your-unknowns workflow end to end, ending with an outcome check. Use on
+  "unknowns loop", "run the operating loop", "know your unknowns". A bare "loop" is NOT
+  this.
 ---
 
 # Unknowns Loop — operating loop for working with strong models

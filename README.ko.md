@@ -189,7 +189,7 @@ Customize › Skills에서 스킬을 하나씩 받는 호스트용으로는:
 python3 scripts/build-skill-zips.py
 ```
 
-원하는 `dist/<skill>.zip`을 올리세요. `scripts/skill-descriptions.json`의 짧은 설명을 쓰며, 트리거 포함 테스트가 그 설명도 확인합니다.
+원하는 `dist/<skill>.zip`을 올리세요. 플러그인과 같은 설명을 씁니다. 설명은 각각 200자 이하이고 `scripts/skill-descriptions.json`에 있으며, 테스트가 두 사본이 같은지와 트리거 문구가 남아 있는지를 확인합니다.
 
 ### 업데이트
 
@@ -650,7 +650,7 @@ blindspot은 발화하지 않았습니다(1회 측정,
 ```
 skills/<name>/                 소스: SKILL.md, agents/openai.yaml
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.12.4
+plugin-manifest.json           소스 매니페스트, 현재 0.13.0
 packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드

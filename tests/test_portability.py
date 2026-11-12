@@ -7,10 +7,20 @@ ROOT = Path(__file__).resolve().parent.parent
 PLUGIN = ROOT / "plugins" / "unknowns"
 MISSING_TOOL = "Without a tool, do the step in the conversation and say what could not be checked."
 MISSING_PICK = "a missing pick is undecided."
+# Owner ruling 2026-11-12: the descriptions are the short set, the limit the Customize ›
+# Skills upload form documents, so one text serves the plugin and the upload zips.
+DESCRIPTION_MAX = 200
 
 
 def skill(name):
     return (PLUGIN / "skills" / name / "SKILL.md").read_text(encoding="utf-8")
+
+
+def description(text):
+    """The folded `description:` value of a SKILL.md, as the one line a host reads."""
+    fm = re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1)
+    block = re.search(r"^description: >\n((?:  .*(?:\n|$))+)", fm, re.M).group(1)
+    return " ".join(block.split())
 
 
 class PortabilityTest(unittest.TestCase):
@@ -62,12 +72,13 @@ class PortabilityTest(unittest.TestCase):
     def test_skills_name_their_cell_and_read_back_clear_requests(self):
         # Rule 0: each skill names the cell it serves; a request clear to both sides skips the
         # method after a read-back when it carries weight, and a mismatch routes by cell.
+        # These three sentences live in the bodies. The descriptions no longer end with a
+        # sentence about clear requests (see test_descriptions_are_the_short_set).
         read_back = ("When you and the user both seem to understand the request, do it without this method: "
                      "if its result carries weight (it ships, is sent or is hard to undo), "
                      "first read back in 2–3 lines")
         routes = ("route by who does not know: the user → the **teach-me** skill; you → the **interview** "
                   "skill; neither of you → the **blindspot** skill.")
-        description_line = "Clear to both sides: no skill or method."
         for path in (PLUGIN / "skills").glob("*/SKILL.md"):
             text = path.read_text(encoding="utf-8")
             self.assertIn(read_back, text, path)
@@ -75,10 +86,22 @@ class PortabilityTest(unittest.TestCase):
             self.assertRegex(text, r"This skill serves (what the user does not know and you do"
                                    r"|what you do not know and the user does"
                                    r"|what neither the user nor you know yet)", path)
-            fm = re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1)
-            self.assertIn(description_line, " ".join(fm.split()), path)
         loop = skill("unknowns-loop")
         self.assertLess(loop.index(read_back), loop.index("**Done criteria"))
+
+    def test_descriptions_are_the_short_set(self):
+        # Every description is loaded in every conversation, so each stays within 200
+        # characters: a label, what the skill is for, its trigger phrases and its borders.
+        # The method lives in the body. tests/test_trigger_containment.py checks that the
+        # trigger phrases the READMEs advertise are still in each description, and
+        # tests/test_skill_descriptions.py that the upload zips use the same texts.
+        paths = sorted((PLUGIN / "skills").glob("*/SKILL.md"))
+        self.assertEqual(len(paths), 11)
+        for path in paths:
+            text = description(path.read_text(encoding="utf-8"))
+            self.assertTrue(text, path)
+            self.assertLessEqual(len(text), DESCRIPTION_MAX, path)
+            self.assertIn("Use on \"", text, path)
 
     def test_readme_memory_line_is_the_one_measured(self):
         # The README tip's CLAUDE.md line is the line neg-open-weighty-memory-line-en runs with.

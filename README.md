@@ -196,7 +196,7 @@ For hosts accepting one skill at a time through Customize › Skills:
 python3 scripts/build-skill-zips.py
 ```
 
-Upload the desired `dist/<skill>.zip` files. They use the short descriptions in `scripts/skill-descriptions.json`; the trigger-containment tests check those descriptions too.
+Upload the desired `dist/<skill>.zip` files. They carry the same descriptions as the plugin, each 200 characters or fewer and kept in `scripts/skill-descriptions.json`; the tests check that the two copies match and keep the trigger phrases.
 
 ### Updating
 
@@ -696,7 +696,7 @@ the source" from "extended during authoring".
 ```
 skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.12.4
+plugin-manifest.json           source manifest, currently 0.13.0
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload

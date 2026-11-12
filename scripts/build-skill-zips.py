@@ -2,8 +2,8 @@
 """Build standalone skill uploads from the generated plugins/unknowns/skills/.
 
 Run tools/package.py first. Each skill folder is self-contained. Upload zips
-use the trigger-preserving short descriptions and name/description frontmatter
-only. --target local keeps full frontmatter and removes agent plugin namespaces.
+use the short descriptions in scripts/skill-descriptions.json (the same texts as
+the SKILL.md descriptions since 0.13.0) and name/description frontmatter only. --target local keeps full frontmatter and removes agent plugin namespaces.
 Neither target contains hooks, presentation assets, or executable files.
 
 Usage: python3 scripts/build-skill-zips.py [--out dist] [--target upload|local]
