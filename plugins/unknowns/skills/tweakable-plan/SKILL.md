@@ -11,7 +11,7 @@ This skill serves what neither the user nor you know yet, and surfaces both side
 
 When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange.
 
-The plan ends at the user's approval; on change requests, revise the named items and every item that builds on them and show the plan again. The work starts from the approved plan.
+A plan's purpose is to **pull the points where the user would intervene forward**, not to list steps in execution order. Even if the user stops reading partway down, they have already seen every decision that matters. The plan ends at the user's approval; on change requests, revise the named items and every item that builds on them and show the plan again. The work starts from the approved plan.
 
 ## Iron Rules
 
@@ -36,7 +36,7 @@ The plan ends at the user's approval; on change requests, revise the named items
    | **Mechanical items** | e.g. CRUD, wiring and boilerplate in code; bookings, mailings and formatting elsewhere | follow automatically once the decisions are set |
 5. Order and fill the decision items.
 
-   a. **Sort decision items by tweak likelihood × blast radius** and place them first, ahead of the mechanical items. Even if the user stops reading partway down, they have already seen every decision that matters.
+   a. **Sort decision items by tweak likelihood × blast radius** and place them first, ahead of the mechanical items.
 
    b. Give every decision item, the last as fully as the first, these labeled lines: chosen option / alternatives considered, lettered A, B, …, + why rejected / scope affected if this decision changes / **verification method** / **what breaks if this is wrong**. A decision missing a line cannot be reviewed on that line.
 
