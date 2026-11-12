@@ -2,11 +2,10 @@
 
 ## 다음 세션: 여기서 시작
 
-배포 중인 버전은 `unknowns--v0.12.4`다(2026-11-10, PR #31, main `4988768`). 0.13.0은 브랜치 `short-descriptions`에 있고, 릴리스 확인과 독립 리뷰가 끝났다(2026-11-13). `unknowns--v0.13.0` 태그가 없으면 아직 릴리스 전이다. 남은 일은 소유자 승인 뒤 PR(CI 통과) → 머지 → 주석 태그 `unknowns--v0.13.0` → 릴리스 자산 sha256 대조 → 빈 설정 설치 확인 → 카탈로그 확인이고, 그 뒤 소유자가 ChatGPT zip을 다시 올린다. 0.12.4의 작업 브랜치는 `IMPLEMENTATION_NOTES.md`가 그 커밋 해시를 인용하므로 지우지 않고 남겨 둔다. `short-descriptions`도 같은 이유로 남긴다(CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`, `02484af`, `c515a4d`를 인용한다).
+배포 중인 버전은 `unknowns--v0.13.0`이다(2026-11-13, PR #33, main `2ea4ae7`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고, 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.0에 스킬 폴더 11개였다. 릴리스 본문은 워크플로가 머지 커밋 메시지로 채워서, 태그 메시지(CHANGELOG 0.13.0 내용)로 바꿔 넣었다. 남은 일은 소유자가 ChatGPT zip을 다시 올리는 것이다. 0.12.4의 작업 브랜치는 `IMPLEMENTATION_NOTES.md`가 그 커밋 해시를 인용하므로 지우지 않고 남겨 둔다. `short-descriptions`도 같은 이유로 남긴다(CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`, `02484af`, `c515a4d`를 인용한다).
 
 | 무엇 | 누가 | 어디서 시작 |
 |---|---|---|
-| 0.13.0 릴리스: PR(CI 통과) → 머지 → 주석 태그 `unknowns--v0.13.0` → 릴리스 자산 sha256 대조 → 빈 설정 설치 확인 → 카탈로그 확인 | 관리자(소유자 승인 뒤) | 아래 "규칙"의 릴리스 줄 |
 | 0.13.0 릴리스 뒤 ChatGPT에 `know-your-unknowns-openai.zip` 재업로드(스킬 설명이 바뀌어 목록 문구가 달라졌다), 모바일에서 스킬 호출 확인. 0.12.4 재업로드 여부는 이 문서에 기록이 없다 | 소유자 | GitHub Release `unknowns--v0.13.0` |
 | claude.ai(Add marketplace 경로)가 새 버전을 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
 | 두 번째 규칙 기반 리뷰에서 보류한 항목: 공용 문장, 파일 사이 이름, 스킬별 방법 결정. 설명 문구 10개에 대한 지적은 0.12.4의 긴 설명 기준이므로 짧은 설명에 맞춰 다시 읽어야 한다 | 소유자 결정 | `IMPLEMENTATION_NOTES.md` 2026-11-09·11-10의 Todo for human |
@@ -22,7 +21,7 @@
 
 GPT-6.1 Sol 확인 때 지킬 것(0.13.0에서 발견): Codex 앱은 소유자 계정에 올려 둔 플러그인 사본(당시 0.12.4)을 격리한 홈의 `.codex/plugins/cache/created-by-me-remote`로 동기화한다. 0.13.0의 처음 세 번 시도에서는 22개 세션 중 7–8개가 빌드 옆에 그 사본을 나열하고 그 사본의 `SKILL.md`를 읽었으므로, 세 번 모두 무효로 했다. `config.toml`의 `[features] remote_plugin = false`와 `[plugins."unknowns@created-by-me-remote"] enabled = false`는 막지 못했다. 막은 방법: 플러그인을 추가하기 전에 격리한 홈에 그 캐시 폴더를 미리 만들고 읽기 전용(`chmod 555`)으로 둔다. 실행 뒤에는 세션 기록에서 `created-by-me-remote/unknowns`가 0건인지, 22개 실행이 모두 빌드 버전의 `SKILL.md`를 읽었는지 센다(0.13.0: 0건, 22/22). 이전 릴리스의 GPT-6.1 Sol 확인에는 이 장치가 없었다.
 
-## 0.13.0에서 한 일 (2026-11-12–13, 브랜치 `short-descriptions`, 릴리스 전)
+## 0.13.0에서 끝난 일 (2026-11-12–13, PR #33)
 
 소유자 판단(2026-11-12, 11-13) 네 가지를 한 버전에 담았다. 수치와 표는 CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md` 2026-11-13.
 
