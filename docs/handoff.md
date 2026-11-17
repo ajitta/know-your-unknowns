@@ -52,7 +52,7 @@ Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 �
 - buy-in: 사용자가 다른 곳을 지정하지 않으면 문서는 대화 안의 Markdown이다. 러너가 `Artifact`를 막으므로 평가로는 확인할 수 없다. buy-in 실행 넷 모두 파일을 쓰지 않았다.
 - 이웃 케이스(Opus 5.5 medium, 각 1회): 단발 일곱 케이스 채점 항목 10/10, 다회차 `interview-undecided-item`·`buy-in-partial-picks` 통과, `interview-rounds-stay-at-four`는 넷 중 셋(아래 지켜볼 칸).
 - 평가 러너 격리(2026-11-17): `run-manual.py`와 `run-multiturn.py`가 모든 `claude` 호출을 새 빈 `CLAUDE_CONFIG_DIR`와 `ENABLE_CLAUDEAI_MCP_SERVERS=false`로 시작하고, 로그인은 자격 증명 파일을 복사하지 않고 `CLAUDE_CODE_OAUTH_TOKEN`으로 넘긴다. 예전 방식은 `--own-config`다. 세션 시작 확인(Claude Code 2.1.326): 소유자 설정은 커넥터 14개(메일·캘린더·드라이브·문서 포함)와 스킬 98개, 격리 설정은 커넥터 0개와 스킬 34개. 격리 실행 2회(단발 1, 다회차 1)가 정상 동작했다. 이 날짜 전의 기록은 소유자 설정(다른 플러그인과 `CLAUDE.md`가 실린 상태)에서 돈 것이라 격리 실행과 같은 조건으로 비교하지 않는다. 토큰이 30분 미만으로 남으면 러너가 시작하지 않는다.
-- 남은 일: 릴리스 여부와 버전은 소유자가 정한다. 릴리스한다면 지원 모델 전체 실행(Opus 5.5 1회, Sol trigger 1회)은 아직 하지 않았고, 이제 격리 조건에서 돈다. 작업 브랜치 `interview-ends-at-deliverables`는 지우지 않았다.
+- 이 작업은 0.13.1로 릴리스했다(위 "0.13.1 릴리스에서").
 
 소유자 결정이 필요한 것:
 
