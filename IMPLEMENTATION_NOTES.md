@@ -1,5 +1,22 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-17] Release 0.13.1: one sentence taken back out, a runner fault found by the release check
+
+**Observed**
+- **Situation found**: the owner asked for the release. The plan was the written procedure: version, changelog section, regenerated output, the whole suite once on Opus 5.5 and the trigger cases once on GPT-6.1 Sol, merge, tag.
+- **Deviation from plan**:
+  1. The first pass of the suite could not write files. The runners had been isolated from the account earlier the same day; in a fresh config Claude Code refuses writes under a `.claude` folder, and the session's temp folder, where the runners made each run's folder, sat under one. Seventeen cases grant Write or Edit; their runs are void. The runners now make the folder outside `.claude`, and those cases ran again.
+  2. The interview sentence merged that day (step 4b, a decided item stays decided) did not ship. In the release check `interview-then-work` failed the first item of `ends-at-the-two-deliverables`; with the earlier trial run that made 2 failures of 2 since the sentence, against 3 passes of 3 before it. A rule was then written (3 or more failures of 5 stop the release) and three more runs gave 3 of 5. The owner chose to take the sentence out. interview is byte-for-byte the text of commit f917461; on it the item passed 3 of 3.
+  3. `plugin-release.json` had already been regenerated for 0.13.1 with the sentence in. It was rebuilt from the 0.13.0 record, because the packager refuses changed shipped content at an unchanged version and 0.13.1 had never been released.
+  4. The Sol check ran twice: on the first release commit, and again on the final one, because the interview body changed in between.
+- **Response chosen**: as above. Figures: `CHANGELOG.md`, 0.13.1, **Checked — release runs**. Run output is local, in `evals/results/release-0.13.1/`.
+
+**Attributed**
+- **Reason for choice**: the sentence's shown gain was small (the deep interview's re-asks, 3 of 4 against 2 of 5) and its suspected cost falls on the interview's own deliverable, the prompt.
+- **Alternatives considered**: (a) keep the sentence and add one to the final deliverables saying a requirement the model added is marked as the model's: not done, it would have been the sixth change to interview in one day, unmeasured at release. (b) Release with the sentence and a watch item *(inferred, not stated)*: not done, the rule written before the last runs said to stop.
+- **Risk/follow-up check**: 3 of 5 against 0 of 6 is still a small sample, and nothing isolates the sentence as the cause. Results recorded on 2026-11-17 in the isolated condition before the runner correction are unaffected where the case needed no file; any that needed one could not write.
+- **Todo for human**: the two rules to take up together next round: a decided item stays decided, and the ready-to-use prompt shows only the user's decisions as decided.
+
 ## [2026-11-17] interview: a decided item stays decided
 
 **Observed**
