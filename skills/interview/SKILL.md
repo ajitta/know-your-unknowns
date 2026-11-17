@@ -24,18 +24,14 @@ When requirements are incomplete, **you interview the user** before anything is 
 
 ## Procedure
 
-1. Find the gaps.
-
-   a. Investigate the conversation and the available material (documents, data, a codebase) before listing gaps. From the text the user gave with the request or after the skill name and conversation context, list the gaps only the user can fill: decisions that are theirs, and facts about their situation you cannot know or judge from here (constraints, the people involved, local rules, priorities). Leave out any gap the conversation or material already answers. With no request text, use the spec under discussion; with no spec under discussion either, ask once what to interview about.
-
-   b. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own.
+1. Find the gaps. Investigate the conversation and the available material (documents, data, a codebase) before listing gaps. From the text the user gave with the request or after the skill name and conversation context, list the gaps only the user can fill: decisions that are theirs, and facts about their situation you cannot know or judge from here (constraints, the people involved, local rules, priorities). Leave out any gap the conversation or material already answers. With no request text, use the spec under discussion; with no spec under discussion either, ask once what to interview about.
 2. Ask the round.
 
    a. Ask **max 4 questions per round**, in priority order within every round (the Question Priority above). Each question asks one thing, in one sentence ending in a question mark. Every question in the reply counts toward the 4: a second question mark inside an item ("Also: …?"), one inside an option or a reason, a request for a fact (a file path, a date, a headcount), and a request that the user check something elsewhere; move a fifth to the next round. When the question tool takes fewer questions or options, split the round across calls; the round still totals at most four.
 
-   b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
+   b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. When the user has not yet said what they are sure of and what they are assuming, make that the first question of round 1; a list of what is still open does not say it. Settled items are not asked again, and stated assumptions become questions of their own. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
 
-   c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note. Put what you know into each option's consequence note and present the options without a recommendation: a recommended option makes the pick for the user. A why follow-up from step 4c stays open, without options.
+   c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note. Put what you know into each option's consequence note and present the options without a recommendation; when the user asks which you would pick, give your pick with its reason. A recommendation the user did not ask for makes the pick for them. A why follow-up from step 4c stays open, without options.
 
    d. Attach a **one-line reason why it matters** to every question, follow-ups and requests for facts included.
 3. Collect the answers before writing the updated spec summary in step 4.
@@ -60,4 +56,4 @@ When every item is decided or left undecided by the user and no why follow-up fr
    - Close with "start with a short plan, then do the work".
    - Include: "Where the plan leaves a choice open or the work conflicts with a fixed decision, pick the conservative option and log the deviation in the deviation log (IMPLEMENTATION_NOTES.md for code work, otherwise the file the user names or DEVIATIONS.md beside the deliverable)."
 
-The interview ends at these two deliverables; the work starts from the user's next message. The prompt leaves the skipped questions to judgment, so the user reads it before anything is built on it.
+The interview ends at these two deliverables: the work starts when the user sends the prompt or tells you to go ahead, and when the user changes a decision first, you revise the table and the prompt and show them again. The prompt leaves the skipped questions to judgment, so the user reads it before anything is built on it.

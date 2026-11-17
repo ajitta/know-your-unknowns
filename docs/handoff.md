@@ -39,11 +39,44 @@ Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 �
 - 다른 플러그인이 많이 실린 설정에서의 라우팅: `interview-deep-grill`의 "Grill me … 40-question level"은 소유자 설정(스킬 98개)에서 interview를 로드하지 못했고(1회 중 0회), 격리 설정에서는 3회 중 3회 로드했다. 실행 회수 표의 라우팅 의심 기준(3회 중 2회 이상 놓침)에는 해당하지 않으므로 설명은 고치지 않았다. 붐비는 설정에서의 라우팅을 다시 잴지는 `--crowd` 실행으로 정할 일이다.
 - 읽기에서 나온 나머지 후보(실행하지 않음): tweakable-plan 1b의 "interview를 제안"이 답을 기다리는지, quiz에서 teach-back을 객관식 채점 전에 묻는지, quiz 키 파일의 위치, blindspot에서 목록이 한 턴에 두 번 나오는 것, brainstorm 3단계의 "quarter-long bets (longer)", interview 1b의 한 질문이 두 가지를 묻는 것.
 
+## 세 번째 규칙 기반 리뷰 (2026-11-17, 브랜치 `outcome-as-stated-as-read`)
+
+같은 네 규칙에, 두 번째 리뷰 뒤 규칙 문서에 생긴 두 항목(경우마다 이름 붙인 하위 항목, 사람의 말과 모델의 읽기를 두 줄로 나란히 보이기)을 더해 읽기만 했다. 범위: 두 새 항목은 본문 11개와 에이전트 2개, 네 규칙 전부는 설명 11개·공개 문서의 프롬프트·0.12.4 뒤에 더한 문장. 지적 28개(독립 검토자 둘 24개, 작성자 4개), 인용은 모두 파일에서 확인했다. 수치는 CHANGELOG `[Unreleased]`.
+
+- 반영(소유자 승인 2026-11-17): interview 2c(사용자가 물으면 고를 보기와 이유를 말한다), interview 끝 문장(프롬프트를 보내거나 진행하라고 하면 작업 시작, 결정을 바꾸면 표와 프롬프트를 고쳐 다시 보인다), buy-in 문서 위치 문장의 이유, unknowns-loop 3단계 c의 스킬별 행(문구만).
+- 시도했다가 뺌: unknowns-loop·tweakable-plan 2단계의 "Outcome, as stated / as read" 두 줄. 두 줄은 5회 중 5회 나왔지만 `noncode-en-unknowns-loop`의 `first-reply-covers-step-2`가 성과 항목을 3회 중 2회 놓쳤다(요청문을 성과로 인용하고 사용자가 궁극적으로 바라는 것까지 가지 않았다). 뺀 뒤에는 그 항목이 2회 중 2회 통과했다. 같은 문장으로 다시 시도하지 않는다. 다시 한다면 산출물의 말과 성과의 말을 가르는 문장이 필요하다는 것이 이번 실행의 읽기다(작성자 해석).
+- 되읽기 문단은 새 항목(두 줄)을 본문 11개에서 모두 어기지만 그대로 둔다(소유자 결정 2026-11-17).
+- 보류(측정된 문장의 의미 변경): prototypes 6단계 요구사항 목록(반응에서 요구사항을 읽어 내면서 사용자의 말을 나란히 보이지 않음), README 붙여 넣기 문장(되읽기에는 "what counts as done", 끝에는 "the outcome"이라고 이름이 다름).
+- 설명 라운드로 묶음(라우팅 변경이라 trigger·비코딩·네거티브 케이스 필요): quiz "or before merging"(따옴표 없는 유일한 로드 조건, 본문에 merging이 없음), teach-me "Not a plan investigation"(blindspot 설명은 investigation이라고 하지 않음), blindspot "a better prompt"(본문과 scout는 improved prompt), brainstorm "NOT for design variants"(prototypes 설명은 versions·design options). 이미 열려 있던 두 항목(설명 속 "you", deviation-log "as work hits unknowns")과 함께 정한다.
+- 그대로 둠: 입력이 없을 때의 대체 순서 문장들, buy-in Reaction 문장, teach-me 초안 안의 가정 표시, 따옴표 친 트리거 문구의 넓이, 낮은 등급의 이름 차이. 전체 목록은 그날의 대화 기록에만 있다.
+- 확인이 필요한 것(지적은 아님): `packaging/openai/interface.json`의 "Use unknowns:blindspot"에는 `$`가 없고 `openai.yaml` 11개에는 있다. 의도인지 모른다.
+
+## 단계 형식: 번호와 글자는 실행 순서만 (2026-11-17, 소유자 결정)
+
+소유자의 의심(본문의 1·2·3과 a·b·c가 순서인지 분류인지 알 수 없다)에서 시작했다. 본문 11개를 읽어 분류한 결과(작성자의 읽기): "1. 2. 3."은 실행 순서, 순서 없는 규칙(Iron Rules), 우선순위(interview Question Priority), 산출물의 부분(quiz Part 1, interview Final Deliverables), 조건 붙은 항목(deviation-log Procedure 3·4, Wrap-up 4·5)의 다섯 뜻으로 쓰인다. a·b·c 묶음 22개는 순서 8, 분류 10, 섞임 4다.
+
+| 분류 | 어디 |
+|---|---|
+| 순서 8 | blindspot 1, buy-in 4, prototypes 5, reference 1·4, teach-me 7, tweakable-plan 7, unknowns-loop 5 |
+| 분류 10 | blindspot 3, brainstorm 2, buy-in 1, interview 1(변환함)·2, quiz 3, teach-me 1·5, tweakable-plan 1·5 |
+| 섞임 4 | blindspot 4, buy-in 2, interview 4, quiz 1 |
+
+- 규칙: `.claude/rules/skill-writing.md` 1번을 다시 썼다. 번호와 글자는 실행 순서에만 쓰고, 병렬 항목·경우·상태는 표의 행으로, 한 행동에 거는 여러 제약은 그 행동의 문단에 둔다. 규칙은 그것이 거는 행동의 단계에 둔다. 변환과 옮김은 한 번에 한 단계, 그 자체로 하나의 변경이다. 손대는 김에 다른 단계까지 바꾸지 않는다.
+- 첫 적용: interview 1b(1라운드의 첫 질문 규칙)를 글자 그대로 2단계의 1라운드 문단으로 옮겼다. 옮기기 전(격리, Opus 5.5) 1라운드가 그 질문으로 시작한 것은 11회 중 10회였고 `interview-then-work`는 Opus 실행 2회를 모두 놓쳤다. 옮긴 뒤에는 8회 중 8회, 그 케이스 2회 중 2회다. 실행 전에 적은 기준(2회 중 2회면 유지)을 채웠다. Fable 5.2로는 돌리지 않았다.
+- 다음에 변환할 때: 실패하는 케이스가 있는 자리부터 한다. buy-in 3(세 번째 단계인데 내용은 "open with")과 tweakable-plan 2·3·6(실행 순서와 문서 순서가 섞임)은 번호 목록 자체가 섞인 곳이다. interview 2a–2d는 가장 전형적인 분류 묶음이지만 이 스킬은 앞선 두 번의 시도에서 다른 칸이 흔들렸다.
+
 ## 지켜볼 칸 (2026-11-17, Fable 5.2 실행에서 새로)
 
 - blindspot 2단계의 scout 행: Fable 5.2는 정책 문서 22개를 scout 없이 직접 읽었고(1회 중 1회, 80초), 두 가정 모두 근거와 함께 판정했다(판사 채점은 하지 않음). 같은 케이스에서 Opus 5.5도 scout를 부르지 않은 기록이 있다. 문서가 작은 케이스라 큰 코드베이스에 대해서는 말해 주지 않는다. 행은 고치지 않았다.
 - `interview-rounds-stay-at-four`의 `questions-carry-reasons-in-priority-order`(가중치 0.5): Opus 5.5 1회 중 0회. 대화 기록으로 읽으면 1라운드가 "확실한 것·가정한 것" 질문으로 시작하지 않았다(판사의 이유는 저장되지 않았다). 1b 단계의 일이고 이번 수정과는 다른 문장이다.
 - `interview-deep-grill`의 `deeper-not-padded`: 격리 실행 3회 중 2회 통과. 놓친 1회는 6라운드에서 사용자가 이미 정한 결정 둘을 다시 물었다. `four-per-round`는 3회 중 3회(모든 답이 질문 4개)였고, 0.12.4에서 지켜보던 "첫 답에 질문 40개"는 나오지 않았다.
+- `behavior-unknowns-loop-terms-only`: 격리 실행 1회 중 1회 통과. 0.13.0의 6회 중 0회는 모두 소유자 설정에서 돈 것이다. 격리 조건에서 다시 읽는다.
+- `noncode-en-unknowns-loop`의 `first-reply-covers-step-2`: 최종 문구 격리 실행 2회 중 1회. 놓친 1회는 완료 기준을 도서관이 아니라 루프의 산출물 기준으로 물었다. 0.12.4의 5회 중 5회는 소유자 설정 기록이다.
+- `noncode-ko-interview`: 1라운드 이유 줄이 두세 문장(1회 중 0회 통과). 같은 날 앞선 실행은 통과했다.
+- `interview-deep-grill`의 `deeper-not-padded`는 이날 4회 중 2회 통과로 고쳐 읽는다(늦은 라운드에서 이미 정한 결정을 다시 물음).
+- interview에서 함께 옮긴 문장 "Settled items are not asked again, and stated assumptions become questions of their own": 독립 검토자는 1라운드 문단 안에서는 1라운드에만 걸리는 것으로 읽힐 수 있다고 했다. 저장된 대화에서는 옮기기 전과 같았다(2라운드가 사용자가 말한 가정을 질문으로 받은 것은 deep-grill 두 번 모두, rounds-stay 두 번 모두 아님). 늦은 라운드에서 이미 정한 것을 다시 묻는지 다음 실행에서 본다.
+- `interview-deep-grill`의 `deeper-not-padded`와 스킬 문장의 충돌: 판사가 사용자가 "확인 안 함"이라고 한 가정을 2라운드에서 확인해 달라고 물은 것을 다시 묻기로 셌다(1회). 스킬은 그 질문을 하라고 한다. 같은 질문이 앞선 격리 실행 4회 중 3회에 있었고 판사는 그중 둘을 통과시켰다. 채점 기준을 고칠지는 소유자 결정이다. 이날 이 채점은 5회 중 2회 통과다.
+- interview 2a의 "한 질문은 한 가지"와 첫 질문(확실한 것·가정한 것, 두 가지)이 이제 같은 단계에 있다. 실행에서는 한 질문으로 묻는다(8회 중 8회).
 - buy-in 3단계("실행되는 데모나 스크린샷")와 새 문장(대화 안의 Markdown): 독립 검토가 둘이 어긋날 수 있다고 지적했다. 이번 buy-in 실행 넷에서는 채점이 모두 통과했다.
 
 ## 0.13.0에서 끝난 일 (2026-11-12–13, PR #33)

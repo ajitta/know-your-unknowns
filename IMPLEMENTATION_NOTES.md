@@ -1,5 +1,39 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-17] Numbers and letters mark execution order: rule 1 rewritten, one step converted
+
+**Observed**
+- **Situation found**: the owner doubted the step format: a reader cannot tell whether `1. 2. 3.` and `a. b. c.` in the bodies are an order or a classification. A reading of the eleven bodies agreed (five meanings for the numbers; of 22 lettered sets, 8 a sequence, 10 a classification, 4 mixed). The owner approved the recommendation: numbers and letters for execution order only, a classification in a form that claims no order, a rule in the step it governs, and one place measured first, interview step 1b moved to the round-1 paragraph.
+- **Deviation from plan**:
+  1. The evidence given for choosing interview 1b was corrected before the run. It had been stated as one miss in two Opus runs; the first reply of every saved interview run of the day showed 10 of 11 in the isolated condition and 4 of 6 in the owner's own config, with one case (`interview-then-work`) missing in both of its Opus runs. The trial went ahead on that case.
+  2. Both sentences of 1b moved, not only the first-question rule, so that "settled" and "stated" keep the sentence they point back at (rule 12). The independent reader found that the second sentence may now read as covering round 1 only and proposed returning it to step 1. It stays where the runs measured it: returning it would have left its words without their referent, or needed new wording, and a third variant in this skill.
+  3. Rule 1 was written twice. The first wording said existing steps keep their letters "until the step is edited", while the same change edited interview step 2 and left its letters; it also dropped the old instruction to split sequential actions, offered three forms without saying which to use, and cited figures that read as contradictory. The second wording is a table of three cases, says an edit does not oblige a conversion, and separates a move meant to keep behavior (rule 14) from one meant to change a failing behavior (a keep-or-revert statement written before the run).
+  4. No other step was converted, including interview step 2, whose four letters are a classification.
+- **Response chosen**: the move, the new grader, rule 1. Figures: `CHANGELOG.md`, `[Unreleased]`. Run output is local, in `evals/results/step-format-2026-11-17/`.
+
+**Attributed**
+- **Reason for choice**: the replies that missed the first question opened with a structure question, which is what "in priority order within every round" in step 2 asks for; the exception to it sat in step 1. Putting the exception beside the rule it modifies was the smallest change that tests placement and nothing else, so the sentences were not reworded.
+- **Alternatives considered**: (a) add "ahead of the priority order" to the moved sentence: not done, the trial would then test wording and placement together. (b) Merge blindspot 4c into 4b, the lower-risk site: not done, no case fails there, so a pass would show nothing. (c) Convert every classification set now *(inferred, not stated)*: not done, each conversion moves sentences and the 2026-10-10 rewrite changed behavior in five places that passed the diff check.
+- **Risk/follow-up check**: 2 of 2 on one case and 8 of 8 first replies is small; before the move the same cell was already 10 of 11. The move is unmeasured on Fable 5.2. Rule 1 now rests on one converted step.
+- **Todo for human**: decide whether the `deeper-not-padded` grader should accept a question that follows up an assumption the user stated as unchecked; decide the next step to convert, if any.
+
+## [2026-11-17] Third rule-based review: four small changes, one trial removed
+
+**Observed**
+- **Situation found**: the owner asked for the rule skill to be applied to the skills and the published documents, approved a pass limited to what the second review could not have covered, and then approved acting on five findings: stage c of the loop as one row per skill, three fixes to the sentences added earlier that day (interview twice, buy-in once), and a trial of the outcome on two labelled lines in step 2 of unknowns-loop and tweakable-plan.
+- **Deviation from plan**:
+  1. The trial did not stay. Its rule, written before the run, kept it only if the lines appeared and the cases' scored graders passed. `first-reply-covers-step-2` missed its outcome item in 2 of 3 runs with the lines and in 0 of 2 without them, so the block left both skills and its two graders were deleted. tweakable-plan is the 0.13.0 text again.
+  2. Stage c was planned as three rows each labelled "c. Shape". The independent reader pointed out that the first reply names the stages and would list three; the label now appears once, with two continuation rows.
+  3. The interview end-point sentence was reworded twice in one day. The second wording comes from this review's finding on "the user's next message".
+  4. The findings on the eleven descriptions were not edited one by one; they wait for a single description round.
+- **Response chosen**: the four changes as described; everything else recorded in `docs/handoff.md`. Run output is local, in `evals/results/regula-2026-11-17/`.
+
+**Attributed**
+- **Reason for choice**: the rule skill asks for an old-against-new comparison of a meaning change; this repository's rule is runs of the skill's own cases with a rule written first, so that rule was used and the changes are reported as not compared.
+- **Alternatives considered**: (a) keep the trial and reword it until the grader passes *(inferred, not stated)*: not done, an earlier round found that a second placement of a sentence shook a different cell each time. (b) Apply the two-lines item to the read-back paragraph: not done, the owner keeps that paragraph. (c) Edit the four descriptions now: not done, each is a routing change and the round needs 57 cases.
+- **Risk/follow-up check**: one to three runs per cell. The trial's result rests on five runs of one case; the reading of why it missed (the request quoted as the outcome) is the writer's. The isolated condition gives different results from the owner's config in at least two cells (`behavior-unknowns-loop-terms-only`, `first-reply-covers-step-2`), so earlier records of those cells do not carry over.
+- **Todo for human**: the description round; the two held findings; whether `packaging/openai/interface.json` should write `$unknowns:` as the `openai.yaml` files do.
+
 ## [2026-11-17] Three sentences after a reading of the bodies by Claude Fable 5.2
 
 **Observed**

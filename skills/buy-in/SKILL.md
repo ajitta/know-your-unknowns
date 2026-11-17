@@ -41,6 +41,6 @@ The work is done, but the approvers have not seen what the user has, and the use
 
 ## Output
 
-Unless the user names another place for it, the doc is Markdown in the conversation, and where it goes from there is the user's choice.
+Unless the user names another place for it, the doc is Markdown in the conversation, and where it goes from there is the user's choice, because the user reacts to its numbered entries there and decides who sees a doc about its approvers.
 
 Reaction: number the approvers' unknowns, objections, limitations and sign-off entries; the user picks keep or revise for each and answers the step 2b questions they can, and the final doc holds the kept entries, each revised entry rewritten as the user directs, each entry with no pick as drafted, and the user's answers, with the reply naming the entries that had no pick, so a limitation the user did not pick stays in front of the approvers; a missing pick is undecided.
