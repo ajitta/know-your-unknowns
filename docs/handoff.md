@@ -35,14 +35,15 @@ Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 �
 소유자 결정이 필요한 것:
 
 - `interview-deep-grill` 실행(Opus 5.5)이 계정에 만든 요구사항 문서를 지울지. 그 실행에서는 unknowns 스킬이 로드되지 않았고, 모델이 로그인한 계정의 문서 커넥터로 문서를 만들었다. 내용은 평가 케이스의 가상 자료뿐이다.
-- 저장소 밖 보조 도구 `kyu-probes/judge.py`와 `release-run.sh`는 아직 소유자 설정에서 `claude -p`를 부른다. 판사 호출은 `--tools ""`이지만 커넥터 도구까지 막는지는 확인하지 않았다. 다음 릴리스 실행 전에 격리 환경으로 바꿀지 정한다.
-- `interview-deep-grill`의 "Grill me … 40-question level"은 짧은 설명에서 interview를 로드하지 못했다(1회 중 0회). 라우팅 의심이므로 3회 실행 대상이다(`docs/skill-authoring-guide.md` 실행 회수 표).
+- 저장소 밖 보조 도구(2026-11-17 반영): `kyu-probes/judge.py`의 판사 호출도 러너와 같은 격리 환경으로 바꿨고(원본은 옆의 `judge.py.bak-2026-11-17`), 판사 호출 1회가 정상 동작했다. `release-run.sh`와 `rerun.sh`는 두 러너와 `judge.py`만 부르므로 고칠 것이 없다. 빌드 VM의 Sol 확인 스크립트는 보지 않았다.
+- 다른 플러그인이 많이 실린 설정에서의 라우팅: `interview-deep-grill`의 "Grill me … 40-question level"은 소유자 설정(스킬 98개)에서 interview를 로드하지 못했고(1회 중 0회), 격리 설정에서는 3회 중 3회 로드했다. 실행 회수 표의 라우팅 의심 기준(3회 중 2회 이상 놓침)에는 해당하지 않으므로 설명은 고치지 않았다. 붐비는 설정에서의 라우팅을 다시 잴지는 `--crowd` 실행으로 정할 일이다.
 - 읽기에서 나온 나머지 후보(실행하지 않음): tweakable-plan 1b의 "interview를 제안"이 답을 기다리는지, quiz에서 teach-back을 객관식 채점 전에 묻는지, quiz 키 파일의 위치, blindspot에서 목록이 한 턴에 두 번 나오는 것, brainstorm 3단계의 "quarter-long bets (longer)", interview 1b의 한 질문이 두 가지를 묻는 것.
 
 ## 지켜볼 칸 (2026-11-17, Fable 5.2 실행에서 새로)
 
 - blindspot 2단계의 scout 행: Fable 5.2는 정책 문서 22개를 scout 없이 직접 읽었고(1회 중 1회, 80초), 두 가정 모두 근거와 함께 판정했다(판사 채점은 하지 않음). 같은 케이스에서 Opus 5.5도 scout를 부르지 않은 기록이 있다. 문서가 작은 케이스라 큰 코드베이스에 대해서는 말해 주지 않는다. 행은 고치지 않았다.
 - `interview-rounds-stay-at-four`의 `questions-carry-reasons-in-priority-order`(가중치 0.5): Opus 5.5 1회 중 0회. 대화 기록으로 읽으면 1라운드가 "확실한 것·가정한 것" 질문으로 시작하지 않았다(판사의 이유는 저장되지 않았다). 1b 단계의 일이고 이번 수정과는 다른 문장이다.
+- `interview-deep-grill`의 `deeper-not-padded`: 격리 실행 3회 중 2회 통과. 놓친 1회는 6라운드에서 사용자가 이미 정한 결정 둘을 다시 물었다. `four-per-round`는 3회 중 3회(모든 답이 질문 4개)였고, 0.12.4에서 지켜보던 "첫 답에 질문 40개"는 나오지 않았다.
 - buy-in 3단계("실행되는 데모나 스크린샷")와 새 문장(대화 안의 Markdown): 독립 검토가 둘이 어긋날 수 있다고 지적했다. 이번 buy-in 실행 넷에서는 채점이 모두 통과했다.
 
 ## 0.13.0에서 끝난 일 (2026-11-12–13, PR #33)
