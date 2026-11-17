@@ -2,6 +2,41 @@
 
 ## [Unreleased]
 
+A reading of the eleven skill bodies by Claude Fable 5.2, followed by two runs on that model (medium effort, 1 run each). Fable 5.2 is not a supported model; the three sentences below are checked on Claude Opus 5.5 as well.
+
+### Changed
+
+- interview: the skill ends at the decision table and the ready-to-use prompt, and the work starts from the user's next message. In the run on Fable 5.2, the reply that delivered the two also wrote the requested script, which rested on seven choices the user had not made, one of them a question the user had left unanswered.
+- interview: from round 2 on, what the model knows goes into each option's consequence note and the options come without a recommendation. A saved Opus 5.5 run (0.12.3 text) marked three options "I don't recommend this".
+- buy-in: unless the user names another place for it, the doc is Markdown in the conversation, and where it goes from there is the user's choice. The body did not say where the doc lives.
+
+### Changed (developer-only)
+
+- New multi-turn case `interview-then-work`: an interview before a small script that can be written in the run's folder, with Write and Edit granted. Its graders check that the last reply holds the decision table and the ready-to-use prompt and writes or edits no file.
+- `evals/run-manual.py` and `evals/run-multiturn.py` now start every `claude` call in a fresh, empty `CLAUDE_CONFIG_DIR` with the account's connectors off (`ENABLE_CLAUDEAI_MCP_SERVERS=false`), and pass the sign-in as a token in the environment without copying the credentials file. A run loads this plugin and nothing else of the user's. `--own-config` restores the earlier behaviour. Each result records the connectors the session listed. Reason: `--disallowedTools` names tools and does not cover account connectors, and one run in the owner's own config wrote a document into the signed-in account (see **Not measured**). Results recorded before this change ran in the owner's own config, with other plugins and `CLAUDE.md` loaded.
+
+### Checked (developer-only)
+
+Claude Code 2.1.326, `--effort medium`; `llm` graders judged by a separate `claude -p` (Opus 5.5); the simulated user is Opus 5.5.
+
+- On the 0.13.0 text, `claude-fable-5-2`, 1 run each: `interview-then-work` wrote `report.py` in the reply that delivered the decision table and the prompt. `behavior-blindspot-scout-assumption-verdicts` did not spawn the scout (`spawns-unknowns-scout` 0/1, a miss already recorded on Opus 5.5); it read the 22 policy files itself and gave both assumptions a verdict with evidence (its `llm` grader was not judged). The scout row in blindspot is unchanged and under watch.
+- The end-point sentence, by the rule written before the run (2 of 2 keeps it, 0 of 2 reverts it): `interview-then-work` on `claude-fable-5-2` passed 2 of 2 on its three graders, and 1 of 1 on Opus 5.5.
+- Cases next to the change, Opus 5.5, 1 run each. Single-turn, 10/10 scored graders: `behavior-interview-max-four-questions`, `noncode-en-interview`, `noncode-ko-interview`, `behavior-buy-in-relays-reviewer`, `behavior-buy-in-finds-noncode-log`, `noncode-en-buy-in`, `noncode-ko-buy-in`. No buy-in run wrote a file; the doc was in the reply. Multi-turn: `interview-undecided-item` 1/1, `buy-in-partial-picks` 1/1, `interview-rounds-stay-at-four` 3 of 4 graders.
+- The miss in `interview-rounds-stay-at-four` is the half-weight grader `questions-carry-reasons-in-priority-order`. Read from the transcript (the judge's reasons were not saved): round 1 did not open with the question about what the user is sure of and is assuming. Step 1b asks for that question, and this change does not touch it.
+- In the five conversations where the interview skill loaded, no option question carried a recommendation.
+- One reader who did not write the change checked the diff against the writing rules; the option sentence, the reason after the end-point sentence and the buy-in sentence were reworded after it, before the runs.
+- The isolated runners, live (Opus 5.5, 1 run each): `trigger-en-interview` loaded the interview skill and `buy-in-partial-picks` passed its grader over two replies of one resumed session; both sessions listed no connector. A check of the session start on Claude Code 2.1.326: 14 connectors and 98 skills in the owner's config, no connector and 34 skills (the CLI's own and this plugin's 11) in the isolated one. Every run above this line ran in the owner's own config.
+- `interview-deep-grill`, isolated, Opus 5.5, 3 runs (the count for a routing doubt): the interview skill loaded in 3 of 3, `four-per-round` passed 3 of 3 (every reply of every run asked four questions), and `deeper-not-padded` passed 2 of 3 (one run asked again, in round 6, about two decisions the user had already made).
+- `tools/package.py` and `tools/package.py --check`, 98 unit tests, `evals/run-manual.py --verify` (88 cases), `evals/run-multiturn.py --verify` (13 cases), `scripts/build-skill-zips.py`, and `claude plugin validate --strict` for the plugin and the marketplace.
+
+### Not measured
+
+- The one `interview-deep-grill` run in the owner's own config is void: with the owner's other plugins loaded, the interview skill did not load for "Grill me … 40-question level", and the model wrote the requirements into a document through a connector of the signed-in account. In the isolated condition the skill loaded in 3 of 3 runs (see **Checked**); how the short descriptions route in a config crowded with other plugins' skills is not measured here. The runners' deny list names tools; it does not cover account connectors or other plugins' skills. The runners are isolated from the account since (see **Changed (developer-only)**).
+- The buy-in sentence in a session that has a page or document tool: the runners deny `Artifact`, so no case reaches it.
+- The option sentence has no grader of its own.
+- No trigger case was run (no description changed), and GPT-6.1 Sol was not run.
+- Each cell is 1 or 2 runs: they show that a behaviour happens, not how often.
+
 ## 0.13.0 — 2026-11-13
 
 Owner rulings of 2026-11-12 and 2026-11-13. The eleven skill descriptions are now the short set (200 characters or fewer each), three sentences that only repeated another sentence of the same file leave one skill body (blindspot) and one agent, and both READMEs gain a sentence to paste when the read-back is wanted in one conversation only. The read-back paragraph, the cell sentence and the routing sentence stay in every body. Apart from their descriptions, the other ten skills are the 0.12.4 text. No skill was added; skill names are unchanged.

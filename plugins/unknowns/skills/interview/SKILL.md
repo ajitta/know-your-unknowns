@@ -35,7 +35,7 @@ When requirements are incomplete, **you interview the user** before anything is 
 
    b. **Round 1 asks open questions**, without options, about what you cannot know or judge about the user's situation: the facts, constraints, people and priorities behind the gaps from step 1, one thing per question. Options written before you know the situation carry your guesses into the questions; the user's own words show what the decisions turn on.
 
-   c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note. A why follow-up from step 4c stays open, without options.
+   c. **From round 2 on, ask option questions for the decisions**: each question asks for one decision, with 2–4 options, and each option carries a short consequence (tradeoff) note. Put what you know into each option's consequence note and present the options without a recommendation: a recommended option makes the pick for the user. A why follow-up from step 4c stays open, without options.
 
    d. Attach a **one-line reason why it matters** to every question, follow-ups and requests for facts included.
 3. Collect the answers before writing the updated spec summary in step 4.
@@ -59,3 +59,5 @@ When every item is decided or left undecided by the user and no why follow-up fr
    - Declare the structure and harm decisions **fixed**.
    - Close with "start with a short plan, then do the work".
    - Include: "Where the plan leaves a choice open or the work conflicts with a fixed decision, pick the conservative option and log the deviation in the deviation log (IMPLEMENTATION_NOTES.md for code work, otherwise the file the user names or DEVIATIONS.md beside the deliverable)."
+
+The interview ends at these two deliverables; the work starts from the user's next message. The prompt leaves the skipped questions to judgment, so the user reads it before anything is built on it.

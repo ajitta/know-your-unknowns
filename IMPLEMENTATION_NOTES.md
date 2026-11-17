@@ -1,5 +1,26 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-17] Three sentences after a reading of the bodies by Claude Fable 5.2
+
+**Observed**
+- **Situation found**: the owner asked for a reading of the eleven skill bodies from the side of the model that runs them (Claude Fable 5.2), approved two runs on that model, and then approved three sentences: where the interview ends, options without a recommendation in the interview, and where the buy-in doc lives. The plan was to apply the approved wording, rebuild, and re-run the cases of the two skills.
+- **Deviation from plan**:
+  1. Two of the three approved wordings changed before the runs, after one reader who did not write the change checked the diff. interview 2c: approved "leave the options unranked: the pick shows the user's priorities, which you do not know yet", now "present the options without a recommendation: a recommended option makes the pick for the user" ("unranked" could also mean no order, and round 1 already asks for priorities). buy-in: approved "The draft and the final doc are Markdown in the conversation; …", now "Unless the user names another place for it, the doc is Markdown in the conversation, and where it goes from there is the user's choice" (the approved form overrode a destination the user had named). The direction of both is as approved.
+  2. The end-point sentence is as approved and has a reason sentence after it that the approval did not hold (rule 4): "The prompt leaves the skipped questions to judgment, so the user reads it before anything is built on it."
+  3. The run that showed the gap used a new case, not an existing one. Every existing interview case runs in an empty folder on a product with no code and grants no write tool, so none could show whether the model goes on to the work. `evals/multiturn/interview-then-work` asks for a small script and grants Write and Edit. `tests/test_multiturn_evals.py` pinned 12 multi-turn cases and now pins 13.
+  4. The blindspot scout row was planned to get its reason if the scout should run on Fable 5.2. It is unchanged: the run reached both assumption verdicts without the scout.
+  5. `interview-deep-grill` did not load the interview skill and is void. In that run the model created a requirements document in the signed-in account through an account connector. The runners deny tools by name and do not cover connectors or other plugins' skills.
+  6. Trigger cases were not run, because no description changed.
+  7. After item 5 the owner approved isolating the runners. Both now start every `claude` call in a fresh, empty `CLAUDE_CONFIG_DIR` with `ENABLE_CLAUDEAI_MCP_SERVERS=false` and pass the sign-in as `CLAUDE_CODE_OAUTH_TOKEN`, the method `docs/features/agent-collision/harness/` already used; `--own-config` restores the earlier behaviour. Isolation is the default, not a flag to remember, because the run in item 5 was an ordinary one. Every run of this entry before that change ran in the owner's own config.
+  8. `interview-deep-grill` then ran 3 times isolated (the count for a routing doubt): the interview skill loaded in 3 of 3, so the description is unchanged; `four-per-round` 3 of 3, `deeper-not-padded` 2 of 3. The miss in item 5 belongs to the owner's own config, where 98 skills were listed.
+- **Response chosen**: the three sentences as described, the new case, a `[Unreleased]` entry at version 0.13.0, regenerated output. Figures are in `CHANGELOG.md`, `[Unreleased]`; run output is local, in `evals/results/fable-5-2-2026-11-17/`.
+
+**Attributed**
+- **Reason for choice**: a wording defect found before the runs costs one edit; found after, it costs the runs again. The scout row stays because a sentence that forces the spawn would add cost where the run showed no loss.
+- **Alternatives considered**: (a) keep the approved wordings and report the reader's findings for a later round: not done, because the runs would then measure text already known to be ambiguous. (b) Run the existing `interview-rounds-stay-at-four` with Write granted *(inferred, not stated)*: not done, its empty product folder gives the model a reason to stop that has nothing to do with the skill. (c) Give the scout row a reason anyway: not done, see above.
+- **Risk/follow-up check**: one or two runs per cell. The buy-in sentence cannot be checked by the suite (the runners deny `Artifact`), and the option sentence has no grader. The reader also noted that buy-in step 3 asks for "a running demo or screenshot", which a Markdown doc in the conversation can only point to; the four buy-in runs passed their graders. What only the owner can judge: whether Fable 5.2 becomes a supported model, and whether a fix found on an unsupported model belongs in a release.
+- **Todo for human**: confirm or revert the two reworded sentences (item 1). Remove the document the run in item 5 created, or keep it. The judge helper outside the repository was isolated the same way on 2026-11-17 (a copy of the earlier file is kept beside it); the Sol check script on the build VM was not looked at. Decide the remaining candidates from the reading, listed in `docs/handoff.md`.
+
 ## [2026-11-13] Short descriptions, duplicate sentences, a pasted sentence instead of a mode skill (0.13.0)
 
 **Observed**

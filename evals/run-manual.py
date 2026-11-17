@@ -27,14 +27,20 @@ What it does and does not do:
     recency), when it overflows; a clean eval environment rarely overflows, so a
     trigger that passes there can still lose its description on a machine with many
     skills. The crowd arm measures that. Usage counts live in the Claude config and
-    headless runs update them too, so every crowd run gets a fresh, empty
-    CLAUDE_CONFIG_DIR (no usage history; synced or managed plugins may still load)
-    and the filler plugin is loaded first, so ties in the ranking do not favour this
-    plugin. Each crowd run writes a --debug-file and the report records what the CLI
-    logged: whether the listing went over budget, and which plugins loaded.
-    A fresh config dir holds no sign-in on most machines, so crowd runs need
-    ANTHROPIC_API_KEY (or credentials the CLI finds outside the config dir); a run
-    that fails to start is reported as FAILED, never scored as "did not fire".
+    headless runs update them too, so a fresh config dir also means no usage
+    history, and the filler plugin is loaded first, so ties in the ranking do not
+    favour this plugin. Each crowd run writes a --debug-file and the report records
+    what the CLI logged: whether the listing went over budget, and which plugins
+    loaded. A run that fails to start is reported as FAILED, never scored as "did
+    not fire".
+  * Every run gets a fresh, empty CLAUDE_CONFIG_DIR with the account's connectors
+    off, so it loads this plugin and nothing else of the user's: no installed
+    plugins, no CLAUDE.md, no mail, drive or document connector. --disallowedTools
+    names tools and cannot do this: a run in the user's own config once wrote a
+    document into the signed-in account through a connector. The sign-in is passed
+    as CLAUDE_CODE_OAUTH_TOKEN (the current access token, or ANTHROPIC_API_KEY when
+    set); the credentials file is never copied. `--own-config` turns this off. Each
+    result records the connectors the session listed (`mcp_servers`).
     `--budget-fraction F` sets skillListingBudgetFraction for the run, to force an
     overflow regardless of the model's context window.
 
@@ -361,9 +367,59 @@ def handback_report(text, config_dir=None):
     return report if report else text
 
 
-def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fraction=None):
+def login_token():
+    """(access token, expiry in ms) of the signed-in account, read from the Claude config."""
+    base = os.environ.get("CLAUDE_CONFIG_DIR") or os.path.join(
+        os.path.expanduser("~"), ".claude")
+    try:
+        with open(os.path.join(base, ".credentials.json"), encoding="utf-8") as handle:
+            oauth = json.load(handle).get("claudeAiOauth") or {}
+    except (OSError, ValueError, AttributeError):
+        return None, None
+    return oauth.get("accessToken") or None, oauth.get("expiresAt")
+
+
+def isolated_env(config_dir):
+    """Environment for a run that stays out of the signed-in account.
+
+    A fresh config dir leaves out the user's installed plugins, their skills, hooks and
+    CLAUDE.md, and ENABLE_CLAUDEAI_MCP_SERVERS=false leaves out the account's connectors
+    (mail, drive, documents), which --disallowedTools does not name. The sign-in goes in
+    as a token in the environment. The credentials file is never copied: a copy
+    refreshes on its own and can end the main login.
+    """
+    env = {key: value for key, value in os.environ.items() if key != "CLAUDE_CONFIG_DIR"}
+    token, _expires = login_token()
+    env["CLAUDE_CONFIG_DIR"] = config_dir
+    env["ENABLE_CLAUDEAI_MCP_SERVERS"] = "false"
+    if token and not env.get("ANTHROPIC_API_KEY") and not env.get("CLAUDE_CODE_OAUTH_TOKEN"):
+        env["CLAUDE_CODE_OAUTH_TOKEN"] = token
+    return env
+
+
+def check_sign_in():
+    """Stop before the first isolated run when it could not sign in."""
+    if os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_CODE_OAUTH_TOKEN"):
+        return
+    token, expires = login_token()
+    if not token:
+        raise SystemExit("no sign-in for an isolated run: set ANTHROPIC_API_KEY or "
+                         "CLAUDE_CODE_OAUTH_TOKEN, or pass --own-config")
+    if expires:
+        minutes = int((float(expires) / 1000 - time.time()) / 60)
+        if minutes < 30:
+            raise SystemExit("the login token expires in %d minute(s) and an isolated run "
+                             "cannot refresh it: open a normal Claude Code session, then "
+                             "run again" % minutes)
+        print("sign-in token valid for %d more minute(s); a run that starts later "
+              "fails to start" % minutes)
+
+
+def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fraction=None,
+             own_config=False):
     sandbox = tempfile.mkdtemp(prefix="unknowns-eval-")
-    config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if crowd_root else None
+    isolated = bool(crowd_root) or not own_config
+    config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if isolated else None
     try:
         run_scaffold(case, sandbox)
         before = snapshot(sandbox)
@@ -383,10 +439,9 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             cmd += ["--plugin-dir", root]
         if budget_fraction is not None:
             cmd += ["--settings", json.dumps({"skillListingBudgetFraction": budget_fraction})]
-        env = dict(os.environ)
+        env = isolated_env(config_dir) if config_dir else dict(os.environ)
         debug_file = None
-        if config_dir:
-            env["CLAUDE_CONFIG_DIR"] = config_dir
+        if crowd_root:
             # the CLI's own word on the listing, instead of the model's report
             debug_file = os.path.join(config_dir, "eval-debug.log")
             cmd += ["--debug-file", debug_file]
@@ -409,6 +464,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
         events, tool_calls, last_message = [], [], ""
         agent_ids, agent_reports = set(), []
         model_used = None
+        mcp_servers = None
         result_error = False
         for line in stdout.splitlines():
             line = line.strip()
@@ -421,6 +477,10 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             events.append(event)
             if event.get("type") == "system" and isinstance(event.get("model"), str):
                 model_used = event["model"]
+            if event.get("type") == "system" and isinstance(event.get("mcp_servers"), list):
+                # what the session could reach beyond its tools: [] in an isolated run
+                mcp_servers = [str(server.get("name")) for server in event["mcp_servers"]
+                               if isinstance(server, dict)]
             if event.get("type") == "result" and event.get("is_error") is True:
                 result_error = True
             if event.get("type") == "result" and isinstance(event.get("result"), str):
@@ -472,6 +532,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             "failed": failed,
             "listing": listing,
             "model": model_used,
+            "mcp_servers": mcp_servers,
             "effort": case.get("effort"),
             "stderr": stderr[-2000:],
             "duration_seconds": round(time.time() - started, 1),
@@ -818,6 +879,8 @@ def main():
     parser.add_argument("--effort", default="medium",
                         help="effort level of the model under test (default: medium, the supported effort; 'default' leaves the CLI default)")
     parser.add_argument("--claude", default="claude", help="claude binary")
+    parser.add_argument("--own-config", action="store_true",
+                        help="run in your own Claude config instead of a fresh one: the account's connectors and your installed plugins are loaded and the run can use them")
     parser.add_argument("--out", help="results directory (default: evals/results/manual-<ts>)")
     parser.add_argument("--list", action="store_true", help="list matching cases and exit")
     parser.add_argument("--verify", action="store_true",
@@ -847,6 +910,8 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
 
     arms = ["with", "without"] if args.arm == "both" else [args.arm]
+    if args.crowd > 0 or not args.own_config:
+        check_sign_in()
     crowd_root = None
     if args.crowd > 0:
         # kept beside the results, so a run can be re-created with the same crowd
@@ -854,7 +919,7 @@ def main():
     report = {"method": "manual (claude -p, stream-json)",
               "plugin_dir": root, "arms": arms, "crowd_skills": args.crowd,
               "budget_fraction": args.budget_fraction,
-              "isolated_config": bool(crowd_root),
+              "isolated_config": bool(crowd_root) or not args.own_config,
               "effort": None if args.effort == "default" else args.effort,
               "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
               "cases": []}
@@ -870,7 +935,7 @@ def main():
         for arm in arms:
             for index in range(runs):
                 run = run_once(case, arm == "with", root, args.claude, crowd_root,
-                               args.budget_fraction)
+                               args.budget_fraction, args.own_config)
                 scored = score_run(case, run)
                 run.pop("trace", None)
                 run.update(scored)
@@ -904,9 +969,12 @@ def main():
              "- method: `claude -p` + stream-json (see evals/README.md)",
              "- plugin dir: `%s`" % os.path.relpath(root, os.path.dirname(HERE) or "."),
              "- arms: %s" % ", ".join(arms),
-             "- crowd: %d filler skills%s%s" % (
+             "- config: %s" % (
+                 "the user's own (connectors and installed plugins loaded)"
+                 if args.own_config and not crowd_root
+                 else "fresh CLAUDE_CONFIG_DIR per run, account connectors off"),
+             "- crowd: %d filler skills%s" % (
                  args.crowd,
-                 ", fresh CLAUDE_CONFIG_DIR per run" if crowd_root else "",
                  (", skillListingBudgetFraction %s" % args.budget_fraction)
                  if args.budget_fraction is not None else ""), "",
              "| case | arm | mechanical | graders needing a judge |",

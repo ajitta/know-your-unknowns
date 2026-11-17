@@ -21,6 +21,31 @@
 
 GPT-6.1 Sol 확인 때 지킬 것(0.13.0에서 발견): Codex 앱은 소유자 계정에 올려 둔 플러그인 사본(당시 0.12.4)을 격리한 홈의 `.codex/plugins/cache/created-by-me-remote`로 동기화한다. 0.13.0의 처음 세 번 시도에서는 22개 세션 중 7–8개가 빌드 옆에 그 사본을 나열하고 그 사본의 `SKILL.md`를 읽었으므로, 세 번 모두 무효로 했다. `config.toml`의 `[features] remote_plugin = false`와 `[plugins."unknowns@created-by-me-remote"] enabled = false`는 막지 못했다. 막은 방법: 플러그인을 추가하기 전에 격리한 홈에 그 캐시 폴더를 미리 만들고 읽기 전용(`chmod 555`)으로 둔다. 실행 뒤에는 세션 기록에서 `created-by-me-remote/unknowns`가 0건인지, 22개 실행이 모두 빌드 버전의 `SKILL.md`를 읽었는지 센다(0.13.0: 0건, 22/22). 이전 릴리스의 GPT-6.1 Sol 확인에는 이 장치가 없었다.
 
+## 릴리스 전 작업 (2026-11-17, PR #35, main에 병합, 릴리스하지 않음)
+
+Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 모델로 두 번 실행한 뒤 소유자가 승인한 문장 셋을 넣었다. 버전은 0.13.0 그대로이고 CHANGELOG `[Unreleased]`에 기록했다. Fable 5.2는 지원 모델이 아니다. 수치는 CHANGELOG `[Unreleased]`와 `IMPLEMENTATION_NOTES.md` 2026-11-17.
+
+- interview: 결정 표와 바로 쓸 프롬프트에서 끝나고, 작업은 사용자의 다음 메시지에서 시작한다. 고치기 전 Fable 5.2 실행 1회는 두 산출물을 낸 답에서 요청받은 스크립트까지 썼다(사용자가 정하지 않은 선택 일곱 개 위에). 고친 뒤 새 다회차 케이스 `interview-then-work`는 Fable 5.2 2회 중 2회, Opus 5.5 1회 중 1회 통과했다.
+- interview 2c: 아는 것은 보기의 결과 설명에 넣고 보기는 추천 없이 낸다. 채점 항목은 없다. 스킬이 로드된 대화 다섯 개에서 추천이 붙은 보기는 없었다.
+- buy-in: 사용자가 다른 곳을 지정하지 않으면 문서는 대화 안의 Markdown이다. 러너가 `Artifact`를 막으므로 평가로는 확인할 수 없다. buy-in 실행 넷 모두 파일을 쓰지 않았다.
+- 이웃 케이스(Opus 5.5 medium, 각 1회): 단발 일곱 케이스 채점 항목 10/10, 다회차 `interview-undecided-item`·`buy-in-partial-picks` 통과, `interview-rounds-stay-at-four`는 넷 중 셋(아래 지켜볼 칸).
+- 평가 러너 격리(2026-11-17): `run-manual.py`와 `run-multiturn.py`가 모든 `claude` 호출을 새 빈 `CLAUDE_CONFIG_DIR`와 `ENABLE_CLAUDEAI_MCP_SERVERS=false`로 시작하고, 로그인은 자격 증명 파일을 복사하지 않고 `CLAUDE_CODE_OAUTH_TOKEN`으로 넘긴다. 예전 방식은 `--own-config`다. 세션 시작 확인(Claude Code 2.1.326): 소유자 설정은 커넥터 14개(메일·캘린더·드라이브·문서 포함)와 스킬 98개, 격리 설정은 커넥터 0개와 스킬 34개. 격리 실행 2회(단발 1, 다회차 1)가 정상 동작했다. 이 날짜 전의 기록은 소유자 설정(다른 플러그인과 `CLAUDE.md`가 실린 상태)에서 돈 것이라 격리 실행과 같은 조건으로 비교하지 않는다. 토큰이 30분 미만으로 남으면 러너가 시작하지 않는다.
+- 남은 일: 릴리스 여부와 버전은 소유자가 정한다. 릴리스한다면 지원 모델 전체 실행(Opus 5.5 1회, Sol trigger 1회)은 아직 하지 않았고, 이제 격리 조건에서 돈다. 작업 브랜치 `interview-ends-at-deliverables`는 지우지 않았다.
+
+소유자 결정이 필요한 것:
+
+- `interview-deep-grill` 실행(Opus 5.5, 소유자 설정)이 계정에 만든 요구사항 문서는 소유자가 직접 지우기로 했다(2026-11-17). 그 실행에서는 unknowns 스킬이 로드되지 않았고, 모델이 로그인한 계정의 문서 커넥터로 문서를 만들었다. 내용은 평가 케이스의 가상 자료뿐이다.
+- 저장소 밖 보조 도구(2026-11-17 반영): `kyu-probes/judge.py`의 판사 호출도 러너와 같은 격리 환경으로 바꿨고(원본은 옆의 `judge.py.bak-2026-11-17`), 판사 호출 1회가 정상 동작했다. `release-run.sh`와 `rerun.sh`는 두 러너와 `judge.py`만 부르므로 고칠 것이 없다. 빌드 VM의 Sol 확인 스크립트는 보지 않았다.
+- 다른 플러그인이 많이 실린 설정에서의 라우팅: `interview-deep-grill`의 "Grill me … 40-question level"은 소유자 설정(스킬 98개)에서 interview를 로드하지 못했고(1회 중 0회), 격리 설정에서는 3회 중 3회 로드했다. 실행 회수 표의 라우팅 의심 기준(3회 중 2회 이상 놓침)에는 해당하지 않으므로 설명은 고치지 않았다. 붐비는 설정에서의 라우팅을 다시 잴지는 `--crowd` 실행으로 정할 일이다.
+- 읽기에서 나온 나머지 후보(실행하지 않음): tweakable-plan 1b의 "interview를 제안"이 답을 기다리는지, quiz에서 teach-back을 객관식 채점 전에 묻는지, quiz 키 파일의 위치, blindspot에서 목록이 한 턴에 두 번 나오는 것, brainstorm 3단계의 "quarter-long bets (longer)", interview 1b의 한 질문이 두 가지를 묻는 것.
+
+## 지켜볼 칸 (2026-11-17, Fable 5.2 실행에서 새로)
+
+- blindspot 2단계의 scout 행: Fable 5.2는 정책 문서 22개를 scout 없이 직접 읽었고(1회 중 1회, 80초), 두 가정 모두 근거와 함께 판정했다(판사 채점은 하지 않음). 같은 케이스에서 Opus 5.5도 scout를 부르지 않은 기록이 있다. 문서가 작은 케이스라 큰 코드베이스에 대해서는 말해 주지 않는다. 행은 고치지 않았다.
+- `interview-rounds-stay-at-four`의 `questions-carry-reasons-in-priority-order`(가중치 0.5): Opus 5.5 1회 중 0회. 대화 기록으로 읽으면 1라운드가 "확실한 것·가정한 것" 질문으로 시작하지 않았다(판사의 이유는 저장되지 않았다). 1b 단계의 일이고 이번 수정과는 다른 문장이다.
+- `interview-deep-grill`의 `deeper-not-padded`: 격리 실행 3회 중 2회 통과. 놓친 1회는 6라운드에서 사용자가 이미 정한 결정 둘을 다시 물었다. `four-per-round`는 3회 중 3회(모든 답이 질문 4개)였고, 0.12.4에서 지켜보던 "첫 답에 질문 40개"는 나오지 않았다.
+- buy-in 3단계("실행되는 데모나 스크린샷")와 새 문장(대화 안의 Markdown): 독립 검토가 둘이 어긋날 수 있다고 지적했다. 이번 buy-in 실행 넷에서는 채점이 모두 통과했다.
+
 ## 0.13.0에서 끝난 일 (2026-11-12–13, PR #33)
 
 소유자 판단(2026-11-12, 11-13) 네 가지를 한 버전에 담았다. 수치와 표는 CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md` 2026-11-13.

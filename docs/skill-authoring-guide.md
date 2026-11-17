@@ -40,6 +40,7 @@ How each per-model question maps onto the target:
 Measurement rules:
 
 - Eval runs pin the effort: `evals/run-manual.py` and `evals/run-multiturn.py` pass `--effort medium` to the model under test by default (`--effort default` leaves the CLI default) and record it in each result; Codex runs use `-c model_reasoning_effort=medium`. Results recorded before 2026-11-03 ran at the CLI default effort, which was not recorded; do not compare them with medium-effort runs as if the condition were the same.
+- Eval runs stay out of the signed-in account: since 2026-11-17 both runners start every `claude` call in a fresh, empty `CLAUDE_CONFIG_DIR` with the account's connectors off (`evals/README.md`, path B). Results recorded before that date ran in the owner's own config, with other installed plugins and `CLAUDE.md` loaded; do not compare them with isolated runs as if the condition were the same.
 - Development and iteration run on Opus 5.5 at medium effort. GPT-6.1 Sol at medium effort runs once per release build.
 - Users on other models or efforts are not covered by any measurement. The READMEs say which models and effort the plugin was checked on.
 
