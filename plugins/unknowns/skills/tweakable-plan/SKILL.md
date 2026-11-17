@@ -28,7 +28,14 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 2. **Done criteria first**: the document opens with one line stating the outcome (what the user is ultimately after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 2 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.
-3. **Size gate**: when the work holds no decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget), say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the opening line from step 2, the questions from step 2 (your own unknowns included), and the steps in execution order, one line each: work this small has no decision worth a review document, and a shortened copy of the document is still the document.
+3. **Size gate**: what the work holds decides the reply:
+
+   | The work holds | The reply |
+   |---|---|
+   | No decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget) | Say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the opening line from step 2, the questions from step 2 (your own unknowns included), and the steps in execution order, one line each. The reply holds nothing from steps 4–7. |
+   | Otherwise (a decision the user might want to change, or you cannot tell which) | The document: its opening from step 2, then steps 4–7. |
+
+   Work as small as the first row has no decision worth a review document, and a shortened copy of the document is still the document.
 4. Split work into items of two types:
 
    | Item type | Covers | Trait |

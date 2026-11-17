@@ -26,11 +26,23 @@ Skill and agent text is read by the model first and by maintainers second. Rule 
 
 ## Steps
 
-1. **One step, one action.** When a step holds several actions (parse input, ask, record, investigate), split it into sub-steps `a.`, `b.`, `c.` under the same number, so references to later step numbers stay valid.
+1. **A number or a letter marks execution order, and nothing else.** A reader, the model or a maintainer, cannot tell a sequence from a classification by its marker, and a letter claims an order its items may not have. What a step holds decides its form:
 
-   A lead line that groups the sub-steps adds nothing: no "only", no new verb. "Suggest another skill only in these cases:" added a restriction, and "Record the answers." suggested writing a file. Use a neutral lead ("Suggest the next skill:", "After the answers:") or none.
+   | What the step holds | Form |
+   |---|---|
+   | Several actions that happen one after another (parse the input, then ask and wait, then record the answer) | Sub-steps `a.`, `b.`, `c.` under the same number, so references to later step numbers stay valid. |
+   | Parallel items, cases or states (the parts of one output, the cases of one rule) | A table row each (rule 5), with no letters. |
+   | Several constraints on one action (how many, in what form, with what attached) | One paragraph with the action, or a short list when rule 6 applies, with no letters. |
 
-   A limit that covered the whole step ("Investigate only, no implementation") goes on its own line before `a.`, not inside `a.`.
+   A numbered list outside a procedure says in its heading what its numbers are: rules cited by number (`## Iron Rules`) or a ranking (the interview skill's Question Priority). Cite an item that has no letter by its step number and its label ("step 2, round 1").
+
+   Keep a rule in the step whose action it governs, because a rule read in an earlier step competes with the rule written at the action and can lose. On 2026-11-17 the interview skill's first-question rule moved, word for word, from step 1 into the round-1 paragraph of step 2, the step that says "in priority order within every round". Before the move round 1 opened with that question in 10 of 11 isolated runs (Opus 5.5, medium effort), and the case that missed (`interview-then-work`) had also missed in its one run in the owner's own config; after the move round 1 opened with it in 8 of 8 isolated runs, 2 of them that case.
+
+   Existing steps keep their numbers and letters; an edit to a step does not oblige its conversion. Converting a step, or moving a rule to the step it governs, is a change of its own: it moves sentences, which can change what they cover (rule 12), so do one step at a time. A move meant to leave behavior as it is gets rule 14's checks. A move meant to change a behavior that a case has shown failing gets, before the run, a written statement of which result keeps it and which reverts it (the run counts in `docs/skill-authoring-guide.md`), and then runs of that skill's cases.
+
+   A lead line that groups sub-steps or items adds nothing: no "only", no new verb. "Suggest another skill only in these cases:" added a restriction, and "Record the answers." suggested writing a file. Use a neutral lead ("Suggest the next skill:", "After the answers:") or none.
+
+   A limit that covered the whole step ("Investigate only, no implementation") goes on its own line before the first sub-step or item, not inside it.
 2. **Write steps in execution order.** A word like "first" or "before" must name what it comes before. Two sentences that each claim to go first are a defect. The order includes what happens after a delegate returns: what you send the scout comes before what you do with its rows.
 3. **Condition before action.** Write "When the scope is codebase-wide, use the scout", not "Use the scout; this applies to codebase-wide scope". A skill that needs a tool says what to do without it in one line, at most once per skill and worded the same everywhere (rule 11): "Without a tool, do the step in the conversation and say what could not be checked." Do not write per-host branches (no file system, no question tool, no sub-agent): the model already adapts to the tools it has, and a branch it never takes is read on every run.
 4. **Keep the reason, once, at the end of the step.** One sentence saying why the step exists, after the instructions. Background (a paper, a method's history) goes after the instructions too, or into a references file, never between two instructions.
