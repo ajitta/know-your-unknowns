@@ -85,7 +85,7 @@ Claude Code 2.1.326, Claude Opus 5.5, `--effort medium`, the isolated condition,
 - Single-turn misses, all known from earlier releases: the two informative `neg-open-weighty-*` cases; prototypes and quiz not loading in `behavior-prototypes-interaction-mockup` and `behavior-quiz-on-submit`; the scout not spawned in `behavior-blindspot-scout-assumption-verdicts`; deviation-log not loading unasked in `behavior-deviation-log-auto-on-mismatch`; a check item that came back as planned logged as a Discovery in `behavior-deviation-log-logs-unplanned-difference`; a candidate titled as an instruction in `behavior-brainstorm-scout-finds-unused`; a long list of changes after a proofread in `neg-open-text-en`.
 - Multi-turn misses, all under watch: blindspot's `assumption-verdicts-carry-status` in both blindspot cases; teach-me's `draft-with-assumptions`; interview's half-weight `questions-carry-reasons-in-priority-order` (round 3 put its why follow-ups after another question).
 - `behavior-unknowns-loop-terms-only`, which missed in every run recorded under 0.13.0, passed; those runs were in the owner's own config.
-- GPT-6.1 Sol, `model_reasoning_effort = "medium"`, Codex CLI 0.167.2, the 22 trigger cases once: SOL_RESULT
+- GPT-6.1 Sol, `model_reasoning_effort = "medium"`, Codex CLI 0.167.2, the 22 trigger cases once, on the final commit of the release branch: the intended skill loaded in 22/22, all 22 runs read this build's 0.13.1 `SKILL.md` files, and no session listed the account-synced copy (the read-only cache folder of the 0.13.0 check was in place). An earlier run of the same day on the first release commit, which still held the interview sentence that came out, also read 22/22.
 
 ### Not measured
 
