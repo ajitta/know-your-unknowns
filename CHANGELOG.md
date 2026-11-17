@@ -14,6 +14,7 @@ A reading of the eleven skill bodies by Claude Fable 5.2, followed by two runs o
 - buy-in: the sentence on where the doc lives carries its reason.
 - unknowns-loop: stage c of step 3 has one row per skill, each with its own condition (wording only). The three skills and their three conditions shared one row, matched by the position of a slash.
 - interview: the rule that round 1 opens with the question about what the user is sure of and what they are assuming moved, word for word and with the sentence after it, from step 1 into the round-1 paragraph of step 2. Step 1 is one paragraph now and has no letters. In the earlier place the rule sat one step away from "in priority order within every round", and the replies that missed it opened with a structure question.
+- tweakable-plan: step 3, the size gate, is a table of two cases. The small case says its reply holds nothing from steps 4–7, and the other case, which also takes work whose size is unclear, is the document. The prose form did not say that the later steps stop for small work, and replies had added the document's weakest-part section.
 
 ### Changed (developer-only)
 
@@ -22,6 +23,7 @@ A reading of the eleven skill bodies by Claude Fable 5.2, followed by two runs o
 - Writing rule 1 (`.claude/rules/skill-writing.md`) is rewritten (owner decision 2026-11-17): a number or a letter marks execution order and nothing else; parallel items, cases and states are table rows; several constraints on one action stay in its paragraph; a rule sits in the step whose action it governs; converting a step or moving a rule is a change of its own, one step at a time. It replaces "One step, one action". A reading of the eleven bodies found the same markers carrying five meanings, and of the 22 lettered sets 8 a sequence, 10 a classification and 4 mixed. Only interview step 1 was converted.
 - New secondary grader `round-one-opens-with-sure-and-assumed` in `interview-then-work` (regex on the first question of the first reply).
 - The `deeper-not-padded` grader of `interview-deep-grill` no longer counts as filler a first question that asks the user to check or confirm an assumption they said they had not checked; the interview skill asks for that question. A second question about the same assumption is still filler.
+- The `defers-to-plan-mode` grader of `neg-one-file-tweakable-plan-defers-to-plan-mode` names the two things the size gate tells a small reply to hold (the line with the outcome, done criteria, what must not break and the allowed cost and scope; the questions, the model's own unknowns among them) as allowed, and says a weakest-part section is not.
 
 ### Checked (developer-only)
 
@@ -57,6 +59,8 @@ The interview move, 2026-11-17 (isolated, Opus 5.5, `--effort medium`). Read fro
 After the grader change, 2026-11-17: the day's five saved `interview-deep-grill` conversations were judged again, with no new run. `deeper-not-padded` reads 2 of 5. Each of the three misses asked again, in round 6 or 7, about a decision the user had already made; none is failed for the assumption question now. For one of the three the first judging had named the assumption question and the second names a repeated decision, so the two judgings of that conversation disagree on the reason and agree on the verdict.
 
 Tried and removed, 2026-11-17: tweakable-plan step 3 (the size gate) as two cases in a table, the small case saying that its reply holds nothing from steps 4–7. Before it, `defers-to-plan-mode` of `neg-one-file-tweakable-plan-defers-to-plan-mode` passed 2 of 3 isolated runs on the current text, the miss adding the document's weakest-part section. The rule written before the run kept the table only at 4 of 4. With the table the grader passed 3 of 4 and the table came out; tweakable-plan is the 0.13.0 text. No reply of the four carried a weakest-part section. The one miss was failed for the done-criteria line and the list of the model's own unknowns, both of which the size gate tells the reply to hold, and which a passing run of the same batch also held; the grader's text does not say those parts are allowed. The skill's other cases passed with the table (6 of 6 graders, 1 run each).
+
+The table went back in, 2026-11-17 (owner decision: correct the grader, then judge the saved replies again; no new run). The rule written before the re-judging put the table back at 4 of 4 under the corrected grader. The seven saved replies read: 2 of 3 before the table, the miss still the weakest-part section, and 4 of 4 with it. tweakable-plan step 3 is the table; the runs behind it are those four and the three of the skill's other cases.
 
 ### Not measured
 

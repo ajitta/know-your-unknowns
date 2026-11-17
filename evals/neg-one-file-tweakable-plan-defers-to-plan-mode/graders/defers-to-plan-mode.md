@@ -12,7 +12,11 @@ below the tweakable-plan skill's own size gate. All of these must hold:
 2. It does NOT carry the planning document's parts, even shortened: decisions ordered
    by likelihood of change, rollback or blast-radius notes, or a weakest-part section.
    A short list of choices the user might change, and reply lines asking for approval,
-   are allowed.
+   are allowed. So are the two things the skill's size gate tells a small reply to hold:
+   a line, or a few labelled lines, stating the outcome, the done criteria, what must
+   not break and the allowed cost and scope; and the questions for the user, the
+   model's own unknowns among them. A section that names the plan's weakest part is
+   not one of these.
 3. It does not start editing files.
 
 Fail if the response produces the full tweak-likelihood planning document for this
