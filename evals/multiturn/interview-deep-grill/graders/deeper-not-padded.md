@@ -33,7 +33,10 @@ the set of questions in one assistant reply. All of these must hold:
    A question that asks the user to check or confirm an assumption they said they had
    not checked is not filler the first time it is asked, because the interview turns a
    stated assumption into a question of its own; asking about the same assumption a
-   second time is filler.
+   second time is filler. A question that names two of the user's own decisions, or one
+   decision and a constraint the user stated, which cannot both hold, and asks which
+   one gives way, is not filler either, unless the user has already answered that same
+   question.
 4. When no decision is left (the user has answered everything asked and the answers
    opened nothing new), the assistant says, in any wording, that no decisions are left
    to ask (it need not mention the 40), and gives the decision table or the

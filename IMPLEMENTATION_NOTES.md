@@ -1,5 +1,21 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-17] interview: a decided item stays decided
+
+**Observed**
+- **Situation found**: with the grader corrected, the deep interview's three misses were all a decision asked again in round 6 or 7, each after a later answer (a why answer, a collision the model noticed, a narrow reading). The body had no rule for reopening a decision. The owner decided: a decision is closed, with one exception, two of the user's decisions that cannot both hold, asked with both named; one sentence in step 4b.
+- **Deviation from plan**:
+  1. The sentence became three. The one-sentence form forbade step 4c's why follow-up, which also asks about a decided item, and gave the exception nowhere to run: two colliding decisions are both decided, so step 4b opened no round and the final deliverables followed. The text now says the why follow-up asks for the reason, and that the colliding pair is unsettled again.
+  2. The exception also takes a decided item against a constraint the user stated, which the owner's wording (two decisions) did not name.
+  3. The grader was changed in the same commit, before the runs, to accept the question the exception allows.
+- **Response chosen**: the three sentences in step 4b; the grader line. Figures: `CHANGELOG.md`, `[Unreleased]`. Run output is local, in `evals/results/decided-2026-11-17/`.
+
+**Attributed**
+- **Reason for choice**: a rule about what the next round may hold belongs in the step that composes the next round (writing rule 1); the nearest sentence before this sat in the round-1 paragraph.
+- **Alternatives considered**: (a) no exception, a decision is never asked again: not done, a collision between two of the user's own decisions is something only the user can settle. (b) Allow reopening whenever a later answer raises a doubt *(inferred, not stated)*: not done, two of the three misses were exactly that.
+- **Risk/follow-up check**: 3 of 4 against 2 of 5 before is a small difference on a grader whose two judgings of one conversation named different reasons. The sentence is unmeasured on Fable 5.2. The one miss still asked a decision again.
+- **Todo for human**: the ready-to-use prompt presenting the model's own additions as settled (seen once, `interview-then-work`).
+
 ## [2026-11-17] Numbers and letters mark execution order: rule 1 rewritten, one step converted
 
 **Observed**
