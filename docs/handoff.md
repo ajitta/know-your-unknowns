@@ -21,7 +21,7 @@
 
 GPT-6.1 Sol 확인 때 지킬 것(0.13.0에서 발견): Codex 앱은 소유자 계정에 올려 둔 플러그인 사본(당시 0.12.4)을 격리한 홈의 `.codex/plugins/cache/created-by-me-remote`로 동기화한다. 0.13.0의 처음 세 번 시도에서는 22개 세션 중 7–8개가 빌드 옆에 그 사본을 나열하고 그 사본의 `SKILL.md`를 읽었으므로, 세 번 모두 무효로 했다. `config.toml`의 `[features] remote_plugin = false`와 `[plugins."unknowns@created-by-me-remote"] enabled = false`는 막지 못했다. 막은 방법: 플러그인을 추가하기 전에 격리한 홈에 그 캐시 폴더를 미리 만들고 읽기 전용(`chmod 555`)으로 둔다. 실행 뒤에는 세션 기록에서 `created-by-me-remote/unknowns`가 0건인지, 22개 실행이 모두 빌드 버전의 `SKILL.md`를 읽었는지 센다(0.13.0: 0건, 22/22). 이전 릴리스의 GPT-6.1 Sol 확인에는 이 장치가 없었다.
 
-## 릴리스 전 작업 (2026-11-17, 브랜치 `interview-ends-at-deliverables`, 커밋하지 않음)
+## 릴리스 전 작업 (2026-11-17, PR #35, main에 병합, 릴리스하지 않음)
 
 Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 모델로 두 번 실행한 뒤 소유자가 승인한 문장 셋을 넣었다. 버전은 0.13.0 그대로이고 CHANGELOG `[Unreleased]`에 기록했다. Fable 5.2는 지원 모델이 아니다. 수치는 CHANGELOG `[Unreleased]`와 `IMPLEMENTATION_NOTES.md` 2026-11-17.
 
@@ -30,11 +30,11 @@ Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 �
 - buy-in: 사용자가 다른 곳을 지정하지 않으면 문서는 대화 안의 Markdown이다. 러너가 `Artifact`를 막으므로 평가로는 확인할 수 없다. buy-in 실행 넷 모두 파일을 쓰지 않았다.
 - 이웃 케이스(Opus 5.5 medium, 각 1회): 단발 일곱 케이스 채점 항목 10/10, 다회차 `interview-undecided-item`·`buy-in-partial-picks` 통과, `interview-rounds-stay-at-four`는 넷 중 셋(아래 지켜볼 칸).
 - 평가 러너 격리(2026-11-17): `run-manual.py`와 `run-multiturn.py`가 모든 `claude` 호출을 새 빈 `CLAUDE_CONFIG_DIR`와 `ENABLE_CLAUDEAI_MCP_SERVERS=false`로 시작하고, 로그인은 자격 증명 파일을 복사하지 않고 `CLAUDE_CODE_OAUTH_TOKEN`으로 넘긴다. 예전 방식은 `--own-config`다. 세션 시작 확인(Claude Code 2.1.326): 소유자 설정은 커넥터 14개(메일·캘린더·드라이브·문서 포함)와 스킬 98개, 격리 설정은 커넥터 0개와 스킬 34개. 격리 실행 2회(단발 1, 다회차 1)가 정상 동작했다. 이 날짜 전의 기록은 소유자 설정(다른 플러그인과 `CLAUDE.md`가 실린 상태)에서 돈 것이라 격리 실행과 같은 조건으로 비교하지 않는다. 토큰이 30분 미만으로 남으면 러너가 시작하지 않는다.
-- 남은 일: 소유자가 문구를 확인하고 커밋·PR·릴리스 여부를 정한다. 릴리스한다면 지원 모델 전체 실행(Opus 5.5 1회, Sol trigger 1회)은 아직 하지 않았다.
+- 남은 일: 릴리스 여부와 버전은 소유자가 정한다. 릴리스한다면 지원 모델 전체 실행(Opus 5.5 1회, Sol trigger 1회)은 아직 하지 않았고, 이제 격리 조건에서 돈다. 작업 브랜치 `interview-ends-at-deliverables`는 지우지 않았다.
 
 소유자 결정이 필요한 것:
 
-- `interview-deep-grill` 실행(Opus 5.5)이 계정에 만든 요구사항 문서를 지울지. 그 실행에서는 unknowns 스킬이 로드되지 않았고, 모델이 로그인한 계정의 문서 커넥터로 문서를 만들었다. 내용은 평가 케이스의 가상 자료뿐이다.
+- `interview-deep-grill` 실행(Opus 5.5, 소유자 설정)이 계정에 만든 요구사항 문서는 소유자가 직접 지우기로 했다(2026-11-17). 그 실행에서는 unknowns 스킬이 로드되지 않았고, 모델이 로그인한 계정의 문서 커넥터로 문서를 만들었다. 내용은 평가 케이스의 가상 자료뿐이다.
 - 저장소 밖 보조 도구(2026-11-17 반영): `kyu-probes/judge.py`의 판사 호출도 러너와 같은 격리 환경으로 바꿨고(원본은 옆의 `judge.py.bak-2026-11-17`), 판사 호출 1회가 정상 동작했다. `release-run.sh`와 `rerun.sh`는 두 러너와 `judge.py`만 부르므로 고칠 것이 없다. 빌드 VM의 Sol 확인 스크립트는 보지 않았다.
 - 다른 플러그인이 많이 실린 설정에서의 라우팅: `interview-deep-grill`의 "Grill me … 40-question level"은 소유자 설정(스킬 98개)에서 interview를 로드하지 못했고(1회 중 0회), 격리 설정에서는 3회 중 3회 로드했다. 실행 회수 표의 라우팅 의심 기준(3회 중 2회 이상 놓침)에는 해당하지 않으므로 설명은 고치지 않았다. 붐비는 설정에서의 라우팅을 다시 잴지는 `--crowd` 실행으로 정할 일이다.
 - 읽기에서 나온 나머지 후보(실행하지 않음): tweakable-plan 1b의 "interview를 제안"이 답을 기다리는지, quiz에서 teach-back을 객관식 채점 전에 묻는지, quiz 키 파일의 위치, blindspot에서 목록이 한 턴에 두 번 나오는 것, brainstorm 3단계의 "quarter-long bets (longer)", interview 1b의 한 질문이 두 가지를 묻는 것.
