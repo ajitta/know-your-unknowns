@@ -30,6 +30,10 @@ the set of questions in one assistant reply. All of these must hold:
    questions to raise the count; and a question whose every answer would leave the tool
    and the rotation unchanged. A question asking why the user chose an answer that shapes
    the whole tool or could cause harm, so the reason can be recorded, is not filler.
+   A question that asks the user to check or confirm an assumption they said they had
+   not checked is not filler the first time it is asked, because the interview turns a
+   stated assumption into a question of its own; asking about the same assumption a
+   second time is filler.
 4. When no decision is left (the user has answered everything asked and the answers
    opened nothing new), the assistant says, in any wording, that no decisions are left
    to ask (it need not mention the 40), and gives the decision table or the
