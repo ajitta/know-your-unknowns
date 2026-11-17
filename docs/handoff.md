@@ -1,8 +1,30 @@
-# 다음 라운드 인계 — 0.13.0
+# 다음 라운드 인계 — 0.13.1
 
 ## 다음 세션: 여기서 시작
 
-배포 중인 버전은 `unknowns--v0.13.0`이다(2026-11-13, PR #33, main `2ea4ae7`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고, 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.0에 스킬 폴더 11개였다. 릴리스 본문은 워크플로가 머지 커밋 메시지로 채워서, 태그 메시지(CHANGELOG 0.13.0 내용)로 바꿔 넣었다. 남은 일은 소유자가 ChatGPT zip을 다시 올리는 것이다. 0.12.4의 작업 브랜치는 `IMPLEMENTATION_NOTES.md`가 그 커밋 해시를 인용하므로 지우지 않고 남겨 둔다. `short-descriptions`도 같은 이유로 남긴다(CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`, `02484af`, `c515a4d`를 인용한다).
+배포 중인 버전은 `unknowns--v0.13.1`이다(2026-11-17, PR #38, main `8ece152`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `5e2fa751…`, `know-your-unknowns-openai.zip` `8eca71ab…`), 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.1에 스킬 폴더 11개, 에이전트 2개였다. 카탈로그 항목은 고정 없이 `plugins/unknowns`를 가리켜서 고칠 것이 없다. 릴리스 본문은 이번에도 워크플로가 머지 커밋 메시지로 채워서 태그 메시지로 바꿔 넣었다. 작업 브랜치 `release-0.13.1`, `interview-decided-stays-decided`, `outcome-as-stated-as-read`, `interview-ends-at-deliverables`는 지우지 않았다.
+
+0.13.1에 들어간 것: interview(두 산출물에서 끝남, 보기에 추천 없음·물으면 답함, 1라운드 첫 질문 규칙을 1라운드 문단으로), buy-in(문서는 대화 안의 Markdown), unknowns-loop(3단계 c를 스킬별 행으로), tweakable-plan(크기 기준을 두 경우의 표로). 설명은 바뀌지 않았다. 병합했다가 릴리스에서 뺀 것: interview 4b의 "정한 항목은 정해진 채로" 문장(아래 "0.13.1 릴리스에서").
+
+| 0.13.1 뒤에 남은 일 | 누가 | 어디서 시작 |
+|---|---|---|
+| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드. 설명은 그대로지만 스킬 본문 넷이 바뀌어 올려 둔 사본이 옛 본문이다 | 소유자 | GitHub Release `unknowns--v0.13.1` |
+| claude.ai(Add marketplace 경로)가 0.13.1을 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
+| 평가 실행이 계정에 만든 문서 "On-call rotation bot: requirements" 삭제 | 소유자(직접 지우기로 함) | Claude Code `/artifacts` 또는 claude.ai |
+| interview의 두 규칙을 함께 다루기: 정한 항목은 다시 묻지 않는다, 바로 쓸 프롬프트는 사용자가 정한 것만 정해진 것으로 보인다 | 소유자 결정 후 에이전트 | 아래 "0.13.1 릴리스에서", `IMPLEMENTATION_NOTES.md` 2026-11-17 |
+| 설명 라운드(지적 넷 + 열려 있던 둘), 보류한 지적 둘, 분류이거나 섞인 a·b·c 묶음 14개 | 소유자 결정 | 아래 "세 번째 규칙 기반 리뷰", "단계 형식" |
+
+## 0.13.1 릴리스에서 (2026-11-17, PR #38)
+
+- 릴리스 점검(Claude Code 2.1.326, Opus 5.5, medium, 격리, 케이스당 1회): 단발 88케이스 채점 항목 194/206(점수에 드는 항목 125/134), 다회차 13케이스 28/32. 놓친 것은 모두 앞선 릴리스나 지켜볼 칸에 있던 것이다. GPT-6.1 Sol medium은 trigger 22/22(최종 커밋 `d099e8d`, 0.13.0 때의 읽기 전용 캐시 폴더 가드 사용, 계정 사본을 읽은 세션 0건). 스크립트는 빌드 VM `~/work/kyu-review/rel0131/`.
+- 러너 결함 하나를 릴리스 점검이 찾았다. 격리 조건에서는 `.claude` 아래 경로에 파일을 쓸 수 없는데, 세션의 임시 폴더가 `.claude` 아래에 있어서 실행 폴더가 거기 만들어졌다. 첫 실행에서 쓰기가 필요한 17케이스가 모두 파일을 만들지 못했다(무효). 러너가 실행 폴더를 `.claude` 밖에 만들게 고쳤고 그 케이스들을 다시 돌렸다. 2026-11-17에 격리 조건으로 잰 앞선 결과 가운데 파일이 필요 없는 케이스는 영향이 없다.
+- interview 4b 문장을 뺐다. `interview-then-work`의 `ends-at-the-two-deliverables` 첫 항목(프롬프트는 사용자가 정한 것만 정해진 것으로 보인다)이 문장이 있을 때 5회 중 3회 실패했고, 넣기 전 3회와 뺀 뒤 3회는 모두 통과했다. 실패 둘은 모델이 덧붙인 요구가 고정 결정으로 들어간 것, 하나는 답하지 않은 질문이 확인된 사실로 들어간 것이다. 문장의 효과였던 깊은 인터뷰 재질문 감소(4회 중 3회 통과, 전에는 5회 중 2회)는 이번 릴리스에 없다. 원인을 분리해 잰 것은 아니다.
+- `behavior-unknowns-loop-terms-only`는 격리 조건에서 2회 중 2회 통과했다(0.13.0의 6회 중 0회는 소유자 설정 기록).
+- 판사 호출 보조 도구 `kyu-probes/judge.py`도 격리 환경으로 돈다. 릴리스 실행 스크립트는 저장소 밖 임시 폴더에 있었으니 다음 릴리스 때는 `kyu-probes/release-run.sh`의 `O=`만 고쳐 쓰면 된다(러너 기본값이 격리다).
+
+아래는 0.13.0 때의 인계 문단이다.
+
+배포 중인 버전은 `unknowns--v0.13.0`이었다(2026-11-13, PR #33, main `2ea4ae7`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고, 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.0에 스킬 폴더 11개였다. 릴리스 본문은 워크플로가 머지 커밋 메시지로 채워서, 태그 메시지(CHANGELOG 0.13.0 내용)로 바꿔 넣었다. 남은 일은 소유자가 ChatGPT zip을 다시 올리는 것이다. 0.12.4의 작업 브랜치는 `IMPLEMENTATION_NOTES.md`가 그 커밋 해시를 인용하므로 지우지 않고 남겨 둔다. `short-descriptions`도 같은 이유로 남긴다(CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`, `02484af`, `c515a4d`를 인용한다).
 
 | 무엇 | 누가 | 어디서 시작 |
 |---|---|---|
@@ -21,7 +43,7 @@
 
 GPT-6.1 Sol 확인 때 지킬 것(0.13.0에서 발견): Codex 앱은 소유자 계정에 올려 둔 플러그인 사본(당시 0.12.4)을 격리한 홈의 `.codex/plugins/cache/created-by-me-remote`로 동기화한다. 0.13.0의 처음 세 번 시도에서는 22개 세션 중 7–8개가 빌드 옆에 그 사본을 나열하고 그 사본의 `SKILL.md`를 읽었으므로, 세 번 모두 무효로 했다. `config.toml`의 `[features] remote_plugin = false`와 `[plugins."unknowns@created-by-me-remote"] enabled = false`는 막지 못했다. 막은 방법: 플러그인을 추가하기 전에 격리한 홈에 그 캐시 폴더를 미리 만들고 읽기 전용(`chmod 555`)으로 둔다. 실행 뒤에는 세션 기록에서 `created-by-me-remote/unknowns`가 0건인지, 22개 실행이 모두 빌드 버전의 `SKILL.md`를 읽었는지 센다(0.13.0: 0건, 22/22). 이전 릴리스의 GPT-6.1 Sol 확인에는 이 장치가 없었다.
 
-## 릴리스 전 작업 (2026-11-17, PR #35, main에 병합, 릴리스하지 않음)
+## 0.13.1에 들어간 작업 1 (2026-11-17, PR #35)
 
 Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 모델로 두 번 실행한 뒤 소유자가 승인한 문장 셋을 넣었다. 버전은 0.13.0 그대로이고 CHANGELOG `[Unreleased]`에 기록했다. Fable 5.2는 지원 모델이 아니다. 수치는 CHANGELOG `[Unreleased]`와 `IMPLEMENTATION_NOTES.md` 2026-11-17.
 
@@ -30,7 +52,7 @@ Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 �
 - buy-in: 사용자가 다른 곳을 지정하지 않으면 문서는 대화 안의 Markdown이다. 러너가 `Artifact`를 막으므로 평가로는 확인할 수 없다. buy-in 실행 넷 모두 파일을 쓰지 않았다.
 - 이웃 케이스(Opus 5.5 medium, 각 1회): 단발 일곱 케이스 채점 항목 10/10, 다회차 `interview-undecided-item`·`buy-in-partial-picks` 통과, `interview-rounds-stay-at-four`는 넷 중 셋(아래 지켜볼 칸).
 - 평가 러너 격리(2026-11-17): `run-manual.py`와 `run-multiturn.py`가 모든 `claude` 호출을 새 빈 `CLAUDE_CONFIG_DIR`와 `ENABLE_CLAUDEAI_MCP_SERVERS=false`로 시작하고, 로그인은 자격 증명 파일을 복사하지 않고 `CLAUDE_CODE_OAUTH_TOKEN`으로 넘긴다. 예전 방식은 `--own-config`다. 세션 시작 확인(Claude Code 2.1.326): 소유자 설정은 커넥터 14개(메일·캘린더·드라이브·문서 포함)와 스킬 98개, 격리 설정은 커넥터 0개와 스킬 34개. 격리 실행 2회(단발 1, 다회차 1)가 정상 동작했다. 이 날짜 전의 기록은 소유자 설정(다른 플러그인과 `CLAUDE.md`가 실린 상태)에서 돈 것이라 격리 실행과 같은 조건으로 비교하지 않는다. 토큰이 30분 미만으로 남으면 러너가 시작하지 않는다.
-- 남은 일: 릴리스 여부와 버전은 소유자가 정한다. 릴리스한다면 지원 모델 전체 실행(Opus 5.5 1회, Sol trigger 1회)은 아직 하지 않았고, 이제 격리 조건에서 돈다. 작업 브랜치 `interview-ends-at-deliverables`는 지우지 않았다.
+- 이 작업은 0.13.1로 릴리스했다(위 "0.13.1 릴리스에서").
 
 소유자 결정이 필요한 것:
 
@@ -39,7 +61,7 @@ Claude Fable 5.2가 스킬 본문 11개를 실행하는 쪽에서 읽고, 그 �
 - 다른 플러그인이 많이 실린 설정에서의 라우팅: `interview-deep-grill`의 "Grill me … 40-question level"은 소유자 설정(스킬 98개)에서 interview를 로드하지 못했고(1회 중 0회), 격리 설정에서는 3회 중 3회 로드했다. 실행 회수 표의 라우팅 의심 기준(3회 중 2회 이상 놓침)에는 해당하지 않으므로 설명은 고치지 않았다. 붐비는 설정에서의 라우팅을 다시 잴지는 `--crowd` 실행으로 정할 일이다.
 - 읽기에서 나온 나머지 후보(실행하지 않음): tweakable-plan 1b의 "interview를 제안"이 답을 기다리는지, quiz에서 teach-back을 객관식 채점 전에 묻는지, quiz 키 파일의 위치, blindspot에서 목록이 한 턴에 두 번 나오는 것, brainstorm 3단계의 "quarter-long bets (longer)", interview 1b의 한 질문이 두 가지를 묻는 것.
 
-## 세 번째 규칙 기반 리뷰 (2026-11-17, PR #36, main에 병합, 릴리스하지 않음)
+## 0.13.1에 들어간 작업 2: 세 번째 규칙 기반 리뷰 (2026-11-17, PR #36)
 
 같은 네 규칙에, 두 번째 리뷰 뒤 규칙 문서에 생긴 두 항목(경우마다 이름 붙인 하위 항목, 사람의 말과 모델의 읽기를 두 줄로 나란히 보이기)을 더해 읽기만 했다. 범위: 두 새 항목은 본문 11개와 에이전트 2개, 네 규칙 전부는 설명 11개·공개 문서의 프롬프트·0.12.4 뒤에 더한 문장. 지적 28개(독립 검토자 둘 24개, 작성자 4개), 인용은 모두 파일에서 확인했다. 수치는 CHANGELOG `[Unreleased]`.
 
