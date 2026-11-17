@@ -15,6 +15,11 @@ What it does:
     fresh temporary cwd with the case's allowed tools, mirroring `run-manual.py`. Later
     turns resume that session in the same cwd with the same flags. Every prompt goes on
     STDIN, so a message is never parsed as a flag or swallowed by a list option.
+  * Every claude call (assistant, simulated user, judge) runs in a fresh, empty
+    CLAUDE_CONFIG_DIR with the account's connectors off, as in `run-manual.py`; a
+    conversation keeps one config dir across its replies, because --resume reads the
+    session from it. The sign-in is passed as a token in the environment and the
+    credentials file is never copied. `--own-config` turns this off.
   * It records every assistant text block, tool call (name + input), skill loaded and
     file written, per reply, in `transcript.json`.
   * The conversation stops when the simulated user answers STOP, when the case's
@@ -448,14 +453,78 @@ def snapshot(root):
     return seen
 
 
-def run_claude(cmd, prompt, cwd, timeout):
-    """Run one claude call with the prompt on STDIN; returns (stdout, stderr, code, timed_out)."""
+# Set by --own-config. Otherwise every claude call (assistant, simulated user, judge)
+# runs in a fresh config dir with the account's connectors off.
+OWN_CONFIG = False
+
+def login_token():
+    """(access token, expiry in ms) of the signed-in account, read from the Claude config."""
+    base = os.environ.get("CLAUDE_CONFIG_DIR") or os.path.join(
+        os.path.expanduser("~"), ".claude")
     try:
-        proc = subprocess.run(cmd, input=prompt, cwd=cwd, capture_output=True,
+        with open(os.path.join(base, ".credentials.json"), encoding="utf-8") as handle:
+            oauth = json.load(handle).get("claudeAiOauth") or {}
+    except (OSError, ValueError, AttributeError):
+        return None, None
+    return oauth.get("accessToken") or None, oauth.get("expiresAt")
+
+
+def isolated_env(config_dir):
+    """Environment for a run that stays out of the signed-in account.
+
+    A fresh config dir leaves out the user's installed plugins, their skills, hooks and
+    CLAUDE.md, and ENABLE_CLAUDEAI_MCP_SERVERS=false leaves out the account's connectors
+    (mail, drive, documents), which --disallowedTools does not name. The sign-in goes in
+    as a token in the environment. The credentials file is never copied: a copy
+    refreshes on its own and can end the main login.
+    """
+    env = {key: value for key, value in os.environ.items() if key != "CLAUDE_CONFIG_DIR"}
+    token, _expires = login_token()
+    env["CLAUDE_CONFIG_DIR"] = config_dir
+    env["ENABLE_CLAUDEAI_MCP_SERVERS"] = "false"
+    if token and not env.get("ANTHROPIC_API_KEY") and not env.get("CLAUDE_CODE_OAUTH_TOKEN"):
+        env["CLAUDE_CODE_OAUTH_TOKEN"] = token
+    return env
+
+
+def check_sign_in():
+    """Stop before the first isolated run when it could not sign in."""
+    if os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_CODE_OAUTH_TOKEN"):
+        return
+    token, expires = login_token()
+    if not token:
+        raise SystemExit("no sign-in for an isolated run: set ANTHROPIC_API_KEY or "
+                         "CLAUDE_CODE_OAUTH_TOKEN, or pass --own-config")
+    if expires:
+        minutes = int((float(expires) / 1000 - time.time()) / 60)
+        if minutes < 30:
+            raise SystemExit("the login token expires in %d minute(s) and an isolated run "
+                             "cannot refresh it: open a normal Claude Code session, then "
+                             "run again" % minutes)
+        print("sign-in token valid for %d more minute(s); a run that starts later "
+              "fails to start" % minutes)
+
+
+def run_claude(cmd, prompt, cwd, timeout, config_dir=None):
+    """Run one claude call with the prompt on STDIN; returns (stdout, stderr, code, timed_out).
+
+    `config_dir` is the conversation's config dir, which --resume needs across replies;
+    a call without one (simulated user, judge) gets its own for that call.
+    """
+    env, made = None, None
+    if not OWN_CONFIG:
+        if config_dir is None:
+            config_dir = made = tempfile.mkdtemp(prefix="unknowns-mt-config-")
+        env = isolated_env(config_dir)
+    try:
+        proc = subprocess.run(cmd, input=prompt, cwd=cwd, env=env, capture_output=True,
                               encoding="utf-8", errors="replace", timeout=timeout)
         return proc.stdout or "", proc.stderr or "", proc.returncode, False
     except subprocess.TimeoutExpired:
         return "", "timed out after %ds" % timeout, -1, True
+    finally:
+        if made:
+            shutil.rmtree(made, ignore_errors=True)
 
 
 def assistant_command(case, claude_bin, plugin_dir, session_id):
@@ -480,7 +549,8 @@ def assistant_command(case, claude_bin, plugin_dir, session_id):
 def parse_stream(stdout):
     texts, tool_calls, skills = [], [], []
     info = {"session_id": None, "result": "", "is_error": False, "cost_usd": None,
-            "model": None, "num_turns": None, "permission_denials": []}
+            "model": None, "num_turns": None, "permission_denials": [],
+            "mcp_servers": None}
     for line in stdout.splitlines():
         line = line.strip()
         if not line.startswith("{"):
@@ -494,6 +564,10 @@ def parse_stream(stdout):
         kind = event.get("type")
         if kind == "system" and isinstance(event.get("model"), str):
             info["model"] = event["model"]
+        if kind == "system" and isinstance(event.get("mcp_servers"), list):
+            # what the session could reach beyond its tools: [] in an isolated run
+            info["mcp_servers"] = [str(server.get("name")) for server in event["mcp_servers"]
+                                   if isinstance(server, dict)]
         if kind == "result":
             info["is_error"] = event.get("is_error") is True
             if isinstance(event.get("result"), str):
@@ -517,11 +591,12 @@ def parse_stream(stdout):
     return texts, tool_calls, skills, info
 
 
-def assistant_turn(case, claude_bin, plugin_dir, sandbox, message, session_id, timeout):
+def assistant_turn(case, claude_bin, plugin_dir, sandbox, message, session_id, timeout,
+                   config_dir=None):
     before = snapshot(sandbox)
     started = time.time()
     cmd = assistant_command(case, claude_bin, plugin_dir, session_id)
-    stdout, stderr, code, timed_out = run_claude(cmd, message, sandbox, timeout)
+    stdout, stderr, code, timed_out = run_claude(cmd, message, sandbox, timeout, config_dir)
     texts, tool_calls, skills, info = parse_stream(stdout)
     after = snapshot(sandbox)
     text = "\n\n".join(texts) if texts else info["result"]
@@ -536,6 +611,7 @@ def assistant_turn(case, claude_bin, plugin_dir, sandbox, message, session_id, t
                                 if before.get(rel) != mtime),
         "session_id": info["session_id"] or session_id,
         "model": info["model"],
+        "mcp_servers": info["mcp_servers"],
         "effort": case.get("effort"),
         "cost_usd": info["cost_usd"],
         "num_turns": info["num_turns"],
@@ -605,6 +681,7 @@ def simulated_user(case, turns, number, claude_bin, model, timeout):
 
 def run_conversation(case, run_dir, arm, plugin_dir, claude_bin, user_model, timeout):
     sandbox = tempfile.mkdtemp(prefix="unknowns-mt-")
+    config_dir = None if OWN_CONFIG else tempfile.mkdtemp(prefix="unknowns-mt-config-")
     turns, session_id = [], None
     stop_reason, error = None, None
     started = time.time()
@@ -614,7 +691,7 @@ def run_conversation(case, run_dir, arm, plugin_dir, claude_bin, user_model, tim
         while True:
             turns.append({"role": "user", "text": message})
             reply = assistant_turn(case, claude_bin, plugin_dir if arm == "with" else None,
-                                   sandbox, message, session_id, timeout)
+                                   sandbox, message, session_id, timeout, config_dir)
             turns.append(reply)
             session_id = reply["session_id"]
             if reply["timed_out"]:
@@ -656,10 +733,13 @@ def run_conversation(case, run_dir, arm, plugin_dir, claude_bin, user_model, tim
                 final_files[rel] = ""
     finally:
         shutil.rmtree(sandbox, ignore_errors=True)
+        if config_dir:
+            shutil.rmtree(config_dir, ignore_errors=True)
     costs = [t.get("cost_usd") for t in turns if t["role"] == "assistant"]
     transcript = {
         "case": case["name"],
         "arm": arm,
+        "isolated_config": not OWN_CONFIG,
         "plugin_dir": plugin_dir if arm == "with" else None,
         "stop_reason": stop_reason,
         "error": error,
@@ -943,6 +1023,8 @@ def main(argv=None):
     parser.add_argument("--effort", default="medium",
                         help="effort level of the model under test (default: medium, the supported effort; 'default' leaves the CLI default)")
     parser.add_argument("--claude", default="claude", help="claude binary")
+    parser.add_argument("--own-config", action="store_true",
+                        help="run in your own Claude config instead of a fresh one: the account's connectors and your installed plugins are loaded and the run can use them")
     parser.add_argument("--user-model", help="model for the simulated user (default: CLI default)")
     parser.add_argument("--judge-model", help="model for the judge (default: CLI default)")
     parser.add_argument("--jobs", type=int, default=1, help="conversations run in parallel")
@@ -965,10 +1047,14 @@ def main(argv=None):
         tally(args.tally)
         return 0
 
+    global OWN_CONFIG
+    OWN_CONFIG = args.own_config
     args.claude_bin = shutil.which(args.claude) or args.claude
     if args.judge_dir:
         if shutil.which(args.claude) is None and not os.path.exists(args.claude):
             raise SystemExit("claude binary not found: %s" % args.claude)
+        if not OWN_CONFIG:
+            check_sign_in()
         paths = result_files(args.judge_dir)
         with concurrent.futures.ThreadPoolExecutor(max(1, args.jobs)) as pool:
             list(pool.map(lambda p: judge_run(os.path.dirname(p), args.claude_bin,
@@ -1004,6 +1090,8 @@ def main(argv=None):
     jobs = [(case, arm, index, out_dir, args, plugin_dir)
             for case in cases for arm in arms
             for index in range(1, (args.runs or case["runs"]) + 1)]
+    if not OWN_CONFIG:
+        check_sign_in()
     print("%d conversation(s), plugin %s, out %s" % (len(jobs), plugin_dir, out_dir))
     with concurrent.futures.ThreadPoolExecutor(max(1, args.jobs)) as pool:
         for future in [pool.submit(run_job, job) for job in jobs]:

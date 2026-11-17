@@ -81,27 +81,44 @@ Each run gets a fresh temporary cwd and loads the generated `plugins/unknowns/` 
 `allowed_tools` via `--allowedTools` / `--disallowedTools`. `--arm both` runs the
 with- and without-plugin arms, which is the manual equivalent of the ablation.
 
+**Runs stay out of your account.** Both runners start every `claude` call in a fresh,
+empty `CLAUDE_CONFIG_DIR` with `ENABLE_CLAUDEAI_MCP_SERVERS=false`, so a run loads this
+plugin and nothing else of yours: no installed plugins or their skills, no `CLAUDE.md`,
+no account connector. `--disallowedTools` names tools and does not cover connectors: on
+2026-11-17 a run in the owner's own config, with no unknowns skill loaded, wrote a
+document into the signed-in account through a document connector. A check on Claude
+Code 2.1.326 listed 14 connectors (mail, calendar, drive and documents among them) and
+98 skills in the owner's config, and no connector and 34 skills (the CLI's own and this
+plugin's 11) in the isolated one. The sign-in is passed as `CLAUDE_CODE_OAUTH_TOKEN`,
+taken from the current login unless that variable or `ANTHROPIC_API_KEY` is already
+set; the credentials file is never copied, because a copy refreshes on its own and can
+end the main login. An isolated run cannot refresh the token, so the runner stops
+before the first run when less than 30 minutes are left. Each result records the
+connectors the session listed (`mcp_servers`, empty when isolated). `--own-config`
+runs in your own config instead; results recorded before 2026-11-17 ran that way, with
+the owner's other plugins and `CLAUDE.md` loaded, so do not compare them with isolated
+runs as if the condition were the same.
+
 `--crowd N` also loads a generated plugin of N filler skills (written into the results
 directory, so the run can be repeated). Claude Code budgets the skill listing (1% of the
 context window by default) and, when it overflows, keeps descriptions for the most-used
 skills (usage counts decayed by recency) and lists the rest by name only. A clean eval
 environment rarely overflows, so a trigger rate measured there says little about a
 machine with sixty skills installed. Usage counts live in the Claude config
-(`skillUsage` in `.claude.json`) and headless runs update them too, so each crowd run gets
-a fresh, empty `CLAUDE_CONFIG_DIR` (no usage history — synced or managed plugins may still
-load) and the filler plugin is loaded first, so ties do not favour this plugin. Each crowd
-run writes a `--debug-file`; the report records whether the CLI logged the listing as over
-budget and which plugins loaded. **Sign-in:** a fresh config dir usually holds no
-credentials, so set `ANTHROPIC_API_KEY` for crowd runs; a run that cannot start is
-reported as `FAILED` and left ungraded, not counted as a trigger miss. `--budget-fraction F` sets
+(`skillUsage` in `.claude.json`) and headless runs update them too, so the fresh, empty
+`CLAUDE_CONFIG_DIR` every run gets also means no usage history, and the filler plugin is
+loaded first, so ties do not favour this plugin. Each crowd run writes a `--debug-file`;
+the report records whether the CLI logged the listing as over budget and which plugins
+loaded. A run that cannot start is reported as `FAILED` and left ungraded, not counted
+as a trigger miss. `--budget-fraction F` sets
 `skillListingBudgetFraction` to force an overflow regardless of the context window —
 `--crowd 60 --budget-fraction 0.002` drops every unknowns description (the CLI logs
 "Skill listing over budget" under `--debug-file`). First result:
 [docs/trigger-eval-crowd-2026-09-30.md](../docs/trigger-eval-crowd-2026-09-30.md).
 
-For the no-plugin arm to be honest the plugin must not *also* be enabled in your own
-config. Check with `claude plugin list`; `claude plugin disable unknowns` for the
-duration of the run if it is.
+With `--own-config`, the no-plugin arm is honest only when the plugin is not *also*
+enabled in your own config. Check with `claude plugin list`; `claude plugin disable
+unknowns` for the duration of the run if it is. An isolated run needs neither.
 
 The raw one-liner behind it, adapted to the generated payload path (run from the repository root):
 
@@ -150,7 +167,10 @@ How a run works: the opening message goes to `claude -p --output-format stream-j
 as `run-manual.py`. After each reply a separate `claude -p --tools ""` is given only the
 persona and the conversation so far and writes the user's next message, answering what
 the last reply actually asked, or `STOP`. That message goes back with `claude -p --resume
-<session>` in the same cwd. Every prompt is sent on STDIN. The run ends on `STOP`, at
+<session>` in the same cwd. Every prompt is sent on STDIN. All three kinds of call
+(assistant, simulated user, judge) are isolated as described under path B; a
+conversation keeps one config dir across its replies, because `--resume` reads the
+session from it. The run ends on `STOP`, at
 `user_turns`, or when a reply asks nothing of the user. Each run writes
 `<case>/<arm>-run-<n>/transcript.json` (every turn: text, tool calls with inputs, skills
 loaded, files written, cost) and `result.json` (grader verdicts, stop reason). A run
