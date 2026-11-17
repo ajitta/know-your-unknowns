@@ -457,6 +457,30 @@ def snapshot(root):
 # runs in a fresh config dir with the account's connectors off.
 OWN_CONFIG = False
 
+def sandbox_dir(prefix):
+    """A fresh directory for a run's cwd, outside any `.claude` folder.
+
+    Claude Code treats a path under a `.claude` folder as a sensitive location and refuses
+    file writes there unless the user's own settings allow them, and some shells point
+    TMP into `~/.claude`. In a fresh config a run in such a cwd cannot write at all, so
+    every case that must create a file would fail for a reason that is not the skill's.
+    """
+    def under_claude(path):
+        parts = os.path.normpath(os.path.abspath(path)).replace("\\", "/").lower().split("/")
+        return ".claude" in parts
+
+    base = tempfile.gettempdir()
+    if under_claude(base):
+        local = os.environ.get("LOCALAPPDATA")
+        for candidate in ([os.path.join(local, "Temp")] if local else []) + [
+                "/tmp", "/var/tmp", os.path.expanduser("~")]:
+            if os.path.isdir(candidate) and not under_claude(candidate) \
+                    and os.access(candidate, os.W_OK):
+                base = candidate
+                break
+    return tempfile.mkdtemp(prefix=prefix, dir=base)
+
+
 def login_token():
     """(access token, expiry in ms) of the signed-in account, read from the Claude config."""
     base = os.environ.get("CLAUDE_CONFIG_DIR") or os.path.join(
@@ -680,7 +704,7 @@ def simulated_user(case, turns, number, claude_bin, model, timeout):
 
 
 def run_conversation(case, run_dir, arm, plugin_dir, claude_bin, user_model, timeout):
-    sandbox = tempfile.mkdtemp(prefix="unknowns-mt-")
+    sandbox = sandbox_dir("unknowns-mt-")
     config_dir = None if OWN_CONFIG else tempfile.mkdtemp(prefix="unknowns-mt-config-")
     turns, session_id = [], None
     stop_reason, error = None, None

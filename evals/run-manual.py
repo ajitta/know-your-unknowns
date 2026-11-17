@@ -367,6 +367,30 @@ def handback_report(text, config_dir=None):
     return report if report else text
 
 
+def sandbox_dir(prefix):
+    """A fresh directory for a run's cwd, outside any `.claude` folder.
+
+    Claude Code treats a path under a `.claude` folder as a sensitive location and refuses
+    file writes there unless the user's own settings allow them, and some shells point
+    TMP into `~/.claude`. In a fresh config a run in such a cwd cannot write at all, so
+    every case that must create a file would fail for a reason that is not the skill's.
+    """
+    def under_claude(path):
+        parts = os.path.normpath(os.path.abspath(path)).replace("\\", "/").lower().split("/")
+        return ".claude" in parts
+
+    base = tempfile.gettempdir()
+    if under_claude(base):
+        local = os.environ.get("LOCALAPPDATA")
+        for candidate in ([os.path.join(local, "Temp")] if local else []) + [
+                "/tmp", "/var/tmp", os.path.expanduser("~")]:
+            if os.path.isdir(candidate) and not under_claude(candidate) \
+                    and os.access(candidate, os.W_OK):
+                base = candidate
+                break
+    return tempfile.mkdtemp(prefix=prefix, dir=base)
+
+
 def login_token():
     """(access token, expiry in ms) of the signed-in account, read from the Claude config."""
     base = os.environ.get("CLAUDE_CONFIG_DIR") or os.path.join(
@@ -417,7 +441,7 @@ def check_sign_in():
 
 def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fraction=None,
              own_config=False):
-    sandbox = tempfile.mkdtemp(prefix="unknowns-eval-")
+    sandbox = sandbox_dir("unknowns-eval-")
     isolated = bool(crowd_root) or not own_config
     config_dir = tempfile.mkdtemp(prefix="unknowns-eval-config-") if isolated else None
     try:

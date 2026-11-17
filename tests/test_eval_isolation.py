@@ -73,5 +73,29 @@ class IsolatedEnvTest(unittest.TestCase):
             self.assertIn("expires", str(raised.exception))
 
 
+class SandboxDirTest(unittest.TestCase):
+    def test_sandbox_avoids_a_temp_dir_under_dot_claude(self):
+        home = tempfile.mkdtemp(prefix="unknowns-test-tmp-")
+        self.addCleanup(shutil.rmtree, home, ignore_errors=True)
+        inside = os.path.join(home, ".claude", "tmp")
+        os.makedirs(inside)
+        for runner in RUNNERS:
+            with mock.patch.object(tempfile, "tempdir", inside):
+                made = runner.sandbox_dir("unknowns-test-")
+            self.addCleanup(shutil.rmtree, made, ignore_errors=True)
+            parts = os.path.normpath(made).replace("\\", "/").lower().split("/")
+            self.assertNotIn(".claude", parts)
+            self.assertTrue(os.path.isdir(made))
+
+    def test_sandbox_keeps_an_ordinary_temp_dir(self):
+        # made by the runner itself, so it is outside .claude even when TMP is not
+        plain = RUNNERS[0].sandbox_dir("unknowns-test-plain-")
+        self.addCleanup(shutil.rmtree, plain, ignore_errors=True)
+        for runner in RUNNERS:
+            with mock.patch.object(tempfile, "tempdir", plain):
+                made = runner.sandbox_dir("unknowns-test-")
+            self.assertEqual(os.path.dirname(made), plain)
+
+
 if __name__ == "__main__":
     unittest.main()

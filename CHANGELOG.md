@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## 0.13.1 — 2026-11-17
+
+Released 2026-11-17. Body fixes to interview, buy-in, unknowns-loop and tweakable-plan, from three passes of one day: a reading of the bodies by the model that runs them, a third rule-based review, and a writing rule that numbers and letters mark execution order only. No description changed. Eval runs now stay out of the signed-in account. The sections below keep the order in which the day's records were written.
+
 A reading of the eleven skill bodies by Claude Fable 5.2, followed by two runs on that model (medium effort, 1 run each). Fable 5.2 is not a supported model; the three sentences below are checked on Claude Opus 5.5 as well.
 
 ### Changed
@@ -15,7 +19,6 @@ A reading of the eleven skill bodies by Claude Fable 5.2, followed by two runs o
 - unknowns-loop: stage c of step 3 has one row per skill, each with its own condition (wording only). The three skills and their three conditions shared one row, matched by the position of a slash.
 - interview: the rule that round 1 opens with the question about what the user is sure of and what they are assuming moved, word for word and with the sentence after it, from step 1 into the round-1 paragraph of step 2. Step 1 is one paragraph now and has no letters. In the earlier place the rule sat one step away from "in priority order within every round", and the replies that missed it opened with a structure question.
 - tweakable-plan: step 3, the size gate, is a table of two cases. The small case says its reply holds nothing from steps 4–7, and the other case, which also takes work whose size is unclear, is the document. The prose form did not say that the later steps stop for small work, and replies had added the document's weakest-part section.
-- interview: step 4b says a decided item stays decided. A why follow-up asks for the reason and not for the choice again, and two decided items, or a decided item and a constraint the user stated, that cannot both hold are unsettled again: the next round names both and asks which gives way (owner decision 2026-11-17). In the deep interview, late rounds had asked again about decisions the user had made, after a later answer raised the model's own doubt.
 
 ### Changed (developer-only)
 
@@ -25,7 +28,8 @@ A reading of the eleven skill bodies by Claude Fable 5.2, followed by two runs o
 - New secondary grader `round-one-opens-with-sure-and-assumed` in `interview-then-work` (regex on the first question of the first reply).
 - The `deeper-not-padded` grader of `interview-deep-grill` no longer counts as filler a first question that asks the user to check or confirm an assumption they said they had not checked; the interview skill asks for that question. A second question about the same assumption is still filler.
 - The `defers-to-plan-mode` grader of `neg-one-file-tweakable-plan-defers-to-plan-mode` names the two things the size gate tells a small reply to hold (the line with the outcome, done criteria, what must not break and the allowed cost and scope; the questions, the model's own unknowns among them) as allowed, and says a weakest-part section is not.
-- The `deeper-not-padded` grader also accepts a question that names two of the user's decisions, or a decision and a stated constraint, that cannot both hold and asks which gives way. This was written with the skill sentence, before its runs.
+- The `deeper-not-padded` grader also accepts a question that names two of the user's decisions, or a decision and a stated constraint, that cannot both hold and asks which gives way. This was written with a sentence for interview step 4b, before its runs; the sentence did not ship (see the release check below) and the grader line stays.
+- Both runners create a run's folder outside any `.claude` folder. Claude Code treats a path under one as a sensitive location and refuses file writes there unless the user's own settings allow them, and a shell can point its temp folder into `~/.claude`; in the isolated condition every case that must create a file then failed for that reason alone.
 
 ### Checked (developer-only)
 
@@ -64,12 +68,24 @@ Tried and removed, 2026-11-17: tweakable-plan step 3 (the size gate) as two case
 
 The table went back in, 2026-11-17 (owner decision: correct the grader, then judge the saved replies again; no new run). The rule written before the re-judging put the table back at 4 of 4 under the corrected grader. The seven saved replies read: 2 of 3 before the table, the miss still the weakest-part section, and 4 of 4 with it. tweakable-plan step 3 is the table; the runs behind it are those four and the three of the skill's other cases.
 
-The decided-stays-decided sentence, 2026-11-17 (isolated, Opus 5.5, `--effort medium`). Before it, `deeper-not-padded` of `interview-deep-grill` read 2 of 5, each miss a decision asked again in round 6 or 7. The rule written before the run: 3 of 3 keeps the sentence, 2 of 3 gets one more run and 3 of 4 keeps it.
+Tried, merged and then removed before the release: the decided-stays-decided sentence in interview step 4b, 2026-11-17 (isolated, Opus 5.5, `--effort medium`). It said a decided item stays decided, that a why follow-up asks for the reason, and that two decisions which cannot both hold are asked again with both named. Before it, `deeper-not-padded` of `interview-deep-grill` read 2 of 5, each miss a decision asked again in round 6 or 7. The rule written before the run: 3 of 3 keeps the sentence, 2 of 3 gets one more run and 3 of 4 keeps it.
 
 - `interview-deep-grill`: 2 of 3, then the fourth run passed, 3 of 4, and the sentence stays. The miss asked about on-call pay after the user had put it out of scope and asked one decision again. Two of the passing runs asked a question that named two colliding decisions, which the sentence allows.
 - Cases next to it, 1 run each: `interview-rounds-stay-at-four` 4 of 4 graders, `interview-undecided-item` 1 of 1, `behavior-interview-max-four-questions` 2 of 2, `noncode-en-interview` and `noncode-ko-interview` 1 of 1 each, `interview-then-work` 3 of 4 graders.
 - The `interview-then-work` miss is `ends-at-the-two-deliverables`, on its first item: the ready-to-use prompt held two requirements the user had not chosen (the week's date range in the output; the skipped-rows line only when rows were skipped) without marking them as the model's. The reply started no work and ended as the skill says. The miss is in the final deliverables, which this change does not touch.
 - One reader who did not write the change checked the first, one-sentence wording and found that it forbade the why follow-up of step 4c and that two colliding decisions, both decided, would open no further round. The wording that ran fixes both; the writer checked the fix.
+
+### Checked — release runs (developer-only)
+
+Claude Code 2.1.326, Claude Opus 5.5, `--effort medium`, the isolated condition, 1 run per case unless a count is given; `llm` graders judged by a separate `claude -p`.
+
+- The whole suite once. Combined over the three passes below: 88 single-turn cases, graders 194/206 (scored 125/134); 13 multi-turn cases, scored graders 28/32. For the form of the figures only, the 0.13.0 record reads 195/206 (scored 126/134) and 24/28, in the owner's own config; the two are not a comparison of versions.
+- First pass, all 101 cases: no run failed to start or timed out. Every run that had to create a file could not: the session's temp folder sat under `.claude` and the fresh config refused writes there. Those runs are void, not failures. The runners were corrected (above), and the 13 single-turn and 4 multi-turn cases that grant Write or Edit ran again; every one that writes created its file.
+- The step 4b sentence came out because of this check. `interview-then-work`'s grader `ends-at-the-two-deliverables` failed its first item (the ready-to-use prompt shows only the user's decisions as decided) in 3 of 5 runs with the sentence: twice the prompt listed a requirement the model had added as fixed, once it showed an unanswered question as confirmed. Before the sentence the item passed 3 of 3. The rule written after the second failure and before the last three runs stopped the release at 3 of 5. With the sentence out, interview is the text of the commit before it and the item passed 3 of 3; the skill's other eight cases then ran once each on that text.
+- Single-turn misses, all known from earlier releases: the two informative `neg-open-weighty-*` cases; prototypes and quiz not loading in `behavior-prototypes-interaction-mockup` and `behavior-quiz-on-submit`; the scout not spawned in `behavior-blindspot-scout-assumption-verdicts`; deviation-log not loading unasked in `behavior-deviation-log-auto-on-mismatch`; a check item that came back as planned logged as a Discovery in `behavior-deviation-log-logs-unplanned-difference`; a candidate titled as an instruction in `behavior-brainstorm-scout-finds-unused`; a long list of changes after a proofread in `neg-open-text-en`.
+- Multi-turn misses, all under watch: blindspot's `assumption-verdicts-carry-status` in both blindspot cases; teach-me's `draft-with-assumptions`; interview's half-weight `questions-carry-reasons-in-priority-order` (round 3 put its why follow-ups after another question).
+- `behavior-unknowns-loop-terms-only`, which missed in every run recorded under 0.13.0, passed; those runs were in the owner's own config.
+- GPT-6.1 Sol, `model_reasoning_effort = "medium"`, Codex CLI 0.167.2, the 22 trigger cases once, on the final commit of the release branch: the intended skill loaded in 22/22, all 22 runs read this build's 0.13.1 `SKILL.md` files, and no session listed the account-synced copy (the read-only cache folder of the 0.13.0 check was in place). An earlier run of the same day on the first release commit, which still held the interview sentence that came out, also read 22/22.
 
 ### Not measured
 
@@ -80,6 +96,8 @@ The decided-stays-decided sentence, 2026-11-17 (isolated, Opus 5.5, `--effort me
 - Each cell is 1 or 2 runs: they show that a behaviour happens, not how often.
 - The third rule-based review's changes were checked by runs of each skill's cases, not by an old-against-new comparison (owner rule). Findings held without a change: prototypes' requirements list and the README's sentence to paste (each a meaning change to measured text), and four description findings (quiz "or before merging", teach-me "Not a plan investigation", blindspot "a better prompt", brainstorm "NOT for design variants"), which wait for one description round with its trigger, non-coding and negative cases.
 - The interview move was not run on `claude-fable-5-2`. Rule 1 was applied to one step; the other lettered sets that are a classification or mixed (14 of 22) are unchanged.
+- Late rounds of the deep interview still ask again about decisions the user has made (`deeper-not-padded` 2 of 5 before the removed sentence); the sentence that reduced it is not in this release.
+- ChatGPT and claude.ai were not run. The release check is one run per case.
 
 ## 0.13.0 — 2026-11-13
 
