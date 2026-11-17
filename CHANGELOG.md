@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## 0.13.1 — 2026-11-17
+
+Released 2026-11-17. Body fixes to interview, buy-in, unknowns-loop and tweakable-plan, from three passes of one day: a reading of the bodies by the model that runs them, a third rule-based review, and a writing rule that numbers and letters mark execution order only. No description changed. Eval runs now stay out of the signed-in account. The sections below keep the order in which the day's records were written.
+
 A reading of the eleven skill bodies by Claude Fable 5.2, followed by two runs on that model (medium effort, 1 run each). Fable 5.2 is not a supported model; the three sentences below are checked on Claude Opus 5.5 as well.
 
 ### Changed
