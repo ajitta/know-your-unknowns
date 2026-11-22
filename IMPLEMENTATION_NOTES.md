@@ -1,5 +1,31 @@
 # Implementation Notes — plan deviation log
 
+## [2026-11-22] Release 0.13.2: review findings handled, with choices made where a finding left one open
+
+**Observed**
+- **Situation found**: a prompt audit of the eleven bodies found no dated pattern worth an edit. Two independent reviews, asked for by the owner and not given the audit's conclusions, then found sentences that recorded runs showed changing or failing to settle behavior. The owner approved four groups of changes, answered two quiz questions (a correct teach-back mentions every key point; grading starts after all six answers), then asked for the remaining findings to be handled and for the release. The plan was the written procedure: edit, one reader who did not write the change, the changed skills' cases, the whole suite once on Opus 5.5 and the trigger cases once on GPT-6.1 Sol, version, merge, tag.
+- **Deviation from plan**:
+  1. The remaining findings were handled without a separate ruling on each. Where a finding left a choice open, the text now states what recorded runs already did and their graders already accept:
+     - tweakable-plan step 1b: the reply suggests the interview skill and plans in the same reply. The old sentence ("suggest … before planning; if the user declines, plan anyway") could mean that the reply stops at the suggestion.
+     - blindspot step 5: the first improved prompt draft applies every prompt fix.
+     - reference Output: approve all with `semantics confirmed` or name the rows to change, as step 5 says, not an approve / request-change choice on every row.
+     - unknowns-loop step 1: labelled "A request clear to both of you skips the loop".
+     - prototypes step 5a: with two options, a question on what most sets them apart stands in for the triad.
+     - unknowns-scout: every listed assumption is marked held, wrong or still unchecked; "unsupported" is gone, and an assumption the sources do not settle counts as still unchecked.
+  2. The scout grader `spawns-unknowns-scout` became an indicator (`min: 0`, `weight: 0`) instead of being removed or kept as a half-weight requirement, because the runner's display-only form covers `tool: Skill` only.
+  3. Eight changed sentences were reworded after the two readings by a reader who did not write them, before their runs (five in the first batch's reading, three in the second's; `CHANGELOG.md`, 0.13.2).
+  4. The deviation-log runs of the first batch came before that batch's reading; the reading asked for no change to that sentence.
+  5. In the release run the site-visit case put the password into the log inside an HTML comment, once. A rule written before two more runs kept the removal of the password clause (value in the log in 1 of 5 runs since the removal, in the plan in 5 of 5).
+  6. One grader of the release run has no judge verdict: the judge call was refused twice by Opus 5.5's safeguards (`reasoning_extraction`). It was counted by script instead.
+  7. GPT-6.1 Sol was not run. The check runs on the build VM, which this session could not reach.
+- **Response chosen**: the text as released in 0.13.2. Figures: `CHANGELOG.md`, 0.13.2. Run output is local, in `evals/results/audit-2026-11-22/` and `evals/results/release-0.13.2/`.
+
+**Attributed**
+- **Reason for choice**: writing down what the runs already do changes no measured behavior, so the release run could check it against the 0.13.1 results; the other reading of each sentence would have been a new behavior with no run behind it. The password clause stays out because its cost was certain (the user's own plan lost a value the user gave, 5 of 5) and the leak it guarded against showed once in five runs, in a comment.
+- **Alternatives considered**: (a) ask the owner to rule on each open choice before editing: not done, the owner had asked for the findings to be handled and for the release in one message. (b) tweakable-plan stops at the interview suggestion and waits *(inferred, not stated)*: not done, every recorded reply plans in the same reply and `noncode-ko-tweakable-plan` asks for the plan in the first reply. (c) Replace the password clause with a separate **Don't log** item for secret values *(a reviewer's suggestion)*: held back by the rule in item 5; it is the next step if the value reaches the log again. (d) Hold the release until the Sol check: not done; no description changed, and the trigger cases the Sol check runs depend on the descriptions.
+- **Risk/follow-up check**: one or two runs per cell. If a choice in item 1 is wrong it shows as: a user who wanted the interview first getting a long plan built on gaps (tweakable-plan); a user pasting the first blindspot draft with fixes they did not want; a reference reply with no per-row approval. What only the owner can judge: each choice in item 1, whether a secret in the deviation log is worse than a value missing from the plan, and whether a release without the Sol check stands.
+- **Todo for human**: confirm or overturn the six choices in item 1. Run the Sol trigger check on the build VM for the 0.13.2 commit. Upload `know-your-unknowns-openai.zip` to ChatGPT again (the listing sentence changed). The judge helper's prompt ("one line of reasoning per numbered criterion") can be refused as `reasoning_extraction`; it lives outside the repository and was not changed. No case reaches the scout from a skill, tweakable-plan after an accepted interview suggestion, a two-option prototypes set, or quiz and reference with no input.
+
 ## [2026-11-17] Release 0.13.1: one sentence taken back out, a runner fault found by the release check
 
 **Observed**

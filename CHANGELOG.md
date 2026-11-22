@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-A prompt audit of the eleven skill bodies, 2026-11-22, and two independent reviews that were not given its conclusions: one repeated the audit, one read each body as the model that runs it, and both read recorded runs. The owner approved four groups of changes. The plugin version is unchanged.
+## 0.13.2 — 2026-11-22
+
+Released 2026-11-22. Body fixes to ten skills and the unknowns-scout agent, from a prompt audit of the eleven skill bodies and two independent reviews that were not given its conclusions: one repeated the audit, one read each body as the model that runs it, and both read recorded runs. The owner approved four groups of changes, then asked for the remaining findings to be handled and for the release. No description changed. The OpenAI listing's long description changed by one sentence.
 
 ### Changed
 
@@ -11,6 +13,17 @@ A prompt audit of the eleven skill bodies, 2026-11-22, and two independent revie
 - quiz: grading and explanations start once all six questions are answered (owner decision 2026-11-22). In one recorded run the explanation of a multiple-choice answer stated a point of the teach-back key before the teach-back was answered.
 - blindspot, brainstorm: the scout is for a task (blindspot) or material (brainstorm) that spans more sources than the model can read in full. blindspot said "many sources" and brainstorm gave the choice no condition. Neither skill spawned the scout in any recorded run of its scout case (0 of 5 each; one of the blindspot runs on Claude Fable 5.2, the rest on Opus 5.5): the model read the 22 documents or the small codebase itself.
 - OpenAI listing (`packaging/openai/interface.json`): the long description said other hosts use "labeled passes performed by the assistant", a fallback removed in 0.11.0. It now states the missing-tool rule.
+
+The remaining findings of the two reviews, which the owner asked to have handled the same day. Where a finding left a choice open, the text now states what recorded runs already did and their graders already accept; those choices are listed in `IMPLEMENTATION_NOTES.md`, entry 2026-11-22, for the owner to confirm or overturn.
+
+- blindspot, unknowns-scout: the scout packet asks for each ② and ⑤ assumption marked held or wrong, with its evidence and status, or still unchecked, the words of step 4a, and the scout marks every listed assumption that way; a wrong one is also a finding, and one still unchecked goes under **Needs checking**. The scout reported only assumptions it found "wrong or unsupported", so a held assumption came back with no row for step 4a to cite.
+- blindspot: the first improved prompt draft applies every prompt fix; a pick still narrows it to the picked ones. The step did not say which fixes the draft held before a pick.
+- tweakable-plan: with big gaps in the spec, the reply suggests the interview skill and gives the plan, with each gap under **Your own unknowns**. The step said "suggest … before planning; if the user declines, plan anyway" and did not say whether the reply waits; the recorded run gave the suggestion and the whole plan in one reply.
+- unknowns-loop: step 1 is labelled "A request clear to both of you skips the loop" in place of "Read back first", which three recorded first replies took three ways ("Skipped", "Done", an actual read-back). The outcome check no longer ends with "nothing is scored", a remainder of the scorecard removed in 0.11.0.
+- prototypes: with only two options, a question on what most sets them apart stands in for the triad, which needs three.
+- quiz, reference: each says where the work or the reference comes from and asks one question when neither the request nor the conversation has one. reference: the Output line follows step 5 (approve all with `semantics confirmed` or name the rows to change) in place of an approve / request-change choice on every row, which a recorded run did not render.
+- buy-in, quiz, unknowns-loop: the shared deviation-log sentence names the non-code file too ("otherwise the file the user names or `DEVIATIONS.md` beside the deliverable"), as deviation-log's table and the interview prompt already did. `.claude/rules/skill-writing.md` rule 11 quotes the new sentence.
+- teach-me: "Keep this step however short the explainer is" in place of "in a short explainer too" (wording only). tweakable-plan, brainstorm, deviation-log: other skills are named in the "the **name** skill" form of writing rule 9 (wording only).
 
 ### Changed (developer-only)
 
@@ -29,11 +42,28 @@ Claude Code 2.1.330, Opus 5.5 (`ANTHROPIC_MODEL=claude-opus-5-5`), `--effort med
 - One reader who did not write the change compared old against new without the writer's explanation. Three of the five changed sentences were reworded after that reading and before their runs: the header of the blindspot scope table and the "e.g." in its two rows, the word order of quiz step 1c, and the grading sentence of quiz step 2 (now the last sentence of the step, counting a blank or a skip as a reply). The same reading corrected the README sentence on brainstorm's condition, the listing sentence and the grader's note. The deviation-log runs came before the reader's report, which asked for no change to that sentence.
 - `tools/package.py` and `tools/package.py --check`, 100 unit tests, `evals/run-manual.py --verify` (88 cases), `evals/run-multiturn.py --verify` (13 cases), `scripts/build-skill-zips.py`, and `claude plugin validate --strict` for the plugin and the marketplace.
 
+- A second reading by one reader who did not write the change, of the remaining-findings batch, before its runs. Three sentences were reworded after it: reference step 1a ("names or contains a reference", where "holds" could mean either and one reading would ask for a reference the user had named), the scout's sentence on assumptions (an assumption still unchecked, one the sources do not settle included, also goes under **Needs checking**), and prototypes step 5a (the two-option sentence moved to the end of the step, so "Run it whether reactions stall" still points at the triad).
+
+### Checked — release runs (developer-only)
+
+The whole suite once on the final text, 2026-11-22: Claude Code 2.1.330, Opus 5.5, `--effort medium`, isolated config, no connector listed and no void run. The rule written before the run: a scored grader that passed in the 0.13.1 release check and misses now gets 2 more runs of its case (2 of 2 keeps the text, 0 of 2 reverts the sentence that touches that step, 1 of 2 gets one more run); misses already in a watch cell are read, not run again. Results are in `evals/results/release-0.13.2/` (git-ignored).
+
+- Single-turn, 88 cases: 125 of 134 scored graders, the count of the 0.13.1 release check, and 30 of 30 mechanical ones. Multi-turn, 13 cases: 3 graders missed.
+- Passed in 0.13.1 and missed now, each run 2 more times:
+  - `behavior-deviation-log-logs-public-rename` / `logs-the-public-rename`: the reply said it "added two entries" without saying what they record. 2 of 2 on the rerun.
+  - `reference-free-text-correction` / `free-text-corrections-applied`: the simulated user never replied (0 user turns), so there was no correction to apply; the judge called the transcript truncated. 2 of 2 on the rerun.
+  - `behavior-tweakable-plan-opens-with-done-criteria` / `alternatives-are-lettered`: not judged. The judge call was refused twice by Opus 5.5's safeguards (`reasoning_extraction`; the helper's prompt asks for "one line of reasoning per numbered criterion"). Counted by script instead: all seven decision items of the reply list lettered alternatives, each with why it was rejected.
+- `behavior-deviation-log-logs-unplanned-difference`, missed in 0.13.1 as well, missed in a new way: the password went into the plan, and the log ended with an HTML comment that said the Wi-Fi item was no deviation and held `lib2026`. A rule was written before two more runs (both keep the value out of the log: keep the removal and watch the cell; either puts it in: replace the sentence with two separate **Don't log** items and run those). Both kept the value out of the log and wrote it into the plan, and `logs-capacity-and-access` passed 2 of 2. Since the password clause was removed the value has reached the log in 1 of 5 runs and the plan in 5 of 5. The cell is under watch.
+- Missed as in 0.13.1, read and not run again: `assumption-verdicts-carry-status` in `blindspot-partial-pick` (one of the model's own assumptions got no verdict) and in `blindspot-reaches-improved-prompt` (a "held" verdict credited to the user's prompt for a fact the prompt did not state), both step 4a; three cases in which the skill did not load (`behavior-deviation-log-auto-on-mismatch`, `behavior-prototypes-interaction-mockup`, `behavior-quiz-on-submit`); the two informative open-cell cases `neg-open-weighty-code-en` and `neg-open-weighty-text-ko`, where no skill loads and the reply does the work without a read-back; and `key-locations-from-the-material` of `noncode-en-quiz`.
+- Missed in 0.13.1 and passed now, 1 run each: `finds-the-unused-module` of `behavior-brainstorm-scout-finds-unused`, `does-it-directly` of `neg-open-text-en`, `draft-with-assumptions` of `teach-me-stops-at-draft`.
+- `tools/package.py` and `tools/package.py --check`, 100 unit tests, both `--verify` commands, `scripts/build-skill-zips.py`, and `claude plugin validate --strict` for the plugin and the marketplace, on the 0.13.2 build.
+
 ### Not measured
 
-- The scout side of the condition: no case gives a skill a task too large to read in full, so no run shows blindspot or brainstorm spawning the scout.
-- GPT-6.1 Sol was not run. The OpenAI listing text changed, so `know-your-unknowns-openai.zip` needs uploading again at the next release.
+- The scout side of the condition and of the new verdict packet: no case gives a skill a task too large to read in full, so no run shows blindspot or brainstorm spawning the scout or the scout returning a verdict for each assumption.
+- GPT-6.1 Sol was not run, against the release rule of one run per `trigger-*` case: the check runs on the build VM, which this session could not reach. No description changed. The OpenAI listing text changed, so `know-your-unknowns-openai.zip` needs uploading again.
 - Claude Fable 5.2 was not run on these changes.
+- Sentences with no case that reaches them: tweakable-plan step 1b when the user takes the interview suggestion, the two-option question of prototypes step 5a, the empty-input sentences of quiz and reference, and the non-code half of the shared deviation-log sentence in quiz and unknowns-loop.
 
 ## 0.13.1 — 2026-11-17
 
