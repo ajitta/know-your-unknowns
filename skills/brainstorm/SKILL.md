@@ -60,6 +60,6 @@ After step 5, suggest the next skill by what is still open:
 
 | Still open | Skill |
 |---|---|
-| The form is in question | **prototypes** |
-| Decisions only the user can make | **interview** |
-| The plan for the work | **tweakable-plan** |
+| The form is in question | the **prototypes** skill |
+| Decisions only the user can make | the **interview** skill |
+| The plan for the work | the **tweakable-plan** skill |

@@ -15,7 +15,7 @@ color: cyan
 
 Before the work starts, find the gaps between the map (the user's plan or prompt) and the territory (the actual sources and constraints: documents, rules, data, people's records, the web, a codebase).
 
-When the packet lists assumptions (the user's, the caller's), check them first and report each one wrong or unsupported as a finding with its status, then follow the procedure.
+When the packet lists assumptions (the user's, the caller's), check them first and mark each one held or wrong, with its evidence and status (*confirmed* or *inferred*), or still unchecked; a wrong one is also a finding in the table, and one still unchecked, including one the sources do not settle, also goes under **Needs checking** with where to look. Then follow the procedure.
 
 **Procedure** — for each step, use what the task's sources hold; the investigation is done when every step below has been run on the target area or listed under **Needs checking** with why it was not run and where to look:
 

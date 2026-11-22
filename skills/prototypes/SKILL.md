@@ -41,7 +41,7 @@ People can't describe what they want but **can judge when they see it** (unknown
    A skip is not the inverse of a steal: a construct is a **bipolar pair**, the contrast pole carries as much information as the pole users volunteer, and it is the one they volunteer least.
 5. **Saturation check** before building the requirements list:
 
-   a. Before the saturation call in 5c, run one **triad**: show three options and ask which two feel alike and how the third differs. Run it whether reactions stall ("they all look fine") or keep coming; when they stall earlier, run it then.
+   a. Before the saturation call in 5c, run one **triad**: show three options and ask which two feel alike and how the third differs. Run it whether reactions stall ("they all look fine") or keep coming; when they stall earlier, run it then. With only two options, ask at the same point what most sets them apart; the answer stands in for the triad's.
 
    b. The triad's answer is a construct nobody volunteered (e.g. "calm vs. busy"). Have the user place **every** option on that construct (1–5), leaving the scores to the user: a score you suggest gets confirmed, not judged.
 

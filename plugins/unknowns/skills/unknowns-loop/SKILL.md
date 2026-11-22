@@ -14,7 +14,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
 ## Sequence
 
-1. **Read back first.** When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange. A request that is not clear to both of you, including one whose read-back exposed a mismatch, goes on to step 2, and the skill the routing named runs at its stage in step 3 whatever that stage's When column says.
+1. **A request clear to both of you skips the loop.** When you and the user both seem to understand the request, do it without this method: if its result carries weight (it ships, is sent or is hard to undo), first read back in 2–3 lines the request as you understand it, the assumptions you are making and what outcome counts as done, as the whole reply, and do it once the user confirms; a self-evident request (fix a typo) needs no read-back. When the read-back exposes a mismatch, route by who does not know: the user → the **teach-me** skill; you → the **interview** skill; neither of you → the **blindspot** skill. A misread weighty request costs the work built on it; a read-back costs one exchange. A request that is not clear to both of you, including one whose read-back exposed a mismatch, goes on to step 2, and the skill the routing named runs at its stage in step 3 whatever that stage's When column says.
 
 2. **Done criteria, in one exchange.** Fix the outcome (what the user is ultimately after), the done criteria, what already works and must not break, and the allowed cost and change scope. Without done criteria, the volume of output gets mistaken for progress.
 
@@ -40,7 +40,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    Without a tool, do the step in the conversation and say what could not be checked.
 
-4. **During the work**: the **deviation-log** skill logs each deviation from the plan in the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work).
+4. **During the work**: the **deviation-log** skill logs each deviation from the plan in the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable).
 
 5. **After the work**:
 
@@ -48,4 +48,4 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    b. When you largely produced the work, the **quiz** skill, so the user can explain the work in a handoff; when reviewers or stakeholders must approve the work, the **buy-in** skill.
 
-   c. **Outcome check**, with the user: ask whether the result achieved the outcome from step 2, not only whether it meets the done criteria. Name any gap between the result and the outcome, and what would close it, and let the user decide whether the work is finished. The check is a short exchange in the conversation; nothing is scored.
+   c. **Outcome check**, with the user: ask whether the result achieved the outcome from step 2, not only whether it meets the done criteria. Name any gap between the result and the outcome, and what would close it, and let the user decide whether the work is finished. The check is a short exchange in the conversation.

@@ -20,7 +20,7 @@ The work is done, but the approvers have not seen what the user has, and the use
 
    a. Identify the target work and the approvers (reviewers, a director, a funder, a client, a committee) from the text the user gave with the request or after the skill name. No such text → this session's finished work, approvers = the people who will review it.
 
-   b. Take as inputs the done criteria and the outcome the work is for, the approved plan or spec, the deliverable (the prototype, draft or change), and the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work). An input that does not exist is named under the known limitations (step 5) rather than reconstructed, because a missing input rebuilt from the work would measure the work against the producer's own reading of it.
+   b. Take as inputs the done criteria and the outcome the work is for, the approved plan or spec, the deliverable (the prototype, draft or change), and the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable). An input that does not exist is named under the known limitations (step 5) rather than reconstructed, because a missing input rebuilt from the work would measure the work against the producer's own reading of it.
 2. **Map the approvers' unknowns**:
 
    a. For each approver, list what they do not know about the work that their decision depends on, and the objections they are likely to raise (~5 in total).

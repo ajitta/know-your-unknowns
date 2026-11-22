@@ -20,11 +20,11 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
 ## Procedure
 
-1. Confirm the spec from the text the user gave with the request or after the skill name plus the conversation context (blindspot findings, interview decisions).
+1. Confirm the spec from the text the user gave with the request or after the skill name plus the conversation context (the **blindspot** skill's findings, the **interview** skill's decisions).
 
    a. With no request text, that context is the whole input.
 
-   b. When the spec has big gaps, suggest the **interview** skill before planning; if the user declines, plan anyway and list each gap under **Your own unknowns** in step 2.
+   b. When the spec has big gaps, suggest the **interview** skill and plan in the same reply, listing each gap under **Your own unknowns** in step 2; the plan does not wait for an answer to the suggestion.
 2. **Done criteria first**: the document opens with one line stating the outcome (what the user is ultimately after), the done criteria, what already works and must not break, and the allowed cost and change scope, filled from context (quote the **unknowns-loop** skill's step 2 when it ran). Write "not set" for any part the context does not give, and ask the user for it in the same reply. Without done criteria, nobody can judge whether the work conforms.
 
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them.

@@ -53,7 +53,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
    - ② what the user is assuming and ⑤ what you are assuming, to check first
    - the context sources
    - the target area and where to start in it
-   - what to return: a finding table and an improved prompt draft
+   - what to return: each ② and ⑤ assumption marked held or wrong, with its evidence and status (*confirmed* or *inferred*), or still unchecked; a finding table; and an improved prompt draft
 
    When the scout returns, map its rows onto the kinds in step 3a.
 
@@ -92,7 +92,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    d. After the cards, list **Questions to answer**, **Needs checking** and **Information still needed**: what the pass could not settle, and who can settle it.
 
-5. End with an **improved prompt draft** that reflects the findings and the answers the user has given so far. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes and lists the unpicked ones as undecided below it, keeping the execution order and the checkpoint; a missing pick is undecided.
+5. End with an **improved prompt draft** that reflects the findings and the answers the user has given so far, with every prompt fix applied. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes and lists the unpicked ones as undecided below it, keeping the execution order and the checkpoint; a missing pick is undecided.
 
 6. Suggest the next skill:
 
