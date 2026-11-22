@@ -23,7 +23,7 @@ When work hits a situation the plan or spec does not cover (an unknown neither s
    | Code | `IMPLEMENTATION_NOTES.md` at the project root | `# Implementation Notes — plan deviation log` |
    | Anything else | the file the user names, or `DEVIATIONS.md` beside the deliverable | `# Deviation log — <deliverable>` |
 
-   The **buy-in** and **quiz** skills read that log. Without a tool, do the step in the conversation and say what could not be checked.
+   The **buy-in** skill and the **quiz** skill read that log. Without a tool, do the step in the conversation and say what could not be checked.
 3. While working, check for unlogged deviations (as the Logging Criteria define them) at each checkpoint (a commit, a shared draft) and before handing the work over, and append each one as in step 2.
 4. When a deviation invalidates a decision in the plan document, mark that decision in the plan as superseded by the entry's date, so the plan stays the map the work follows.
 
@@ -56,7 +56,7 @@ A **Discovery** is the lighter entry, one line in the same file: the territory d
 ## Logging Criteria
 
 - **Log**: decisions affecting design, behavior or compatibility; points where the spec's interpretation diverges; an existing structure (code, a venue, a dataset) differing from what the plan assumed; workarounds; new dependencies, suppliers or commitments.
-- **Don't log**: trivial wording or syntax fixes, formatting, names, self-evident details, and an item the plan said to check that came back as planned, since it departs from nothing and a value such as a password does not belong in a shared log.
+- **Don't log**: trivial wording or syntax fixes, formatting, names, self-evident details, and an item the plan said to check that came back as planned, since it departs from nothing.
 
 ## Wrap-up
 

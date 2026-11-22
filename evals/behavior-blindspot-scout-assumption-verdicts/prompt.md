@@ -1,5 +1,5 @@
 ---
-description: "Blind-spot pass over 22 league policy documents: each assumption the user lists gets a held or wrong verdict with the policy that settles it, and the investigation goes to the unknowns-scout"
+description: "Blind-spot pass over 22 league policy documents: each assumption the user lists gets a held or wrong verdict with the policy that settles it; whether the unknowns-scout is spawned is reported, not scored"
 tags: [behavior, en, blindspot, agent, noncode]
 runs: 3
 max_turns: 20

@@ -16,6 +16,8 @@ Even when the work was delegated, **the user must be able to explain the result*
 
 ## Procedure — Part 1: Explain First
 
+Take the work to quiz on from the text the user gave with the request or after the skill name. With no request text, use the work of this conversation. When the conversation holds no work either, ask one question for the work before explaining.
+
 Before the quiz, explain concisely, anchoring each explained part with **Where:** its location in the work (`file:line` for code; section, page or row otherwise):
 
 1. **Overall structure** of the work (what was created or changed, where)
@@ -40,17 +42,17 @@ Without a tool, do the step in the conversation and say what could not be checke
 
    Each question is a call the user would have to make when something goes wrong or someone questions the work, not trivia.
 
-   If the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work) exists as a file, or is restated in this conversation, make at least 1 of the six questions about its recorded deviations.
+   If the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable) exists as a file, or is restated in this conversation, make at least 1 of the six questions about its recorded deviations.
 
    a. Five are multiple choice. Number their options, and keep answer keys hidden until the user has answered: format every option the same way, with no bold, tick or other mark on the correct one. Give every option of a question similar length and detail, so the key cannot be read from the options' form: when the correct option carries a cause, a consequence or a remedy, give each distractor one too.
 
    b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the work's riskiest decision>."
 
-   c. Commit to the 2–3 points a correct teach-back explanation must mention, each with its change site, **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
+   c. Commit to the 2–3 points, each with its change site, all of which a correct teach-back explanation must mention, **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
 
    Picking the right option only shows recognition; saying it unprompted is what the user will have to do in the handoff, the meeting or the PR. Writing the key file before asking and quoting it when grading makes the key provably predate the answer.
 
-2. Ask the prepared questions. Ask the five multiple-choice questions in one batch, splitting it across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key.
+2. Ask the prepared questions. Ask the five multiple-choice questions in one batch, splitting it across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key. Start grading the answers and explaining them once the user has replied to every prepared question, the teach-back included, a blank or a skip counting as a reply: an explanation of a multiple-choice answer can state a point of the teach-back key.
 3. Grade answers.
 
    a. Grade the teach-back against the 2–3 points in the key file written for it under step 1c, and quote that file when grading.

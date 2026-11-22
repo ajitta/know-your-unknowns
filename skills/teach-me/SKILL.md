@@ -43,7 +43,7 @@ Vague requests ("make it better") usually stem from **missing vocabulary**, not 
    | Any other domain (e.g. text, code, process) | Comparison examples. |
 
    b. Add 2–3 named presets (e.g. flat / corporate clean / cinematic teal-orange), with a description of each preset's overall result and its settings.
-6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step in a short explainer too. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
+6. Give **what good looks like**: 4–6 judging criteria stated in the new vocabulary (e.g. "skin tones stay believable", "blacks are rich but not crushed"). Keep this step however short the explainer is. These criteria buy later revision rounds: judging criteria transfer far better than production vocabulary, because recognising a bad result is cheaper than knowing which axis to move.
 7. Close with the payoff.
 
    a. End the reply by asking which numbered terms, comparisons and presets to **include in the request** and which settings to change; the draft waits for the answers.

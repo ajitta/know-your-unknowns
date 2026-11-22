@@ -252,9 +252,10 @@ front. Before the work: blindspot (teach-me first if you cannot yet describe the
 interview → brainstorm/prototypes/reference as needed → the cheapest probe of the riskiest
 assumption (a phone call, a pilot, a spike) → a plan ordered by likelihood-of-change
 (tweakable-plan). During the work, deviation-log records deviations. After it, the result is
-checked against each done criterion with evidence, then quiz, plus buy-in when reviewers
-or stakeholders must approve, and finally an **outcome check**: Claude asks you whether
-the result achieved what you were after, not only whether it meets the criteria. A stage
+checked against each done criterion with evidence, then quiz when Claude largely produced
+the work, plus buy-in when reviewers or stakeholders must approve, and finally an
+**outcome check**: Claude asks you whether the result achieved what you were after, not
+only whether it meets the criteria. A stage
 whose question is already answered is skipped, and the loop says so. For a self-evident
 task you need no loop.
 
@@ -277,8 +278,8 @@ Auto-triggers: "blind spot pass", "what am I missing", "unknown unknowns",
 cannot judge, and puts its own three lists beside yours: what it does not know about
 your situation, what it is assuming, and what it cannot check from here. Then it
 investigates, checking both sides' assumptions first; it does not start the work. When
-the task spans many sources (a whole codebase, a large body of documents) it uses the
-`unknowns:unknowns-scout` agent in Claude Code. It marks each finding none of your three
+the task spans more sources than it can read in full (a whole codebase, a large body of
+documents) it uses the `unknowns:unknowns-scout` agent in Claude Code. It marks each finding none of your three
 lists mentioned as **new to you**, and leads with the contrast — what you asked for
 versus what you are actually walking into, with a tally — then one card per finding,
 sorted by likelihood × blast radius and tagged by kind: **Landmine** (touching this
@@ -563,9 +564,9 @@ The named agents run only in Claude Code. Both declare no tool list, so they inh
 Use the unknowns-scout agent — investigate what I'm missing in the funding call and our draft
 Scout the auth module with the unknowns-scout agent
 ```
-The blindspot skill also calls this agent automatically for large investigations, and the
-brainstorm skill may use it to inventory what already exists. Otherwise it runs only when
-you name it: other workflows asking for an exploring or research subagent get their own
+The blindspot skill also calls this agent when the task spans more sources than it can
+read in full, and the brainstorm skill uses it to inventory what already exists when
+that material is more than it can read in full. Otherwise it runs only when you name it: other workflows asking for an exploring or research subagent get their own
 agent, Explore or a general agent. It investigates whatever sources the task has —
 documents, data, the web, a codebase and its history: what exists and what governs it,
 past attempts and reversals, where checks exist and where they don't, and unwritten
@@ -639,7 +640,8 @@ anything in 4 of 4 sessions, against 0 of 4 with neither.
 /unknowns:unknowns-loop Start an in-house mentoring programme for 80 people. I'm the only HR person
 ```
 Claude walks you through investigation, interview, a probe of the riskiest assumption,
-plan, deviation notes, the quiz, buy-in when approval is needed, and the outcome check.
+plan, deviation notes, the quiz when Claude largely produced the work, buy-in when approval
+is needed, and the outcome check.
 
 **Scenario D — a new field** (design, research, a decision you cannot yet frame):
 ```
@@ -710,7 +712,7 @@ the source" from "extended during authoring".
 ```
 skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.13.1
+plugin-manifest.json           source manifest, currently 0.13.2
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload

@@ -22,7 +22,7 @@ When you and the user both seem to understand the request, do it without this me
 
 1. Read and summarize the reference:
 
-   a. Read the reference to the end.
+   a. Take the reference from the text the user gave with the request or after the skill name, or from the conversation; when neither names or contains a reference, ask one question for it. Read the reference to the end.
 
    b. Summarize its **intent, core behavior, invariants**.
 
@@ -55,7 +55,7 @@ When you and the user both seem to understand the request, do it without this me
 
 ## Output
 
-Numbered gotcha notes, mapping rows and edge-case rows each carry **approve / request-change**; selections assemble into a `semantics confirmed` reply or a numbered correction template; a missing pick is undecided.
+Numbered gotcha notes, mapping rows and edge-case rows take **approve / request-change** by number: the user approves them all with `semantics confirmed` or names the ones to change (step 5); selections assemble into a `semantics confirmed` reply or a numbered correction template; a missing pick is undecided.
 
 ## What Can Be a Reference
 

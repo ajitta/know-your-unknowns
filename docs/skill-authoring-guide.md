@@ -91,7 +91,7 @@ The page splits content out of `SKILL.md` for two reasons: the body approaches 5
 | prototypes, Variants | 150 | the interaction itself, an internal design or "wild" is asked for |
 | deviation-log, Wrap-up | 131 | at the end of a session or a handover |
 | blindspot, Scope | 90 | the request could belong to teach-me |
-| blindspot, scout packet | 70 | the scope spans many sources |
+| blindspot, scout packet | 70 | the task spans more sources than the model can read in full |
 | brainstorm, scout packet (2b) | 70 | the scout is spawned |
 | reference, What Can Be a Reference | 69 | the kind of reference is unusual |
 | teach-me, domain comparison table | 49 | step 5 runs |

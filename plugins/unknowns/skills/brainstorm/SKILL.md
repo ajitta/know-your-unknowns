@@ -26,7 +26,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
    **Your own unknowns**: say what you do not know about the user's situation, what you are assuming, and what you cannot check, and ask the user to fill or correct them. When you ask back for the problem statement, put these in the same round; otherwise put them above the candidates in step 3 and go on without waiting for the answers.
 2. Before generating candidates in step 3, look for what already exists but is not used for this problem: in a codebase, machinery that sits disconnected; elsewhere, resources, programs, people or partnerships already in reach.
 
-   a. Search the material yourself or use the `unknowns:unknowns-scout` agent.
+   a. When the material spans more sources than you can read in full, use the `unknowns:unknowns-scout` agent; otherwise search the material yourself.
 
    b. When you spawn the scout, the packet overrides the scout's default output (its finding table and improved prompt draft). The packet gives the scout the problem statement, the constraints and where to search, and asks it to return an **inventory**, one row per existing mechanism that bears on the problem, with the columns where it is / what it does today / what is missing to put it to use / evidence / status (confirmed / inferred); the scout is done when its procedure is done and every mechanism it found has a row.
 
@@ -60,6 +60,6 @@ After step 5, suggest the next skill by what is still open:
 
 | Still open | Skill |
 |---|---|
-| The form is in question | **prototypes** |
-| Decisions only the user can make | **interview** |
-| The plan for the work | **tweakable-plan** |
+| The form is in question | the **prototypes** skill |
+| Decisions only the user can make | the **interview** skill |
+| The plan for the work | the **tweakable-plan** skill |
