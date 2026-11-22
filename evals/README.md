@@ -253,7 +253,7 @@ project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 | `behavior-interview-max-four-questions` | at most 4 questions reach the user in one round, on a prompt that dangles nine open decisions |
 | `behavior-deviation-log-appends-to-file` | `IMPLEMENTATION_NOTES.md` is actually created, with the entry fields filled — not summarised in chat only |
 
-**Measuring cases from the second rule-based review** (2026-11-10): 18 single-turn `behavior-*` cases and 7 multi-turn cases, each written to settle one open decision before the text changes. A case runs on the current text; when it fails, a fix decided before the run goes in and the case runs again (the rule, the results and the decision for each are in `IMPLEMENTATION_NOTES.md`, entry 2026-11-10). They cover, among others: a loop whose probe fails, a loop the user wants to skip investigating, a deviation report and a wrap-up, a public rename and a difference the plan never mentioned, the blindspot scout's verdict on each assumption, brainstorm finding an unused module, quiz on a submission, reference corrected in free text, a deep interview and an item the user left undecided, buy-in finding a non-code deviation log, and the scout checking a pinned library version.
+**Measuring cases from the second rule-based review** (2026-11-10): 18 single-turn `behavior-*` cases and 7 multi-turn cases, each written to settle one open decision before the text changes. A case runs on the current text; when it fails, a fix decided before the run goes in and the case runs again (the rule, the results and the decision for each are in `IMPLEMENTATION_NOTES.md`, entry 2026-11-10). They cover, among others: a loop whose probe fails, a loop the user wants to skip investigating, a deviation report and a wrap-up, a public rename and a difference the plan never mentioned, blindspot's verdict on each assumption, brainstorm finding an unused module, quiz on a submission, reference corrected in free text, a deep interview and an item the user left undecided, buy-in finding a non-code deviation log, and the scout checking a pinned library version.
 
 ## How the graders are meant to be read
 
@@ -267,6 +267,10 @@ project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 - `weight: 0.5` marks a secondary check written against wording in `SKILL.md` (a
   heading, a numbering convention). It never stands alone — an outcome grader is
   always the primary.
+- `min: 0` + `weight: 0` on a `tool_used` grader for a tool other than Skill — an
+  indicator that is reported and adds nothing to the score (the runner's display-only
+  form covers `tool: Skill` only). `spawns-unknowns-scout` in
+  `behavior-blindspot-scout-assumption-verdicts` uses it.
 
 ## Known limits — read before quoting a number
 

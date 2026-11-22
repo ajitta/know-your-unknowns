@@ -40,10 +40,10 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
 2. Choose how to investigate by scope:
 
-   | Scope of the task (not the size of the material) | How to investigate |
+   | Scope of the task (the sources the task spans, not everything the repository or archive holds) | How to investigate |
    |---|---|
-   | The task spans many sources (a whole codebase or many modules, a large body of documents or records) | Use the `unknowns:unknowns-scout` agent. |
-   | Otherwise (the task touches a few files or documents, or nothing beyond the conversation) | Investigate directly. |
+   | The task spans more sources than you can read in full (e.g. a whole codebase or many modules, a large body of documents or records) | Use the `unknowns:unknowns-scout` agent. |
+   | Otherwise (e.g. the task touches a few files or documents, or nothing beyond the conversation) | Investigate directly. |
 
    When you investigate directly, investigate in this order: ② and ⑤ (the assumptions on both sides), looking for each assumption in the context sources before anywhere else; then any context sources (documents, data, history, a codebase); then the rest.
 

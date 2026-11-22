@@ -2,6 +2,39 @@
 
 ## [Unreleased]
 
+A prompt audit of the eleven skill bodies, 2026-11-22, and two independent reviews that were not given its conclusions: one repeated the audit, one read each body as the model that runs it, and both read recorded runs. The owner approved four groups of changes. The plugin version is unchanged.
+
+### Changed
+
+- deviation-log: **Don't log** no longer gives "a value such as a password does not belong in a shared log" as a reason for leaving out an item that came back as planned. In the site-visit case the clause also kept the Wi-Fi password out of the user's plan: the plan held it in 7 of 7 recorded runs before the clause (2026-11-09) and in 0 of 5 after it, with replies giving "a shared document" as the reason, where the case's grader allows the password in the plan.
+- quiz: a correct teach-back mentions all of the 2–3 points in the key (owner decision 2026-11-22). The sentence did not say whether all were needed: two recorded keys read "at least 2 of these 3", and one run required all three and failed a user who gave two.
+- quiz: grading and explanations start once all six questions are answered (owner decision 2026-11-22). In one recorded run the explanation of a multiple-choice answer stated a point of the teach-back key before the teach-back was answered.
+- blindspot, brainstorm: the scout is for a task (blindspot) or material (brainstorm) that spans more sources than the model can read in full. blindspot said "many sources" and brainstorm gave the choice no condition. Neither skill spawned the scout in any recorded run of its scout case (0 of 5 each; one of the blindspot runs on Claude Fable 5.2, the rest on Opus 5.5): the model read the 22 documents or the small codebase itself.
+- OpenAI listing (`packaging/openai/interface.json`): the long description said other hosts use "labeled passes performed by the assistant", a fallback removed in 0.11.0. It now states the missing-tool rule.
+
+### Changed (developer-only)
+
+- `README.md`, `README.ko.md`: the scout condition in the blindspot section and the agent section follows the bodies, and the loop's quiz carries its condition (when Claude largely produced the work), as `unknowns-loop` step 5b does.
+- `behavior-blindspot-scout-assumption-verdicts`: the half-weight grader `spawns-unknowns-scout` required a spawn for 22 policy documents. It is now an indicator (`min: 0`, `weight: 0`), and the case description says so; `evals/README.md` names the form. No case in the suite makes a skill spawn the scout.
+- `docs/skill-authoring-guide.md`: the scout-packet row of the reference-file audit uses the new condition.
+
+### Checked (developer-only)
+
+Claude Code 2.1.330, Opus 5.5 (`ANTHROPIC_MODEL=claude-opus-5-5`), `--effort medium`, isolated config, no connector listed in any session. `llm` graders were judged by a separate isolated `claude -p` on Opus 5.5 (multi-turn with `--judge`, single-turn with the judge helper kept outside the repository). Each decision rule below was written before its runs. Results are in `evals/results/audit-2026-11-22/` (git-ignored).
+
+- deviation-log. Rule: keep the removal when 2 of 2 runs of `behavior-deviation-log-logs-unplanned-difference` write the password into the plan and leave it out of the log; revert when 2 of 2 put it in the log. Result: `lib2026` went into `plan.md` in 2 of 2 and into the log in 0 of 2, and `logs-capacity-and-access` passed 2 of 2. Cases next to it, 1 run each (five `behavior-*`, two `noncode-*`): 12 of 13 graders. The miss is `logs-and-continues` of `behavior-deviation-log-auto-on-mismatch`, a run in which the skill did not load, as in the 0.13.1 release check.
+- quiz. Rules: keep the grading sentence when 2 of 2 runs of `quiz-hides-key-and-gates-on-six` grade and explain nothing before the teach-back is answered and both judged graders pass; keep the all-points wording when 2 of 2 keys require every point. Result over 3 runs (the third by the 1-of-2 rule): grading began after all six answers in 3 of 3, the key and the retry key required every point in 3 of 3, `grades-after-answers-six-of-six-gate` passed 3 of 3 and `key-hidden-until-answered` 2 of 3. The miss is that grader's first item: in three questions the correct option was longer and more detailed than the others, the slip the length rule of step 1a covers and these changes do not touch; its items on the teach-back points and on waiting for the answers passed.
+- quiz, single-turn, 1 run each: `noncode-en-quiz`, `noncode-ko-quiz`, `trigger-en-quiz` and `trigger-ko-quiz` asked all six questions in the first reply and said grading follows the six answers; the two that wrote a key file required all three points; 5 of 5 graders. `behavior-quiz-on-submit` did not load the skill (0 of 1, as in 0.13.0 and 0.13.1).
+- Scout condition. Rule: keep when the scored grader of each scout case passes 1 of 1. `assumption-verdicts-with-evidence` of `behavior-blindspot-scout-assumption-verdicts` and `finds-the-unused-module` of `behavior-brainstorm-scout-finds-unused` passed 1 of 1 each; neither run spawned the scout. Cases next to them, 1 run each: blindspot single-turn 8 of 8 graders, brainstorm `noncode-*` 2 of 2, `blindspot-partial-pick` 2 of 2 and `blindspot-reaches-improved-prompt` 4 of 5. The miss is `assumption-verdicts-carry-status`: one of the model's own assumptions was marked true on the strength of an assumption the user had listed (step 4a, a cell already under watch).
+- One reader who did not write the change compared old against new without the writer's explanation. Three of the five changed sentences were reworded after that reading and before their runs: the header of the blindspot scope table and the "e.g." in its two rows, the word order of quiz step 1c, and the grading sentence of quiz step 2 (now the last sentence of the step, counting a blank or a skip as a reply). The same reading corrected the README sentence on brainstorm's condition, the listing sentence and the grader's note. The deviation-log runs came before the reader's report, which asked for no change to that sentence.
+- `tools/package.py` and `tools/package.py --check`, 100 unit tests, `evals/run-manual.py --verify` (88 cases), `evals/run-multiturn.py --verify` (13 cases), `scripts/build-skill-zips.py`, and `claude plugin validate --strict` for the plugin and the marketplace.
+
+### Not measured
+
+- The scout side of the condition: no case gives a skill a task too large to read in full, so no run shows blindspot or brainstorm spawning the scout.
+- GPT-6.1 Sol was not run. The OpenAI listing text changed, so `know-your-unknowns-openai.zip` needs uploading again at the next release.
+- Claude Fable 5.2 was not run on these changes.
+
 ## 0.13.1 — 2026-11-17
 
 Released 2026-11-17. Body fixes to interview, buy-in, unknowns-loop and tweakable-plan, from three passes of one day: a reading of the bodies by the model that runs them, a third rule-based review, and a writing rule that numbers and letters mark execution order only. No description changed. Eval runs now stay out of the signed-in account. The sections below keep the order in which the day's records were written.

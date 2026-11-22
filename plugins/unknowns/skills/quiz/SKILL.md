@@ -46,11 +46,11 @@ Without a tool, do the step in the conversation and say what could not be checke
 
    b. The sixth is a **teach-back** in plain text, not a choice: "Explain to a reviewer, in your own words, <the work's riskiest decision>."
 
-   c. Commit to the 2–3 points a correct teach-back explanation must mention, each with its change site, **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
+   c. Commit to the 2–3 points, each with its change site, all of which a correct teach-back explanation must mention, **before** reading the answer: write them to `.unknowns/<YYYY-MM-DD>-quiz-<slug>-key.md` before asking. Keep the key out of the questions and reply until the user has answered.
 
    Picking the right option only shows recognition; saying it unprompted is what the user will have to do in the handoff, the meeting or the PR. Writing the key file before asking and quoting it when grading makes the key provably predate the answer.
 
-2. Ask the prepared questions. Ask the five multiple-choice questions in one batch, splitting it across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key.
+2. Ask the prepared questions. Ask the five multiple-choice questions in one batch, splitting it across calls when the question tool accepts fewer questions. Ask the teach-back separately in plain text. Ask for the answers by question and option number, with no sample answer line: a sample made of option numbers can match the key. Start grading the answers and explaining them once the user has replied to every prepared question, the teach-back included, a blank or a skip counting as a reply: an explanation of a multiple-choice answer can state a point of the teach-back key.
 3. Grade answers.
 
    a. Grade the teach-back against the 2–3 points in the key file written for it under step 1c, and quote that file when grading.
