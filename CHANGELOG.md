@@ -57,11 +57,13 @@ The whole suite once on the final text, 2026-11-22: Claude Code 2.1.330, Opus 5.
 - Missed as in 0.13.1, read and not run again: `assumption-verdicts-carry-status` in `blindspot-partial-pick` (one of the model's own assumptions got no verdict) and in `blindspot-reaches-improved-prompt` (a "held" verdict credited to the user's prompt for a fact the prompt did not state), both step 4a; three cases in which the skill did not load (`behavior-deviation-log-auto-on-mismatch`, `behavior-prototypes-interaction-mockup`, `behavior-quiz-on-submit`); the two informative open-cell cases `neg-open-weighty-code-en` and `neg-open-weighty-text-ko`, where no skill loads and the reply does the work without a read-back; and `key-locations-from-the-material` of `noncode-en-quiz`.
 - Missed in 0.13.1 and passed now, 1 run each: `finds-the-unused-module` of `behavior-brainstorm-scout-finds-unused`, `does-it-directly` of `neg-open-text-en`, `draft-with-assumptions` of `teach-me-stops-at-draft`.
 - `tools/package.py` and `tools/package.py --check`, 100 unit tests, both `--verify` commands, `scripts/build-skill-zips.py`, and `claude plugin validate --strict` for the plugin and the marketplace, on the 0.13.2 build.
+- GPT-6.1 Sol, `model_reasoning_effort = "medium"`, Codex CLI 0.164.0, the 22 `trigger-*` cases once, run after the release on the tag `unknowns--v0.13.2` (commit `dfb0bb9`): the intended skill loaded in 22/22, all 22 runs read this build's 0.13.2 `SKILL.md` files, and no session listed the account-synced copy (isolated HOME and `CODEX_HOME` in WSL, with the read-only cache folder of the 0.13.0 check in place). The tag message says the check was not run; it had not been at the release.
+- After the release, an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins`: 0.13.2 with 11 skill folders and 2 agents on both.
 
 ### Not measured
 
 - The scout side of the condition and of the new verdict packet: no case gives a skill a task too large to read in full, so no run shows blindspot or brainstorm spawning the scout or the scout returning a verdict for each assumption.
-- GPT-6.1 Sol was not run, against the release rule of one run per `trigger-*` case: the check runs on the build VM, which this session could not reach. No description changed. The OpenAI listing text changed, so `know-your-unknowns-openai.zip` needs uploading again.
+- The OpenAI listing text changed, so `know-your-unknowns-openai.zip` needs uploading again.
 - Claude Fable 5.2 was not run on these changes.
 - Sentences with no case that reaches them: tweakable-plan step 1b when the user takes the interview suggestion, the two-option question of prototypes step 5a, the empty-input sentences of quiz and reference, and the non-code half of the shared deviation-log sentence in quiz and unknowns-loop.
 

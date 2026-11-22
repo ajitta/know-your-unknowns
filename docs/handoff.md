@@ -1,8 +1,41 @@
-# 다음 라운드 인계 — 0.13.1
+# 다음 라운드 인계 — 0.13.2
 
 ## 다음 세션: 여기서 시작
 
-배포 중인 버전은 `unknowns--v0.13.1`이다(2026-11-17, PR #38, main `8ece152`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `5e2fa751…`, `know-your-unknowns-openai.zip` `8eca71ab…`), 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.1에 스킬 폴더 11개, 에이전트 2개였다. 카탈로그 항목은 고정 없이 `plugins/unknowns`를 가리켜서 고칠 것이 없다. 릴리스 본문은 이번에도 워크플로가 머지 커밋 메시지로 채워서 태그 메시지로 바꿔 넣었다. 작업 브랜치 `release-0.13.1`, `interview-decided-stays-decided`, `outcome-as-stated-as-read`, `interview-ends-at-deliverables`는 지우지 않았다.
+배포 중인 버전은 `unknowns--v0.13.2`이다(2026-11-22, PR #40, main `dfb0bb9`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `55c80740…`, `know-your-unknowns-openai.zip` `0233cc69…`), 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.2에 스킬 폴더 11개, 에이전트 2개였다. 릴리스 본문은 이번에도 워크플로가 머지 커밋 메시지로 채워서 태그 메시지로 바꿔 넣었다. 원격 작업 브랜치 `audit-fixes-2026-11-22`는 지우지 않았다.
+
+0.13.2에 들어간 것(스킬 본문 열 개와 unknowns-scout, 설명은 그대로): deviation-log(Don't log에서 비밀번호 절 삭제), quiz(teach-back은 키의 요점 전부, 채점과 해설은 여섯 답 뒤, 입력이 없을 때의 문장), blindspot·brainstorm(scout는 직접 다 읽을 수 없을 만큼 많은 자료일 때), blindspot·scout(가정마다 held / wrong / still unchecked 판정을 돌려받음, 첫 초안은 모든 fix 적용), tweakable-plan(interview를 제안하고 같은 답에서 계획), unknowns-loop(1단계 제목, "nothing is scored" 삭제), prototypes(옵션 둘이면 triad 대신 차이 질문), reference(입력이 없을 때의 문장, Output을 5단계에 맞춤), buy-in·quiz·unknowns-loop(공용 deviation log 문장에 비코드 파일), teach-me·brainstorm·deviation-log·tweakable-plan(문구만). OpenAI 목록의 긴 설명 한 문장이 바뀌었다("labeled passes" 삭제).
+
+| 0.13.2 뒤에 남은 일 | 누가 | 어디서 시작 |
+|---|---|---|
+| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드. 목록 문장 하나와 스킬 본문 열 개가 바뀌었다 | 소유자(직접 하기로 함) | GitHub Release `unknowns--v0.13.2` |
+| claude.ai(Add marketplace 경로)가 0.13.2를 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
+| 방향을 에이전트가 정한 여섯 곳의 확인 또는 번복: tweakable-plan 1b(제안과 계획을 같은 답에), blindspot 5(첫 초안은 모든 fix), reference Output(5단계대로), unknowns-loop 1단계 제목, prototypes 5a(옵션 둘), scout의 판정 어휘("unsupported" 삭제). 모두 기록된 실행이 이미 하던 행동을 문장으로 적은 것이다 | 소유자 결정 | `IMPLEMENTATION_NOTES.md` 2026-11-22 |
+| 답사 케이스에서 비밀번호가 로그에 들어가는지 지켜보기. 다시 나오면 Don't log에 "비밀 값" 항목을 따로 두는 문장을 2회 돌려 본다 | 다음 측정 때 | 아래 "0.13.2 릴리스에서" |
+| 실행이 닿지 않는 문장에 평가 케이스 추가: 스킬이 scout를 부르는 큰 작업(조건과 판정 패킷), interview 제안을 받아들인 뒤의 tweakable-plan, 옵션 둘인 prototypes, 입력 없는 quiz·reference, 비코드 작업의 quiz·unknowns-loop 로그 찾기 | 에이전트 | `evals/`의 기존 케이스 형식 |
+| 판사 보조 도구의 프롬프트 고치기: "one line of reasoning per numbered criterion"이 Opus 5.5의 안전 분류기(`reasoning_extraction`)에 막힐 수 있다(이번 릴리스에서 한 채점 항목이 두 번 막힘) | 소유자 결정 후 에이전트 | `C:/Users/ajitta/work/kyu-probes/judge.py` |
+| 이번 리뷰에서 나왔고 손대지 않은 지적: quiz의 missing-tool 문장 위치(Part 1에 있고 파일 쓰기는 Part 2), deviation-log 1단계에 "where did we diverge" 질문용 갈래가 없음, teach-me 7b 초안의 가정 표시(이번 실행은 통과), brainstorm 3단계 "quarter-long bets (longer)", interview 1b의 한 질문이 두 가지를 물음, blindspot에서 목록이 한 턴에 두 번, quiz 키 파일의 위치 | 소유자 결정 | 이 표, 아래 0.13.1 때의 "읽기에서 나온 나머지 후보" |
+| 0.13.1에서 넘어온 열린 일: 평가 실행이 계정에 만든 문서 삭제, interview의 두 규칙 함께 다루기, 설명 라운드(지적 넷 + 열려 있던 둘), 보류한 지적 둘, 분류이거나 섞인 a·b·c 묶음 14개 | 아래 표 그대로 | 아래 "0.13.1 때의 인계 문단" |
+
+## 0.13.2 릴리스에서 (2026-11-22, PR #40)
+
+- 시작: 소유자가 `skills/`에 프롬프트 감사를 요청했다. 감사는 낡은 문구 패턴을 거의 찾지 못했고, 소유자가 요청한 독립 리뷰 둘(감사를 결론 없이 다시 돌린 것, 본문을 실행하는 모델 쪽에서 읽은 것)이 기록된 실행을 열어 본문 문장이 행동을 바꾸거나 정하지 못하는 곳을 찾았다. 감사의 첫 결론("깨끗함")은 그 뒤에 고쳤다.
+- 소유자 결정(2026-11-22): 네 묶음 승인(비밀번호 절 삭제, quiz 두 문장, scout 조건, README·OpenAI 목록의 사실 수정), quiz 두 질문의 답(teach-back은 요점 전부, 채점은 여섯 답 뒤), 이어서 남은 지적 처리와 릴리스 지시.
+- 독자 확인: 글쓴이가 아닌 독자가 두 묶음을 각각 전후 비교했고, 실행 전에 여덟 문장을 그 지적대로 고쳤다(첫 묶음 다섯, 둘째 묶음 셋).
+- 수정 확인(격리, Opus 5.5, medium, Claude Code 2.1.330, 기준은 실행 전에 적음): 답사 케이스 2회 중 2회가 비밀번호를 계획서에 적고 로그에는 넣지 않았다. quiz 다회차 3회 중 3회가 여섯 답 뒤에 채점했고 키가 요점 전부를 요구했다(`key-hidden-until-answered`는 3회 중 2회, 놓친 1회는 선택지 길이 쪽). scout 케이스 둘은 점수 항목 1회 중 1회, scout 호출 0회.
+- 릴리스 점검(전체 1회): 단발 88케이스 채점 항목 194/206(점수에 드는 항목 125/134, 0.13.1과 같은 수), 다회차 13케이스 29/32. 0.13.1 때 통과했다가 놓친 `logs-the-public-rename`과 `free-text-corrections-applied`는 2회씩 다시 돌려 2회 중 2회였다(후자의 첫 실행은 가상 사용자가 한 번도 답하지 않은 대화). 나머지 누락은 0.13.1과 같은 칸이다.
+- GPT-6.1 Sol medium: trigger 22/22. 릴리스 뒤 같은 날 태그 `unknowns--v0.13.2`(커밋 `dfb0bb9`)에서 돌렸다. Codex CLI 0.164.0, 이 PC의 WSL(Ubuntu), 격리한 HOME과 `CODEX_HOME`, 읽기 전용 캐시 폴더 가드 사용. 22개 실행 모두 0.13.2의 `SKILL.md`를 읽었고 계정 사본을 읽은 세션은 0건이다. 태그 메시지와 릴리스 본문은 "Sol 미실행"이라고 적고 있고(릴리스 시점에는 사실), CHANGELOG는 그 뒤에 고쳤다.
+- Sol 확인을 WSL에서 하는 법(이번에 처음): 스크립트는 `C:/Users/ajitta/work/kyu-probes/sol_check.sh`(WSL에서 `bash -ic "bash /mnt/c/Users/ajitta/work/kyu-probes/sol_check.sh <태그> <결과 폴더>"`). ChatGPT 로그인이라 환경 변수로 넘길 토큰이 없어서 `auth.json`을 격리한 홈에 복사한다. 사본이 혼자 갱신되면 원래 로그인이 끊길 수 있으므로, 먼저 평소 홈에서 `codex exec`를 한 번 돌려 토큰을 거기서 갱신시킨 뒤 복사하고, 끝나면 두 파일의 `last_refresh`가 같은지 본 다음 사본을 지운다(이번에는 같았다). 빌드 VM의 `codex_rel.py`는 보지 않았다.
+- 지켜볼 칸(2026-11-22, 새로):
+  - 답사 케이스: 전체 실행에서 로그 끝의 HTML 주석에 `lib2026`이 들어갔다(와이파이 항목은 이탈이 아니라는 설명과 함께). 미리 적은 기준대로 2회 더 돌려 둘 다 로그에 없었다. 비밀번호 절을 뺀 뒤 로그에는 5회 중 1회, 계획서에는 5회 중 5회다. 절이 있을 때는 계획서에 5회 중 0회였다.
+  - `alternatives-are-lettered`(tweakable-plan): 판사 호출이 두 번 막혀 판정이 없다. 스크립트로 세면 결정 항목 일곱 개 모두 글자 붙은 대안과 기각 이유가 있었다.
+  - blindspot 다회차의 `assumption-verdicts-carry-status`: 이날 4회 중 1회 통과(4a 단계, 기존 칸). 놓친 실행은 자기 가정 하나에 판정이 없거나, 사용자의 말에 없는 사실을 "held"로 사용자에게 돌렸다.
+  - blindspot·brainstorm의 scout: 기록된 실행 14회(케이스 둘, Fable 5.2 1회 포함)에서 scout 호출 0회. 새 조건("직접 다 읽을 수 없을 만큼")이 큰 작업에서 scout를 부르게 하는지는 케이스가 없어 모른다.
+- 감사와 리뷰가 그대로 두기로 한 것: 되읽기 문단, 설명 속 "NOT", 개수 지정(질문 4개, 6문항 등), interview의 "start with a short plan", buy-in의 리뷰어 호출과 unknowns-loop 5a의 Verify(Opus 5의 "검증 지시를 지워라" 행에 걸리지만 방법의 일부), teach-me의 색보정 예시(비코드 실행에 새지 않음).
+
+아래는 0.13.1 때의 인계 문단이다.
+
+배포 중인 버전은 `unknowns--v0.13.1`이었다(2026-11-17, PR #38, main `8ece152`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `5e2fa751…`, `know-your-unknowns-openai.zip` `8eca71ab…`), 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.1에 스킬 폴더 11개, 에이전트 2개였다. 카탈로그 항목은 고정 없이 `plugins/unknowns`를 가리켜서 고칠 것이 없다. 릴리스 본문은 이번에도 워크플로가 머지 커밋 메시지로 채워서 태그 메시지로 바꿔 넣었다. 작업 브랜치 `release-0.13.1`, `interview-decided-stays-decided`, `outcome-as-stated-as-read`, `interview-ends-at-deliverables`는 지우지 않았다.
 
 0.13.1에 들어간 것: interview(두 산출물에서 끝남, 보기에 추천 없음·물으면 답함, 1라운드 첫 질문 규칙을 1라운드 문단으로), buy-in(문서는 대화 안의 Markdown), unknowns-loop(3단계 c를 스킬별 행으로), tweakable-plan(크기 기준을 두 경우의 표로). 설명은 바뀌지 않았다. 병합했다가 릴리스에서 뺀 것: interview 4b의 "정한 항목은 정해진 채로" 문장(아래 "0.13.1 릴리스에서").
 
@@ -39,7 +72,7 @@
 | unknowns-loop 단계를 실제로 돌리는 다회차 평가 케이스 추가(체크리스트 도입 판단의 근거) | 에이전트(추천 1순위) | `evals/multiturn/`의 기존 케이스 형식, `docs/skill-authoring-guide.md` 체크리스트 행 |
 | 지켜볼 칸 읽기 | 다음 측정 때 | 아래 "지켜볼 칸" |
 
-릴리스 규칙: 지원 모델은 Opus 5.5·GPT-6.1 Sol, medium effort(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 이웃 1회, 릴리스는 Opus 전체 1회 + Sol trigger 1회). 배포 본문을 바꾸면 버전을 올리고, `[Unreleased]`가 비어 있지 않을 때만 같은 버전 재생성이 허용된다. 평가 보조 도구(판정 스크립트, 릴리스 실행 스크립트)는 저장소 밖 `C:/Users/ajitta/work/kyu-probes/`(README 있음), Sol 확인은 빌드 VM `~/work/kyu-review/rel0124/codex_rel.py`(0.12.3 때는 `rel0123`).
+릴리스 규칙: 지원 모델은 Opus 5.5·GPT-6.1 Sol, medium effort(소유자). 평가 러너는 기본 `--effort medium`. 실행 회수는 `docs/skill-authoring-guide.md`의 표를 따른다(수정 확인은 실패 케이스 2회, 이웃 1회, 릴리스는 Opus 전체 1회 + Sol trigger 1회). 배포 본문을 바꾸면 버전을 올리고, `[Unreleased]`가 비어 있지 않을 때만 같은 버전 재생성이 허용된다. 평가 보조 도구(판정 스크립트, 릴리스 실행 스크립트)는 저장소 밖 `C:/Users/ajitta/work/kyu-probes/`(README 있음), Sol 확인은 빌드 VM `~/work/kyu-review/rel0124/codex_rel.py`(0.12.3 때는 `rel0123`). 0.13.2의 Sol 확인은 WSL에서 `kyu-probes/sol_check.sh`로 했다(위 "0.13.2 릴리스에서").
 
 GPT-6.1 Sol 확인 때 지킬 것(0.13.0에서 발견): Codex 앱은 소유자 계정에 올려 둔 플러그인 사본(당시 0.12.4)을 격리한 홈의 `.codex/plugins/cache/created-by-me-remote`로 동기화한다. 0.13.0의 처음 세 번 시도에서는 22개 세션 중 7–8개가 빌드 옆에 그 사본을 나열하고 그 사본의 `SKILL.md`를 읽었으므로, 세 번 모두 무효로 했다. `config.toml`의 `[features] remote_plugin = false`와 `[plugins."unknowns@created-by-me-remote"] enabled = false`는 막지 못했다. 막은 방법: 플러그인을 추가하기 전에 격리한 홈에 그 캐시 폴더를 미리 만들고 읽기 전용(`chmod 555`)으로 둔다. 실행 뒤에는 세션 기록에서 `created-by-me-remote/unknowns`가 0건인지, 22개 실행이 모두 빌드 버전의 `SKILL.md`를 읽었는지 센다(0.13.0: 0건, 22/22). 이전 릴리스의 GPT-6.1 Sol 확인에는 이 장치가 없었다.
 
