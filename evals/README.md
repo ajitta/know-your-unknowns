@@ -7,7 +7,7 @@ skills ([docs/trigger-eval-v0.3.0.md](../docs/trigger-eval-v0.3.0.md)), which le
 description edit after it unverifiable. This directory replaced that with case files two
 different runners can execute. The suite holds the single-turn cases that
 `run-manual.py` runs and the multi-turn cases under `multiturn/` that `run-multiturn.py`
-runs; `--verify` on each prints the current count (104 and 17 since the cases added on
+runs; `--verify` on each prints the current count (105 and 19 after the cases added on
 2026-11-24; 88 and 13 at 0.13.2). Release checks
 from 0.9.0 on record their figures in that version's **Checked** section of
 `CHANGELOG.md`, most with what they did not measure under **Not measured**; run output
@@ -118,9 +118,13 @@ machine with sixty skills installed. Usage counts live in the Claude config
 (`skillUsage` in `.claude.json`) and headless runs update them too, so the fresh, empty
 `CLAUDE_CONFIG_DIR` every run gets also means no usage history, and the filler plugin is
 loaded first, so ties do not favour this plugin. Each crowd run writes a `--debug-file`;
-the report records whether the CLI logged the listing as over budget and which plugins
-loaded. A run that cannot start is reported as `FAILED` and left ungraded, not counted
-as a trigger miss. `--budget-fraction F` sets
+the report records whether the CLI logged the listing as over budget, the CLI's whole
+listing lines, which plugins loaded and any `plugin_errors` from the session's init event.
+A run that cannot start is reported as `FAILED` and left ungraded, not counted
+as a trigger miss, and so is a crowd run whose CLI log does not show the filler plugin
+loaded: the results directory is made absolute so the filler path resolves from each
+run's temporary cwd (on 2026-11-24 a relative `--out` left it unresolved, and every run
+listed 28 skills: this plugin and the CLI's own). `--budget-fraction F` sets
 `skillListingBudgetFraction` to force an overflow regardless of the context window —
 `--crowd 60 --budget-fraction 0.002` drops every unknowns description (the CLI logs
 "Skill listing over budget" under `--debug-file`). First result:
@@ -163,7 +167,7 @@ sees these):
 ```
 evals/multiturn/<case>/
   case.md              # frontmatter + "## Opening message" + "## Persona"
-  graders/<name>.md    # llm (focus: transcript), regex, question_count, tool_used
+  graders/<name>.md    # llm (focus: transcript or packets), regex, question_count, tool_used
 ```
 
 `case.md` frontmatter: `description`, `tags`, `runs`, `max_turns_per_reply` (agent
@@ -195,7 +199,15 @@ graders are judged with `--judge` or `--judge-dir` by a separate `claude -p --to
 (prompt on STDIN) that sees the criteria and the conversation text only: user messages
 and every assistant reply, numbered. It does not see tool calls, file contents, skill or
 plugin names, or the arm. A verdict without an `OVERALL:` line is retried once and then
-recorded as unjudged, not as FAIL.
+recorded as unjudged, not as FAIL. An `llm` grader may set `focus: packets` (the case must
+allow `Agent` or `Task`): its judge also sees, after the conversation, the `prompt` of each
+Agent or Task call the assistant made itself, each marked with the reply it was sent in. It
+does not see calls made inside a spawned agent, any other tool call, or other inputs such as
+the agent type, though a packet's own text may name a skill or plugin. A `packets` grader
+judges what single-turn `focus: trace` packet graders judge, whether the task message
+carries its sources as content, when those sources come from any turn: a plan the assistant
+wrote itself, or a change the user reported later. Text written inside a spawned agent never
+joins a reply, so the simulated user and the stop test do not read it.
 
 Limits: the simulated user is a model. A result measures the skill's behaviour against
 that persona, played by that model, not against real users; a persona that drifts or
@@ -294,9 +306,9 @@ routing.
 
 **Measuring cases from the second rule-based review** (2026-11-10): 18 single-turn `behavior-*` cases and 7 multi-turn cases, each written to settle one open decision before the text changes. A case runs on the current text; when it fails, a fix decided before the run goes in and the case runs again (the rule, the results and the decision for each are in `IMPLEMENTATION_NOTES.md`, entry 2026-11-10). They cover, among others: a loop whose probe fails, a loop the user wants to skip investigating, a deviation report and a wrap-up, a public rename and a difference the plan never mentioned, blindspot's verdict on each assumption, brainstorm finding an unused module, quiz on a submission, reference corrected in free text, a deep interview and an item the user left undecided, buy-in finding a non-code deviation log, and the scout checking a pinned library version.
 
-**Cases for sentences no run had reached** (added 2026-11-24, not yet run): 12 single-turn `behavior-*` cases and 4 multi-turn cases, each written for a step or sentence that no recorded run reached. Single-turn: blindspot and brainstorm on material too large to read in full, so that the skill spawns the scout (`behavior-blindspot-scout-many-contracts`, 214 supplier agreements: the packet carries both sides' assumptions and the scout marks each one held, wrong or still unchecked; `behavior-brainstorm-scout-inventory-monorepo`, a 41-service monorepo: the packet asks for an inventory of existing mechanisms and the candidates build on its rows); quiz, reference and prototypes with nothing to work on, each asking one question for the work, the reference or the target (`behavior-quiz-asks-for-the-work`, `behavior-reference-asks-for-the-reference`, `behavior-prototypes-asks-target-first`); quiz and unknowns-loop finding the `DEVIATIONS.md` beside non-code work that the prompt never names (`behavior-quiz-finds-noncode-log`, `behavior-unknowns-loop-finds-noncode-log`); and the read-back paragraph in a skill that loaded through its trigger phrase rather than by name (`behavior-tweakable-plan-autoloaded-reads-back`, `behavior-buy-in-autoloaded-reads-back`), which expect a skill to load, so they are `behavior-*` cases rather than must-NOT-fire negatives and are read only in runs where the skill loaded. Three more come from the description round of the same day: a log file the user names for code work (`behavior-deviation-log-code-user-named-file`: the entry goes to that file and no `IMPLEMENTATION_NOTES.md` is created) and a plain "Show me options." on a problem that is not a design request (`behavior-brainstorm-show-me-options`, the positive side of brainstorm's border "NOT for design options."), and the source talk's merge-time request with no "quiz" in it, which quiz's "or before merging" covers (restored on 2026-11-24 after this case loaded quiz in 0 of 3 runs without it; `behavior-quiz-before-merge-understanding`). Three graders of the two scout cases (`packet-carries-both-sides-assumptions`, `scout-marks-each-assumption`, `packet-asks-for-inventory`) judge the packet, the `prompt` input of the Agent call that spawned the scout, which `manual-result.json` keeps under `tool_calls`; a judge given only `last_message` and `agent_reports` cannot see it. The four multi-turn cases are listed below.
+**Cases for sentences no run had reached** (added 2026-11-24): 12 single-turn `behavior-*` cases and 4 multi-turn cases, each written for a step or sentence that no recorded run reached. Single-turn: blindspot and brainstorm on large material (`behavior-blindspot-scout-many-contracts`, 214 supplier agreements; `behavior-brainstorm-scout-inventory-monorepo`, a 41-service monorepo), whose spawn and scout-path graders became indicators on 2026-11-24, when the owner ruled that whether material is more than the model can read in full is the model's own judgment: when the scout is spawned, the packet carries both sides' assumptions or asks for an inventory of existing mechanisms, and the scout's marks or rows reach the reply; quiz, reference and prototypes with nothing to work on, each asking one question for the work, the reference or the target (`behavior-quiz-asks-for-the-work`, `behavior-reference-asks-for-the-reference`, `behavior-prototypes-asks-target-first`; the reference case names the skill since it loaded reference in 1 of 3 runs without its name); quiz and unknowns-loop finding the `DEVIATIONS.md` beside non-code work that the prompt never names (`behavior-quiz-finds-noncode-log`, `behavior-unknowns-loop-finds-noncode-log`); the read-back paragraph in a skill that loaded through its trigger phrase rather than by name (`behavior-buy-in-autoloaded-reads-back`, informative since it loaded buy-in in 0 of 3 runs: a request clear to both sides gives buy-in nothing to surface, so the plugin does not claim the load), and a request for tweakable-plan's own plan about weighty work, which goes through the size gate (`behavior-tweakable-plan-autoloaded-weighty-plan`, renamed on 2026-11-24 from `behavior-tweakable-plan-autoloaded-reads-back` with the owner's ruling on the read-back paragraph), which expect a skill to load, so they are `behavior-*` cases rather than must-NOT-fire negatives and are read only in runs where the skill loaded. Three more come from the description round of the same day: a log file the user names for code work (`behavior-deviation-log-code-user-named-file`: the entry goes to that file and no `IMPLEMENTATION_NOTES.md` is created) and a plain "Show me options." on a problem that is not a design request (`behavior-brainstorm-show-me-options`, the positive side of brainstorm's border "NOT for design options."), and the source talk's merge-time request with no "quiz" in it, which quiz's "or before merging" covers (restored on 2026-11-24 after this case loaded quiz in 0 of 3 runs without it; `behavior-quiz-before-merge-understanding`). Three graders of the two scout cases (`packet-carries-both-sides-assumptions`, `scout-marks-each-assumption`, `packet-asks-for-inventory`) judge the packet, the `prompt` input of the Agent call that spawned the scout, which `manual-result.json` keeps under `tool_calls`; a judge given only `last_message` and `agent_reports` cannot see it. `behavior-buy-in-reviewer-packet-from-conversation` (added 2026-11-24) gives buy-in a plan, done criteria, outcome, deviation log and status that exist only in the user's message, with the Agent tool allowed, and grades what the independent-reviewer's packet carries and what its report says it could not check. The four multi-turn cases are listed below.
 
-**17 multi-turn cases** — `evals/multiturn/`: the seven measuring cases above; `interview-then-work` (the interview ends at its decision table and ready-to-use prompt in a folder where the script could be written); `blindspot-reaches-improved-prompt`, `interview-rounds-stay-at-four`, `prototypes-saturation-after-reactions`, `quiz-hides-key-and-gates-on-six` and `reference-correction-revises-plan`, which play blindspot's three lists, interview rounds, prototype reactions, the quiz gate and a numbered semantics-map correction to the end; and the four added on 2026-11-24: `tweakable-plan-after-interview-accepted` (the user takes step 1b's interview suggestion, and the plan shown again is built on the answers), `prototypes-two-options-contrast` (with only two options, step 5a's question on what most sets them apart in place of the triad), `quiz-partial-retry-score` (a retry asks only the missed questions, and the score reaches 6/6 only once every missed part is answered right) and `unknowns-loop-every-stage-to-outcome-check` (the loop played through every stage to the outcome check on a non-code task).
+**19 multi-turn cases** — `evals/multiturn/`: the seven measuring cases above; `interview-then-work` (the interview ends at its decision table and ready-to-use prompt in a folder where the script could be written); `blindspot-reaches-improved-prompt`, `interview-rounds-stay-at-four`, `prototypes-saturation-after-reactions`, `quiz-hides-key-and-gates-on-six` and `reference-correction-revises-plan`, which play blindspot's three lists, interview rounds, prototype reactions, the quiz gate and a numbered semantics-map correction to the end; and the four added on 2026-11-24: `tweakable-plan-after-interview-accepted` (the user takes step 1b's interview suggestion, and the plan shown again is built on the answers), `prototypes-two-options-contrast` (with only two options, step 5a's question on what most sets them apart in place of the triad), `quiz-partial-retry-score` (a retry asks only the missed questions, and the score reaches 6/6 only once every missed part is answered right) and `unknowns-loop-every-stage-to-outcome-check` (the loop played through every stage to the outcome check on a non-code task); and `unknowns-loop-blindspot-then-teach-me` (added later on 2026-11-24: a user who can describe the task but knows no audio terms picks prompt fixes from the blind-spot pass and terms from the vocabulary explainer, and the reply that opens the next stage builds on a request carrying both sets of picks or says which are still to apply); and `buy-in-reviewer-packet-after-plan` (added the same day: a plan the assistant wrote and the user approved, a change reported in a later message, then a buy-in doc, with the Agent tool allowed; `focus: packets` judges whether the independent-reviewer's packet carries the plan's done criteria, outcome and figures and the later change as content).
 
 ## How the graders are meant to be read
 
@@ -313,9 +325,15 @@ routing.
 - `min: 0` + `weight: 0` on a `tool_used` grader for a tool other than Skill — an
   indicator that is reported and adds nothing to the score (the runner's display-only
   form covers `tool: Skill` only). `spawns-unknowns-scout` in
-  `behavior-blindspot-scout-assumption-verdicts`, `reads-the-log` in
+  `behavior-blindspot-scout-assumption-verdicts`, `behavior-blindspot-scout-many-contracts`
+  and `behavior-brainstorm-scout-inventory-monorepo`, `reads-the-log` in
   `behavior-quiz-finds-noncode-log` and `spawns-a-subagent` in the agent-collision
   negatives use it.
+- `weight: 0` on an `llm` grader — an indicator that is judged and reported and adds
+  nothing to the score. The scout-path graders of the two scout cases above use it and
+  pass when no scout ran; `packet-leaves-out-producer-summary` in
+  `behavior-buy-in-reviewer-packet-from-conversation` uses it for a clause whose miss is
+  recorded on its own.
 
 ## Known limits — read before quoting a number
 

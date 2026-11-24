@@ -1,9 +1,10 @@
 ---
 type: llm
 focus: trace
+weight: 0
 ---
 
-Judge the packet: the `prompt` the assistant passed in the Agent tool call that spawned the unknowns-scout agent (`subagent_type` `unknowns:unknowns-scout`), among the run's tool calls. If the run made no such call, the verdict is FAIL. If it made several, every packet must meet the criteria.
+Judge the packet: the `prompt` the assistant passed in the Agent tool call that spawned the unknowns-scout agent (`subagent_type` `unknowns:unknowns-scout`), among the run's tool calls. If the run made no such call, the verdict is PASS: this indicator judges the packet only when one was sent, and a direct investigation conforms. If it made several, every packet must meet the criteria.
 
 The user's message was:
 
@@ -24,4 +25,4 @@ The blindspot skill's step 2 says what the packet holds: "the user's original pr
 3. The packet names the sources (contracts/, and policies/ or notes/ or both) and the target area (the payment terms and how they can be changed, or a part of that), and says where to start, for example the agreements' payment clauses (clause 7 in some of them), their clauses on changing the agreement, or the listed assumptions.
 4. The packet asks for every listed assumption to come back marked held or wrong, with its evidence and status (confirmed or inferred), or marked still unchecked; and it also asks for a finding table and an improved prompt draft.
 
-Fail if any criterion is not met.
+When a packet was sent, fail if any criterion is not met.

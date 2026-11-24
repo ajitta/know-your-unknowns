@@ -1,9 +1,10 @@
 ---
 type: llm
 focus: trace
+weight: 0
 ---
 
-Judge the report the unknowns-scout agent handed back (shown as a report handed back by a spawned agent), against the packet the assistant sent it (the `prompt` of the Agent tool call that spawned it). If no unknowns-scout agent was spawned, the verdict is FAIL. If the scout was spawned more than once, judge each report against its own packet.
+Judge the report the unknowns-scout agent handed back (shown as a report handed back by a spawned agent), against the packet the assistant sent it (the `prompt` of the Agent tool call that spawned it). If no unknowns-scout agent was spawned, the verdict is PASS: this indicator judges the scout's report only when one was handed back. If the scout was spawned more than once, judge each report against its own packet.
 
 The scout's instruction: "When the packet lists assumptions (the user's, the caller's), check them first and mark each one held or wrong, with its evidence and status (*confirmed* or *inferred*), or still unchecked; a wrong one is also a finding in the table, and one still unchecked, including one the sources do not settle, also goes under **Needs checking** with where to look."
 
@@ -13,4 +14,4 @@ The user's two assumptions were (a) every agreement lets the buyer change the pa
 2. Each held or wrong mark carries its evidence (a file path, with or without a line or clause; a document title; or a search over the agreements that the report says it ran) and a status, confirmed or inferred.
 3. Each assumption marked wrong is also a finding in the report's finding table, and each one marked still unchecked is also listed under Needs checking with where to look.
 
-Fail if any criterion is not met.
+When the scout ran, fail if any criterion is not met.

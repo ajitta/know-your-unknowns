@@ -18,8 +18,10 @@ Judge the reply's plan of stages. All of these must hold:
    level jumps here (for example the studio, the call-ins, how the three editors work),
    what the user is assuming and what nobody has checked yet; a stage that names such an
    investigation or blind-spot check of this situation counts, even in one line. Either
-   the plan puts the investigation before any vocabulary stage or in the same stage as
-   it, or the reply says it starts with the investigation. Settling the goal or what
+   the plan puts the investigation before any vocabulary stage, or the reply says it
+   starts with the investigation. Inside a stage that holds both, the investigation is
+   named first; an explainer ordered ahead of the investigation in that stage, or named
+   as the next thing the reply will do, fails this criterion. Settling the goal or what
    counts as done may come before both.
 3. The reply does something about the missing audio vocabulary, after the investigation
    or alongside it: a vocabulary explainer as a later stage, a promise to explain terms

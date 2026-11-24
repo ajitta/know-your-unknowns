@@ -104,7 +104,7 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 
 The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
 
-**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route. Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.2, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2; see `CHANGELOG.md`.
+**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route. Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.4, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2 and 0.13.3; see `CHANGELOG.md`.
 
 **Supported models:** Claude Opus 5.5 and GPT-6.1 Sol at medium effort. The evals run on these; other models and effort levels are not tested.
 
@@ -162,7 +162,7 @@ The owner checked the zip upload with a skill called from ChatGPT mobile on 0.12
 ### What works where
 
 - All eleven skills deliver Markdown in the conversation. In blindspot, teach-me, prototypes, brainstorm, reference, tweakable-plan and buy-in you react to numbered items, and your picks assemble into the skill's next deliverable: a revised prompt, a precise request, a requirements list, a reply to send or the final doc. Where a step needs a tool the host lacks, the skill does the step in the conversation and says what could not be checked.
-- The two named agents run only in Claude Code. Elsewhere the steps that call them follow the missing-tool rule above, and buy-in's independent evidence check is not available.
+- The two named agents run in Claude Code and, according to Anthropic's [plugin documentation](https://claude.com/docs/plugins/platform-support), in Cowork (not yet checked with this plugin); chat on claude.ai web, in the desktop app and on mobile skips them. Where they do not run, the steps that call them follow the missing-tool rule above, and buy-in's independent evidence check is not available. A general subagent that a host starts in the reviewer's place, as Codex did in recorded runs, does not carry the independent-reviewer agent's instructions and is not this check.
 - The installed package has no hooks or scripts on any surface. A runnable prototype requested during a task can still be code written to files when the host supports it.
 - The deviation log is a file when files are available (`IMPLEMENTATION_NOTES.md` for code work, otherwise `DEVIATIONS.md` beside the deliverable); otherwise the record stays in the conversation.
 
@@ -547,7 +547,7 @@ address them by their plugin-scoped id — `unknowns:unknowns-scout` and
 `@agent-unknowns:unknowns-scout` mention form both expect. A bare `unknowns-scout` is
 rejected as `subagent_type`.
 
-The named agents run only in Claude Code. Both declare no tool list, so they inherit every tool your session allows, and their prompts carry no read-only rules. If you want them confined, use your own permission settings or sandbox.
+The named agents run in Claude Code and, according to Anthropic's documentation, in Cowork (see What works where). Both declare no tool list, so they inherit every tool your session allows, and their prompts carry no read-only rules. If you want them confined, use your own permission settings or sandbox.
 
 **unknowns-scout** (reconnaissance):
 ```
@@ -702,7 +702,7 @@ the source" from "extended during authoring".
 ```
 skills/<name>/                 source: SKILL.md, agents/openai.yaml
 claude-code/agents/             source: Claude Code agent prompts
-plugin-manifest.json           source manifest, currently 0.13.3
+plugin-manifest.json           source manifest, currently 0.13.4
 packaging/                     shipped README, listing icon, OpenAI interface and SVGs
 .claude-plugin/marketplace.json marketplace -> ./plugins/unknowns
 plugins/unknowns/               generated Claude plugin; the installed payload

@@ -1,5 +1,5 @@
 ---
-description: "Blind-spot pass over 214 supplier agreements, more than the model can read in full: the pass spawns the unknowns-scout with both sides' assumptions and asks for a held or wrong verdict on each, and the final reply carries the scout's verdicts and findings"
+description: "Blind-spot pass over 214 supplier agreements in four layouts: each assumption the user lists gets a held or wrong verdict with the clause or agreements that settle it. Whether the pass spawns the unknowns-scout, and its packet, marks and hand-back when it does, are reported, not scored (owner ruling 2026-11-24)"
 tags: [behavior, en, blindspot, agent, noncode]
 runs: 3
 max_turns: 40

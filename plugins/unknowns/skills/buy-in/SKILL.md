@@ -31,7 +31,7 @@ The work is done, but the approvers have not seen what the user has, and the use
 
    a. Answer each item from step 2 with **evidence**, and give every answer a reference the approver can follow (spec §, deviation log entry date, metric, source document, test run, `file:line`).
 
-   b. Use the `unknowns:independent-reviewer` agent to check the evidence, including its "verified OK" list. Hand it the done criteria, the outcome, the approved plan, the deviation log, the deliverable (for code, the diff range or touched files and how to run the tests), and the claims the work rests on; leave out the producer's own summary, so the review checks the work rather than the narrative.
+   b. Use the `unknowns:independent-reviewer` agent to check the evidence, including its "verified OK" list. Hand it the done criteria, the outcome, the approved plan, the deviation log, the deliverable (for code, the diff range or touched files and how to run the tests), and the claims the work rests on. Even when the user produced the work, hand it each statement in any report the user gave of where the work stands (e.g. what is done, figures so far, what is still pending) among the claims, as a claim whose original source is the record it reports on. Leave out the producer's own summary, so the review checks the work rather than the narrative.
 
    c. Move every answer that has no evidence, or whose evidence the independent-reviewer agent could not confirm, to the known limitations (step 5).
 

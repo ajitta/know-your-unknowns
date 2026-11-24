@@ -98,7 +98,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름이나 트리거 문구로 부릅니다.
 
-**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로. 소유자 확인이 아닌 기록된 자동 실행: 0.10.0, 0.12.1, 0.12.3, 0.13.0–0.13.2에서 이 플러그인을 쓴 Codex CLI 실행과, 0.13.2에서 두 마켓플레이스(이 저장소와 `ajitta/claude-plugins`)로부터 빈 Claude Code 설정에 설치한 것이 있습니다. `CHANGELOG.md`를 보세요.
+**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로. 소유자 확인이 아닌 기록된 자동 실행: 0.10.0, 0.12.1, 0.12.3, 0.13.0–0.13.4에서 이 플러그인을 쓴 Codex CLI 실행과, 0.13.2와 0.13.3에서 두 마켓플레이스(이 저장소와 `ajitta/claude-plugins`)로부터 빈 Claude Code 설정에 설치한 것이 있습니다. `CHANGELOG.md`를 보세요.
 
 **지원 모델:** Claude Opus 5.5와 GPT-6.1 Sol, medium effort. 평가는 이 조건에서 돌리며, 다른 모델과 effort 수준은 시험하지 않았습니다.
 
@@ -156,7 +156,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 ### 표면별 지원
 
 - 스킬 11종은 모두 대화에 마크다운을 냅니다. blindspot, teach-me, prototypes, brainstorm, reference, tweakable-plan, buy-in에서는 번호 붙은 항목에 반응하고, 고른 것이 그 스킬의 다음 산출물로 조립됩니다: 고친 프롬프트, 정밀 요청, 요구사항 목록, 보낼 회신, 또는 최종 문서. 단계에 필요한 도구가 호스트에 없으면 그 단계를 대화에서 하고 확인하지 못한 것을 밝힙니다.
-- 이름 있는 에이전트 2종은 Claude Code에서만 실행됩니다. 다른 표면에서는 에이전트를 부르는 단계가 위의 도구 부재 규칙을 따르고, buy-in의 독립 근거 검증은 쓸 수 없습니다.
+- 이름 있는 에이전트 2종은 Claude Code에서 실행되고, Anthropic의 [플러그인 문서](https://claude.com/docs/plugins/platform-support)에 따르면 Cowork에서도 실행됩니다(이 플러그인으로는 아직 확인하지 않음). claude.ai 웹·데스크톱 앱·모바일의 채팅은 에이전트를 건너뜁니다. 에이전트가 돌지 않는 곳에서는 에이전트를 부르는 단계가 위의 도구 부재 규칙을 따르고, buy-in의 독립 근거 검증은 쓸 수 없습니다. 기록된 Codex 실행에서처럼 호스트가 reviewer 대신 띄우는 일반 하위 에이전트에는 independent-reviewer 에이전트의 지침이 없으므로 이 검증이 아닙니다.
 - 어떤 표면에서도 설치된 패키지에 훅이나 스크립트는 없습니다. 작업 중 요청한 실행 가능한 프로토타입은 호스트가 지원하면 여전히 코드 파일로 쓸 수 있습니다.
 - 이탈 기록은 파일을 쓸 수 있으면 파일(코드 작업이면 `IMPLEMENTATION_NOTES.md`, 그 밖에는 산출물 옆의 `DEVIATIONS.md`)이고, 그렇지 않으면 기록이 대화에 남습니다.
 
@@ -512,7 +512,7 @@ id — `unknowns:unknowns-scout`, `unknowns:independent-reviewer` — 로 부르
 Agent 도구의 `subagent_type`과 `@agent-unknowns:unknowns-scout` 멘션 형식이 요구하는 것이
 이 id입니다. `subagent_type`에 스코프 없는 `unknowns-scout`을 주면 거부됩니다.
 
-이름 있는 에이전트는 Claude Code에서만 실행됩니다. 둘 다 도구 목록을 선언하지 않으므로 세션이 허용하는 모든 도구를 물려받고, 프롬프트에도 읽기 전용 규칙이 없습니다. 제한이 필요하면 자신의 권한 설정이나 샌드박스를 쓰세요.
+이름 있는 에이전트는 Claude Code에서, 그리고 Anthropic 문서에 따르면 Cowork에서 실행됩니다(표면별 지원 참고). 둘 다 도구 목록을 선언하지 않으므로 세션이 허용하는 모든 도구를 물려받고, 프롬프트에도 읽기 전용 규칙이 없습니다. 제한이 필요하면 자신의 권한 설정이나 샌드박스를 쓰세요.
 
 **unknowns-scout** (정찰):
 ```
@@ -660,7 +660,7 @@ blindspot은 발화하지 않았습니다(1회 측정,
 ```
 skills/<name>/                 소스: SKILL.md, agents/openai.yaml
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.13.3
+plugin-manifest.json           소스 매니페스트, 현재 0.13.4
 packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드

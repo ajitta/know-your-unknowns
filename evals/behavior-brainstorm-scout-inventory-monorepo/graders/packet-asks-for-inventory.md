@@ -1,9 +1,10 @@
 ---
 type: llm
 focus: trace
+weight: 0
 ---
 
-Judge the packet: the `prompt` the assistant passed in the Agent tool call that spawned the unknowns-scout agent (`subagent_type` `unknowns:unknowns-scout`), among the run's tool calls. If the run made no such call, the verdict is FAIL. If it made several, every packet must meet the criteria.
+Judge the packet: the `prompt` the assistant passed in the Agent tool call that spawned the unknowns-scout agent (`subagent_type` `unknowns:unknowns-scout`), among the run's tool calls. If the run made no such call, the verdict is PASS: this indicator judges the packet only when one was sent, and searching the material directly conforms. If it made several, every packet must meet the criteria.
 
 The user's message was:
 
@@ -19,4 +20,4 @@ The brainstorm skill's step 2b: "When you spawn the scout, the packet overrides 
 4. The packet says when the scout is done: once its procedure is done and every mechanism it found has a row, or plain words to that effect.
 5. The packet asks for the inventory as the return, and does not also ask for an improved prompt draft or for the scout's default finding table (the table with Kind and Why it bites columns). Asking for the Needs checking, Questions to answer and Information still needed lists as well is fine.
 
-Fail if any criterion is not met.
+When a packet was sent, fail if any criterion is not met.

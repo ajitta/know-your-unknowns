@@ -3,8 +3,8 @@ type: llm
 focus: last_message
 ---
 
-The user's whole message was: "Use this as a reference for the volunteer handbook I'm
-writing for our food bank." Nothing came with it: there was no earlier conversation and
+The user's whole message was: "Use the reference skill. Use this as a reference for the
+volunteer handbook I'm writing for our food bank." Nothing came with it: there was no earlier conversation and
 no attachment, and the working folder was empty, so the message neither names nor
 contains a reference. The reference skill says: "Take the reference from the text the
 user gave with the request or after the skill name, or from the conversation; when

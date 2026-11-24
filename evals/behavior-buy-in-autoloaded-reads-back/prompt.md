@@ -1,6 +1,6 @@
 ---
-description: "Read-back paragraph in a skill that loaded on its own, not by name (non-code): 'get sign-off' in a request, clear to both sides, for an email sent today whose reply releases a payment; the reply reads back in 2-3 lines and waits, with no email and no buy-in doc. Read it only in runs where the skill loaded"
-tags: [behavior, open-cell, readback, en, buy-in, noncode]
+description: "Read-back paragraph in a skill that loaded on its own, not by name (non-code), informative: measures whether 'get sign-off' in a request clear to both sides, for an email sent today whose reply releases a payment, loads buy-in and gets a 2-3-line read-back that waits, with no email and no buy-in doc, which the plugin does not claim (buy-in loaded in 0 of 3 runs, 2026-11-24). Read it only in runs where the skill loaded"
+tags: [behavior, open-cell, readback, en, buy-in, noncode, informative]
 runs: 3
 max_turns: 6
 timeout_seconds: 300

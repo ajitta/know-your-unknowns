@@ -1,5 +1,5 @@
 ---
-description: "brainstorm on a 41-service monorepo of about 600 files, more than the model can read in full: the skill spawns the unknowns-scout with a packet that asks for an inventory of existing mechanisms in place of its finding table, and the candidates build on the inventory's rows"
+description: "brainstorm on a 41-service monorepo of about 600 files: the candidates build on the existing mechanisms the search finds. Whether the skill spawns the unknowns-scout, and its inventory packet, report and hand-back when it does, are reported, not scored (owner ruling 2026-11-24)"
 tags: [behavior, en, brainstorm, agent, code]
 runs: 3
 max_turns: 40

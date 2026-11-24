@@ -3,7 +3,7 @@ description: "Operating loop (en, non-code) played through every stage to the ou
 tags: [multiturn, behavior, en, unknowns-loop, noncode]
 runs: 3
 max_turns_per_reply: 16
-user_turns: 8
+user_turns: 10
 timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]
 ---

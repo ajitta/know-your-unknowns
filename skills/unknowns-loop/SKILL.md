@@ -26,7 +26,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    | Stage | Run | When |
    |---|---|---|
-   | a. Investigate | the **blindspot** skill; the **teach-me** skill first when the user cannot yet describe the task | always, unless its question is already answered |
+   | a. Investigate | the **blindspot** skill; the **teach-me** skill first when the user cannot yet describe the task, and after the **blindspot** skill when the user can describe the task but lacks the field's vocabulary | always, unless its question is already answered |
    | b. Decide | the **interview** skill | requirements leave decisions open (structure, harm, compatibility, cost, taste) |
    | c. Shape | the **brainstorm** skill | the approach is undecided |
    | | the **prototypes** skill | the user will know the form when they see it |
