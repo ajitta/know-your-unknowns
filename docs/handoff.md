@@ -4,7 +4,7 @@
 
 ## 상태
 
-진행 중(2026-11-24): 0.13.3 뒤 소유자 결정 대기 여섯 항목(teach-me 7b, blindspot의 "read in full", tweakable-plan의 되읽기와 크기 관문, 0.13.3 본문 지적 묶음, `release.yml` 태그 확인, SOT)의 권고를 소유자가 승인했고, 브랜치 `owner-decisions-2026-11-24`에서 처리했다. 배포 본문 변경은 unknowns-loop 3단계 a의 Run 칸 한 곳이고 `CHANGELOG.md` `[Unreleased]`에 있다(teach-me 7b와 buy-in 4b 후보는 실행 규칙대로 되돌림). 머지, 태그, 다음 버전의 릴리스 점검은 소유자 승인 대기. 결정과 실행 전 규칙은 `IMPLEMENTATION_NOTES.md` 2026-11-24 첫 항목, 수치는 `CHANGELOG.md` `[Unreleased]` **Checked**, 원자료는 `evals/results/round-2026-11-24b/`(로컬, gitignore).
+진행 중(2026-11-24): 0.13.3 뒤 소유자 결정 대기 여섯 항목(teach-me 7b, blindspot의 "read in full", tweakable-plan의 되읽기와 크기 관문, 0.13.3 본문 지적 묶음, `release.yml` 태그 확인, SOT)의 권고를 소유자가 승인했고, 브랜치 `owner-decisions-2026-11-24`(PR #44)에서 처리했다. 배포 본문 변경은 unknowns-loop 3단계 a의 Run 칸 한 곳이고 `CHANGELOG.md` `[Unreleased]`에 있다(teach-me 7b와 buy-in 4b 후보는 실행 규칙대로 되돌림). 머지, 태그, 다음 버전의 릴리스 점검은 소유자 승인 대기. 결정과 실행 전 규칙은 `IMPLEMENTATION_NOTES.md` 2026-11-24 첫 항목, 수치는 `CHANGELOG.md` `[Unreleased]` **Checked**, 원자료는 `evals/results/round-2026-11-24b/`(로컬, gitignore).
 
 배포 중인 버전은 `unknowns--v0.13.3`이다(2026-11-24, PR #42, main `9ad4179`, 소유자 지시로 병합과 태그). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `20923e35…`, `know-your-unknowns-openai.zip` `c3013cc4…`), 릴리스 본문은 처음으로 워크플로가 태그 메시지로 채웠다(release.yml의 태그 확인 두 줄, 아래 '릴리스 절차'). 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.3에 스킬 폴더 11개, 에이전트 2개였다. 원격 작업 브랜치 `cleanup/stale-docs-2026-11-24`는 지우지 않았다(아래 '규칙').
 
