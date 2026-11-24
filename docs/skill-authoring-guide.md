@@ -121,7 +121,7 @@ Set freedom per step, not per skill. In this plugin:
 | Practice | Status | Note |
 |---|---|---|
 | Clear sequential steps | covered | Rules 1–3. |
-| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it by the run-count table. Since 0.12.4 the four `behavior-unknowns-loop-*` cases and the multi-turn `unknowns-loop-criteria-unanswered` run parts of the loop (its stage plan and order, a failed probe, criteria the user declines to set); no case runs every stage to the end. Read their results before adding it. A checklist in a short skill is read on every run and repeats the steps. |
+| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it by the run-count table. Since 0.12.4 four `behavior-unknowns-loop-*` cases and the multi-turn `unknowns-loop-criteria-unanswered` run parts of the loop (its stage plan and order, a failed probe, criteria the user declines to set), and since 2026-11-24 a fifth, `behavior-unknowns-loop-finds-noncode-log`, runs its work stage on non-code work. The multi-turn `unknowns-loop-every-stage-to-outcome-check` (added 2026-11-24, not yet run) plays every stage to the outcome check. Read their results before adding it. A checklist in a short skill is read on every run and repeats the steps. |
 | Return to an earlier step when a check fails | covered where the check uses outside evidence | blindspot's evidence and status, the independent-reviewer agent. A loop that only re-reads the model's own output adds a pass with no new evidence and is not added. |
 | Plan-validate-execute with a script | n/a | No scripts. |
 
@@ -130,7 +130,7 @@ Set freedom per step, not per skill. In this plugin:
 | Practice | Status | Note |
 |---|---|---|
 | What the skill does and when to use it, with key terms | covered | Since 0.13.0 every description is the short text of `skill-writing.md` rule 18 (owner ruling 2026-11-12): a label, what the skill is for and a "Use on …" clause with the trigger phrases, in 200 characters or fewer; some also hold a border clause or a "runs even when …" clause. The method summary moved out; the body states the method. |
-| Third person | watch | The short set is not in the third person: it uses imperatives and the second person ("find both sides' unknown unknowns", "ask in rounds of ≤4", "quiz you"). The page's reason is discovery; routing measured 260/260 and 44/44 with the descriptions before 0.13.0, and 22/22 trigger and 22/22 non-coding loads with the short set (1 run each). Rerun the trigger, non-coding and negative cases (1 run each) when a description changes. |
+| Third person | watch | The short set is not in the third person: it uses imperatives and the second person ("find both sides' unknown unknowns", "ask in rounds of ≤4", "show your reading"). Outside names and quoted trigger phrases, "you" is the model that reads the description and the user is "the user" (`skill-writing.md` rule 18): one point of view, but not the page's third person, which lists "You can use this to process Excel files" among descriptions to avoid. The page's reason is discovery ("inconsistent point-of-view can cause discovery problems"); routing measured 260/260 and 44/44 with the descriptions before 0.13.0, and 22/22 trigger and 22/22 non-coding loads with the short set (1 run each). Rerun the trigger, non-coding and negative cases (1 run each) when a description changes. |
 | Specific over vague | covered | Owner ruling 2026-10-28: no "pushier" descriptions. |
 
 ### Content
@@ -147,7 +147,7 @@ Set freedom per step, not per skill. In this plugin:
 
 | Practice | Status | Note |
 |---|---|---|
-| At least three evaluations per skill | covered | `evals/` has single-turn cases for every skill and multi-turn cases for eight of them (none for brainstorm, deviation-log or tweakable-plan); `independent-reviewer` has two and `unknowns-scout` one. |
+| At least three evaluations per skill | covered | `evals/` has single-turn cases for every skill and multi-turn cases for nine of them (none for brainstorm or deviation-log; `unknowns-loop-every-stage-to-outcome-check` loads deviation-log inside the loop); `independent-reviewer` has two cases that call it by name and `unknowns-scout` one, two cases added on 2026-11-24 give blindspot and brainstorm material too large to read in full so that the skill spawns the scout, and three negatives check that review and investigation requests naming neither agent spawn neither. |
 | Baseline without the skill | covered | `--arm` in `evals/run-manual.py`. Distinct from comparing two plugin versions, which the owner does not run. |
 | Claude A writes, Claude B uses, observe and refine | covered | Failures read from this build's own runs. |
 | Test with real usage | covered | Owner surface checks recorded in the handoff. |

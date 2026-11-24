@@ -1,8 +1,8 @@
 ---
 name: interview
 description: >
-  The interview — before deciding, ask in rounds of ≤4 what the AI cannot know or judge
-  about your situation. Use on "interview me", "ask me questions before implementing",
+  The interview — before deciding, ask in rounds of ≤4 what you cannot know or judge in
+  the user's situation. Use on "interview me", "ask me questions before implementing",
   "ask me before you decide".
 ---
 

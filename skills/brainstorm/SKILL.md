@@ -3,7 +3,7 @@ name: brainstorm
 description: >
   Brainstorm the intervention — ~10 candidates for a named problem in any domain, from
   today to a quarter-long bet. Use on "brainstorm interventions", "show me options". NOT
-  for design variants.
+  for design options.
 ---
 
 # Brainstorm — Solution-Space Map (Brainstorm the Intervention)

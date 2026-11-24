@@ -1,4 +1,4 @@
-# 트리거 × 스킬 매트릭스 (0.13.0 description, 2026-11-13 — 0.13.1·0.13.2에서 description 변경 없음)
+# 트리거 × 스킬 매트릭스 (0.13.0 description, 2026-11-13 — 0.13.1·0.13.2에서 변경 없음, [Unreleased]에서 바뀐 description은 그 행에 반영)
 
 각 `skills/<name>/SKILL.md`의 frontmatter `description` 안에 큰따옴표로 들어 있는 문구
 **전부**와, 스킬 간 충돌 지점 및 해소 상태.
@@ -65,15 +65,15 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 
 | 스킬 | 영어 (description 내) | 한국어 (eval로 보증, README.ko.md 참조) | 역트리거·경계 | 길이 |
 |------|------|--------|--------------|------|
-| blindspot | blind spot pass · what am I missing | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | — | 182자 |
-| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | 디자인 변형에는 쓰지 않음("NOT for design variants.") | 192자 |
+| blindspot | blind spot pass · what am I missing | 사각지대 조사해줘 · 내가 놓친 게 뭐지 | — | 185자 |
+| brainstorm | brainstorm interventions · show me options | 브레인스토밍 · 해법 후보 펼쳐줘 · 옵션 보여줘 | 디자인 옵션에는 쓰지 않음("NOT for design options.") | 191자 |
 | buy-in | buy-in doc · prep me for review · get sign-off | 설득 문서 만들어줘 · 리뷰 준비 | — | 181자 |
-| deviation-log | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 171자 |
+| deviation-log | implementation notes · record a deviation · where did we diverge from the plan? | 이탈 기록 · 임플 노트 · 어디서 계획이랑 달라졌어? | — | 173자 |
 | interview | interview me · ask me questions before implementing · ask me before you decide | 인터뷰해줘 · 스펙 질문 | — | 198자 |
 | prototypes | divergent prototypes · design options · versions to react to · know it when I see it | 시안 4개 · 프로토타입 여러 개 · 보면 안다 | — | 184자 |
-| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 188자 |
+| quiz | quiz me · test my understanding | 퀴즈 · 내가 이해했는지 확인해줘 | — | 175자 |
 | reference | use this as a reference · make it like this | 레퍼런스로 써 · 이 코드처럼 만들어줘 · 이거 참고해서 | — | 194자 |
-| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | 계획 조사가 아님("Not a plan investigation.") | 181자 |
+| teach-me | teach me · make me an explainer | 가르쳐줘 · 설명서 만들어줘 · 이 분야 용어를 모르겠어 | 계획에 대한 사각지대 조사가 아님("Not a blind-spot pass on a plan.") | 188자 |
 | tweakable-plan | plan this · make a plan · tweakable plan | 계획 세워줘 · 구현 계획 · 수정확률순으로 계획 | — | 150자 |
 | unknowns-loop | unknowns loop · run the operating loop · know your unknowns | 운영 루프로 진행 · 풀 루프로 해줘 | **"loop"** — 맥락 없는 "loop"는 이 스킬이 아님 | 176자 |
 
@@ -85,10 +85,10 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 
 ## 충돌 지점과 해소 상태
 
-| # | 충돌 쌍 | 상태 (0.13.0 description 기준) |
+| # | 충돌 쌍 | 상태 (0.13.0 description 기준, [Unreleased]에서 바뀐 경계 문장 반영) |
 |---|---------|-------------------|
-| 1 | brainstorm "show me options" vs prototypes "design options" | **유지.** 경계 문장은 brainstorm 쪽에만 한 방향으로 둔다("NOT for design variants."). prototypes에는 반대 방향 문장을 넣지 않았다 — 양쪽에 넣으면 두 description 모두 예산을 쓰면서 같은 경계를 두 번 말하게 된다 |
-| 2 | blindspot vs teach-me ("my unknowns" 계열) | **문구 충돌 해소.** blindspot에서 "find my unknowns"가 삭제됐다. teach-me의 구분 문장은 0.13.0에서 "Not a plan investigation."으로 짧아져 남았다 — description 첫머리가 여전히 "Teach me my unknowns"이기 때문 |
+| 1 | brainstorm "show me options" vs prototypes "design options" | **유지.** 경계 문장은 brainstorm 쪽에만 한 방향으로 둔다("NOT for design options.", prototypes의 트리거 문구 "design options"와 같은 말). prototypes에는 반대 방향 문장을 넣지 않았다 — 양쪽에 넣으면 두 description 모두 예산을 쓰면서 같은 경계를 두 번 말하게 된다 |
+| 2 | blindspot vs teach-me ("my unknowns" 계열) | **문구 충돌 해소.** blindspot에서 "find my unknowns"가 삭제됐다. teach-me의 구분 문장은 description 첫머리가 여전히 "Teach me my unknowns"이기 때문에 남는다. 0.13.0에서 "Not a plan investigation."으로 짧아졌고, 설명 라운드(소유자 승인 2026-11-24)에서 blindspot description 첫머리의 이름표에 계획이라는 대상을 붙여 "Not a blind-spot pass on a plan."으로 바뀌었다(분야의 사각지대는 두 본문 모두 teach-me에 둔다) |
 | 3 | tweakable-plan "plan this" · "계획 세워줘" (범용 문구) vs native plan mode | **유지 — 경계는 본문에.** 0.13.0부터 description에 native plan mode 경계 문장이 없다(`.claude/rules/skill-writing.md` 18번). 본문 3단계 크기 게이트가 처리한다: 사용자가 바꾸고 싶어 할 결정이 없는 작업(코드면 예: 2파일 이하, 스키마·인터페이스·UX 계약 결정 없음)에는 문서를 쓰지 않고 2단계의 첫 줄과 질문, 실행 순서 단계만 답한다(코드면 native plan mode가 맞다고 말한다). 측정: `neg-one-file-tweakable-plan-defers-to-plan-mode`의 판사 그레이더 `defers-to-plan-mode` 0.13.0 1/1, 0.13.1 표 형식에서 저장된 응답 재채점 4/4(`CHANGELOG.md` 0.13.1) |
 | 4 | unknowns-loop "know your unknowns" = 플러그인 이름, 맥락 없는 "loop" | **유지.** 0.12.0에서 `loop`를 `unknowns-loop`로 바꿔 맨 이름 `loop`는 Claude Code 내장 인터벌 러너에 넘겼고, description 끝의 역트리거("A bare "loop" is NOT this.")가 남아 있다. 0.4.0에서 legacy 별칭 "field guide"/"필드 가이드"가 삭제됐다. 측정: 0.13.0 인터벌 케이스는 내장 `loop`를 띄웠다(`CHANGELOG.md` 0.13.0) |
 | 5 | interview "질문해줘" vs quiz "퀴즈" | **해소.** "질문해줘"가 interview description에서 삭제됐다. 남은 한국어 문구는 "인터뷰해줘"·"스펙 질문"으로, quiz와 겹치지 않는다 |
@@ -102,4 +102,4 @@ CI에서 강제한다. 반대 방향(description에만 있고 README에 없는 �
 - [trigger-eval-v0.3.0.md](trigger-eval-v0.3.0.md)의 "6/6 정발화, 오발화 0"은 **v0.3.0 시점의 긴
   description을 측정한 값**이다. 0.4.0과 0.5.1에서 description이 두 번 짧아졌으므로 그 수치는 현재
   상태의 측정치가 아니다 — 인용하지 말 것.
-- 현재 description(0.13.0, 0.13.1·0.13.2에서 변경 없음)의 측정치는 `CHANGELOG.md` 0.13.0이다: Claude Opus, `--effort medium`, 케이스당 1회, 트리거 22/22, 비코딩 22/22, unknown-cell 4/4, 네거티브 13/13. 이 실행은 기계 그레이더만 채점했고, `llm` 그레이더는 같은 릴리스의 전체 점검에서 별도 판사 모델이 채점했다. GPT-6.1 Sol 트리거 22/22는 `CHANGELOG.md` 0.13.2. [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md)는 0.5.1 description의 동결 기록이다.
+- 0.13.0 description(0.13.1·0.13.2에서 변경 없음)의 측정치는 `CHANGELOG.md` 0.13.0이다([Unreleased]에서 바뀐 description의 측정치는 그 릴리스의 **Checked**): Claude Opus, `--effort medium`, 케이스당 1회, 트리거 22/22, 비코딩 22/22, unknown-cell 4/4, 네거티브 13/13. 이 실행은 기계 그레이더만 채점했고, `llm` 그레이더는 같은 릴리스의 전체 점검에서 별도 판사 모델이 채점했다. GPT-6.1 Sol 트리거 22/22는 `CHANGELOG.md` 0.13.2. [trigger-eval-v0.5.1.md](trigger-eval-v0.5.1.md)는 0.5.1 description의 동결 기록이다.

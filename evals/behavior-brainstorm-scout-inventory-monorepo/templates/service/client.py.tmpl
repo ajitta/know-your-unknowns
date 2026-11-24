@@ -1,0 +1,16 @@
+"""The client other services use to call the @TITLE@ service over HTTP."""
+from libs.http import HttpClient
+
+
+class @CLASS@Client:
+    def __init__(self, http=None):
+        self.http = http or HttpClient("http://@ROUTE@.internal:@PORT@")
+
+    def get(self, item_id):
+        return self.http.get("/@ROUTE@/%s" % item_id)
+
+    def create(self, data):
+        return self.http.post("/@ROUTE@", data)
+
+    def update(self, item_id, changes):
+        return self.http.patch("/@ROUTE@/%s" % item_id, changes)

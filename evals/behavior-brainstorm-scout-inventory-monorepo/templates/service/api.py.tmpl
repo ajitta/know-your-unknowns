@@ -1,0 +1,44 @@
+"""HTTP routes for the @TITLE@ service, mounted under /@ROUTE@."""
+from libs.http import Router, json_response, not_found
+from services.@SVC@.schemas import ValidationError, validate_create, validate_update
+from services.@SVC@.service import @CLASS@Service
+
+router = Router(prefix="/@ROUTE@")
+service = @CLASS@Service()
+
+
+@router.get("/health")
+def health(request):
+    return json_response({"status": "ok"})
+
+
+@router.post("")
+def create(request):
+    try:
+        item = service.create(validate_create(request.json()))
+    except ValidationError as error:
+        return json_response({"error": str(error)}, status=400)
+    return json_response(item.to_dict(), status=201)
+
+
+@router.get("/<item_id>")
+def get(request, item_id):
+    item = service.get(item_id)
+    return not_found() if item is None else json_response(item.to_dict())
+
+
+@router.get("")
+def list_items(request):
+    limit = min(int(request.args.get("limit", 50)), 200)
+    return json_response([item.to_dict() for item in service.list(limit=limit)])
+
+
+@router.patch("/<item_id>")
+def update(request, item_id):
+    try:
+        item = service.update(item_id, validate_update(request.json()))
+    except ValidationError as error:
+        return json_response({"error": str(error)}, status=400)
+    except KeyError:
+        return not_found()
+    return json_response(item.to_dict())

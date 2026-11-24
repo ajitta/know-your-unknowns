@@ -1,0 +1,9 @@
+-- @TITLE@: the @SVC@ table. One JSONB document per record (libs/db.py); the
+-- document's fields are those of the record in models.py.
+CREATE TABLE @SVC@ (
+    id   TEXT PRIMARY KEY,
+    doc  JSONB NOT NULL
+);
+
+CREATE INDEX @SVC@_status_idx ON @SVC@ ((doc->>'status'));
+CREATE INDEX @SVC@_@FIELD1@_idx ON @SVC@ ((doc->>'@FIELD1@'));

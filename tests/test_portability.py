@@ -111,14 +111,11 @@ class PortabilityTest(unittest.TestCase):
             self.assertIn("\n" + line + "\n", (ROOT / readme).read_text(encoding="utf-8"), readme)
 
     def test_readme_conversation_sentence_is_the_one_measured(self):
-        # The sentence a user pastes for one conversation: both READMEs print the English
+        # The sentence a user pastes for one conversation is the sentence
+        # neg-open-weighty-pasted-sentence-en runs with; both READMEs print it, the English
         # sentence the 0.13.0 runs used (CHANGELOG 0.13.0), word for word, in a code block.
-        sentence = ("For this conversation: before doing a request whose result carries weight "
-                    "(it ships, is sent or is hard to undo), reply with only a 2-3-line read-back "
-                    "(the request, your assumptions, what counts as done) and wait for my "
-                    "confirmation; just do self-evident requests. When that work is finished, mark "
-                    "each done criterion with its evidence and ask me whether the result achieved "
-                    "the outcome.")
+        case = (ROOT / "evals/neg-open-weighty-pasted-sentence-en/prompt.md").read_text(encoding="utf-8")
+        sentence = re.search(r'^append_system_prompt: "(.*)"$', case, re.M).group(1)
         for readme in ("README.md", "README.ko.md"):
             self.assertIn("```\n" + sentence + "\n```", (ROOT / readme).read_text(encoding="utf-8"), readme)
 

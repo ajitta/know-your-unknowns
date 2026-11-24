@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: neg-unnamed-review-does-not-spawn-reviewer
+context:
+  scaffold_script: place-files.sh

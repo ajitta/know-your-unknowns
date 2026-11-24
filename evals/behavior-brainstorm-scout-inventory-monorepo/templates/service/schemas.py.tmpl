@@ -1,0 +1,32 @@
+"""Request validation for the @TITLE@ service's routes."""
+
+FIELDS = ("@FIELD1@", "@FIELD2@", "status")
+STATUSES = ("active", "inactive", "archived")
+MAX_LENGTH = 500
+
+
+class ValidationError(ValueError):
+    def __init__(self, field, message):
+        super().__init__("%s: %s" % (field, message))
+        self.field = field
+
+
+def validate_create(body):
+    if not isinstance(body, dict):
+        raise ValidationError("body", "must be a JSON object")
+    if not body.get("@FIELD1@"):
+        raise ValidationError("@FIELD1@", "is required")
+    return validate_update(body)
+
+
+def validate_update(body):
+    for name, value in body.items():
+        if name not in FIELDS:
+            raise ValidationError(name, "is not a field of @EVENT@")
+        if not isinstance(value, str):
+            raise ValidationError(name, "must be a string")
+        if len(value) > MAX_LENGTH:
+            raise ValidationError(name, "is longer than %d characters" % MAX_LENGTH)
+    if "status" in body and body["status"] not in STATUSES:
+        raise ValidationError("status", "must be one of %s" % ", ".join(STATUSES))
+    return body

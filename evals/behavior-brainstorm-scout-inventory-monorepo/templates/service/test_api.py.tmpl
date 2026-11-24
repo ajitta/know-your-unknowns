@@ -1,0 +1,6 @@
+from services.@SVC@ import api
+
+
+def test_routes_are_mounted_under_the_service_prefix():
+    assert api.router.prefix == "/@ROUTE@"
+    assert {route.method for route in api.router.routes} == {"GET", "POST", "PATCH"}

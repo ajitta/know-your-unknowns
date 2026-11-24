@@ -1,0 +1,8 @@
+# The worker processes each deploy starts, besides the services' APIs.
+processes:
+  - name: scheduler-worker
+    command: python -m libs.scheduler_worker
+    replicas: 1
+  - name: notifications-worker
+    command: python -m services.notifications.worker
+    replicas: 2

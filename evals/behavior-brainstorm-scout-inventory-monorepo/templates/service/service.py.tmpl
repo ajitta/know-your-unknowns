@@ -1,0 +1,33 @@
+"""@PURPOSE@"""
+from libs.events.bus import publish
+from services.@SVC@.models import @CLASS@
+from services.@SVC@.repository import @CLASS@Repository
+
+
+class @CLASS@Service:
+    def __init__(self, repository=None):
+        self.repository = repository or @CLASS@Repository()
+
+    def create(self, data):
+        item = @CLASS@.from_dict(data)
+        self.repository.save(item)
+        publish("@EVENT@.created", {"id": item.id, "@FIELD1@": item.@FIELD1@})
+        return item
+
+    def get(self, item_id):
+        return self.repository.get(item_id)
+
+    def list(self, limit=50, offset=0):
+        return self.repository.list(limit=limit, offset=offset)
+
+    def update(self, item_id, changes):
+        item = self.repository.get(item_id)
+        if item is None:
+            raise KeyError(item_id)
+        for name, value in changes.items():
+            if name not in ("@FIELD1@", "@FIELD2@", "status"):
+                raise ValueError("unknown field %r" % name)
+            setattr(item, name, value)
+        self.repository.save(item)
+        publish("@EVENT@.updated", {"id": item.id})
+        return item

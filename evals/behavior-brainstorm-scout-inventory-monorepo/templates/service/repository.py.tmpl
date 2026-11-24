@@ -1,0 +1,21 @@
+"""Storage for @PLURAL@, in the `@SVC@` table."""
+from libs.db import connection
+from services.@SVC@.models import @CLASS@
+
+
+class @CLASS@Repository:
+    table = "@SVC@"
+
+    def __init__(self, conn=None):
+        self.conn = conn or connection()
+
+    def save(self, item):
+        self.conn.upsert(self.table, item.id, item.to_dict())
+
+    def get(self, item_id):
+        row = self.conn.fetch(self.table, item_id)
+        return None if row is None else @CLASS@.from_dict(row)
+
+    def list(self, limit=50, offset=0):
+        rows = self.conn.scan(self.table, limit=limit, offset=offset)
+        return [@CLASS@.from_dict(row) for row in rows]

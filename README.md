@@ -479,8 +479,8 @@ one-line **Discovery** shares the same file: reality differs from what the plan 
 and no decision is needed yet.
 
 **Persistence**: entries are appended to a deviation log, created if it is missing:
-IMPLEMENTATION_NOTES.md at the project root for code work, otherwise DEVIATIONS.md beside
-the deliverable or a file you name; buy-in and quiz use that record.
+a file you name, otherwise IMPLEMENTATION_NOTES.md at the project root for code work or
+DEVIATIONS.md beside the deliverable; buy-in and quiz use that record.
 
 **Keep going, review at wrap-up**: where the plan is silent, Claude picks the conservative
 option, logs it and keeps going; a plan decision the deviation invalidates is marked superseded in the plan. At wrap-up, entries touching the work's structure, what others
