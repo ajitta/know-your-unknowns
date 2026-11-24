@@ -1,12 +1,14 @@
-# 다음 라운드 인계 — 0.13.3 준비
+# 다음 라운드 인계 — 0.13.3
 
 새 세션은 이 문서의 상태를 git·태그·릴리스·CI와 먼저 대조하고 시작한다. 이 문서는 작업 지시가 아니라 출발점이다.
 
 ## 상태
 
-0.13.3 준비(2026-11-24, 브랜치 `cleanup/stale-docs-2026-11-24`, 소유자의 병합과 태그 대기): 0.13.2 기준 저장소 문서 정리(감사 252건, 반박 8건, 고유 200건), 설명 여섯 개(quiz·interview는 "you"를 모델로, teach-me "Not a blind-spot pass on a plan.", blindspot "an improved prompt", brainstorm "NOT for design options.", deviation-log 자동 시작처럼 읽히던 구절 교체), deviation-log 2단계 코드 행(사용자가 지정한 파일 우선), 평가 케이스 20개, 다회차 러너의 한국어 요청 인식. quiz의 "or before merging"은 뺐다가 규칙대로 되살렸다(없이 0/3, 있으면 3/3). 실행 결과와 판정은 `CHANGELOG.md` 0.13.3, 결정과 실행 전 규칙은 `IMPLEMENTATION_NOTES.md` 2026-11-24 두 항목. 원자료는 `evals/results/round-2026-11-24/`(로컬, gitignore). GPT-6.1 Sol trigger는 태그 전에 커밋 `31249e4`에서 22/22(WSL, 격리한 홈, 모든 세션이 0.13.3 빌드의 `SKILL.md`를 읽음, 계정 사본 언급 0건).
+배포 중인 버전은 `unknowns--v0.13.3`이다(2026-11-24, PR #42, main `9ad4179`, 소유자 지시로 병합과 태그). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `20923e35…`, `know-your-unknowns-openai.zip` `c3013cc4…`), 릴리스 본문은 처음으로 워크플로가 태그 메시지로 채웠다(release.yml의 태그 확인 두 줄, 아래 '남은 일'). 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.3에 스킬 폴더 11개, 에이전트 2개였다. 원격 작업 브랜치 `cleanup/stale-docs-2026-11-24`는 지우지 않았다(아래 '규칙').
 
-배포 중인 버전은 `unknowns--v0.13.2`이다(2026-11-22, PR #40, main `dfb0bb9`). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `55c80740…`, `know-your-unknowns-openai.zip` `0233cc69…`), 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.2에 스킬 폴더 11개, 에이전트 2개였다. 릴리스 본문은 이번에도 워크플로가 머지 커밋 메시지로 채워서 태그 메시지로 바꿔 넣었다. 원격 작업 브랜치 `audit-fixes-2026-11-22`는 지우지 않았다.
+0.13.3에 들어간 것(2026-11-24): 0.13.2 기준 저장소 문서 정리(감사 252건, 반박 8건, 고유 200건), 설명 여섯 개(quiz·interview는 "you"를 모델로, teach-me "Not a blind-spot pass on a plan.", blindspot "an improved prompt", brainstorm "NOT for design options.", deviation-log 자동 시작처럼 읽히던 구절 교체), deviation-log 2단계 코드 행(사용자가 지정한 파일 우선), 평가 케이스 20개, 다회차 러너의 한국어 요청 인식. quiz의 "or before merging"은 뺐다가 규칙대로 되살렸다(없이 0/3, 있으면 3/3). 실행 결과와 판정은 `CHANGELOG.md` 0.13.3, 결정과 실행 전 규칙은 `IMPLEMENTATION_NOTES.md` 2026-11-24 두 항목. 원자료는 `evals/results/round-2026-11-24/`(로컬, gitignore). GPT-6.1 Sol trigger는 태그 전에 커밋 `31249e4`에서 22/22(WSL, 격리한 홈, 모든 세션이 0.13.3 빌드의 `SKILL.md`를 읽음, 계정 사본 언급 0건).
+
+0.13.2(2026-11-22, PR #40, main `dfb0bb9`): 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `55c80740…`, `know-your-unknowns-openai.zip` `0233cc69…`), 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.2에 스킬 폴더 11개, 에이전트 2개였다. 릴리스 본문은 이번에도 워크플로가 머지 커밋 메시지로 채워서 태그 메시지로 바꿔 넣었다. 원격 작업 브랜치 `audit-fixes-2026-11-22`는 지우지 않았다.
 
 0.13.2에 들어간 것(스킬 본문 열 개와 unknowns-scout, 설명은 그대로): deviation-log(Don't log에서 비밀번호 절 삭제), quiz(teach-back은 키의 요점 전부, 채점과 해설은 여섯 답 뒤, 입력이 없을 때의 문장), blindspot·brainstorm(scout는 직접 다 읽을 수 없을 만큼 많은 자료일 때), blindspot·scout(가정마다 held / wrong / still unchecked 판정을 돌려받음, 첫 초안은 모든 fix 적용), tweakable-plan(interview를 제안하고 같은 답에서 계획), unknowns-loop(1단계 제목, "nothing is scored" 삭제), prototypes(옵션 둘이면 triad 대신 차이 질문), reference(입력이 없을 때의 문장, Output을 5단계에 맞춤), buy-in·quiz·unknowns-loop(공용 deviation log 문장에 비코드 파일), teach-me·brainstorm·deviation-log·tweakable-plan(문구만). OpenAI 목록의 긴 설명 한 문장이 바뀌었다("labeled passes" 삭제).
 
@@ -29,8 +31,8 @@
 
 | 남은 일 | 누가 | 어디서 시작 |
 |---|---|---|
-| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드. 0.13.2에서 목록 문장 하나와 스킬 본문 열 개가, 0.13.3에서 설명 여섯 개와 예시 프롬프트의 `$unknowns:` 표기가 바뀌었다. 올릴 때 예시 프롬프트가 목록에서 어떻게 보이는지 본다 | 소유자(직접 하기로 함) | GitHub Release `unknowns--v0.13.3`(태그 뒤) |
-| claude.ai(Add marketplace 경로)가 0.13.3을 받았는지 확인(태그 뒤) | 소유자 | claude.ai Customize › Plugins |
+| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드. 0.13.2에서 목록 문장 하나와 스킬 본문 열 개가, 0.13.3에서 설명 여섯 개와 예시 프롬프트의 `$unknowns:` 표기가 바뀌었다. 올릴 때 예시 프롬프트가 목록에서 어떻게 보이는지 본다 | 소유자(직접 하기로 함) | GitHub Release `unknowns--v0.13.3` |
+| claude.ai(Add marketplace 경로)가 0.13.3을 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
 | 평가 실행이 계정에 만든 문서 "On-call rotation bot: requirements" 삭제(소유자가 직접 지우기로 함, 2026-11-17, 완료 기록 없음) | 소유자 | Claude Code `/artifacts` 또는 claude.ai |
 | 저장소 밖 판사 보조 도구의 프롬프트 고치기: "one line of reasoning per numbered criterion"이 Opus 5.5의 안전 분류기(`reasoning_extraction`)에 막힌다(0.13.2 릴리스에서 한 채점 항목이 두 번 막힘). 저장소 안의 다회차 판사 프롬프트(`evals/run-multiturn.py`)는 2026-11-24 정리에서 번호 기준마다 근거를 인용한 한 줄 판정을 묻도록 바꿨고, 채점기 둘(`deeper-not-padded`, `every-round-at-most-four`)은 "In your reasoning" 대신 판정 줄에 근거를 인용해 적게 했다. 같은 방향으로 바꾼다 | 소유자(저장소 밖) | 소유자의 사설 프로브 스크립트(저장소 밖) |
 | 동결 기록 `docs/protocol-alignment.md` 3행에 소유자의 개인 볼트 경로가 남아 있다. 동결 기록이라 2026-11-24 정리에서 그대로 두었다. 지울지 정한다 | 소유자 결정 | `docs/protocol-alignment.md` 3행 |
@@ -46,7 +48,7 @@
 | 붐비는 목록(다른 플러그인 스킬 60개, 목록이 설명 예산을 넘음)에서 blindspot이 로드되지 않는다: 2026-09-30 첫 측정과 2026-11-24 재측정(영어·한국어 6회 중 0회, 나머지 열 스킬은 60회 중 60회). 이름만 남는 조건에서 "blindspot"이라는 이름이 요청과 이어지지 않는 것으로 보인다(추정) | 소유자 결정 대기 | `CHANGELOG.md` 0.13.3 **Checked**, `docs/trigger-eval-crowd-2026-09-30.md` |
 | 닿지 않은 새 케이스 둘: `behavior-buy-in-autoloaded-reads-back`(3회 모두 스킬 로드 없음. 지난해 조건 그대로의 갱신 메일에는 승인자가 모르는 것이 없어 buy-in의 목적에 들지 않고, 요청을 명확하게 두면서 buy-in에 닿게 할 문구가 없다), `behavior-reference-asks-for-the-reference`(3회 중 1회 로드, 로드된 실행은 질문 하나). 권고: buy-in 케이스는 은퇴, reference 케이스는 정보용 | 소유자 결정 대기 | 두 케이스 폴더 |
 | `unknowns-loop-every-stage-to-outcome-check`는 다회차 러너의 사용자 차례 최대치 8을 다 썼다. 탐침 단계에 한 차례를 쓰는 실행은 성과 질문 전에 끊긴다. 본문을 고친 뒤 다시 돌리기 전에 러너 최대치와 케이스의 `user_turns`를 올린다 | 에이전트, 그 케이스를 다시 돌리기 전 | `evals/run-multiturn.py` `MAX_USER_TURNS` |
-| 릴리스 본문이 태그 메시지가 아니라 머지 커밋 메시지로 채워진다(0.13.0·0.13.1·0.13.2 세 번 손으로 바꿈). 2026-11-24 정리에서 `release.yml`의 `gh release create` 앞에, 태그를 원격에서 다시 받아 주석 태그인지 확인하는 두 줄을 넣었다(검증하지 않은 가설: checkout이 태그를 경량 태그로 남겨 `--notes-from-tag`가 커밋 메시지를 읽는다). 확인 줄이 실패하면 Release 단계는 릴리스를 만들기 전에 멈춘다. 0.13.3 릴리스에서 워크플로가 통과하는지, 본문이 태그 메시지인지 보고, 두 줄을 남길지와 '릴리스 절차'의 수동 확인을 뺄지 정한다 | 0.13.3 릴리스 때 | `.github/workflows/release.yml`, 아래 '릴리스 절차' |
+| 릴리스 본문: 0.13.0–0.13.2는 워크플로가 머지 커밋 메시지로 채워 손으로 바꿨다. 2026-11-24 정리에서 `release.yml`의 `gh release create` 앞에 태그를 원격에서 다시 받아 주석 태그인지 확인하는 두 줄을 넣었고, 0.13.3 릴리스에서 워크플로가 통과하고 본문이 태그 메시지와 글자까지 같았다(1회). 두 줄을 남길지와 '릴리스 절차'의 수동 확인을 뺄지 정한다. 권고: 두 줄은 남기고, 수동 확인은 한 릴리스 더 두었다가 뺀다 | 소유자 결정 대기 | `.github/workflows/release.yml`, 아래 '릴리스 절차' |
 
 ## 지켜볼 칸 (칸마다 최신 수치)
 
@@ -103,6 +105,6 @@
 - 소유자는 버전 간 A/B 비교를 원하지 않는다. 플러그인 자체의 실행에서 실패를 읽고 고친다.
 - 공개 텍스트(커밋 메시지, PR 제목·본문, README, CHANGELOG, docs)에 소유자 개인 약칭이나 내부 작업 용어를 쓰지 않는다.
 - main에 직접 커밋하지 않는다. 작업은 브랜치에서, 푸시·태그는 소유자 승인 뒤(AGENTS.md Release).
-- 기록이 인용하는 커밋이 squash 머지로 main에 없는 작업 브랜치는 지우지 않는다: `docs/dia-regula-audit`(0.12.4, `IMPLEMENTATION_NOTES.md` 2026-11-10이 `0cbbf69`·`e4f05dd`·`3221f7d`를 인용), `short-descriptions`(0.13.0, CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`·`02484af`·`c515a4d`를 인용).
+- 기록이 인용하는 커밋이 squash 머지로 main에 없는 작업 브랜치는 지우지 않는다: `docs/dia-regula-audit`(0.12.4, `IMPLEMENTATION_NOTES.md` 2026-11-10이 `0cbbf69`·`e4f05dd`·`3221f7d`를 인용), `short-descriptions`(0.13.0, CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`·`02484af`·`c515a4d`를 인용), `cleanup/stale-docs-2026-11-24`(0.13.3, `IMPLEMENTATION_NOTES.md` 2026-11-24가 `2b92dd5`와 실행 전 규칙을 담은 `d65123b`를, CHANGELOG 0.13.3이 Sol을 돌린 `31249e4`를 인용).
 
 0.13.1 이전의 인계 문단, 끝난 일 서술, 릴리스별 지켜볼 칸 목록(`IMPLEMENTATION_NOTES.md` 2026-11-17 항목이 가리키는 목록 포함)은 2026-11-24 정리에서 지웠다. 커밋 `d9daf07`의 `docs/handoff.md`에 있다.
