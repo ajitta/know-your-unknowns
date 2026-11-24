@@ -4,6 +4,10 @@
 
 Owner decisions on the open items left after 0.13.3 (owner approval 2026-11-24; choices and the run rules written before the runs in `IMPLEMENTATION_NOTES.md`, 2026-11-24).
 
+### Changed
+
+- unknowns-loop, step 3 stage a: the Run cell gives the order for a user who can describe the task but lacks the field's vocabulary: "the **blindspot** skill; the **teach-me** skill first when the user cannot yet describe the task, and after the **blindspot** skill when the user can describe the task but lacks the field's vocabulary". The cell had named only the first case, and runs that knew no terms put a vocabulary lesson before the investigation of the user's own situation (`behavior-unknowns-loop-terms-only`: 0 of 6 in the 0.13.3 round; 1 of 8 saved replies passes the clarified grader).
+
 ### Changed (developer-only)
 
 - blindspot and brainstorm scout cases (`behavior-blindspot-scout-many-contracts`, `behavior-brainstorm-scout-inventory-monorepo`): the spawn grader and the three scout-path graders of each case are indicators (`weight: 0`; the scout-path graders pass when no scout ran). Owner ruling: "more sources than you can read in full" is the model's own judgment of what it can read; a direct investigation that reaches the result conforms, a spawn conforms too, and no case asserts a spawn from the size of the material. No skill text changes.
@@ -13,6 +17,23 @@ Owner decisions on the open items left after 0.13.3 (owner approval 2026-11-24; 
 - New case `behavior-buy-in-reviewer-packet-from-conversation`: buy-in whose plan, criteria, outcome, deviation log and status exist only in the user's message, with the Agent tool allowed; it grades what the independent-reviewer's packet carries and what its report says it could not check.
 - `evals/run-multiturn.py`: `MAX_USER_TURNS` 8 → 10, and `unknowns-loop-every-stage-to-outcome-check` uses 10, so a run that spends a turn on the probe reaches the outcome question.
 - `.github/workflows/release.yml`: the annotated-tag check prints an `::error::` when it fails. The release procedure no longer checks the release body by hand: run logs show `actions/checkout` overwriting the annotated tag with a lightweight ref and the workflow's re-fetch restoring it.
+
+### Checked (developer-only)
+
+Claude Code 2.1.331, Opus 5.5 (`ANTHROPIC_MODEL=claude-opus-5-5`), `--effort medium`, isolated config, 2026-11-24, under keep/revert rules committed before the runs (`IMPLEMENTATION_NOTES.md`, 2026-11-24). Shipped candidates ran on a copy of the build with only those sentences changed. Single-turn `llm` graders were judged in this session, one judge per item and an independent second judge on every fail (no verdict was disputed); multi-turn ones by `run-multiturn.py --judge`. Results are in `evals/results/round-2026-11-24b/` (git-ignored).
+
+- Before the runs, one reader who did not write the candidates found phrases with two readings in both shipped candidates; the first wordings were revised and never run.
+- unknowns-loop stage a (kept): a second reader, after the runs, found the kept cell's "lacks only the field's words" open to two readings and a second name for vocabulary; the revised wording ran again (terms-only 2 of 2; the six single-turn neighbours and `unknowns-loop-criteria-unanswered` passed every grader) and ships byte-identical to the text those runs used. The first wording's runs: `behavior-unknowns-loop-terms-only` passed 2 of 2 on the candidate; the clarified grader passes 1 of 8 saved replies of the current text (the 0.13.2 release run), second judges agreeing on the seven fails. Neighbours, one run each: `behavior-unknowns-loop-cannot-describe` (teach-me still first), `-finds-noncode-log`, `-keeps-investigation`, `-probe-fails`, `noncode-en-unknowns-loop` and `noncode-ko-unknowns-loop` passed every grader; multi-turn `unknowns-loop-criteria-unanswered` passed. `unknowns-loop-every-stage-to-outcome-check` passed `stages-run-in-order` (the stage-d probe asked of the user), `deviation-logged` and `outcome-check-ends-the-loop`, which the 0.13.3 round had missed, and missed `done-criteria-carry-to-verification` (the step-5 check gave no status for what must not break or for the cost, and marked the email criterion met), which the 0.13.3 run had passed; 2 more runs passed it both times (a watch cell), with `stages-run-in-order` 2 of 3 and `deviation-logged` 3 of 3 over the three runs.
+- teach-me 7b (reverted): the candidate "Put in the draft only the terms, presets and details the user gave or picked …" passed `draft-with-assumptions` in 1 of 3 runs of `teach-me-stops-at-draft` (the drafts kept their concrete settings; nothing was built in 3 of 3). With 1 of 7 on the current sentence and 0 of 2 on the widened one, the item is closed as a known miss and the grader stays scored.
+- buy-in 4b (reverted): `behavior-buy-in-reviewer-packet-from-conversation`, two baseline runs and two with a sentence asking for conversation-only items "copied rather than retold and marked with where it came from". The reviewer was called in 4 of 4, and every source that existed only in the user's message reached the packet as content in 4 of 4, with no reference in its place. The user's status report was given as a claim to check in 1 of 4 (baseline 1 of 2, with the sentence 0 of 2) and the reviewer treated it as verified or as fact in the same 3 runs; the doc carried what the review found in 4 of 4 and no packet held the producer's own summary. The sentence reverted under the rule, and the status-as-claim question went to the open-items table.
+- Corrected graders: the four buy-in outcome graders pass 16 of 16 saved Korean replies and 2 of 2 English ones (the prediction written before was that the `st-g3` `trigger-ko-buy-in` replies would stay failed; they passed, listing the missing evidence as open questions), and one new run of each of the four cases passed. The Korean buy-in body finding is closed.
+- `behavior-tweakable-plan-autoloaded-weighty-plan`: loaded tweakable-plan and passed `plans-through-the-size-gate` (1 run, steps one line each).
+
+### Not measured
+
+- How the buy-in reviewer handles material built over earlier turns (a plan or a deviation log made by the model in the conversation): the multi-turn runner cannot grade an Agent call's packet.
+- Whether buy-in waits for the reviewer in an interactive session, where Claude Code cannot wait for a background subagent while fork mode is on; every eval runs `claude -p`.
+- The neighbours of the reverted candidates (teach-me's single-turn cases, the buy-in reviewer cases) were not run.
 
 ## 0.13.3 — 2026-11-24
 
