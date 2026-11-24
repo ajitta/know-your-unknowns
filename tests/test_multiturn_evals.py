@@ -174,6 +174,10 @@ class MultiturnGradingTest(unittest.TestCase):
         self.assertIsNone(mt.parse_overall("no verdict"))
         self.assertTrue(mt.asks_something("Reply with steal or skip by number."))
         self.assertFalse(mt.asks_something("Here is the prompt.\n```\nWhat next?\n```"))
+        # A Korean polite request with no question mark still waits for the user.
+        self.assertTrue(mt.asks_something(
+            "\uace0\uce60 \ubd80\ubd84\uc774 \uc788\uc73c\uba74 \ubc88\ud638\ub85c "
+            "\uc54c\ub824 \uc8fc\uc138\uc694."))
 
     def test_judge_and_user_prompts_hide_tools(self):
         data = transcript("Done.")

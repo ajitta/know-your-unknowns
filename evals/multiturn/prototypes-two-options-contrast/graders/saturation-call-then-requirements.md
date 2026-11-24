@@ -15,8 +15,8 @@ Judge the assistant replies after the user's first reactions to the two versions
 of these must hold:
 
 1. Before the user asks for the final requirements list, the assistant makes the
-   saturation call itself. The user reacted to the two versions with steals, skips and
-   reasons, so the two drew new reactions and the call offers about two more versions
+   saturation call itself. The user reacted to the two versions with steals, skips and a
+   contrast between them, so the two drew new reactions and the call offers about two more versions
    along an axis still splitting the user's opinion. A note in the first reply that the
    set can grow is not that call, and neither is a statement that the set is covered
    made only after the user said nothing new came up.

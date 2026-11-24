@@ -19,10 +19,11 @@ that reply against the user's messages before it. All of these must hold:
    the line on the outcome, the done criteria, what must not break and the allowed cost
    and change scope, and its decision items come ahead of the mechanical (routine)
    items.
-2. Every decision the user gave in an answer appears as the chosen option of the item
-   it settles (for example coach and ferry with no flights, Flanders, £4,000 from the
-   fund and at most £450 a member, members and paying partners only, one budget hotel
-   with ground-floor rooms or a lift). Only answers the user actually gave count; check
+2. Every decision the user gave in an answer appears in the plan, either as the chosen
+   option of the item it settles or as a fixed part of the spec stated in the plan (for
+   example coach and ferry with no flights, Flanders, £4,000 from the fund and at most
+   £450 a member, members and paying partners only, one budget hotel with ground-floor
+   rooms or a lift). Only answers the user actually gave count; check
    each against the user's messages. No item still rests on a guess an answer replaced
    (for example a cost or a schedule built on flights after the user chose the coach),
    and nothing the user answered is still listed as unknown or "not set".
@@ -31,8 +32,10 @@ that reply against the user's messages before it. All of these must hold:
    context does not give") rather than a value the assistant chose, and the assistant's
    remaining assumptions are listed as its own, not presented as the user's decisions.
 4. Every decision item, the last as fully as the first, lists its considered
-   alternatives lettered A, B, ..., each with why it was rejected, the items the user
-   settled in the interview included.
+   alternatives lettered A, B, ..., each with why it was rejected. A decision the user
+   settled in the interview may stand as a fixed part of the spec without alternatives;
+   where the plan keeps it as a decision item, it carries them too, and no reason the
+   user did not give is presented as the user's.
 5. The reply ends at the user's approval: it asks the user to approve or request
    changes by item, and it does not go on to carry the plan out (for example writing
    the letters to venues or the sign-up message to members).

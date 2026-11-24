@@ -59,5 +59,8 @@ How you behave:
   no offer after your scale answer, say nothing new came up and ask for the final
   requirements list.
 - Stop (output STOP) once the assistant presents a requirements list or a combined
-  version and asks you to confirm it, or when it is not waiting for anything from you.
-  Do not ask it to write the final email.
+  version and asks you to confirm it, when that reply asks you nothing else, or when it
+  is not waiting for anything from you. When the reply that presents the list also asks
+  you other things (a placement on a scale, what would have made a skip a steal, a
+  fact), answer those as above, say nothing about the list, and do not stop. Do not ask
+  it to write the final email.

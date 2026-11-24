@@ -21,7 +21,7 @@ The blindspot skill's step 2 says what the packet holds: "the user's original pr
 
 1. The packet carries the user's message verbatim: its sentences appear word for word, quoted or set apart from the assistant's own text. Line breaks, quotation marks and Markdown may differ. A summary or a paraphrase does not meet this criterion.
 2. The packet lists the user's two assumptions, (a) every agreement lets the buyer change the payment terms by written notice and (b) every supplier is on 30-day terms today, and at least one assumption of the assistant's own, set apart from the user's (labelled as the assistant's, or under ⑤). It asks for the assumptions to be checked first, before the rest of the investigation.
-3. The packet names the sources (contracts/, and policies/ or notes/ or both) and the target area (the payment terms and how they can be changed, or a part of that), and says where to start, for example clause 7 of the agreements or the listed assumptions.
+3. The packet names the sources (contracts/, and policies/ or notes/ or both) and the target area (the payment terms and how they can be changed, or a part of that), and says where to start, for example the agreements' payment clauses (clause 7 in some of them), their clauses on changing the agreement, or the listed assumptions.
 4. The packet asks for every listed assumption to come back marked held or wrong, with its evidence and status (confirmed or inferred), or marked still unchecked; and it also asks for a finding table and an improved prompt draft.
 
 Fail if any criterion is not met.

@@ -40,7 +40,7 @@
 | 파일 | 무엇 | 언어 | 무엇이 만들었나 | 갱신·재생성 |
 |------|------|------|----------------|------------|
 | [README.md](README.md) | 이 색인 | 한국어 | 수기 | docs/에 파일이 늘거나 줄 때, 문서를 동결할 때 |
-| [handoff.md](handoff.md) | 0.13.2 이후 다음 라운드 인계: 상태, 남은 일(소유자 할 일·소유자 결정·에이전트 작업을 한 표에), 지켜볼 칸, 릴리스 절차, 규칙 | 한국어 | 수기 | 릴리스 뒤마다 상태 절을 git·태그·릴리스와 대조해 다시 쓴다. 끝난 일은 CHANGELOG.md·IMPLEMENTATION_NOTES.md에만 남긴다 |
+| [handoff.md](handoff.md) | 0.13.3 준비와 다음 라운드 인계: 상태, 남은 일(소유자 할 일·소유자 결정·에이전트 작업을 한 표에), 지켜볼 칸, 릴리스 절차, 규칙 | 한국어 | 수기 | 릴리스 뒤마다 상태 절을 git·태그·릴리스와 대조해 다시 쓴다. 끝난 일은 CHANGELOG.md·IMPLEMENTATION_NOTES.md에만 남긴다 |
 | [index.html](index.html) | GitHub Pages 소개 페이지: 설치, 시작 질문, 작업 루프 | 영어 | 수기 | README의 스킬 목록이나 설치 경로가 바뀔 때 |
 | [skill-authoring-guide.md](skill-authoring-guide.md) | Anthropic 스킬 작성 모범 사례를 이 저장소에 대응시킨 표, 지원 모델·effort, 실행 횟수 표, 스킬 변경 체크리스트 | 영어 | 수기(2026-11-03 공식 문서와 대조) | 공식 문서나 지원 모델·실행 횟수 정책이 바뀔 때 |
 | [open-questions.md](open-questions.md) | 0.9.2까지의 결정 기록(A)과 재검증 대기(B). 왜 그렇게 결정했는지가 본문 | 한국어 | 수기 | **동결**(2026-11-24) — 0.9.2까지의 기록. B3·B4·B7은 2026-11-24에 닫았고 남은 B8은 handoff.md 남은 일 표로 옮겼다. 0.10.0 이후의 결정은 IMPLEMENTATION_NOTES.md·handoff.md, 측정은 CHANGELOG **Checked** 절 |
@@ -66,7 +66,7 @@
 
 배경. 두 파일은 합쳐 약 200 KB다. 0.10.0 전에는 마켓플레이스 설치가 저장소 전체를 플러그인
 캐시로 복사했으므로 이 리포트들도 설치본에 따라 들어갔다(0.9.2 설치본 2.0 MB). 0.10.0부터
-설치되는 플러그인은 생성물 `plugins/unknowns/`뿐이다(0.13.2 기준 29파일, 107,014 B). 자체 마켓플레이스
+설치되는 플러그인은 생성물 `plugins/unknowns/`뿐이다(0.13.3 기준 29파일, 107,096 B). 자체 마켓플레이스
 `.claude-plugin/marketplace.json`은 `./plugins/unknowns`를, 카탈로그
 [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)는 `git-subdir`
 `plugins/unknowns`를 가리킨다. 두 릴리스 zip(`releases/know-your-unknowns.zip`,

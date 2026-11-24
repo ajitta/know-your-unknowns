@@ -3,7 +3,7 @@ name: quiz
 description: >
   Comprehension quiz — explain the work, then quiz the user so they can defend it at
   handover; runs even when a quiz is easy to write. Use on "quiz me", "test my
-  understanding".
+  understanding", or before merging.
 ---
 
 # Quiz — Post-Work Comprehension Check (Stay in the Loop)

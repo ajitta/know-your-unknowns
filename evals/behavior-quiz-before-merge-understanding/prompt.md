@@ -1,5 +1,5 @@
 ---
-description: "quiz from the source talk's own request (example #11), with no 'quiz' or 'test my understanding': the description no longer says 'or before merging', so this measures whether the merge-time comprehension request still reaches the skill"
+description: "quiz from the source talk's own request (example #11), with no 'quiz' or 'test my understanding': the description says 'or before merging' again after this request loaded quiz in 0 of 3 runs without it and 3 of 3 with it (2026-11-24), so this measures that the merge-time comprehension request reaches the skill"
 tags: [behavior, en, quiz]
 runs: 3
 max_turns: 6
