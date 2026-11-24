@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-Owner decisions on the open items left after 0.13.3 (owner approval 2026-11-24; choices and the run rules written before the runs in `IMPLEMENTATION_NOTES.md`, 2026-11-24).
+Owner decisions on the open items left after 0.13.3, in two rounds (owner approvals 2026-11-24; choices and the run rules written before the runs in the two newest `IMPLEMENTATION_NOTES.md` entries, 2026-11-24).
 
 ### Changed
 
@@ -18,6 +18,16 @@ Owner decisions on the open items left after 0.13.3 (owner approval 2026-11-24; 
 - `evals/run-multiturn.py`: `MAX_USER_TURNS` 8 → 10, and `unknowns-loop-every-stage-to-outcome-check` uses 10, so a run that spends a turn on the probe reaches the outcome question.
 - `.github/workflows/release.yml`: the annotated-tag check prints an `::error::` when it fails. The release procedure no longer checks the release body by hand: run logs show `actions/checkout` overwriting the annotated tag with a lightweight ref and the workflow's re-fetch restoring it.
 
+- `evals/run-manual.py --crowd`: the results directory is absolute, so the filler plugin loads when `--out` is relative; a crowd run whose CLI log does not show the filler plugin is void (reported `FAILED`, never scored); each crowd run records the CLI's listing lines and the session's `plugin_errors`.
+- New multi-turn case `unknowns-loop-blindspot-then-teach-me`: a user who can describe the task but knows no audio terms picks prompt fixes from the blind-spot pass and terms from the vocabulary explainer; `hands-on-both-picks` judges whether the reply that opens the next stage builds on a request carrying both sets of picks or says which are still to apply. A gate of the 0.13.4 release check.
+- `behavior-buy-in-reviewer-packet-from-conversation`: `doc-carries-what-the-review-found` criterion 1 judges every status figure in the doc, whatever the reviewer concluded: given as the user's figure with a record the user mentioned or the doc asks for, or listed as unconfirmed; a record the user never mentioned does not count. Two graders quote step 4b in words that fit both its old and its new wording.
+- `behavior-buy-in-autoloaded-reads-back` is informative: buy-in loaded in 0 of 3 runs, and a request clear to both sides gives buy-in nothing to surface. Its regex `whole-reply-fits-a-read-back` is `weight: 0`.
+- `behavior-reference-asks-for-the-reference` names the skill ("Use the reference skill."): without the name, reference loaded in 1 of 3 runs. It stays scored.
+- README (both languages), "What works where" and the agents section: the agents run in Claude Code and, by Anthropic's documentation, in Cowork (not checked with this plugin); chat skips them; a general subagent that a host starts in the reviewer's place, as Codex did in recorded runs, is not buy-in's independent check.
+- `docs/protocol-alignment.md` (frozen): line 3 names its source as the owner's notes outside the repository in place of a personal notes location, with a dated line in its banner. The rest is unchanged; git history keeps the earlier text.
+- The teach-back citation of the frozen `docs/value-contract.md` is identified (Kidd 1987, pp. 91–108); what it supports is recorded in `IMPLEMENTATION_NOTES.md`, and the record is unchanged.
+- `evals/README.md`: the case counts (105 single-turn; 104 had missed `behavior-buy-in-reviewer-packet-from-conversation`) and the notes on the changed cases.
+
 ### Checked (developer-only)
 
 Claude Code 2.1.331, Opus 5.5 (`ANTHROPIC_MODEL=claude-opus-5-5`), `--effort medium`, isolated config, 2026-11-24, under keep/revert rules committed before the runs (`IMPLEMENTATION_NOTES.md`, 2026-11-24). Shipped candidates ran on a copy of the build with only those sentences changed. Single-turn `llm` graders were judged in this session, one judge per item and an independent second judge on every fail (no verdict was disputed); multi-turn ones by `run-multiturn.py --judge`. Results are in `evals/results/round-2026-11-24b/` (git-ignored).
@@ -28,8 +38,11 @@ Claude Code 2.1.331, Opus 5.5 (`ANTHROPIC_MODEL=claude-opus-5-5`), `--effort med
 - buy-in 4b (reverted): `behavior-buy-in-reviewer-packet-from-conversation`, two baseline runs and two with a sentence asking for conversation-only items "copied rather than retold and marked with where it came from". The reviewer was called in 4 of 4, and every source that existed only in the user's message reached the packet as content in 4 of 4, with no reference in its place. The user's status report was given as a claim to check in 1 of 4 (baseline 1 of 2, with the sentence 0 of 2) and the reviewer treated it as verified or as fact in the same 3 runs; the doc carried what the review found in 4 of 4 and no packet held the producer's own summary. The sentence reverted under the rule, and the status-as-claim question went to the open-items table.
 - Corrected graders: the four buy-in outcome graders pass 16 of 16 saved Korean replies and 2 of 2 English ones (the prediction written before was that the `st-g3` `trigger-ko-buy-in` replies would stay failed; they passed, listing the missing evidence as open questions), and one new run of each of the four cases passed. The Korean buy-in body finding is closed.
 - `behavior-tweakable-plan-autoloaded-weighty-plan`: loaded tweakable-plan and passed `plans-through-the-size-gate` (1 run, steps one line each).
+- Correction to 0.13.3 **Checked**: its crowded-listing figures (blindspot 0 of 6, the other ten skills 60 of 60) come from a listing of this plugin and Claude Code's own skills, 28 skills over a forced 6,000-character budget, not from 60 filler skills. `--out` was relative, the runner passed the filler path under it to runs that start in a temporary directory, and every run logged 28 skills with only this plugin loaded. Which descriptions that listing kept was not recorded. The released 0.13.3 section is left as it was.
 
 ### Not measured
+
+- On Codex, whether a buy-in doc's "independent review" wording matches a subagent that ran: the 0.13.3 Korean Sol run's doc states a review result, and its exec stream shows no wait.
 
 - How the buy-in reviewer handles material built over earlier turns (a plan or a deviation log made by the model in the conversation): the multi-turn runner cannot grade an Agent call's packet.
 - Whether buy-in waits for the reviewer in an interactive session, where Claude Code cannot wait for a background subagent while fork mode is on; every eval runs `claude -p`.

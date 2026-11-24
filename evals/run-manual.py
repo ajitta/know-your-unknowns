@@ -295,7 +295,7 @@ def crowd_plugin(count, into):
     os.makedirs(os.path.join(root, ".claude-plugin"), exist_ok=True)
     with open(os.path.join(root, ".claude-plugin", "plugin.json"), "w",
               encoding="utf-8") as handle:
-        json.dump({"name": "evalcrowd", "version": "0.0.0",
+        json.dump({"name": CROWD_PLUGIN_NAME, "version": "0.0.0",
                    "description": "Filler skills for the crowded-listing eval arm."},
                   handle)
     for index in range(count):
@@ -311,7 +311,9 @@ def crowd_plugin(count, into):
 
 LISTING_OVER = re.compile(
     r"Skill listing over budget: (\d+) skills, (\d+) chars > (\d+) budget")
+LISTING_LINE = re.compile(r"Skill listing[^\n]*")
 INLINE_PLUGIN = re.compile(r"Loaded inline plugin from path: (\S+)")
+CROWD_PLUGIN_NAME = "evalcrowd"
 
 
 def listing_report(debug_file):
@@ -327,10 +329,19 @@ def listing_report(debug_file):
         "skills": int(over.group(1)) if over else None,
         "chars": int(over.group(2)) if over else None,
         "budget_chars": int(over.group(3)) if over else None,
+        # the CLI's own lines about the listing, whole, as it wrote them
+        "listing_lines": sorted(set(line.strip() for line in LISTING_LINE.findall(text))),
         # every plugin the CLI loaded, including synced or managed ones that still
         # load with an empty config dir (and this plugin and the filler plugin)
         "plugins_loaded": sorted(set(INLINE_PLUGIN.findall(text))),
     }
+
+
+def crowd_loaded(listing):
+    """True when the CLI logged the filler plugin as loaded. A crowd run without it
+    did not test a crowded listing: on 2026-11-24 a relative --out left the filler
+    path unresolved from the run's temporary cwd, and every run listed 28 skills."""
+    return CROWD_PLUGIN_NAME in ((listing or {}).get("plugins_loaded") or [])
 
 
 HANDBACK_STUB = re.compile(r'delivered to you as a message from "([0-9a-f]+)" \(its SubagentHandback call\)')
@@ -489,6 +500,7 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
         agent_ids, agent_reports = set(), []
         model_used = None
         mcp_servers = None
+        plugin_errors = None
         result_error = False
         for line in stdout.splitlines():
             line = line.strip()
@@ -505,6 +517,8 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
                 # what the session could reach beyond its tools: [] in an isolated run
                 mcp_servers = [str(server.get("name")) for server in event["mcp_servers"]
                                if isinstance(server, dict)]
+            if event.get("type") == "system" and isinstance(event.get("plugin_errors"), list):
+                plugin_errors = event["plugin_errors"]
             if event.get("type") == "result" and event.get("is_error") is True:
                 result_error = True
             if event.get("type") == "result" and isinstance(event.get("result"), str):
@@ -539,6 +553,9 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
         # makes no tool calls either; it must not be scored as "did not fire". Its
         # message may still be text ("Not logged in"), so the message is not the test.
         failed = not timed_out and not tool_calls and (code != 0 or result_error)
+        # a crowd run whose filler plugin did not load is void, not a trigger miss
+        crowd_missing = bool(crowd_root) and not crowd_loaded(listing)
+        failed = failed or crowd_missing
 
         created = sorted(snapshot(sandbox) - before)
         file_text = {}
@@ -554,7 +571,9 @@ def run_once(case, with_plugin, root, claude_bin, crowd_root=None, budget_fracti
             "exit_code": code,
             "timed_out": timed_out,
             "failed": failed,
+            "crowd_missing": crowd_missing,
             "listing": listing,
+            "plugin_errors": plugin_errors,
             "model": model_used,
             "mcp_servers": mcp_servers,
             "effort": case.get("effort"),
@@ -929,8 +948,9 @@ def main():
     if shutil.which(args.claude) is None and not os.path.exists(args.claude):
         raise SystemExit("claude binary not found: %s" % args.claude)
 
-    out_dir = args.out or os.path.join(
-        HERE, "results", "manual-" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()))
+    # absolute, so the filler plugin written under it resolves from each run's temporary cwd
+    out_dir = os.path.abspath(args.out or os.path.join(
+        HERE, "results", "manual-" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())))
     os.makedirs(out_dir, exist_ok=True)
 
     arms = ["with", "without"] if args.arm == "both" else [args.arm]
@@ -979,6 +999,10 @@ def main():
                         ("within budget" if listing.get("debug_log") else "no debug log"),
                         ("; plugins loaded: %s" % ", ".join(listing["plugins_loaded"]))
                         if listing.get("plugins_loaded") else ""))
+                    if run.get("crowd_missing"):
+                        print("      void: the filler plugin did not load")
+                if run.get("plugin_errors"):
+                    print("      plugin errors: %s" % json.dumps(run["plugin_errors"])[:300])
                 for grader in scored["graders"]:
                     mark = {True: "PASS", False: "FAIL", None: "JUDGE"}[grader["passed"]]
                     note = " (display-only)" if grader["display_only"] else ""

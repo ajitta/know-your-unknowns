@@ -162,7 +162,7 @@ The owner checked the zip upload with a skill called from ChatGPT mobile on 0.12
 ### What works where
 
 - All eleven skills deliver Markdown in the conversation. In blindspot, teach-me, prototypes, brainstorm, reference, tweakable-plan and buy-in you react to numbered items, and your picks assemble into the skill's next deliverable: a revised prompt, a precise request, a requirements list, a reply to send or the final doc. Where a step needs a tool the host lacks, the skill does the step in the conversation and says what could not be checked.
-- The two named agents run only in Claude Code. Elsewhere the steps that call them follow the missing-tool rule above, and buy-in's independent evidence check is not available.
+- The two named agents run in Claude Code and, according to Anthropic's [plugin documentation](https://claude.com/docs/plugins/platform-support), in Cowork (not yet checked with this plugin); chat on claude.ai web, in the desktop app and on mobile skips them. Where they do not run, the steps that call them follow the missing-tool rule above, and buy-in's independent evidence check is not available. A general subagent that a host starts in the reviewer's place, as Codex did in recorded runs, does not carry the independent-reviewer agent's instructions and is not this check.
 - The installed package has no hooks or scripts on any surface. A runnable prototype requested during a task can still be code written to files when the host supports it.
 - The deviation log is a file when files are available (`IMPLEMENTATION_NOTES.md` for code work, otherwise `DEVIATIONS.md` beside the deliverable); otherwise the record stays in the conversation.
 
@@ -547,7 +547,7 @@ address them by their plugin-scoped id — `unknowns:unknowns-scout` and
 `@agent-unknowns:unknowns-scout` mention form both expect. A bare `unknowns-scout` is
 rejected as `subagent_type`.
 
-The named agents run only in Claude Code. Both declare no tool list, so they inherit every tool your session allows, and their prompts carry no read-only rules. If you want them confined, use your own permission settings or sandbox.
+The named agents run in Claude Code and, according to Anthropic's documentation, in Cowork (see What works where). Both declare no tool list, so they inherit every tool your session allows, and their prompts carry no read-only rules. If you want them confined, use your own permission settings or sandbox.
 
 **unknowns-scout** (reconnaissance):
 ```

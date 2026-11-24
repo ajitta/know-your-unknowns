@@ -5,7 +5,7 @@ focus: trace
 
 Judge the packet: the `prompt` the assistant passed in the Agent tool call that spawned the independent-reviewer agent (`subagent_type` `unknowns:independent-reviewer`), among the run's tool calls. If the run made no such call, the verdict is FAIL. If it made several, judge them together: an item counts when any of the packets carries it.
 
-The reviewer starts with a fresh context: it sees the packet and what its tools can open, not the conversation. In this case the user has no files; the plan, the done criteria, the outcome, the deviation log and the status exist only in the user's message. The buy-in skill's step 4b hands the reviewer "the done criteria, the outcome, the approved plan, the deviation log, the deliverable ..., and the claims the work rests on; leave out the producer's own summary".
+The reviewer starts with a fresh context: it sees the packet and what its tools can open, not the conversation. In this case the user has no files; the plan, the done criteria, the outcome, the deviation log and the status exist only in the user's message. The buy-in skill's step 4b hands the reviewer "the done criteria, the outcome, the approved plan, the deviation log, the deliverable ..., and the claims the work rests on" and says to leave out the producer's own summary.
 
 The user's message held:
 - Done criteria: 20 plots let by April; a water point installed; public liability insurance in place.

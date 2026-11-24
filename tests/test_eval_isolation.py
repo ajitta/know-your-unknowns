@@ -87,6 +87,27 @@ class SandboxDirTest(unittest.TestCase):
             self.assertNotIn(".claude", parts)
             self.assertTrue(os.path.isdir(made))
 
+    def test_crowd_run_needs_the_filler_plugin_in_the_cli_log(self):
+        manual = RUNNERS[0]
+        folder = tempfile.mkdtemp(prefix="unknowns-test-crowd-")
+        self.addCleanup(shutil.rmtree, folder, ignore_errors=True)
+        log = os.path.join(folder, "eval-debug.log")
+        line = ("Skill listing over budget: 71 skills, 35443 chars > 6000 budget"
+                " - descriptions will be truncated.")
+        with open(log, "w", encoding="utf-8") as handle:
+            handle.write("x Loaded inline plugin from path: evalcrowd\n"
+                         "x Loaded inline plugin from path: unknowns\nx %s\n" % line)
+        listing = manual.listing_report(log)
+        self.assertEqual(listing["skills"], 71)
+        self.assertEqual(listing["listing_lines"], [line])
+        self.assertTrue(manual.crowd_loaded(listing))
+        # 2026-11-24: the filler path did not resolve, and only this plugin loaded
+        with open(log, "w", encoding="utf-8") as handle:
+            handle.write("x Loaded inline plugin from path: unknowns\n"
+                         "x Skill listing over budget: 28 skills, 10349 chars > 6000 budget\n")
+        self.assertFalse(manual.crowd_loaded(manual.listing_report(log)))
+        self.assertFalse(manual.crowd_loaded(None))
+
     def test_sandbox_keeps_an_ordinary_temp_dir(self):
         # made by the runner itself, so it is outside .claude even when TMP is not
         plain = RUNNERS[0].sandbox_dir("unknowns-test-plain-")
