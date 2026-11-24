@@ -104,7 +104,7 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 
 The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
 
-**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route. Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.4, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2 and 0.13.3; see `CHANGELOG.md`.
+**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route. Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.4, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2, 0.13.3 and 0.13.4; see `CHANGELOG.md`.
 
 **Supported models:** Claude Opus 5.5 and GPT-6.1 Sol at medium effort. The evals run on these; other models and effort levels are not tested.
 

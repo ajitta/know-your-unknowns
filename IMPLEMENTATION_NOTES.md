@@ -2,6 +2,22 @@
 
 > **Conventions of this log (2026-11-24).** Entries are newest first, except the block of 2026-10-10 to 2026-10-14 entries at the end. Entries dated before 2026-10-26 are in Korean, and many of them describe features removed since (hooks, the scorecard, the loop tracker, HTML pages, the skill names `notes`, `loop` and `plan`). Entries headed "Unreleased" (2026-09-30 and 2026-10-01) shipped in 0.8.2, and the `[Unreleased]` figures that the 2026-11-17 entries cite are in `CHANGELOG.md` 0.13.1. **Todo for human** is a field this repository adds to the deviation-log entry format; `.claude/rules/skill-writing.md` rules 12 and 16 say when to log one. Entries are records and are not rewritten. Open items are tracked in the one open-items table of `docs/handoff.md`; a **Todo for human** not listed there was resolved or became moot (judged 2026-11-24).
 
+## [2026-11-24] After the 0.13.4 release: the four rows its release check opened
+
+**Observed**
+- **Situation found**: the owner approved the merge and tag of 0.13.4 and answered "추천대로" (as recommended) to the four rows the release check had opened. Before acting, the session stated what it took as the recommendation for each, since the summary had put two of them as open questions.
+- **Deviation from plan**: none; these are decisions, not runs.
+
+**Decisions** (owner approval 2026-11-24)
+- The model-built plan that reached the reviewer in part (`buy-in-reviewer-packet-after-plan`, 2 of 3 runs): no text change now. At buy-in's next change, the candidate in the open-items row runs under a rule written first, together with the third reader's four improvements to the 0.13.4 sentence and the body-findings cell `final-doc-keeps-unpicked-limits`, one sentence at a time.
+- `behavior-prototypes-interaction-mockup`: tagged informative. The request asks for one mockup; the plugin does not claim that it routes to prototypes.
+- The release-procedure sentence goes into `AGENTS.md` and the handoff's release procedure, worded for Claude Code only.
+- `ajitta/claude-plugins`: the unknowns description is synced with this plugin's own marketplace entry; the entry's `ref` is not pinned, because with the procedure sentence main always holds a released version.
+
+**Attributed**
+- **Reason for choice**: each closes a row with the smallest change that keeps the records true; the one text question waits for buy-in's next change, where it can be measured with the other buy-in items.
+- **Todo for human**: the interactive buy-in run on the installed 0.13.4 (the owner will run it); the ChatGPT re-upload and the claude.ai check for 0.13.4.
+
 ## [2026-11-24] The open rows after PR #44: 0.13.4's release path, buy-in's status report, the crowded listing, two unreached cases, hosts; and the run rules written before the runs
 
 **Observed**

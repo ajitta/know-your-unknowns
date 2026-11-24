@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+Owner decisions on the four rows the 0.13.4 release check opened (owner approval 2026-11-24, `IMPLEMENTATION_NOTES.md`). Nothing ships.
+
+### Changed (developer-only)
+
+- `AGENTS.md` and the release procedure in `docs/handoff.md`: rebuilding at an unchanged version is for a work branch; a pull request that changes shipped content merges with its version bump, because in Claude Code new installs from either marketplace take main while existing installs update only when the version changes.
+- `behavior-prototypes-interaction-mockup` is informative: prototypes loaded in 0 of 3 runs in the 0.13.4 release check and in no recorded run; the request asks for one mockup, not versions to react to.
+- README (both languages): the empty-config installs from both marketplaces are recorded for 0.13.4 too.
+
+### Checked (developer-only)
+
+- After the 0.13.4 tag: both release assets' sha256 equal the committed zips; the release body is the tag message; an install into an empty config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.13.4 with 11 skill folders and 2 agents, and the installed unknowns-loop and buy-in files carry the shipped sentences. The `ajitta/claude-plugins` entry's description now matches this plugin's own marketplace entry (that repository's PR #6); its source stays a `git-subdir` with no `ref`.
+
 ## 0.13.4 — 2026-11-24
 
 Owner decisions on the open items left after 0.13.3, in two rounds (owner approvals 2026-11-24; choices and the run rules written before the runs in the two newest `IMPLEMENTATION_NOTES.md` entries, 2026-11-24). Two sentences ship, in unknowns-loop and buy-in; the rest is developer-only. No description changed.
