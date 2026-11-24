@@ -2,7 +2,7 @@
 name: blindspot
 description: >
   Blind-spot pass — find both sides' unknown unknowns before work on a plan or system, in
-  any domain, and turn them into a better prompt. Use on "blind spot pass", "what am I
+  any domain, and turn them into an improved prompt. Use on "blind spot pass", "what am I
   missing".
 ---
 # Blindspot Pass — Blind-Spot Investigation

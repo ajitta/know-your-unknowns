@@ -20,12 +20,12 @@ Claims in secondary sources that the official page does not make:
 |---|---|
 | Claude reads roughly the first 100 lines of any long file to decide whether to load it | Partial reads (`head -100`) are described for files reached through nested references; the table of contents is for reference files over 100 lines. |
 | Anthropic now asks to trim instructions for newer reasoning models | Not on this page. The per-model questions ask whether the skill gives Haiku enough guidance and whether it avoids over-explaining for Opus. |
-| Document the intended model in the YAML front matter | Not on this page. This repository's frontmatter whitelist (`name`, `description`) does not allow it either. |
+| Document the intended model in the YAML front matter | Not on this page. This repository's frontmatter whitelist (`ALLOWED_KEYS` in `tools/package.py`: `name`, `description`, `license`, `metadata`, `compatibility`, `allowed-tools`) has no model key either. |
 | Low freedom for payments and deletions | The page's example is a database migration; payments and deletions are the source's extension. |
 
 ## Supported models and effort
 
-Owner policy (2026-11-03): the plugin is developed for and checked on **Claude Opus 5.5** (Claude Code, claude.ai) and **GPT-6.1 Sol** (Codex, ChatGPT), both at **medium effort**. No other model is tested; Sonnet and Haiku are not tuning targets.
+Owner policy (2026-11-03): the plugin is developed for and checked on **Claude Opus 5.5** (Claude Code, claude.ai) and **GPT-6.1 Sol** (Codex, ChatGPT), both at **medium effort**. Other models (for example Claude Fable 5.2) may be run for a reading or a cross-check; they are not supported models or tuning targets (owner, 2026-11-24).
 
 This follows the page's principle ("Test your Skill with all the models you plan to use it with"): the set of planned models is ours to name. The page's checklist line "Tested with Haiku, Sonnet, and Opus" is that principle applied to a skill meant for all three, so it is replaced here by the two named models.
 
@@ -44,7 +44,7 @@ Measurement rules:
 - Development and iteration run on Opus 5.5 at medium effort. GPT-6.1 Sol at medium effort runs once per release build.
 - Users on other models or efforts are not covered by any measurement. The READMEs say which models and effort the plugin was checked on.
 
-Run counts (owner, 2026-11-03: fewer runs; a run sizes a decision, it does not prove completeness). Write the decision rule before the run. Pass the count with `--runs`; the `runs: 3` in each case file is the structural minimum `--verify` checks, not the count to run.
+Run counts (owner, 2026-11-03: fewer runs; a run sizes a decision, it does not prove completeness). Write the decision rule before the run. Pass the count with `--runs`; the `runs: 3` in each case file is the structural minimum `evals/run-manual.py --verify` checks (`evals/run-multiturn.py --verify` checks only that `runs` is at least 1), not the count to run.
 
 | Check | Runs |
 |---|---|
@@ -68,7 +68,7 @@ Status values: **covered** (an existing rule or check already does it), **adopt*
 | `name` without the reserved words `anthropic`, `claude` | covered | `tools/package.py` (added 2026-11-03); the name pattern already excludes XML tags |
 | `description` 1–1,024 characters | covered | `tools/package.py`. This repository's own limit is 200 characters (`skill-writing.md` rule 18, owner ruling 2026-11-12), checked by `tests/test_portability.py` and `tests/test_skill_descriptions.py`. |
 | `description` without XML tags | covered | `tools/package.py` rejects `<` and `>` (added 2026-11-03) |
-| `SKILL.md` body under 500 lines | covered | `tools/package.py` (added 2026-11-03); the longest body is 111 lines |
+| `SKILL.md` body under 500 lines | covered | `tools/package.py` (added 2026-11-03); the longest body (blindspot) is 98 lines at 0.13.2 |
 | Claude Code truncates `description` plus `when_to_use` at 1,536 characters | covered | the 1,024 limit is stricter |
 
 ### Structure
@@ -121,7 +121,7 @@ Set freedom per step, not per skill. In this plugin:
 | Practice | Status | Note |
 |---|---|---|
 | Clear sequential steps | covered | Rules 1–3. |
-| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it by the run-count table. No eval case runs the loop's stages yet, so the medium-effort baseline gave no evidence either way. A checklist in a short skill is read on every run and repeats the steps. |
+| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it by the run-count table. Since 0.12.4 four `behavior-unknowns-loop-*` cases and the multi-turn `unknowns-loop-criteria-unanswered` run parts of the loop (its stage plan and order, a failed probe, criteria the user declines to set), and since 2026-11-24 a fifth, `behavior-unknowns-loop-finds-noncode-log`, runs its work stage on non-code work. The multi-turn `unknowns-loop-every-stage-to-outcome-check` (added 2026-11-24, not yet run) plays every stage to the outcome check. Read their results before adding it. A checklist in a short skill is read on every run and repeats the steps. |
 | Return to an earlier step when a check fails | covered where the check uses outside evidence | blindspot's evidence and status, the independent-reviewer agent. A loop that only re-reads the model's own output adds a pass with no new evidence and is not added. |
 | Plan-validate-execute with a script | n/a | No scripts. |
 
@@ -130,7 +130,7 @@ Set freedom per step, not per skill. In this plugin:
 | Practice | Status | Note |
 |---|---|---|
 | What the skill does and when to use it, with key terms | covered | Since 0.13.0 every description is the short text of `skill-writing.md` rule 18 (owner ruling 2026-11-12): a label, what the skill is for and a "Use on …" clause with the trigger phrases, in 200 characters or fewer; some also hold a border clause or a "runs even when …" clause. The method summary moved out; the body states the method. |
-| Third person | watch | The short set is not in the third person: it uses imperatives and the second person ("find both sides' unknown unknowns", "ask in rounds of ≤4", "quiz you"). The page's reason is discovery; routing measured 260/260 and 44/44 with the descriptions before 0.13.0, and 22/22 trigger and 22/22 non-coding loads with the short set (1 run each). Rerun the trigger, non-coding and negative cases (1 run each) when a description changes. |
+| Third person | watch | The short set is not in the third person: it uses imperatives and the second person ("find both sides' unknown unknowns", "ask in rounds of ≤4", "show your reading"). Outside names and quoted trigger phrases, "you" is the model that reads the description and the user is "the user" (`skill-writing.md` rule 18): one point of view, but not the page's third person, which lists "You can use this to process Excel files" among descriptions to avoid. The page's reason is discovery ("inconsistent point-of-view can cause discovery problems"); routing measured 260/260 and 44/44 with the descriptions before 0.13.0, and 22/22 trigger and 22/22 non-coding loads with the short set (1 run each). Rerun the trigger, non-coding and negative cases (1 run each) when a description changes. |
 | Specific over vague | covered | Owner ruling 2026-10-28: no "pushier" descriptions. |
 
 ### Content
@@ -147,7 +147,7 @@ Set freedom per step, not per skill. In this plugin:
 
 | Practice | Status | Note |
 |---|---|---|
-| At least three evaluations per skill | covered | `evals/` has single-turn and multi-turn cases for every skill; `independent-reviewer` has two. |
+| At least three evaluations per skill | covered | `evals/` has single-turn cases for every skill and multi-turn cases for nine of them (none for brainstorm or deviation-log; `unknowns-loop-every-stage-to-outcome-check` loads deviation-log inside the loop); `independent-reviewer` has two cases that call it by name and `unknowns-scout` one, two cases added on 2026-11-24 give blindspot and brainstorm material too large to read in full so that the skill spawns the scout, and three negatives check that review and investigation requests naming neither agent spawn neither. |
 | Baseline without the skill | covered | `--arm` in `evals/run-manual.py`. Distinct from comparing two plugin versions, which the owner does not run. |
 | Claude A writes, Claude B uses, observe and refine | covered | Failures read from this build's own runs. |
 | Test with real usage | covered | Owner surface checks recorded in the handoff. |

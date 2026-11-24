@@ -59,6 +59,8 @@ jobs:
           else
             version="${tag#unknowns--v}"
             case "$version" in *-*) pre="--prerelease" ;; *) pre="--latest" ;; esac
+            git fetch --force origin "refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+            test "$(git cat-file -t "${GITHUB_REF_NAME}")" = tag
             gh release create "$tag" $assets --verify-tag --notes-from-tag --title "unknowns ${tag#unknowns--v}" $pre
           fi
           gh release view "$tag" --json assets --jq '.assets[] | "\(.name) \(.size)"'

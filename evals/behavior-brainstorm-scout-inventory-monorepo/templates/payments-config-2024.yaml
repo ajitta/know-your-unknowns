@@ -1,0 +1,14 @@
+service: payments
+owner: finance
+port: 8127
+database:
+  table: payments
+  pool_size: 5
+log_level: info
+processor:
+  base_url: https://api.card-processor.example
+  api_key_env: PROCESSOR_API_KEY
+renewals:
+  max_attempts: 2
+  retry_delay_hours: 24
+card_updater_enabled: true

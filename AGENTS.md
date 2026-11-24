@@ -1,6 +1,6 @@
 # Repository guidance
 
-Know Your Unknowns packages eleven skills and two Claude Code agents. The owner writes in Korean; write repository files in English and preserve existing records and translations. README.md and README.ko.md are the only README languages and must keep matching structure.
+Know Your Unknowns packages eleven skills and two Claude Code agents. The owner writes in Korean; write new repository files and new IMPLEMENTATION_NOTES.md entries in English, and preserve existing records and translations. docs/handoff.md is the one document the owner keeps in Korean; an edit inside an existing Korean document, a freeze banner included, follows that document's language, so each file stays in one language. README.md and README.ko.md are the only README languages and must keep matching structure.
 
 ## Commands
 
@@ -17,7 +17,7 @@ python3 scripts/build-skill-zips.py
 
 ## Layout and editing rules
 
-- Source skills live in skills/. Each SKILL.md is self-contained: there are no shared reference files. Deliverables are Markdown in the conversation.
+- Source skills live in skills/. Each SKILL.md is self-contained: there are no shared reference files. Deliverables are Markdown in the conversation, except the files a skill names (the deviation log, the quiz key, a runnable prototype or full-length draft).
 - Claude Code agent sources live in claude-code/agents/. The plugin ships no hooks or executable code. Only Markdown, YAML, JSON, SVG, LICENSE, and NOTICE files are allowed, plus one PNG: `.claude-plugin/icon.png`, the Claude listing icon. SVG assets are for the OpenAI listing.
 - plugin-manifest.json is the source manifest. packaging/ contains the shipped README, the Claude listing icon (icon.png), and OpenAI interface fields and SVG assets.
 - plugins/unknowns/, releases/know-your-unknowns.zip, releases/know-your-unknowns-openai.zip, and plugin-release.json are generated and committed. Edit sources and run tools/package.py; never edit generated output by hand.

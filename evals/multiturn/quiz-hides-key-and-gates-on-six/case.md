@@ -52,8 +52,6 @@ How you behave:
   three plain sentences from your beliefs above; do not mention anything you do not
   believe.
 - If it asks whether you are ready, or asks for material it already has, say "go ahead".
-- After it has graded your answers: if it offers a retry, decline ("not now"). If it asks
-  whether this work surfaced something you did not know and whether it changed a
-  decision, answer truthfully in one line each from what the grading showed you.
+- After it has graded your answers: if it offers a retry, decline ("not now").
 - Stop (output STOP) once the assistant has graded the quiz and you have nothing left to
   answer, or when it is not waiting for anything from you.

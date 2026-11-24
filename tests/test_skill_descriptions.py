@@ -121,7 +121,7 @@ class SkillZipBuildTest(unittest.TestCase):
                     body = zf.read("%s/SKILL.md" % archive.stem).decode("utf-8")
                 self.assertNotIn(
                     "/references/", body,
-                    "%s still points at a path that only exists inside the plugin"
+                    "%s points at a references/ folder; a skill ships only SKILL.md and agents/openai.yaml"
                     % archive.name,
                 )
                 self.assertNotIn("$ARGUMENTS", body)
@@ -130,7 +130,7 @@ class SkillZipBuildTest(unittest.TestCase):
                     "%s keeps a plugin-only substitution" % archive.name,
                 )
 
-    def test_skill_bodies_use_skill_relative_resources(self):
+    def test_skill_bodies_name_no_plugin_root_or_reference_paths(self):
         for skill_md in sorted(SKILLS_DIR.glob("*/SKILL.md")):
             with self.subTest(skill=skill_md.parent.name):
                 text = skill_md.read_text(encoding="utf-8")

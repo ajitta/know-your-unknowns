@@ -1,7 +1,7 @@
 ---
 name: deviation-log
 description: >
-  Deviation log — log departures from the plan as work hits unknowns, any domain. Use on
+  Deviation log — log where and why the work departed from the plan, in any domain. Use on
   "implementation notes", "record a deviation", "where did we diverge from the plan?".
 ---
 
@@ -20,7 +20,7 @@ When work hits a situation the plan or spec does not cover (an unknown neither s
 
    | Work | Log file | Heading when created |
    |---|---|---|
-   | Code | `IMPLEMENTATION_NOTES.md` at the project root | `# Implementation Notes — plan deviation log` |
+   | Code | the file the user names, or `IMPLEMENTATION_NOTES.md` at the project root | `# Implementation Notes — plan deviation log` |
    | Anything else | the file the user names, or `DEVIATIONS.md` beside the deliverable | `# Deviation log — <deliverable>` |
 
    The **buy-in** skill and the **quiz** skill read that log. Without a tool, do the step in the conversation and say what could not be checked.

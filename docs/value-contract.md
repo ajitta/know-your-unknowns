@@ -1,6 +1,6 @@
 # unknowns 플러그인 가치 계약
 
-> **Status (2026-10-27):** the shipped plugin no longer carries the scorecard, the loop's value review (step 10) or teach-me's "Limits" section that this contract cites; they were removed when the skills were compacted to the method (CHANGELOG, Unreleased). The contract below is kept as a record and has no in-product data source.
+> **상태(2026-10-27 작성, 2026-11-24 동결):** 이 계약은 기록이다. 계약이 인용하는 스코어카드, loop의 가치 리뷰(10단계), teach-me의 "Limits" 절은 배포되는 플러그인에 더 이상 없다. 스킬을 방법만 남기고 압축할 때 지웠다(CHANGELOG 0.11.0). 산출물은 0.10.0부터 HTML 페이지 없이 대화 안의 Markdown이고, `loop`·`plan`·`notes`는 0.12.0에서 `unknowns-loop`·`tweakable-plan`·`deviation-log`가 됐다. 마지막 스코어카드 행은 2026-09-20이다. 2026-11-19 경계는 아래 "측정 시계 현황" 표의 2026-11-24 행에서 늦게 확인했고, 그 행으로 시계를 닫았다. 2027-01-18 경계는 적용하지 않는다. 3번 지표는 제품 안에 데이터 원천이 없고, B7도 같은 날 닫았다([open-questions.md](open-questions.md)).
 
 작성: 2026-07-11 · 개정: 2026-09-06(강등·제거 조건을 릴리스 계수에서 달력으로 교체).
 v0.3.0 사각지대 보고서 항목 "loop step 10 미적용" 대응.
@@ -24,6 +24,7 @@ loop 10단계(가치 리뷰: 지표 + 제거 조건)를 플러그인 자신에�
 |--------|---------------------|------|---------|------|
 | 2026-09-06 | 2026-07-11 (총 1행) | 57일 | 0건 | 60일 경계 직전. 다음 확인에서 넘기면 README "미측정" 표기 |
 | 2026-09-20 | 2026-07-11 (총 1행) | 71일 | 0건 | **60일 조건 발동** — 경계일 2026-09-09 경과. `README.md`·`README.ko.md`에 미측정 표기 적용함. 같은 날 실사용 1회로 2행이 기록되어 시계는 2026-09-20 기준으로 재시작 (다음 60일 경계 2026-11-19). 표기는 유지한다 — 지표는 10행 롤링 윈도우이고 2행은 측정이 아니다 |
+| 2026-11-24 | 2026-09-20 (총 2행) | 65일 | 0건 | 60일 경계(2026-11-19) 경과. README 미측정 표기는 유지돼 있다. 0.11.0에서 제품 내 스코어카드가 제거돼 시계를 종료한다 — 이후 경계일은 적용하지 않는다 |
 
 스코어카드 행이 아니라 **측정 시계의 첫 데이터점**이며, 이번 개정의 근거다. 같은 57일 동안 릴리스도 0건이었으므로 구 제거 조건("두 릴리스 연속 기록 0건")으로는 아무 조건도 발동하지 않았다.
 

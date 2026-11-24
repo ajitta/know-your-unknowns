@@ -44,8 +44,8 @@ the set of questions in one assistant reply. All of these must hold:
    cap while the assistant is still asking questions that pass item 3, this item does
    not apply.
 
-In your reasoning, list each round's questions and, for each round after the first, the
-earlier answer or open item each question follows from.
+In your verdict lines, list each round's questions and, for each round after the first,
+quote the earlier answer or open item each question follows from.
 
 Fail if any question is filler as described in 3, if the assistant keeps asking after
 it has run out of real decisions instead of saying so, or if it ignores the depth

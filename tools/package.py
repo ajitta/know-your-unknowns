@@ -45,7 +45,7 @@ ALLOWED_KEYS = {"name", "description", "license", "metadata", "compatibility", "
 SHIPPED_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".svg"}
 RESOURCE_RE = re.compile(r"(?<![\w/.-])((?:references|assets|scripts)/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+)\b")
 PROJECT_FILES = {"IMPLEMENTATION_NOTES.md", "DEVIATIONS.md", "CHANGELOG.md", "CLAUDE.md",
-                 "AGENTS.md", ".gitignore", ".claude/rules/unknowns.md"}
+                 "AGENTS.md", ".gitignore"}
 PROJECT_PREFIXES = (".unknowns/",)
 FILE_PATH_RE = re.compile(r"(?!/)[\w .<>/$+-]+\.[A-Za-z0-9]+(?:#[\w-]+)?")
 
@@ -190,7 +190,8 @@ def validate_skill(skill, files):
     if re.search(r"[<>]", fields.get("description", "")):
         errors.append("description must not contain XML tags")
     if len(body.splitlines()) > SKILL_BODY_MAX_LINES:
-        errors.append("SKILL.md body exceeds %d lines; move detail to a file linked from SKILL.md"
+        errors.append("SKILL.md body exceeds %d lines; shorten it, or decide on a reference file "
+                      "(docs/skill-authoring-guide.md) and update tests/test_portability.py"
                       % SKILL_BODY_MAX_LINES)
     if "version" in metadata and metadata["version"] != json.loads(_normalized(MANIFEST))["version"]:
         errors.append("metadata.version differs from plugin-manifest.json")
@@ -242,7 +243,7 @@ def collect_errors(skills, files):
         errors.extend(validate_skill(skill, files))
     if len(re.sub(r"```.*?```", "", files["README.md"].decode("utf-8"), flags=re.S).split()) < README_MIN_WORDS:
         errors.append("packaging/plugin-README.md needs at least 40 words")
-    errors.extend(validate_openai_interface(*openai_parts()))
+    errors.extend(validate_openai_interface(*openai_parts(), skill_names={s.name for s in skills}))
     errors.extend("packaging/icon.png: " + x for x in validate_png_icon(files[CLAUDE_ICON_PATH]))
     errors.extend(shipped_violations(files))
     errors.extend(shipped_violations(openai_files(files)))
@@ -281,8 +282,9 @@ def _one_line(s: object) -> bool:
     return isinstance(s, str) and s.strip() != "" and "\n" not in s and "\r" not in s
 
 
-def validate_openai_interface(interface: dict, assets: dict[str, bytes]) -> list[str]:
-    """The OpenAI directory's final-submission rules for interface fields and images."""
+def validate_openai_interface(interface: dict, assets: dict[str, bytes], skill_names=None) -> list[str]:
+    """The OpenAI directory's final-submission rules for interface fields and images, plus
+    the skill-mention form the per-skill agents/openai.yaml prompts use."""
     e = []
     if not (_one_line(interface.get("displayName")) and len(interface["displayName"]) <= 30):
         e.append("displayName: one line, at most 30 characters")
@@ -305,6 +307,10 @@ def validate_openai_interface(interface: dict, assets: dict[str, bytes]) -> list
         _one_line(p) and len(p) <= 128 and "@" not in p for p in prompts
     ):
         e.append("defaultPrompt: at most 3 unique one-line prompts of at most 128 characters, no @mention")
+    for p in prompts:
+        m = re.match(r"Use \$unknowns:([a-z0-9-]+) to ", p) if isinstance(p, str) else None
+        if not m or (skill_names is not None and m.group(1) not in skill_names):
+            e.append(f"defaultPrompt: {p!r} must start with 'Use $unknowns:<skill> to ' and name a skill")
     for key in ("websiteURL", "supportURL", "privacyPolicyURL", "termsOfServiceURL"):
         if key in interface and not (isinstance(interface[key], str) and interface[key].startswith("https://") and len(interface[key]) <= 1024):
             e.append(f"{key}: an https:// URL of at most 1,024 characters")

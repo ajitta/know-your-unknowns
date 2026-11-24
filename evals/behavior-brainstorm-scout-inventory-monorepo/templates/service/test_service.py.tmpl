@@ -1,0 +1,38 @@
+from services.@SVC@.service import @CLASS@Service
+
+
+class FakeRepository:
+    def __init__(self):
+        self.rows = {}
+
+    def save(self, item):
+        self.rows[item.id] = item
+
+    def get(self, item_id):
+        return self.rows.get(item_id)
+
+    def list(self, limit=50, offset=0):
+        return list(self.rows.values())[offset:offset + limit]
+
+
+def test_create_then_get():
+    service = @CLASS@Service(repository=FakeRepository())
+    item = service.create({"@FIELD1@": "a"})
+    assert service.get(item.id) is item
+
+
+def test_update_changes_a_known_field():
+    service = @CLASS@Service(repository=FakeRepository())
+    item = service.create({"@FIELD1@": "a"})
+    service.update(item.id, {"@FIELD2@": "b"})
+    assert service.get(item.id).@FIELD2@ == "b"
+
+
+def test_update_rejects_an_unknown_field():
+    service = @CLASS@Service(repository=FakeRepository())
+    item = service.create({"@FIELD1@": "a"})
+    try:
+        service.update(item.id, {"colour": "red"})
+    except ValueError:
+        return
+    raise AssertionError("expected ValueError")

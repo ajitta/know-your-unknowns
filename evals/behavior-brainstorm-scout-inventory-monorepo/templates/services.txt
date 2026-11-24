@@ -1,0 +1,41 @@
+accounts|Account|Accounts|account|accounts|email|phone|growth|Customer accounts: sign-up, contact details and marketing preferences.
+addresses|Address|Addresses|address|addresses|postcode|line1|logistics|Delivery addresses, and the check that a postcode is in a delivery area.
+admin_audit|AuditEntry|Admin audit|audit_entry|audit entries|actor|action|platform|An append-only record of what staff did in the admin tool.
+allergens|AllergenTag|Allergens|allergen_tag|allergen tags|code|label|kitchen|The allergen tags shown on recipes and checked against customer exclusions.
+analytics|MetricEvent|Analytics|metric_event|metric events|name|payload|data|Collects product events and forwards them to the data warehouse every night.
+auth|Session|Auth|session|sessions|account_id|device|platform|Log-in sessions, password resets and one-time codes.
+boxes|Box|Boxes|box|boxes|week|size|kitchen|The weekly box a subscriber receives: its size and the recipes in it.
+catalog|Product|Catalog|product|products|sku|title|growth|Add-on products sold beside the box: desserts, drinks and pantry items.
+checkout|Cart|Checkout|cart|carts|account_id|total|checkout|The checkout flow for new subscribers and for one-off add-on orders.
+coupons|Coupon|Coupons|coupon|coupons|code|discount|growth|Discount codes and the rules for who may use them.
+customer_care|CareCase|Customer care|care_case|care cases|account_id|topic|care|Cases the care team opens from calls, chats and emails.
+delivery_slots|Slot|Delivery slots|slot|slots|day|window|logistics|The delivery days and time windows offered for each postcode.
+exclusions|Exclusion|Exclusions|exclusion|exclusions|account_id|ingredient|kitchen|Ingredients a subscriber never wants in a box.
+feature_flags|Flag|Feature flags|flag|flags|key|value|platform|Runtime switches that the other services read.
+fulfilment|Shipment|Fulfilment|shipment|shipments|box_id|carrier|logistics|Packing lists, and the hand-over of packed boxes to carriers.
+gift_cards|GiftCard|Gift cards|gift_card|gift cards|code|balance|growth|Gift cards bought on the website and redeemed at checkout.
+inventory|StockItem|Inventory|stock_item|stock items|ingredient|quantity|kitchen|Ingredient stock at the packing site.
+invoices|Invoice|Invoices|invoice|invoices|account_id|amount|finance|Monthly VAT invoices that subscribers can download.
+kitchen_plans|PrepPlan|Kitchen plans|prep_plan|prep plans|week|site|kitchen|The weekly prep schedule for the packing site.
+loyalty|PointsEntry|Loyalty|points_entry|points entries|account_id|points|growth|Points earned per box and the rewards they buy.
+menus|Menu|Menus|menu|menus|week|title|kitchen|The weekly menu: which recipes are on offer.
+notifications|Notification|Notifications|notification|notifications|account_id|channel|care|Email, SMS and push messages to subscribers.
+nutrition|NutritionFact|Nutrition|nutrition_fact|nutrition facts|recipe_id|calories|kitchen|Nutrition values per recipe and portion.
+orders|Order|Orders|order|orders|account_id|week|checkout|The order behind each weekly box and each add-on purchase.
+packaging|PackageSpec|Packaging|package_spec|package specs|size|material|logistics|Box and insulation specifications by box size and season.
+partners|Partner|Partners|partner|partners|name|kind|growth|Partner brands that offer subscribers a discount.
+payments|Payment|Payments|payment|payments|account_id|amount|finance|Card payments for subscriptions and add-ons.
+pricing|PriceRule|Pricing|price_rule|price rules|box_size|price|finance|Box prices by size, number of recipes and region.
+recipes|Recipe|Recipes|recipe|recipes|title|cuisine|kitchen|Recipe cards: ingredients, steps and photos.
+referrals|Referral|Referrals|referral|referrals|referrer_id|code|growth|Refer-a-friend codes and the credit both sides receive.
+returns|ReturnRequest|Returns|return_request|return requests|order_id|reason|care|Refunds and credits for damaged or missing items.
+reviews|Review|Reviews|review|reviews|recipe_id|rating|kitchen|Recipe ratings and comments from subscribers.
+route_plans|RoutePlan|Route plans|route_plan|route plans|day|depot|logistics|Courier routes for the delivery areas our own vans cover.
+search|SearchQuery|Search|search_query|search queries|text|results|platform|Recipe and product search on the website and in the app.
+skips|Skip|Skips|skip|skips|account_id|week|checkout|Weeks a subscriber has chosen to skip.
+sms|SmsMessage|SMS|sms_message|SMS messages|to_number|body|care|The SMS gateway client and its delivery receipts.
+subscriptions|Subscription|Subscriptions|subscription|subscriptions|account_id|box_size|checkout|Subscriptions: start, pause, resume and cancel.
+suppliers|Supplier|Suppliers|supplier|suppliers|name|category|kitchen|Ingredient suppliers and their delivery days.
+surveys|SurveyResponse|Surveys|survey_response|survey responses|account_id|answers|data|Cancellation and satisfaction survey answers.
+warehouse|BinLocation|Warehouse|bin_location|bin locations|code|zone|logistics|Bin locations at the packing site.
+webhooks|Webhook|Webhooks|webhook|webhooks|url|event|platform|Outgoing webhooks to partner systems.

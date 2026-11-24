@@ -98,7 +98,7 @@ class MultiturnCaseTest(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(mt.verify(), 0)
         names = [case["name"] for case in mt.discover()]
-        self.assertEqual(len(names), 13)
+        self.assertEqual(len(names), 17)
 
     def test_run_manual_discovery_skips_multiturn(self):
         result = subprocess.run([sys.executable, str(ROOT / "evals" / "run-manual.py"), "--list"],
@@ -174,6 +174,10 @@ class MultiturnGradingTest(unittest.TestCase):
         self.assertIsNone(mt.parse_overall("no verdict"))
         self.assertTrue(mt.asks_something("Reply with steal or skip by number."))
         self.assertFalse(mt.asks_something("Here is the prompt.\n```\nWhat next?\n```"))
+        # A Korean polite request with no question mark still waits for the user.
+        self.assertTrue(mt.asks_something(
+            "\uace0\uce60 \ubd80\ubd84\uc774 \uc788\uc73c\uba74 \ubc88\ud638\ub85c "
+            "\uc54c\ub824 \uc8fc\uc138\uc694."))
 
     def test_judge_and_user_prompts_hide_tools(self):
         data = transcript("Done.")

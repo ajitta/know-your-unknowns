@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: neg-unnamed-investigation-does-not-spawn-scout
+context:
+  scaffold_script: place-files.sh

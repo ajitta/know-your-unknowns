@@ -10,5 +10,6 @@ Indicator only; reported, not scored (`min: 0` passes either way and `weight: 0`
 out of the score). It shows whether the pass handed the investigation to the
 unknowns-scout agent. The blindspot skill uses the scout when the
 task spans more sources than the model can read in full, and twenty-two short policy
-documents can be read in full. No case in this suite makes a skill spawn the scout. The scored
+documents can be read in full. `behavior-blindspot-scout-many-contracts` is the case built
+to make the skill spawn the scout. The scored
 outcome is assumption-verdicts-with-evidence.

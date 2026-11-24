@@ -12,20 +12,20 @@ are English-only, because an A/B run of the eval suite showed Korean prompts
 firing the right skill just as reliably against English-only descriptions, and
 the Korean text cost 381 of the 1,698 always-on tokens. The guarantee for
 Korean therefore moved from "the phrase is written in the description" to "we
-measured that the phrase fires": every Korean phrase a README advertises must
-have a `evals/trigger-ko-*` case whose prompt contains it. That is a stronger
-promise than containment ever was, and this file checks it.
+measured that a phrase fires": every skill whose README.ko.md section
+advertises Korean phrases must have an `evals/trigger-ko-<skill>` case whose
+prompt contains one of them. That is a stronger promise than containment ever
+was, and this file checks it.
 
 A README phrase counts as covered when, in *that skill's* description:
   (a) it appears verbatim (case-insensitive), or
   (b) some multi-word quoted phrase is a substring of it
-      (e.g. README "운영 루프로 진행해줘" ⊇ description "운영 루프로 진행").
+      (e.g. README "interview me about this" ⊇ description "interview me").
 
-Only the `description:` value is read (never argument-hint or name), only the
-part before an anti-trigger clause ("Do NOT", "NOT for", "아닙니다") counts as
-advertising, and single-word quotes are excluded from rule (b) so that "loop"
-cannot vouch for "please loop over these files". Phrases outside a skill
-section fall back to the pooled descriptions.
+Only the `description:` value is read, only the part before an anti-trigger
+clause ("Do NOT", "NOT for") counts as advertising, and single-word quotes are
+excluded from rule (b) so that "loop" cannot vouch for "please loop over these
+files". Phrases outside a skill section fall back to the pooled descriptions.
 
 Run with: python3 -m unittest tests.test_trigger_containment -v
 """
@@ -122,7 +122,7 @@ class TriggerContainmentTest(unittest.TestCase):
         misses = []
         for lineno, skill, phrase in readme_phrases(os.path.join(ROOT, filename)):
             if HANGUL.search(phrase):
-                continue  # guaranteed by an eval case; see test_korean_phrases_have_evals
+                continue  # covered per skill by an eval case; see test_korean_phrases_have_evals
             description, pool = skills.get(skill, pooled)
             candidate = phrase.lower()
             if candidate in description:
@@ -170,7 +170,7 @@ class TriggerContainmentTest(unittest.TestCase):
             "so every skill advertising Korean phrases needs a trigger-ko case that "
             "actually uses one of them:\n" + "\n".join(missing))
         # Deliberate limit, stated so nobody mistakes this for full coverage:
-        # one representative phrase per skill is exercised, not all 28.
+        # one representative phrase per skill is exercised, not every Korean phrase README.ko.md advertises.
 
     def test_no_korean_in_descriptions(self):
         """The 0.5.1 decision: descriptions are English-only. Keep them that way."""
@@ -178,9 +178,10 @@ class TriggerContainmentTest(unittest.TestCase):
                      if HANGUL.search(description)]
         self.assertEqual(
             offenders, [],
-            "Korean text is back in these descriptions: %s. It costs ~22%% of the "
-            "always-on budget and the eval A/B showed it buys no extra triggering "
-            "on sonnet-or-better models." % offenders)
+            "Korean text is back in these descriptions: %s. In 0.5.1 it cost ~22%% of the "
+            "always-on budget, and the eval A/B showed it buys no extra triggering on "
+            "sonnet-or-better models; Korean triggering is checked by one evals/trigger-ko-* "
+            "case per skill instead." % offenders)
 
     def test_every_skill_description_is_parsed(self):
         skills = descriptions()

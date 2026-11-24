@@ -1,0 +1,29 @@
+"""The @EVENT@ record of the @TITLE@ service."""
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
+import uuid
+
+
+def _now():
+    return datetime.now(timezone.utc)
+
+
+@dataclass
+class @CLASS@:
+    id: str = field(default_factory=lambda: uuid.uuid4().hex)
+    @FIELD1@: str = ""
+    @FIELD2@: str = ""
+    status: str = "active"
+    created_at: datetime = field(default_factory=_now)
+    updated_at: datetime = field(default_factory=_now)
+
+    @classmethod
+    def from_dict(cls, data):
+        known = ("id", "@FIELD1@", "@FIELD2@", "status")
+        return cls(**{name: data[name] for name in known if name in data})
+
+    def to_dict(self):
+        out = asdict(self)
+        out["created_at"] = self.created_at.isoformat()
+        out["updated_at"] = self.updated_at.isoformat()
+        return out

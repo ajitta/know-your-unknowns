@@ -10,9 +10,9 @@
     "Plan, record deviations, prepare approval, and check understanding and the outcome"
   ],
   "defaultPrompt": [
-    "Use unknowns:blindspot to find what we are both missing before this grant application.",
-    "Use unknowns:interview to ask me what you need to know before planning this event.",
-    "Use unknowns:quiz to check my understanding of the analysis before I present it."
+    "Use $unknowns:blindspot to find what we are both missing before this grant application.",
+    "Use $unknowns:interview to ask me what you need to know before planning this event.",
+    "Use $unknowns:quiz to check my understanding of the analysis before I present it."
   ],
   "websiteURL": "https://github.com/ajitta/know-your-unknowns",
   "supportURL": "https://github.com/ajitta/know-your-unknowns/issues",

@@ -7,6 +7,8 @@ updated: 2026-10-18
 ---
 # html-page-template — 페이지 템플릿 출력 토큰 측정 (0.9.0)
 
+> **동결 기록(0.9.0, 2026-11-24 동결).** 이 문서가 잰 페이지 템플릿(`render-page.py`, `page.css`, `page.js`)은 0.10.0에서, `output-routing.md`는 0.11.0에서 제거됐다. 산출물은 이제 대화 안의 Markdown이므로 `harness/`는 수집할 HTML이 없다. 하네스는 CHANGELOG 0.9.0이 인용하는 이 기록의 일부로만 남기며 다시 돌리지 않는다.
+
 ## 무엇을 바꿨나
 
 산출물 HTML을 만드는 9개 스킬(blindspot, brainstorm, buy-in, plan, prototypes, quiz, reference, teach-me, loop)은 0.8.4까지 페이지 전체를 매번 새로 생성했다. 테마 토큰(라이트/다크), 포커스·reduced-motion, 회신 조립 JS, 복사 버튼이 매 페이지 출력 토큰으로 반복됐다.

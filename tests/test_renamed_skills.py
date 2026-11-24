@@ -11,12 +11,12 @@ Asserted:
     (`unknowns:loop`, `/unknowns:notes`, `**loop** skill`, `skills/notes/`,
     `trigger-en-loop`, a `"loop":` key ...)
   * the trigger words users actually say survive in the descriptions:
-    "loop" in unknowns-loop, "implementation notes" in deviation-log, "plan this" in
+    "unknowns loop" in unknowns-loop, "implementation notes" in deviation-log, "plan this" in
     tweakable-plan
 
 Exempt: CHANGELOG.md and IMPLEMENTATION_NOTES.md (dated records), and docs/ except
-the files that describe the current plugin (trigger-matrix.md, index.html), because the
-dated reports there describe the versions they measured. This file is exempt too.
+the files that describe the current plugin (CURRENT_DOCS), because the dated reports
+there describe the versions they measured. This file is exempt too.
 
 Run with: python3 -m unittest tests.test_renamed_skills -v
 """
@@ -28,7 +28,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RENAMES = {"loop": "unknowns-loop", "notes": "deviation-log", "plan": "tweakable-plan"}
-CURRENT_DOCS = {"docs/trigger-matrix.md", "docs/index.html"}
+CURRENT_DOCS = {"docs/trigger-matrix.md", "docs/index.html", "docs/handoff.md",
+                "docs/skill-authoring-guide.md", "docs/README.md", "docs/talk-source.md"}
 EXEMPT = {"CHANGELOG.md", "IMPLEMENTATION_NOTES.md", "tests/test_renamed_skills.py"}
 TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".py", ".html", ".txt", ""}
 

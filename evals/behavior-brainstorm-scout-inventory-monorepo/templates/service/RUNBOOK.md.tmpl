@@ -1,0 +1,19 @@
+# @TITLE@ runbook
+
+On call: the @TEAM@ team rota. Service port @PORT@; health check `GET /@ROUTE@/health`.
+
+## Alerts
+
+| Alert | What it means | First step |
+|---|---|---|
+| `@SVC@_error_rate_high` | More than 2% of requests to `/@ROUTE@` returned 5xx for 10 minutes | Check the last deploy; roll back if it is less than an hour old |
+| `@SVC@_latency_high` | p95 above 800 ms for 15 minutes | Check the `@SVC@` table's slow queries and the connection pool |
+| `@SVC@_down` | The health check failed three times in a row | Restart the service; page the @TEAM@ team lead if it fails again |
+
+## Deploys
+
+Merges to main deploy automatically after the tests pass. Roll back with `deploy rollback @SVC@`.
+
+## Data
+
+Records live in the `@SVC@` table (`migrations/`). Restores come from the nightly snapshot; ask the platform team.
