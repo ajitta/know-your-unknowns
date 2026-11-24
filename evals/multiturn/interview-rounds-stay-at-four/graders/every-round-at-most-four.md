@@ -29,4 +29,5 @@ Both of these must hold:
    asks whether to continue) rather than silently dropping them; if the user ends the
    interview early, the remaining decisions are listed as open.
 
-State the per-reply counts in your reasoning. Fail if any one reply asks five or more.
+State the per-reply counts in your verdict lines, and quote the questions of any reply
+you count at five or more. Fail if any one reply asks five or more.

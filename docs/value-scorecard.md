@@ -1,5 +1,7 @@
 # 가치 스코어카드
 
+> **동결(2026-11-24):** 제품 안의 스코어카드(loop 10단계와 quiz 마무리의 질문, `.unknowns/scorecard.md`)는 0.11.0에서 제거됐다(`CHANGELOG.md` 0.11.0). 이 표는 작성자의 수기 기록으로 남고 더 쓰지 않는다. 마지막 행은 2026-09-20이다. 2026-11-19 경계는 제때 확인되지 않았고, 측정 시계는 [value-contract.md](value-contract.md) "측정 시계 현황" 표의 2026-11-24 행으로 닫았다.
+
 [value-contract.md](value-contract.md)의 지표 기록. 실사용 1회 = 1행.
 기록 기준: "몰랐던 것 발견"은 사용자가 사전에 알지 못했다고 인정한 사실만 센다.
 
@@ -25,6 +27,8 @@
 - 둘 다 "아니오"인 행도 반드시 남긴다. [value-contract.md](value-contract.md)의 강등·제거 조건은 0건 기록으로만 발동한다.
 
 ## 직접 기록하는 법 (설치자용)
+
+> **더 적용하지 않음(2026-11-24):** 0.11.0부터 플러그인은 스코어카드를 묻거나 쓰지 않는다(`CHANGELOG.md` 0.11.0). 아래 자동 기록 경로와 규격 파일(`skills/loop/references/scorecard.md`)은 0.11.0에서 함께 없어졌다. 아래 절차는 당시 절차다.
 
 v0.4.0부터 `/unknowns:loop`의 10단계와 `/unknowns:quiz` 마무리가 이 행을 **자동으로 물어보고 쓴다**
 (`.unknowns/scorecard.md`, 규격은 [skills/loop/references/scorecard.md](../skills/loop/references/scorecard.md)).

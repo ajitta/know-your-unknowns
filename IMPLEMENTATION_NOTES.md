@@ -1,5 +1,26 @@
 # Implementation Notes — plan deviation log
 
+> **Conventions of this log (2026-11-24).** Entries are newest first, except the block of 2026-10-10 to 2026-10-14 entries at the end. Entries dated before 2026-10-26 are in Korean, and many of them describe features removed since (hooks, the scorecard, the loop tracker, HTML pages, the skill names `notes`, `loop` and `plan`). Entries headed "Unreleased" (2026-09-30 and 2026-10-01) shipped in 0.8.2, and the `[Unreleased]` figures that the 2026-11-17 entries cite are in `CHANGELOG.md` 0.13.1. **Todo for human** is a field this repository adds to the deviation-log entry format; `.claude/rules/skill-writing.md` rules 12 and 16 say when to log one. Entries are records and are not rewritten. Open items are tracked in the one open-items table of `docs/handoff.md`; a **Todo for human** not listed there was resolved or became moot (judged 2026-11-24).
+
+## [2026-11-24] Repository brought up to date with 0.13.2: an audit, then the owner's four answers and the audit's recommendations
+
+**Observed**
+- **Situation found**: the owner said documents and rules had rotted across releases and asked for a cleanup against the latest skills, with a prompt-audit style pass. Nine audits (one per area, `/claude-api prompt-audit` method), each checked by a verifier that tried to refute it, gave 252 findings; 8 were refuted and 200 distinct items remained, in twelve batches. Living documents still described machinery removed in 0.10.0 to 0.12.0 (hooks, the scorecard, HTML pages, loop tiers, the old skill names), open items were spread over six handoff lists and 33 unmarked **Todo for human** fields, and some rules contradicted each other or the repository.
+- **Deviation from plan**:
+  1. The owner answered four questions: all twelve batches; new files and new entries here in English, `docs/handoff.md` the one Korean document; the four documents waiting on removed features frozen with a banner; `docs/talk-source.md` updated. The audit's other recommendations (its decisions 5 to 22 and 33) were applied without a separate ruling on each, after the owner was told they would be unless the owner objected. Its decisions 23 to 32 were not applied; each is a row marked as awaiting the owner in the open-items table of `docs/handoff.md`.
+  2. The language rule adds a clause the owner did not state: an edit inside an existing Korean document, a freeze banner included, follows that document's language. This log is the exception the clause does not name: its entries before 2026-10-26 are Korean and new ones are English.
+  3. Two edits outside an approved finding, made because an approved edit had made the text wrong: the closing sentence of the grader `does-not-fire-teach-me` now points at the trigger-matrix collision table, and the frozen `docs/trigger-eval-crowd-2026-09-30.md` got a dated status line saying where re-measurements go now.
+  4. The audit's replacement text for `docs/skill-authoring-guide.md` overstated what the unknowns-loop cases cover; the guide gives the exact coverage instead.
+  5. The three scout cases were judged by reading each rubric against the run, not by a separate judge model.
+  6. The audit report is not kept in the repository: it is 137 thousand characters of Korean, and the approved changes are in the diff and in `CHANGELOG.md` [Unreleased].
+- **Response chosen**: the diff of this branch. Shipped changes: the plugin and marketplace descriptions name the unknowns loop in their list, the OpenAI listing's default prompts use `$unknowns:`, and unknowns-scout names two skills in the rule 9 form. Everything else is developer-only.
+
+**Attributed**
+- **Reason for choice**: the owner asked for the cleanup and answered the questions that set its direction; the remaining recommendations were small and each rested on a finding a verifier had confirmed against the repository. Keeping every open item in one table stops the lists drifting apart again, and the widened old-name test keeps four living documents from rotting back.
+- **Alternatives considered**: (a) ask the owner to rule on all 33 decisions before editing: not done, the owner had answered the four that changed the work's direction and had been told the rest would follow the recommendations. (b) Delete the frozen documents: the owner chose banners; `CHANGELOG.md` cites several of them as evidence. (c) Rewrite `docs/trigger-matrix.md` and the other living Korean documents in English: not done, the edit-follows-the-document clause keeps each file in one language.
+- **Risk/follow-up check**: the scout cases passed once each (`CHANGELOG.md` [Unreleased]). The changed graders, the multi-turn judge prompt and the simulated user of `quiz-hides-key-and-gates-on-six` have not been run; they are a row in the open-items table for the next release check, as is the `release.yml` tag check, which rests on a hypothesis no run has tested.
+- **Todo for human**: confirm or change the language clause in item 2, and the audit decisions applied without a separate ruling (item 1); the undecided ones are in the open-items table.
+
 ## [2026-11-22] Release 0.13.2: review findings handled, with choices made where a finding left one open
 
 **Observed**

@@ -18,10 +18,10 @@ What that buys you, concretely:
 - The work is judged by the outcome you were after, not only by the artifact: the loop ends by asking you whether the result achieved it.
 - A request you and the AI both understand gets no method. Inside a skill or the loop, a request whose result carries weight is first read back in 2–3 lines (the request, the assumptions, what counts as done) and done once you confirm; a trivial request is just done. A mismatch goes to teach-me (you don't know), interview (the AI doesn't) or blindspot (neither). For that read-back on every request, see Scenario A.
 - Reactable deliverables are **Markdown in the conversation**, with numbered items and an assembled reply you can copy. Select the item numbers or describe the changes you want.
-- Plan deviations are recorded by the skill instructions at stage boundaries and before the turn ends; no automatic reminder runs.
+- When the work departs from the plan, the deviation-log skill records each departure in a file you review at wrap-up; it runs when you call it by name or trigger phrase, or inside the loop, and does not start on its own.
 
 > **Measurement status: unmeasured.** The value contract
-> ([`docs/value-contract.md`](docs/value-contract.md)) holds that this plugin earns its
+> ([`docs/value-contract.md`](docs/value-contract.md), kept as a record since 0.11.0) set the bar: this plugin earns its
 > place only when it surfaces something you did not already know **and** that changes a
 > decision. The plugin ships no in-session measurement of that, so the claims above
 > are design intent, not measured outcomes.
@@ -66,8 +66,7 @@ Then start a new session (or run `/reload-plugins`) and check it loaded:
 /unknowns:blindspot test
 ```
 
-If the skill answers with an investigation procedure that ends at an improved prompt,
-you are set. From there:
+If the skill asks before it investigates (what you are already sure of, what you are assuming and where you cannot judge, with its own three lists beside them, or first what the task is), it has loaded; after your answer or a skip it investigates and ends at an improved prompt. From there:
 
 - Big or unfamiliar task, in any domain → `/unknowns:unknowns-loop <task description>` is all
   you need; Claude drives the rest stage by stage.
@@ -105,7 +104,7 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 
 The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
 
-**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route.
+**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route. Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.2, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2; see `CHANGELOG.md`.
 
 **Supported models:** Claude Opus 5.5 and GPT-6.1 Sol at medium effort. The evals run on these; other models and effort levels are not tested.
 
@@ -158,11 +157,11 @@ The owner checked the zip upload with a skill called from ChatGPT mobile on 0.12
 
 1. Use the route for your host above with the same package.
 2. No Python or shell is required by the installed plugin: it ships instructions and listing assets only.
-3. Developers building from source need Python; use `py -3` where the development commands below say `python3`. The rebuilt package has not been exercised locally on Windows; earlier Windows hook checks were CI-only and the hooks are now removed.
+3. Developers building from source need Python; use `py -3` where the development commands below say `python3`. The plugin's behavior inside a host on Windows is not measured.
 
 ### What works where
 
-- All eleven skills deliver Markdown in the conversation, with numbered reactions and an assembled reply. Where a step needs a tool the host lacks, the skill does the step in the conversation and says what could not be checked.
+- All eleven skills deliver Markdown in the conversation. In blindspot, teach-me, prototypes, brainstorm, reference, tweakable-plan and buy-in you react to numbered items, and your picks assemble into the skill's next deliverable: a revised prompt, a precise request, a requirements list, a reply to send or the final doc. Where a step needs a tool the host lacks, the skill does the step in the conversation and says what could not be checked.
 - The two named agents run only in Claude Code. Elsewhere the steps that call them follow the missing-tool rule above, and buy-in's independent evidence check is not available.
 - The installed package has no hooks or scripts on any surface. A runnable prototype requested during a task can still be code written to files when the host supports it.
 - The deviation log is a file when files are available (`IMPLEMENTATION_NOTES.md` for code work, otherwise `DEVIATIONS.md` beside the deliverable); otherwise the record stays in the conversation.
@@ -210,19 +209,9 @@ For the self-hosted marketplace:
 
 Installed updates require a plugin version change. Uploads must be replaced with a newer archive. The catalog [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins) is an alternative marketplace: its install name remains `unknowns@ajitta`.
 
-Two skills are renamed in 0.12.0: `loop` is now `unknowns-loop` and `notes` is now `deviation-log`. Type `/unknowns:unknowns-loop` and `/unknowns:deviation-log` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`), and replace uploaded skill zips; the trigger phrases are unchanged.
+Three skills are renamed in 0.12.0: `loop` is now `unknowns-loop`, `notes` is now `deviation-log` and `plan` is now `tweakable-plan`. Type `/unknowns:unknowns-loop`, `/unknowns:deviation-log` and `/unknowns:tweakable-plan` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`, `$unknowns:tweakable-plan`), and replace uploaded skill zips; the trigger phrases are unchanged.
 
-### Upgrading from 0.1.x (field-guide)
-
-The old plugin was named `field-guide`. Remove that install and add `unknowns`:
-
-```
-/plugin uninstall field-guide@ajitta
-/plugin marketplace add ajitta/know-your-unknowns
-/plugin install unknowns@know-your-unknowns
-```
-
-The repository's old URL (`ajitta/field-guide`) redirects. Skill mapping: `reference-map` → `reference`, `impl-notes` → `notes` (renamed again in 0.12.0, see below); the other names stay the same.
+Upgrading from 0.1.x, when the plugin was named `field-guide`: run `/plugin uninstall field-guide@ajitta`, then install `unknowns` as in Quick start. The old repository URL (`ajitta/field-guide`) redirects, and the old skill names map `reference-map` → `reference`, `impl-notes` → `deviation-log` (named `notes` until 0.12.0) and `loop` → `unknowns-loop`; the other names stay the same.
 
 ---
 
@@ -312,7 +301,7 @@ Auto-triggers: "teach me", "make me an explainer", "가르쳐줘", "설명서 �
 
 **How it runs**: the domain's mental model as a 3–5 stage pipeline → 3–7 decision axes
 you'll face in this task → a vocabulary ladder per axis (everyday words → expert terms,
-with an example request per term, and terms it could not check marked *unverified*) →
+each with an example request and a source, a line saying which sources it opened and which it cites from memory, and terms whose usage it is not sure of marked *unverified*) →
 before/after comparisons per axis, plus 2–3 named presets so a whole look can be felt at
 once → 4–6 "what good looks like" criteria stated in the new vocabulary → you pick the
 terms and presets to use → and finally a **precise request draft: your original request
@@ -448,13 +437,14 @@ the "map".
 Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
 "수정확률순으로 계획"
 
-**How it runs**: The plan opens with the purpose and done criteria in one line, saying
-"not set" where you gave none, and says what it does not know about your situation. There
+**How it runs**: The plan opens with one line stating the outcome you are after, the done
+criteria, what already works and must not break, and the allowed cost and change scope,
+saying "not set" where you gave none, and says what it does not know about your situation. There
 is a size gate: work that holds no decision you might want to change (for code, ≤2 files
 with no schema, interface or UX-contract decision, which suits native plan mode) gets
 that line, any questions for missing done criteria, and its steps in execution order
 instead of a document. Otherwise items are presented **in order of how likely they are to
-change**, not execution order. Decision items — what other parts build on, such as plot
+change, weighted by how much breaks if they do**, not execution order. Decision items — what other parts build on, such as plot
 allocation or the city agreement, or schemas and interfaces in code — go at the top,
 each with the alternatives considered, its blast radius, how it will be verified and
 what breaks if it is wrong, and the central artifact (a budget table, a run sheet, or a
@@ -481,8 +471,8 @@ Once called, Claude picks the conservative option, logs the deviation and keeps 
 five measured runs where the work met an unplanned difference and nobody named the log,
 the skill did not start by itself.
 
-**What gets recorded**: only decisions that affect design, behavior, or compatibility
-(wording, formatting, and naming are excluded). A full entry captures: the situation
+**What gets recorded**: decisions that affect design, behavior or compatibility, a spec read differently than planned, an existing structure (code, a venue, a dataset) that differs from what the plan assumed, workarounds, and new dependencies, suppliers or commitments; wording, formatting, naming and a check that came back as planned
+are left out. A full entry captures: the situation
 found / how it deviates from the plan / the response chosen / the reason / alternatives
 discarded / risk and follow-up check, including what only you can judge. A lighter
 one-line **Discovery** shares the same file: reality differs from what the plan assumed,
@@ -695,11 +685,11 @@ goes there; this plugin's loop is `unknowns-loop`, so `/unknowns-loop` reaches i
 it throughout.
 
 **Q. I installed this as field-guide before.**
-That's the old 0.1.x name. Follow "Upgrading from 0.1.x" above: uninstall, then
+That's the old 0.1.x name. Follow the field-guide line under Updating above: uninstall, then
 reinstall.
 
-**Q. Where are the interactive pages?**
-Deliverables are now Markdown in the conversation. Reply by item number or describe the changes; the assistant assembles the next prompt or requirements list. Runnable task prototypes can still be written to files, but there is no generated presentation page.
+**Q. Where do the deliverables appear?**
+As Markdown in the conversation. Reply by item number or describe the changes; the assistant assembles the next prompt or requirements list. A runnable prototype can be written to files when the host supports it.
 
 **Q. Where does the plugin differ from the original material?**
 [`docs/talk-source.md`](https://github.com/ajitta/know-your-unknowns/blob/main/docs/talk-source.md) has a table separating "verified directly from
@@ -723,7 +713,7 @@ plugin-release.json            generated version and content digest
 tools/package.py               validate, regenerate, or check the committed output
 scripts/build-skill-zips.py     optional individual skill uploads/local copies
 tests/                         developer checks
-evals/                         model eval cases and manual runner
+evals/                         model eval cases, manual and multi-turn runners
 docs/                          historical measurements and methodology records
 ```
 
@@ -738,6 +728,7 @@ python3 -m unittest discover -s tests -v
 claude plugin validate --strict plugins/unknowns
 claude plugin validate --strict .
 python3 evals/run-manual.py --verify
+python3 evals/run-multiturn.py --verify
 ```
 
 A non-empty `## [Unreleased]` entry in CHANGELOG.md permits changed shipped content to be rebuilt at the same version and updates `plugin-release.json`. Without that entry, changed content requires a version bump. `--check` always rejects stale generated files, archives, or the digest record; rebuild first.
@@ -746,7 +737,7 @@ Release: bump `plugin-manifest.json`, move the Unreleased entry under the new ve
 
 Text uses UTF-8 and LF. Release archives use ZIP_STORED with fixed timestamps and modes for byte reproducibility. The packager is standard-library-only and supports Python 3.7+; the optional individual-skill helper uses Python 3.9+.
 
-The developer tooling test matrix targets Ubuntu and Windows; strict plugin validation runs on Ubuntu. The new Windows CI job has not been observed running yet. Earlier Windows evidence covered the removed hooks through CI only; the rebuilt package's Windows behavior is not measured. Historical routing results in `docs/` refer to the versions they name. Structural checks do not measure the updated skills' behavior, loading, or uploads.
+The developer tooling test matrix runs on Ubuntu and Windows; strict plugin validation runs on Ubuntu. The plugin's behavior inside a host on Windows is not measured. Historical routing results in `docs/` refer to the versions they name. Structural checks do not measure the skills' behavior, loading, or uploads.
 
 ---
 

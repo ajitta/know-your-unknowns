@@ -103,6 +103,17 @@ class PackageTest(unittest.TestCase):
         self.assertEqual(len(interface["defaultPrompt"]), 3)
         self.assertEqual(pkg.validate_openai_interface(interface, assets), [])
 
+    def test_openai_listing_prompts_name_a_skill(self):
+        # The listing prompts use the same $unknowns:<skill> mention as agents/openai.yaml.
+        interface, assets = pkg.openai_parts()
+        names = {skill.name for skill in self.skills}
+        self.assertEqual(pkg.validate_openai_interface(interface, assets, skill_names=names), [])
+        for prompt in ("Use unknowns:quiz to quiz me.", "Use $unknowns:missing to run it.", "Quiz me."):
+            with self.subTest(prompt=prompt):
+                changed = dict(interface, defaultPrompt=[prompt])
+                errors = pkg.validate_openai_interface(changed, assets, skill_names=names)
+                self.assertTrue(any("$unknowns:<skill>" in e for e in errors), errors)
+
     def test_generated_files_use_lf(self):
         for name, data in self.files.items():
             if name != pkg.CLAUDE_ICON_PATH:
@@ -235,7 +246,7 @@ class PackageTest(unittest.TestCase):
         changed = dict(self.files)
         changed[resource] = b"Read `guide.md`, `docs/guide.md` and `../SKILL.md`.\n"
         changed[resource] += b"Also read `docs/guide file$.md`.\n"
-        changed[resource] += b"Use `.unknowns/2026-01-01-quiz-x-key.md`, `IMPLEMENTATION_NOTES.md`, `CHANGELOG.md`, `CLAUDE.md`, `.claude/rules/unknowns.md` and `.gitignore` for project records.\n"
+        changed[resource] += b"Use `.unknowns/2026-01-01-quiz-x-key.md`, `IMPLEMENTATION_NOTES.md`, `DEVIATIONS.md`, `CHANGELOG.md`, `CLAUDE.md` and `.gitignore` for project records.\n"
         changed["skills/tweakable-plan/references/guide.md"] = b"Guide.\n"
         changed["skills/tweakable-plan/docs/guide.md"] = b"Guide.\n"
         changed["skills/tweakable-plan/docs/guide file$.md"] = b"Guide.\n"

@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3f7f5">
-  <meta name="description" content="Know Your Unknowns is a Claude Code plugin for finding blind spots, shaping plans, and reviewing what changed during implementation. Explore the skills and install it from GitHub.">
+  <meta name="description" content="Know Your Unknowns is a plugin for the gap between your plan and the actual situation, in any domain: what you don't know, what the AI doesn't, and what neither knows yet. Eleven skills and two Claude Code agents, for Claude Code, claude.ai, Codex and ChatGPT.">
   <meta name="google-site-verification" content="jMH7Vovuubz9O26rgOam803mKx9rvFa1m46VuDWj_Os">
   <link rel="canonical" href="https://ajitta.github.io/know-your-unknowns/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Know Your Unknowns — Claude Code plugin">
-  <meta property="og:description" content="Find blind spots before implementation, keep plans aligned with reality, and review what changed.">
+  <meta property="og:description" content="Find what you don't know, what the AI doesn't, and what neither of you knows yet — before, during and after the work, in any domain.">
   <meta property="og:url" content="https://ajitta.github.io/know-your-unknowns/">
   <title>Know Your Unknowns — Claude Code plugin</title>
   <style>
@@ -126,7 +126,7 @@
       <div class="wrap hero-grid">
         <div>
           <h1>Find the gap before it finds you.</h1>
-          <p class="hero-lead">Know Your Unknowns is a Claude Code plugin for discovering blind spots, shaping plans, and reviewing what changed during implementation.</p>
+          <p class="hero-lead">Know Your Unknowns is a plugin for Claude Code, claude.ai, Codex and ChatGPT that finds what you don't know, what the AI doesn't know about your situation, and what neither of you knows yet — before, during and after the work, in any domain.</p>
           <div class="actions">
             <a class="button" href="#install">Install the plugin</a>
             <a class="text-link" href="https://github.com/ajitta/know-your-unknowns">View the GitHub repository ↗</a>
@@ -136,7 +136,7 @@
           <p class="map-title">From plan to reality</p>
           <div class="map-row"><span>Before</span><p>What am I missing?</p></div>
           <div class="map-row"><span>During</span><p>What changed, and why?</p></div>
-          <div class="map-row"><span>After</span><p>What should I verify before merging?</p></div>
+          <div class="map-row"><span>After</span><p>Did the result achieve what I was after?</p></div>
           <p class="map-gap">Make the unknowns visible while decisions can still change.</p>
         </div>
       </div>
@@ -146,7 +146,7 @@
       <div class="wrap band-inner">
         <p><strong>11 skills</strong>Use the whole workflow or call one technique at a time.</p>
         <p><strong>2 agents</strong>Support independent investigation and review.</p>
-        <p><strong>2 hooks</strong>Guard read-only work and prompt for deviation notes.</p>
+        <p><strong>Any domain</strong>A grant, a policy, an event, a study, a hire or a codebase.</p>
       </div>
     </div>
 
@@ -167,7 +167,7 @@
           </article>
           <article>
             <h3>Review the work</h3>
-            <p><code>deviation-log</code> records plan deviations. <code>quiz</code> checks understanding before merge. <code>buy-in</code> helps explain the result to reviewers.</p>
+            <p><code>deviation-log</code> records where the work departed from the plan. <code>quiz</code> checks that you can explain the work before you hand it over. <code>buy-in</code> answers what approvers don't know, with evidence.</p>
           </article>
         </div>
       </div>
@@ -178,7 +178,7 @@
         <div>
           <h2>Install in Claude Code</h2>
           <p>Run these commands inside a Claude Code session. Start a new session or run <code>/reload-plugins</code>, then try <code>/unknowns:blindspot test</code>.</p>
-          <a href="https://github.com/ajitta/know-your-unknowns#installation">Other installation options on GitHub ↗</a>
+          <a href="https://github.com/ajitta/know-your-unknowns#install">Other installation options on GitHub ↗</a>
         </div>
         <pre><code>/plugin marketplace add ajitta/know-your-unknowns
 /plugin install unknowns@know-your-unknowns</code></pre>

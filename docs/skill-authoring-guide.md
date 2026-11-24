@@ -20,12 +20,12 @@ Claims in secondary sources that the official page does not make:
 |---|---|
 | Claude reads roughly the first 100 lines of any long file to decide whether to load it | Partial reads (`head -100`) are described for files reached through nested references; the table of contents is for reference files over 100 lines. |
 | Anthropic now asks to trim instructions for newer reasoning models | Not on this page. The per-model questions ask whether the skill gives Haiku enough guidance and whether it avoids over-explaining for Opus. |
-| Document the intended model in the YAML front matter | Not on this page. This repository's frontmatter whitelist (`name`, `description`) does not allow it either. |
+| Document the intended model in the YAML front matter | Not on this page. This repository's frontmatter whitelist (`ALLOWED_KEYS` in `tools/package.py`: `name`, `description`, `license`, `metadata`, `compatibility`, `allowed-tools`) has no model key either. |
 | Low freedom for payments and deletions | The page's example is a database migration; payments and deletions are the source's extension. |
 
 ## Supported models and effort
 
-Owner policy (2026-11-03): the plugin is developed for and checked on **Claude Opus 5.5** (Claude Code, claude.ai) and **GPT-6.1 Sol** (Codex, ChatGPT), both at **medium effort**. No other model is tested; Sonnet and Haiku are not tuning targets.
+Owner policy (2026-11-03): the plugin is developed for and checked on **Claude Opus 5.5** (Claude Code, claude.ai) and **GPT-6.1 Sol** (Codex, ChatGPT), both at **medium effort**. Other models (for example Claude Fable 5.2) may be run for a reading or a cross-check; they are not supported models or tuning targets (owner, 2026-11-24).
 
 This follows the page's principle ("Test your Skill with all the models you plan to use it with"): the set of planned models is ours to name. The page's checklist line "Tested with Haiku, Sonnet, and Opus" is that principle applied to a skill meant for all three, so it is replaced here by the two named models.
 
@@ -44,7 +44,7 @@ Measurement rules:
 - Development and iteration run on Opus 5.5 at medium effort. GPT-6.1 Sol at medium effort runs once per release build.
 - Users on other models or efforts are not covered by any measurement. The READMEs say which models and effort the plugin was checked on.
 
-Run counts (owner, 2026-11-03: fewer runs; a run sizes a decision, it does not prove completeness). Write the decision rule before the run. Pass the count with `--runs`; the `runs: 3` in each case file is the structural minimum `--verify` checks, not the count to run.
+Run counts (owner, 2026-11-03: fewer runs; a run sizes a decision, it does not prove completeness). Write the decision rule before the run. Pass the count with `--runs`; the `runs: 3` in each case file is the structural minimum `evals/run-manual.py --verify` checks (`evals/run-multiturn.py --verify` checks only that `runs` is at least 1), not the count to run.
 
 | Check | Runs |
 |---|---|
@@ -68,7 +68,7 @@ Status values: **covered** (an existing rule or check already does it), **adopt*
 | `name` without the reserved words `anthropic`, `claude` | covered | `tools/package.py` (added 2026-11-03); the name pattern already excludes XML tags |
 | `description` 1–1,024 characters | covered | `tools/package.py`. This repository's own limit is 200 characters (`skill-writing.md` rule 18, owner ruling 2026-11-12), checked by `tests/test_portability.py` and `tests/test_skill_descriptions.py`. |
 | `description` without XML tags | covered | `tools/package.py` rejects `<` and `>` (added 2026-11-03) |
-| `SKILL.md` body under 500 lines | covered | `tools/package.py` (added 2026-11-03); the longest body is 111 lines |
+| `SKILL.md` body under 500 lines | covered | `tools/package.py` (added 2026-11-03); the longest body (blindspot) is 98 lines at 0.13.2 |
 | Claude Code truncates `description` plus `when_to_use` at 1,536 characters | covered | the 1,024 limit is stricter |
 
 ### Structure
@@ -121,7 +121,7 @@ Set freedom per step, not per skill. In this plugin:
 | Practice | Status | Note |
 |---|---|---|
 | Clear sequential steps | covered | Rules 1–3. |
-| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it by the run-count table. No eval case runs the loop's stages yet, so the medium-effort baseline gave no evidence either way. A checklist in a short skill is read on every run and repeats the steps. |
+| A checklist the model copies into its reply and ticks off | watch | Candidate for `unknowns-loop` only (seven stages). Add it when a medium-effort run skips or merges a stage, then check it by the run-count table. Since 0.12.4 the four `behavior-unknowns-loop-*` cases and the multi-turn `unknowns-loop-criteria-unanswered` run parts of the loop (its stage plan and order, a failed probe, criteria the user declines to set); no case runs every stage to the end. Read their results before adding it. A checklist in a short skill is read on every run and repeats the steps. |
 | Return to an earlier step when a check fails | covered where the check uses outside evidence | blindspot's evidence and status, the independent-reviewer agent. A loop that only re-reads the model's own output adds a pass with no new evidence and is not added. |
 | Plan-validate-execute with a script | n/a | No scripts. |
 
@@ -147,7 +147,7 @@ Set freedom per step, not per skill. In this plugin:
 
 | Practice | Status | Note |
 |---|---|---|
-| At least three evaluations per skill | covered | `evals/` has single-turn and multi-turn cases for every skill; `independent-reviewer` has two. |
+| At least three evaluations per skill | covered | `evals/` has single-turn cases for every skill and multi-turn cases for eight of them (none for brainstorm, deviation-log or tweakable-plan); `independent-reviewer` has two and `unknowns-scout` one. |
 | Baseline without the skill | covered | `--arm` in `evals/run-manual.py`. Distinct from comparing two plugin versions, which the owner does not run. |
 | Claude A writes, Claude B uses, observe and refine | covered | Failures read from this build's own runs. |
 | Test with real usage | covered | Owner surface checks recorded in the handoff. |

@@ -3,9 +3,11 @@ type: llm
 focus: last_message
 ---
 
-Count the questions this response puts to the user in this round: every numbered
-item, bulleted item or sentence ending in a question mark that asks the user to
-decide something. A rhetorical aside or a restatement of the task is not a question.
+Count the questions this response puts to the user in this round, as the interview
+skill counts them: every numbered item, bulleted item or sentence ending in a question
+mark that asks the user to decide something or to supply a fact, a further question
+inside an item, an option or a reason, and a request that the user check something
+elsewhere. A rhetorical aside or a restatement of the task is not a question.
 
 All of these must hold:
 
@@ -20,4 +22,4 @@ All of these must hold:
    (what the assistant cannot know or judge from here), without multiple-choice options
    for the decisions; those come in later rounds.
 
-Fail if five or more decisions are put to the user at once.
+Fail if five or more questions are put to the user at once.

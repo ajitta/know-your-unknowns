@@ -1,5 +1,7 @@
 # 결정 기록과 미결 사항
 
+> **동결(2026-11-24):** 이 문서는 0.9.2 시점의 결정 색인으로 동결했고, 다시 편집하지 않는다. 0.10.0부터 결정은 `IMPLEMENTATION_NOTES.md`와 [handoff.md](handoff.md)에, 측정은 `CHANGELOG.md`의 **Checked** 절에 있다. B3·B4·B7은 같은 날 닫아 아래 "해소되어 표에서 내린 항목"으로 옮겼고, 남은 B8은 handoff.md의 남은 일 표로 옮겼다. 맨 아래 처리 규칙은 당시 규칙이다.
+
 작성: 2026-07-11(사각지대 26건 전환 직후) · 개정: 2026-09-07(리뷰 웨이브 결과 + 0.5.1·0.6.0 릴리스 위생 반영) · 2026-10-02(A4에 0.7.1–0.8.2 릴리스 기록 추가, 카탈로그 경유 배포 재실측 추가) · 2026-10-10(A4에 0.8.3 릴리스 기록 추가) · 2026-10-14(A4에 0.8.4 릴리스 기록 추가) · 2026-10-18(A4에 0.9.0·0.9.1 릴리스 기록 추가) · 2026-10-22(B8 brainstorm 충돌 재현 추가, A4에 0.9.2 릴리스 기록 추가).
 
 2026-07-11에는 전부 "미결정"이었다. 2026-09-06 리뷰 웨이브에서 A1–A5와 B6이 결정됐고,
@@ -12,6 +14,8 @@
 `CHANGELOG.md`·`IMPLEMENTATION_NOTES.md`(저장소 루트).
 
 ## A. 결정 완료
+
+> **상태(2026-11-24, 0.13.2 기준):** A1–A7은 0.9.2까지의 결정 기록이다. 그 뒤 릴리스가 여럿을 대체했다. A1의 HTML 사다리와 A5의 스코어카드는 0.10.0·0.11.0에서 제거됐다(산출물은 대화 안의 Markdown). A3의 notes 파일 규칙은 지금 deviation-log 2단계(파일이 없으면 만든다)다. A4의 `scripts/build-plugin.sh`와 `.plugin` 자산은 0.10.0에서 `tools/package.py`·`releases/*.zip`·`.github/workflows/release.yml`로 바뀌었다. A6의 근거였던 읽기 전용 지시와 PreToolUse 가드는 없어졌다(두 에이전트는 모든 도구를 물려받고, `memory` 필드는 여전히 쓰지 않는다). A7의 이동은 0.10.0에서 실행됐다. '반영된 곳' 열의 경로 가운데 여럿은 더 이상 없다. A4의 릴리스 기록은 0.9.2에서 멈췄고, 0.10.0 이후의 결정과 릴리스는 `CHANGELOG.md`, `IMPLEMENTATION_NOTES.md`, [handoff.md](handoff.md)에 있다.
 
 | # | 질문 | 결정 | 반영된 곳 |
 |---|------|------|-----------|
@@ -27,13 +31,22 @@
 
 | # | 항목 | 방법 | 트리거 조건 |
 |---|------|------|------------|
-| B3 | Cowork 출력 분기 | Cowork에서 prototypes/plan 호출, A1 사다리의 어느 칸이 잡히는지 관측 | Cowork 접근 가능할 때 |
-| B4 | 중·대형 루프 티어 준수 | 대화형 세션에서 medium(1→2→3→6→7→9)·large(전 단계) 실측 — 헤드리스는 interview가 성립 안 함 | 다음 실전 중형 과제 |
 | B8 | brainstorm 충돌 재현 | 소유자 보고("review·brainstorm 같은 스킬이 의도하지 않게 트리거") 중 brainstorm 쪽은 Claude Code CLI 기록(Skill 호출 270건, 의도하지 않은 것 0)과 dia·design·SuperClaude 동반 단발 스크린에서 재현되지 않았다. 소유자가 본 문장과 표면(claude.ai·데스크톱·모바일 포함)을 받아 그 조건으로 재현한 뒤에만 description을 고친다 — [features/agent-collision/](features/agent-collision/README.md) | 소유자가 사례를 줄 때 |
-| B7 | 방법론 효능 | scorecard 10행 누적 후 결정-변경 비율 평가 | 실사용 누적 (A5 배선이 선행) |
+
+> (2026-11-24) B8은 [handoff.md](handoff.md)의 남은 일 표로 옮겼다. 위 행은 당시 기록이다.
 
 ## 해소되어 표에서 내린 항목
 
+- **B3 Cowork 출력 분기 — 무효(2026-11-24 기록).** 표에 있던 내용: 방법 "Cowork에서 prototypes/plan 호출,
+  A1 사다리의 어느 칸이 잡히는지 관측", 트리거 "Cowork 접근 가능할 때". 0.10.0부터 산출물은 대화 안의
+  Markdown뿐이라 관측할 A1 사다리가 없다. `plan`은 0.12.0에서 `tweakable-plan`이 됐다.
+- **B4 중·대형 루프 티어 준수 — 무효(2026-11-24 기록).** 표에 있던 내용: 방법 "대화형 세션에서
+  medium(1→2→3→6→7→9)·large(전 단계) 실측 — 헤드리스는 interview가 성립 안 함", 트리거 "다음 실전 중형
+  과제". 0.11.0이 루프 티어와 추적기(`.unknowns/loop.json`)를 제거했다.
+- **B7 방법론 효능 — 측정 수단 없음(2026-11-24 기록).** 표에 있던 내용: 방법 "scorecard 10행 누적 후
+  결정-변경 비율 평가", 트리거 "실사용 누적 (A5 배선이 선행)". 트리거였던 스코어카드(A5)는 0.11.0에서
+  제거됐고, value-contract.md 맨 위 상태 줄이 제품 안의 데이터 원천이 없다고 적는다. 소유자가 다른 측정
+  방법을 정하면 handoff.md의 남은 일 표에 새 행으로 연다.
 - **B6 `$ARGUMENTS` 빈 인자 동작** — 스킬 문면으로 해소. 인자가 없을 때의 동작을 각 스킬이 직접
   정의한다(blindspot·teach-me·interview·prototypes·brainstorm·plan·buy-in·loop). `notes`는
   리터럴 치환 사고를 피하려고 `$ARGUMENTS` 토큰을 아예 두지 않고 산문으로 모드를 묶었다.
@@ -59,6 +72,9 @@
   본문에 결정 카드·기각 대안·검증·롤백·가장 약한 부분을 인라인으로 재현했다.
   루브릭이 금지한 구성 요소이되 문면은 "문서"를 금지하므로 위반 여부가 갈린다.
   **스스로 채점하지 않고 판사 모델 대기로 남긴다.**
+  → (2026-11-24) 둘 다 풀렸다: `llm` 채점 항목은 0.10.0부터 별도 `claude -p` 판사가 채점하고(0.13.1부터
+  격리 설정, CHANGELOG 0.10.0·0.13.1·0.13.2 **Checked**), 크기 게이트는 tweakable-plan 3단계의 두 경우 표와
+  `defers-to-plan-mode` 채점 항목이 정한다(CHANGELOG 0.13.1).
 
 - **B1 scout 유효 도구에서 Grep/Glob 누락 — 해소. 결함이 아니었다.**
   2026-09-06 프로브에서 `unknowns-scout`가 **Grep과 Glob을 실제로 호출해 성공**했다.
@@ -81,6 +97,7 @@
   **후속으로 하지 않은 것**: `hooks/scripts/agent_readonly_guard.py`의 scout 허용 목록에서
   `grep`/`rg`/`find`를 빼지 않는다. Grep/Glob이 있다고 Bash 검색이 해로워지는 것은 아니고,
   없애야 할 이유가 생긴 것이 아니다.
+  → (2026-11-24) 0.10.0이 훅을 모두 제거해 이 후속 항목은 더 이상 해당하지 않는다.
   근거 로그: 세션 스크래치패드 `b1-run.jsonl`(gitignore 밖, 세션 종료 시 소멸).
 
 - **B2 Windows 훅 스크립트** — 해소. 0.4.0 푸시(`3e6a1aa`)의 CI 실행 `34008269747`에서
@@ -89,6 +106,7 @@
   같은 실행에서 plugin-form 검증 스텝(`claude plugin validate .claude-plugin/plugin.json --strict`)도
   처음으로 돌아 통과했다. **남은 미검증**: 훅이 Windows에서 실제로 *발화*하는 경로(`python3`가
   기본 PATH에 없는 문제)는 여전히 실사용자 제보가 필요하다 — 이번에 증명된 것은 스크립트 단위 동작뿐이다.
+  → (2026-11-24) 0.10.0이 훅을 모두 제거해 이 항목은 더 이상 해당하지 않는다.
 - **마켓플레이스 설치 경로 실측** — 해소. 2026-09-06에 카탈로그 경유로 재실행했다:
   `/plugin marketplace add ajitta/claude-plugins` + `/plugin install unknowns@ajitta` →
   `unknowns@ajitta` **0.5.1 / local 스코프 / enabled**, 캐시
@@ -102,6 +120,7 @@
   (카탈로그 소스가 git `url`이라 push하지 않은 편집은 어떤 경로로도 보이지 않는다).
   개발 중 즉시 반영이 필요하면 `directory` 스코프 설치를 따로 둬야 하고, 그때는 A7의
   `${CLAUDE_PLUGIN_ROOT}` 고정 함정이 다시 적용된다.
+  → (2026-11-24) 0.10.0이 훅을 모두 제거해 이 함정은 더 이상 해당하지 않는다.
 - **카탈로그 경유 배포 재실측(2026-10-02) — `unknowns@ajitta`는 0.8.2를 받는다.**
   질문은 "예전에 `ajitta/claude-plugins`로 설치한 사람도 최신 릴리스를 받는가"였다.
   Claude Code 2.1.287, 격리한 `CLAUDE_CONFIG_DIR`에서
@@ -132,6 +151,8 @@
   카탈로그 경로만 깨뜨렸다. A7(`plugins/unknowns/`로 이동)을 재개하면 이 저장소도 똑같이 된다.
   재개 조건의 "격리 HOME 설치 테스트"는 자기 저장소 경로(`unknowns@know-your-unknowns`)와 카탈로그
   경로(`unknowns@ajitta`) **둘 다** 돌려야 하고, 카탈로그 엔트리 변경은 이동과 같은 날 나가야 한다.
+  → (2026-11-24) A7은 0.10.0에서 실행됐다. 카탈로그 항목은 `git-subdir` `plugins/unknowns`로 바뀌었고,
+  빈 설정 설치가 자체 마켓플레이스와 카탈로그 두 경로 모두 0.13.2를 받는다(CHANGELOG 0.13.2 **Checked**).
   **위 2026-09-06 항목의 로컬 서술은 이제 참이 아니다**: 이 머신의 `known_marketplaces.json`에는
   `ajitta`가 없고 `know-your-unknowns`(`github: ajitta/know-your-unknowns`)가 있다.
   근거 로그: 세션 스크래치패드의 격리 설정 디렉터리 4개(세션 종료 시 소멸).

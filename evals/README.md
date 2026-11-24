@@ -5,10 +5,15 @@ Reproducible trigger and behaviour cases for the `unknowns` plugin.
 The evidence that the skills fire used to be a hand-run n=1 sample covering 3 of the 11
 skills ([docs/trigger-eval-v0.3.0.md](../docs/trigger-eval-v0.3.0.md)), which left every
 description edit after it unverifiable. This directory replaced that with case files two
-different runners can execute. The current measurement is
-[docs/trigger-eval-v0.5.1.md](../docs/trigger-eval-v0.5.1.md): 30 cases, 23 of 23
-mechanical graders passing, no timeouts. What it still cannot say is whether a skill did
-its job *well* — that needs the `llm` rubrics, and those need path A's judge model.
+different runners can execute. The suite holds the single-turn cases that
+`run-manual.py` runs and the multi-turn cases under `multiturn/` that `run-multiturn.py`
+runs; `--verify` on each prints the current count (88 and 13 at 0.13.2). Release checks
+from 0.9.0 on record their figures in that version's **Checked** section of
+`CHANGELOG.md`, most with what they did not measure under **Not measured**; run output
+stays in the git-ignored `evals/results/`. `docs/trigger-eval-*.md` are frozen records of
+the versions or dates they name. The runners score the mechanical graders; `llm` rubrics
+need a judge model: `run-multiturn.py --judge` runs one for the multi-turn cases, and
+`run-manual.py` writes the single-turn rubrics out for a judge or a human.
 
 Two run paths, because `claude plugin eval` is gated:
 
@@ -72,14 +77,17 @@ python3 evals/run-manual.py --case 'behavior-*' --arm both
 against the CLI's own schema (legal frontmatter keys, known grader types, compilable
 patterns, `runs >= 3`, at least one scored grader per case, the `min:0 max:0 arm:both`
 form on every must-NOT-fire guard) **and**, for every `trigger-*` case, that the phrase
-its own `description` declares (the `: '<phrase>'` at the end of that line) is still
-quoted in that skill's `description` on disk and still present in the prompt. Trim a
-phrase out of a `SKILL.md` and `--verify` fails on the case that used it. Run it after
-any description edit; it exits non-zero on any problem.
+its own `description` declares (the `: '<phrase>'` at the end of that line) is still in
+the prompt. For a `trigger-en-*` case the phrase must also still be quoted in that
+skill's `description` on disk; for a `trigger-ko-*` case the description must hold no
+Korean, since descriptions are English-only and the case shows the Korean phrase still
+routes. Trim a phrase out of a `SKILL.md` and `--verify` fails on the English case
+that used it. Run it after any description edit; it exits non-zero on any problem.
 
 Each run gets a fresh temporary cwd and loads the generated `plugins/unknowns/` directory through an absolute `--plugin-dir` path (so the committed payload is measured, not an installed copy), and applies the case's
 `allowed_tools` via `--allowedTools` / `--disallowedTools`. `--arm both` runs the
 with- and without-plugin arms, which is the manual equivalent of the ablation.
+Both runners also pass `--effort medium` to the model under test unless `--effort` names another level (`--effort default` leaves the CLI's own default); the release records in `CHANGELOG.md` from 0.12.3 on use medium.
 
 **Runs stay out of your account.** Both runners start every `claude` call in a fresh,
 empty `CLAUDE_CONFIG_DIR` with `ENABLE_CLAUDEAI_MCP_SERVERS=false`, so a run loads this
@@ -124,7 +132,7 @@ The raw one-liner behind it, adapted to the generated payload path (run from the
 
 ```bash
 claude -p "<prompt body from prompt.md>" --output-format stream-json --verbose \
-  --max-turns 6 --plugin-dir ./plugins/unknowns --disallowedTools Edit Write Bash
+  --max-turns 6 --effort medium --plugin-dir ./plugins/unknowns --disallowedTools Edit Write Bash
 ```
 
 **Input material.** A case that needs real files (a repository to review, a report and its records) carries them in `files/` and a `place-files.sh` named in `case.yaml` under `context: scaffold_script:`, the CLI's own form (`claude plugin eval --scaffold` runs it). `run-manual.py` runs that script with bash in the run's fresh cwd before the run; the script may build a git history (the independent-reviewer code case commits the change under review as `HEAD~1..HEAD`). Each agent the run spawns has its report kept as `agent_reports` beside `last_message`, so a grader with `focus: trace` can judge what the agent found, not the caller's retelling of it.
@@ -201,8 +209,9 @@ for an exact test, before claiming a difference.
 ## What the suite covers
 
 **22 positive trigger cases** — one per language for each of the 11 skills,
-`trigger-{en,ko}-<skill>`. Every prompt embeds a phrase that is quoted verbatim in
-that skill's current `description` (see [docs/trigger-matrix.md](../docs/trigger-matrix.md)).
+`trigger-{en,ko}-<skill>`. Every `trigger-en-*` prompt embeds a phrase quoted verbatim in
+that skill's current `description`; every `trigger-ko-*` prompt embeds a Korean phrase
+that the English-only description does not carry (see [docs/trigger-matrix.md](../docs/trigger-matrix.md)).
 When a description changes, the case that used a dropped phrase must change with it.
 
 **22 non-coding cases** — one per language for each of the 11 skills,
@@ -234,7 +243,7 @@ runs the migration with the README's `CLAUDE.md` line passed as `append_system_p
 which `run-manual.py` hands to `claude -p --append-system-prompt`; the harness has no
 project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 
-**4 negative cases** — the collisions the trigger matrix admits are unresolved:
+**5 negative cases** — the collisions and the overfire direction the trigger matrix lists:
 
 | case | must not fire | why |
 |---|---|---|
@@ -242,18 +251,25 @@ project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 | `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates a specific plan or situation, teach-me teaches vocabulary |
 | `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
 | `neg-one-file-tweakable-plan-defers-to-plan-mode` | (behaviour, not trigger) | the tweakable-plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
+| `neg-generic-howto-does-not-fire-teach-me` | `unknowns:teach-me` | "teach me" is a generic phrase; a how-to with a known answer and a named output is no vocabulary gap |
 
 **2 independent-reviewer cases** — the agent called by name on real material laid into the run by the case's scaffold script: `behavior-independent-reviewer-code-change` (a git repository whose last commit silently misses one of five done criteria) and `behavior-independent-reviewer-report-vs-records` (a pilot report whose figures contradict the records beside it). Graders: the agent is spawned; each done criterion judged met, partial or missing; the planted miss found; an outcome judgement (or "outcome not judgeable"); a claim-checks part.
 
-**3 behaviour cases** — these grade the deliverable, not the trigger:
+**7 behaviour cases** — these grade the deliverable, not the trigger:
 
 | case | checks |
 |---|---|
 | `behavior-blindspot-ends-with-improved-prompt` | the pass ends with a pasteable rewritten prompt that folds in the risks it found |
 | `behavior-interview-max-four-questions` | at most 4 questions reach the user in one round, on a prompt that dangles nine open decisions |
 | `behavior-deviation-log-appends-to-file` | `IMPLEMENTATION_NOTES.md` is actually created, with the entry fields filled — not summarised in chat only |
+| `behavior-blindspot-labels-evidence-status` | findings carry a confirmed / inferred / unchecked status, and nothing about an unseen repository is marked confirmed |
+| `behavior-prototypes-asks-contrast-on-skip` | a skip asks what would have made it a steal, and the option set can grow |
+| `behavior-tweakable-plan-opens-with-done-criteria` | the plan opens with its done criteria, "not set" where the user gave none, and letters each decision's alternatives |
+| `behavior-buy-in-relays-reviewer` | the independent-reviewer's findings and outcome judgement reach the buy-in doc |
 
 **Measuring cases from the second rule-based review** (2026-11-10): 18 single-turn `behavior-*` cases and 7 multi-turn cases, each written to settle one open decision before the text changes. A case runs on the current text; when it fails, a fix decided before the run goes in and the case runs again (the rule, the results and the decision for each are in `IMPLEMENTATION_NOTES.md`, entry 2026-11-10). They cover, among others: a loop whose probe fails, a loop the user wants to skip investigating, a deviation report and a wrap-up, a public rename and a difference the plan never mentioned, blindspot's verdict on each assumption, brainstorm finding an unused module, quiz on a submission, reference corrected in free text, a deep interview and an item the user left undecided, buy-in finding a non-code deviation log, and the scout checking a pinned library version.
+
+**13 multi-turn cases** — `evals/multiturn/`: the seven measuring cases above; `interview-then-work` (the interview ends at its decision table and ready-to-use prompt in a folder where the script could be written); and `blindspot-reaches-improved-prompt`, `interview-rounds-stay-at-four`, `prototypes-saturation-after-reactions`, `quiz-hides-key-and-gates-on-six` and `reference-correction-revises-plan`, which play blindspot's three lists, interview rounds, prototype reactions, the quiz gate and a numbered semantics-map correction to the end.
 
 ## How the graders are meant to be read
 
@@ -274,10 +290,11 @@ project-memory fixture, so this stands in for the user's `CLAUDE.md`.
 
 ## Known limits — read before quoting a number
 
-1. **`llm` rubrics are unscored on path B.** `run-manual.py` records each one as
-   `manual` and writes its rubric to `summary.md` in the results directory; a human
-   decides. Only path A scores them automatically.
-2. **Interactive question-tool calls are not directly checkable headlessly.** The portable interview still caps a round at four questions, splitting tool calls when needed or using numbered chat replies. With no user to answer during a headless run, `behavior-interview-max-four-questions` grades the observable equivalent: how many decisions the round puts to the user. The
+1. **`llm` rubrics are unscored by `run-manual.py`.** It records each one as `manual`
+   and writes its rubric to `summary.md` in the results directory, for a judge run
+   outside this script or a human. `run-multiturn.py --judge` (or `--judge-dir`) judges
+   the multi-turn rubrics with a separate `claude -p`.
+2. **Interactive question-tool calls are not directly checkable headlessly.** The portable interview still caps a round at four questions, splitting tool calls when needed or using numbered chat replies. With no user to answer during a headless run, `behavior-interview-max-four-questions` grades the observable equivalent: how many questions the round puts to the user, counted as the interview skill counts them. The
    `no-fifth-numbered-question` regex only catches numbered or bulleted lists; the
    `llm` grader is the real check.
 3. **Negative cases prove absence weakly.** A skill not firing on three runs is
@@ -290,19 +307,27 @@ project-memory fixture, so this stands in for the user's `CLAUDE.md`.
    of `trigger-en-quiz` said "you just rewrote our webhook receiver", and the run
    correctly refused ("this session has no prior turns, and the working directory is
    empty"), scoring 0 in both arms for a reason that had nothing to do with the
-   plugin. If you add a case, give it its material. What the suite therefore measures
-   is what a skill does with a *described* situation, not with real code it can read.
+   plugin. If you add a case, give it its material. Cases without a scaffold script
+   therefore measure what a skill does with a *described* situation; scaffolded cases
+   hand it real files, and some of them (`behavior-independent-reviewer-code-change`,
+   `behavior-brainstorm-scout-finds-unused`, `behavior-scout-checks-pinned-version`)
+   real code it can read.
 
 ## Recording results
 
-After a run, record the numbers in `docs/trigger-eval-<version>.md` — replacing
-`docs/trigger-eval-v0.3.0.md`, whose "6/6, 0 mis-fires" measured the longer v0.3.0
-descriptions and is not a measurement of the current ones. Files under `docs/` are
-Korean; this directory and `tests/` are English.
+After a release check, record the figures in that version's **Checked** section of
+`CHANGELOG.md`, as releases from 0.9.0 on do, and what was not measured under
+**Not measured**; run output stays in the git-ignored `evals/results/`.
+`docs/trigger-eval-*.md` are frozen records of the versions or dates they name; v0.3.0's
+"6/6, 0 mis-fires" measured the longer v0.3.0 descriptions. Write new files and new
+`IMPLEMENTATION_NOTES.md` entries in English; existing Korean records stay as written, an
+edit inside one (a freeze banner included) follows its language, and `docs/handoff.md`,
+which the owner keeps, stays in Korean.
 
 Record, at minimum: the CLI version, which path was used, per-case score, Δ against
-the no-plugin arm, and what was *not* measured. `evals/results/*/summary.md` is
-already in that shape.
+the no-plugin arm, and what was *not* measured. `evals/results/*/summary.md` gives the
+method, arms, config and each run's mechanical score; add the CLI version and the Δ by
+hand.
 
 `docs/trigger-matrix.md` is the map from skills to trigger phrases; this suite is the
 measurement of it. Changing one without the other is how they drift.

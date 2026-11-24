@@ -1,5 +1,7 @@
 # 트리거 eval — v0.7.1 on Claude Opus 5.5 (2026-09-25)
 
+> **동결 기록(0.7.1, 2026-09-25).** 여기서 잰 blindspot description 문장("run it even when you could answer directly")은 0.13.0에서 빠졌다. 한국어 blindspot 후속 측정은 CHANGELOG 0.12.1 **Checked**(10/10, 10/10)에 있고, `llm` 채점기는 0.10.0부터 별도 `claude -p` 판사가 채점한다. 이후 측정은 [trigger-eval-crowd-2026-09-30.md](trigger-eval-crowd-2026-09-30.md)와, 0.9.0부터 각 릴리스 `CHANGELOG.md`의 **Checked** 절에 있다.
+
 - 모델: `claude-opus-5-5` (`ANTHROPIC_MODEL`), Claude Code 2.1.281, Linux aarch64
 - 방법: 경로 B — `python3 evals/run-manual.py --arm with`, 31개 케이스 전부. `llm` 채점기는
   judge 모델이 필요해서 채점하지 않았다. 아래 표는 기계 채점(`tool_used`·`regex`·`file_exists`)

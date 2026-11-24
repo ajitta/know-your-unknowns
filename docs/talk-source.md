@@ -51,14 +51,14 @@ gap between them is your unknowns."
 | 5 | Brainstorm the Intervention | Pre-implementation | `brainstorm` skill |
 | 6 | The Interview | Pre-implementation | `interview` skill |
 | 7 | Point at a Reference | Pre-implementation | `reference` skill |
-| 8 | The Tweakable Plan | Pre-implementation | `plan` skill |
-| 9 | Implementation Notes | During implementation | `notes` skill + reminder hook |
+| 8 | The Tweakable Plan | Pre-implementation | `tweakable-plan` skill |
+| 9 | Implementation Notes | During implementation | `deviation-log` skill |
 | 10 | The Buy-In Doc | Post-implementation | `buy-in` skill |
 | 11 | Quiz Me Before I Merge | Post-implementation | `quiz` skill |
 
-The `loop` skill is the orchestrator that threads these techniques in order;
-the `independent-reviewer` agent is an independent verification step between
-#8 and #11 (a plugin extension).
+The `unknowns-loop` skill is the orchestrator that threads these techniques in order
+(it has no original counterpart); the `independent-reviewer` agent, which the `buy-in`
+skill calls to check the evidence behind each answer, is a plugin extension.
 
 ## Per-example source record (prompt + provenance)
 
@@ -136,7 +136,7 @@ Provenance — talk (12:58–13:35): "give it another map"; "Here's some code th
 what I want. It could be in a different system or language. Read this code, understand it,
 and use that to start your work."
 
-### 8. The Tweakable Plan → `plan` skill
+### 8. The Tweakable Plan → `tweakable-plan` skill
 
 > Write an implementation plan for annotation export as HTML, but lead with the decisions
 > I'm most likely to tweak: data model changes, new type interfaces, and anything
@@ -146,7 +146,7 @@ Provenance — page only, no talk passage. The demo sorts by likelihood-of-tweak
 than execution order, attaches alternatives to the judgment calls, and folds the mechanical
 work into a section marked "safe to skip entirely".
 
-### 9. Implementation Notes → `notes` skill + reminder hook
+### 9. Implementation Notes → `deviation-log` skill
 
 > Keep an implementation-notes file as you build the export feature. If you hit an edge
 > case that forces you to deviate from the plan, pick the conservative option, log it under
@@ -176,16 +176,17 @@ merging it."
 
 ## Shared output format
 
-The shared format of the original examples — **single-file interactive HTML
+The shared format of the original examples is **single-file interactive HTML
 with a reaction-assembly UI** (steal/skip chips, resonate checkboxes,
-copyable prompt fixes, selections auto-assembled into a reply template) — is
-the plugin's default deliverable shape. As of 0.4.0 the rules live in one place,
-`skills/loop/references/output-routing.md`, and the skills carry only a 3-line pointer.
-Two deliberate exceptions: `interview` performs reaction-assembly directly through
-AskUserQuestion dialogue, so it needs no separate HTML; and `notes`, as in the
-original, produces a markdown file log (`IMPLEMENTATION_NOTES.md`). Rationale: the
-parent post's claim — turn documents people skim into documents they actually read,
-and export reactions back in a form the agent can read, keeping the loop short.
+copyable prompt fixes, selections auto-assembled into a reply template). The plugin
+keeps the reaction assembly and not the HTML: since 0.10.0 its deliverables are
+Markdown in the conversation, with numbered items the user picks or corrects by number
+and an assembled reply to copy (a prompt, a requirements list, a decision summary).
+Runnable prototypes for the task may still be written to files. The `deviation-log`
+skill, as in the original, keeps a Markdown file log (`IMPLEMENTATION_NOTES.md` for
+code work, otherwise the file the user names or `DEVIATIONS.md` beside the
+deliverable). Rationale kept from the parent post: export reactions back in a form the
+agent can read, keeping the loop short.
 
 ## Techniques verified directly from the talk (with timestamps)
 
@@ -195,7 +196,7 @@ and export reactions back in a form the agent can read, keeping the loop short.
 | Four divergent prototypes ("I have no visual taste… four widely different design decisions") | 11:39–12:28 | `prototypes` skill |
 | Pre-implementation interview ("prioritize questions that would change the architecture") | 12:28–12:58 | `interview` skill |
 | Reference = another map ("give it another map") | 12:58–13:35 | `reference` skill |
-| Implementation notes ("runs into an unknown, ask it to log it") | 13:35–13:57 | `notes` skill + reminder hook |
+| Implementation notes ("runs into an unknown, ask it to log it") | 13:35–13:57 | `deviation-log` skill |
 | Post-work quiz ("quiz me… so I can represent this work") | 13:57–14:23 | `quiz` skill |
 
 ## Key concepts from the talk (externally fact-checked)
@@ -233,13 +234,16 @@ Structural extensions:
 
 - Each skill's concrete prompt templates, procedures, and priority lists (the
   sources are example demonstrations)
-- The `IMPLEMENTATION_NOTES.md` filename and entry format (the talk only says
-  "log it"; the demo writes `docs/notes/export-feature-implementation.md`)
-- The `loop` skill's 10-step workflow, scale-down tiers, and `.unknowns/loop.json`
-  stage tracker
+- The deviation log's file names and entry format (`IMPLEMENTATION_NOTES.md` for code
+  work, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable; the
+  talk only says "log it"; the demo writes `docs/notes/export-feature-implementation.md`)
+- The `unknowns-loop` skill's sequence: a read-back for requests both sides understand,
+  done criteria in one exchange, stages before, during and after the work, and an
+  outcome check with the user
+- The plugin's scope: three cells of what the user and the AI know (adapted from the
+  Johari window's Blind, Hidden and Unknown panes), in any domain, judged by the outcome
 - The `independent-reviewer` agent (an extension of the talk's "stay in the
-  loop" spirit)
-- The edit-count-based reminder hook
+  loop" spirit), which the `buy-in` skill calls
 
 Devices that read as source-derived but are not (each with the source's counterpart).
 Two entries left this list in 0.4.0: blindspot now uses the source's four card kinds,
@@ -253,29 +257,30 @@ and quiz now asks the source's six questions with a pass gate.
   to hit a finding, times how much breaks if it does. "Blast radius" is demo 06's word (for
   interview questions); "likelihood" and applying it to blindspot cards are the plugin's.
   Still an extension, not the source.
-- **The interview priority ladder** (architecture → data loss/security → compatibility →
+- **The interview priority ladder** (structure → harm → compatibility → cost → taste; in
+  code, architecture → data loss or security → external APIs and existing code →
   performance → taste) — demo 06 orders by "blast radius" with four labels only:
   Architecture, Data model, UX, Polish.
-- **Brainstorm's impact × effort matrix** — demo 05 has one axis ("Ship this afternoon →
-  Quarter-long bet") plus S/M/L/XL effort badges, no matrix.
+- **Brainstorm's fields on the picks** — demo 05 spreads its ten interventions along one
+  axis ("Ship this afternoon → Quarter-long bet") with S/M/L/XL effort badges; the plugin
+  keeps that axis, generates the candidates with judgment deferred (name, one line,
+  `Already exists — <where>`), and attaches expected impact, effort size, key risks and a
+  success measure only to the candidates the user picks.
 - **Reference's four analysis categories** — demo 07 reports three: Preserved exactly /
   Deliberately changed / Dropped.
-- **Notes' stop-and-ask escalation** (architecture, user-visible behavior, data, or
-  security decisions halt the run and ask) — demo 09's prompt says the opposite: "pick the
-  conservative option, log it under 'Deviations', and keep going." Since 2026-09-30 the gap
-  is wider: a "Todo for human" may not touch those four areas, and when unsure the skill
-  escalates rather than logs.
+- **The deviation log's wrap-up review order** (entries touching the structure of the
+  work, what others see or were promised, data or money, or security and safety are
+  listed first for the user to review) — demo 09's prompt only says to "pick the
+  conservative option, log it under 'Deviations', and keep going", which the
+  `deviation-log` skill also does.
 
 Numeric defaults in these extensions are deliberate initial guesses, not
-source-derived: the hook threshold of 10 edits; the interview cap of 4
+source-derived, for example the interview cap of 4
 questions per round (the **example page's demo 06**, not the talk, asks one question at
 a time — "Interview me one question at a time about anything still ambiguous in the
 annotation-export feature"; the talk's only count is "ask me 40 questions about the
-spec". 4 per round trades that fidelity for fewer round-trips, and 4 is also
-`AskUserQuestion`'s hard cap, so a round is exactly one call); and the medium-tier step
-subset (1→2→3→6→7→9: step 1 plus the steps that convert unknowns into decisions, dropping
-the exploration and value-review overhead). All are tunable defaults to adjust with use,
-not conclusions.
+spec". 4 per round trades that fidelity for fewer round-trips). It is a tunable default
+to adjust with use, not a conclusion.
 
 Note: "there are no trade-offs" is not applied literally — it means **don't
 compromise too early based on yesterday's cost structure**. Model usage fees,

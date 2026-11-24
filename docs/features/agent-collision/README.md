@@ -7,6 +7,8 @@ updated: 2026-10-22
 ---
 # agent-collision — 다른 워크플로가 unknowns 에이전트를 가로채던 문제 (0.9.2)
 
+> **동결 기록(0.9.2, 2026-11-24 동결).** 두 에이전트 description은 0.11.0·0.12.0에서 다시 바뀌었다. 0.11.0 description의 라우팅 확인은 CHANGELOG 0.11.0 **Checked**(36회)에 있고, 0.12.0 변경 뒤 이름 없는 리뷰·조사 요청의 가로챔은 다시 재지 않았다(다음 릴리스 점검에서 네거티브 케이스를 검토하는 일이 [handoff.md](../../handoff.md)의 남은 일 표에 있다). 하네스의 `l-loop-ko`·`f-rv-loop` 셀이 부르는 `/unknowns:loop resume`과 8단계 독립 검증은 0.11.0·0.12.0에서 없어졌고(지금 independent-reviewer를 부르는 스킬은 buy-in뿐이다), `arms/`에 넣을 플러그인 트리는 0.10.0부터 생성물 `plugins/unknowns/`다. 하네스는 그대로는 다시 돌릴 수 없다.
+
 ## 증상
 
 소유자 보고: "review, brainstorm 같은 스킬이 다른 스킬과 충돌해서 의도하지 않게 트리거된다."

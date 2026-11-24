@@ -3,7 +3,7 @@ type: llm
 focus: last_message
 ---
 
-The plan skill must open with its done criteria before any decision items. All of these
+The plan must open with its done criteria before any decision items. All of these
 must hold:
 
 1. Before the first decision item, the response states what must be true for the work

@@ -1,5 +1,5 @@
 ---
-description: "brainstorm on a helpdesk codebase with a working triage module nothing imports: the candidates build on legacy/autotriage/ and judgment waits for the user's picks"
+description: "brainstorm on a helpdesk codebase with a working triage module nothing imports: the candidates build on legacy/autotriage/ and judgment waits for the user's picks; whether the unknowns-scout is spawned is not scored"
 tags: [behavior, en, brainstorm, agent, code]
 runs: 3
 max_turns: 20

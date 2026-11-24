@@ -1,5 +1,7 @@
 # 트리거 · 루프 준수 eval — v0.3.0 (2026-07-11)
 
+> **동결 기록(v0.3.0, 2026-07-11).** 3절의 HTML/markdown 판단은 [open-questions.md](open-questions.md) A1(3단 사다리, 2026-09-06)에서 정해졌고, 0.10.0부터 산출물은 대화 안의 Markdown이다. 2절의 중형·대형 티어는 0.11.0에서 없어졌다. 0.9.0부터 측정은 각 릴리스 `CHANGELOG.md`의 **Checked** 절에 있다.
+
 사각지대 보고서 항목 4(자동 트리거 발화율)·항목 5(루프 준수) 전환 기록.
 환경: Claude Code 2.1.207 (macOS), headless `claude -p`, 새 프로세스가 플러그인을
 디스크에서 로드 — **loop/plan description 트리거 경계 수정 이후 상태를 측정**.

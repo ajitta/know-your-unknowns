@@ -2,6 +2,30 @@
 
 ## [Unreleased]
 
+Text that had gone out of date across releases, from an audit of the repository at 0.13.2 (owner approval 2026-11-24). No skill body or skill description changed.
+
+### Changed
+
+- Plugin and marketplace descriptions (`plugin-manifest.json`, `.claude-plugin/marketplace.json`): the list after "Eleven skills" names the unknowns loop ("buy-in docs, quizzes and the unknowns loop"). The list never named the loop; both descriptions named it only as "an operating loop" at their start, which 0.12.0 removed. The plugin description is now 498 characters, under the 500 the Claude apps upload form allows; the marketplace one is 396.
+- OpenAI listing (`packaging/openai/interface.json`): the three default prompts call the skills as `$unknowns:blindspot`, `$unknowns:interview` and `$unknowns:quiz`, the form of every skill's `agents/openai.yaml` and of the README's Codex instructions; they read `unknowns:blindspot` and so on, without the `$` (owner decision 2026-11-24). `tools/package.py` fails a default prompt that does not start with `Use $unknowns:<skill> to ` for an existing skill, with a test.
+- unknowns-scout: the **brainstorm** and **blindspot** skills are named in the "the **name** skill" form of writing rule 9 (wording only), the change 0.13.2 made in tweakable-plan, brainstorm and deviation-log.
+
+### Changed (developer-only)
+
+- Repository documents, comments and checks were brought up to date with 0.13.2 (the two READMEs, `AGENTS.md`, the writing rules, `docs/`, the header of `IMPLEMENTATION_NOTES.md`, `evals/`, `tools/`, `tests/`, the workflows and the `_comment` of `scripts/skill-descriptions.json`). Dated records (released sections of this file, `IMPLEMENTATION_NOTES.md` entries, the frozen records in `docs/`) kept their content; the frozen records got a banner or a dated status line. No shipped file changed by it.
+- `evals/run-multiturn.py`: the judge prompt asks for a one-line verdict per numbered criterion that quotes what in the conversation decides it, in place of "one line of reasoning per numbered criterion", the sentence Opus 5.5's safeguards refused twice in the 0.13.2 release check (`reasoning_extraction`, in the single-turn judge helper). The grader `deeper-not-padded` asks for each round's questions, with a quote of the earlier answer or open item each one follows from, in the verdict lines in place of "in your reasoning"; `every-round-at-most-four` asks for its per-reply counts there. The judge helper kept outside the repository still asks for "one line of reasoning per numbered criterion"; changing it is an open item in `docs/handoff.md` (owner decision 2026-11-24).
+
+### Checked (developer-only)
+
+Claude Code 2.1.331, Opus 5.5 (`ANTHROPIC_MODEL=claude-opus-5-5`), `--effort medium`, isolated config, no connector listed in any session, 2026-11-24. The three `llm` graders were judged by reading each rubric against the run's final reply and tool calls, not by a separate judge model. Results are in `evals/results/scout-cleanup-2026-11-24/` (git-ignored).
+
+- unknowns-scout wording, its three cases once each (writing rule 14): `behavior-scout-checks-pinned-version` spawned the scout (1 of 1) and `checks-pinned-version` passed: the reply cites `requirements.txt:2` (`pydantic==1.10.13`) and says the plan's `model_validate` and `@field_validator` do not exist in v1. `behavior-blindspot-scout-assumption-verdicts` passed `assumption-verdicts-with-evidence` (assumption (a) holds, `policies/consent.md:7`; (b) is wrong for players under 16, `policies/insurance.md:6`, the paper waiver); the skill read the 22 files itself and did not spawn the scout, as in the recorded runs. `behavior-brainstorm-scout-finds-unused` passed `finds-the-unused-module` (`legacy/autotriage/` found and built on, candidates from an afternoon to a quarter, no ranking before the picks); the scout was not spawned.
+
+### Not measured
+
+- The grader, judge-prompt and simulated-user (`quiz-hides-key-and-gates-on-six`) changes in `evals/` have not been run.
+- The OpenAI listing's default prompts and the plugin description it carries changed, so `know-your-unknowns-openai.zip` needs uploading again; how ChatGPT shows the `$unknowns:` prompts has not been seen.
+
 ## 0.13.2 — 2026-11-22
 
 Released 2026-11-22. Body fixes to ten skills and the unknowns-scout agent, from a prompt audit of the eleven skill bodies and two independent reviews that were not given its conclusions: one repeated the audit, one read each body as the model that runs it, and both read recorded runs. The owner approved four groups of changes, then asked for the remaining findings to be handled and for the release. No description changed. The OpenAI listing's long description changed by one sentence.
