@@ -2,7 +2,8 @@
 type: tool_used
 tool: Agent
 input_match: unknowns-scout
-min: 1
+min: 0
+weight: 0
 ---
 
-Scored. The task spans 214 supplier agreements of about 3.8 KB each (about 820 KB in all), written in four layouts whose wording varies from agreement to agreement, so that counting repeated lines does not reduce them to a few documents: more than the model can read in full, so blindspot step 2 hands the investigation to the scout: "The task spans more sources than you can read in full (e.g. a whole codebase or many modules, a large body of documents or records)" → "Use the `unknowns:unknowns-scout` agent." Until this case no recorded run had a skill spawn the scout (`CHANGELOG.md` 0.13.2, **Not measured**). A run that does not spawn it also fails packet-carries-both-sides-assumptions, scout-marks-each-assumption and reply-uses-scout-rows; read the four as one miss.
+Indicator only; reported, not scored (`min: 0` passes either way and `weight: 0` keeps it out of the score). It shows whether the pass handed the investigation to the unknowns-scout agent. The task spans 214 supplier agreements of about 3.8 KB each (about 820 KB in all), in four layouts with varied wording. In the 0.13.3 round the model covered every agreement itself with search and scripts in 2 of 2 runs and reached both verdicts. The owner ruled on 2026-11-24 that "more sources than you can read in full" (blindspot step 2, brainstorm step 2a) is the model's own judgment of what it can read: a direct investigation that reaches the result conforms, a spawn conforms too, and no case asserts a spawn from the size of the material. The scored outcome is assumption-verdicts-with-evidence; packet-carries-both-sides-assumptions, scout-marks-each-assumption and reply-uses-scout-rows are indicators that judge the scout path when a run takes it.

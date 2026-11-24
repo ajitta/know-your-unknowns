@@ -82,7 +82,7 @@ GRADER_KEYS = {
     "tool_used": {"type", "name", "tool", "input_match", "min", "max", "turn", "weight", "arm"},
 }
 TURN_WORDS = ("first", "last", "final_substantive", "all", "any")
-MAX_USER_TURNS = 8
+MAX_USER_TURNS = 10
 SUBSTANTIVE_CHARS = 800
 STOP_TOKEN = "STOP"
 LIMIT_RE = re.compile(r"hit your (?:session |usage )?limit|usage limit reached", re.I)

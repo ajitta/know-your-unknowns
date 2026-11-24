@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+Owner decisions on the open items left after 0.13.3 (owner approval 2026-11-24; choices and the run rules written before the runs in `IMPLEMENTATION_NOTES.md`, 2026-11-24).
+
+### Changed (developer-only)
+
+- blindspot and brainstorm scout cases (`behavior-blindspot-scout-many-contracts`, `behavior-brainstorm-scout-inventory-monorepo`): the spawn grader and the three scout-path graders of each case are indicators (`weight: 0`; the scout-path graders pass when no scout ran). Owner ruling: "more sources than you can read in full" is the model's own judgment of what it can read; a direct investigation that reaches the result conforms, a spawn conforms too, and no case asserts a spawn from the size of the material. No skill text changes.
+- tweakable-plan: `behavior-tweakable-plan-autoloaded-reads-back` is renamed `behavior-tweakable-plan-autoloaded-weighty-plan` and graded by `plans-through-the-size-gate`, written from the size gate's first row. Owner ruling: a request for the skill's own plan goes through the size gate however weighty the work it plans; the read-back paragraph covers requests to do the work. No skill text changes.
+- `behavior-unknowns-loop-terms-only`: `blindspot-before-teach-me` gives one reading for a stage that holds both the investigation and a vocabulary explainer (the investigation is named first).
+- buy-in outcome graders (`noncode-en-buy-in`, `noncode-ko-buy-in`, `trigger-en-buy-in`, `trigger-ko-buy-in`): one identical sentence counts an item with no evidence yet as answered when it is listed under the limitations with the evidence it needs, as step 4c asks. The trigger graders had failed that move.
+- New case `behavior-buy-in-reviewer-packet-from-conversation`: buy-in whose plan, criteria, outcome, deviation log and status exist only in the user's message, with the Agent tool allowed; it grades what the independent-reviewer's packet carries and what its report says it could not check.
+- `evals/run-multiturn.py`: `MAX_USER_TURNS` 8 → 10, and `unknowns-loop-every-stage-to-outcome-check` uses 10, so a run that spends a turn on the probe reaches the outcome question.
+- `.github/workflows/release.yml`: the annotated-tag check prints an `::error::` when it fails. The release procedure no longer checks the release body by hand: run logs show `actions/checkout` overwriting the annotated tag with a lightweight ref and the workflow's re-fetch restoring it.
+
 ## 0.13.3 — 2026-11-24
 
 Prepared 2026-11-24 for the owner's merge and tag. Text that had gone out of date across releases, from an audit of the repository at 0.13.2 (owner approval 2026-11-24). Then a description round and the recommendations of the open-items table (owner approval 2026-11-24): six skill descriptions and the code row of the deviation-log skill's log-file table changed, and 20 eval cases were added.

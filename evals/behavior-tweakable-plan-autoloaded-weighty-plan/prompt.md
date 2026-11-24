@@ -1,6 +1,6 @@
 ---
-description: "Read-back paragraph in a skill that loaded on its own, not by name: 'make a plan' for a one-line production config change clear to both sides; the reply reads back in 2-3 lines and waits, with no plan and no method. Read it only in runs where the skill loaded"
-tags: [behavior, open-cell, readback, en, tweakable-plan]
+description: "A skill that loaded on its own, not by name, asked for its own deliverable about weighty work: make a plan for a one-line production config change. The plan is the requested result and ends at the user's approval, so the reply is the size gate's short plan (owner ruling 2026-11-24), not a read-back with no plan and not the full document. Read it only in runs where the skill loaded"
+tags: [behavior, size-gate, en, tweakable-plan]
 runs: 3
 max_turns: 6
 timeout_seconds: 300
