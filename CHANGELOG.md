@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-Owner decisions on the four rows the 0.13.4 release check opened (owner approval 2026-11-24, `IMPLEMENTATION_NOTES.md`). Nothing ships.
+Owner decisions on the four rows the 0.13.4 release check opened, and the owner's interactive buy-in check (owner approvals 2026-11-24, `IMPLEMENTATION_NOTES.md`). Nothing ships.
 
 ### Changed (developer-only)
 
@@ -13,6 +13,11 @@ Owner decisions on the four rows the 0.13.4 release check opened (owner approval
 ### Checked (developer-only)
 
 - After the 0.13.4 tag: both release assets' sha256 equal the committed zips; the release body is the tag message; an install into an empty config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.13.4 with 11 skill folders and 2 agents, and the installed unknowns-loop and buy-in files carry the shipped sentences. The `ajitta/claude-plugins` entry's description now matches this plugin's own marketplace entry (that repository's PR #6); its source stays a `git-subdir` with no `ref`.
+- Interactive buy-in check, run by hand by the owner on the installed 0.13.4 under the rule in `IMPLEMENTATION_NOTES.md` (2026-11-24, "the interactive check the owner runs by hand"): result A. Claude Code 2.1.331, Opus 5.5, permission mode auto, fork mode on (the Agent call returned "Async agent launched"). The reviewer went to the background; Claude said it would write the doc once the report was in and ended its turn with no doc and no review result; the report came back on its own as a hand-back message 65 seconds later, and the doc followed with no message from the owner in between. The doc carried the reviewer's recomputed figures (148 members, 515 loans, 4.27% losses), the dropped deposit, and the 92% rota figure and the 40 thank-you notes as limitations with no record. Departures from the rule's conditions, accepted by the owner as not bearing on when the result arrives: the prompt was the material folder's path, not the case's prompt; the session ran in a folder inside the repository; the model was set with `/model` before the prompt. An earlier attempt the same evening is void: it started in the repository folder, the model read the check's own rule, and it was closed one minute after the reviewer started. This answers 0.13.4's **Not measured** line on whether buy-in waits for the reviewer in an interactive session; the released section is left as it is.
+
+### Not measured
+
+- In the default permission mode, how the reviewer's result comes back in an interactive session: the run used auto mode, where it came back as a hand-back message.
 
 ## 0.13.4 — 2026-11-24
 

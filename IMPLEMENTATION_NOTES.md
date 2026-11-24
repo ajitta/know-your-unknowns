@@ -16,7 +16,8 @@
 
 **Attributed**
 - **Reason for choice**: each closes a row with the smallest change that keeps the records true; the one text question waits for buy-in's next change, where it can be measured with the other buy-in items.
-- **Todo for human**: the interactive buy-in run on the installed 0.13.4 (the owner will run it); the ChatGPT re-upload and the claude.ai check for 0.13.4.
+- **Todo for human**: the ChatGPT re-upload and the claude.ai check for 0.13.4.
+- **Follow-up, 2026-11-24, the interactive check** (figures in `CHANGELOG.md` `[Unreleased]`): the owner ran buy-in by hand on the installed 0.13.4. The first attempt is void (it started in the repository folder, the model read the check's own rule, and it was closed before the hand-back). The second gave result A: the doc came after the hand-back, with no owner message between them. It departed from the rule's fixed conditions (the prompt was the folder path, the session ran in a folder inside the repository, `/model` was typed before the prompt); the session judged that these do not bear on when the result arrives, and the owner accepted the run as A. Under the rule: no text changes, the open-items row closes, and the default permission mode's return channel stays not measured.
 
 ## [2026-11-24] The open rows after PR #44: 0.13.4's release path, buy-in's status report, the crowded listing, two unreached cases, hosts; and the run rules written before the runs
 
