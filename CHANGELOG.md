@@ -26,7 +26,9 @@ Owner decisions on the open items left after 0.13.3, in two rounds (owner approv
 - README (both languages), "What works where" and the agents section: the agents run in Claude Code and, by Anthropic's documentation, in Cowork (not checked with this plugin); chat skips them; a general subagent that a host starts in the reviewer's place, as Codex did in recorded runs, is not buy-in's independent check.
 - `docs/protocol-alignment.md` (frozen): line 3 names its source as the owner's notes outside the repository in place of a personal notes location, with a dated line in its banner. The rest is unchanged; git history keeps the earlier text.
 - The teach-back citation of the frozen `docs/value-contract.md` is identified (Kidd 1987, pp. 91–108); what it supports is recorded in `IMPLEMENTATION_NOTES.md`, and the record is unchanged.
-- `evals/README.md`: the case counts (105 single-turn; 104 had missed `behavior-buy-in-reviewer-packet-from-conversation`) and the notes on the changed cases.
+- `evals/run-multiturn.py`: an `llm` grader may set `focus: packets`; its judge also sees, after the conversation, the `prompt` of each Agent or Task call the assistant made itself, marked with the reply it was sent in. The transcript judge prompt is unchanged byte for byte (a test pins it), and text written inside a spawned agent no longer joins the reply that the simulated user, the stop test and the judges read. New case `buy-in-reviewer-packet-after-plan`: a plan the assistant wrote and the user approved, a change reported later, then a buy-in doc; it grades the reviewer's packet.
+- `evals/README.md`: the case counts (105 single-turn, 104 having missed `behavior-buy-in-reviewer-packet-from-conversation`; 19 multi-turn), `focus: packets`, and the notes on the changed cases.
+- README (both languages): the recorded automated runs include the Codex CLI and the empty-config installs on 0.13.3.
 
 ### Checked (developer-only)
 

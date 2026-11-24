@@ -171,7 +171,7 @@ class MultiturnCaseTest(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(mt.verify(), 0)
         names = [case["name"] for case in mt.discover()]
-        self.assertEqual(len(names), 18)
+        self.assertEqual(len(names), 19)
 
     def test_run_manual_discovery_skips_multiturn(self):
         result = subprocess.run([sys.executable, str(ROOT / "evals" / "run-manual.py"), "--list"],
