@@ -41,7 +41,35 @@ class PackageTest(unittest.TestCase):
             fields = pkg.frontmatter(text)[0]
             if set(fields) - pkg.ALLOWED_KEYS:
                 extra[skill.name] = sorted(set(fields) - pkg.ALLOWED_KEYS)
-        self.assertEqual(extra, {})
+        # Only the Claude Code keys of claude-code/skill-frontmatter.json go beyond the spec.
+        self.assertEqual(extra, {name: sorted(keys) for name, keys in pkg.claude_code_frontmatter().items()})
+
+    def test_unknowns_loop_runs_only_by_name_in_claude_code(self):
+        text = (ROOT / "plugins" / "unknowns" / "skills" / "unknowns-loop" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertEqual(pkg.frontmatter(text)[0].get("disable-model-invocation"), "true")
+
+    def test_claude_code_frontmatter_rejects_bad_entries(self):
+        from unittest import mock
+        files = {"skills/x/SKILL.md": b"---\nname: x\ndescription: d\ndisable-model-invocation: true\n---\nbody\n"}
+        with mock.patch.object(pkg, "claude_code_frontmatter", return_value={"x": {"disable-model-invocation": "true"}}):
+            with self.assertRaises(ValueError):
+                pkg.claude_code_files(files)
+        files = {"skills/x/SKILL.md": b"---\nname: x\ndescription: d\n---\nbody\n"}
+        with mock.patch.object(pkg, "claude_code_frontmatter", return_value={"x": {"disable-model-invocation": True}}):
+            with self.assertRaises(ValueError):
+                pkg.claude_code_files(files)
+        with mock.patch.object(pkg, "claude_code_frontmatter", return_value={"x": {"disable-model-invocation": "true"}}):
+            out = pkg.claude_code_files(files)["skills/x/SKILL.md"].decode()
+        self.assertEqual(out, "---\nname: x\ndescription: d\ndisable-model-invocation: true\n---\nbody\n")
+
+    def test_release_zips_keep_spec_only_frontmatter(self):
+        import zipfile
+        for name in (pkg.ZIP_NAME, pkg.OPENAI_ZIP_NAME):
+            with zipfile.ZipFile(ROOT / "releases" / name) as zf:
+                for member in zf.namelist():
+                    if member.endswith("/SKILL.md"):
+                        fields = pkg.frontmatter(zf.read(member).decode("utf-8"))[0]
+                        self.assertEqual(set(fields) - pkg.ALLOWED_KEYS, set(), (name, member))
 
     def test_generated_skills_copy_their_source_folders(self):
         # No shared references are vendored: each generated skill is its source folder.

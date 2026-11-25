@@ -35,7 +35,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
    | No decision the user might want to change (in code, e.g. ≤2 files and no schema, interface or UX-contract decision; elsewhere, e.g. one step with a fixed format, date and budget) | Say it needs no tweakable plan (for code, it suits native plan mode), and reply with only the opening line from step 2, the questions from step 2 (your own unknowns included), and the steps in execution order, one line each. The reply holds nothing from steps 4–7. |
    | Otherwise (a decision the user might want to change, or you cannot tell which) | The document: its opening from step 2, then steps 4–7. |
 
-   Work as small as the first row has no decision worth a review document, and a shortened copy of the document is still the document.
+   Work as small as the first row has no decision worth a review document.
 4. Split work into items of two types:
 
    | Item type | Covers | Trait |

@@ -42,6 +42,9 @@ OPENAI_CATEGORIES = {
 # Anthropic's skill authoring best practices: keep the SKILL.md body under 500 lines.
 SKILL_BODY_MAX_LINES = 500
 ALLOWED_KEYS = {"name", "description", "license", "metadata", "compatibility", "allowed-tools"}
+# Keys the Claude Code plugin alone may carry, added at build time from CLAUDE_CODE_FRONTMATTER.
+CLAUDE_CODE_KEYS = {"disable-model-invocation"}
+CLAUDE_CODE_FRONTMATTER = ROOT / "claude-code" / "skill-frontmatter.json"
 SHIPPED_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".svg"}
 RESOURCE_RE = re.compile(r"(?<![\w/.-])((?:references|assets|scripts)/[A-Za-z0-9_./-]+\.[A-Za-z0-9]+)\b")
 PROJECT_FILES = {"IMPLEMENTATION_NOTES.md", "DEVIATIONS.md", "CHANGELOG.md", "CLAUDE.md",
@@ -146,6 +149,35 @@ def plugin_files(skills):
     files.update({"agents/" + rel: data
                   for rel, data in source_files(ROOT / "claude-code" / "agents").items()})
     return files
+
+
+def claude_code_frontmatter() -> dict[str, dict[str, str]]:
+    """{skill: {key: value}} added to SKILL.md in plugins/unknowns/ only."""
+    if not CLAUDE_CODE_FRONTMATTER.is_file():
+        return {}
+    data = json.loads(CLAUDE_CODE_FRONTMATTER.read_text(encoding="utf-8-sig"))
+    return {k: v for k, v in data.items() if not k.startswith("_")}
+
+
+def claude_code_files(files: dict[str, bytes]) -> dict[str, bytes]:
+    """The Claude Code plugin: the spec-only files plus the Claude Code frontmatter keys."""
+    out = dict(files)
+    for skill, keys in claude_code_frontmatter().items():
+        path = "skills/" + skill + "/SKILL.md"
+        if path not in out:
+            raise ValueError(f"claude-code/skill-frontmatter.json names unknown skill {skill!r}")
+        if set(keys) - CLAUDE_CODE_KEYS:
+            raise ValueError(f"claude-code/skill-frontmatter.json: unsupported keys for {skill}: {sorted(set(keys) - CLAUDE_CODE_KEYS)}")
+        if not all(isinstance(v, str) for v in keys.values()):
+            raise ValueError(f"claude-code/skill-frontmatter.json: values for {skill} must be strings")
+        have = set(frontmatter(out[path].decode("utf-8"))[0])
+        if have & set(keys):
+            raise ValueError(f"skills/{skill}/SKILL.md already sets {sorted(have & set(keys))}")
+        text = out[path].decode("utf-8")
+        head, body = text[4:].split("\n---\n", 1)
+        extra = "".join(f"\n{k}: {v}" for k, v in sorted(keys.items()))
+        out[path] = ("---\n" + head + extra + "\n---\n" + body).encode("utf-8")
+    return out
 
 
 def validate_markdown_paths(skill_name, files, skill_body):
@@ -376,7 +408,7 @@ def content_digest(files: dict[str, bytes]) -> str:
         interface, assets = openai_parts()
         extra = {"openai:interface.json": json.dumps(interface, sort_keys=True).encode()}
         extra.update({f"openai:{k}": v for k, v in assets.items()})
-    for rel, data in sorted({**files, **extra}.items()):
+    for rel, data in sorted({**claude_code_files(files), **extra}.items()):
         if rel == ".claude-plugin/plugin.json":
             manifest = json.loads(data)
             manifest.pop("version", None)
@@ -440,8 +472,9 @@ def check_generated(files: dict[str, bytes]) -> list[str]:
     errors = []
     out = PLUGINS / plugin_name()
     on_disk = {f.relative_to(out).as_posix(): f.read_bytes() for f in out.rglob("*") if f.is_file()} if out.is_dir() else {}
-    if on_disk != files:
-        stale = sorted(set(on_disk) ^ set(files)) + sorted(k for k in files if k in on_disk and on_disk[k] != files[k])
+    plugin = claude_code_files(files)
+    if on_disk != plugin:
+        stale = sorted(set(on_disk) ^ set(plugin)) + sorted(k for k in plugin if k in on_disk and on_disk[k] != plugin[k])
         errors.append(f"plugins/{plugin_name()}/ lags the source ({', '.join(stale[:5]) or 'missing'}): run tools/package.py")
     zpath = DIST / ZIP_NAME
     if not zpath.is_file() or zpath.read_bytes() != zip_bytes(files):
@@ -457,7 +490,7 @@ def write_outputs(files: dict[str, bytes]) -> None:
     if out.exists():
         for f in sorted(out.rglob("*"), reverse=True):
             f.unlink() if f.is_file() else f.rmdir()
-    for rel, data in files.items():
+    for rel, data in claude_code_files(files).items():
         dest = out / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)

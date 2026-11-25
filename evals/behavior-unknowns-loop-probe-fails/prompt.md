@@ -7,7 +7,7 @@ timeout_seconds: 420
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-We're running the operating loop on turning the empty basement storeroom in our apartment
+/unknowns:unknowns-loop We're running the operating loop on turning the empty basement storeroom in our apartment
 block into a tool library. The outcome we fixed at the start: neighbours borrow tools
 instead of each buying their own. Recap of where we are:
 

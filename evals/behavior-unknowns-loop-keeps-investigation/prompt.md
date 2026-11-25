@@ -7,5 +7,5 @@ timeout_seconds: 360
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Run the operating loop on this: we're moving our 12-person office from Google Workspace
+/unknowns:unknowns-loop Run the operating loop on this: we're moving our 12-person office from Google Workspace
 to Microsoft 365. I've done this twice before, I know all the pitfalls.

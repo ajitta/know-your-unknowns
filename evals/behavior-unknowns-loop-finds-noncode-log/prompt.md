@@ -1,5 +1,5 @@
 ---
-description: "work stage of the unknowns loop on non-code work (unknowns-loop, or deviation-log through its step 4): a deviation the user reports is appended to the existing DEVIATIONS.md beside the programme, which the prompt never names; no IMPLEMENTATION_NOTES.md and no second log"
+description: "work stage of the unknowns loop on non-code work (in Claude Code the plain prompt reaches deviation-log, since the loop runs only by name; elsewhere unknowns-loop or deviation-log): a deviation the user reports is appended to the existing DEVIATIONS.md beside the programme, which the prompt never names; no IMPLEMENTATION_NOTES.md and no second log"
 tags: [behavior, en, unknowns-loop, noncode]
 runs: 3
 max_turns: 16

@@ -7,7 +7,7 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Run the operating loop on our podcast. I volunteer at a community radio station and we
+/unknowns:unknowns-loop Run the operating loop on our podcast. I volunteer at a community radio station and we
 put our weekly shows out as a podcast. Listeners keep complaining: the episodes sound
 muddy, like the voices are blurred together, and some episodes are a lot louder or
 quieter than others, so people keep having to change the volume from one week to the

@@ -4,6 +4,7 @@ description: >
   Run the know-your-unknowns workflow end to end, ending with an outcome check. Use on
   "unknowns loop", "run the operating loop", "know your unknowns". A bare "loop" is NOT
   this.
+disable-model-invocation: true
 ---
 
 # Unknowns Loop — operating loop for working with strong models
@@ -36,7 +37,11 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    Each stage's deliverable (improved prompt, decisions, requirements, probe result) is the next stage's input. Skip any stage whose question is already answered, and say so.
 
-   Stage d: a probe costs minutes; the same assumption found wrong after the work costs the work built on it.
+   Show each stage's own result (stages a–e) in a reply before the next stage builds on it. After the stage's own ending (its question, draft or approval request), name the next stage. When that reply asks the user something, the next stage starts after the user's reply; a question the user skips stays open, and the next stage carries it as an assumption.
+
+   Stage d: when you can run the probe (a spike, a sample you can draw), run it yourself. When only the user can run it (a phone call, a pilot), ask the user to run it, with its success and failure criteria. Judge the result against those criteria in a reply before stage e; when the user does not run the probe, stage e plans on the assumption, marked untested.
+
+   A result that appears only inside a later stage's deliverable (the investigation's findings as notes in the plan) is lost to the user's review. A probe costs minutes; the same assumption found wrong after the work costs the work built on it.
 
    Without a tool, do the step in the conversation and say what could not be checked.
 
@@ -44,7 +49,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
 5. **After the work**:
 
-   a. **Verify**: check the result against step 2's done criteria, what already works and must not break, and the allowed cost and change scope, marking each met, partial or missing with its evidence (a test run, a command's printed result, `file:line`, a document section, a confirmation from the person responsible). Mark each of them met when its evidence shows the required result.
+   a. **Verify**: check the result against step 2's done criteria, what already works and must not break, and the allowed cost and change scope, marking each met, partial or missing with its evidence (a test run, a command's printed result, `file:line`, a document section, a confirmation from the person responsible).
 
    b. When you largely produced the work, the **quiz** skill, so the user can explain the work in a handoff; when reviewers or stakeholders must approve the work, the **buy-in** skill.
 

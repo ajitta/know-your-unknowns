@@ -1,0 +1,6 @@
+{
+  "_comment": "Frontmatter keys added to a skill's SKILL.md in the Claude Code plugin only (plugins/unknowns/). The release zips and the single-skill upload zips keep the spec-only frontmatter of skills/, because claude.ai rejects other keys on upload. unknowns-loop runs only when the user names it (owner decision 2026-11-26, IMPLEMENTATION_NOTES.md).",
+  "unknowns-loop": {
+    "disable-model-invocation": "true"
+  }
+}

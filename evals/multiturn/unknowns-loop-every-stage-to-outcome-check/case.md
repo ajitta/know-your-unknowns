@@ -10,7 +10,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 ## Opening message
 
-Run the operating loop with me on this. I organise a neighbourhood book club of 14 members. We meet on the second Thursday of each month, 7:00-8:30 pm, at a cafe on Market Street. The cafe is noisy and has two steps at the door, and two members who use wheelchairs, Ruth and Sam, have stopped coming. We have decided to move to the public library's community room, which is free for local groups. What I'm really after is that all 14 of us can come and take part again, Ruth and Sam included. The job: book the room for the January, February and March meetings and tell every member where we meet and how to get in. The day and time stay as they are, and so does the book list we have already announced. There's no budget, so it has to stay free, and I can give it an hour or two. I'll do the booking and the emails myself.
+/unknowns:unknowns-loop Run the operating loop with me on this. I organise a neighbourhood book club of 14 members. We meet on the second Thursday of each month, 7:00-8:30 pm, at a cafe on Market Street. The cafe is noisy and has two steps at the door, and two members who use wheelchairs, Ruth and Sam, have stopped coming. We have decided to move to the public library's community room, which is free for local groups. What I'm really after is that all 14 of us can come and take part again, Ruth and Sam included. The job: book the room for the January, February and March meetings and tell every member where we meet and how to get in. The day and time stay as they are, and so does the book list we have already announced. There's no budget, so it has to stay free, and I can give it an hour or two. I'll do the booking and the emails myself.
 
 ## Persona
 

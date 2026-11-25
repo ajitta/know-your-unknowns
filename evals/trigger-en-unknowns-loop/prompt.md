@@ -1,6 +1,6 @@
 ---
 description: "English trigger phrase for the unknowns-loop skill: 'run the operating loop'"
-tags: [trigger, en, unknowns-loop]
+tags: [trigger, en, unknowns-loop, upload-build-only]
 runs: 3
 max_turns: 6
 timeout_seconds: 240
