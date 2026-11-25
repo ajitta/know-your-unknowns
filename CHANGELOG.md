@@ -2,10 +2,16 @@
 
 ## [Unreleased]
 
-Owner decisions on the four rows the 0.13.4 release check opened, and the owner's interactive buy-in check (owner approvals 2026-11-24, `IMPLEMENTATION_NOTES.md`). Nothing ships.
+Owner decisions on the four rows the 0.13.4 release check opened, and the owner's interactive buy-in check (owner approvals 2026-11-24, `IMPLEMENTATION_NOTES.md`), then the owner's decisions after an outside audit of the skills (2026-11-26): unknowns-loop's stage checkpoint and probe owner, and three cut sentences.
+
+### Changed
+
+- unknowns-loop, step 3: each stage's own result is shown in a reply before the next stage builds on it; the reply names the next stage, and a reply that asks the user something waits for the answer. Stage d says who runs the probe: you when you can, the user (asked with the result that would confirm the assumption and the result that would refute it) when only the user can, with its result taken up before stage e. The stage checkpoint had gone in 0.11.0, and `stages-run-in-order` missed in 3 of 5 recorded runs since.
+- unknowns-loop step 5a, tweakable-plan step 3 and interview step 2a each lose one sentence that a neighbouring sentence already covers or whose measured miss it did not stop (`IMPLEMENTATION_NOTES.md` 2026-11-26).
 
 ### Changed (developer-only)
 
+- `docs/handoff.md`: the rule of one skill change per release is withdrawn (owner, 2026-11-26).
 - `AGENTS.md` and the release procedure in `docs/handoff.md`: rebuilding at an unchanged version is for a work branch; a pull request that changes shipped content merges with its version bump, because in Claude Code new installs from either marketplace take main while existing installs update only when the version changes.
 - `behavior-prototypes-interaction-mockup` is informative: prototypes loaded in 0 of 3 runs in the 0.13.4 release check and in no recorded run; the request asks for one mockup, not versions to react to.
 - README (both languages): the empty-config installs from both marketplaces are recorded for 0.13.4 too.
