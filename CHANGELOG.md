@@ -8,7 +8,7 @@ Owner decisions on the four rows the 0.13.4 release check opened, and the owner'
 
 - unknowns-loop, step 3: each stage's own result is shown in a reply before the next stage builds on it; the reply names the next stage, and a reply that asks the user something waits for the answer. Stage d says who runs the probe: you when you can, the user (asked with the result that would confirm the assumption and the result that would refute it) when only the user can, with its result taken up before stage e. The stage checkpoint had gone in 0.11.0, and `stages-run-in-order` missed in 3 of 5 recorded runs since.
 - unknowns-loop runs only when the user names it in Claude Code (`/unknowns:unknowns-loop`): the Claude Code plugin sets `disable-model-invocation: true` on it, so its description is no longer in Claude Code's context and its trigger phrases no longer start it there. Inside the loop, Claude still calls the other skills itself (blindspot and teach-me in 2 of 2 spike runs). The release zips for claude.ai and ChatGPT and the single-skill zips are unchanged and keep the trigger phrases.
-- unknowns-loop step 5a, tweakable-plan step 3 and interview step 2a each lose one sentence that a neighbouring sentence already covers or whose measured miss it did not stop (`IMPLEMENTATION_NOTES.md` 2026-11-26).
+- unknowns-loop step 5a and tweakable-plan step 3 each lose one sentence that a neighbouring sentence already covers or whose measured miss it did not stop (`IMPLEMENTATION_NOTES.md` 2026-11-26). A third cut, in interview step 2a, was restored under the rule written before the runs.
 
 ### Changed (developer-only)
 
