@@ -104,7 +104,7 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 
 The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
 
-**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used), Claude desktop, the Codex CLI and the ChatGPT desktop marketplace route. Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.4, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2, 0.13.3, 0.13.4 and 0.14.0; see `CHANGELOG.md`.
+**Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Checked by the owner on 0.14.0 (2026-11-26):** the claude.ai Add marketplace install, the Codex CLI marketplace install and the ChatGPT desktop marketplace install, each with the plugin installed and the loop starting; and the ChatGPT zip upload of 0.14.0. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used) and Claude desktop. Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.4, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2, 0.13.3, 0.13.4 and 0.14.0; see `CHANGELOG.md`.
 
 **Supported models:** Claude Opus 5.5 and GPT-6.1 Sol at medium effort. The evals run on these; other models and effort levels are not tested.
 
@@ -144,11 +144,11 @@ Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin wi
    ```
 
 2. Ask with a scoped skill name, for example `$unknowns:tweakable-plan`, followed by the task.
-3. Check the procedure; this route is expected and not yet checked by the owner.
+3. Check the procedure; the owner checked this route on 0.14.0 (2026-11-26).
 
 ### ChatGPT desktop (with Codex) and mobile
 
-The owner checked the zip upload with a skill called from ChatGPT mobile on 0.12.2 (2026-10-28); the desktop marketplace route is **not yet checked by the owner for this plugin**.
+The owner checked the zip upload with a skill called from ChatGPT mobile on 0.12.2 (2026-10-28); the owner checked the desktop marketplace route on 0.14.0 (2026-11-26).
 
 1. **Upload the zip on the web (web and mobile).** Download [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip) and upload it on chatgpt.com with the plugin zip upload. The plugin is saved to your account for ChatGPT web and mobile. This zip carries the OpenAI manifest, skills, and listing assets. Uploads do not update themselves; upload each new release again.
 2. **Add the marketplace in the desktop app.** In the app's Codex plugin interface, add the GitHub marketplace `ajitta/know-your-unknowns` or a local clone, then select and add `unknowns`. This route installs into the desktop app's local Codex folder; it is not saved to your account for web/mobile access. Updates arrive through the marketplace.
@@ -226,7 +226,7 @@ event, a study, a product feature. Or whenever you want to proceed "properly, by
 ```
 /unknowns:unknowns-loop Start a tool library for our apartment complex, run by volunteers
 ```
-In Claude Code this skill runs only when you type its name (`/unknowns:unknowns-loop`): Claude does not start the whole loop on its own, and inside the loop it still calls the other skills itself. The marketplace installs in the other apps (claude.ai Add marketplace, Codex, ChatGPT desktop) carry the same setting, and how those apps treat it is not yet checked. With the zip uploads (claude.ai, ChatGPT) these phrases also start it: "unknowns loop", "run the operating loop", "know your unknowns",
+In Claude Code this skill runs only when you type its name (`/unknowns:unknowns-loop`): Claude does not start the whole loop on its own, and inside the loop it still calls the other skills itself. The marketplace installs in the other apps (claude.ai Add marketplace, Codex, ChatGPT desktop) carry the same setting; the owner checked on 0.14.0 that the loop starts there. With the zip uploads (claude.ai, ChatGPT) these phrases also start it: "unknowns loop", "run the operating loop", "know your unknowns",
 "운영 루프로 진행", "풀 루프로 해줘"
 
 A bare `/loop` is Claude Code's built-in interval runner, not this skill; `/unknowns-loop`

@@ -98,7 +98,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름이나 트리거 문구로 부릅니다.
 
-**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로. 소유자 확인이 아닌 기록된 자동 실행: 0.10.0, 0.12.1, 0.12.3, 0.13.0–0.13.4에서 이 플러그인을 쓴 Codex CLI 실행과, 0.13.2, 0.13.3, 0.13.4, 0.14.0에서 두 마켓플레이스(이 저장소와 `ajitta/claude-plugins`)로부터 빈 Claude Code 설정에 설치한 것이 있습니다. `CHANGELOG.md`를 보세요.
+**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 0.14.0에서 확인함(2026-11-26):** claude.ai Add marketplace 설치, Codex CLI 마켓플레이스 설치, ChatGPT 데스크톱 마켓플레이스 설치(셋 다 플러그인이 설치되고 루프가 시작됨), 그리고 0.14.0의 ChatGPT zip 업로드. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱. 소유자 확인이 아닌 기록된 자동 실행: 0.10.0, 0.12.1, 0.12.3, 0.13.0–0.13.4에서 이 플러그인을 쓴 Codex CLI 실행과, 0.13.2, 0.13.3, 0.13.4, 0.14.0에서 두 마켓플레이스(이 저장소와 `ajitta/claude-plugins`)로부터 빈 Claude Code 설정에 설치한 것이 있습니다. `CHANGELOG.md`를 보세요.
 
 **지원 모델:** Claude Opus 5.5와 GPT-6.1 Sol, medium effort. 평가는 이 조건에서 돌리며, 다른 모델과 effort 수준은 시험하지 않았습니다.
 
@@ -138,11 +138,11 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
    ```
 
 2. `$unknowns:tweakable-plan`처럼 스코프가 있는 스킬 이름 뒤에 작업을 적어 요청합니다.
-3. 절차를 확인합니다. 이 경로는 예상이며 소유자가 아직 확인하지 않았습니다.
+3. 절차를 확인합니다. 소유자가 0.14.0에서 이 경로를 확인했습니다(2026-11-26).
 
 ### ChatGPT 데스크톱(Codex 포함)과 모바일
 
-소유자가 0.12.2에서 zip 업로드와 ChatGPT 모바일의 스킬 호출을 확인했습니다(2026-10-28). 데스크톱 마켓플레이스 경로는 **이 플러그인에서는 소유자가 아직 확인하지 않았습니다**.
+소유자가 0.12.2에서 zip 업로드와 ChatGPT 모바일의 스킬 호출을 확인했습니다(2026-10-28). 데스크톱 마켓플레이스 경로는 소유자가 0.14.0에서 확인했습니다(2026-11-26).
 
 1. **웹에서 zip 업로드(웹·모바일).** [know-your-unknowns-openai.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns-openai.zip)을 내려받아 chatgpt.com의 플러그인 zip 업로드로 올립니다. 플러그인은 계정에 저장되어 ChatGPT 웹·모바일에서 사용합니다. 이 zip에는 OpenAI 매니페스트·스킬·목록용 자산이 들어 있습니다. 업로드는 자동으로 갱신되지 않으므로 새 릴리스마다 다시 올립니다.
 2. **데스크톱 앱에서 마켓플레이스 추가.** 앱의 Codex 플러그인 화면에서 GitHub 마켓플레이스 `ajitta/know-your-unknowns` 또는 로컬 클론을 추가하고 `unknowns`를 선택해 설치합니다. 이 경로는 데스크톱 앱의 로컬 Codex 폴더에 설치하며 웹·모바일용 계정에 저장되지 않습니다. 업데이트는 마켓플레이스로 받습니다.
@@ -220,7 +220,7 @@ python3 scripts/build-skill-zips.py
 ```
 /unknowns:unknowns-loop 우리 아파트 단지에 자원봉사자가 운영하는 공구 도서관 만들기
 ```
-Claude Code에서는 이름을 입력할 때만(`/unknowns:unknowns-loop`) 실행됩니다. Claude가 루프 전체를 스스로 시작하지는 않고, 루프 안에서는 다른 스킬을 계속 스스로 부릅니다. 다른 앱의 마켓플레이스 설치(claude.ai Add marketplace, Codex, ChatGPT 데스크톱)에도 같은 설정이 들어가며, 그 앱들이 이 설정을 어떻게 다루는지는 아직 확인하지 않았습니다. zip 업로드(claude.ai, ChatGPT)에서는 다음 문구로도 시작됩니다: "unknowns loop", "run the operating loop", "know your unknowns",
+Claude Code에서는 이름을 입력할 때만(`/unknowns:unknowns-loop`) 실행됩니다. Claude가 루프 전체를 스스로 시작하지는 않고, 루프 안에서는 다른 스킬을 계속 스스로 부릅니다. 다른 앱의 마켓플레이스 설치(claude.ai Add marketplace, Codex, ChatGPT 데스크톱)에도 같은 설정이 들어가며, 소유자가 0.14.0에서 그 앱들에서도 루프가 시작되는 것을 확인했습니다. zip 업로드(claude.ai, ChatGPT)에서는 다음 문구로도 시작됩니다: "unknowns loop", "run the operating loop", "know your unknowns",
 "운영 루프로 진행", "풀 루프로 해줘"
 
 맨 `/loop`는 이 스킬이 아니라 Claude Code 내장 인터벌 러너입니다. 이 스킬은
