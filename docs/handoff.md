@@ -4,7 +4,7 @@
 
 ## 상태
 
-0.16.0(2026-11-26, 작업 중): 열린 본문 행을 다섯 갈래로 나눠 고쳤다(interview 세 규칙, buy-in 4b·최종 문서, loop deviation 필드, tweakable-plan 2단계, brainstorm·blindspot scout 항목, quiz·reference 입력 없는 질문 하나). 결과와 되돌린 것은 `CHANGELOG.md` 0.16.0. 소유자가 0.15.0의 Codex·업로드 빌드 라우팅을 확인했다(정상, 2026-11-26).
+0.16.0(2026-11-26, PR #55, main `faa5bfc`, 태그 `unknowns--v0.16.0`, 소유자 승인으로 병합과 태그; 자산 sha256 일치, 두 마켓플레이스 빈 설정 설치 0.16.0·스킬 11·에이전트 2): 열린 본문 행을 다섯 갈래로 나눠 고쳤다(interview 세 규칙, buy-in 4b·최종 문서, loop deviation 필드, tweakable-plan 2단계, brainstorm·blindspot scout 항목, quiz·reference 입력 없는 질문 하나). 결과와 되돌린 것은 `CHANGELOG.md` 0.16.0. 소유자가 0.15.0의 Codex·업로드 빌드 라우팅을 확인했다(정상, 2026-11-26).
 
 0.15.0(2026-11-26, 소유자 결정): 모든 스킬은 사용자가 unknowns 방법을 청할 때만 실행된다. 설명마다 `Use only if the user says "unknowns" [or "<label>"] or an unknowns skill calls it.`로 끝나고, 일상 문구 트리거("make a plan", "teach me", "quiz me" 등)는 모두 뺐다. 라벨을 다른 말로 한 것(`record a deviation`, 라벨의 한국어 번역)은 시작해도 된다(소유자 판정, 측정 뒤). 배포: `unknowns--v0.15.0`(PR #53, main `92bbf88`, 소유자 승인으로 병합과 태그). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`0ef56ec3…`, `c0fa9458…`), 빈 설정 설치가 두 마켓플레이스 모두 0.15.0에 스킬 11개, 에이전트 2개였다. 카탈로그 설명과 README 행을 맞췄다(`ajitta/claude-plugins` `2e01e1c`). 측정은 `CHANGELOG.md` 0.15.0 **Checked — runs**, 결정과 실행 전 규칙은 `IMPLEMENTATION_NOTES.md` 2026-11-26 맨 위 항목. 이 결정으로 아래 0.14.0 문단의 B8 행(의도하지 않은 트리거)은 닫았다.
 
