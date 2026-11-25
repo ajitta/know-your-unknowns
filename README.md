@@ -226,7 +226,7 @@ event, a study, a product feature. Or whenever you want to proceed "properly, by
 ```
 /unknowns:unknowns-loop Start a tool library for our apartment complex, run by volunteers
 ```
-Auto-trigger phrases: "unknowns loop", "run the operating loop", "know your unknowns",
+In Claude Code this skill runs only when you type its name (`/unknowns:unknowns-loop`): Claude does not start the whole loop on its own, and inside the loop it still calls the other skills itself. In the other apps (claude.ai, ChatGPT, Codex) these phrases also start it: "unknowns loop", "run the operating loop", "know your unknowns",
 "운영 루프로 진행", "풀 루프로 해줘"
 
 A bare `/loop` is Claude Code's built-in interval runner, not this skill; `/unknowns-loop`

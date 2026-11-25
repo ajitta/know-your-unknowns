@@ -207,7 +207,7 @@ def load_case(case_dir):
     }
 
 
-def discover(case_glob, tag):
+def discover(case_glob, tag, every=False):
     cases = []
     for entry in sorted(os.listdir(HERE)):
         case_dir = os.path.join(HERE, entry)
@@ -219,6 +219,10 @@ def discover(case_glob, tag):
             continue
         case = load_case(case_dir)
         if tag and tag not in case["tags"]:
+            continue
+        # The Claude Code plugin runs unknowns-loop by name only; its trigger-phrase
+        # cases run with --tag upload-build-only (Codex, or a --plugin-dir of an upload build).
+        if not every and "upload-build-only" in case["tags"] and tag != "upload-build-only":
             continue
         cases.append(case)
     return cases
@@ -766,7 +770,7 @@ def verify(root):
     """Structural self-check. Costs nothing: no model is called."""
     problems = []
     descriptions = skill_descriptions(root)
-    cases = discover(None, None)
+    cases = discover(None, None, every=True)
     if not cases:
         problems.append("no cases found")
 

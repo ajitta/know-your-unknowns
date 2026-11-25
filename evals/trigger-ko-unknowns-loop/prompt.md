@@ -1,6 +1,6 @@
 ---
 description: "Korean trigger phrase for the unknowns-loop skill: '운영 루프로 진행'"
-tags: [trigger, ko, unknowns-loop]
+tags: [trigger, ko, unknowns-loop, upload-build-only]
 runs: 3
 max_turns: 6
 timeout_seconds: 240

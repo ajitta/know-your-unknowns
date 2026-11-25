@@ -220,7 +220,7 @@ python3 scripts/build-skill-zips.py
 ```
 /unknowns:unknowns-loop 우리 아파트 단지에 자원봉사자가 운영하는 공구 도서관 만들기
 ```
-자동 트리거 문구: "unknowns loop", "run the operating loop", "know your unknowns",
+Claude Code에서는 이름을 입력할 때만(`/unknowns:unknowns-loop`) 실행됩니다. Claude가 루프 전체를 스스로 시작하지는 않고, 루프 안에서는 다른 스킬을 계속 스스로 부릅니다. 다른 앱(claude.ai, ChatGPT, Codex)에서는 다음 문구로도 시작됩니다: "unknowns loop", "run the operating loop", "know your unknowns",
 "운영 루프로 진행", "풀 루프로 해줘"
 
 맨 `/loop`는 이 스킬이 아니라 Claude Code 내장 인터벌 러너입니다. 이 스킬은

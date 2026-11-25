@@ -4,6 +4,7 @@ description: >
   Run the know-your-unknowns workflow end to end, ending with an outcome check. Use on
   "unknowns loop", "run the operating loop", "know your unknowns". A bare "loop" is NOT
   this.
+disable-model-invocation: true
 ---
 
 # Unknowns Loop — operating loop for working with strong models
