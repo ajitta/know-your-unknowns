@@ -10,7 +10,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 ## Opening message
 
-Make a plan for our choir's first tour abroad next summer. We're a community choir of
+Make a tweakable plan for our choir's first tour abroad next summer. We're a community choir of
 40 amateur singers in Leeds, and we'd like to sing three concerts somewhere in mainland
 Europe. Nothing else is decided yet: not where, not the dates, not how we get there,
 and not who pays for what.

@@ -18,7 +18,7 @@ What that buys you, concretely:
 - The work is judged by the outcome you were after, not only by the artifact: the loop ends by asking you whether the result achieved it.
 - A request you and the AI both understand gets no method. Inside a skill or the loop, a request whose result carries weight is first read back in 2–3 lines (the request, the assumptions, what counts as done) and done once you confirm; a trivial request is just done. A mismatch goes to teach-me (you don't know), interview (the AI doesn't) or blindspot (neither). For that read-back on every request, see Scenario A.
 - Reactable deliverables are **Markdown in the conversation**, with numbered items and an assembled reply you can copy. Select the item numbers or describe the changes you want.
-- When the work departs from the plan, the deviation-log skill records each departure in a file you review at wrap-up; it runs when you call it by name or trigger phrase, or inside the loop, and does not start on its own.
+- When the work departs from the plan, the deviation-log skill records each departure in a file you review at wrap-up; it runs when you call it by name, say "unknowns" or "deviation log" in the request, or work inside the loop, and does not start on its own.
 
 > **Measurement status: unmeasured.** The value contract
 > ([`docs/value-contract.md`](docs/value-contract.md), kept as a record since 0.11.0) set the bar: this plugin earns its
@@ -70,10 +70,13 @@ If the skill asks before it investigates (what you are already sure of, what you
 
 - Big or unfamiliar task, in any domain → `/unknowns:unknowns-loop <task description>` is all
   you need; Claude drives the rest stage by stage.
-- Only need one technique → invoke that skill directly, or just say it in natural
-  language and it auto-triggers.
-- Works without slashes: phrases like "blind spot pass", "interview me", "design
-  options", "quiz me" are themselves triggers.
+- Only need one technique → invoke that skill directly (`/unknowns:quiz`), or put the word
+  "unknowns" in your request, for example `unknowns, quiz me on this report`.
+- Without "unknowns" or a slash, an everyday request such as `make a plan`, `teach me` or
+  `quiz me` gets an ordinary answer and no skill starts. Five skills also start on their
+  own label: "blind spot pass", "divergent prototypes", "tweakable plan", "deviation log"
+  and "buy-in doc". The same label in other words, such as `record a deviation` or a
+  Korean translation of a label, may start that skill too.
 
 Other install paths (clone, copy-a-skill, Desktop) are under
 [Install](#install) below.
@@ -102,7 +105,7 @@ Covering the original 11 examples — prototypes covers two, unknowns-loop orche
 
 ## Install
 
-The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill or use its trigger phrase.
+The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name the skill (Codex: `$unknowns:<skill>`) or say "unknowns" in the request. Everyday requests without it get an ordinary answer, not a skill.
 
 **Checked by the owner on 0.12.2 (2026-10-28):** the claude.ai install through Add marketplace, which also reaches the Claude mobile app, and the ChatGPT zip upload with a skill called from ChatGPT mobile. **Checked by the owner on 0.14.0 (2026-11-26):** the claude.ai Add marketplace install, the Codex CLI marketplace install and the ChatGPT desktop marketplace install, each with the plugin installed and the loop starting; Claude desktop; and the ChatGPT zip upload of 0.14.0. **Not yet checked by the owner:** the claude.ai zip upload (not needed when the marketplace route is used). Recorded automated runs, not owner checks: the Codex CLI with this plugin on 0.10.0, 0.12.1, 0.12.3 and 0.13.0–0.13.4, and an install into an empty Claude Code config from both marketplaces (this repository and `ajitta/claude-plugins`) on 0.13.2, 0.13.3, 0.13.4 and 0.14.0; see `CHANGELOG.md`.
 
@@ -112,14 +115,14 @@ The plugin is `unknowns`. Claude Code uses `/unknowns:<skill>`; elsewhere name t
 
 1. Open Customize › Plugins › Add › Add marketplace and enter `ajitta/know-your-unknowns`.
 2. Open Discover, select the `unknowns` plugin, and select Add. Adding the marketplace alone does not install the plugin.
-3. Ask for a skill by name or phrase, for example "blind spot pass".
+3. Ask for a skill by name or with "unknowns" in the request, for example `unknowns, blind spot pass on our grant application`.
 
 Instead of steps 1 and 2, use Customize › Plugins › Add › Upload plugin with [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip). Use the Plugins upload, not the Skills upload. [Claude's official installation guidance](https://support.claude.com/en/articles/13837440-use-plugins-in-claude) says web/Desktop plugins are saved to your account and follow you across supported surfaces. For this plugin the owner uses the Add marketplace route, which reaches the mobile app, so no zip upload is needed; the zip upload route and desktop sync are not yet checked.
 
 ### Claude mobile
 
 1. Install the plugin on claude.ai web as above.
-2. Open the mobile app with the same account and ask for the skill by name or trigger phrase.
+2. Open the mobile app with the same account and ask for the skill by name or with "unknowns" in the request.
 3. Check that it follows the skill's procedure. The owner reports this route working with the Add marketplace install on 0.12.2 (2026-10-28); no zip upload is needed.
 
 ### Claude Code
@@ -195,7 +198,7 @@ For hosts accepting one skill at a time through Customize › Skills:
 python3 scripts/build-skill-zips.py
 ```
 
-Upload the desired `dist/<skill>.zip` files. They carry the same descriptions as the plugin, each 200 characters or fewer and kept in `scripts/skill-descriptions.json`; the tests check that the two copies match and keep the trigger phrases.
+Upload the desired `dist/<skill>.zip` files. They carry the same descriptions as the plugin, each 200 characters or fewer and kept in `scripts/skill-descriptions.json`; the tests check that the two copies match and keep the trigger words listed under each skill below ("unknowns" and the skill's label, where it has one).
 
 ### Updating
 
@@ -207,7 +210,9 @@ For the self-hosted marketplace:
 /reload-plugins
 ```
 
-Installed updates require a plugin version change. Uploads must be replaced with a newer archive. The catalog [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins) is an alternative marketplace: its install name remains `unknowns@ajitta`.
+Installed updates require a plugin version change. Uploads must be replaced with a newer archive.
+
+Everyday phrases that used to start a skill (for example `make a plan`, `quiz me`, `interview me`, `run the operating loop`) no longer do. Say "unknowns" in the request, use a skill's label where it has one, or use the slash or name form; without them the request is answered normally, without a skill. The catalog [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins) is an alternative marketplace: its install name remains `unknowns@ajitta`.
 
 Three skills are renamed in 0.12.0: `loop` is now `unknowns-loop`, `notes` is now `deviation-log` and `plan` is now `tweakable-plan`. Type `/unknowns:unknowns-loop`, `/unknowns:deviation-log` and `/unknowns:tweakable-plan` (Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`, `$unknowns:tweakable-plan`), and replace uploaded skill zips; the trigger phrases are unchanged.
 
@@ -226,8 +231,9 @@ event, a study, a product feature. Or whenever you want to proceed "properly, by
 ```
 /unknowns:unknowns-loop Start a tool library for our apartment complex, run by volunteers
 ```
-In Claude Code this skill runs only when you type its name (`/unknowns:unknowns-loop`): Claude does not start the whole loop on its own, and inside the loop it still calls the other skills itself. The marketplace installs in the other apps (claude.ai Add marketplace, Codex, ChatGPT desktop) carry the same setting; the owner checked on 0.14.0 that the loop starts there. With the zip uploads (claude.ai, ChatGPT) these phrases also start it: "unknowns loop", "run the operating loop", "know your unknowns",
-"운영 루프로 진행", "풀 루프로 해줘"
+In Claude Code this skill runs only when you type its name (`/unknowns:unknowns-loop`): Claude does not start the whole loop on its own, and inside the loop it still calls the other skills itself. The marketplace installs in the other apps (claude.ai Add marketplace, Codex, ChatGPT desktop) carry the same setting; the owner checked on 0.14.0 that the loop starts there. With the zip uploads (claude.ai, ChatGPT) it also starts on a phrase:
+
+Triggers: "unknowns loop", "know your unknowns", "unknowns 루프로 진행해줘" (zip uploads only)
 
 A bare `/loop` is Claude Code's built-in interval runner, not this skill; `/unknowns-loop`
 or `/unknowns:unknowns-loop` reaches this one. The same goes for a bare "loop" or
@@ -260,8 +266,8 @@ don't know" state.
 ```
 /unknowns:blindspot Our first city arts grant: a mural programme at three library branches
 ```
-Auto-triggers: "blind spot pass", "what am I missing", "unknown unknowns",
-"사각지대 조사해줘", "내가 놓친 게 뭐지"
+Triggers: "unknowns" with the request, or "blind spot pass"; in Korean
+"unknowns로 사각지대 조사해줘". Example: `unknowns, what am I missing in this funding call?`
 
 **How it runs**: It first asks what you are sure of, what you are assuming and where you
 cannot judge, and puts its own three lists beside yours: what it does not know about
@@ -296,8 +302,8 @@ terminology and your requests come out vague, or you cannot judge the result.
 ```
 /unknowns:teach-me Video color grading. I'm a complete beginner
 ```
-Auto-triggers: "teach me", "make me an explainer", "가르쳐줘", "설명서 만들어줘",
-"이 분야 용어를 모르겠어"
+Triggers: "unknowns" with the request; in Korean "unknowns로 가르쳐줘". Example:
+`unknowns, teach me video color grading`
 
 **How it runs**: the domain's mental model as a 3–5 stage pipeline → 3–7 decision axes
 you'll face in this task → a vocabulary ladder per axis (everyday words → expert terms,
@@ -319,8 +325,8 @@ the people involved, local rules, your priorities. Right after a blindspot inves
 ```
 /unknowns:interview A two-day reunion for 40 relatives from four countries. Nothing is decided
 ```
-Auto-triggers: "interview me", "ask me questions before implementing", "ask me before you
-decide", "인터뷰해줘", "스펙 질문"
+Triggers: "unknowns" with the request; in Korean "unknowns로 인터뷰해줘". Example:
+`unknowns, interview me before you plan the reunion`
 
 **How it runs**: Before deciding anything, it asks what it cannot know or judge about your
 situation, **at most 4** questions per round: round 1 asks open questions about your
@@ -333,7 +339,7 @@ work** that marks skipped questions, declares the structure and harm decisions f
 asks for deviations to be logged in the deviation log (IMPLEMENTATION_NOTES.md for code).
 
 **Tip**: Want a deep interview? Say `"grill me, 40-question level"` — it repeats rounds
-while keeping the priority order. For a feature: `"interview me about the OAuth work,
+while keeping the priority order. For a feature: `"unknowns, interview me about the OAuth work,
 architecture questions first"`.
 
 ---
@@ -349,8 +355,8 @@ dashboard, an API.
 ```
 /unknowns:prototypes Our first head of operations. I can't write the job description, give me 4
 ```
-Auto-triggers: "divergent prototypes", "design options", "versions to react to", "know it
-when I see it", "시안 4개", "프로토타입 여러 개", "보면 안다"
+Triggers: "unknowns" with the request, or "divergent prototypes"; in Korean
+"unknowns로 시안 만들어줘". Example: `unknowns, give me 4 versions of the job description`
 
 **How it runs**: It produces 4 versions (count adjustable) that differ in **design
 philosophy**, not minor cosmetics, along axes that fit the subject (for a screen:
@@ -367,8 +373,8 @@ stays in the conversation.
 **explicit requirements list**. The skill ends there; the work starts from that list.
 
 **Tip**: Say `"go wild"` to push the philosophies further apart. Works for code
-architecture comparisons too: `"event-driven vs polling vs push, side by side as
-skeletons"`. If the interaction itself is the contested question (toolbar placement,
+architecture comparisons too: `/unknowns:prototypes event-driven vs polling vs push, side by side as
+skeletons`. If the interaction itself is the contested question (toolbar placement,
 etc.), it builds a clickable mockup with A/B choice buttons, states that everything is fake data, and names where real wiring would go.
 
 ---
@@ -382,8 +388,8 @@ idea.
 ```
 /unknowns:brainstorm Our choir fell from 60 to 35 regular members in two years. Things to try this season
 ```
-Auto-triggers: "brainstorm interventions", "show me options", "브레인스토밍",
-"해법 후보 펼쳐줘", "옵션 보여줘"
+Triggers: "unknowns" with the request; in Korean "unknowns로 브레인스토밍해줘". Example:
+`unknowns, brainstorm what our choir could try this season`
 
 **How it runs**: It first says what it does not know about your situation, then looks
 for what already exists but is not used for the problem — resources, programmes and
@@ -407,8 +413,8 @@ proposal, a contract template, a competitor's product, example code, a mockup.
 ```
 /unknowns:reference The neighbouring town's library volunteer policy. Write ours, we're much smaller
 ```
-Auto-triggers: "use this as a reference", "make it like this", "레퍼런스로 써",
-"이 코드처럼 만들어줘", "이거 참고해서"
+Triggers: "unknowns" with the request; in Korean "unknowns로 이거 참고해서 만들어줘".
+Example: `unknowns, use this policy as a reference for ours`
 
 **How it runs**: Instead of copying the reference verbatim, it first presents a 4-way
 analysis — **behavior that must be preserved / parts to adapt to your context / parts
@@ -420,7 +426,7 @@ with a Match column, with the rows that rest on guesses about your situation mar
 its number. Its application plan first carries over how the reference checks itself (its
 tests, checklists or acceptance criteria); the work starts from the signed-off map.
 
-**Tip**: Porting code works the same way — e.g. `legacy/billing.py, port it to TypeScript
+**Tip**: Porting code works the same way — e.g. `/unknowns:reference legacy/billing.py, port it to TypeScript
 in the new service`. A screenshot or a real example of the desired output also serves as
 the "map".
 
@@ -434,8 +440,8 @@ the "map".
 ```
 /unknowns:tweakable-plan Launch the community garden on the city lot: 20 beds, a shed, water, 50 households waiting
 ```
-Auto-triggers: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
-"수정확률순으로 계획"
+Triggers: "unknowns" with the request, or "tweakable plan"; in Korean
+"unknowns로 계획 세워줘". Example: `unknowns, make a plan for the garden launch`
 
 **How it runs**: The plan opens with one line stating the outcome you are after, the done
 criteria, what already works and must not break, and the allowed cost and change scope,
@@ -457,15 +463,16 @@ its own weakest part and closes with 2–3 pre-written reply lines you can copy 
 
 ### 9. `/unknowns:deviation-log` — recording deviations from the plan
 
-**When**: When the work hits something the plan or spec didn't cover. Call it by name or
-with a trigger phrase, or run the work inside the loop; it does not start on its own.
+**When**: When the work hits something the plan or spec didn't cover. Call it by name, say
+"unknowns" or "deviation log" in the request, or run the work inside the loop; it does not
+start on its own.
 
 **Invoke**:
 ```
 /unknowns:deviation-log The renovation closed the community hall, so the year-end event moves to the school gym (no elevator)
 ```
-Triggers: "implementation notes", "record a deviation", "where did we diverge from
-the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?"
+Triggers: "unknowns" with the request, or "deviation log"; in Korean
+"unknowns로 이탈 기록해줘". Example: `unknowns, log this change of venue`
 
 Once called, Claude picks the conservative option, logs the deviation and keeps going. In
 five measured runs where the work met an unplanned difference and nobody named the log,
@@ -499,7 +506,8 @@ signing or merging it. When you're wondering "could I actually explain this?".
 ```
 /unknowns:quiz The market analysis you wrote. I present it to the board tomorrow
 ```
-Auto-triggers: "quiz me", "test my understanding", "퀴즈", "내가 이해했는지 확인해줘"
+Triggers: "unknowns" with the request; in Korean "unknowns로 퀴즈 내줘". Example:
+`unknowns, quiz me on the market analysis`
 
 **How it runs**: 1. An explanation first (structure of the work / 3 key decisions / where
 it's most likely to fail / what you should verify yourself), each part anchored to its
@@ -523,8 +531,8 @@ director, a funder, a client, a committee, code reviewers.
 ```
 /unknowns:buy-in The hybrid-work policy. My director signs; the COO rejected a similar one last spring
 ```
-Auto-triggers: "buy-in doc", "prep me for review", "get sign-off", "설득 문서 만들어줘",
-"리뷰 준비"
+Triggers: "unknowns" with the request, or "buy-in doc"; in Korean
+"unknowns로 설득 문서 만들어줘". Example: `unknowns, prep me for my director's sign-off`
 
 **How it runs**: For each approver, what they do not know that their decision depends on
 and what they will object to; Claude asks you what you know about them (priorities, past
@@ -660,15 +668,19 @@ a check by something other than the AI and you), one option is `dia-techne` from
 
 ## Troubleshooting (FAQ)
 
-**Q. Skills don't trigger automatically.**
-Auto-triggering is a contextual judgment call and is conservative. To be certain, invoke
-directly with a slash: `/unknowns:blindspot`. Right after installing, start a new
-session or run `/reload-plugins`. With many skills installed there is a second cause:
+**Q. A skill did not start.**
+A skill starts only when you say "unknowns" in the request (or the skill's label, listed
+under each skill above), when you use its slash or name form, or when another unknowns skill
+calls it. An everyday request without these, such as `make a plan`, `teach me`, `quiz me`
+or `show me options`, is answered normally without a skill; that is by design, so the plugin
+does not take over ordinary requests. The slash form is the most certain:
+`/unknowns:blindspot`. Right after installing, start a new session or run
+`/reload-plugins`. With many skills installed there is a second cause:
 Claude Code gives the skill listing a budget (1% of the context window by default) and,
 when it overflows, keeps descriptions only for the skills you use most (recency-weighted)
 and lists the rest by name alone. Whichever unknowns skills you rarely use are the ones at
-risk, and it matters most for deviation-log, whose trigger phrases come up mid-work. In one measured
-run with every unknowns description dropped, 9 of 11 English trigger cases still fired;
+risk, and it matters most for deviation-log, which you tend to call mid-work. In one measured
+run with every unknowns description dropped (on the earlier, everyday trigger phrases), 9 of 11 English trigger cases still fired;
 notes (now deviation-log) and blindspot did not. The CLI logged the overflow; that all eleven lost their
 descriptions is a probe run's self-report
 ([docs/trigger-eval-crowd-2026-09-30.md](docs/trigger-eval-crowd-2026-09-30.md)).

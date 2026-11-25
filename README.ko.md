@@ -16,7 +16,7 @@
 - 산출물만이 아니라 당신이 원하던 성과로 작업을 판단합니다: 루프는 결과가 성과를 이뤘는지 당신에게 묻는 것으로 끝납니다.
 - 당신과 AI가 둘 다 이해한 요청에는 방법을 쓰지 않습니다. 스킬이나 루프 안에서는 결과가 무게를 가지는 요청을 요청, 가정, 무엇이 완료인지 2–3줄로 먼저 되읽어 확인하고, 당신이 확인하면 그대로 합니다. 사소한 요청은 바로 합니다. 어긋남이 드러나면 teach-me(당신이 모름), interview(AI가 모름), blindspot(둘 다 모름)으로 갑니다. 모든 요청에서 되읽기를 받으려면 시나리오 A를 보세요.
 - 보고 반응해야 하는 산출물은 **대화의 마크다운**으로 나오며, 번호가 붙은 항목과 복사할 수 있는 조립된 회신을 담습니다. 항목 번호를 고르거나 원하는 수정을 말하면 됩니다.
-- 작업이 계획에서 벗어나면 deviation-log 스킬이 이탈마다 파일에 기록하고 마무리 때 검토받습니다. 이름이나 트리거 문구로 부르거나 루프 안에서 작업할 때 쓰이며, 저절로 시작되지는 않습니다.
+- 작업이 계획에서 벗어나면 deviation-log 스킬이 이탈마다 파일에 기록하고 마무리 때 검토받습니다. 이름으로 부르거나, 요청에 "unknowns"나 "deviation log"를 넣거나, 루프 안에서 작업할 때 쓰이며, 저절로 시작되지는 않습니다.
 
 > **측정 상태: 미측정(unmeasured).** 가치 계약([`docs/value-contract.md`](docs/value-contract.md), 0.11.0부터 기록으로만 보존)은
 > 이 플러그인이 "사용자가 몰랐던 것을 드러내고 **그것이 결정을 바꿀 때**"만 제 값을 한다고
@@ -66,9 +66,12 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 - 분야와 상관없이 크고 낯선 작업 → `/unknowns:unknowns-loop <작업 설명>` 하나면 됩니다. 나머지는
   Claude가 단계별로 끌고 갑니다.
-- 특정 기법만 필요 → 해당 스킬을 직접 호출하거나, 자연어로 말하면 자동 트리거됩니다.
-- 슬래시 없이도 동작: "사각지대 조사해줘", "인터뷰해줘", "시안 4개", "퀴즈" 같은 말이 곧
-  트리거입니다.
+- 특정 기법만 필요 → 해당 스킬을 직접 호출하거나(`/unknowns:quiz`), 요청에 "unknowns"라는
+  단어를 넣습니다. 예: `unknowns로 이 보고서 퀴즈 내줘`.
+- "unknowns"도 슬래시도 없으면 `계획 세워줘`, `가르쳐줘`, `퀴즈 내줘` 같은 일상 요청에는
+  스킬 없이 평소대로 답합니다. 스킬 다섯 개는 자기 이름표로도 시작됩니다: "blind spot pass",
+  "divergent prototypes", "tweakable plan", "deviation log", "buy-in doc". 같은 이름표를 다른
+  말로 해도(`이탈 기록해줘`, `사각지대 조사해줘` 같은 번역) 그 스킬이 시작될 수 있습니다.
 
 나머지 설치 경로(클론·개별 복사·데스크톱)는 아래 [설치](#설치)에 있습니다.
 
@@ -96,7 +99,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 ## 설치
 
-플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름이나 트리거 문구로 부릅니다.
+플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름(Codex: `$unknowns:<skill>`)으로 부르거나 요청에 "unknowns"를 넣습니다. 이것이 없는 일상 요청에는 스킬 없이 평소대로 답합니다.
 
 **소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 0.14.0에서 확인함(2026-11-26):** claude.ai Add marketplace 설치, Codex CLI 마켓플레이스 설치, ChatGPT 데스크톱 마켓플레이스 설치(셋 다 플러그인이 설치되고 루프가 시작됨), Claude 데스크톱, 그리고 0.14.0의 ChatGPT zip 업로드. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음). 소유자 확인이 아닌 기록된 자동 실행: 0.10.0, 0.12.1, 0.12.3, 0.13.0–0.13.4에서 이 플러그인을 쓴 Codex CLI 실행과, 0.13.2, 0.13.3, 0.13.4, 0.14.0에서 두 마켓플레이스(이 저장소와 `ajitta/claude-plugins`)로부터 빈 Claude Code 설정에 설치한 것이 있습니다. `CHANGELOG.md`를 보세요.
 
@@ -106,14 +109,14 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 1. Customize › Plugins › Add › Add marketplace에서 `ajitta/know-your-unknowns`를 입력합니다.
 2. Discover에서 `unknowns` 플러그인을 선택하고 Add를 누릅니다. 마켓플레이스만 추가하면 플러그인은 설치되지 않습니다.
-3. "blind spot pass"처럼 스킬 이름이나 문구로 요청합니다.
+3. 스킬 이름으로 부르거나 요청에 "unknowns"를 넣어 요청합니다. 예: `unknowns로 지원사업 신청서 사각지대 조사해줘`.
 
 1·2단계 대신 Customize › Plugins › Add › Upload plugin에서 [know-your-unknowns.zip](https://github.com/ajitta/know-your-unknowns/releases/latest/download/know-your-unknowns.zip)을 올려도 됩니다. Skills가 아니라 Plugins 업로드를 쓰세요. [Claude 공식 설치 안내](https://support.claude.com/en/articles/13837440-use-plugins-in-claude)는 웹·데스크톱 플러그인이 계정에 저장되고 지원 표면에 따라온다고 설명합니다. 이 플러그인에서 소유자는 Add marketplace 경로를 쓰며 이 경로가 모바일 앱까지 이어지므로 zip 업로드는 필요 없습니다. zip 업로드 경로와 데스크톱 동기화는 아직 확인하지 않았습니다.
 
 ### Claude 모바일
 
 1. 위 절차대로 claude.ai 웹에 플러그인을 설치합니다.
-2. 같은 계정의 모바일 앱을 열고 스킬 이름이나 트리거 문구로 요청합니다.
+2. 같은 계정의 모바일 앱을 열고 스킬 이름으로 부르거나 요청에 "unknowns"를 넣어 요청합니다.
 3. 스킬 절차를 따르는지 확인합니다. 소유자는 0.12.2의 Add marketplace 설치로 이 경로가 된다고 보고했습니다(2026-10-28). zip 업로드는 필요 없습니다.
 
 ### Claude Code
@@ -189,7 +192,7 @@ Customize › Skills에서 스킬을 하나씩 받는 호스트용으로는:
 python3 scripts/build-skill-zips.py
 ```
 
-원하는 `dist/<skill>.zip`을 올리세요. 플러그인과 같은 설명을 씁니다. 설명은 각각 200자 이하이고 `scripts/skill-descriptions.json`에 있으며, 테스트가 두 사본이 같은지와 트리거 문구가 남아 있는지를 확인합니다.
+원하는 `dist/<skill>.zip`을 올리세요. 플러그인과 같은 설명을 씁니다. 설명은 각각 200자 이하이고 `scripts/skill-descriptions.json`에 있으며, 테스트가 두 사본이 같은지와, 아래 스킬마다 적힌 트리거 단어("unknowns"와, 있으면 그 스킬의 이름표)가 남아 있는지를 확인합니다.
 
 ### 업데이트
 
@@ -201,7 +204,9 @@ python3 scripts/build-skill-zips.py
 /reload-plugins
 ```
 
-설치본 업데이트에는 플러그인 버전 변경이 필요합니다. 업로드 설치본은 새 아카이브로 교체해야 합니다. 카탈로그 [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)도 대안 마켓플레이스이며, 그쪽 설치명은 계속 `unknowns@ajitta`입니다.
+설치본 업데이트에는 플러그인 버전 변경이 필요합니다. 업로드 설치본은 새 아카이브로 교체해야 합니다.
+
+예전에 스킬을 시작하던 일상 문구(예: `계획 세워줘`, `퀴즈`, `인터뷰해줘`, `운영 루프로 진행`)로는 이제 스킬이 시작되지 않습니다. 요청에 "unknowns"를 넣거나, 이름표가 있는 스킬은 그 이름표를 쓰거나, 슬래시·이름 형식을 쓰세요. 그렇지 않으면 스킬 없이 평소대로 답합니다. 카탈로그 [ajitta/claude-plugins](https://github.com/ajitta/claude-plugins)도 대안 마켓플레이스이며, 그쪽 설치명은 계속 `unknowns@ajitta`입니다.
 
 0.12.0에서 스킬 세 개의 이름이 바뀌었습니다: `loop`는 `unknowns-loop`, `notes`는 `deviation-log`, `plan`은 `tweakable-plan`입니다. `/unknowns:unknowns-loop`, `/unknowns:deviation-log`, `/unknowns:tweakable-plan`으로 부르고(Codex: `$unknowns:unknowns-loop`, `$unknowns:deviation-log`, `$unknowns:tweakable-plan`), 업로드한 스킬 zip은 교체하세요. 트리거 문구는 그대로입니다.
 
@@ -220,8 +225,9 @@ python3 scripts/build-skill-zips.py
 ```
 /unknowns:unknowns-loop 우리 아파트 단지에 자원봉사자가 운영하는 공구 도서관 만들기
 ```
-Claude Code에서는 이름을 입력할 때만(`/unknowns:unknowns-loop`) 실행됩니다. Claude가 루프 전체를 스스로 시작하지는 않고, 루프 안에서는 다른 스킬을 계속 스스로 부릅니다. 다른 앱의 마켓플레이스 설치(claude.ai Add marketplace, Codex, ChatGPT 데스크톱)에도 같은 설정이 들어가며, 소유자가 0.14.0에서 그 앱들에서도 루프가 시작되는 것을 확인했습니다. zip 업로드(claude.ai, ChatGPT)에서는 다음 문구로도 시작됩니다: "unknowns loop", "run the operating loop", "know your unknowns",
-"운영 루프로 진행", "풀 루프로 해줘"
+Claude Code에서는 이름을 입력할 때만(`/unknowns:unknowns-loop`) 실행됩니다. Claude가 루프 전체를 스스로 시작하지는 않고, 루프 안에서는 다른 스킬을 계속 스스로 부릅니다. 다른 앱의 마켓플레이스 설치(claude.ai Add marketplace, Codex, ChatGPT 데스크톱)에도 같은 설정이 들어가며, 소유자가 0.14.0에서 그 앱들에서도 루프가 시작되는 것을 확인했습니다. zip 업로드(claude.ai, ChatGPT)에서는 문구로도 시작됩니다:
+
+트리거: "unknowns loop", "know your unknowns", "unknowns 루프로 진행해줘" (zip 업로드에서만)
 
 맨 `/loop`는 이 스킬이 아니라 Claude Code 내장 인터벌 러너입니다. 이 스킬은
 `/unknowns-loop`나 `/unknowns:unknowns-loop`로 부릅니다. 대화 중의 맨 "loop"나 "루프
@@ -251,8 +257,8 @@ brainstorm/prototypes/reference → 가장 위험한 가정 하나만 시험하�
 ```
 /unknowns:blindspot 첫 시 문화예술 지원사업 신청: 도서관 세 곳 벽화 프로그램
 ```
-자동 트리거: "blind spot pass", "what am I missing", "unknown unknowns",
-"사각지대 조사해줘", "내가 놓친 게 뭐지"
+트리거: 요청에 "unknowns"를 넣거나 "blind spot pass". 예: "unknowns로 사각지대 조사해줘",
+`unknowns로 이 공고에서 내가 놓친 게 뭔지 봐줘`
 
 **진행 방식**: 먼저 확실히 아는 것, 가정하는 것, 판단할 수 없는 것을 묻고, 그 옆에 자신의
 세 목록도 내놓습니다: 당신의 상황에 대해 모르는 것, 자신이 가정하는 것, 여기서 확인할 수
@@ -283,8 +289,8 @@ git 이력과 tests/ 위주로"`. 분야 어휘 자체를 배워야 한다면 �
 ```
 /unknowns:teach-me 영상 색보정. 완전 초보야
 ```
-자동 트리거: "teach me", "make me an explainer", "가르쳐줘", "설명서 만들어줘",
-"이 분야 용어를 모르겠어"
+트리거: 요청에 "unknowns"를 넣습니다. 예: "unknowns로 가르쳐줘",
+`unknowns로 영상 색보정 용어 가르쳐줘`
 
 **진행 방식**: 그 도메인의 멘탈 모델을 3–5단계 파이프라인으로 → 이 작업에서 내리게 될 결정
 축 3–7개 → 축마다 어휘 사다리(일상어 → 전문 용어, 용어마다 요청 예문 하나와 출처 하나, 이번에 열어 본 출처와 기억으로 인용한 출처를 밝히는 한 줄, 쓰임이 확실하지 않은
@@ -305,8 +311,8 @@ git 이력과 tests/ 위주로"`. 분야 어휘 자체를 배워야 한다면 �
 ```
 /unknowns:interview 4개국에서 오는 친척 40명의 이틀짜리 가족 모임. 아무것도 안 정해졌어
 ```
-자동 트리거: "interview me", "ask me questions before implementing", "ask me before you
-decide", "인터뷰해줘", "스펙 질문"
+트리거: 요청에 "unknowns"를 넣습니다. 예: "unknowns로 인터뷰해줘",
+`unknowns로 가족 모임 계획 전에 인터뷰해줘`
 
 **진행 방식**: 무엇이든 정하기 전에 당신의 상황에 대해 자신이 알 수 없거나 판단할 수 없는
 것을 묻습니다. 라운드당 **4개 이하** 질문을 묻습니다. 1라운드는 당신의 상황을 묻는 열린
@@ -318,7 +324,7 @@ decide", "인터뷰해줘", "스펙 질문"
 선언하며, 이탈은 이탈 기록(코드라면 IMPLEMENTATION_NOTES.md)에 남기라고 적습니다.
 
 **팁**: 심층 인터뷰를 원하면 `"40문항 수준으로 탈탈 털어줘"` — 우선순위를 유지하며
-라운드를 반복합니다. 기능 개발이라면: `"OAuth 작업에 대해 인터뷰해줘, 아키텍처 질문
+라운드를 반복합니다. 기능 개발이라면: `"unknowns로 OAuth 작업에 대해 인터뷰해줘, 아키텍처 질문
 먼저"`.
 
 ---
@@ -333,8 +339,8 @@ decide", "인터뷰해줘", "스펙 질문"
 ```
 /unknowns:prototypes 첫 운영 총괄 채용. 직무 기술서를 못 쓰겠어, 4개 보여줘
 ```
-자동 트리거: "divergent prototypes", "design options", "versions to react to", "know it
-when I see it", "시안 4개", "프로토타입 여러 개", "보면 안다"
+트리거: 요청에 "unknowns"를 넣거나 "divergent prototypes". 예: "unknowns로 시안 만들어줘",
+`unknowns로 직무 기술서 4개 버전 보여줘`
 
 **진행 방식**: 잔변형이 아니라 **설계 철학이 다른** 안 4개(개수 조정 가능)를 대상에 맞는
 축으로 만듭니다(화면이면 정보 구조·흐름·밀도·상호작용, 문서·직무·행사면 구조·범위·
@@ -348,7 +354,7 @@ when I see it", "시안 4개", "프로토타입 여러 개", "보면 안다"
 시작합니다.
 
 **팁**: `"wild하게"` 라고 하면 철학 간 거리를 더 벌립니다. 코드 아키텍처 비교에도
-됩니다: `"이벤트 기반 vs 폴링 vs 푸시를 스켈레톤으로 나란히"`. 상호작용 자체가 쟁점이면
+됩니다: `/unknowns:prototypes 이벤트 기반 vs 폴링 vs 푸시를 스켈레톤으로 나란히`. 상호작용 자체가 쟁점이면
 (툴바 위치 등) A/B 선택 버튼이 있는 클릭 가능한 목업을 만들고, 전부 가짜 데이터라고
 밝히며, 실제 연결이 들어갈 자리를 짚습니다.
 
@@ -362,8 +368,8 @@ when I see it", "시안 4개", "프로토타입 여러 개", "보면 안다"
 ```
 /unknowns:brainstorm 동네 독립서점 매출이 3년째 매년 15%씩 줄어. 임대 1년 남음
 ```
-자동 트리거: "brainstorm interventions", "show me options", "브레인스토밍",
-"해법 후보 펼쳐줘", "옵션 보여줘"
+트리거: 요청에 "unknowns"를 넣습니다. 예: "unknowns로 브레인스토밍해줘",
+`unknowns로 서점 매출 살릴 방법 브레인스토밍해줘`
 
 **진행 방식**: 먼저 당신의 상황에 대해 모르는 것을 밝히고, 이미 있는데 이 문제에 쓰이지
 않는 것을 찾습니다 — 손닿는 자원·프로그램·사람, 코드베이스라면 연결되지 않은 기계장치.
@@ -385,8 +391,8 @@ when I see it", "시안 4개", "프로토타입 여러 개", "보면 안다"
 ```
 /unknowns:reference 옆 학교 학부모회 회칙. 우리 학교는 훨씬 작아, 우리 것 만들어줘
 ```
-자동 트리거: "use this as a reference", "make it like this", "레퍼런스로 써",
-"이 코드처럼 만들어줘", "이거 참고해서"
+트리거: 요청에 "unknowns"를 넣습니다. 예: "unknowns로 이거 참고해서 만들어줘",
+`unknowns로 옆 학교 회칙 참고해서 우리 것 만들어줘`
 
 **진행 방식**: 레퍼런스를 그대로 복사하지 않고 4분류 분석부터 제시합니다 —
 **반드시 보존할 동작 / 당신의 맥락에 맞게 바꿀 부분 / 불필요·위험한 부분 / 개선 가능한
@@ -396,7 +402,7 @@ when I see it", "시안 4개", "프로토타입 여러 개", "보면 안다"
 confirmed`라고 답하거나 행 번호로 고치면 됩니다. 적용 계획은 레퍼런스가 스스로를 확인하는
 방식(테스트, 체크리스트, 인수 기준)부터 옮겨 오고, 작업은 승인된 대응표에서 시작합니다.
 
-**팁**: 코드 포팅도 같은 방식입니다 — 예: `legacy/billing.py, 새 서비스에서 TypeScript로
+**팁**: 코드 포팅도 같은 방식입니다 — 예: `/unknowns:reference legacy/billing.py, 새 서비스에서 TypeScript로
 포팅`. 스크린샷이나 원하는 산출물의 실제 예시도 "지도"가 됩니다.
 
 ---
@@ -409,8 +415,8 @@ confirmed`라고 답하거나 행 번호로 고치면 됩니다. 적용 계획�
 ```
 /unknowns:tweakable-plan 시 소유 공터에 공동체 텃밭 열기: 상자 텃밭 20개, 창고, 수도, 대기 50가구
 ```
-자동 트리거: "plan this", "make a plan", "tweakable plan", "계획 세워줘", "구현 계획",
-"수정확률순으로 계획"
+트리거: 요청에 "unknowns"를 넣거나 "tweakable plan". 예: "unknowns로 계획 세워줘",
+`unknowns로 텃밭 개장 계획 세워줘`
 
 **진행 방식**: 계획은 당신이 이루려는 성과, 완료 조건, 이미 동작하며 깨지면 안 되는 것, 허용 비용과 변경 범위를
 한 줄로 시작하며, 주어지지 않은 것은 "미설정"이라고
@@ -429,15 +435,15 @@ confirmed`라고 답하거나 행 번호로 고치면 됩니다. 적용 계획�
 
 ### 9. `/unknowns:deviation-log` — 계획 이탈 기록
 
-**언제**: 작업 중 계획·스펙에 없던 상황을 만났을 때. 이름이나 트리거 문구로 부르거나
-루프 안에서 작업하면 쓰이고, 저절로 시작되지는 않습니다.
+**언제**: 작업 중 계획·스펙에 없던 상황을 만났을 때. 이름으로 부르거나, 요청에 "unknowns"나
+"deviation log"를 넣거나, 루프 안에서 작업하면 쓰이고, 저절로 시작되지는 않습니다.
 
 **호출**:
 ```
 /unknowns:deviation-log 구민회관 보수공사로 송년 행사를 초등학교 강당으로 옮김(엘리베이터 없음)
 ```
-트리거: "implementation notes", "record a deviation", "where did we diverge from
-the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌어?"
+트리거: 요청에 "unknowns"를 넣거나 "deviation log". 예: "unknowns로 이탈 기록해줘",
+`unknowns로 행사 장소 바뀐 것 기록해줘`
 
 부르면 Claude는 보수적인 쪽을 고르고, 이탈을 기록한 뒤 작업을 이어 갑니다. 작업이 계획에
 없던 차이를 만났는데 아무도 기록을 언급하지 않은 측정 5회에서는 스킬이 저절로 시작되지
@@ -469,7 +475,8 @@ the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌�
 ```
 /unknowns:quiz 아까 정리해 준 전세 계약 검토. 내일 계약하러 가
 ```
-자동 트리거: "quiz me", "test my understanding", "퀴즈", "내가 이해했는지 확인해줘"
+트리거: 요청에 "unknowns"를 넣습니다. 예: "unknowns로 퀴즈 내줘",
+`unknowns로 전세 계약 검토 내용 퀴즈 내줘`
 
 **진행 방식**: ① 먼저 설명(작업의 구조 / 핵심 결정 3개 / 실패 가능성 높은 곳 / 직접
 확인해야 할 것), 각 부분에 위치(코드면 `file:line`, 아니면 절이나 쪽)를 붙임 → ② **6문항,
@@ -491,8 +498,8 @@ the plan?", "이탈 기록", "임플 노트", "어디서 계획이랑 달라졌�
 ```
 /unknowns:buy-in 하이브리드 근무 규정. 결재는 내 상사, 작년 봄 COO가 비슷한 안을 반려함
 ```
-자동 트리거: "buy-in doc", "prep me for review", "get sign-off", "설득 문서 만들어줘",
-"리뷰 준비"
+트리거: 요청에 "unknowns"를 넣거나 "buy-in doc". 예: "unknowns로 설득 문서 만들어줘",
+`unknowns로 상사 결재 받을 준비 도와줘`
 
 **진행 방식**: 승인자마다 결정에 필요한데 모르는 것과 반대할 지점을 정리합니다. Claude는
 그들에 대해 당신이 아는 것(우선순위, 과거 반대, 사내 정치)을 묻고, 둘 다 모르는 것은 미리
@@ -621,13 +628,16 @@ blindspot이 고른 방향의 가정을 검증하고 개선된 프롬프트로 �
 
 ## 문제 해결 (FAQ)
 
-**Q. 스킬이 자동으로 안 뜹니다.**
-자동 트리거는 문맥 판단이라 보수적입니다. 확실하게는 슬래시로 직접 호출하세요:
-`/unknowns:blindspot`. 설치 직후라면 새 세션을 시작하거나 `/reload-plugins`. 스킬을 많이
-설치했다면 원인이 하나 더 있습니다: Claude Code는 스킬 목록에 예산(기본 컨텍스트 창의 1%)을
+**Q. 스킬이 시작되지 않습니다.**
+스킬은 요청에 "unknowns"(또는 위 스킬마다 적힌 그 스킬의 이름표)를 넣었을 때, 슬래시나 이름
+형식으로 불렀을 때, 다른 unknowns 스킬이 부를 때만 시작됩니다. 이것이 없는 `계획 세워줘`,
+`가르쳐줘`, `퀴즈 내줘`, `옵션 보여줘` 같은 일상 요청에는 스킬 없이 평소대로 답합니다.
+플러그인이 평범한 요청을 가로채지 않도록 일부러 그렇게 했습니다. 가장 확실한 것은 슬래시
+형식입니다: `/unknowns:blindspot`. 설치 직후라면 새 세션을 시작하거나 `/reload-plugins`.
+스킬을 많이 설치했다면 원인이 하나 더 있습니다: Claude Code는 스킬 목록에 예산(기본 컨텍스트 창의 1%)을
 두고, 넘치면 **많이 쓰는 스킬(최근성 가중)만** 설명을 남기고 나머지는 이름만 보여 줍니다.
-위험한 것은 내가 드물게 쓰는 unknowns 스킬이고, 작업 도중에 트리거 문구가 나오는 deviation-log에서 특히 큽니다.
-unknowns 설명이 전부 빠진 조건(초과는 CLI 로그로 확인, 11개 모두 빠졌다는 것은 탐침 실행의
+위험한 것은 내가 드물게 쓰는 unknowns 스킬이고, 작업 도중에 부르게 되는 deviation-log에서 특히 큽니다.
+예전의 일상 트리거 문구로, unknowns 설명이 전부 빠진 조건(초과는 CLI 로그로 확인, 11개 모두 빠졌다는 것은 탐침 실행의
 자기 보고)에서 영어 트리거 11건 중 9건은 여전히 발화했고 notes(현 deviation-log)와
 blindspot은 발화하지 않았습니다(1회 측정,
 [docs/trigger-eval-crowd-2026-09-30.md](docs/trigger-eval-crowd-2026-09-30.md)).

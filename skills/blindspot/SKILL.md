@@ -1,9 +1,9 @@
 ---
 name: blindspot
 description: >
-  Blind-spot pass — find both sides' unknown unknowns before work on a plan or system, in
-  any domain, and turn them into an improved prompt. Use on "blind spot pass", "what am I
-  missing".
+  Blind-spot pass — find both sides' unknown unknowns before work on a plan or system, for
+  an improved prompt. Use only if the user says "unknowns" or "blind spot pass" or an
+  unknowns skill calls it.
 ---
 # Blindspot Pass — Blind-Spot Investigation
 

@@ -2,8 +2,8 @@
 name: teach-me
 description: >
   Teach me my unknowns — an explainer for a field's vocabulary and mental model, so vague
-  requests become precise. Use on "teach me", "make me an explainer". Not a blind-spot
-  pass on a plan.
+  requests get precise. Use only if the user says "unknowns" or an unknowns skill calls
+  it. Not a blind-spot pass.
 ---
 
 # Teach Me — Domain Vocabulary Explainer (Teach Me My Unknowns)

@@ -11,7 +11,7 @@ allowed_tools: [Read, Glob, Grep, Skill, Write]
 ## Opening message
 
 An assistant drafted this field trip plan for me; here it is verbatim. I present it to
-the head teacher on Friday for sign-off and I have to defend it. Quiz me.
+the head teacher on Friday for sign-off and I have to defend it. Use unknowns to quiz me.
 
 # Year 8 Geography Field Trip: Saltmarsh Bay, 10-11 June 2027
 

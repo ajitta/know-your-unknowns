@@ -2,8 +2,8 @@
 name: quiz
 description: >
   Comprehension quiz — explain the work, then quiz the user so they can defend it at
-  handover; runs even when a quiz is easy to write. Use on "quiz me", "test my
-  understanding", or before merging.
+  handover; runs even when a quiz is easy to write. Use only if the user says "unknowns"
+  or an unknowns skill calls it.
 ---
 
 # Quiz — Post-Work Comprehension Check (Stay in the Loop)

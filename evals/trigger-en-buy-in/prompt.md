@@ -1,5 +1,5 @@
 ---
-description: "English trigger phrase for the buy-in skill: 'buy-in doc'"
+description: "English trigger phrase for the buy-in skill since 0.15.0: 'buy-in doc'"
 tags: [trigger, en, buy-in]
 runs: 3
 max_turns: 6

@@ -1,5 +1,5 @@
 ---
-description: "English trigger phrase for the prototypes skill: 'divergent prototypes'"
+description: "English trigger phrase for the prototypes skill since 0.15.0: 'divergent prototypes'"
 tags: [trigger, en, prototypes]
 runs: 3
 max_turns: 6

@@ -1,5 +1,5 @@
 ---
-description: "English trigger phrase for the reference skill: 'use this as a reference'"
+description: "English trigger phrase for the reference skill since 0.15.0: 'unknowns'"
 tags: [trigger, en, reference]
 runs: 3
 max_turns: 6
@@ -13,4 +13,4 @@ the palette stays open so actions can be chained.
 
 Our admin console today has a plain text box over a single `users` table that does a
 server-side LIKE query on every keystroke and navigates away on Enter.
-Use this as a reference for our search box.
+Use unknowns: take this as a reference for our search box.

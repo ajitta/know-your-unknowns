@@ -10,7 +10,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 ## Opening message
 
-Use this as a reference: Northfield's small grants guidelines, below. Make ours like this
+Use unknowns, with this as a reference: Northfield's small grants guidelines, below. Make ours like this
 for Riverside's new Neighbourhood Small Grants (grants of 500 to 3,000 pounds, first round
 this spring).
 

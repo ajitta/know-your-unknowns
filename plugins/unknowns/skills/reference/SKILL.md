@@ -2,8 +2,8 @@
 name: reference
 description: >
   Point at a reference — read an example, show your reading for correction before building
-  on it; runs even when the adaptation looks simple. Use on "use this as a reference",
-  "make it like this".
+  on it, even when it looks simple. Use only if the user says "unknowns" or an unknowns
+  skill calls it.
 ---
 
 # Reference — A Reference Is Another Map

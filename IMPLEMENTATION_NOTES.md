@@ -2,6 +2,29 @@
 
 > **Conventions of this log (2026-11-24).** Entries are newest first, except the block of 2026-10-10 to 2026-10-14 entries at the end. Entries dated before 2026-10-26 are in Korean, and many of them describe features removed since (hooks, the scorecard, the loop tracker, HTML pages, the skill names `notes`, `loop` and `plan`). Entries headed "Unreleased" (2026-09-30 and 2026-10-01) shipped in 0.8.2, and the `[Unreleased]` figures that the 2026-11-17 entries cite are in `CHANGELOG.md` 0.13.1. **Todo for human** is a field this repository adds to the deviation-log entry format; `.claude/rules/skill-writing.md` rules 12 and 16 say when to log one. Entries are records and are not rewritten. Open items are tracked in the one open-items table of `docs/handoff.md`; a **Todo for human** not listed there was resolved or became moot (judged 2026-11-24).
 
+## [2026-11-26] Owner decision: every skill runs only when the user asks for the unknowns method (0.15.0)
+
+**Observed**
+- **Situation found**: the owner said the descriptions still carried everyday triggers ("make a plan", "teach me", "quiz me", "show me options", "make it like this", "what am I missing", "prep me for review", "implementation notes"), so a skill could start in ordinary work; the skills are meant only for when the user wants to surface unknowns.
+- **Deviation from plan**: none; this is a decision and the rules for its runs. It answers the handoff row on B8 (unintended triggering) by the owner's ruling rather than by a reproduction.
+
+**Decisions** (owner, 2026-11-26)
+- (a) Gate by description text on every surface, not `disable-model-invocation` on all eleven: the loop keeps calling the other skills through the Skill tool, and the upload zips (claude.ai, ChatGPT) cannot carry that key, so the description is the only gate they have. unknowns-loop keeps its 0.14.0 key in Claude Code.
+- What counts as asking for the method: the word "unknowns" (any language around it), a distinctive label ("blind spot pass", "buy-in doc", "deviation log", "divergent prototypes", "tweakable plan"; the loop's "unknowns loop", "know your unknowns"), the skill name or the slash form, or another unknowns skill calling it. Skills whose label is an everyday phrase (brainstorm, interview, quiz, reference, teach-me) take only "unknowns", the name or the slash form.
+- Each description ends `Use only if the user says "unknowns" [or "<label>"] or an unknowns skill calls it.`; the everyday phrases and the clause "or before merging" (quiz) are gone. Rule 18 of `.claude/rules/skill-writing.md` says so.
+
+**Eval changes**
+- `trigger-*` and `noncode-*` prompts now say "unknowns" or the label (the Korean trigger prompts carry the phrases README.ko.md advertises); the behaviour and multi-turn cases that reached a skill by an everyday phrase say "unknowns" or the label too.
+- New `neg-everyday-{en,ko}-<skill>` (20 cases): the pre-0.15.0 `noncode-*` requests word for word (the English blindspot one without its label), which must load no unknowns skill.
+- `behavior-buy-in-autoloaded-reads-back`, `behavior-deviation-log-auto-on-mismatch`, `behavior-quiz-on-submit` and `behavior-prototypes-interaction-mockup` measured, as informative cases, whether an everyday request loads a skill; they are now negatives with one scored must-not-fire grader (their method graders presupposed a load and were removed).
+
+**Run rules** (written after the first batch started and before any of its results was read; Opus 5.5, medium, 1 run per case)
+- Positive routing (20 `trigger-*` without the two upload-build-only loop cases, 22 `noncode-*`, 4 `unknown-*`): the intended skill loads (the slash-form loop cases: the reply is the loop). A miss gets 2 more runs of that case; 2 of 2 keeps the text, otherwise that description gets the case's phrase or a sharper gate and the case and its everyday negative run again.
+- Negatives (the 20 new, the 4 converted, the existing `neg-*`): no unknowns skill loads where the case says so. A load gets 2 more runs; any further load means that description's gate is reworded and its negative and positive cases run again.
+- The changed behaviour cases: the skill loads in each; their method graders are read against their last recorded results and reported, not used to revert the gate.
+
+- **Follow-up, 2026-11-26, the runs and the owner's ruling** (Opus 5.5, medium, 1 run per case; numbers in `CHANGELOG.md` 0.15.0). Every positive routing case loaded its skill. Of the negatives, three loaded on their first run and again on 2 more runs, so the run rule called for rewording their gates: "Record a deviation." (2 of 3), "이탈 기록해줘." (3 of 3), "사각지대 조사해줘." (3 of 3). Each says a label in other words. The owner ruled (a): a label in other words may start its skill; the three cases became the informative `label-variant-*` cases and both READMEs say so. No gate was reworded.
+
 ## [2026-11-26] Owner decisions after an outside audit: three cuts, the loop's stage checkpoint and probe owner, an explicit-only loop on trial; and the run rules written before the runs
 
 **Observed**

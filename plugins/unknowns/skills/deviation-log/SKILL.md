@@ -1,8 +1,8 @@
 ---
 name: deviation-log
 description: >
-  Deviation log — log where and why the work departed from the plan, in any domain. Use on
-  "implementation notes", "record a deviation", "where did we diverge from the plan?".
+  Deviation log — log where and why the work departed from the plan, in any domain. Use
+  only if the user says "unknowns" or "deviation log" or an unknowns skill calls it.
 ---
 
 # Deviation Log

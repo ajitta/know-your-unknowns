@@ -11,7 +11,7 @@ allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
 ## Opening message
 
 I need a settings screen for a small team-scheduling app. I have no visual taste --
-give me a few widely different directions so I can react to them.
+give me divergent prototypes, a few widely different directions, so I can react to them.
 
 ## Persona
 

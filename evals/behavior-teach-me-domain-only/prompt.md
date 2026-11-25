@@ -7,4 +7,4 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Teach me the vocabulary of wine tasting.
+Use unknowns to teach me the vocabulary of wine tasting.

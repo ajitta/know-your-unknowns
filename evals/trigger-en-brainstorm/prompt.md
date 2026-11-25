@@ -1,5 +1,5 @@
 ---
-description: "English trigger phrase for the brainstorm skill: 'brainstorm interventions'"
+description: "English trigger phrase for the brainstorm skill since 0.15.0: 'unknowns'"
 tags: [trigger, en, brainstorm]
 runs: 3
 max_turns: 6
@@ -9,4 +9,4 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 Our free-to-paid conversion has been flat at 2.1% for two quarters. The signup funnel,
 the onboarding checklist and the paywall are all in scope, and I have one engineer for
-six weeks. Brainstorm interventions.
+six weeks. Use unknowns to brainstorm interventions.

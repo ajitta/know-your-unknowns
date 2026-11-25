@@ -2,7 +2,8 @@
 name: tweakable-plan
 description: >
   The tweakable plan — decisions most likely to change come first, with alternatives, for
-  any work. Use on "plan this", "make a plan", "tweakable plan".
+  any work. Use only if the user says "unknowns" or "tweakable plan" or an unknowns skill
+  calls it.
 ---
 
 # Tweakable Plan — sorted by tweak likelihood × blast radius

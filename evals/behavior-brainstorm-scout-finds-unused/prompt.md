@@ -7,5 +7,5 @@ timeout_seconds: 900
 allowed_tools: [Read, Glob, Grep, Bash, Skill, Agent, Task]
 ---
 
-Brainstorm ways to cut our support backlog — median first response is 3 days. Look
+Use unknowns to brainstorm ways to cut our support backlog — median first response is 3 days. Look
 through our codebase for anything we already have.

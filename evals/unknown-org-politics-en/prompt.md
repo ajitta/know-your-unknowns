@@ -9,4 +9,4 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 Our new VP of people and our head of sales seem to disagree about whether the annual
 sales kickoff should go online this year. I've been asked to propose a format by
-Friday. What am I missing?
+Friday. Use unknowns: what am I missing?

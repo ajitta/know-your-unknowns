@@ -1,9 +1,9 @@
 ---
 name: brainstorm
 description: >
-  Brainstorm the intervention — ~10 candidates for a named problem in any domain, from
-  today to a quarter-long bet. Use on "brainstorm interventions", "show me options". NOT
-  for design options.
+  Brainstorm the intervention — ~10 candidates for a named problem in any domain, today to
+  a quarter-long bet. Use only if the user says "unknowns" or an unknowns skill calls it.
+  NOT for design options.
 ---
 
 # Brainstorm — Solution-Space Map (Brainstorm the Intervention)

@@ -2,8 +2,8 @@
 name: interview
 description: >
   The interview — before deciding, ask in rounds of ≤4 what you cannot know or judge in
-  the user's situation. Use on "interview me", "ask me questions before implementing",
-  "ask me before you decide".
+  the user's situation. Use only if the user says "unknowns" or an unknowns skill calls
+  it.
 ---
 
 # Interview — Before-Deciding Interview

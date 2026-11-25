@@ -10,7 +10,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 ## Opening message
 
-Grill me on the requirements for our team's on-call rotation tool — 40-question level.
+Use unknowns to grill me on the requirements for our team's on-call rotation tool — 40-question level.
 
 ## Persona
 

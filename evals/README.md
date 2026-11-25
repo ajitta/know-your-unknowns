@@ -7,8 +7,8 @@ skills ([docs/trigger-eval-v0.3.0.md](../docs/trigger-eval-v0.3.0.md)), which le
 description edit after it unverifiable. This directory replaced that with case files two
 different runners can execute. The suite holds the single-turn cases that
 `run-manual.py` runs and the multi-turn cases under `multiturn/` that `run-multiturn.py`
-runs; `--verify` on each prints the current count (105 and 19 after the cases added on
-2026-11-24; 88 and 13 at 0.13.2). Release checks
+runs; `--verify` on each prints the current count (126 and 19 after the 0.15.0 cases; 105 and 19 after the
+cases added on 2026-11-24; 88 and 13 at 0.13.2). Release checks
 from 0.9.0 on record their figures in that version's **Checked** section of
 `CHANGELOG.md`, most with what they did not measure under **Not measured**; run output
 stays in the git-ignored `evals/results/`. `docs/trigger-eval-*.md` are frozen records of

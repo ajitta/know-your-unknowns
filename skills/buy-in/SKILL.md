@@ -1,9 +1,9 @@
 ---
 name: buy-in
 description: >
-  The buy-in doc — surface what approvers don't know and will object to, answer with
-  evidence, state limits, name who signs. Use on "buy-in doc", "prep me for review", "get
-  sign-off".
+  The buy-in doc — surface what approvers don't know and will object to; answer with
+  evidence, limits and who signs. Use only if the user says "unknowns" or "buy-in doc" or
+  an unknowns skill calls it.
 ---
 
 # Buy-in — The Buy-In Doc

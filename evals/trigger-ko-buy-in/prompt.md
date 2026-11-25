@@ -1,5 +1,5 @@
 ---
-description: "Korean trigger phrase for the buy-in skill: '설득 문서 만들어줘'"
+description: "Korean trigger phrase for the buy-in skill since 0.15.0: 'unknowns로 설득 문서 만들어줘'"
 tags: [trigger, ko, buy-in]
 runs: 3
 max_turns: 6
@@ -11,4 +11,4 @@ allowed_tools: [Read, Glob, Grep, Skill]
 토큰 + 리프레시 로테이션이 있는 서명된 JWT로 옮겼고, 기존 쿠키 경로는 플래그 뒤에서
 한 릴리스 동안 계속 받아. 인증 테스트는 61/61 통과(이전 48개), 부하 테스트는 2,400 req/s
 에서 p99 41ms, 아직 리프레시 토큰 재사용 탐지와 여러 기기 동시 로그아웃은 처리 못 했어.
-배포 전에 시니어 엔지니어 3명한테 승인을 받아야 해. 설득 문서 만들어줘.
+배포 전에 시니어 엔지니어 3명한테 승인을 받아야 해. unknowns로 설득 문서 만들어줘.

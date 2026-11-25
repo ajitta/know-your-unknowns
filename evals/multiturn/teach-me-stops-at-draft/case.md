@@ -18,7 +18,7 @@ choices.
 The problem is that I don't know this area. Codecs, bitrates, containers, frame rates,
 "constant vs variable" something: I've seen the words in other apps' export screens, but
 I couldn't tell you what each one changes or which of them a user should even see. Can
-you teach me enough of it that I can write the spec for this dialog?
+you use unknowns to teach me enough of it that I can write the spec for this dialog?
 
 ## Persona
 

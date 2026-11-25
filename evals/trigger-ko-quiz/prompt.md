@@ -1,5 +1,5 @@
 ---
-description: "Korean trigger phrase for the quiz skill: '퀴즈'"
+description: "Korean trigger phrase for the quiz skill since 0.15.0: 'unknowns로 퀴즈 내줘'"
 tags: [trigger, ko, quiz]
 runs: 3
 max_turns: 6
@@ -8,7 +8,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
 우리 저장소에 접근할 수 없으니 변경 내용을 그대로 붙여넣을게. 내가 쓴 코드가 아니라
-에이전트가 쓴 거고, 이제 PR 올려서 방어해야 해. 퀴즈 내줘.
+에이전트가 쓴 거고, 이제 PR 올려서 방어해야 해. unknowns로 퀴즈 내줘.
 
 ```python
 @app.post("/hooks/stripe")

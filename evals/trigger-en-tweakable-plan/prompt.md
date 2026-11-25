@@ -1,5 +1,5 @@
 ---
-description: "English trigger phrase for the tweakable-plan skill: 'tweakable plan'"
+description: "English trigger phrase for the tweakable-plan skill since 0.15.0: 'tweakable plan'"
 tags: [trigger, en, tweakable-plan]
 runs: 3
 max_turns: 6

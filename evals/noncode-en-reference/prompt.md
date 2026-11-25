@@ -7,7 +7,7 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Use this as a reference for our own volunteer policy. It's the neighbouring town's
+Use unknowns: take this as a reference for our own volunteer policy. It's the neighbouring town's
 library volunteer policy (excerpt):
 
 1. Volunteers must be 16 or older; 14-15 with a guardian's consent form.

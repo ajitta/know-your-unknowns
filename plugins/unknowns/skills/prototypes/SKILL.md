@@ -2,8 +2,8 @@
 name: prototypes
 description: >
   Prototypes — several versions of anything to react to, each on a different philosophy.
-  Use on "divergent prototypes", "design options", "versions to react to", "know it when I
-  see it".
+  Use only if the user says "unknowns" or "divergent prototypes" or an unknowns skill
+  calls it.
 ---
 
 # Prototypes — Divergent Prototype Fan-out (Design Directions)

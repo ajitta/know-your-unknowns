@@ -7,4 +7,4 @@ timeout_seconds: 420
 allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
 ---
 
-미나에게 넘기기 전에 이탈 기록 정리해줘.
+미나에게 넘기기 전에 unknowns로 이탈 기록 정리해줘.
