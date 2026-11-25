@@ -1,12 +1,14 @@
-# 다음 라운드 인계 — 0.13.4
+# 다음 라운드 인계 — 0.14.0
 
 새 세션은 이 문서의 상태를 git·태그·릴리스·CI와 먼저 대조하고 시작한다. 이 문서는 작업 지시가 아니라 출발점이다.
 
 ## 상태
 
-배포 중인 버전은 `unknowns--v0.13.4`이다(2026-11-24, PR #44, main `4f274bd`, 소유자 승인으로 병합과 태그). 0.13.4 릴리스 점검은 태그 전에 같은 트리의 `794ed0d`에서 했다(`CHANGELOG.md` 0.13.4 **Checked — release runs**). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `0f9361be…`, `know-your-unknowns-openai.zip` `cfacf3f9…`), 릴리스 본문은 워크플로가 태그 메시지로 채웠다. 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.13.4에 스킬 폴더 11개, 에이전트 2개였고, 설치된 본문에 두 배포 문장이 있었다. 카탈로그 `ajitta/claude-plugins`의 unknowns 설명을 0.13.4 마켓플레이스 항목과 같게 맞췄다(그 저장소 PR #6, `ref`는 고정하지 않음). 원격 작업 브랜치 `owner-decisions-2026-11-24`는 지우지 않았다(아래 '규칙').
+배포 중인 버전은 `unknowns--v0.14.0`이다(2026-11-26, PR #48, main `e1c33e9`, 소유자 승인으로 병합과 태그). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `ae7f3be9…`, `know-your-unknowns-openai.zip` `d047d91d…`), 릴리스 본문은 워크플로가 태그 메시지로 채웠다. 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.14.0에 스킬 폴더 11개, 에이전트 2개였고, 설치된 unknowns-loop에 `disable-model-invocation: true`와 새 3단계 문장이 있었다. 설명은 바뀌지 않아 카탈로그는 손대지 않았다. 원격 작업 브랜치 `owner-decisions-2026-11-26`은 지우지 않았다(`IMPLEMENTATION_NOTES.md` 2026-11-26이 그 브랜치 커밋을 인용한다).
 
-0.13.4에 들어간 것(2026-11-24, 소유자 결정 두 라운드): unknowns-loop 3단계 a의 Run 칸(분야 어휘만 모르는 사용자는 blindspot 다음 teach-me), buy-in 4b(사용자가 준 현황 보고를 reviewer에 주장으로 넘김). 개발자용: 다회차 러너의 `focus: packets`, crowd 러너 수정(0.13.3 crowd 측정에는 필러가 실리지 않았음), 채점기·케이스 정리, README의 호스트 설명. 결정과 실행 전 규칙은 `IMPLEMENTATION_NOTES.md` 2026-11-24 항목들, 원자료는 `evals/results/round-2026-11-24b/`, `round-2026-11-24c/`(로컬, gitignore). GPT-6.1 Sol trigger는 `794ed0d`에서 22/22.
+0.14.0에 들어간 것(2026-11-26, 바깥 감사와 독립 리뷰 뒤 소유자 결정): unknowns-loop 3단계의 단계별 체크포인트(a–e 단계마다 결과를 따로 보이고, 질문했으면 답을 기다리고, 건너뛴 질문은 가정으로 넘김)와 d 탐침 주체·판정, Claude Code에서 unknowns-loop는 이름으로만 실행(`claude-code/skill-frontmatter.json`), unknowns-loop 5a와 tweakable-plan 3단계에서 문장 하나씩 삭제(interview 삭제는 실행 전 규칙대로 되돌림). 전체 릴리스 실행과 Sol 실행은 소유자 결정으로 하지 않았다(`CHANGELOG.md` 0.14.0 **Not measured**). 결정·실행 전 규칙·결과는 `IMPLEMENTATION_NOTES.md` 2026-11-26, 원자료는 공개하지 않은 로컬 작업 폴더에 있다.
+
+0.13.4(2026-11-24, PR #44, main `4f274bd`)의 인계 문단은 지웠다. `CHANGELOG.md` 0.13.4와 커밋 `bba5b4e`의 `docs/handoff.md`에 있다.
 
 0.13.3(2026-11-24, PR #42, main `9ad4179`)의 인계 문단은 지웠다. `CHANGELOG.md` 0.13.3과 커밋 `e23dc3d`의 `docs/handoff.md`에 있다.
 
@@ -33,8 +35,8 @@
 
 | 남은 일 | 누가 | 어디서 시작 |
 |---|---|---|
-| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드. 0.13.2에서 목록 문장 하나와 스킬 본문 열 개가, 0.13.3에서 설명 여섯 개와 예시 프롬프트의 `$unknowns:` 표기가, 0.13.4에서 unknowns-loop·buy-in 본문 한 곳씩이 바뀌었다. 올릴 때 예시 프롬프트가 목록에서 어떻게 보이는지 본다 | 소유자(직접 하기로 함) | GitHub Release `unknowns--v0.13.4` |
-| claude.ai(Add marketplace 경로)가 0.13.4를 받았는지 확인 | 소유자 | claude.ai Customize › Plugins |
+| ChatGPT에 `know-your-unknowns-openai.zip` 재업로드. 0.13.2에서 목록 문장 하나와 스킬 본문 열 개가, 0.13.3에서 설명 여섯 개와 예시 프롬프트의 `$unknowns:` 표기가, 0.13.4에서 unknowns-loop·buy-in 본문 한 곳씩이 바뀌었다. 0.14.0에서 unknowns-loop·tweakable-plan 본문이 바뀌었다(zip에는 `disable-model-invocation`이 없다). 올릴 때 예시 프롬프트가 목록에서 어떻게 보이는지 본다 | 소유자(직접 하기로 함) | GitHub Release `unknowns--v0.13.4` |
+| 0.14.0의 `disable-model-invocation`을 마켓플레이스 설치가 어떻게 다루는지 확인: claude.ai Add marketplace(플러그인과 unknowns-loop가 보이는지, 0.14.0을 받았는지), Codex CLI·ChatGPT 데스크톱 마켓플레이스(설치되는지, loop가 이름·문구로 시작되는지). 문제가 보이면 그 키를 빼는 릴리스로 되돌린다(소유자 결정 2026-11-26: 그대로 릴리스하고 문제 시 되돌림) | 소유자 | claude.ai Customize › Plugins, `codex plugin marketplace add ajitta/know-your-unknowns` |
 | 저장소 밖 판사 보조 도구의 프롬프트 고치기: "one line of reasoning per numbered criterion"이 Opus 5.5의 안전 분류기(`reasoning_extraction`)에 막힌다(0.13.2 릴리스에서 한 채점 항목이 두 번 막힘). 저장소 안의 다회차 판사 프롬프트(`evals/run-multiturn.py`)는 2026-11-24 정리에서 번호 기준마다 근거를 인용한 한 줄 판정을 묻도록 바꿨고, 채점기 둘(`deeper-not-padded`, `every-round-at-most-four`)은 "In your reasoning" 대신 판정 줄에 근거를 인용해 적게 했다. 같은 방향으로 바꾼다 | 소유자(저장소 밖) | 소유자의 사설 프로브 스크립트(저장소 밖) |
 | B8 brainstorm 충돌 재현(`docs/open-questions.md`에서 옮김, 2026-11-24): 소유자 보고("review·brainstorm 같은 스킬이 의도하지 않게 트리거") 중 brainstorm 쪽은 Claude Code CLI 기록(Skill 호출 270건, 의도하지 않은 것 0)과 dia·design·SuperClaude 동반 단발 스크린에서 재현되지 않았다. 소유자가 본 문장과 표면(claude.ai·데스크톱·모바일 포함)을 받아 그 조건으로 재현한 뒤에만 설명을 고친다 | 소유자가 사례를 줄 때 | `docs/open-questions.md` B8, `docs/features/agent-collision/` |
 | ChatGPT·claude.ai에서 짧은 설명의 라우팅. claude.ai의 라우팅은 헤드리스로 돌릴 수 없고, Codex는 trigger 22개만 돌렸다 | 소유자 | `IMPLEMENTATION_NOTES.md` 2026-11-13 |

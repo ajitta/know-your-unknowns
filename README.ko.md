@@ -98,7 +98,7 @@ Claude Code 세션 안에서 마켓플레이스로 설치합니다:
 
 플러그인은 `unknowns`입니다. Claude Code에서는 `/unknowns:<skill>`을 쓰고, 다른 표면에서는 스킬 이름이나 트리거 문구로 부릅니다.
 
-**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로. 소유자 확인이 아닌 기록된 자동 실행: 0.10.0, 0.12.1, 0.12.3, 0.13.0–0.13.4에서 이 플러그인을 쓴 Codex CLI 실행과, 0.13.2, 0.13.3, 0.13.4에서 두 마켓플레이스(이 저장소와 `ajitta/claude-plugins`)로부터 빈 Claude Code 설정에 설치한 것이 있습니다. `CHANGELOG.md`를 보세요.
+**소유자가 0.12.2에서 확인함(2026-10-28):** claude.ai의 Add marketplace 설치(Claude 모바일 앱에도 이어짐), ChatGPT zip 업로드와 ChatGPT 모바일에서 스킬 호출. **소유자가 아직 확인하지 않음:** claude.ai zip 업로드(마켓플레이스 경로를 쓰면 필요 없음), Claude 데스크톱, Codex CLI, ChatGPT 데스크톱 마켓플레이스 경로. 소유자 확인이 아닌 기록된 자동 실행: 0.10.0, 0.12.1, 0.12.3, 0.13.0–0.13.4에서 이 플러그인을 쓴 Codex CLI 실행과, 0.13.2, 0.13.3, 0.13.4, 0.14.0에서 두 마켓플레이스(이 저장소와 `ajitta/claude-plugins`)로부터 빈 Claude Code 설정에 설치한 것이 있습니다. `CHANGELOG.md`를 보세요.
 
 **지원 모델:** Claude Opus 5.5와 GPT-6.1 Sol, medium effort. 평가는 이 조건에서 돌리며, 다른 모델과 effort 수준은 시험하지 않았습니다.
 
@@ -660,7 +660,7 @@ blindspot은 발화하지 않았습니다(1회 측정,
 ```
 skills/<name>/                 소스: SKILL.md, agents/openai.yaml
 claude-code/agents/             소스: Claude Code 에이전트 프롬프트
-plugin-manifest.json           소스 매니페스트, 현재 0.13.4
+plugin-manifest.json           소스 매니페스트, 현재 0.14.0
 packaging/                     배포 README, 목록 아이콘, OpenAI 인터페이스와 SVG
 .claude-plugin/marketplace.json 마켓플레이스 -> ./plugins/unknowns
 plugins/unknowns/               생성된 Claude 플러그인; 설치되는 페이로드
