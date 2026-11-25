@@ -223,6 +223,7 @@ def discover(case_glob, tag, every=False):
         # The Claude Code plugin runs unknowns-loop by name only; its trigger-phrase
         # cases run with --tag upload-build-only (Codex, or a --plugin-dir of an upload build).
         if not every and "upload-build-only" in case["tags"] and tag != "upload-build-only":
+            print("skipped %s (tag upload-build-only; add --tag upload-build-only)" % entry)
             continue
         cases.append(case)
     return cases

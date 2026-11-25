@@ -1,6 +1,6 @@
 ---
 description: "Built-in collision: 'loop this every 5 minutes' must not fire the unknowns loop"
-tags: [negative, conflict, en, loop]
+tags: [negative, conflict, en, loop, upload-build-only]
 runs: 3
 max_turns: 6
 timeout_seconds: 240

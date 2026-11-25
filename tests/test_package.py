@@ -48,6 +48,20 @@ class PackageTest(unittest.TestCase):
         text = (ROOT / "plugins" / "unknowns" / "skills" / "unknowns-loop" / "SKILL.md").read_text(encoding="utf-8")
         self.assertEqual(pkg.frontmatter(text)[0].get("disable-model-invocation"), "true")
 
+    def test_claude_code_frontmatter_rejects_bad_entries(self):
+        from unittest import mock
+        files = {"skills/x/SKILL.md": b"---\nname: x\ndescription: d\ndisable-model-invocation: true\n---\nbody\n"}
+        with mock.patch.object(pkg, "claude_code_frontmatter", return_value={"x": {"disable-model-invocation": "true"}}):
+            with self.assertRaises(ValueError):
+                pkg.claude_code_files(files)
+        files = {"skills/x/SKILL.md": b"---\nname: x\ndescription: d\n---\nbody\n"}
+        with mock.patch.object(pkg, "claude_code_frontmatter", return_value={"x": {"disable-model-invocation": True}}):
+            with self.assertRaises(ValueError):
+                pkg.claude_code_files(files)
+        with mock.patch.object(pkg, "claude_code_frontmatter", return_value={"x": {"disable-model-invocation": "true"}}):
+            out = pkg.claude_code_files(files)["skills/x/SKILL.md"].decode()
+        self.assertEqual(out, "---\nname: x\ndescription: d\ndisable-model-invocation: true\n---\nbody\n")
+
     def test_release_zips_keep_spec_only_frontmatter(self):
         import zipfile
         for name in (pkg.ZIP_NAME, pkg.OPENAI_ZIP_NAME):

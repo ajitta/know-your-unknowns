@@ -155,7 +155,7 @@ def claude_code_frontmatter() -> dict[str, dict[str, str]]:
     """{skill: {key: value}} added to SKILL.md in plugins/unknowns/ only."""
     if not CLAUDE_CODE_FRONTMATTER.is_file():
         return {}
-    data = json.loads(CLAUDE_CODE_FRONTMATTER.read_text(encoding="utf-8"))
+    data = json.loads(CLAUDE_CODE_FRONTMATTER.read_text(encoding="utf-8-sig"))
     return {k: v for k, v in data.items() if not k.startswith("_")}
 
 
@@ -168,6 +168,11 @@ def claude_code_files(files: dict[str, bytes]) -> dict[str, bytes]:
             raise ValueError(f"claude-code/skill-frontmatter.json names unknown skill {skill!r}")
         if set(keys) - CLAUDE_CODE_KEYS:
             raise ValueError(f"claude-code/skill-frontmatter.json: unsupported keys for {skill}: {sorted(set(keys) - CLAUDE_CODE_KEYS)}")
+        if not all(isinstance(v, str) for v in keys.values()):
+            raise ValueError(f"claude-code/skill-frontmatter.json: values for {skill} must be strings")
+        have = set(frontmatter(out[path].decode("utf-8"))[0])
+        if have & set(keys):
+            raise ValueError(f"skills/{skill}/SKILL.md already sets {sorted(have & set(keys))}")
         text = out[path].decode("utf-8")
         head, body = text[4:].split("\n---\n", 1)
         extra = "".join(f"\n{k}: {v}" for k, v in sorted(keys.items()))

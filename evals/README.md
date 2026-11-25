@@ -227,10 +227,17 @@ for an exact test, before claiming a difference.
 that skill's current `description`; every `trigger-ko-*` prompt embeds a Korean phrase
 that the English-only description does not carry (see [docs/trigger-matrix.md](../docs/trigger-matrix.md)).
 When a description changes, the case that used a dropped phrase must change with it.
+The two unknowns-loop cases carry the tag `upload-build-only`: the Claude Code plugin
+runs unknowns-loop only by name (`disable-model-invocation`, set by
+`claude-code/skill-frontmatter.json`), so `run-manual.py` skips them unless
+`--tag upload-build-only` is given, for Codex or an upload build; a default run has 20.
 
 **22 non-coding cases** — one per language for each of the 11 skills,
 `noncode-{en,ko}-<skill>`: a grant, a choir, a family reunion, a lease, a hiring
-decision, a parents' association. Each carries a display-only routing indicator and
+decision, a parents' association. Each carries a display-only routing indicator (except
+the two unknowns-loop cases, which open with `/unknowns:unknowns-loop` like every
+loop case: a slash invocation makes no Skill call and leaves no trace in the stream,
+so whether the loop loaded is read from the reply) and
 one `llm` grader, `moves-toward-the-outcome`, that asks whether the reply moves toward
 what the user is actually after (surfacing both sides' unknowns, clarifying intent)
 rather than only producing an artifact, and fails a reply that forces software
@@ -264,13 +271,14 @@ only the read-back half of that sentence; the end-of-work half (each done criter
 its evidence, the outcome question) is not judged. `tests/test_portability.py` checks that
 both READMEs print the line and the sentence these two cases run with.
 
-**5 negative cases** — the collisions and the overfire direction the trigger matrix lists:
+**6 negative cases** — the collisions and the overfire direction the trigger matrix lists:
 
 | case | must not fire | why |
 |---|---|---|
 | `neg-ui-options-does-not-fire-brainstorm` | `unknowns:brainstorm` | brainstorm advertises "show me options"; prototypes owns UI variants |
 | `neg-vocabulary-does-not-fire-blindspot` | `unknowns:blindspot` | blindspot investigates a specific plan or situation, teach-me teaches vocabulary |
-| `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner |
+| `neg-interval-loop-does-not-fire-unknowns-loop` | `unknowns:unknowns-loop` | a bare "loop … every 5 minutes" is the built-in interval runner; tagged `upload-build-only`, since in the Claude Code build no description can make the model call the loop |
+| `neg-plain-phrase-does-not-load-unknowns-loop` | `unknowns:unknowns-loop` | in the Claude Code build the loop runs only by name; its plain trigger phrase does not load it |
 | `neg-one-file-tweakable-plan-defers-to-plan-mode` | (behaviour, not trigger) | the tweakable-plan skill's own size gate: ≤2 files and no schema/interface/UX decision → defer to native plan mode |
 | `neg-generic-howto-does-not-fire-teach-me` | `unknowns:teach-me` | "teach me" is a generic phrase; a how-to with a known answer and a named output is no vocabulary gap |
 
