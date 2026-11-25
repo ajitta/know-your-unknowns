@@ -5,7 +5,7 @@
 ### Checked (developer-only)
 
 - After the 0.14.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `ae7f3be9…`, `know-your-unknowns-openai.zip` `d047d91d…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.14.0 with 11 skill folders and 2 agents, and the installed unknowns-loop carries `disable-model-invocation: true` and the new step-3 wording. README (both languages): the empty-config installs are recorded for 0.14.0 too.
-- Owner checks on 0.14.0 (owner report, 2026-11-26; no screen evidence recorded): the claude.ai Add-marketplace, Codex CLI marketplace and ChatGPT desktop marketplace installs install the plugin and start the loop, so those hosts work with `disable-model-invocation` in unknowns-loop's frontmatter; the owner re-uploaded the 0.14.0 zip to ChatGPT. This answers that line of 0.14.0's **Not measured**; the released section is left as it is. README (both languages) and the handoff record the checked surfaces.
+- Owner checks on 0.14.0 (owner report, 2026-11-26; no screen evidence recorded): the claude.ai Add-marketplace, Codex CLI marketplace and ChatGPT desktop marketplace installs install the plugin and start the loop, so those hosts work with `disable-model-invocation` in unknowns-loop's frontmatter; Claude desktop works too; the owner re-uploaded the 0.14.0 zip to ChatGPT. This answers that line of 0.14.0's **Not measured**; the released section is left as it is. README (both languages) and the handoff record the checked surfaces.
 
 ## 0.14.0 — 2026-11-26
 
