@@ -91,7 +91,9 @@ class PortabilityTest(unittest.TestCase):
 
     def test_descriptions_are_the_short_set(self):
         # Every description is loaded in every conversation, so each stays within 200
-        # characters: a label, what the skill is for, its trigger phrases and its borders.
+        # characters: a label, what the skill is for, its gate and its borders. Since 0.15.0
+        # each skill runs only when the user says "unknowns" (or its label, or the loop's
+        # phrases) or an unknowns skill calls it, never on an everyday phrase.
         # The method lives in the body. tests/test_trigger_containment.py checks that the
         # trigger phrases the READMEs advertise are still in each description, and
         # tests/test_skill_descriptions.py that the upload zips use the same texts.
@@ -101,7 +103,8 @@ class PortabilityTest(unittest.TestCase):
             text = description(path.read_text(encoding="utf-8"))
             self.assertTrue(text, path)
             self.assertLessEqual(len(text), DESCRIPTION_MAX, path)
-            self.assertIn("Use on \"", text, path)
+            self.assertIn("Use only ", text, path)
+            self.assertIn("unknowns", text.split("Use only ", 1)[1], path)
 
     def test_readme_memory_line_is_the_one_measured(self):
         # The README tip's CLAUDE.md line is the line neg-open-weighty-memory-line-en runs with.

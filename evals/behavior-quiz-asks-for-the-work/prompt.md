@@ -7,4 +7,4 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Skill, Write]
 ---
 
-Quiz me before tomorrow's handover, so I can defend it.
+Use unknowns to quiz me before tomorrow's handover, so I can defend it.

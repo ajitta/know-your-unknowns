@@ -7,6 +7,6 @@ timeout_seconds: 480
 allowed_tools: [Read, Glob, Grep, Skill, Write]
 ---
 
-Quiz me on the travel pack you drafted for the Under-12s tournament
+Use unknowns to quiz me on the travel pack you drafted for the Under-12s tournament
 (tournament/travel-pack.md). I'm handing it over to the parents' rep on Saturday and
 she'll have questions.

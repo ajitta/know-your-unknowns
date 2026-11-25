@@ -7,4 +7,4 @@ timeout_seconds: 420
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-10월 보고서처럼 11월 보고서 만들어줘.
+unknowns로 10월 보고서처럼 11월 보고서 만들어줘.

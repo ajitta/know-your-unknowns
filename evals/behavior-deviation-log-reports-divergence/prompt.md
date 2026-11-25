@@ -7,4 +7,4 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
 ---
 
-Where did we diverge from the plan?
+Check the deviation log: where did we diverge from the plan?

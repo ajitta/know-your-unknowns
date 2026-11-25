@@ -10,7 +10,7 @@ allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
 
 ## Opening message
 
-Ask me questions before implementing. I want a small Python script in this folder,
+Use unknowns to ask me questions before implementing. I want a small Python script in this folder,
 report.py, that reads our weekly sign-ups export and prints a summary for the Monday
 meeting. The export is not in this folder yet; its columns are email, signed_up_at (a UTC
 timestamp), plan and referrer. Nothing is settled -- not which numbers the summary shows,

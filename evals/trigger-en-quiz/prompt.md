@@ -1,5 +1,5 @@
 ---
-description: "English trigger phrase for the quiz skill: 'quiz me'"
+description: "English trigger phrase for the quiz skill since 0.15.0: 'unknowns'"
 tags: [trigger, en, quiz]
 runs: 3
 max_turns: 6
@@ -8,7 +8,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
 You have no access to our repo, so here is the change verbatim. I did not write it —
-an agent did — and I am about to open the PR and defend it. Quiz me.
+an agent did — and I am about to open the PR and defend it. Use unknowns to quiz me.
 
 ```python
 @app.post("/hooks/stripe")

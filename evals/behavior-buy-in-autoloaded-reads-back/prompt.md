@@ -1,6 +1,6 @@
 ---
-description: "Read-back paragraph in a skill that loaded on its own, not by name (non-code), informative: measures whether 'get sign-off' in a request clear to both sides, for an email sent today whose reply releases a payment, loads buy-in and gets a 2-3-line read-back that waits, with no email and no buy-in doc, which the plugin does not claim (buy-in loaded in 0 of 3 runs, 2026-11-24). Read it only in runs where the skill loaded"
-tags: [behavior, open-cell, readback, en, buy-in, noncode, informative]
+description: "Everyday gate (non-code): 'get sign-off' in a request clear to both sides, for an email sent today; before 0.15.0 an informative read-back case (buy-in loaded in 1 of 4 runs), since 0.15.0 no unknowns skill loads"
+tags: [negative, everyday-gate, en, buy-in, noncode]
 runs: 3
 max_turns: 6
 timeout_seconds: 300

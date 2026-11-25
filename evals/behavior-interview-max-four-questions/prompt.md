@@ -7,7 +7,7 @@ timeout_seconds: 300
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Interview me before implementing. We want scheduled reports in our analytics product:
+Use unknowns to interview me before implementing. We want scheduled reports in our analytics product:
 the user picks a saved view, a cadence, recipients, a format and a timezone, and we
 decide what happens when the query returns nothing. Nothing is settled -- not the
 delivery channel, not how long generated files are kept, not whether recipients need

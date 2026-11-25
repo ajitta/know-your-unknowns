@@ -10,7 +10,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 ## Opening message
 
-가족 모임(30명) 계획을 인터뷰로 정리해줘.
+가족 모임(30명) 계획을 unknowns로 인터뷰해줘.
 
 ## Persona
 

@@ -93,8 +93,8 @@ class RenamedSkillsTest(unittest.TestCase):
             text = (ROOT / "skills" / name / "SKILL.md").read_text(encoding="utf-8")
             return " ".join(re.match(r"^---\n(.*?)\n---\n", text, re.S).group(1).lower().split())
         self.assertIn('"unknowns loop"', description("unknowns-loop"))
-        self.assertIn('"implementation notes"', description("deviation-log"))
-        self.assertIn('"plan this"', description("tweakable-plan"))
+        self.assertIn('"deviation log"', description("deviation-log"))
+        self.assertIn('"tweakable plan"', description("tweakable-plan"))
 
 
 if __name__ == "__main__":

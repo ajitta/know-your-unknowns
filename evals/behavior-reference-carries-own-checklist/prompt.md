@@ -7,5 +7,5 @@ timeout_seconds: 420
 allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
-Use this as a reference: our sister branch's onboarding guide in reference/onboarding.md.
+Use unknowns, with this as a reference: our sister branch's onboarding guide in reference/onboarding.md.
 Build ours for the Eastside branch.

@@ -1,9 +1,8 @@
 ---
 name: unknowns-loop
 description: >
-  Run the know-your-unknowns workflow end to end, ending with an outcome check. Use on
-  "unknowns loop", "run the operating loop", "know your unknowns". A bare "loop" is NOT
-  this.
+  Run the know-your-unknowns workflow end to end, ending with an outcome check. Use only
+  on "unknowns loop" or "know your unknowns". A bare "loop" is NOT this.
 ---
 
 # Unknowns Loop — operating loop for working with strong models

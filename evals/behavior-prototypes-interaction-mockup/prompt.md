@@ -1,6 +1,6 @@
 ---
-description: "Mock before you wire, informative: measures whether a request for one toolbar mockup loads prototypes and gets different layouts, what to keep or drop, and each open question once, which the plugin does not claim (prototypes loaded in 0 of 3 runs in the 0.13.4 release check and in no recorded run: the request asks for one mockup, not versions to react to). Read it only in runs where the skill loaded"
-tags: [behavior, en, prototypes, informative]
+description: "Everyday gate: a request for one toolbar mockup; before 0.15.0 informative (prototypes loaded in 0 of 3 runs), since 0.15.0 no unknowns skill loads"
+tags: [negative, everyday-gate, en, prototypes]
 runs: 3
 max_turns: 12
 timeout_seconds: 600

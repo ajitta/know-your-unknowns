@@ -8,4 +8,4 @@ allowed_tools: [Read, Glob, Grep, Skill]
 ---
 
 I'm hiring our first head of operations for a 25-person nonprofit and I can't write
-the job description: I'll know it when I see it. Give me versions to react to.
+the job description: I'll know it when I see it. Give me divergent prototypes to react to.

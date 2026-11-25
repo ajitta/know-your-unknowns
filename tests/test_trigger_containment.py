@@ -36,7 +36,8 @@ from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-TRIGGER_LABELS = ("Auto-triggers:", "Auto-trigger phrases:", "자동 트리거:", "자동 트리거 문구:")
+TRIGGER_LABELS = ("Triggers:", "Auto-triggers:", "Auto-trigger phrases:", "트리거:", "자동 트리거:",
+                  "자동 트리거 문구:")
 QUOTED = re.compile(r'[“"]([^”"]+)[”"]')
 HANGUL = re.compile(r"[가-힣]")
 SECTION = re.compile(r"^#{2,4}\s.*/unknowns:([a-z-]+)")

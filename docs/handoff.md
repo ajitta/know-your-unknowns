@@ -1,8 +1,10 @@
-# 다음 라운드 인계 — 0.14.0
+# 다음 라운드 인계 — 0.15.0
 
 새 세션은 이 문서의 상태를 git·태그·릴리스·CI와 먼저 대조하고 시작한다. 이 문서는 작업 지시가 아니라 출발점이다.
 
 ## 상태
+
+0.15.0(2026-11-26, 소유자 결정): 모든 스킬은 사용자가 unknowns 방법을 청할 때만 실행된다. 설명마다 `Use only if the user says "unknowns" [or "<label>"] or an unknowns skill calls it.`로 끝나고, 일상 문구 트리거("make a plan", "teach me", "quiz me" 등)는 모두 뺐다. 라벨을 다른 말로 한 것(`record a deviation`, 라벨의 한국어 번역)은 시작해도 된다(소유자 판정, 측정 뒤). 측정은 `CHANGELOG.md` 0.15.0 **Checked — runs**, 결정과 실행 전 규칙은 `IMPLEMENTATION_NOTES.md` 2026-11-26 맨 위 항목. 이 결정으로 아래 0.14.0 문단의 B8 행(의도하지 않은 트리거)은 닫았다.
 
 배포 중인 버전은 `unknowns--v0.14.0`이다(2026-11-26, PR #48, main `e1c33e9`, 소유자 승인으로 병합과 태그). 릴리스 자산 두 개의 sha256이 커밋된 zip과 일치하고(`know-your-unknowns.zip` `ae7f3be9…`, `know-your-unknowns-openai.zip` `d047d91d…`), 릴리스 본문은 워크플로가 태그 메시지로 채웠다. 빈 설정 설치가 자체 마켓플레이스와 `ajitta/claude-plugins` 두 경로 모두 0.14.0에 스킬 폴더 11개, 에이전트 2개였고, 설치된 unknowns-loop에 `disable-model-invocation: true`와 새 3단계 문장이 있었다. 설명은 바뀌지 않아 카탈로그는 손대지 않았다. 소유자가 0.14.0에서 확인했다(2026-11-26, 소유자 보고이며 화면 증거는 기록하지 않음): claude.ai Add marketplace, Codex CLI 마켓플레이스, ChatGPT 데스크톱 마켓플레이스 설치에서 플러그인이 설치되고 루프가 시작된다. Claude 데스크톱에서도 된다. ChatGPT에 0.14.0 zip을 다시 올렸다. 원격 작업 브랜치 `owner-decisions-2026-11-26`은 지우지 않았다(`IMPLEMENTATION_NOTES.md` 2026-11-26이 그 브랜치 커밋을 인용한다).
 
@@ -35,8 +37,8 @@
 
 | 남은 일 | 누가 | 어디서 시작 |
 |---|---|---|
+| 0.15.0 설명 게이트의 Codex(GPT-6.1 Sol) 라우팅과 업로드 빌드(claude.ai·ChatGPT): Opus 단발만 쟀다. Sol trigger 실행은 `trigger-*`·`noncode-*`·`neg-everyday-*`를 `--tag upload-build-only` 포함으로 돌린다 | 에이전트(Sol), 소유자(업로드) | `CHANGELOG.md` 0.15.0 **Not measured** |
 | 저장소 밖 판사 보조 도구의 프롬프트 고치기: "one line of reasoning per numbered criterion"이 Opus 5.5의 안전 분류기(`reasoning_extraction`)에 막힌다(0.13.2 릴리스에서 한 채점 항목이 두 번 막힘). 저장소 안의 다회차 판사 프롬프트(`evals/run-multiturn.py`)는 2026-11-24 정리에서 번호 기준마다 근거를 인용한 한 줄 판정을 묻도록 바꿨고, 채점기 둘(`deeper-not-padded`, `every-round-at-most-four`)은 "In your reasoning" 대신 판정 줄에 근거를 인용해 적게 했다. 같은 방향으로 바꾼다 | 소유자(저장소 밖) | 소유자의 사설 프로브 스크립트(저장소 밖) |
-| B8 brainstorm 충돌 재현(`docs/open-questions.md`에서 옮김, 2026-11-24): 소유자 보고("review·brainstorm 같은 스킬이 의도하지 않게 트리거") 중 brainstorm 쪽은 Claude Code CLI 기록(Skill 호출 270건, 의도하지 않은 것 0)과 dia·design·SuperClaude 동반 단발 스크린에서 재현되지 않았다. 소유자가 본 문장과 표면(claude.ai·데스크톱·모바일 포함)을 받아 그 조건으로 재현한 뒤에만 설명을 고친다 | 소유자가 사례를 줄 때 | `docs/open-questions.md` B8, `docs/features/agent-collision/` |
 | ChatGPT·claude.ai에서 짧은 설명의 라우팅. claude.ai의 라우팅은 헤드리스로 돌릴 수 없고, Codex는 trigger 22개만 돌렸다 | 소유자 | `IMPLEMENTATION_NOTES.md` 2026-11-13 |
 | interview의 두 규칙을 함께 다루기: (1) 정한 항목은 다시 묻지 않는다(사용자의 두 결정이 함께 성립할 수 없을 때만 둘을 이름 대고 다시 묻는 예외 포함). 2b에 "Settled items are not asked again"은 있지만 4b 문장은 0.13.1 릴리스 전에 뺐다. (2) 바로 쓸 프롬프트는 사용자가 정한 것만 정해진 것으로 보인다(모델이 덧붙인 요구를 표시한다. 지금 Final Deliverables는 건너뛴 질문만 표시한다). 소유자 결정(2026-11-24): 다음 interview 변경 때 함께 다룬다. (3) 1라운드 항목 안의 예시 질문("For example: …?")이 4개 한도에 드는 두 번째 질문이 된다(2a가 이미 이 경우를 세지만 0.13.3 라운드 3회 중 1회 통과, 0.13.2 통과는 같은 모양을 너그럽게 읽은 것). 후보: 2b의 확신·가정 문장 뒤에 "any example in it is a statement, not a second question". 2026-11-24 teach-me 7b에서 '초안엔 준 것·고른 것만, 나머지는 아래 목록' 구조는 3회 중 1회였다((2)를 다룰 때 참고). 0.13.4 릴리스에서 `behavior-interview-max-four-questions` 1회 놓침(1라운드 항목 안의 "For example: …?" 예시 질문, 같은 모양) | 에이전트, 다음 interview 변경 때 | `IMPLEMENTATION_NOTES.md` 2026-11-17, `CHANGELOG.md` 0.13.1 |
 | 0.13.3 실행이 찾은 본문 지적 중 남은 것과 그 다음 측정(2026-11-24 두 번째 라운드, 0.13.4 릴리스 점검). 소유자 결정(2026-11-24): 다음 측정에서 같은 칸이 또 놓치면 그 스킬의 다음 변경 때 한 문장씩 실행 전 규칙과 함께 고친다. 또 놓쳐서 조건이 찬 칸: unknowns-loop 3단계 d(2026-11-26에 고침: 단계마다 결과를 따로 보이는 체크포인트와 탐침 주체, `IMPLEMENTATION_NOTES.md` 2026-11-26)와 루프 안 deviation 항목의 필드(`deviation-logged`, 릴리스 1회 놓침: "what the work now does" 없음), tweakable-plan 1b(자기 모름 목록이 큰 빈칸을 다 담지 않음)와 2단계(사용자가 주지 않은 변경 범위가 "not set" 없이 빠짐, 둘 다 `tweakable-plan-after-interview-accepted` 릴리스 1회), brainstorm 2c(scout의 열린 항목이 답에 오지 않음, 릴리스 `reply-uses-inventory`. blindspot도 처음으로 scout를 불렀고 같은 모양: `reply-uses-scout-rows`), buy-in `final-doc-keeps-unpicked-limits`(초안의 열린 질문 하나가 말없이 빠짐, 4b 이웃 1회 놓침, 릴리스 1회 통과). 아직 다시 놓치지 않은 칸: prototypes 1단계(`behavior-prototypes-asks-target-first` 릴리스 통과). 이 행에서 처리한 것: unknowns-loop 3단계 a는 고쳤고, 한국어 buy-in은 채점기를 고쳐 닫았고, interview 예시 질문은 위 interview 행으로, blindspot `findings-labelled-by-evidence-status`는 지켜볼 칸 둘로 옮겼다 | 에이전트, 그 스킬의 다음 변경 때 | `CHANGELOG.md` 0.13.4 **Checked — release runs**, `IMPLEMENTATION_NOTES.md` 2026-11-24 맨 위 항목 |
@@ -45,6 +47,7 @@
 
 ## 지켜볼 칸 (칸마다 최신 수치)
 
+- 입력 없는 호출의 질문 하나(`asks-one-question-for-the-target`·`-for-the-work`·`-for-the-reference`): 0.15.0 실행에서 셋 다 한 질문 옆에 선택적 추가 요청 하나(버전 수, deviation log, 고른 이유)를 붙여 놓쳤다. `-for-the-reference`는 0.14.0에서 1회 통과. 다시 놓치면 그 스킬의 다음 변경 때 다룬다.
 - unknowns-loop `outcome-check-ends-the-loop`(`unknowns-loop-every-stage-to-outcome-check`): 0.14.0 문구로 3회 중 2회. 놓친 1회는 5c에서 "성과를 이뤘나" 대신 "이걸로 끝난 걸로 할까요"를 물었다. 3단계 체크포인트 뒤로 이 케이스는 실행 3회 중 2회가 사용자 차례 10개를 다 썼다(`user_turns`). 다음 실행에서 차례 상한에 걸려 끊기면, 상한을 바꾸기 전에 실행 전 규칙을 먼저 적는다(`IMPLEMENTATION_NOTES.md` 2026-11-26).
 - unknowns-loop `hands-on-both-picks`(`unknowns-loop-blindspot-then-teach-me`): 2026-11-26 라운드 8회 중 6회. 놓친 2회 중 1회는 어시스턴트가 사용자가 고른 용어를 자기 프리셋으로 바꿨다("Choosing between technical terms is my job, not yours"). 나머지 1회는 러너가 따옴표 붙은 응답 신호에서 대화를 끊은 것이고, 러너는 고쳤다(`42c4988`).
 - interview `behavior-interview-max-four-questions`: 2026-11-26 2회 연속 놓침(1라운드 항목에 닫힌 선택지, 항목 안의 겹친 질문). 위 '남은 일'의 interview 행과 같은 모양이다.

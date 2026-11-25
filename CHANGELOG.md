@@ -2,6 +2,31 @@
 
 ## [Unreleased]
 
+## 0.15.0 — 2026-11-26
+
+Owner decision (2026-11-26): every skill runs only when the user asks for the unknowns method, never on an everyday phrase (`IMPLEMENTATION_NOTES.md` 2026-11-26).
+
+### Changed
+
+- **Breaking for everyday phrases.** Each skill description ends `Use only if the user says "unknowns" [or "<label>"] or an unknowns skill calls it.` A skill starts on the word "unknowns", its label where the label is not an everyday phrase ("blind spot pass", "buy-in doc", "deviation log", "divergent prototypes", "tweakable plan"; the loop's "unknowns loop", "know your unknowns" in the upload builds), its name or slash form, or a call from another unknowns skill. The everyday triggers are gone ("make a plan", "plan this", "teach me", "quiz me", "test my understanding", "or before merging", "show me options", "design options", "make it like this", "use this as a reference", "interview me", "ask me questions before implementing", "what am I missing", "prep me for review", "get sign-off", "implementation notes", "record a deviation", "run the operating loop"). The same label in other words (`record a deviation`, a Korean translation of a label) may still start that skill (owner ruling after the runs). The gate is text, so it applies to every surface, the upload zips included; the loop still calls the other skills.
+- Plugin description: "Each runs only when you say unknowns or its name."; "the actual situation" became "reality" to stay within the 500-character upload limit, and the source line names only the talk.
+- README (both languages) and the shipped README: `Triggers:` lines with "unknowns" and the labels, the quick start, install steps, Updating and the FAQ "A skill did not start".
+
+### Checked — runs (2026-11-26)
+
+- Opus 5.5, medium, Claude Code 2.1.330, isolated config with `ANTHROPIC_MODEL=claude-opus-5-5`, 1 run per case, frozen copy of the branch. Routing: the intended skill loaded in 20 of 20 `trigger-*` (the two upload-build-only loop cases not run), 20 of 20 `noncode-*` with a skill to load (the two slash-form loop cases answered as the loop) and 4 of 4 `unknown-*`. The 20 changed behaviour cases loaded their skill where they should (16 of 16, including `behavior-prototypes-asks-target-first` and `behavior-reference-asks-for-the-reference`, which name the skill without "unknowns") and loaded none in the 4 converted negatives.
+- Negatives: no unknowns skill loaded in the 17 existing `neg-*` cases run and in 17 of the 20 new `neg-everyday-*` cases. The other three say a label in other words and loaded it on more runs: "Record a deviation." 2 of 3, "이탈 기록해줘." 3 of 3, "사각지대 조사해줘." 3 of 3. The owner ruled them allowed; they are now the informative cases `label-variant-*`.
+- Method graders (bodies unchanged): judged verdicts 74 passed and 11 missed. The misses are the known cells (`orders-by-tweak-likelihood` in both `trigger-*-tweakable-plan`, `at-most-four-questions-this-round`, `reply-uses-inventory` indicator, the two informative read-back negatives `neg-open-weighty-code-en`/`-text-ko`, `noncode-en-interview` reasons longer than one line, `noncode-en-quiz` key locations) and the three no-input cases, which each asked one optional extra item beside the one question (`asks-one-question-for-the-target`, `-for-the-work`, `-for-the-reference`; `-for-the-reference` passed its 1 run in 0.14.0).
+
+### Not measured
+
+- GPT-6.1 Sol (Codex) routing on the new descriptions, the multi-turn cases, and the upload builds on claude.ai and ChatGPT.
+
+### Changed (developer-only)
+
+- `.claude/rules/skill-writing.md` rule 18: a description holds the label, what the skill is for and its gate; no everyday phrase is a trigger.
+- Evals: the `trigger-*`, `noncode-*`, `unknown-*` and the behaviour and multi-turn cases that reached a skill by an everyday phrase now say "unknowns" or the label; new `neg-everyday-{en,ko}-<skill>` cases (17) and `label-variant-*` (3) from the pre-0.15.0 `noncode-*` requests; `behavior-buy-in-autoloaded-reads-back`, `behavior-deviation-log-auto-on-mismatch`, `behavior-quiz-on-submit` and `behavior-prototypes-interaction-mockup` are must-not-load negatives. Tests: `Triggers:`/`트리거:` lines are parsed; the description checks look for the gate.
+
 ### Checked (developer-only)
 
 - After the 0.14.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `ae7f3be9…`, `know-your-unknowns-openai.zip` `d047d91d…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.14.0 with 11 skill folders and 2 agents, and the installed unknowns-loop carries `disable-model-invocation: true` and the new step-3 wording. README (both languages): the empty-config installs are recorded for 0.14.0 too.

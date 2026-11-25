@@ -1,8 +1,0 @@
----
-type: tool_used
-tool: Skill
-input_match: unknowns:quiz
----
-
-Routing indicator only; reported, not scored. The scored check is
-offers-check-without-blocking.

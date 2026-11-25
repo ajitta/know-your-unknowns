@@ -12,7 +12,7 @@ allowed_tools: [Read, Glob, Grep, Skill]
 
 Every new volunteer at our food bank gets a welcome email after they sign up, and ours
 is a wall of text that nobody reads -- about half of them never turn up to their first
-shift. I can't tell you what the new one should be like, but I'll know it when I see
+shift. Use unknowns: I can't tell you what the new one should be like, but I'll know it when I see
 it. Show me two versions to react to, two very different ones -- just two, I can't
 weigh more than that at once.
 
