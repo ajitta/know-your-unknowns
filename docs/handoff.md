@@ -45,6 +45,9 @@
 
 ## 지켜볼 칸 (칸마다 최신 수치)
 
+- unknowns-loop `outcome-check-ends-the-loop`(`unknowns-loop-every-stage-to-outcome-check`): 0.14.0 문구로 3회 중 2회. 놓친 1회는 5c에서 "성과를 이뤘나" 대신 "이걸로 끝난 걸로 할까요"를 물었다. 3단계 체크포인트 뒤로 이 케이스는 실행 3회 중 2회가 사용자 차례 10개를 다 썼다(`user_turns`). 다음 실행에서 차례 상한에 걸려 끊기면, 상한을 바꾸기 전에 실행 전 규칙을 먼저 적는다(`IMPLEMENTATION_NOTES.md` 2026-11-26).
+- unknowns-loop `hands-on-both-picks`(`unknowns-loop-blindspot-then-teach-me`): 2026-11-26 라운드 8회 중 6회. 놓친 2회 중 1회는 어시스턴트가 사용자가 고른 용어를 자기 프리셋으로 바꿨다("Choosing between technical terms is my job, not yours"). 나머지 1회는 러너가 따옴표 붙은 응답 신호에서 대화를 끊은 것이고, 러너는 고쳤다(`42c4988`).
+- interview `behavior-interview-max-four-questions`: 2026-11-26 2회 연속 놓침(1라운드 항목에 닫힌 선택지, 항목 안의 겹친 질문). 위 '남은 일'의 interview 행과 같은 모양이다.
 - deviation-log 답사 케이스(`behavior-deviation-log-logs-unplanned-difference`): 비밀번호 절을 뺀 뒤 로그 5회 중 1회(HTML 주석), 계획서 5회 중 5회(0.13.2). 다시 나오면 Don't log에 "비밀 값" 항목을 따로 두는 문장을 2회 돌린다.
 - tweakable-plan `alternatives-are-lettered`: 0.13.2 릴리스에서 판사 호출 거부로 판정 없음. 스크립트로 세면 결정 항목 일곱 개 모두 글자 붙은 대안과 기각 이유가 있었다. 0.13.4 릴리스 1회 통과(판사 판정).
 - blindspot 다회차 `assumption-verdicts-carry-status`(4a 단계): 0.13.2 4회 중 1회, 0.13.3 라운드 `blindspot-partial-pick` 1회 놓침, `blindspot-reaches-improved-prompt` 3회 중 2회 놓침. 놓친 실행은 자기 가정 하나에 판정이 없거나, 사용자의 말에 없는 사실을 "held"로 사용자에게 돌렸다. 0.13.3 라운드 `blindspot-reaches-improved-prompt`의 `findings-labelled-by-evidence-status` 실패 중 사용자가 가정으로 적은 것을 "Held, you confirmed it"으로 돌린 1회도 같은 모양이다. 0.13.4 릴리스 `blindspot-partial-pick` 1회 놓침(조사와 함께 덧붙인 자기 가정 "UK에 있다고 가정"에 판정 없음, 그리고 처음 보는 모양: 추론에 기댄 "Wrong" 판정에 *confirmed*를 붙임).
