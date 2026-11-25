@@ -10,9 +10,15 @@ Owner decisions on the four rows the 0.13.4 release check opened, and the owner'
 - unknowns-loop runs only when the user names it in Claude Code (`/unknowns:unknowns-loop`): the Claude Code plugin sets `disable-model-invocation: true` on it, so its description is no longer in Claude Code's context and its trigger phrases no longer start it there. Inside the loop, Claude still calls the other skills itself (blindspot and teach-me in 2 of 2 spike runs). The release zips for claude.ai and ChatGPT and the single-skill zips are unchanged and keep the trigger phrases.
 - unknowns-loop step 5a and tweakable-plan step 3 each lose one sentence that a neighbouring sentence already covers or whose measured miss it did not stop (`IMPLEMENTATION_NOTES.md` 2026-11-26). A third cut, in interview step 2a, was restored under the rule written before the runs.
 
+### Checked — fix runs (2026-11-26)
+
+- Opus 5.5, medium, Claude Code 2.1.330, isolated config with the model set to Opus 5.5. unknowns-loop step 3: `stages-run-in-order` 2 of 2 on `unknowns-loop-every-stage-to-outcome-check` (it had missed in 3 of 5 recorded runs), and 1 of 1 more on the build with the key. Neighbours, one run each, all scored graders passed: the five `behavior-unknowns-loop-*` cases, both `noncode-*-unknowns-loop`, both `trigger-*-unknowns-loop` (before they were tagged), `unknowns-loop-criteria-unanswered`, and the tweakable-plan cases `behavior-tweakable-plan-autoloaded-weighty-plan`, `neg-one-file-tweakable-plan-defers-to-plan-mode` and `trigger-en-tweakable-plan`. `outcome-check-ends-the-loop` 3 of 4 and `hands-on-both-picks` 5 of 7 over the round (one of the misses was the runner stopping at a quoted reply cue; `IMPLEMENTATION_NOTES.md` 2026-11-26).
+- unknowns-loop by name only: the slash form loaded the loop in every run, the plain phrase did not, and the loop still invoked blindspot and teach-me through the Skill tool (2 of 2 spike runs, then 4 of 4 on the build).
+
 ### Changed (developer-only)
 
 - `docs/handoff.md`: the rule of one skill change per release is withdrawn (owner, 2026-11-26).
+- `evals/run-multiturn.py`: a reply cue with a quote mark (`Say "go on"`) counts as asking the user; the runner had ended a loop conversation at that checkpoint.
 - `tools/package.py` adds the frontmatter keys in `claude-code/skill-frontmatter.json` to `plugins/unknowns/` only. The loop eval cases open with `/unknowns:unknowns-loop`; the two `trigger-*-unknowns-loop` cases are tagged `upload-build-only` and `evals/run-manual.py` skips them unless that tag is asked for; new case `neg-plain-phrase-does-not-load-unknowns-loop`.
 - `AGENTS.md` and the release procedure in `docs/handoff.md`: rebuilding at an unchanged version is for a work branch; a pull request that changes shipped content merges with its version bump, because in Claude Code new installs from either marketplace take main while existing installs update only when the version changes.
 - `behavior-prototypes-interaction-mockup` is informative: prototypes loaded in 0 of 3 runs in the 0.13.4 release check and in no recorded run; the request asks for one mockup, not versions to react to.
@@ -26,6 +32,8 @@ Owner decisions on the four rows the 0.13.4 release check opened, and the owner'
 ### Not measured
 
 - In the default permission mode, how the reviewer's result comes back in an interactive session: the run used auto mode, where it came back as a hand-back message.
+- Whether the claude.ai Add-marketplace install accepts the plugin with `disable-model-invocation` in unknowns-loop's frontmatter: it cannot be run headless; the owner checks it before a release.
+- GPT-6.1 Sol: no run this round.
 
 ## 0.13.4 — 2026-11-24
 
