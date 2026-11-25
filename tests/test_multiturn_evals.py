@@ -246,6 +246,7 @@ class MultiturnGradingTest(unittest.TestCase):
         self.assertEqual(mt.parse_overall("1. ok\nOVERALL: FAIL\nOVERALL: PASS"), "PASS")
         self.assertIsNone(mt.parse_overall("no verdict"))
         self.assertTrue(mt.asks_something("Reply with steal or skip by number."))
+        self.assertTrue(mt.asks_something('Next is the explainer. Say "go on" when you\'re ready.'))
         self.assertFalse(mt.asks_something("Here is the prompt.\n```\nWhat next?\n```"))
         # A Korean polite request with no question mark still waits for the user.
         self.assertTrue(mt.asks_something(
