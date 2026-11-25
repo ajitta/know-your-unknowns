@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## 0.14.0 — 2026-11-26
 
 Owner decisions on the four rows the 0.13.4 release check opened, and the owner's interactive buy-in check (owner approvals 2026-11-24, `IMPLEMENTATION_NOTES.md`), then the owner's decisions after an outside audit of the skills (2026-11-26): unknowns-loop's stage checkpoint and probe owner, three cut sentences, and unknowns-loop by name only in Claude Code.
 
@@ -35,6 +35,7 @@ Owner decisions on the four rows the 0.13.4 release check opened, and the owner'
 - In the default permission mode, how the reviewer's result comes back in an interactive session: the run used auto mode, where it came back as a hand-back message.
 - How the marketplace installs outside Claude Code treat `disable-model-invocation` in unknowns-loop's frontmatter (accept, ignore or reject): claude.ai Add marketplace (cannot be run headless; the owner checks it before a release), the Codex CLI and the ChatGPT desktop marketplace.
 - GPT-6.1 Sol: no run this round.
+- No whole-suite release run: the owner released 0.14.0 on the fix runs above (owner decision 2026-11-26). Cases outside unknowns-loop, tweakable-plan and interview were not run on this build.
 
 ## 0.13.4 — 2026-11-24
 
