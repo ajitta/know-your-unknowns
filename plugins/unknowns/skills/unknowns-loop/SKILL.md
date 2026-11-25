@@ -44,7 +44,7 @@ With strong models the bottleneck is keeping the **map** (the plan) matched to t
 
    Without a tool, do the step in the conversation and say what could not be checked.
 
-4. **During the work**: the **deviation-log** skill logs each deviation from the plan in the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable).
+4. **During the work**: the **deviation-log** skill logs each deviation from the plan in the deviation log (`IMPLEMENTATION_NOTES.md` by default for code work, otherwise the file the user names or `DEVIATIONS.md` beside the deliverable). Each entry's **Response chosen** says what the work now does about the deviation, including any part still to be done and when, not only the state the deviation left.
 
 5. **After the work**:
 

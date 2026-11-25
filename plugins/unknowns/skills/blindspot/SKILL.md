@@ -90,7 +90,7 @@ Before the work starts, find the gap between the **map** (the plan or prompt) an
 
    c. Sort the cards by **likelihood × blast radius**: how likely *this task* is to hit the finding, times how much breaks if it does. A severe landmine in a part the task never touches ranks below a modest convention every new piece of the work must follow.
 
-   d. After the cards, list **Questions to answer**, **Needs checking** and **Information still needed**: what the pass could not settle, and who can settle it.
+   d. After the cards, list **Questions to answer**, **Needs checking** and **Information still needed**: what the pass could not settle, and who can settle it. When the scout ran, every item of its lists of the same names goes in these lists, also when a card or a prompt fix carries it; merge two items only when they ask the same thing. The user sees the scout's report only through your reply.
 
 5. End with an **improved prompt draft** that reflects the findings and the answers the user has given so far, with every prompt fix applied. The draft names the execution order and ends with an explicit checkpoint ("stop and show me the plan before doing the work"). Present the draft as the prompt to paste next; when the user picks prompt-fix numbers, revise the draft so it applies only the picked fixes and lists the unpicked ones as undecided below it, keeping the execution order and the checkpoint; a missing pick is undecided.
 

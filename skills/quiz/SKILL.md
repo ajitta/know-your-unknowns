@@ -16,7 +16,7 @@ Even when the work was delegated, **the user must be able to explain the result*
 
 ## Procedure — Part 1: Explain First
 
-Take the work to quiz on from the text the user gave with the request or after the skill name. With no request text, use the work of this conversation. When the conversation holds no work either, ask one question for the work before explaining.
+Take the work to quiz on from the text the user gave with the request or after the skill name. With no request text, use the work of this conversation. When the conversation holds no work either, the whole reply is one question for the work, and the deviation log is looked for once the work is named.
 
 Before the quiz, explain concisely, anchoring each explained part with **Where:** its location in the work (`file:line` for code; section, page or row otherwise):
 

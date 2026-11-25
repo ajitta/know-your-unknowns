@@ -253,6 +253,14 @@ class MultiturnGradingTest(unittest.TestCase):
             "\uace0\uce60 \ubd80\ubd84\uc774 \uc788\uc73c\uba74 \ubc88\ud638\ub85c "
             "\uc54c\ub824 \uc8fc\uc138\uc694."))
 
+    def test_judge_keeps_the_whole_verdict(self):
+        # A long verdict keeps its first criteria: a cut record hides which criterion failed.
+        raw = "1. FIRST CRITERION: met, quoting the packet.\n" + "x" * 3000 + "\nOVERALL: FAIL"
+        with mock.patch.object(mt, "run_claude", return_value=(raw, "", 0, False)):
+            passed, text = mt.judge_grader("1. A criterion.", transcript("Done."), "claude", None)
+        self.assertFalse(passed)
+        self.assertEqual(text, raw)
+
     def test_judge_and_user_prompts_hide_tools(self):
         data = transcript("Done.")
         data["turns"][1]["tool_calls"] = [{"name": "Skill", "input": {"skill": "unknowns:quiz"}}]

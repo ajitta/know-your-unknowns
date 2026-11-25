@@ -22,7 +22,7 @@ When you and the user both seem to understand the request, do it without this me
 
 1. Read and summarize the reference:
 
-   a. Take the reference from the text the user gave with the request or after the skill name, or from the conversation; when neither names or contains a reference, ask one question for it. Read the reference to the end.
+   a. Take the reference from the text the user gave with the request or after the skill name, or from the conversation; when neither names or contains a reference, the whole reply is one question for it, and the user's reason for choosing it comes out in the semantics map. Read the reference to the end.
 
    b. Summarize its **intent, core behavior, invariants**.
 
