@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Checked (developer-only)
+
+- After the 0.15.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `0ef56ec3…`, `know-your-unknowns-openai.zip` `c0fa9458…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.15.0 with 11 skill folders and 2 agents, and the installed descriptions carry the new gate. The `ajitta/claude-plugins` entry's description and README row now match (`2e01e1c`).
+
 ## 0.15.0 — 2026-11-26
 
 Owner decision (2026-11-26): every skill runs only when the user asks for the unknowns method, never on an everyday phrase (`IMPLEMENTATION_NOTES.md` 2026-11-26).
