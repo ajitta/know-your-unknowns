@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Checked (developer-only)
+
+- After the 0.14.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `ae7f3be9…`, `know-your-unknowns-openai.zip` `d047d91d…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.14.0 with 11 skill folders and 2 agents, and the installed unknowns-loop carries `disable-model-invocation: true` and the new step-3 wording. README (both languages): the empty-config installs are recorded for 0.14.0 too.
+
 ## 0.14.0 — 2026-11-26
 
 Owner decisions on the four rows the 0.13.4 release check opened, and the owner's interactive buy-in check (owner approvals 2026-11-24, `IMPLEMENTATION_NOTES.md`), then the owner's decisions after an outside audit of the skills (2026-11-26): unknowns-loop's stage checkpoint and probe owner, three cut sentences, and unknowns-loop by name only in Claude Code.
