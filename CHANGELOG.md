@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Checked (developer-only)
+
+- After the 0.16.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `5f912316…`, `know-your-unknowns-openai.zip` `e392b9aa…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.16.0 with 11 skill folders and 2 agents, carrying the new interview sentence. Descriptions unchanged, so the catalog is untouched.
+
 ## 0.16.0 — 2026-11-26
 
 Body fixes for the open handoff rows the owner sent to work (2026-11-26): interview's three rules, buy-in's 4b and final doc, the 0.13.3 findings that missed again, and the one-question reply with no input. Descriptions are unchanged.
