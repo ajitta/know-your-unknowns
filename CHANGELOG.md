@@ -2,6 +2,40 @@
 
 ## [Unreleased]
 
+## 0.16.0 — 2026-11-26
+
+Body fixes for the open handoff rows the owner sent to work (2026-11-26): interview's three rules, buy-in's 4b and final doc, the 0.13.3 findings that missed again, and the one-question reply with no input. Descriptions are unchanged.
+
+### Changed
+
+- interview: an example inside round 1's sure-or-assuming question is a statement, not a second question (2b); settled items are not asked again in any round, a why follow-up asks for the reason, and two decisions that cannot both hold are named together in the next round (moved from 2b to 4b); the ready-to-use prompt marks each requirement the user did not decide "(added — not decided by the user)".
+- buy-in 4b: the packet names the record each of the user's status statements reports on, and leaves out the producer's summary and any verdict of yours on the work (e.g. "on track"); the final doc keeps each unanswered step 2b question open under the known limitations.
+- unknowns-loop step 4: each deviation entry's **Response chosen** says what the work now does, including what is still to be done and when.
+- tweakable-plan step 2: every version of the plan, a revision included, keeps all parts of the done-criteria line, with "not set" on each part still not given.
+- brainstorm 2c and blindspot 4d: every item of the scout's open lists reaches the reply under the same names; the user sees the scout's report only through your reply.
+- quiz and reference, with no input: the whole reply is the one question for the missing work or reference.
+
+### Checked — fix runs (2026-11-26)
+
+- Opus 5.5, medium, isolated config, run rules written before the runs (`IMPLEMENTATION_NOTES.md` 2026-11-26, round 0.16.0). Failing cells, 2 runs each: `at-most-four-questions-this-round` 2/2 and multi-turn `interview-rounds-stay-at-four` 2/2 on every grader; `final-doc-keeps-unpicked-limits` 2/2; `deviation-logged` 2/2 (it had also passed 7 of 7 on 2026-11-26, so this keeps the sentence without proving a fix); `plan-rebuilt-from-answers` on the step-2 items 2 of 3; `reply-uses-inventory` 2/2 and `reply-uses-scout-rows` 2/2 (second wording; scout called in all four runs); `asks-one-question-for-the-work` 2/2 and `-for-the-reference` 2/2.
+- Neighbours, 1–2 runs each, all passed: `interview-then-work` (2), `interview-deep-grill`, `noncode-en-interview`, `behavior-buy-in-reviewer-packet-from-conversation` (with the `packet-leaves-out-producer-summary` indicator), `behavior-buy-in-relays-reviewer`, `noncode-ko-buy-in`, `trigger-en-tweakable-plan`, `behavior-unknowns-loop-finds-noncode-log`, `behavior-brainstorm-scout-finds-unused`, `trigger-en-prototypes`, `trigger-en-quiz`, `trigger-en-reference`.
+
+### Tried and reverted
+
+- buy-in 4b "Hand over each of these that exists only in the conversation as written, every item, rather than as a summary.": `packet-carries-model-built-sources` 1 of 2 counted runs, and 2 runs were void (the simulated user stopped before approving the plan), so it stayed undecided and was reverted.
+- tweakable-plan 1b, two wordings asking the own-unknowns list to hold the large gaps: `first-reply-suggests-and-plans` 0/2 each.
+- blindspot step 2, the scout-items sentence: 0/2 (the 4d wording above replaced it).
+- prototypes, one-question reply with no input: 0/2 (the reply still added purpose and count).
+
+### Not measured
+
+- A whole-suite release run, GPT-6.1 Sol, `interview-undecided-item`, and the blindspot neighbours on the kept 4d text.
+
+### Changed (developer-only)
+
+- `evals/run-multiturn.py` keeps the whole judge verdict (it kept the last 1,500 characters); test `test_judge_keeps_the_whole_verdict`.
+- `docs/handoff.md`: two rows closed by the owner's check of 0.15.0 (Codex and the upload builds routed normally).
+
 ### Checked (developer-only)
 
 - After the 0.15.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `0ef56ec3…`, `know-your-unknowns-openai.zip` `c0fa9458…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.15.0 with 11 skill folders and 2 agents, and the installed descriptions carry the new gate. The `ajitta/claude-plugins` entry's description and README row now match (`2e01e1c`).

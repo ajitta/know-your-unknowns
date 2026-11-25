@@ -989,11 +989,11 @@ def judge_grader(criteria, transcript, claude_bin, model, focus="transcript"):
         for _attempt in range(2):
             raw, _stderr, _code, _timed_out = run_claude(cmd, prompt, neutral, 600)
             if LIMIT_RE.search(raw or ""):
-                return None, raw[-1500:]
+                return None, raw
             verdict = parse_overall(raw)
             if verdict:
-                return verdict == "PASS", raw[-1500:]
-        return None, (raw or "")[-1500:]
+                return verdict == "PASS", raw
+        return None, raw or ""
     finally:
         shutil.rmtree(neutral, ignore_errors=True)
 

@@ -2,6 +2,18 @@
 
 > **Conventions of this log (2026-11-24).** Entries are newest first, except the block of 2026-10-10 to 2026-10-14 entries at the end. Entries dated before 2026-10-26 are in Korean, and many of them describe features removed since (hooks, the scorecard, the loop tracker, HTML pages, the skill names `notes`, `loop` and `plan`). Entries headed "Unreleased" (2026-09-30 and 2026-10-01) shipped in 0.8.2, and the `[Unreleased]` figures that the 2026-11-17 entries cite are in `CHANGELOG.md` 0.13.1. **Todo for human** is a field this repository adds to the deviation-log entry format; `.claude/rules/skill-writing.md` rules 12 and 16 say when to log one. Entries are records and are not rewritten. Open items are tracked in the one open-items table of `docs/handoff.md`; a **Todo for human** not listed there was resolved or became moot (judged 2026-11-24).
 
+## [2026-11-26] Round 0.16.0: the open body rows, worked in parallel
+
+**Observed**
+- **Situation found**: the owner sent the open handoff rows on interview, buy-in, the 0.13.3 findings and the one-question reply to work, and closed two rows: the 0.15.0 Codex and upload-build routing (owner checked it, normal) and the short-description routing on ChatGPT and claude.ai (covered by that check).
+- **Deviation from plan**: none. Five parts ran in separate worktrees, each writing its run rules before its runs; the rules and raw results are in the local work folder, not published. Results and reverts: `CHANGELOG.md` 0.16.0.
+
+**Open after this round**
+- tweakable-plan 1b: both wordings 0/2; in all four runs the gaps showed up only as picks inside decision items. Untested idea: mark a pick that fills an unanswered gap inside the decision item.
+- prototypes no-input reply: the extra ask (purpose and audience) likely comes from step 2's shared "Your own unknowns" sentence; the next try drops the count clause and keeps step 2's unknowns out of the first reply.
+- buy-in packet of an assistant-written plan: the after-plan case's persona needs a rule for a plan reply that asks questions instead of asking for approval (2 of 4 runs void) before the candidate is tried again.
+- blindspot: a scout finding left without a card (`reply-uses-scout-rows` criterion 2).
+
 ## [2026-11-26] Owner decision: every skill runs only when the user asks for the unknowns method (0.15.0)
 
 **Observed**

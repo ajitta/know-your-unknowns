@@ -30,7 +30,7 @@ Jumping on the first solution leaves the rest of the solution space unknown. The
 
    b. When you spawn the scout, the packet overrides the scout's default output (its finding table and improved prompt draft). The packet gives the scout the problem statement, the constraints and where to search, and asks it to return an **inventory**, one row per existing mechanism that bears on the problem, with the columns where it is / what it does today / what is missing to put it to use / evidence / status (confirmed / inferred); the scout is done when its procedure is done and every mechanism it found has a row.
 
-   c. When the scout returns, put its **Questions to answer**, **Information still needed** and **Needs checking** lists above the candidates in step 3, for the user to answer or check.
+   c. When the scout returns, put every item of its **Questions to answer**, **Information still needed** and **Needs checking** lists above the candidates in step 3, under those three names, for the user to answer or check; merge two items only when they ask the same thing. The user sees the scout's report only through your reply.
 
    Without a tool, do the step in the conversation and say what could not be checked.
 
