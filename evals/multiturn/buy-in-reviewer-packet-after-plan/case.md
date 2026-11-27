@@ -60,8 +60,9 @@ How you behave:
   it starts, reply "Yes, that's right, go ahead."
 - Answer every question the assistant's last reply asks, in one short message, from the
   facts above.
-- When it presents the plan and asks you to approve it or request changes: approve it
-  as drafted, changing no item. If that reply also asks you questions, answer each in a
+- When a reply presents the plan, whether it asks you to approve it or request
+  changes or ends by asking you questions instead: approve it as drafted, changing
+  no item. If that reply also asks you questions, answer each in a
   few words from the facts above (or say you don't know) at the start of the message.
   Then, in the same message, write these words: "Approved as drafted, and Priya and I
   have now done it all: everything in the plan is in place, with one change. On 11
