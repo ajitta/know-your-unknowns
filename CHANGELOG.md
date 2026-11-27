@@ -2,6 +2,33 @@
 
 ## [Unreleased]
 
+Body fixes for the open handoff rows (2026-11-28). Descriptions are unchanged.
+
+### Changed
+
+- prototypes step 1: when the text names no target and nothing has been discussed, the whole reply is one question asking what to make versions of; step 2's **Your own unknowns** and the options follow the answer, and what the versions are for and who they are for come out in the user's reactions to them.
+- buy-in 4b: the independent-reviewer packet carries the text of each input that exists only in the conversation, every item as written, since the agent sees only its packet.
+
+### Checked — fix runs (2026-11-28)
+
+- Opus 5.5, medium, Claude Code 2.1.332, isolated config, run rules written before the runs (`IMPLEMENTATION_NOTES.md` 2026-11-28). `asks-one-question-for-the-target` 2 of 3 (second wording; the first wording 0/2 was reverted); `packet-carries-model-built-sources` 2 of 3, with no void run after the simulated user's rule for a plan reply that ends in questions.
+- Neighbours, 1 run each, every scored grader passed: `trigger-en-prototypes` and `noncode-en-prototypes` (again on the final build), `behavior-prototypes-asks-contrast-on-skip`, `trigger-en-tweakable-plan`, `noncode-en-tweakable-plan`, `noncode-ko-tweakable-plan`, `behavior-tweakable-plan-opens-with-done-criteria`, `neg-one-file-tweakable-plan-defers-to-plan-mode`, `behavior-buy-in-reviewer-packet-from-conversation`, `behavior-buy-in-relays-reviewer`, `noncode-en-buy-in`, `buy-in-partial-picks`, `behavior-blindspot-ends-with-improved-prompt`, `behavior-blindspot-labels-evidence-status`, `behavior-blindspot-scout-assumption-verdicts`, `trigger-en-blindspot`, `noncode-en-blindspot`.
+- blindspot multi-turn neighbours (no scout call in any run): `assumption-verdicts-carry-status` missed in 4 of 4 runs of `blindspot-reaches-improved-prompt` and `blindspot-partial-pick` (an own assumption with no verdict; an inference tagged *confirmed*); `findings-labelled-by-evidence-status` and `unpicked-fixes-stay-undecided` missed once each and passed on the extra run.
+
+### Tried and reverted
+
+- tweakable-plan 5b, marking a pick that fills an undecided gap from 1b *assumed — not decided by you* and keeping the gap under **Your own unknowns**: `first-reply-suggests-and-plans` 0/2. The mark appeared in both runs; the gaps did not reach the list.
+- blindspot 4b, every row of the scout's finding table as a card or named as left out: `reply-uses-scout-rows` 0 of 2 counted runs (2 more runs did not spawn the scout). Every scout finding reached a card in both counted runs; the misses were a Needs checking item left out (4d) and a held mark without its evidence (4a).
+
+### Not measured
+
+- A whole-suite release run and GPT-6.1 Sol.
+
+### Changed (developer-only)
+
+- `buy-in-reviewer-packet-after-plan`: the simulated user approves a reply that presents the plan whether it asks for approval or ends by asking questions (2 of 4 runs were void in 0.16.0).
+- `asks-one-question-for-the-target` quotes the new prototypes step 1.
+
 ### Checked (developer-only)
 
 - After the 0.16.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `5f912316…`, `know-your-unknowns-openai.zip` `e392b9aa…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.16.0 with 11 skill folders and 2 agents, carrying the new interview sentence. Descriptions unchanged, so the catalog is untouched.
