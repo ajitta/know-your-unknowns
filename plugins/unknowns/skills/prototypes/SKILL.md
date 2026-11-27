@@ -21,7 +21,7 @@ People can't describe what they want but **can judge when they see it** (unknown
 
 ## Procedure
 
-1. Parse the target and count (default 4) from the text the user gave with the request or after the skill name. With no request text, the target is the thing last discussed. When nothing has been discussed either, the whole reply is one question asking what to make versions of; step 2's **Your own unknowns** and the options follow the user's answer.
+1. Parse the target and count (default 4) from the text the user gave with the request or after the skill name. When the text names no target, the target is the thing last discussed. When nothing has been discussed either, the whole reply is one question asking what to make versions of; step 2's **Your own unknowns** and the options follow the user's answer, and what the versions are for and who they are for come out in the user's reactions to them.
 2. Make options differ along the axes that fit the subject:
 
    | Subject | Axes, e.g. |
