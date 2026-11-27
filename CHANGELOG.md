@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Checked (developer-only)
+
+- After the 0.17.0 tag: both release assets' sha256 equal the committed zips (`know-your-unknowns.zip` `efbded4b…`, `know-your-unknowns-openai.zip` `46a4a567…`); the release body is the tag message; an install into an empty Claude Code config from this repository's marketplace and from `ajitta/claude-plugins` gave 0.17.0 with 11 skill folders and 2 agents, carrying the three new sentences. Descriptions unchanged, so the catalog is untouched.
+
 ## 0.17.0 — 2026-11-28
 
 Body fixes for the open handoff rows (2026-11-28). Descriptions are unchanged.

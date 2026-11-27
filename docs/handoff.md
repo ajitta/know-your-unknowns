@@ -4,7 +4,7 @@
 
 ## 상태
 
-0.17.0(2026-11-28, 브랜치 `open-rows-2026-11-28`): 소유자가 남은 일 표의 행을 모두 진행하라고 했다(2026-11-28). 남긴 것: prototypes 1단계(입력 없는 호출은 질문 하나가 답 전체, 두 번째 문구 3회 중 2회), buy-in 4b(대화에만 있는 입력은 글 그대로 패킷에, 3회 중 2회). blindspot 4b(scout 발견마다 카드)는 채점기 전체로 센 첫 규칙에서 되돌렸다가, 소유자 결정으로 그 기준만 세는 규칙으로 다시 시험해 3회 중 2회로 남겼다. 되돌린 것: tweakable-plan 5b(0/2). 소유자 결정(2026-11-28): 릴리스, blindspot 재시험, tweakable-plan 1b는 권고대로(목록을 계속 요구하고 새 문구 없이 행을 열어 둠). 저장소 밖 단발 판사 보조 도구의 프롬프트를 고쳤다. 실행 전 규칙과 결과는 `IMPLEMENTATION_NOTES.md` 2026-11-28, 수치는 `CHANGELOG.md` 0.17.0. 머지·태그 뒤 확인은 아래 표의 첫 행.
+0.17.0(2026-11-28, PR #57, main `6034b1a`, 태그 `unknowns--v0.17.0`, 소유자 승인으로 병합과 태그; 자산 sha256 일치, 두 마켓플레이스 빈 설정 설치 0.17.0·스킬 11·에이전트 2): 소유자가 남은 일 표의 행을 모두 진행하라고 했다(2026-11-28). 남긴 것: prototypes 1단계(입력 없는 호출은 질문 하나가 답 전체, 두 번째 문구 3회 중 2회), buy-in 4b(대화에만 있는 입력은 글 그대로 패킷에, 3회 중 2회). blindspot 4b(scout 발견마다 카드)는 채점기 전체로 센 첫 규칙에서 되돌렸다가, 소유자 결정으로 그 기준만 세는 규칙으로 다시 시험해 3회 중 2회로 남겼다. 되돌린 것: tweakable-plan 5b(0/2). 소유자 결정(2026-11-28): 릴리스, blindspot 재시험, tweakable-plan 1b는 권고대로(목록을 계속 요구하고 새 문구 없이 행을 열어 둠). 저장소 밖 단발 판사 보조 도구의 프롬프트를 고쳤다. 실행 전 규칙과 결과는 `IMPLEMENTATION_NOTES.md` 2026-11-28, 수치는 `CHANGELOG.md` 0.17.0. 원격 작업 브랜치 `open-rows-2026-11-28`은 지우지 않았다(`IMPLEMENTATION_NOTES.md` 2026-11-28이 그 브랜치 커밋을 인용한다).
 
 0.16.0(2026-11-26, PR #55, main `faa5bfc`, 태그 `unknowns--v0.16.0`, 소유자 승인으로 병합과 태그; 자산 sha256 일치, 두 마켓플레이스 빈 설정 설치 0.16.0·스킬 11·에이전트 2): 열린 본문 행을 다섯 갈래로 나눠 고쳤다(interview 세 규칙, buy-in 4b·최종 문서, loop deviation 필드, tweakable-plan 2단계, brainstorm·blindspot scout 항목, quiz·reference 입력 없는 질문 하나). 결과와 되돌린 것은 `CHANGELOG.md` 0.16.0. 소유자가 0.15.0의 Codex·업로드 빌드 라우팅을 확인했다(정상, 2026-11-26).
 
@@ -41,7 +41,6 @@
 
 | 남은 일 | 누가 | 어디서 시작 |
 |---|---|---|
-| 0.17.0 릴리스(소유자 승인 2026-11-28): 머지, 태그, 자산 대조, 빈 설정 설치 확인. 전체 릴리스 실행과 Sol은 하지 않음(`CHANGELOG.md` 0.17.0 **Not measured**) | 에이전트 | `CHANGELOG.md` 0.17.0 |
 | tweakable-plan 1b: 자기 모름 목록이 큰 빈칸을 다 담지 않음. 2026-11-28 5b 문장(답 없는 빈칸을 채운 선택에 *assumed — not decided by you* 표시, 그 빈칸은 Your own unknowns에 남김)은 0/2로 되돌림: 표시는 일부 선택에만 고르지 않게 붙었고(1회는 이동 항목에 없음, 1회는 짧은 *assumed*), 목록에는 장소·날짜·이동이 끝내 오지 않았다. 소유자 결정(2026-11-28, 권고대로): 채점기는 그대로 목록을 요구하고, 네 문구가 같은 모양으로 놓쳤으므로 새 문구는 지금 시도하지 않는다 | 에이전트, tweakable-plan 다음 변경 때(다른 접근이 있을 때) | `IMPLEMENTATION_NOTES.md` 2026-11-28 |
 | blindspot: scout가 가정에 붙인 판정이 답에 다 오지 않음(`reply-uses-scout-rows` 기준 1, 2026-11-28 재시험에서 셈한 실행 3회 중 0회: 판정 하나가 빠지거나 새 근거 없이 바뀜, 4a 단계). 같은 실행에서 기준 3(scout의 열린 항목, 4d)은 3회 중 2회 | 에이전트, blindspot 다음 변경 때 | 같은 항목 |
 | blindspot `assumption-verdicts-carry-status`: 2026-11-28 다회차 이웃 4회 중 0회(scout 호출 없음). 자기 가정 하나에 판정이 없거나, 추론(휴일 달력)에 *confirmed*를 붙였다. 지켜볼 칸에서 옮김 | 에이전트, blindspot 다음 변경 때 | 같은 항목, 아래 지켜볼 칸의 같은 행 |
@@ -113,6 +112,6 @@
 - 소유자는 버전 간 A/B 비교를 원하지 않는다. 플러그인 자체의 실행에서 실패를 읽고 고친다.
 - 공개 텍스트(커밋 메시지, PR 제목·본문, README, CHANGELOG, docs)에 소유자 개인 약칭이나 내부 작업 용어를 쓰지 않는다.
 - main에 직접 커밋하지 않는다. 작업은 브랜치에서, 푸시·태그는 소유자 승인 뒤(AGENTS.md Release).
-- 기록이 인용하는 커밋이 squash 머지로 main에 없는 작업 브랜치는 지우지 않는다: `docs/dia-regula-audit`(0.12.4, `IMPLEMENTATION_NOTES.md` 2026-11-10이 `0cbbf69`·`e4f05dd`·`3221f7d`를 인용), `short-descriptions`(0.13.0, CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`·`02484af`·`c515a4d`를 인용), `cleanup/stale-docs-2026-11-24`(0.13.3, `IMPLEMENTATION_NOTES.md` 2026-11-24가 `2b92dd5`와 실행 전 규칙을 담은 `d65123b`를, CHANGELOG 0.13.3이 Sol을 돌린 `31249e4`를 인용), `owner-decisions-2026-11-24`(0.13.4, `IMPLEMENTATION_NOTES.md` 2026-11-24 두 항목이 실행 전 규칙을 담은 `ef08b56`·`1d70fe6`·`00c7b2c`·`6e6fe96`을, CHANGELOG 0.13.4가 릴리스 점검을 돌린 `794ed0d`를 인용).
+- 기록이 인용하는 커밋이 squash 머지로 main에 없는 작업 브랜치는 지우지 않는다: `docs/dia-regula-audit`(0.12.4, `IMPLEMENTATION_NOTES.md` 2026-11-10이 `0cbbf69`·`e4f05dd`·`3221f7d`를 인용), `short-descriptions`(0.13.0, CHANGELOG 0.13.0과 `IMPLEMENTATION_NOTES.md`가 `63e0360`·`02484af`·`c515a4d`를 인용), `cleanup/stale-docs-2026-11-24`(0.13.3, `IMPLEMENTATION_NOTES.md` 2026-11-24가 `2b92dd5`와 실행 전 규칙을 담은 `d65123b`를, CHANGELOG 0.13.3이 Sol을 돌린 `31249e4`를 인용), `open-rows-2026-11-28`(0.17.0, `IMPLEMENTATION_NOTES.md` 2026-11-28이 `bc2762f`·`27f5f66`을 인용), `owner-decisions-2026-11-24`(0.13.4, `IMPLEMENTATION_NOTES.md` 2026-11-24 두 항목이 실행 전 규칙을 담은 `ef08b56`·`1d70fe6`·`00c7b2c`·`6e6fe96`을, CHANGELOG 0.13.4가 릴리스 점검을 돌린 `794ed0d`를 인용).
 
 0.13.1 이전의 인계 문단, 끝난 일 서술, 릴리스별 지켜볼 칸 목록(`IMPLEMENTATION_NOTES.md` 2026-11-17 항목이 가리키는 목록 포함)은 2026-11-24 정리에서 지웠다. 커밋 `d9daf07`의 `docs/handoff.md`에 있다.
