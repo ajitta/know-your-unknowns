@@ -2,23 +2,26 @@
 
 ## [Unreleased]
 
+## 0.17.0 — 2026-11-28
+
 Body fixes for the open handoff rows (2026-11-28). Descriptions are unchanged.
 
 ### Changed
 
 - prototypes step 1: when the text names no target and nothing has been discussed, the whole reply is one question asking what to make versions of; step 2's **Your own unknowns** and the options follow the answer, and what the versions are for and who they are for come out in the user's reactions to them.
 - buy-in 4b: the independent-reviewer packet carries the text of each input that exists only in the conversation, every item as written, since the agent sees only its packet.
+- blindspot 4b: when the scout ran, every row of its finding table becomes a card or is named in the reply as left out, with the reason.
 
 ### Checked — fix runs (2026-11-28)
 
-- Opus 5.5, medium, Claude Code 2.1.332, isolated config, run rules written before the runs (`IMPLEMENTATION_NOTES.md` 2026-11-28). `asks-one-question-for-the-target` 2 of 3 (second wording; the first wording 0/2 was reverted); `packet-carries-model-built-sources` 2 of 3, with no void run after the simulated user's rule for a plan reply that ends in questions.
+- Opus 5.5, medium, Claude Code 2.1.332, isolated config, run rules written before the runs (`IMPLEMENTATION_NOTES.md` 2026-11-28). `asks-one-question-for-the-target` 2 of 3 (second wording; the first wording 0/2 was reverted); `packet-carries-model-built-sources` 2 of 3, with no void run after the simulated user's rule for a plan reply that ends in questions; blindspot 4b, retested with a rule counting the criterion it targets (every scout finding reaches a card), 2 of 3 counted runs (2 more runs did not spawn the scout). In the same runs the scout's marks on assumptions did not all reach the reply (0 of 3) and one Needs checking item was left out once (2 of 3).
 - Neighbours, 1 run each, every scored grader passed: `trigger-en-prototypes` and `noncode-en-prototypes` (again on the final build), `behavior-prototypes-asks-contrast-on-skip` (on the first prototypes wording's build), `trigger-en-tweakable-plan`, `noncode-en-tweakable-plan`, `noncode-ko-tweakable-plan`, `behavior-tweakable-plan-opens-with-done-criteria`, `neg-one-file-tweakable-plan-defers-to-plan-mode`, `behavior-buy-in-reviewer-packet-from-conversation`, `behavior-buy-in-relays-reviewer`, `noncode-en-buy-in`, `buy-in-partial-picks`, `behavior-blindspot-ends-with-improved-prompt`, `behavior-blindspot-labels-evidence-status`, `behavior-blindspot-scout-assumption-verdicts`, `trigger-en-blindspot`, `noncode-en-blindspot`.
 - blindspot multi-turn neighbours (no scout call in any run): `assumption-verdicts-carry-status` missed in 4 of 4 runs of `blindspot-reaches-improved-prompt` and `blindspot-partial-pick` (an own assumption with no verdict; an inference tagged *confirmed*); `findings-labelled-by-evidence-status` and `unpicked-fixes-stay-undecided` missed once each and passed on the extra run.
 
 ### Tried and reverted
 
 - tweakable-plan 5b, marking a pick that fills an undecided gap from 1b *assumed — not decided by you* and keeping the gap under **Your own unknowns**: `first-reply-suggests-and-plans` 0/2. The mark appeared on some of those picks, unevenly; the gaps did not reach the list.
-- blindspot 4b, every row of the scout's finding table as a card or named as left out: `reply-uses-scout-rows` 0 of 2 counted runs (2 more runs did not spawn the scout). Every scout finding reached a card in both counted runs; the misses were a Needs checking item left out (4d) and a held mark without its evidence (4a).
+- blindspot 4b under the first rule, which counted the whole `reply-uses-scout-rows` grader: 0 of 2 counted runs, reverted, then retested and kept (above). Every scout finding had reached a card in both of those runs; the misses were on steps 4a and 4d.
 
 ### Not measured
 
