@@ -47,7 +47,7 @@ A plan's purpose is to **pull the points where the user would intervene forward*
 
    a. **Sort decision items by tweak likelihood × blast radius** and place them first, ahead of the mechanical items.
 
-   b. Give every decision item, the last as fully as the first, these labeled lines: chosen option / alternatives considered, lettered A, B, …, + why rejected / scope affected if this decision changes / **verification method** / **what breaks if this is wrong**. A decision missing a line cannot be reviewed on that line.
+   b. Give every decision item, the last as fully as the first, these labeled lines: chosen option / alternatives considered, lettered A, B, …, + why rejected / scope affected if this decision changes / **verification method** / **what breaks if this is wrong**. When the chosen option fills a gap from step 1b that the user has not decided, mark it *assumed — not decided by you*, and that gap stays listed under **Your own unknowns**. A decision missing a line cannot be reviewed on that line.
 
    c. Render the central artifact others build on as an **annotated artifact**: every new or changed public type or schema as annotated code in code work; otherwise the budget table, run sheet, survey instrument or outline itself. Add numbered notes, one per choice worth arguing with, each naming the alternative it beat.
 6. Put mechanical items at the back, each with a 1-line summary and its verification, and the details below them.

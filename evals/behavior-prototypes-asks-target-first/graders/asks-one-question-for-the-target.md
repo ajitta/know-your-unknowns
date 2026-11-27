@@ -7,8 +7,9 @@ The user asked for a few versions to react to and did not say what they are vers
 of. The conversation starts with that message and the working folder is empty, so
 nothing names a target. The prototypes procedure, step 1, reads: "Parse the target and
 count (default 4) from the text the user gave with the request or after the skill name.
-With no request text, the target is the thing last discussed and the count is 4. When
-nothing has been discussed either, ask one question for the target before step 2."
+With no request text, the target is the thing last discussed. When nothing has been
+discussed either, the whole reply is one question asking what to make versions of;
+step 2's Your own unknowns and the options follow the user's answer."
 
 Judge the final reply. All of these must hold:
 
